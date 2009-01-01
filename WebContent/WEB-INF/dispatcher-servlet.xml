@@ -34,6 +34,10 @@
         <property name="reportsDelegate" ref="reportsDelegate"/>
     </bean>
 
+    <bean name="/invoice/*.htm" class="com.poseidon.Invoice.web.controller.InvoiceController" >
+        <property name="invoiceDelegate" ref="invoiceDelegate"/>
+    </bean>
+
     <!-- View Resolution -->
     <bean id="beanNameViewResolver" class="org.springframework.web.servlet.view.BeanNameViewResolver">
         <property name="order" value="0"/>

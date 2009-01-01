@@ -181,7 +181,7 @@
                                     </label>
                                 </td>
                                 <td>
-                                    <form:select id="makeName" path="searchMakeAndModelVO.makeName" tabindex="1"
+                                    <form:select id="makeName" path="searchMakeAndModelVO.makeId" tabindex="1"
                                                  cssStyle="border:3px double #CCCCCC; width: 200px;height:25px;">
                                         <form:option value="0" label="-- Select --"/>
                                         <form:options items="${reportsForm.makeVOs}"

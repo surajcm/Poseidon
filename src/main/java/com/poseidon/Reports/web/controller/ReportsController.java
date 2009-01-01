@@ -3,6 +3,7 @@ package com.poseidon.Reports.web.controller;
 import com.poseidon.Make.delegate.MakeDelegate;
 import com.poseidon.Make.domain.MakeAndModelVO;
 import com.poseidon.Make.domain.MakeVO;
+import com.poseidon.Transaction.domain.TransactionVO;
 import net.sf.jasperreports.engine.JRAbstractExporter;
 import net.sf.jasperreports.engine.JRExporter;
 import net.sf.jasperreports.engine.JRExporterParameter;
@@ -97,6 +98,7 @@ public class ReportsController extends MultiActionController {
         reportsForm.setStatusList(populateStatus());
         reportsForm.setCurrentReport(new ReportsVO());
         reportsForm.setSearchMakeAndModelVO(new MakeAndModelVO());
+        reportsForm.setSearchTransaction(new TransactionVO());
         return new ModelAndView("reports/List", "reportsForm", reportsForm);
     }
 
@@ -222,7 +224,9 @@ public class ReportsController extends MultiActionController {
             log.info(" going to compile report");
             jasperReport = JasperCompileManager.compileReport(path + '/' + reportFileName + ".jrxml");
 
-            jasperPrint =  getReportsDelegate().getModelListReport(jasperReport, reportsForm.getCurrentReport());
+            jasperPrint =  getReportsDelegate().getModelListReport(jasperReport,
+                    reportsForm.getCurrentReport(),
+                    reportsForm.getSearchMakeAndModelVO());
             logger.info(jasperPrint.toString());
             getJasperReport(httpServletRequest, httpServletResponse, jasperPrint, reportFileName, reportType);
         } catch (Exception e) {

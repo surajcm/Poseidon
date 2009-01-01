@@ -84,6 +84,11 @@
             document.forms[0].action="<%=request.getContextPath()%>" + "/reports/List.htm";
             document.forms[0].submit();
         }
+
+        function fetchInvoice(){
+            document.forms[0].action="<%=request.getContextPath()%>" + "/invoice/ListInvoice.htm";
+            document.forms[0].submit();
+        }
     </script>
 </head>
 <body>
@@ -146,6 +151,8 @@
             <label onclick="javascript:fetchTerms();" style="font-weight: bold;color:white;font-size: .70em;" onMouseOver="this.style.cursor='pointer'" >CompanyTermsManagement</label>
             <label style="font-weight: bold;color:white;font-size: .90em;"  onMouseOver="this.style.cursor='pointer'"  >|</label>
             <label onclick="javascript:fetchTransactions();" style="font-weight: bold;color:white;font-size: .70em;" onMouseOver="this.style.cursor='pointer'" >TransactionsManagement</label>
+            <label style="font-weight: bold;color:white;font-size: .90em;"  onMouseOver="this.style.cursor='pointer'"  >|</label>
+            <label onclick="javascript:fetchInvoice();" style="font-weight: bold;color:white;font-size: .70em;" onMouseOver="this.style.cursor='pointer'" >InvoiceManagement</label>
             <label style="font-weight: bold;color:white;font-size: .90em;"  onMouseOver="this.style.cursor='pointer'"  >|</label>
             <label onclick="javascript:fetchReport();" style="font-weight: bold;color:white;font-size: .70em;" onMouseOver="this.style.cursor='pointer'" >ReportManagement</label>
             <label style="font-weight: bold;color:white;font-size: .90em;"  onMouseOver="this.style.cursor='pointer'"  >|</label>

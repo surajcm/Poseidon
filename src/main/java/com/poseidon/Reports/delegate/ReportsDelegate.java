@@ -1,9 +1,8 @@
 package com.poseidon.Reports.delegate;
 
-import com.poseidon.CompanyTerms.delegate.CompanyTermsDelegate;
 import com.poseidon.CompanyTerms.domain.CompanyTermsVO;
 import com.poseidon.CompanyTerms.service.CompanyTermsService;
-import com.poseidon.Make.delegate.MakeDelegate;
+import com.poseidon.Make.domain.MakeAndModelVO;
 import com.poseidon.Make.service.MakeService;
 import com.poseidon.Reports.domain.ReportsVO;
 import com.poseidon.Reports.service.ReportsService;
@@ -12,15 +11,10 @@ import com.poseidon.Transaction.domain.TransactionVO;
 import com.poseidon.Transaction.exception.TransactionException;
 import com.poseidon.Transaction.service.TransactionService;
 import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
-import org.springframework.jdbc.datasource.DataSourceUtils;
 
-import java.sql.Connection;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 /**
  * User: Suraj
@@ -91,8 +85,10 @@ public class ReportsDelegate {
         return getReportsService().getTransactionsListReport(jasperReport,currentReport);
     }
 
-    public JasperPrint getModelListReport(JasperReport jasperReport, ReportsVO currentReport) {
-        currentReport.setMakeAndModelVOs(getMakeService().listAllMakesAndModels());
+    public JasperPrint getModelListReport(JasperReport jasperReport,
+                                          ReportsVO currentReport,
+                                          MakeAndModelVO searchMakeAndModelVO) {
+        currentReport.setMakeAndModelVOs(getMakeService().searchMakeVOs(searchMakeAndModelVO));
         return getReportsService().getModelListReport(jasperReport,currentReport);
     }
 

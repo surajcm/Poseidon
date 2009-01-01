@@ -73,6 +73,18 @@
         <property name="dataSource" ref="dataSource" />
     </bean>
 
+    <bean id="invoiceDelegate" class="com.poseidon.Invoice.delegate.InvoiceDelegate">
+        <property name="invoiceService" ref="invoiceService"/>
+    </bean>
+
+    <bean id="invoiceService" class="com.poseidon.Invoice.service.impl.InvoiceServiceImpl">
+        <property name="invoiceDAO" ref="invoiceDAO"/>
+    </bean>
+
+    <bean id="invoiceDAO" class="com.poseidon.Invoice.dao.impl.InvoiceDAOImpl">
+        <property name="dataSource" ref="dataSource" />
+    </bean>
+
     <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <property name="driverClassName" value="com.mysql.jdbc.Driver" />
         <property name="username" value="localuser"></property>
