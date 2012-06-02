@@ -1,0 +1,37 @@
+This is a simple application which uses spring multi action controller.
+
+This is a software for laptop service center management
+
+Programs needed to download / set up
+------------------------------------
+1)    JDK 1.5 or higher(1.7 is preferred)
+2)    MySQL Community server (Database), MySql workbench latest versions
+3)    JBoss 4.2.2 GA (higher versions can be used, if the configurations are updated correctly)
+4)    Intellij IDEA 11.1 Community Edition (Eclipse can also be used, I don't prefer Netbeans)
+5)    Git (with out this also it will work fine, as Intellij & Eclipse support checkout from the IDE itself)
+
+Steps for testing the Application
+---------------------------------
+1)    Install all the above
+2)    Download the war file from the dist directory
+3)    create a user localuser in mysql (with password as localuser)
+4)    restore the db file from the code ( a file named databaseScripts.sql is available at WebContent/WEB_INF/databaseDesign folder)
+5)    assign desired permission to the localuser for the new schema
+6)    Put the war file in jboss/server/default/deploy directory
+7)    Start the JBoss server from jboss/run.bat , In http://localhost:8080/mysimplespringapp/ our application will be up and running.
+8)    Either create a database user name as username and password as password, or edit the same in MySimpleSpingApp/WebContent/WEB-INF/applicationCotext.xml
+9)    In Mysql work bench insert a restore script which is available in MySimpleSpringApp/WebContent/WEB-INF/databaseDesign/databaseScripts.sql
+
+Now everything will work as expected.
+
+The changes we plan are:
+------------------------
+1)  Hibernate
+2)  Add Unit test - junit 3
+3)  Create mock classes to support unit test
+4)  Ability to read data from a property file
+5)  Mock the db , and should be able to be live on mock mode
+6)  Need to have 2 separate major versions of app which runs junit 3 and junit 4.
+7)  Internationalization of pages (web pages, its partially done now)
+8)  Build any big project out of this code base
+9)  Add jasper reports
