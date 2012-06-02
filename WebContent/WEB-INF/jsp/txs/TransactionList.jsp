@@ -10,8 +10,7 @@
 <form:form method="POST" commandName="transactionForm" name="transactionForm" action="List.htm">
     <%@include file="/WEB-INF/jsp/myHeader.jsp" %>
     <input type="hidden" name="id" id="id"/>
-    <form:hidden name="loggedInUser" path="loggedInUser"/>
-    <form:hidden name="loggedInRole" path="loggedInRole"/>
+
     Place your content here
 </form:form>
 </body>

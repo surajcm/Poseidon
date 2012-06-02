@@ -11,8 +11,8 @@
         <property name="userDelegate" ref="userDelegate"/>
     </bean>
 
-    <bean name="/txs/*.htm" class="com.poseidon.Transaction.web.controller.TransactionsController" >
-        <property name="transactionsDelegate" ref="txsDelegate"/>
+    <bean name="/txs/*.htm" class="com.poseidon.Transaction.web.controller.TransactionController" >
+        <property name="transactionDelegate" ref="txsDelegate"/>
     </bean>
 
     <!-- View Resolution -->

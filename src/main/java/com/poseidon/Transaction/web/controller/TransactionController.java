@@ -6,9 +6,11 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import com.poseidon.Transaction.delegate.TransactionDelegate;
 import com.poseidon.Transaction.web.form.TransactionForm;
+import com.poseidon.Transaction.domain.TransactionVO;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.List;
 
 /**
  * User: Suraj
@@ -39,12 +41,17 @@ public class TransactionController extends MultiActionController {
                              HttpServletResponse response) {
         log.info(" Inside List method of TransactionController ");
         TransactionForm transactionForm = new TransactionForm();
+        List<TransactionVO> transactionVOs = null;
         try {
-            transactionForm.setTransactionsList(getTransactionDelegate().listTodaysTransactions());
+            transactionVOs = getTransactionDelegate().listTodaysTransactions();
         } catch (Exception e) {
             e.printStackTrace();
         }
-
+        for(TransactionVO transactionVO:transactionVOs){
+            log.info(" transaction vo is "+ transactionVOs);    
+        }
+        transactionForm.setTransactionsList(transactionVOs);
+        transactionForm.setSearchTransaction(new TransactionVO());
         return new ModelAndView("txs/TransactionList", "transactionForm", transactionForm);
     }
 }

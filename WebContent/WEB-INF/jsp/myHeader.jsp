@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-	pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html;charset=UTF-8" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml1-strict.dtd">
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -71,7 +70,8 @@
             }
 
             function fetchTransactions(){
-                alert("Going to Transactions Management Page");
+                document.forms[0].action="<%=request.getContextPath()%>" + "/txs/List.htm";
+				document.forms[0].submit();
             }
 
             function fetchReport(){
@@ -109,8 +109,8 @@
 				<td colspan="2">
 					<hr/>
 				</td>
-			</tr>	
-			<tr>	
+			</tr>
+			<tr>
 				<c:set var="roleFinder" value="admin" />
 				<c:choose>
 					<c:when test="${userForm.loggedInRole eq roleFinder}">
@@ -135,7 +135,7 @@
 							<label for="help" style="font-weight: bold;color:white;font-size: .70em;" onMouseOver="this.style.cursor='pointer'" >Help</label>
 							&nbsp;&nbsp;&nbsp;&nbsp;
 							<label for="Out" style="font-weight: bold;color:white;font-size: .70em;" onMouseOver="this.style.cursor='pointer'" >LogOut</label>
-						</td>	
+						</td>
 					</c:when>
 					<c:otherwise>
 						<td>

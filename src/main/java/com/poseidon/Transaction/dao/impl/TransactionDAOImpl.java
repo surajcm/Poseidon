@@ -22,9 +22,12 @@ import org.springframework.jdbc.core.RowMapper;
 public class TransactionDAOImpl  extends JdbcDaoSupport implements TransactionDAO {
    //logger
     private final Log log = LogFactory.getLog(TransactionDAOImpl.class);
-    private final String GET_TODAYS_TRANSACTIONS_SQL ="SELECT t.Id, t.TagNo,C.Name, t.DateReported, t.MakeId, t.ModelId, " +
-            " t.SerialNo, t.Status FROM transaction t inner join customer c on t.CustomerId=C.Id " +
-            " WHERE t.DateReported=CURDATE();";
+    private final String GET_TODAYS_TRANSACTIONS_SQL ="SELECT t.Id, t.TagNo,C.Name, t.DateReported, mk.MakeName, " +
+            "mdl.ModelName, t.SerialNo, t.Status " +
+            "FROM transaction t inner join customer c on t.CustomerId=C.Id " +
+            "inner join make mk on mk.Id=t.MakeId " +
+            "inner join model mdl on mdl.Id=t.ModelId " +
+            "WHERE t.DateReported=CURDATE();";
     
     public List<TransactionVO> listTodaysTransactions() throws TransactionException {
         List<TransactionVO> transactionVOList;
@@ -59,10 +62,10 @@ public class TransactionDAOImpl  extends JdbcDaoSupport implements TransactionDA
             txs.setTagNo(resultSet.getString("TagNo"));
             txs.setCustomerName(resultSet.getString("Name"));
             txs.setDateReported(resultSet.getDate("DateReported"));
-            txs.setMakeId(resultSet.getLong("MakeId"));
-            txs.setMakeId(resultSet.getLong("ModelId"));
-            txs.setMakeId(resultSet.getLong("SerialNo"));
-            txs.setMakeId(resultSet.getLong("Status"));
+            txs.setMakeName(resultSet.getString("MakeName"));
+            txs.setModelName(resultSet.getString("ModelName"));
+            txs.setSerialNo(resultSet.getString("SerialNo"));
+            txs.setStatus(resultSet.getString("Status"));
             /*txs.setCreatedBy(resultSet.getString("createdBy"));
             txs.setCreatedOn(resultSet.getDate("createdOn"));
             txs.setModifiedBy(resultSet.getString("modifiedBy"));

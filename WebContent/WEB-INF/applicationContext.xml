@@ -15,14 +15,14 @@
         <property name="dataSource" ref="dataSource" />
     </bean>
 
-    <bean id="txsDelegate" class="com.poseidon.Transactions.delegate.TransactionsDelegate">
-        <property name="userService" ref="userService"/>
+    <bean id="txsDelegate" class="com.poseidon.Transaction.delegate.TransactionDelegate">
+        <property name="transactionService" ref="transactionService"/>
     </bean>
-    <bean id="userService" class="com.poseidon.User.service.impl.UserServiceImpl">
-        <property name="userDAO" ref="userDAO"/>
+    <bean id="transactionService" class="com.poseidon.Transaction.service.impl.TransactionServiceImpl">
+        <property name="transactionDAO" ref="transactionDAO"/>
     </bean>
 
-    <bean id="userDAO" class="com.poseidon.User.dao.impl.UserDAOImpl">
+    <bean id="transactionDAO" class="com.poseidon.Transaction.dao.impl.TransactionDAOImpl">
         <property name="dataSource" ref="dataSource" />
     </bean>
 

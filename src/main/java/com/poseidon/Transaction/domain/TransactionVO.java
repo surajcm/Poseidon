@@ -15,7 +15,9 @@ public class TransactionVO {
     private String CustomerName;
     private String ProductCategory;
     private Long MakeId;
+    private String MakeName;
     private Long ModelId;
+    private String ModelName;
     private String SerialNo;
     private String Accessories;
     private String ComplaintReported;
@@ -179,5 +181,46 @@ public class TransactionVO {
 
     public void setModifiedBy(String modifiedBy) {
         ModifiedBy = modifiedBy;
+    }
+
+    public String getMakeName() {
+        return MakeName;
+    }
+
+    public void setMakeName(String makeName) {
+        MakeName = makeName;
+    }
+
+    public String getModelName() {
+        return ModelName;
+    }
+
+    public void setModelName(String modelName) {
+        ModelName = modelName;
+    }
+
+    @Override
+    public String toString() {
+        return "TransactionVO{" +
+                "id=" + id +
+                ", TagNo='" + TagNo + '\'' +
+                ", DateReported=" + DateReported +
+                ", CustomerId=" + CustomerId +
+                ", CustomerName='" + CustomerName + '\'' +
+                ", ProductCategory='" + ProductCategory + '\'' +
+                ", MakeId=" + MakeId +
+                ", ModelId=" + ModelId +
+                ", SerialNo='" + SerialNo + '\'' +
+                ", Accessories='" + Accessories + '\'' +
+                ", ComplaintReported='" + ComplaintReported + '\'' +
+                ", ComplaintDiagonsed='" + ComplaintDiagonsed + '\'' +
+                ", EnggRemark='" + EnggRemark + '\'' +
+                ", RepairAction='" + RepairAction + '\'' +
+                ", Status='" + Status + '\'' +
+                ", createdOn=" + createdOn +
+                ", modifiedOn=" + modifiedOn +
+                ", createdBy='" + createdBy + '\'' +
+                ", ModifiedBy='" + ModifiedBy + '\'' +
+                '}';
     }
 }
