@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       http://www.springframework.org/schema/beans/spring-beans.xsd">
+
+    <bean id="userDelegate" class="com.poseidon.User.delegate.UserDelegate">
+        <property name="userService" ref="userService"/>
+    </bean>
+    <bean id="userService" class="com.poseidon.User.service.impl.UserServiceImpl">
+        <property name="userDAO" ref="userDAO"/>
+    </bean>
+
+    <bean id="userDAO" class="com.poseidon.User.dao.impl.UserDAOImpl">
+        <property name="dataSource" ref="dataSource" />
+    </bean>
+
+    <bean id="txsDelegate" class="com.poseidon.Transactions.delegate.TransactionsDelegate">
+        <property name="userService" ref="userService"/>
+    </bean>
+    <bean id="userService" class="com.poseidon.User.service.impl.UserServiceImpl">
+        <property name="userDAO" ref="userDAO"/>
+    </bean>
+
+    <bean id="userDAO" class="com.poseidon.User.dao.impl.UserDAOImpl">
+        <property name="dataSource" ref="dataSource" />
+    </bean>
+
+    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="com.mysql.jdbc.Driver" />
+        <property name="username" value="localuser"></property>
+        <property name="password" value="localuser"></property>
+        <property name="url" value="jdbc:mysql://localhost:3306/poseidon">
+        </property>
+    </bean>
+
+
+    <!-- Transaction Manager For a Single JDBC DataSource-->
+    <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+        <property name="dataSource"> <ref local="dataSource" /></property>
+    </bean>
+</beans>

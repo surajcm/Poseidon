@@ -1,0 +1,40 @@
+body {
+	margin: 0;
+	padding: 30px 0 30px 0;
+	background: #1f1f1f ;
+	font-family: Arial, Helvetica, sans-serif;
+}
+
+#signin .sign_in {
+	float: left;
+	margin: 20px 0 0 0;
+	width: 283px;
+}
+#signin fieldset { padding: 20px 0 20px 0; }
+
+#signin fieldset p {
+	margin: 0 20px 10px 20px;
+	font-weight: bold;
+	font-size: .70em;
+	color: #6e6e6e;
+}
+
+#signin fieldset label {
+	margin: 0 0 5px 0;
+	display: block;
+}
+
+#signin fieldset input {
+	padding: 3px;
+	width: 240px;
+}
+
+#signin fieldset p.button { margin-bottom: 0; }
+#signin fieldset p.button input { width: auto; }
+
+/* Signin styling */
+#signin .sign_in fieldset input { width: 200px; }
+
+.box_wrapper {
+        width:100px; height:400px; margin:auto; margin-top: 190px;
+}

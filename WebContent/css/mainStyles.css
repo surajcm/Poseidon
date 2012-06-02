@@ -1,0 +1,66 @@
+html, body {
+    height:100%;
+    margin:0;
+    padding:0;
+    text-align:left;
+    text-decoration:none;
+    display:inline;
+    border:none;
+    font-size: 1.1em;
+    font-family: Verdana, Arial, Helvetica, sans-serif;
+}
+
+#content {position:relative; z-index:1; padding:10px;}
+
+
+div.wrap {
+    height:100%
+    width:100%
+}
+
+#myTable {
+    font-family:"Trebuchet MS", Arial, Helvetica, sans-serif;
+    width:50%;
+    border-collapse:collapse;
+    margin:auto;
+}
+#myTable td, #myTable th {
+    font-size:1em;
+    border:1px solid #A24047;
+    padding:3px 7px 2px 7px;
+}
+#myTable th  {
+    font-size:1.1em;
+    text-align:left;
+    padding-top:5px;
+    padding-bottom:4px;
+    background-color:#A24047;
+    color:#ffffff;
+}
+#myTable tr.alt td {
+    color:#000000;
+    background-color:#A24047;
+}
+input {
+    font-family: "Lucida Grande",Verdana,sans-serif;
+    font-size:18px;
+    border: 1px solid #999999;
+}
+
+input.textboxes {
+    width:200px;
+    background-color:#ffffff;
+}
+
+input.btn {
+    color:#0000c0;
+    border: 1px solid #999999;
+}
+
+div.labels {
+    width:400px;
+    color:#0000c0;
+}
+mandatory{
+    color:red;
+}

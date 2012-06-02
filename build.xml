@@ -1,0 +1,73 @@
+<?xml version="1.0" ?> 
+<project name="Poseidon" default="war">
+
+    <property file="build.properties"/>
+
+    <path id="compile.classpath">
+		<fileset dir="WebContent/WEB-INF/lib">
+			<include name="*.jar"/>
+		</fileset>
+	</path>
+	
+	<target name="init">
+		<mkdir dir="build/classes"/>
+		<mkdir dir="dist" />
+	</target>
+	
+	<target name="compile" depends="init" >
+		<javac destdir="build/classes" debug="true" srcdir="src/main">
+			<classpath refid="compile.classpath"/>
+		</javac>
+        <!-- copy the resources bundle too -->
+        <copy todir="build/classes/resources">
+            <fileset dir="src/main/resources" includes="*.properties"/>
+        </copy>
+	</target>
+	
+	<target name="war" depends="compile">
+		<war destfile="dist/Poseidon.war" webxml="WebContent/WEB-INF/web.xml">
+			<fileset dir="WebContent"/>
+			<lib dir="WebContent/WEB-INF/lib"/>
+			<classes dir="build/classes"/>
+		</war>
+	</target>
+	
+	<target name="clean">
+		<delete dir="dist" />
+		<delete dir="build" />
+	</target>
+
+    <target name="copy_war_to_jboss">
+        <echo message="The directory where jboss installed is  ${jboss.home} "/>
+        <copy todir="${jboss.home}/deploy">
+            <fileset dir="dist" includes="*.war"/>
+        </copy>
+    </target>
+
+    <target name="deploy" depends="war,copy_war_to_jboss" description="deploy the war in jboss"/>
+
+	<target name="startJboss" description="start jboss from the build script">
+        <!-- Please make sure you have the correct path in the build.properties file -->
+        <java classname="org.jboss.Main" fork="true" dir="${jboss.home}">
+            <arg line="-c default" />
+            <classpath>
+                <pathelement path="${jboss.bin}/run.jar" />
+                <pathelement path="${jdk.lib}/tools.jar" />
+            </classpath>
+        </java>
+	</target>
+
+    <target name="stopJboss" description="stop jboss from the build script">
+        <!-- Please make sure you have the correct path in the build.properties file -->
+        <java classname="org.jboss.Shutdown" fork="true" dir="${jboss.home}">
+            <arg line="-S -sjnp://localhost:11099 -Djboss.boot.loader.name=shutdown.bat jboss.shutdown " />
+            <classpath>
+                <pathelement path="${jboss.bin}/shutdown.jar" />
+                <pathelement path="${jdk.lib}/tools.jar" />
+            </classpath>
+        </java>
+        <!--delete dir="${jboss.log}" /-->
+        <delete dir="${jboss.tmp}" />
+    </target>
+
+</project>
