@@ -135,9 +135,7 @@ CREATE TABLE `transaction` (
   `MakeId` bigint(20) unsigned NOT NULL,
   `ModelId` bigint(20) unsigned NOT NULL,
   `SerialNo` varchar(45) NOT NULL,
-  `ACCESSORIES
-ACCESSORIES
-Accessories` varchar(200) DEFAULT NULL,
+  `Accessories` varchar(200) DEFAULT NULL,
   `ComplaintReported` varchar(200) DEFAULT NULL,
   `ComplaintDiagonsed` varchar(200) DEFAULT NULL,
   `EnggRemark` varchar(200) DEFAULT NULL,

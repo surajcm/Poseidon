@@ -45,6 +45,6 @@ public class TransactionController extends MultiActionController {
             e.printStackTrace();
         }
 
-        return new ModelAndView("txs/list", "transactionForm", transactionForm);
+        return new ModelAndView("txs/TransactionList", "transactionForm", transactionForm);
     }
 }

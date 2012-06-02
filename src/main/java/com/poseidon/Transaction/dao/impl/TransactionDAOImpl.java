@@ -22,7 +22,10 @@ import org.springframework.jdbc.core.RowMapper;
 public class TransactionDAOImpl  extends JdbcDaoSupport implements TransactionDAO {
    //logger
     private final Log log = LogFactory.getLog(TransactionDAOImpl.class);
-
+    private final String GET_TODAYS_TRANSACTIONS_SQL ="SELECT t.Id, t.TagNo,C.Name, t.DateReported, t.MakeId, t.ModelId, " +
+            " t.SerialNo, t.Status FROM transaction t inner join customer c on t.CustomerId=C.Id " +
+            " WHERE t.DateReported=CURDATE();";
+    
     public List<TransactionVO> listTodaysTransactions() throws TransactionException {
         List<TransactionVO> transactionVOList;
         try {
@@ -34,13 +37,13 @@ public class TransactionDAOImpl  extends JdbcDaoSupport implements TransactionDA
     }
 
     public List<TransactionVO> getTodaysTransactions() throws DataAccessException {
-        return getJdbcTemplate().query(GET_ALL_USERS_SQL, new UserRowMapper());
+        return (List<TransactionVO>) getJdbcTemplate().query(GET_TODAYS_TRANSACTIONS_SQL, new TransactionListRowMapper());
     }
 
     /**
      * Row mapper as inner class
      */
-    private class UserRowMapper implements RowMapper {
+    private class TransactionListRowMapper implements RowMapper {
 
         /**
          * method to map the result to vo
@@ -51,18 +54,21 @@ public class TransactionDAOImpl  extends JdbcDaoSupport implements TransactionDA
          * @throws java.sql.SQLException on error
          */
         public Object mapRow(ResultSet resultSet, int i) throws SQLException {
-            TransactionVO user = new TransactionVO();
-            user.setId(resultSet.getLong("id"));
-            user.setName(resultSet.getString("Name"));
-            user.setLoginId(resultSet.getString("LogId"));
-            user.setPassword(resultSet.getString("Pass"));
-            user.setRole(resultSet.getString("Role"));
-            user.setCreatedBy(resultSet.getString("createdBy"));
-            user.setCreatedDate(resultSet.getDate("createdOn"));
-            user.setLastModifiedBy(resultSet.getString("modifiedBy"));
-            user.setModifiedDate(resultSet.getDate("modifiedOn"));
+            TransactionVO txs = new TransactionVO();
+            txs.setId(resultSet.getLong("Id"));
+            txs.setTagNo(resultSet.getString("TagNo"));
+            txs.setCustomerName(resultSet.getString("Name"));
+            txs.setDateReported(resultSet.getDate("DateReported"));
+            txs.setMakeId(resultSet.getLong("MakeId"));
+            txs.setMakeId(resultSet.getLong("ModelId"));
+            txs.setMakeId(resultSet.getLong("SerialNo"));
+            txs.setMakeId(resultSet.getLong("Status"));
+            /*txs.setCreatedBy(resultSet.getString("createdBy"));
+            txs.setCreatedOn(resultSet.getDate("createdOn"));
+            txs.setModifiedBy(resultSet.getString("modifiedBy"));
+            txs.setModifiedOn(resultSet.getDate("modifiedOn"));*/
 
-            return user;
+            return txs;
         }
 
     }
