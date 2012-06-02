@@ -71,4 +71,13 @@ public class TransactionController extends MultiActionController {
       vo.setStatusList(statusList);
       return vo;
     }
+
+    public ModelAndView AddTxn(HttpServletRequest request,
+                                HttpServletResponse response, TransactionForm transactionForm) {
+        log.info(" Inside AddUser method of User Controller ");
+        transactionForm.setLoggedInUser(transactionForm.getLoggedInUser());
+        transactionForm.setLoggedInRole(transactionForm.getLoggedInRole());
+
+        return new ModelAndView("txn/TxnAdd", "transactionForm", transactionForm);
+    }
 }
