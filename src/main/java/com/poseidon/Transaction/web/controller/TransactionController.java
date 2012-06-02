@@ -11,6 +11,7 @@ import com.poseidon.Transaction.domain.TransactionVO;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
+import java.util.ArrayList;
 
 /**
  * User: Suraj
@@ -38,9 +39,10 @@ public class TransactionController extends MultiActionController {
     }
 
     public ModelAndView List(HttpServletRequest request,
-                             HttpServletResponse response) {
+                             HttpServletResponse response,TransactionForm transactionForm) {
         log.info(" Inside List method of TransactionController ");
-        TransactionForm transactionForm = new TransactionForm();
+        log.info(" form details are"+ transactionForm);
+        //TransactionForm transactionForm = new TransactionForm();
         List<TransactionVO> transactionVOs = null;
         try {
             transactionVOs = getTransactionDelegate().listTodaysTransactions();
@@ -51,7 +53,22 @@ public class TransactionController extends MultiActionController {
             log.info(" transaction vo is "+ transactionVOs);    
         }
         transactionForm.setTransactionsList(transactionVOs);
-        transactionForm.setSearchTransaction(new TransactionVO());
+        transactionForm.setSearchTransaction(populateSearchVO());
+        transactionForm.setLoggedInRole(transactionForm.getLoggedInRole());
+        transactionForm.setLoggedInUser(transactionForm.getLoggedInUser());
         return new ModelAndView("txs/TransactionList", "transactionForm", transactionForm);
+    }
+
+    private TransactionVO populateSearchVO(){
+      TransactionVO vo = new TransactionVO();
+      List<String> statusList = new ArrayList<String>();
+      statusList.add("--Select--");
+      statusList.add("NEW");
+      statusList.add("ACCEPTED");
+      statusList.add("VERIFIED");
+      statusList.add("CLOSED");
+      statusList.add("REJECTEd");
+      vo.setStatusList(statusList);
+      return vo;
     }
 }

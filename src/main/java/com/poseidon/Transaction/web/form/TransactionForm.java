@@ -13,7 +13,8 @@ public class TransactionForm {
     private TransactionVO currentTransaction;
     private TransactionVO searchTransaction;
     private List<TransactionVO> transactionsList;
-
+    private String loggedInUser;
+    private String loggedInRole;
     public TransactionVO getCurrentTransaction() {
         return currentTransaction;
     }
@@ -36,5 +37,32 @@ public class TransactionForm {
 
     public void setTransactionsList(List<TransactionVO> transactionsList) {
         this.transactionsList = transactionsList;
+    }
+
+    public String getLoggedInUser() {
+        return loggedInUser;
+    }
+
+    public void setLoggedInUser(String loggedInUser) {
+        this.loggedInUser = loggedInUser;
+    }
+
+    public String getLoggedInRole() {
+        return loggedInRole;
+    }
+
+    public void setLoggedInRole(String loggedInRole) {
+        this.loggedInRole = loggedInRole;
+    }
+
+    @Override
+    public String toString() {
+        return "TransactionForm{" +
+                "currentTransaction=" + currentTransaction +
+                ", searchTransaction=" + searchTransaction +
+                ", transactionsList=" + transactionsList +
+                ", loggedInUser='" + loggedInUser + '\'' +
+                ", loggedInRole='" + loggedInRole + '\'' +
+                '}';
     }
 }

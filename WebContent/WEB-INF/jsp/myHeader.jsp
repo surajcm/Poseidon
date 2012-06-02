@@ -43,17 +43,17 @@
 		</style>
 		<script type="text/javascript">
 		    function listMe(){
-		        document.forms[0].action="ListAll.htm";
+		        document.forms[0].action="<%=request.getContextPath()%>"+"/user/ListAll.htm";
 				document.forms[0].submit();
 		    }
 
 			function goToHome(){
-		        document.forms[0].action="ToHome.htm";
+		        document.forms[0].action="<%=request.getContextPath()%>"+"/user/ToHome.htm";
 				document.forms[0].submit();
 		    }
 
 			function LogMeOut(){
-		        document.forms[0].action="LogMeOut.htm";
+		        document.forms[0].action="<%=request.getContextPath()%>"+"/user/LogMeOut.htm";
 				document.forms[0].submit();
 		    }
 
@@ -95,7 +95,7 @@
 			<tr>
                 <td align="middle" colspan="2" >
 					<label class="menuFirstLine">Welcome </label>
-					<label class="menuFirstLine"><c:out value="${userForm.loggedInUser}" /></label>|
+					<label class="menuFirstLine"><c:out value="${forms[0].loggedInUser}" /></label>|
 					<label class="menuFirstLine"><%=fmt.format(cal.getTime()) %></label>|
 					<label class="menuFirstLine"><%=fmt_time.format(cal.getTime()) %></label>
 				</td>
@@ -113,7 +113,7 @@
 			<tr>
 				<c:set var="roleFinder" value="admin" />
 				<c:choose>
-					<c:when test="${userForm.loggedInRole eq roleFinder}">
+					<c:when test="${forms[0].loggedInRole eq roleFinder}">
 						<td>
 							<label for="Home" style="font-weight: bold;color:white;font-size: .90em;"  onMouseOver="this.style.cursor='pointer'"  >|</label>
                             <label onclick="javascript:goToHome();" for="Home" style="font-weight: bold;color:white;font-size: .70em;"  onMouseOver="this.style.cursor='pointer'"  >Home</label>

@@ -1,6 +1,7 @@
 package com.poseidon.Transaction.domain;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * User: Suraj
@@ -29,7 +30,9 @@ public class TransactionVO {
     private Date modifiedOn;
     private String createdBy;
     private String ModifiedBy;
-
+    private Boolean startswith;
+    private Boolean includes;
+    private List<String> statusList;
 
     public Long getId() {
         return id;
@@ -197,6 +200,30 @@ public class TransactionVO {
 
     public void setModelName(String modelName) {
         ModelName = modelName;
+    }
+
+    public Boolean getStartswith() {
+        return startswith;
+    }
+
+    public void setStartswith(Boolean startswith) {
+        this.startswith = startswith;
+    }
+
+    public Boolean getIncludes() {
+        return includes;
+    }
+
+    public void setIncludes(Boolean includes) {
+        this.includes = includes;
+    }
+
+    public List<String> getStatusList() {
+        return statusList;
+    }
+
+    public void setStatusList(List<String> statusList) {
+        this.statusList = statusList;
     }
 
     @Override
