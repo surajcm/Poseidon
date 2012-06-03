@@ -26,6 +26,39 @@
         <property name="dataSource" ref="dataSource" />
     </bean>
 
+    <bean id="makeDelegate" class="com.poseidon.Make.delegate.MakeDelegate">
+        <property name="makeService" ref="makeService"/>
+    </bean>
+    <bean id="makeService" class="com.poseidon.Make.service.impl.MakeServiceImpl">
+        <property name="makeDAO" ref="makeDAO"/>
+    </bean>
+
+    <bean id="makeDAO" class="com.poseidon.Make.dao.impl.MakeDAOImpl">
+        <property name="dataSource" ref="dataSource" />
+    </bean>
+
+    <bean id="customerDelegate" class="com.poseidon.Customer.delegate.CustomerDelegate">
+        <property name="customerService" ref="customerService"/>
+    </bean>
+    <bean id="customerService" class="com.poseidon.Customer.service.impl.CustomerServiceImpl">
+        <property name="customerDAO" ref="customerDAO"/>
+    </bean>
+
+    <bean id="customerDAO" class="com.poseidon.Customer.dao.impl.CustomerDAOImpl">
+        <property name="dataSource" ref="dataSource" />
+    </bean>
+
+    <bean id="companyDelegate" class="com.poseidon.CompanyTerms.delegate.CompanyTermsDelegate">
+        <property name="companyTermsService" ref="companyService"/>
+    </bean>
+    <bean id="companyService" class="com.poseidon.CompanyTerms.service.impl.CompanyTermsServiceImpl">
+        <property name="companyTermsDAO" ref="companyDAO"/>
+    </bean>
+
+    <bean id="companyDAO" class="com.poseidon.CompanyTerms.dao.impl.CompanyTermsDAOImpl">
+        <property name="dataSource" ref="dataSource" />
+    </bean>
+
     <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <property name="driverClassName" value="com.mysql.jdbc.Driver" />
         <property name="username" value="localuser"></property>

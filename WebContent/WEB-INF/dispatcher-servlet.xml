@@ -15,6 +15,18 @@
         <property name="transactionDelegate" ref="txsDelegate"/>
     </bean>
 
+    <bean name="/make/*.htm" class="com.poseidon.Make.web.controller.MakeController" >
+        <property name="makeDelegate" ref="makeDelegate"/>
+    </bean>
+    
+    <bean name="/customer/*.htm" class="com.poseidon.Customer.web.controller.CustomerController" >
+        <property name="customerDelegate" ref="customerDelegate"/>
+    </bean>
+
+    <bean name="/company/*.htm" class="com.poseidon.CompanyTerms.web.controller.CompanyTermsController" >
+        <property name="companyTermsDelegate" ref="companyDelegate"/>
+    </bean>
+
     <!-- View Resolution -->
     <bean id="beanNameViewResolver" class="org.springframework.web.servlet.view.BeanNameViewResolver">
         <property name="order" value="0"/>
