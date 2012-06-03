@@ -27,6 +27,10 @@
         <property name="companyTermsDelegate" ref="companyDelegate"/>
     </bean>
 
+    <bean name="/reports/*.htm" class="com.poseidon.Reports.web.controller.ReportsController" >
+        <property name="reportsDelegate" ref="reportsDelegate"/>
+    </bean>
+
     <!-- View Resolution -->
     <bean id="beanNameViewResolver" class="org.springframework.web.servlet.view.BeanNameViewResolver">
         <property name="order" value="0"/>

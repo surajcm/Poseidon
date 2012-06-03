@@ -19,7 +19,7 @@ import java.util.List;
  */
 public class CompanyTermsController extends MultiActionController {
 
-     /**
+    /**
      * CustomerDelegate instance
      */
     private CompanyTermsDelegate companyTermsDelegate;
@@ -40,18 +40,20 @@ public class CompanyTermsController extends MultiActionController {
     public ModelAndView List(HttpServletRequest request,
                              HttpServletResponse response, CompanyTermsForm companyTermsForm) {
         log.info(" Inside List method of CompanyTermsController ");
-        log.info(" form details are "+ companyTermsForm);
+        log.info(" form details are " + companyTermsForm);
 
-        List<CompanyTermsVO> companyTermsVOs= null;
+        List<CompanyTermsVO> companyTermsVOs = null;
         try {
             companyTermsVOs = getCompanyTermsDelegate().listCompanyTerms();
         } catch (Exception e) {
             e.printStackTrace();
         }
-        for(CompanyTermsVO companyTermsVO:companyTermsVOs){
-            log.info(" companyTermsVO is "+ companyTermsVO);
+        if (companyTermsVOs != null) {
+            for (CompanyTermsVO companyTermsVO : companyTermsVOs) {
+                log.info(" companyTermsVO is " + companyTermsVO);
+            }
+            companyTermsForm.setCompanyTermsVOs(companyTermsVOs);
         }
-        companyTermsForm.setCompanyTermsVOs(companyTermsVOs);
         companyTermsForm.setSearchCompanyTermsVO(new CompanyTermsVO());
         companyTermsForm.setLoggedInRole(companyTermsForm.getLoggedInRole());
         companyTermsForm.setLoggedInUser(companyTermsForm.getLoggedInUser());

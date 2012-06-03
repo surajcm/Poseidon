@@ -58,15 +58,18 @@
 		    }
 
             function MakeMe(){
-                alert("Going to MakeManagement Page");
+                document.forms[0].action="<%=request.getContextPath()%>" + "/make/List.htm";
+				document.forms[0].submit();
             }
 
             function fetchCustomers(){
-                alert("Going to Customer Management Page");
+                document.forms[0].action="<%=request.getContextPath()%>" + "/customer/List.htm";
+				document.forms[0].submit();
             }
 
             function fetchTerms(){
-                alert("Going to Terms and conditions and Custemer details Page");
+                document.forms[0].action="<%=request.getContextPath()%>" + "/company/List.htm";
+				document.forms[0].submit();
             }
 
             function fetchTransactions(){
@@ -75,7 +78,8 @@
             }
 
             function fetchReport(){
-                alert("Going to Reports Page");
+                document.forms[0].action="<%=request.getContextPath()%>" + "/reports/List.htm";
+				document.forms[0].submit();
             }
 		</script>
 	</head>

@@ -10,29 +10,30 @@ import java.util.List;
  */
 public class TransactionVO {
     private Long id;
-    private String TagNo;
-    private Date DateReported;
-    private Long CustomerId;
-    private String CustomerName;
-    private String ProductCategory;
-    private Long MakeId;
-    private String MakeName;
-    private Long ModelId;
-    private String ModelName;
-    private String SerialNo;
-    private String Accessories;
-    private String ComplaintReported;
-    private String ComplaintDiagonsed;
-    private String EnggRemark;
-    private String RepairAction;
-    private String Status;
+    private String tagNo;
+    private Date dateReported;
+    private Long customerId;
+    private String customerName;
+    private String productCategory;
+    private Long makeId;
+    private String makeName;
+    private Long modelId;
+    private String modelName;
+    private String serialNo;
+    private String accessories;
+    private String complaintReported;
+    private String complaintDiagonsed;
+    private String enggRemark;
+    private String repairAction;
+    private String status;
     private Date createdOn;
     private Date modifiedOn;
     private String createdBy;
-    private String ModifiedBy;
+    private String modifiedBy;
     private Boolean startswith;
     private Boolean includes;
     private List<String> statusList;
+    private String notes;
 
     public Long getId() {
         return id;
@@ -43,115 +44,115 @@ public class TransactionVO {
     }
 
     public String getTagNo() {
-        return TagNo;
+        return tagNo;
     }
 
     public void setTagNo(String tagNo) {
-        TagNo = tagNo;
+        this.tagNo = tagNo;
     }
 
     public Date getDateReported() {
-        return DateReported;
+        return dateReported;
     }
 
     public void setDateReported(Date dateReported) {
-        DateReported = dateReported;
+        this.dateReported = dateReported;
     }
 
     public Long getCustomerId() {
-        return CustomerId;
+        return customerId;
     }
 
     public void setCustomerId(Long customerId) {
-        CustomerId = customerId;
+        this.customerId = customerId;
     }
 
     public String getCustomerName() {
-        return CustomerName;
+        return customerName;
     }
 
     public void setCustomerName(String customerName) {
-        CustomerName = customerName;
+        this.customerName = customerName;
     }
 
     public String getProductCategory() {
-        return ProductCategory;
+        return productCategory;
     }
 
     public void setProductCategory(String productCategory) {
-        ProductCategory = productCategory;
+        this.productCategory = productCategory;
     }
 
     public Long getMakeId() {
-        return MakeId;
+        return makeId;
     }
 
     public void setMakeId(Long makeId) {
-        MakeId = makeId;
+        this.makeId = makeId;
     }
 
     public Long getModelId() {
-        return ModelId;
+        return modelId;
     }
 
     public void setModelId(Long modelId) {
-        ModelId = modelId;
+        this.modelId = modelId;
     }
 
     public String getSerialNo() {
-        return SerialNo;
+        return serialNo;
     }
 
     public void setSerialNo(String serialNo) {
-        SerialNo = serialNo;
+        this.serialNo = serialNo;
     }
 
     public String getAccessories() {
-        return Accessories;
+        return accessories;
     }
 
     public void setAccessories(String accessories) {
-        Accessories = accessories;
+        this.accessories = accessories;
     }
 
     public String getComplaintReported() {
-        return ComplaintReported;
+        return complaintReported;
     }
 
     public void setComplaintReported(String complaintReported) {
-        ComplaintReported = complaintReported;
+        this.complaintReported = complaintReported;
     }
 
     public String getComplaintDiagonsed() {
-        return ComplaintDiagonsed;
+        return complaintDiagonsed;
     }
 
     public void setComplaintDiagonsed(String complaintDiagonsed) {
-        ComplaintDiagonsed = complaintDiagonsed;
+        this.complaintDiagonsed = complaintDiagonsed;
     }
 
     public String getEnggRemark() {
-        return EnggRemark;
+        return enggRemark;
     }
 
     public void setEnggRemark(String enggRemark) {
-        EnggRemark = enggRemark;
+        this.enggRemark = enggRemark;
     }
 
     public String getRepairAction() {
-        return RepairAction;
+        return repairAction;
     }
 
     public void setRepairAction(String repairAction) {
-        RepairAction = repairAction;
+        this.repairAction = repairAction;
     }
 
     public String getStatus() {
-        return Status;
+        return status;
     }
 
     public void setStatus(String status) {
-        Status = status;
+        this.status = status;
     }
 
     public Date getCreatedOn() {
@@ -179,27 +180,27 @@ public class TransactionVO {
     }
 
     public String getModifiedBy() {
-        return ModifiedBy;
+        return modifiedBy;
     }
 
     public void setModifiedBy(String modifiedBy) {
-        ModifiedBy = modifiedBy;
+        this.modifiedBy = modifiedBy;
     }
 
     public String getMakeName() {
-        return MakeName;
+        return makeName;
     }
 
     public void setMakeName(String makeName) {
-        MakeName = makeName;
+        this.makeName = makeName;
     }
 
     public String getModelName() {
-        return ModelName;
+        return modelName;
     }
 
     public void setModelName(String modelName) {
-        ModelName = modelName;
+        this.modelName = modelName;
     }
 
     public Boolean getStartswith() {
@@ -226,28 +227,42 @@ public class TransactionVO {
         this.statusList = statusList;
     }
 
+    public String getNotes() {
+        return notes;
+    }
+
+    public void setNotes(String notes) {
+        this.notes = notes;
+    }
+
     @Override
     public String toString() {
         return "TransactionVO{" +
                 "id=" + id +
-                ", TagNo='" + TagNo + '\'' +
-                ", DateReported=" + DateReported +
-                ", CustomerId=" + CustomerId +
-                ", CustomerName='" + CustomerName + '\'' +
-                ", ProductCategory='" + ProductCategory + '\'' +
-                ", MakeId=" + MakeId +
-                ", ModelId=" + ModelId +
-                ", SerialNo='" + SerialNo + '\'' +
-                ", Accessories='" + Accessories + '\'' +
-                ", ComplaintReported='" + ComplaintReported + '\'' +
-                ", ComplaintDiagonsed='" + ComplaintDiagonsed + '\'' +
-                ", EnggRemark='" + EnggRemark + '\'' +
-                ", RepairAction='" + RepairAction + '\'' +
-                ", Status='" + Status + '\'' +
+                ", tagNo='" + tagNo + '\'' +
+                ", dateReported=" + dateReported +
+                ", customerId=" + customerId +
+                ", customerName='" + customerName + '\'' +
+                ", productCategory='" + productCategory + '\'' +
+                ", makeId=" + makeId +
+                ", makeName='" + makeName + '\'' +
+                ", modelId=" + modelId +
+                ", modelName='" + modelName + '\'' +
+                ", serialNo='" + serialNo + '\'' +
+                ", accessories='" + accessories + '\'' +
+                ", complaintReported='" + complaintReported + '\'' +
+                ", complaintDiagonsed='" + complaintDiagonsed + '\'' +
+                ", enggRemark='" + enggRemark + '\'' +
+                ", repairAction='" + repairAction + '\'' +
+                ", status='" + status + '\'' +
                 ", createdOn=" + createdOn +
                 ", modifiedOn=" + modifiedOn +
                 ", createdBy='" + createdBy + '\'' +
-                ", ModifiedBy='" + ModifiedBy + '\'' +
+                ", modifiedBy='" + modifiedBy + '\'' +
+                ", startswith=" + startswith +
+                ", includes=" + includes +
+                ", statusList=" + statusList +
+                ", notes='" + notes + '\'' +
                 '}';
     }
 }

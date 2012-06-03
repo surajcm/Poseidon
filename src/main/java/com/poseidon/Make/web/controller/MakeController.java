@@ -39,18 +39,20 @@ public class MakeController extends MultiActionController {
     public ModelAndView List(HttpServletRequest request,
                              HttpServletResponse response, MakeForm makeForm) {
         log.info(" Inside List method of MakeController ");
-        log.info(" form details are "+ makeForm);
-        
+        log.info(" form details are " + makeForm);
+
         List<MakeVO> makeVOs = null;
         try {
             makeVOs = getMakeDelegate().listAllMakesAndModels();
         } catch (Exception e) {
             e.printStackTrace();
         }
-        for(MakeVO  makeVO :makeVOs){
-            log.info(" makeVO is "+ makeVO);
+        if (makeVOs != null) {
+            for (MakeVO makeVO : makeVOs) {
+                log.info(" makeVO is " + makeVO);
+            }
+            makeForm.setMakeVOs(makeVOs);
         }
-        makeForm.setMakeVOs(makeVOs);
         makeForm.setSearchMakeVO(new MakeVO());
         makeForm.setLoggedInRole(makeForm.getLoggedInRole());
         makeForm.setLoggedInUser(makeForm.getLoggedInUser());

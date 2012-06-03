@@ -39,9 +39,9 @@ public class TransactionController extends MultiActionController {
     }
 
     public ModelAndView List(HttpServletRequest request,
-                             HttpServletResponse response,TransactionForm transactionForm) {
+                             HttpServletResponse response, TransactionForm transactionForm) {
         log.info(" Inside List method of TransactionController ");
-        log.info(" form details are"+ transactionForm);
+        log.info(" form details are" + transactionForm);
         //TransactionForm transactionForm = new TransactionForm();
         List<TransactionVO> transactionVOs = null;
         try {
@@ -49,35 +49,47 @@ public class TransactionController extends MultiActionController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        for(TransactionVO transactionVO:transactionVOs){
-            log.info(" transaction vo is "+ transactionVOs);    
+        if (transactionVOs != null) {
+            for (TransactionVO transactionVO : transactionVOs) {
+                log.info(" transaction vo is " + transactionVOs);
+            }
+            transactionForm.setTransactionsList(transactionVOs);
         }
-        transactionForm.setTransactionsList(transactionVOs);
         transactionForm.setSearchTransaction(populateSearchVO());
         transactionForm.setLoggedInRole(transactionForm.getLoggedInRole());
         transactionForm.setLoggedInUser(transactionForm.getLoggedInUser());
         return new ModelAndView("txs/TransactionList", "transactionForm", transactionForm);
     }
 
-    private TransactionVO populateSearchVO(){
-      TransactionVO vo = new TransactionVO();
-      List<String> statusList = new ArrayList<String>();
-      statusList.add("--Select--");
-      statusList.add("NEW");
-      statusList.add("ACCEPTED");
-      statusList.add("VERIFIED");
-      statusList.add("CLOSED");
-      statusList.add("REJECTEd");
-      vo.setStatusList(statusList);
-      return vo;
+    private TransactionVO populateSearchVO() {
+        TransactionVO vo = new TransactionVO();
+        List<String> statusList = new ArrayList<String>();
+        statusList.add("--Select--");
+        statusList.add("NEW");
+        statusList.add("ACCEPTED");
+        statusList.add("VERIFIED");
+        statusList.add("CLOSED");
+        statusList.add("REJECTEd");
+        vo.setStatusList(statusList);
+        return vo;
     }
 
     public ModelAndView AddTxn(HttpServletRequest request,
-                                HttpServletResponse response, TransactionForm transactionForm) {
-        log.info(" Inside AddUser method of User Controller ");
+                               HttpServletResponse response, TransactionForm transactionForm) {
+        log.info(" Inside AddTxn method of TransactionController ");
         transactionForm.setLoggedInUser(transactionForm.getLoggedInUser());
         transactionForm.setLoggedInRole(transactionForm.getLoggedInRole());
+        transactionForm.setCurrentTransaction(new TransactionVO());
+        return new ModelAndView("txs/TxnAdd", "transactionForm", transactionForm);
+    }
 
-        return new ModelAndView("txn/TxnAdd", "transactionForm", transactionForm);
+    public ModelAndView SaveTxn(HttpServletRequest request,
+                               HttpServletResponse response, TransactionForm transactionForm) {
+        log.info(" Inside SaveTxn method of TransactionController ");
+        log.info(" form details are "+transactionForm);
+        transactionForm.setLoggedInUser(transactionForm.getLoggedInUser());
+        transactionForm.setLoggedInRole(transactionForm.getLoggedInRole());
+        transactionForm.setCurrentTransaction(new TransactionVO());
+        return new ModelAndView("txs/TransactionList", "transactionForm", transactionForm);
     }
 }

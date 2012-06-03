@@ -39,7 +39,7 @@ public class CustomerController extends MultiActionController {
     public ModelAndView List(HttpServletRequest request,
                              HttpServletResponse response, CustomerForm customerForm) {
         log.info(" Inside List method of CustomerController ");
-        log.info(" form details are "+ customerForm);
+        log.info(" form details are " + customerForm);
 
         List<CustomerVO> customerVOs = null;
         try {
@@ -47,10 +47,12 @@ public class CustomerController extends MultiActionController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        for(CustomerVO customerVO :customerVOs){
-            log.info(" customerVO is "+ customerVO);
+        if (customerVOs != null) {
+            for (CustomerVO customerVO : customerVOs) {
+                log.info(" customerVO is " + customerVO);
+            }
+            customerForm.setCustomerVOs(customerVOs);
         }
-        customerForm.setCustomerVOs(customerVOs);
         customerForm.setSearchCustomerVO(new CustomerVO());
         customerForm.setLoggedInRole(customerForm.getLoggedInRole());
         customerForm.setLoggedInUser(customerForm.getLoggedInUser());

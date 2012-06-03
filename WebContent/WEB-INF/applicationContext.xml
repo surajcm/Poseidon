@@ -59,6 +59,17 @@
         <property name="dataSource" ref="dataSource" />
     </bean>
 
+    <bean id="reportsDelegate" class="com.poseidon.Reports.delegate.ReportsDelegate">
+        <property name="reportsService" ref="reportsService"/>
+    </bean>
+    <bean id="reportsService" class="com.poseidon.Reports.service.impl.ReportsServiceImpl">
+        <property name="reportsDAO" ref="reportsDAO"/>
+    </bean>
+
+    <bean id="reportsDAO" class="com.poseidon.Reports.dao.impl.ReportsDAOImpl">
+        <property name="dataSource" ref="dataSource" />
+    </bean>
+
     <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <property name="driverClassName" value="com.mysql.jdbc.Driver" />
         <property name="username" value="localuser"></property>
