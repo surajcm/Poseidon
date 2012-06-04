@@ -84,7 +84,7 @@
 							<c:forEach items="${makeForm.makeVOs}" var="iterationMake">
 								<tr>
 									<td><input type="checkbox" name="checkField" onclick="javascript:checkCall(this)"
-											   value="<c:out value="${iterationMake.id}" />"/></td>
+											   value="<c:out value="${iterationMake.modelId}" />"/></td>
 									<td><c:out value="${iterationMake.makeName}"/></td>
 									<td><c:out value="${iterationMake.modelName}"/></td>
 								</tr>

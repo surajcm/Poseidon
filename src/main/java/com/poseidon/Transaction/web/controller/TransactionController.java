@@ -90,6 +90,6 @@ public class TransactionController extends MultiActionController {
         transactionForm.setLoggedInUser(transactionForm.getLoggedInUser());
         transactionForm.setLoggedInRole(transactionForm.getLoggedInRole());
         transactionForm.setCurrentTransaction(new TransactionVO());
-        return new ModelAndView("txs/TransactionList", "transactionForm", transactionForm);
+        return List(request,response,transactionForm);
     }
 }

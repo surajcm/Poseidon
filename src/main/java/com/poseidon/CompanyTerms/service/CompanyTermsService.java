@@ -10,5 +10,5 @@ import java.util.List;
  * Time: 10:43:26 PM
  */
 public interface CompanyTermsService {
-    public List<CompanyTermsVO> listCompanyTerms();
+    public CompanyTermsVO listCompanyTerms();
 }

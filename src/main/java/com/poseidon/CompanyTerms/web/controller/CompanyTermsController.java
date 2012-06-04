@@ -42,17 +42,17 @@ public class CompanyTermsController extends MultiActionController {
         log.info(" Inside List method of CompanyTermsController ");
         log.info(" form details are " + companyTermsForm);
 
-        List<CompanyTermsVO> companyTermsVOs = null;
+        CompanyTermsVO companyTermsVO= null;
         try {
-            companyTermsVOs = getCompanyTermsDelegate().listCompanyTerms();
+            companyTermsVO = getCompanyTermsDelegate().listCompanyTerms();
         } catch (Exception e) {
             e.printStackTrace();
         }
-        if (companyTermsVOs != null) {
-            for (CompanyTermsVO companyTermsVO : companyTermsVOs) {
-                log.info(" companyTermsVO is " + companyTermsVO);
-            }
-            companyTermsForm.setCompanyTermsVOs(companyTermsVOs);
+        if (companyTermsVO != null) {
+            log.info(" companyTermsVO is " + companyTermsVO);
+            companyTermsForm.setCurrentCompanyTermsVO(companyTermsVO);
+        }else {
+            companyTermsForm.setCurrentCompanyTermsVO(new CompanyTermsVO());
         }
         companyTermsForm.setSearchCompanyTermsVO(new CompanyTermsVO());
         companyTermsForm.setLoggedInRole(companyTermsForm.getLoggedInRole());

@@ -11,5 +11,5 @@ import java.util.List;
  * Time: 9:59:42 PM
  */
 public interface CompanyTermsDAO {
-    public List<CompanyTermsVO> listCompanyTerms() throws CompanyTermsException;
+    public CompanyTermsVO listCompanyTerms() throws CompanyTermsException;
 }

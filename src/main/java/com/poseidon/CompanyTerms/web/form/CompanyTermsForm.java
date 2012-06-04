@@ -10,19 +10,10 @@ import java.util.List;
  * Time: 10:45:13 PM
  */
 public class CompanyTermsForm {
-    private List<CompanyTermsVO> companyTermsVOs;
     private CompanyTermsVO currentCompanyTermsVO;
     private CompanyTermsVO searchCompanyTermsVO;
     private String loggedInRole;
     private String loggedInUser;
-
-    public List<CompanyTermsVO> getCompanyTermsVOs() {
-        return companyTermsVOs;
-    }
-
-    public void setCompanyTermsVOs(List<CompanyTermsVO> companyTermsVOs) {
-        this.companyTermsVOs = companyTermsVOs;
-    }
 
     public CompanyTermsVO getCurrentCompanyTermsVO() {
         return currentCompanyTermsVO;

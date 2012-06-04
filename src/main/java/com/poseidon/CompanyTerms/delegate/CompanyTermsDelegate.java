@@ -21,7 +21,7 @@ public class CompanyTermsDelegate {
         this.companyTermsService = companyTermsService;
     }
 
-    public List<CompanyTermsVO> listCompanyTerms() {
+    public CompanyTermsVO listCompanyTerms() {
         return getCompanyTermsService().listCompanyTerms();
     }
 }

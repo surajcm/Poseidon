@@ -27,13 +27,13 @@ public class CompanyTermsServiceImpl implements CompanyTermsService {
         this.companyTermsDAO = companyTermsDAO;
     }
 
-    public List<CompanyTermsVO> listCompanyTerms() {
-        List<CompanyTermsVO> companyTermsVOs = null;
+    public CompanyTermsVO listCompanyTerms() {
+        CompanyTermsVO companyTermsVO= null;
         try {
-            companyTermsVOs = getCompanyTermsDAO().listCompanyTerms();
+            companyTermsVO = getCompanyTermsDAO().listCompanyTerms();
         } catch (CompanyTermsException e) {
             e.printStackTrace();
         }
-        return companyTermsVOs;
+        return companyTermsVO;
     }
 }

@@ -5,8 +5,14 @@ import com.poseidon.CompanyTerms.domain.CompanyTermsVO;
 import com.poseidon.CompanyTerms.exception.CompanyTermsException;
 
 import java.util.List;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 
 import org.springframework.jdbc.core.support.JdbcDaoSupport;
+import org.springframework.jdbc.core.RowMapper;
+import org.springframework.dao.DataAccessException;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 /**
  * User: Suraj
@@ -14,8 +20,40 @@ import org.springframework.jdbc.core.support.JdbcDaoSupport;
  * Time: 10:00:05 PM
  */
 public class CompanyTermsDAOImpl extends JdbcDaoSupport implements CompanyTermsDAO {
+    //logger
+    private final Log log = LogFactory.getLog(CompanyTermsDAOImpl.class);
 
-    public List<CompanyTermsVO> listCompanyTerms() throws CompanyTermsException {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    private final String GET_COMPANY_TERMS_SQL = "SELECT Id, Terms, CompanyDetails FROM companyterms ;";
+
+    public CompanyTermsVO listCompanyTerms() throws CompanyTermsException {
+        CompanyTermsVO companyTermsVO= null;
+        try {
+            companyTermsVO = fetchCompanyTerms();
+        } catch (DataAccessException e) {
+            throw new CompanyTermsException(CompanyTermsException.DATABASE_ERROR);
+        }
+        return companyTermsVO;
+    }
+
+    private CompanyTermsVO fetchCompanyTerms() {
+        return (CompanyTermsVO) getJdbcTemplate().query(GET_COMPANY_TERMS_SQL, new CompanyTermsRowMapper());
+    }
+
+    private class CompanyTermsRowMapper implements RowMapper {
+        /**
+         * method to map the result to vo
+         *
+         * @param resultSet resultSet instance
+         * @param i         i instance
+         * @return UserVO as Object
+         * @throws java.sql.SQLException on error
+         */
+        public Object mapRow(ResultSet resultSet, int i) throws SQLException {
+            CompanyTermsVO companyTermsVO = new CompanyTermsVO();
+            companyTermsVO.setTermsId(resultSet.getLong("Id"));
+            companyTermsVO.setTermsAndConditions(resultSet.getString("Terms"));
+            companyTermsVO.setCompanyDetails(resultSet.getString("CompanyDetails"));
+            return companyTermsVO;
+        }
     }
 }

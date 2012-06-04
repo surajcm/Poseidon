@@ -23,7 +23,7 @@
 			}
 		</script>
   </head>
-  <body>
+  <body style="background: #A9A9A9 ;" >
   <form:form method="POST" commandName="transactionForm" name="transactionForm" >
             <%@include file="/WEB-INF/jsp/myHeader.jsp" %>
             <form:hidden name="loggedInUser" path="loggedInUser" />
@@ -131,6 +131,11 @@
 							<form:textarea path="currentTransaction.notes" rows="5" cols="30" cssClass="textboxes" id="notes" />
                         </td>
 					</tr>
+                    <tr>
+                        <td colspan="7">
+                            &nbsp;
+                        </td>
+                    </tr>
                     <tr>
                         <td colspan="5">
                             &nbsp;
