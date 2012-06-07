@@ -56,4 +56,12 @@ public class MakeDelegate {
     public void updateMake(MakeVO currentMakeVO)throws MakeException {
         makeService.updateMake(currentMakeVO);
     }
+
+    public void addNewModel(MakeVO currentMakeVO) throws MakeException {
+        makeService.addNewModel(currentMakeVO);
+    }
+
+    public void updateModel(MakeVO currentMakeVO)  throws MakeException {
+        makeService.updateModel(currentMakeVO);
+    }
 }

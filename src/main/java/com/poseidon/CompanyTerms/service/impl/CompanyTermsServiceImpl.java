@@ -36,4 +36,24 @@ public class CompanyTermsServiceImpl implements CompanyTermsService {
         }
         return companyTermsVO;
     }
+
+    public CompanyTermsVO fetchCompany() {
+        CompanyTermsVO companyTermsVO= null;
+        try {
+            companyTermsVO = getCompanyTermsDAO().fetchCompany();
+        } catch (CompanyTermsException e) {
+            e.printStackTrace();
+        }
+        return companyTermsVO;
+    }
+
+    public CompanyTermsVO fetchTerms() {
+        CompanyTermsVO companyTermsVO= null;
+        try {
+            companyTermsVO = getCompanyTermsDAO().fetchTerms();
+        } catch (CompanyTermsException e) {
+            e.printStackTrace();
+        }
+        return companyTermsVO;
+    }
 }

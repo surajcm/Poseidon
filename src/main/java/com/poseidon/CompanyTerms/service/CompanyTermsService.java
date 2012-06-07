@@ -11,4 +11,9 @@ import java.util.List;
  */
 public interface CompanyTermsService {
     public CompanyTermsVO listCompanyTerms();
+
+    public CompanyTermsVO fetchCompany();
+
+    public CompanyTermsVO fetchTerms();
+
 }

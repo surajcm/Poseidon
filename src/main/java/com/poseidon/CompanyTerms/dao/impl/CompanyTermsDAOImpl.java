@@ -24,6 +24,8 @@ public class CompanyTermsDAOImpl extends JdbcDaoSupport implements CompanyTermsD
     private final Log log = LogFactory.getLog(CompanyTermsDAOImpl.class);
 
     private final String GET_COMPANY_TERMS_SQL = "SELECT Id, Terms, CompanyDetails FROM companyterms ;";
+    private final String GET_COMPANY_SQL = "SELECT Id, CompanyDetails FROM companyterms ;";
+    private final String GET_TERMS_SQL = "SELECT Id, Terms FROM companyterms ;";
 
     public CompanyTermsVO listCompanyTerms() throws CompanyTermsException {
         CompanyTermsVO companyTermsVO= null;
@@ -37,6 +39,42 @@ public class CompanyTermsDAOImpl extends JdbcDaoSupport implements CompanyTermsD
             throw new CompanyTermsException(CompanyTermsException.DATABASE_ERROR);
         }
         return companyTermsVO;
+    }
+
+    public CompanyTermsVO fetchCompany() throws CompanyTermsException {
+        CompanyTermsVO companyTermsVO= null;
+        try {
+            List<CompanyTermsVO> companyTermsVOs = fetchCompanyOnly();
+            if(companyTermsVOs != null && companyTermsVOs.size() > 0){
+
+                companyTermsVO = companyTermsVOs.get(0);
+            }
+        } catch (DataAccessException e) {
+            throw new CompanyTermsException(CompanyTermsException.DATABASE_ERROR);
+        }
+        return companyTermsVO;
+    }
+
+    private List<CompanyTermsVO> fetchCompanyOnly() {
+        return (List<CompanyTermsVO>) getJdbcTemplate().query(GET_COMPANY_SQL, new CompanyRowMapper());
+    }
+
+    public CompanyTermsVO fetchTerms() throws CompanyTermsException {
+        CompanyTermsVO companyTermsVO= null;
+        try {
+            List<CompanyTermsVO> companyTermsVOs = fetchTermsOnly();
+            if(companyTermsVOs != null && companyTermsVOs.size() > 0){
+
+                companyTermsVO = companyTermsVOs.get(0);
+            }
+        } catch (DataAccessException e) {
+            throw new CompanyTermsException(CompanyTermsException.DATABASE_ERROR);
+        }
+        return companyTermsVO;
+    }
+
+    private List<CompanyTermsVO> fetchTermsOnly() {
+        return (List<CompanyTermsVO>) getJdbcTemplate().query(GET_TERMS_SQL, new TermsRowMapper());
     }
 
     private List<CompanyTermsVO> fetchCompanyTerms() {
@@ -57,6 +95,39 @@ public class CompanyTermsDAOImpl extends JdbcDaoSupport implements CompanyTermsD
             companyTermsVO.setTermsId(resultSet.getLong("Id"));
             companyTermsVO.setTermsAndConditions(resultSet.getString("Terms"));
             companyTermsVO.setCompanyDetails(resultSet.getString("CompanyDetails"));
+            return companyTermsVO;
+        }
+    }
+    private class CompanyRowMapper implements RowMapper {
+        /**
+         * method to map the result to vo
+         *
+         * @param resultSet resultSet instance
+         * @param i         i instance
+         * @return UserVO as Object
+         * @throws java.sql.SQLException on error
+         */
+        public Object mapRow(ResultSet resultSet, int i) throws SQLException {
+            CompanyTermsVO companyTermsVO = new CompanyTermsVO();
+            companyTermsVO.setTermsId(resultSet.getLong("Id"));
+            companyTermsVO.setCompanyDetails(resultSet.getString("CompanyDetails"));
+            return companyTermsVO;
+        }
+    }
+
+    private class TermsRowMapper implements RowMapper {
+        /**
+         * method to map the result to vo
+         *
+         * @param resultSet resultSet instance
+         * @param i         i instance
+         * @return UserVO as Object
+         * @throws java.sql.SQLException on error
+         */
+        public Object mapRow(ResultSet resultSet, int i) throws SQLException {
+            CompanyTermsVO companyTermsVO = new CompanyTermsVO();
+            companyTermsVO.setTermsId(resultSet.getLong("Id"));
+            companyTermsVO.setTermsAndConditions(resultSet.getString("Terms"));
             return companyTermsVO;
         }
     }

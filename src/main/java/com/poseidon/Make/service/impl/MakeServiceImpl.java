@@ -99,4 +99,20 @@ public class MakeServiceImpl implements MakeService {
             log.info("Make Exception occurred" + makeException.getMessage());
         }
     }
+
+    public void addNewModel(MakeVO currentMakeVO) {
+        try {
+            getMakeDAO().addNewModel(currentMakeVO);
+        } catch (MakeException makeException) {
+            log.info("Make Exception occurred" + makeException.getMessage());
+        }
+    }
+
+    public void updateModel(MakeVO currentMakeVO) {
+        try {
+            getMakeDAO().updateModel(currentMakeVO);
+        } catch (MakeException makeException) {
+            log.info("Make Exception occurred" + makeException.getMessage());
+        }
+    }
 }

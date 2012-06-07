@@ -14,7 +14,7 @@
 
   </head>
   <body  style="background: #A9A9A9 ;">
-  <form:form method="POST" commandName="makeForm" name="makeForm" >
+  <form:form method="POST" commandName="customerForm" name="customerForm" >
             <%@include file="/WEB-INF/jsp/myHeader.jsp" %>
             <form:hidden name="loggedInUser" path="loggedInUser" />
 	        <form:hidden name="loggedInRole" path="loggedInRole" />

@@ -12,4 +12,8 @@ import java.util.List;
  */
 public interface CompanyTermsDAO {
     public CompanyTermsVO listCompanyTerms() throws CompanyTermsException;
+
+    public CompanyTermsVO fetchCompany() throws CompanyTermsException;
+
+    public CompanyTermsVO fetchTerms( )throws CompanyTermsException;
 }

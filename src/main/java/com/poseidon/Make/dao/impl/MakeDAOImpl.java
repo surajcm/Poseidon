@@ -26,11 +26,13 @@ public class MakeDAOImpl extends JdbcDaoSupport implements MakeDAO {
     private final String GET_MAKE_AND_MODEL_SQL = "SELECT m.Id, m.ModelName,m.makeId,ma.MakeName FROM model m inner join make ma on m.makeId=ma.Id;";
     private final String GET_MAKE_SQL = "SELECT Id,MakeName,Description FROM make ;";
     private final String INSERT_NEW_MAKE_SQL = "insert into make( MakeName, Description, createdOn, modifiedOn, createdBy, modifiedBy ) values (?, ?, ?, ?, ?, ?); ";
+    private final String INSERT_NEW_MODEL_SQL = "insert into model( ModelName, makeId, createdOn, modifiedOn, createdBy, modifiedBy ) values (?, ?, ?, ?, ?, ?); ";
     private final String GET_SINGLE_MAKE_SQL = "select * from make where Id = ?";
-    private final String GET_SINGLE_MODEL_SQL = "SELECT m.Id, m.ModelName,m.makeId,ma.MakeName FROM model m inner join make ma on m.makeId=ma.Id and ma.Id = ?; ";
+    private final String GET_SINGLE_MODEL_SQL = "SELECT m.Id, m.ModelName,m.makeId,ma.MakeName FROM model m inner join make ma on m.makeId=ma.Id and m.Id = ?; ";
     private static final String DELETE_MAKE_BY_ID_SQL = " delete from make where id = ? ";
     private static final String DELETE_MODEL_BY_ID_SQL = " delete from model where id = ? ";
     private static final String UPDATE_MAKE_SQL = " update make set MakeName = ?, Description = ? , modifiedOn = ? , modifiedBy = ? where Id = ?";
+    private static final String UPDATE_MODEL_SQL = " update model set makeId = ?, ModelName = ? , modifiedOn = ? , modifiedBy = ? where Id = ?";
 
     public List<MakeVO> listAllMakesAndModels() throws MakeException {
         List<MakeVO> makeVOs = null;
@@ -113,6 +115,43 @@ public class MakeDAOImpl extends JdbcDaoSupport implements MakeDAO {
             throw new MakeException(MakeException.DATABASE_ERROR);
         }
     }
+
+    public void addNewModel(MakeVO currentMakeVO) throws MakeException {
+        try {
+            saveNewModel(currentMakeVO);
+        } catch (DataAccessException e) {
+            e.printStackTrace();
+            throw new MakeException(MakeException.DATABASE_ERROR);
+        }
+    }
+
+    public void updateModel(MakeVO currentMakeVO) throws MakeException {
+        Object[] parameters = new Object[]{
+                currentMakeVO.getMakeId(),
+                currentMakeVO.getModelName(),
+                new Date(),
+                currentMakeVO.getModifiedBy(),
+                currentMakeVO.getModelId()};
+
+        try {
+            getJdbcTemplate().update(UPDATE_MODEL_SQL, parameters);
+        } catch (DataAccessException e) {
+            e.printStackTrace();
+            throw new MakeException(MakeException.DATABASE_ERROR);
+        }
+    }
+
+    private void saveNewModel(MakeVO currentMakeVO) {
+        Object[] parameters =
+                new Object[]{currentMakeVO.getModelName(),
+                        currentMakeVO.getMakeId(),
+                        currentMakeVO.getCreatedDate(),
+                        currentMakeVO.getModifiedDate(),
+                        currentMakeVO.getCreatedBy(),
+                        currentMakeVO.getModifiedBy()};
+        getJdbcTemplate().update(INSERT_NEW_MODEL_SQL, parameters);
+    }
+
 
     private MakeVO getMakeById(Long makeId) {
         return (MakeVO) getJdbcTemplate().queryForObject(GET_SINGLE_MAKE_SQL, new Object[]{makeId}, new MakeRowMapper());

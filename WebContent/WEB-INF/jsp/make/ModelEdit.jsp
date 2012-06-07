@@ -9,16 +9,69 @@
 		<title>Edit Model</title>
 		<link rel="stylesheet" type="text/css" href="../css/mainStyles.css" />
         <script type="text/javascript">
+            function update(){
+                document.forms[0].action = "updateModel.htm";
+                document.forms[0].submit();
+            }
 
+            function cancel(){
+
+            }
         </script>
 
   </head>
   <body  style="background: #A9A9A9 ;">
   <form:form method="POST" commandName="makeForm" name="makeForm" >
-            <%@include file="/WEB-INF/jsp/myHeader.jsp" %>
-            <form:hidden name="loggedInUser" path="loggedInUser" />
-	        <form:hidden name="loggedInRole" path="loggedInRole" />
+        <%@include file="/WEB-INF/jsp/myHeader.jsp" %>
+        <form:hidden name="loggedInUser" path="loggedInUser" />
+        <form:hidden name="loggedInRole" path="loggedInRole" />
+        <form:hidden name="currentMakeVO.modelId" path="currentMakeVO.modelId" />
+            <div id="content">
+                <div class="wrap">
+                    <fieldset style="text-align:right;">
+                        <legend>Edit Model</legend>
+                        <table style="margin:auto;top:50%;left:50%;">
+                            <tr>
+                                <td>
+                                    <label for="makeId" style="font-size: .70em;">
+                                        Make Name
+                                    </label>
+                                </td>
+                                <td colspan="2">&nbsp;</td>
+                                <td>
+                                    <form:select id="makeId" path="currentMakeVO.makeId" tabindex="1" onkeypress="handleEnter(event);"
+                                                 cssClass="textboxes" cssStyle="height:20px">
+                                        <form:options items="${makeForm.makeVOs}"
+                                                      itemValue="makeId" itemLabel="makeName"/>
+                                    </form:select>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <label for="modelName" style="font-size: .70em;">
+                                        Model Name
+                                    </label>
+                                </td>
+                                <td colspan="2">&nbsp;</td>
+                                <td>
+                                    <form:input path="currentMakeVO.modelName" cssClass="textboxes" id="modelName"/>
+                                    <form:errors path="currentMakeVO.modelName"/>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td>
+                                    <input class="btn" value="Update" type="button" onclick="javascript:update()"/>
+                                </td>
+                                <td colspan="2">&nbsp;</td>
+                                <td>
+                                    <input class="btn" value="Cancel" type="button" onclick="javascript:cancel()"/>
+                                </td>
+                            </tr>
+                        </table>
 
+                    </fieldset>
+                </div>
+            </div>
       </form:form>
 
   </body>

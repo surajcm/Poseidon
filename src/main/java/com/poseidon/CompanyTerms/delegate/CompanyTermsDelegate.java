@@ -24,4 +24,13 @@ public class CompanyTermsDelegate {
     public CompanyTermsVO listCompanyTerms() {
         return getCompanyTermsService().listCompanyTerms();
     }
+
+
+    public CompanyTermsVO fetchCompany() {
+        return getCompanyTermsService().fetchCompany();
+    }
+
+    public CompanyTermsVO fetchTerms() {
+        return getCompanyTermsService().fetchTerms();
+    }
 }

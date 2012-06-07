@@ -177,7 +177,7 @@ public class MakeController extends MultiActionController {
 
     public ModelAndView editModel(HttpServletRequest request,
                                   HttpServletResponse response, MakeForm makeForm) {
-        log.info(" listMake editModel method of MakeController ");
+        log.info(" editModel method of MakeController ");
 
         log.info(" makeForm is " + makeForm.toString());
         MakeVO makeVO = null;
@@ -204,10 +204,21 @@ public class MakeController extends MultiActionController {
         }
 
         makeForm.setCurrentMakeVO(makeVO);
-
+        List<MakeVO> makeVOs = null;
+        try {
+            makeVOs = getMakeDelegate().listAllMakes();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if (makeVOs != null) {
+            for (MakeVO makeVONew : makeVOs) {
+                log.info(" makeVO is " + makeVONew);
+            }
+            makeForm.setMakeVOs(makeVOs);
+        }
         makeForm.setLoggedInUser(makeForm.getLoggedInUser());
         makeForm.setLoggedInRole(makeForm.getLoggedInRole());
-        return new ModelAndView("make/ModelEditt", "makeForm", makeForm);
+        return new ModelAndView("make/ModelEdit", "makeForm", makeForm);
     }
 
     public ModelAndView deleteModel(HttpServletRequest request,
@@ -216,7 +227,7 @@ public class MakeController extends MultiActionController {
 
         log.info(" makeForm is " + makeForm.toString());
         try {
-            getMakeDelegate().deleteModel(makeForm.getCurrentMakeVO().getModelId());
+            getMakeDelegate().deleteModel(makeForm.getId());
         } catch (MakeException e) {
             e.printStackTrace();
             log.error(" Exception type in controller " + e.ExceptionType);
@@ -289,5 +300,58 @@ public class MakeController extends MultiActionController {
         }
         return listMake(request, response, makeForm);
 
+    }
+
+    public ModelAndView updateModel(HttpServletRequest request,
+                                 HttpServletResponse response, MakeForm makeForm) {
+        log.info(" updateModel method of MakeController ");
+        log.info(" makeForm instance to add to database " + makeForm.toString());
+        makeForm.getCurrentMakeVO().setModifiedDate(new Date());
+        makeForm.getCurrentMakeVO().setModifiedBy(makeForm.getLoggedInUser());
+        try {
+            getMakeDelegate().updateModel(makeForm.getCurrentMakeVO());
+        } catch (MakeException e) {
+            e.printStackTrace();
+            log.error(" Exception type in controller " + e.ExceptionType);
+            if (e.getExceptionType().equalsIgnoreCase(MakeException.DATABASE_ERROR)) {
+                log.info(" An error occurred while fetching data from database. !! ");
+            } else {
+                log.info(" An Unknown Error has been occurred !!");
+            }
+
+        } catch (Exception e1) {
+            e1.printStackTrace();
+            log.info(" An Unknown Error has been occurred !!");
+
+        }
+        return List(request, response, makeForm);
+
+    }
+
+    public ModelAndView saveModel(HttpServletRequest request,
+                                 HttpServletResponse response, MakeForm makeForm) {
+        log.info(" saveModel method of MakeController ");
+        log.info(" makeForm instance to add to database " + makeForm.toString());
+        makeForm.getCurrentMakeVO().setCreatedDate(new Date());
+        makeForm.getCurrentMakeVO().setModifiedDate(new Date());
+        makeForm.getCurrentMakeVO().setCreatedBy(makeForm.getLoggedInUser());
+        makeForm.getCurrentMakeVO().setModifiedBy(makeForm.getLoggedInUser());
+        try {
+            getMakeDelegate().addNewModel(makeForm.getCurrentMakeVO());
+        } catch (MakeException e) {
+            e.printStackTrace();
+            log.error(" Exception type in controller " + e.ExceptionType);
+            if (e.getExceptionType().equalsIgnoreCase(MakeException.DATABASE_ERROR)) {
+                log.info(" An error occurred while fetching data from database. !! ");
+            } else {
+                log.info(" An Unknown Error has been occurred !!");
+            }
+
+        } catch (Exception e1) {
+            e1.printStackTrace();
+            log.info(" An Unknown Error has been occurred !!");
+
+        }
+        return List(request, response, makeForm);
     }
 }

@@ -9,7 +9,14 @@
 		<title>Add Model</title>
 		<link rel="stylesheet" type="text/css" href="../css/mainStyles.css" />
         <script type="text/javascript">
+            function save(){
+                document.forms[0].action = "saveModel.htm";
+                document.forms[0].submit();
+            }
 
+            function clear(){
+
+            }
         </script>
 
   </head>
@@ -25,14 +32,17 @@
                         <table style="margin:auto;top:50%;left:50%;">
                             <tr>
                                 <td>
-                                    <label for="makeName" style="font-size: .70em;">
+                                    <label for="makeId" style="font-size: .70em;">
                                         Make Name
                                     </label>
                                 </td>
                                 <td colspan="2">&nbsp;</td>
                                 <td>
-                                    <form:input path="currentMakeVO.makeName" cssClass="textboxes" id="makeName"/>
-                                    <form:errors path="currentMakeVO.makeName"/>
+                                    <form:select id="makeId" path="currentMakeVO.makeId" tabindex="1" onkeypress="handleEnter(event);"
+                                                 cssClass="textboxes" cssStyle="height:20px">
+                                        <form:options items="${makeForm.makeVOs}"
+                                                      itemValue="makeId" itemLabel="makeName"/>
+                                    </form:select>
                                 </td>
                             </tr>
                             <tr>

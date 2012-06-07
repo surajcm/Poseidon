@@ -160,8 +160,11 @@
                                 </label>
                             </td>
                             <td>
-                                <form:input path="searchMakeVO.makeName" cssClass="textboxes" id="makeName"/>
-                                <form:errors path="searchMakeVO.makeName"/>
+                                <form:select id="makeName" path="searchMakeVO.makeName" tabindex="1" onkeypress="handleEnter(event);"
+                                                 cssClass="textboxes" cssStyle="height:20px">
+                                        <form:options items="${makeForm.makeVOs}"
+                                                      itemValue="makeId" itemLabel="makeName"/>
+                                    </form:select>
                             </td>
                             <td colspan="2">&nbsp;</td>
                             <td>

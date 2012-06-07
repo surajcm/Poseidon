@@ -8,7 +8,18 @@
     <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
     <title>Terms And Company details</title>
     <link rel="stylesheet" type="text/css" href="../css/mainStyles.css"/>
+    <script type="text/javascript">
 
+			function editTerms() {
+                document.forms[0].action = "editTerms.htm";
+                document.forms[0].submit();
+            }
+
+			function editCompany() {
+                document.forms[0].action = "editCompany.htm";
+                document.forms[0].submit();
+            }
+    </script>
 
 </head>
 <body  style="background: #A9A9A9 ;">
@@ -40,8 +51,8 @@
                         <td>
                             <br/>
                             <br/>
-                            <input class="btn" value="Edit Terms" type="button" onclick="javascript:editMe()"/>
-                            <input class="btn" value="Edit Company Details" type="button" onclick="javascript:editMe()"/>
+                            <input class="btn" value="Edit Terms" type="button" onclick="javascript:editTerms()"/>
+                            <input class="btn" value="Edit Company Details" type="button" onclick="javascript:editCompany()"/>
                         </td>
                     </tr>
                 </table>

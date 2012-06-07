@@ -26,4 +26,8 @@ public interface MakeService {
     public void deleteModel(Long modelId);
 
     public void updateMake(MakeVO currentMakeVO);
+
+    public void addNewModel(MakeVO currentMakeVO);
+
+    public void updateModel(MakeVO currentMakeVO);
 }

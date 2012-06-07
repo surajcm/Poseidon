@@ -26,4 +26,8 @@ public interface MakeDAO {
     public void deleteModel(Long modelId) throws MakeException;
 
     public void updateMake(MakeVO currentMakeVO) throws MakeException;
+
+    public void addNewModel(MakeVO currentMakeVO) throws MakeException;
+
+    public void updateModel(MakeVO currentMakeVO) throws MakeException;
 }
