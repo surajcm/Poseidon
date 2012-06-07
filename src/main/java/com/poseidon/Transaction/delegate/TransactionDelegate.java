@@ -28,4 +28,8 @@ public class TransactionDelegate {
     public List<TransactionVO> listTodaysTransactions() throws TransactionException {
         return getTransactionService().listTodaysTransactions();
     }
+
+    public void saveTransaction(TransactionVO currentTransaction) throws TransactionException {
+        getTransactionService().saveTransaction(currentTransaction);
+    }
 }

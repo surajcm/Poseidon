@@ -8,12 +8,28 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 		<title>Customer List</title>
 		<link rel="stylesheet" type="text/css" href="../css/mainStyles.css" />
+        <script type="text/javascript">
+            function addCust(){
+                document.forms[0].action = "addCust.htm";
+                document.forms[0].submit();
+            }
 
+            function editCust(){
+                document.forms[0].action = "editCust.htm";
+                document.forms[0].submit();
+            }
+
+            function deleteCust(){
+                document.forms[0].action = "deleteCust.htm";
+                document.forms[0].submit();
+            }
+        </script>
 
   </head>
   <body  style="background: #A9A9A9 ;">
   <form:form method="POST" commandName="customerForm" name="customerForm" >
             <%@include file="/WEB-INF/jsp/myHeader.jsp" %>
+            <input type="hidden" name="id" id="id" />
             <form:hidden name="loggedInUser" path="loggedInUser" />
 	        <form:hidden name="loggedInRole" path="loggedInRole" />
             <div id="content">
@@ -113,13 +129,13 @@
                                     <td><c:out value="${iterationCust.address1}"/></td>
                                     <td><c:out value="${iterationCust.address2}"/></td>
                                     <td><c:out value="${iterationCust.phoneNo}"/></td>
-                                    <td><c:out value="${iterationCust.Mobile}"/></td>
+                                    <td><c:out value="${iterationCust.mobile}"/></td>
                                     <td><c:out value="${iterationCust.email}"/></td>
-                                    <td><c:out value="${iterationCust.ContactPerson1}"/></td>
-                                    <td><c:out value="${iterationCust.ContactPh1}"/></td>
-                                    <td><c:out value="${iterationCust.ContactPerson2}"/></td>
-                                    <td><c:out value="${iterationCust.ContactPh2}"/></td>
-                                    <td><c:out value="${iterationCust.Note}"/></td>
+                                    <td><c:out value="${iterationCust.contactPerson1}"/></td>
+                                    <td><c:out value="${iterationCust.contactMobile1}"/></td>
+                                    <td><c:out value="${iterationCust.contactPerson2}"/></td>
+                                    <td><c:out value="${iterationCust.contactMobile2}"/></td>
+                                    <td><c:out value="${iterationCust.notes}"/></td>
                                 </tr>
                             </c:forEach>
                             </tbody>
@@ -129,9 +145,9 @@
                                 <td>
                                     <br/>
                                     <br/>
-                                    <input class="btn" value="Add New Customer" type="button" onclick="javascript:addNew()"/>
-                                    <input class="btn" value="Edit Customer" type="button" onclick="javascript:editMe()"/>
-                                    <input class="btn" value="Delete Customer" type="button" onclick="javascript:deleteTxn()"/>
+                                    <input class="btn" value="Add New Customer" type="button" onclick="javascript:addCust()"/>
+                                    <input class="btn" value="Edit Customer" type="button" onclick="javascript:editCust()"/>
+                                    <input class="btn" value="Delete Customer" type="button" onclick="javascript:deleteCust()"/>
                                 </td>
                             </tr>
                         </table>

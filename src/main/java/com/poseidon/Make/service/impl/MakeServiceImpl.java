@@ -37,4 +37,66 @@ public class MakeServiceImpl implements MakeService {
         }
         return makeVOs;
     }
+
+    public List<MakeVO> listAllMakes() {
+        List<MakeVO> makeVOs = null;
+        try {
+            makeVOs = getMakeDAO().listAllMakes();
+        } catch (MakeException makeException) {
+            log.info("Make Exception occurred" + makeException.getMessage());
+        }
+        return makeVOs;
+    }
+
+    public void addNewMake(MakeVO currentMakeVO) {
+        try {
+            getMakeDAO().addNewMake(currentMakeVO);
+        } catch (MakeException makeException) {
+            log.info("Make Exception occurred" + makeException.getMessage());
+        }
+    }
+
+    public MakeVO getMakeFromId(Long makeId) {
+        MakeVO makeVO= null;
+        try {
+            makeVO = getMakeDAO().getMakeFromId(makeId);
+        } catch (MakeException makeException) {
+            log.info("Make Exception occurred" + makeException.getMessage());
+        }
+        return makeVO;
+    }
+
+    public void deleteMake(Long makeId) {
+        try {
+            getMakeDAO().deleteMake(makeId);
+        } catch (MakeException makeException) {
+            log.info("Make Exception occurred" + makeException.getMessage());
+        }
+    }
+
+    public MakeVO getModelFromId(Long modelId) {
+        MakeVO makeVO= null;
+        try {
+            makeVO = getMakeDAO().getModelFromId(modelId);
+        } catch (MakeException makeException) {
+            log.info("Make Exception occurred" + makeException.getMessage());
+        }
+        return makeVO;
+    }
+
+    public void deleteModel(Long modelId) {
+        try {
+            getMakeDAO().deleteModel(modelId);
+        } catch (MakeException makeException) {
+            log.info("Make Exception occurred" + makeException.getMessage());
+        }
+    }
+
+    public void updateMake(MakeVO currentMakeVO) {
+        try {
+            getMakeDAO().updateMake(currentMakeVO);
+        } catch (MakeException makeException) {
+            log.info("Make Exception occurred" + makeException.getMessage());
+        }
+    }
 }

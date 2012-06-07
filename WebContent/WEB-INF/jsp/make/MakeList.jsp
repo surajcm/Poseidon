@@ -8,12 +8,145 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 		<title>Make and Model List</title>
 		<link rel="stylesheet" type="text/css" href="../css/mainStyles.css" />
+        <script type="text/javascript">
 
+			function listAllMake() {
+                document.forms[0].action = "listMake.htm";
+                document.forms[0].submit();
+            }
+			
+			function addNewModel() {
+                document.forms[0].action = "addModel.htm";
+                document.forms[0].submit();
+            }
+			
+			//validation before edit 
+			function editModel(){
+				var check ='false';
+			    var count = 0;
+                // get all check boxes
+			    var checks = document.getElementsByName('checkField');
+			    if(checks){
+			        //if total number of rows is one
+			        if(checks.checked){
+			           editRow();
+			        }else{
+			           for(var i = 0 ; i < checks.length ; i++ ) {
+			               if(checks[i].checked){
+			                   check = 'true';
+			                   count = count + 1;
+			               }
+			           }
+                        //check for validity
+                        if(check = 'true'){
+                            if(count == 1){
+                                editRow();
+                            }else{
+                                alert(" Only one row can be edited at a time, please select one row ");
+                            }
+                        }else{
+                            alert(" No rows selected, please select one row ");
+                        }
+			        }
+			    }
+			}
+
+			//real edit
+			function editRow(){
+	            var userRow;
+                var checks = document.getElementsByName('checkField');
+                if(checks.checked){
+                    userRow = document.getElementById("myTable").rows[0];
+                    document.getElementById("id").value = userRow.cells[0].childNodes[0].value;
+                    document.forms[0].action="editModel.htm";
+                    document.forms[0].submit();
+                }else{
+                    for(var i = 0; i < checks.length ; i++){
+                        if(checks[i].checked) {
+                            userRow = document.getElementById("myTable").rows[i+1];
+                        }
+                    }
+                    document.getElementById("id").value = userRow.cells[0].childNodes[0].value;
+                    document.forms[0].action="editModel.htm";
+                    document.forms[0].submit();
+                }
+            }
+
+             // delete
+			function deleteModel(){
+			    var check ='false';
+			    var count = 0;
+                // get all check boxes
+			    var checks = document.getElementsByName('checkField');
+			    if(checks){
+			        //if total number of rows is one
+			        if(checks.checked){
+			           deleteRow();
+			        }else{
+			           for(var i = 0 ; i < checks.length ; i++ ) {
+			               if(checks[i].checked){
+			                   check = 'true';
+			                   count = count + 1;
+			               }
+			           }
+                        //check for validity
+                        if(check = 'true'){
+                            if(count == 1){
+                                deleteRow();
+                            }else{
+                                alert(" Only one row can be deleted at a time, please select one row ");
+                            }
+                        }else{
+                            alert(" No rows selected, please select one row ");
+                        }
+			        }
+			    }
+			}
+
+            //code to delete
+			function deleteRow(){
+			    var answer = confirm(" Are you sure you wanted to delete the user ");
+			    if(answer){
+			        //if yes then delete
+			        var userRow;
+                    var checks = document.getElementsByName('checkField');
+                    if(checks.checked){
+                        userRow = document.getElementById("myTable").rows[0];
+                        document.getElementById("id").value = userRow.cells[0].childNodes[0].value;
+                        document.forms[0].action="deleteModel.htm";
+				        document.forms[0].submit();
+                    }else{
+                        for(var i = 0; i < checks.length ; i++){
+                            if(checks[i].checked) {
+                                userRow = document.getElementById("myTable").rows[i+1];
+                            }
+                        }
+                        document.getElementById("id").value = userRow.cells[0].childNodes[0].value;
+                        document.forms[0].action="deleteModel.htm";
+                        document.forms[0].submit();
+                    }
+			    }
+
+			}
+
+            //preventing multiple checks
+			function checkCall(e){
+			    var min = e.value;
+			    var checks = document.getElementsByName('checkField');
+			    for(var i = 0; i < checks.length ; i++){
+			        if(checks[i].value != min) {
+			            checks[i].checked = false;
+			        }
+			    }
+			}
+            
+		</script>
 
   </head>
   <body style="background: #A9A9A9 ;">
   <form:form method="POST" commandName="makeForm" name="makeForm" >
             <%@include file="/WEB-INF/jsp/myHeader.jsp" %>
+            <input type="hidden" name="id" id="id" />
             <form:hidden name="loggedInUser" path="loggedInUser" />
 	        <form:hidden name="loggedInRole" path="loggedInRole" />
             <div id="content">
@@ -93,31 +226,23 @@
 						</table>
 						<table style="margin:auto;top:50%;left:50%;">
 							<tr>
-								<td colspan="3">
+								<td colspan="4">
 									<br/>
 									<br/>
 								<td>
 							</tr>
-							<tr>
+                            <tr>
 								<td>
-									<input class="btn" value="Add Make" type="button" onclick="javascript:addNew()"/>
+									<input class="btn" value="Make List" type="button" onclick="javascript:listAllMake()"/>
 								</td>
 								<td>
-									<input class="btn" value="Edit Make" type="button" onclick="javascript:editMe()"/>
+									<input class="btn" value="Add Model" type="button" onclick="javascript:addNewModel()"/>
 								</td>
 								<td>
-									<input class="btn" value="Delete Make" type="button" onclick="javascript:deleteTxn()"/>
-								</td>
-							</tr>
-							<tr>
-								<td>
-									<input class="btn" value="Add Model" type="button" onclick="javascript:addNew()"/>
+									<input class="btn" value="Edit Model" type="button" onclick="javascript:editModel()"/>
 								</td>
 								<td>
-									<input class="btn" value="Edit Model" type="button" onclick="javascript:editMe()"/>
-								</td>
-								<td>
-									<input class="btn" value="Delete Model" type="button" onclick="javascript:deleteTxn()"/>
+									<input class="btn" value="Delete Model" type="button" onclick="javascript:deleteModel()"/>
 								</td>
 							</tr>
 						</table>

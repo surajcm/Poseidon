@@ -12,4 +12,6 @@ import java.util.List;
  */
 public interface TransactionDAO {
     public List<TransactionVO> listTodaysTransactions() throws TransactionException;
+
+    public void saveTransaction(TransactionVO currentTransaction) throws TransactionException;
 }

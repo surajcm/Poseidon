@@ -207,3 +207,15 @@ INSERT INTO `user` (`id`,`Name`,`LogId`,`Pass`,`Role`,`createdOn`,`modifiedOn`,`
 -- grant insert on model to localuser@localhost;
 -- grant insert on transaction to localuser@localhost;
 -- grant insert on user to localuser@localhost;
+-- grant update on companyterms to localuser@localhost;
+-- grant update on customer to localuser@localhost;
+-- grant update on make to localuser@localhost;
+-- grant update on model to localuser@localhost;
+-- grant update on transaction to localuser@localhost;
+-- grant update on user to localuser@localhost;
+-- grant delete on companyterms to localuser@localhost;
+-- grant delete on customer to localuser@localhost;
+-- grant delete on make to localuser@localhost;
+-- grant delete on model to localuser@localhost;
+-- grant delete on transaction to localuser@localhost;
+-- grant delete on user to localuser@localhost;

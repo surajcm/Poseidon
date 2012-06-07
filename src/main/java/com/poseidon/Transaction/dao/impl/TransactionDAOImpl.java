@@ -39,6 +39,10 @@ public class TransactionDAOImpl  extends JdbcDaoSupport implements TransactionDA
         return transactionVOList;
     }
 
+    public void saveTransaction(TransactionVO currentTransaction) throws TransactionException {
+        //To change body of implemented methods use File | Settings | File Templates.
+    }
+
     public List<TransactionVO> getTodaysTransactions() throws DataAccessException {
         return (List<TransactionVO>) getJdbcTemplate().query(GET_TODAYS_TRANSACTIONS_SQL, new TransactionListRowMapper());
     }

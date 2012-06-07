@@ -58,4 +58,31 @@ public class CustomerController extends MultiActionController {
         customerForm.setLoggedInUser(customerForm.getLoggedInUser());
         return new ModelAndView("customer/CustomerList", "customerForm", customerForm);
     }
+
+    public ModelAndView addCust(HttpServletRequest request,
+                                 HttpServletResponse response, CustomerForm customerForm){
+        log.info(" listMake addCust method of MakeController ");
+        customerForm.setLoggedInUser(customerForm.getLoggedInUser());
+        customerForm.setLoggedInRole(customerForm.getLoggedInRole());
+        customerForm.setCurrentCustomerVO(new CustomerVO());
+        return new ModelAndView("customer/AddCustomer", "customerForm", customerForm);
+    }
+
+    public ModelAndView editCust(HttpServletRequest request,
+                                 HttpServletResponse response, CustomerForm customerForm){
+        log.info(" listMake editCust method of MakeController ");
+        customerForm.setLoggedInUser(customerForm.getLoggedInUser());
+        customerForm.setLoggedInRole(customerForm.getLoggedInRole());
+        customerForm.setCurrentCustomerVO(new CustomerVO());
+        return new ModelAndView("customer/EditCustomer", "customerForm", customerForm);
+    }
+
+    public ModelAndView deleteCust(HttpServletRequest request,
+                                 HttpServletResponse response, CustomerForm customerForm){
+        log.info(" listMake deleteCust method of MakeController ");
+        customerForm.setLoggedInUser(customerForm.getLoggedInUser());
+        customerForm.setLoggedInRole(customerForm.getLoggedInRole());
+        customerForm.setCurrentCustomerVO(new CustomerVO());
+        return new ModelAndView("customer/DeleteCustomer", "customerForm", customerForm);
+    }
 }

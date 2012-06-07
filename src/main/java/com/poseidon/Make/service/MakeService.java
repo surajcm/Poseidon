@@ -12,4 +12,18 @@ import java.util.List;
 public interface MakeService {
 
     public List<MakeVO> listAllMakesAndModels();
+
+    public List<MakeVO> listAllMakes();
+
+    public void addNewMake(MakeVO currentMakeVO);
+
+    public MakeVO getMakeFromId(Long makeId);
+
+    public void deleteMake(Long makeId);
+
+    public MakeVO getModelFromId(Long modelId);
+
+    public void deleteModel(Long modelId);
+
+    public void updateMake(MakeVO currentMakeVO);
 }

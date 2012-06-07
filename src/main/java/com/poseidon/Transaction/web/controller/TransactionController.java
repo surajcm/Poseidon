@@ -87,6 +87,12 @@ public class TransactionController extends MultiActionController {
                                HttpServletResponse response, TransactionForm transactionForm) {
         log.info(" Inside SaveTxn method of TransactionController ");
         log.info(" form details are "+transactionForm);
+        try{
+            getTransactionDelegate().saveTransaction(transactionForm.getCurrentTransaction());    
+        }catch(Exception e){
+            e.printStackTrace();
+
+        }
         transactionForm.setLoggedInUser(transactionForm.getLoggedInUser());
         transactionForm.setLoggedInRole(transactionForm.getLoggedInRole());
         transactionForm.setCurrentTransaction(new TransactionVO());

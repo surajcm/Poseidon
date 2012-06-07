@@ -28,15 +28,19 @@ public class CompanyTermsDAOImpl extends JdbcDaoSupport implements CompanyTermsD
     public CompanyTermsVO listCompanyTerms() throws CompanyTermsException {
         CompanyTermsVO companyTermsVO= null;
         try {
-            companyTermsVO = fetchCompanyTerms();
+            List<CompanyTermsVO> companyTermsVOs =fetchCompanyTerms();
+            if(companyTermsVOs != null && companyTermsVOs.size() > 0){
+
+                companyTermsVO = companyTermsVOs.get(0);
+            }
         } catch (DataAccessException e) {
             throw new CompanyTermsException(CompanyTermsException.DATABASE_ERROR);
         }
         return companyTermsVO;
     }
 
-    private CompanyTermsVO fetchCompanyTerms() {
-        return (CompanyTermsVO) getJdbcTemplate().query(GET_COMPANY_TERMS_SQL, new CompanyTermsRowMapper());
+    private List<CompanyTermsVO> fetchCompanyTerms() {
+        return (List<CompanyTermsVO>) getJdbcTemplate().query(GET_COMPANY_TERMS_SQL, new CompanyTermsRowMapper());
     }
 
     private class CompanyTermsRowMapper implements RowMapper {

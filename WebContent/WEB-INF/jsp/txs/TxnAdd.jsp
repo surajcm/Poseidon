@@ -12,7 +12,12 @@
 
 			//code to add New user
 			function save(){
-				document.forms[0].action="SaveTxn.htm";
+				//validate
+                var custId = document.getElementsByName('customerId');
+                //if(custId.value){
+                    
+                //}
+                document.forms[0].action="SaveTxn.htm";
 				document.forms[0].submit();
 			}
 
@@ -32,7 +37,7 @@
                 <table class="myTable">
                     <tr>
                         <td>
-                            <label for="TagNo">Tag No</label>
+                            <label for="TagNo" style="font-size: .70em;">Tag No</label>
                             <label class="mandatory">*</label>
                         </td>
                         <td>
@@ -40,7 +45,7 @@
                         </td>
 						<td> &nbsp;</td>
 						<td>
-                            <label for="customerId">Customer Id</label>
+                            <label for="customerId" style="font-size: .70em;">Customer Id</label>
                             <label class="mandatory">*</label>
                         </td>
                         <td>
@@ -48,7 +53,7 @@
                         </td>
 						<td> &nbsp;</td>
 						<td>
-                            <label for="productCategory">Product Category</label>
+                            <label for="productCategory" style="font-size: .70em;" >Product Category</label>
                             <label class="mandatory">*</label>
                         </td>
                         <td>
@@ -57,7 +62,7 @@
 					</tr>
 					<tr>
                         <td>
-                            <label for="makeId">MakeId</label>
+                            <label for="makeId" style="font-size: .70em;">MakeId</label>
                             <label class="mandatory">*</label>
                         </td>
                         <td>
@@ -65,7 +70,7 @@
                         </td>
 						<td> &nbsp;</td>
 						<td>
-                            <label for="modelId">modelId</label>
+                            <label for="modelId" style="font-size: .70em;">modelId</label>
                             <label class="mandatory">*</label>
                         </td>
                         <td>
@@ -73,7 +78,7 @@
                         </td>
 						<td> &nbsp;</td>
 						<td>
-                            <label for="serialNo">serialNo</label>
+                            <label for="serialNo" style="font-size: .70em;">serialNo</label>
                             <label class="mandatory">*</label>
                         </td>
                         <td>
@@ -82,7 +87,7 @@
 					</tr>
 					<tr>
                         <td>
-                            <label for="accessories">accessories</label>
+                            <label for="accessories" style="font-size: .70em;">accessories</label>
                             <label class="mandatory">*</label>
                         </td>
                         <td colspan="2">
@@ -90,7 +95,7 @@
                         </td>
 						<td> &nbsp;</td>
 						<td>
-                            <label for="complaintReported">complaintReported</label>
+                            <label for="complaintReported" style="font-size: .70em;">complaintReported</label>
                             <label class="mandatory">*</label>
                         </td>
                         <td colspan="2">
@@ -99,7 +104,7 @@
 					</tr>
 					<tr>
                         <td>
-                            <label for="complaintDiagonsed">complaintDiagonsed</label>
+                            <label for="complaintDiagonsed" style="font-size: .70em;">complaintDiagonsed</label>
                             <label class="mandatory">*</label>
                         </td>
                         <td colspan="2">
@@ -107,7 +112,7 @@
                         </td>
 						<td> &nbsp;</td>
 						<td>
-                            <label for="enggRemark">enggRemark</label>
+                            <label for="enggRemark" style="font-size: .70em;">enggRemark</label>
                             <label class="mandatory">*</label>
                         </td>
                         <td colspan="2">
@@ -116,7 +121,7 @@
 					</tr>
 					<tr>
                         <td>
-                            <label for="repairAction">repairAction</label>
+                            <label for="repairAction" style="font-size: .70em;">repairAction</label>
                             <label class="mandatory">*</label>
                         </td>
                         <td colspan="2">
@@ -124,7 +129,7 @@
                         </td>
 						<td> &nbsp;</td>
 						<td>
-                            <label for="notes">notes</label>
+                            <label for="notes" style="font-size: .70em;">notes</label>
                             <label class="mandatory">*</label>
                         </td>
                         <td colspan="2">

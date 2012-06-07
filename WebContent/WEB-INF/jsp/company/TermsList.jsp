@@ -11,7 +11,7 @@
 
 
 </head>
-<body>
+<body  style="background: #A9A9A9 ;">
 <form:form method="POST" commandName="companyTermsForm" name="companyTermsForm">
     <%@include file="/WEB-INF/jsp/myHeader.jsp" %>
     <form:hidden name="loggedInUser" path="loggedInUser"/>
@@ -30,14 +30,8 @@
 
                     <tbody>
                     <tr>
-                        <td>
-                            <form:textarea path="currentCompanyTermsVO.termsAndConditions" rows="5" cols="30"
-                                           cssClass="textboxes" id="termsAndConditions"/>
-                        </td>
-                        <td>
-                            <form:textarea path="currentCompanyTermsVO.companyDetails" rows="5" cols="30"
-                                           cssClass="textboxes" id="companyDetails"/>
-                        </td>
+                        <td><c:out value="${companyTermsForm.currentCompanyTermsVO.termsAndConditions}"/></td>
+                        <td><c:out value="${companyTermsForm.currentCompanyTermsVO.companyDetails}"/></td>
                     </tr>
                     </tbody>
                 </table>

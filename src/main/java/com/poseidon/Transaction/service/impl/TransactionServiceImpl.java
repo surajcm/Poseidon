@@ -43,4 +43,15 @@ public class TransactionServiceImpl implements TransactionService {
         }
         return transactionVOs;
     }
+
+    public void saveTransaction(TransactionVO currentTransaction) throws TransactionException {
+        try {
+            getTransactionDAO().saveTransaction(currentTransaction);
+        } catch (TransactionException t) {
+            log.error(" Exception type in service impl " + t.getExceptionType());
+            throw new TransactionException(t.getExceptionType());
+        } catch (Exception e1) {
+            e1.printStackTrace();
+        }
+    }
 }

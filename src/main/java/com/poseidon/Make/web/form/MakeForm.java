@@ -15,7 +15,7 @@ public class MakeForm {
     private MakeVO searchMakeVO;
     private String LoggedInRole;
     private String LoggedInUser;
-
+    private Long Id;
     public List<MakeVO> getMakeVOs() {
         return makeVOs;
     }
@@ -54,5 +54,25 @@ public class MakeForm {
 
     public void setLoggedInUser(String loggedInUser) {
         LoggedInUser = loggedInUser;
+    }
+
+    public Long getId() {
+        return Id;
+    }
+
+    public void setId(Long id) {
+        Id = id;
+    }
+
+    @Override
+    public String toString() {
+        return "MakeForm{" +
+                "makeVOs=" + makeVOs +
+                ", currentMakeVO=" + currentMakeVO +
+                ", searchMakeVO=" + searchMakeVO +
+                ", LoggedInRole='" + LoggedInRole + '\'' +
+                ", LoggedInUser='" + LoggedInUser + '\'' +
+                ", Id=" + Id +
+                '}';
     }
 }

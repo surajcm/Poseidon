@@ -1,11 +1,14 @@
 package com.poseidon.Make.domain;
 
+import java.util.Date;
+
 /**
  * User: Suraj
  * Date: Jun 2, 2012
  * Time: 7:26:27 PM
  */
 public class MakeVO {
+    private Long Id;
     private Long makeId;
     private Long modelId;
     private String makeName;
@@ -13,6 +16,18 @@ public class MakeVO {
     private String description;
     private Boolean startswith;
     private Boolean includes;
+    private Date createdDate;
+    private Date modifiedDate;
+    private String createdBy;
+    private String modifiedBy;
+
+    public Long getId() {
+        return Id;
+    }
+
+    public void setId(Long id) {
+        Id = id;
+    }
 
     public Long getMakeId() {
         return makeId;
@@ -70,14 +85,53 @@ public class MakeVO {
         this.includes = includes;
     }
 
+    public Date getCreatedDate() {
+        return createdDate;
+    }
+
+    public void setCreatedDate(Date createdDate) {
+        this.createdDate = createdDate;
+    }
+
+    public Date getModifiedDate() {
+        return modifiedDate;
+    }
+
+    public void setModifiedDate(Date modifiedDate) {
+        this.modifiedDate = modifiedDate;
+    }
+
+    public String getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(String createdBy) {
+        this.createdBy = createdBy;
+    }
+
+    public String getModifiedBy() {
+        return modifiedBy;
+    }
+
+    public void setModifiedBy(String modifiedBy) {
+        this.modifiedBy = modifiedBy;
+    }
+
     @Override
     public String toString() {
         return "MakeVO{" +
-                "makeId=" + makeId +
+                "Id=" + Id +
+                ", makeId=" + makeId +
                 ", modelId=" + modelId +
                 ", makeName='" + makeName + '\'' +
                 ", modelName='" + modelName + '\'' +
                 ", description='" + description + '\'' +
+                ", startswith=" + startswith +
+                ", includes=" + includes +
+                ", createdDate=" + createdDate +
+                ", modifiedDate=" + modifiedDate +
+                ", createdBy='" + createdBy + '\'' +
+                ", modifiedBy='" + modifiedBy + '\'' +
                 '}';
     }
 }

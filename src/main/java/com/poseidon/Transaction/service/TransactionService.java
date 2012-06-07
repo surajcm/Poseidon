@@ -12,4 +12,6 @@ import java.util.List;
  */
 public interface TransactionService {
     public List<TransactionVO> listTodaysTransactions() throws TransactionException;
+
+    public void saveTransaction(TransactionVO currentTransaction) throws TransactionException;
 }
