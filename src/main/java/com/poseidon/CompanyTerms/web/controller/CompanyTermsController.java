@@ -42,7 +42,7 @@ public class CompanyTermsController extends MultiActionController {
         log.info(" Inside List method of CompanyTermsController ");
         log.info(" form details are " + companyTermsForm);
 
-        CompanyTermsVO companyTermsVO= null;
+        CompanyTermsVO companyTermsVO = null;
         try {
             companyTermsVO = getCompanyTermsDelegate().listCompanyTerms();
         } catch (Exception e) {
@@ -51,7 +51,7 @@ public class CompanyTermsController extends MultiActionController {
         if (companyTermsVO != null) {
             log.info(" companyTermsVO is " + companyTermsVO);
             companyTermsForm.setCurrentCompanyTermsVO(companyTermsVO);
-        }else {
+        } else {
             companyTermsForm.setCurrentCompanyTermsVO(new CompanyTermsVO());
         }
         companyTermsForm.setSearchCompanyTermsVO(new CompanyTermsVO());
@@ -61,11 +61,11 @@ public class CompanyTermsController extends MultiActionController {
     }
 
     public ModelAndView editTerms(HttpServletRequest request,
-                             HttpServletResponse response, CompanyTermsForm companyTermsForm) {
+                                  HttpServletResponse response, CompanyTermsForm companyTermsForm) {
         log.info(" Inside editTerms method of CompanyTermsController ");
         log.info(" form details are " + companyTermsForm);
 
-        CompanyTermsVO companyTermsVO= null;
+        CompanyTermsVO companyTermsVO = null;
         try {
             companyTermsVO = getCompanyTermsDelegate().fetchTerms();
         } catch (Exception e) {
@@ -74,20 +74,20 @@ public class CompanyTermsController extends MultiActionController {
         if (companyTermsVO != null) {
             log.info(" companyTermsVO is " + companyTermsVO);
             companyTermsForm.setCurrentCompanyTermsVO(companyTermsVO);
-        }else {
+        } else {
             companyTermsForm.setCurrentCompanyTermsVO(new CompanyTermsVO());
         }
-        
+
         companyTermsForm.setLoggedInRole(companyTermsForm.getLoggedInRole());
         companyTermsForm.setLoggedInUser(companyTermsForm.getLoggedInUser());
         return new ModelAndView("company/EditTerms", "companyTermsForm", companyTermsForm);
     }
 
     public ModelAndView editCompany(HttpServletRequest request,
-                             HttpServletResponse response, CompanyTermsForm companyTermsForm) {
+                                    HttpServletResponse response, CompanyTermsForm companyTermsForm) {
         log.info(" Inside editCompany method of CompanyTermsController ");
         log.info(" form details are " + companyTermsForm);
-        CompanyTermsVO companyTermsVO= null;
+        CompanyTermsVO companyTermsVO = null;
         try {
             companyTermsVO = getCompanyTermsDelegate().fetchCompany();
         } catch (Exception e) {
@@ -96,7 +96,7 @@ public class CompanyTermsController extends MultiActionController {
         if (companyTermsVO != null) {
             log.info(" companyTermsVO is " + companyTermsVO);
             companyTermsForm.setCurrentCompanyTermsVO(companyTermsVO);
-        }else {
+        } else {
             companyTermsForm.setCurrentCompanyTermsVO(new CompanyTermsVO());
         }
 
@@ -106,24 +106,26 @@ public class CompanyTermsController extends MultiActionController {
     }
 
     public ModelAndView updateCompany(HttpServletRequest request,
-                             HttpServletResponse response, CompanyTermsForm companyTermsForm) {
+                                      HttpServletResponse response, CompanyTermsForm companyTermsForm) {
         log.info(" Inside updateCompany method of CompanyTermsController ");
         log.info(" form details are " + companyTermsForm);
-
-        companyTermsForm.setSearchCompanyTermsVO(new CompanyTermsVO());
-        companyTermsForm.setLoggedInRole(companyTermsForm.getLoggedInRole());
-        companyTermsForm.setLoggedInUser(companyTermsForm.getLoggedInUser());
-        return new ModelAndView("company/TermsList", "companyTermsForm", companyTermsForm);
+        try {
+            getCompanyTermsDelegate().updateCompany(companyTermsForm.getCurrentCompanyTermsVO().getCompanyDetails());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return List(request, response, companyTermsForm);
     }
 
     public ModelAndView updateTerms(HttpServletRequest request,
-                             HttpServletResponse response, CompanyTermsForm companyTermsForm) {
+                                    HttpServletResponse response, CompanyTermsForm companyTermsForm) {
         log.info(" Inside updateTerms method of CompanyTermsController ");
         log.info(" form details are " + companyTermsForm);
-
-        companyTermsForm.setSearchCompanyTermsVO(new CompanyTermsVO());
-        companyTermsForm.setLoggedInRole(companyTermsForm.getLoggedInRole());
-        companyTermsForm.setLoggedInUser(companyTermsForm.getLoggedInUser());
-        return new ModelAndView("company/TermsList", "companyTermsForm", companyTermsForm);
+        try {
+            getCompanyTermsDelegate().updateTerms(companyTermsForm.getCurrentCompanyTermsVO().getTermsAndConditions());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return List(request, response, companyTermsForm);
     }
 }

@@ -33,4 +33,12 @@ public class CompanyTermsDelegate {
     public CompanyTermsVO fetchTerms() {
         return getCompanyTermsService().fetchTerms();
     }
+
+    public void updateTerms(String termsAndConditions) {
+        getCompanyTermsService().updateTerms(termsAndConditions);
+    }
+
+    public void updateCompany(String companyDetails) {
+        getCompanyTermsService().updateCompany(companyDetails);
+    }
 }

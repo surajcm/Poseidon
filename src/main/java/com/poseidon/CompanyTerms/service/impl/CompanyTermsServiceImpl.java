@@ -56,4 +56,20 @@ public class CompanyTermsServiceImpl implements CompanyTermsService {
         }
         return companyTermsVO;
     }
+
+    public void updateTerms(String termsAndConditions) {
+        try {
+            getCompanyTermsDAO().updateTerms(termsAndConditions);
+        } catch (CompanyTermsException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void updateCompany(String companyDetails) {
+        try {
+            getCompanyTermsDAO().updateCompany(companyDetails);
+        } catch (CompanyTermsException e) {
+            e.printStackTrace();
+        }
+    }
 }

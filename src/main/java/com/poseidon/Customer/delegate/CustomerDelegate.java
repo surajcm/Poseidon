@@ -25,4 +25,20 @@ public class CustomerDelegate {
     public List<CustomerVO> listAllCustomerDetails() throws CustomerException {
         return getCustomerService().listAllCustomerDetails();
     }
+
+    public void saveCustomer(CustomerVO currentCustomerVO) throws CustomerException {
+        getCustomerService().saveCustomer(currentCustomerVO);
+    }
+
+    public CustomerVO getCustomerFromId(Long id) throws CustomerException {
+        return getCustomerService().getCustomerFromId(id);
+    }
+
+    public void deleteCustomerFromId(Long id)  throws CustomerException {
+        getCustomerService().deleteCustomerFromId(id);
+    }
+
+    public void updateCustomer(CustomerVO currentCustomerVO) throws CustomerException {
+        getCustomerService().updateCustomer(currentCustomerVO);
+    }
 }

@@ -114,4 +114,22 @@ public class CustomerVO {
     public void setNotes(String notes) {
         this.notes = notes;
     }
+
+    @Override
+    public String toString() {
+        return "CustomerVO{" +
+                "customerId=" + customerId +
+                ", customerName='" + customerName + '\'' +
+                ", address1='" + address1 + '\'' +
+                ", address2='" + address2 + '\'' +
+                ", phoneNo='" + phoneNo + '\'' +
+                ", mobile='" + mobile + '\'' +
+                ", email='" + email + '\'' +
+                ", contactPerson1='" + contactPerson1 + '\'' +
+                ", contactPerson2='" + contactPerson2 + '\'' +
+                ", contactMobile1='" + contactMobile1 + '\'' +
+                ", contactMobile2='" + contactMobile2 + '\'' +
+                ", notes='" + notes + '\'' +
+                '}';
+    }
 }

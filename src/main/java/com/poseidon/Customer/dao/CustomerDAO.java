@@ -12,4 +12,12 @@ import java.util.List;
  */
 public interface CustomerDAO {
     public List<CustomerVO> listAllCustomerDetails() throws CustomerException;
+
+    public void saveCustomer(CustomerVO currentCustomerVO) throws CustomerException;
+
+    public CustomerVO getCustomerFromId(Long id) throws CustomerException;
+
+    public void deleteCustomerFromId(Long id) throws CustomerException;
+
+    public void updateCustomer(CustomerVO currentCustomerVO) throws CustomerException;
 }

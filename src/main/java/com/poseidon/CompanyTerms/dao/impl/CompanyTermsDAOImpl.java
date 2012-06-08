@@ -26,6 +26,8 @@ public class CompanyTermsDAOImpl extends JdbcDaoSupport implements CompanyTermsD
     private final String GET_COMPANY_TERMS_SQL = "SELECT Id, Terms, CompanyDetails FROM companyterms ;";
     private final String GET_COMPANY_SQL = "SELECT Id, CompanyDetails FROM companyterms ;";
     private final String GET_TERMS_SQL = "SELECT Id, Terms FROM companyterms ;";
+    private final String UPDATE_TERMS_SQL = "update companyterms set Terms = ? where Id = 1 ;";
+    private final String UPDATE_COMPANY_SQL = "update companyterms set CompanyDetails = ? where Id = 1 ;";
 
     public CompanyTermsVO listCompanyTerms() throws CompanyTermsException {
         CompanyTermsVO companyTermsVO= null;
@@ -71,6 +73,28 @@ public class CompanyTermsDAOImpl extends JdbcDaoSupport implements CompanyTermsD
             throw new CompanyTermsException(CompanyTermsException.DATABASE_ERROR);
         }
         return companyTermsVO;
+    }
+
+    public void updateTerms(String termsAndConditions) throws CompanyTermsException {
+        Object[] parameters = new Object[]{termsAndConditions};
+
+        try {
+            getJdbcTemplate().update(UPDATE_TERMS_SQL, parameters);
+        } catch (DataAccessException e) {
+            e.printStackTrace();
+            throw new CompanyTermsException(CompanyTermsException.DATABASE_ERROR);
+        }
+    }
+
+    public void updateCompany(String companyDetails) throws CompanyTermsException {
+        Object[] parameters = new Object[]{companyDetails};
+
+        try {
+            getJdbcTemplate().update(UPDATE_COMPANY_SQL, parameters);
+        } catch (DataAccessException e) {
+            e.printStackTrace();
+            throw new CompanyTermsException(CompanyTermsException.DATABASE_ERROR);
+        }
     }
 
     private List<CompanyTermsVO> fetchTermsOnly() {

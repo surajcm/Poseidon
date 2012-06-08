@@ -46,4 +46,14 @@ public class CompanyTermsForm {
     public void setLoggedInUser(String loggedInUser) {
         this.loggedInUser = loggedInUser;
     }
+
+    @Override
+    public String toString() {
+        return "CompanyTermsForm{" +
+                "currentCompanyTermsVO=" + currentCompanyTermsVO +
+                ", searchCompanyTermsVO=" + searchCompanyTermsVO +
+                ", loggedInRole='" + loggedInRole + '\'' +
+                ", loggedInUser='" + loggedInUser + '\'' +
+                '}';
+    }
 }

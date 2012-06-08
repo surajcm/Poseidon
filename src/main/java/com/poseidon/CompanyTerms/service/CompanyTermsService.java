@@ -16,4 +16,7 @@ public interface CompanyTermsService {
 
     public CompanyTermsVO fetchTerms();
 
+    public void updateTerms(String termsAndConditions);
+
+    public void updateCompany(String companyDetails);
 }

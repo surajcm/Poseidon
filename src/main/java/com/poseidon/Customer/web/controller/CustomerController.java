@@ -7,6 +7,7 @@ import org.apache.commons.logging.LogFactory;
 import com.poseidon.Customer.delegate.CustomerDelegate;
 import com.poseidon.Customer.web.form.CustomerForm;
 import com.poseidon.Customer.domain.CustomerVO;
+import com.poseidon.Customer.exception.CustomerException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -60,8 +61,8 @@ public class CustomerController extends MultiActionController {
     }
 
     public ModelAndView addCust(HttpServletRequest request,
-                                 HttpServletResponse response, CustomerForm customerForm){
-        log.info(" listMake addCust method of MakeController ");
+                                HttpServletResponse response, CustomerForm customerForm) {
+        log.info(" addCust method of CustomerController ");
         customerForm.setLoggedInUser(customerForm.getLoggedInUser());
         customerForm.setLoggedInRole(customerForm.getLoggedInRole());
         customerForm.setCurrentCustomerVO(new CustomerVO());
@@ -69,20 +70,82 @@ public class CustomerController extends MultiActionController {
     }
 
     public ModelAndView editCust(HttpServletRequest request,
-                                 HttpServletResponse response, CustomerForm customerForm){
-        log.info(" listMake editCust method of MakeController ");
+                                 HttpServletResponse response, CustomerForm customerForm) {
+        log.info(" editCust method of CustomerController ");
+        log.info(" customerForm is " + customerForm.toString());
+        log.info(" customerForm is " + customerForm.getCurrentCustomerVO());
+        CustomerVO customerVO = null;
+        try {
+            customerVO = getCustomerDelegate().getCustomerFromId(customerForm.getId());
+        } catch (CustomerException e) {
+            e.printStackTrace();
+            log.error(" Exception type in controller " + e.ExceptionType);
+            if (e.getExceptionType().equalsIgnoreCase(CustomerException.DATABASE_ERROR)) {
+                log.info(" An error occurred while fetching data from database. !! ");
+            } else {
+                log.info(" An Unknown Error has been occurred !!");
+            }
+
+        } catch (Exception e1) {
+            e1.printStackTrace();
+            log.info(" An Unknown Error has been occurred !!");
+        }
+
+        if (customerVO == null) {
+            log.error(" No details found for current makeVO !!");
+        } else {
+            log.info(" customerVO details are " + customerVO);
+        }
+
+        customerForm.setCurrentCustomerVO(customerVO);
         customerForm.setLoggedInUser(customerForm.getLoggedInUser());
         customerForm.setLoggedInRole(customerForm.getLoggedInRole());
-        customerForm.setCurrentCustomerVO(new CustomerVO());
         return new ModelAndView("customer/EditCustomer", "customerForm", customerForm);
     }
 
     public ModelAndView deleteCust(HttpServletRequest request,
-                                 HttpServletResponse response, CustomerForm customerForm){
-        log.info(" listMake deleteCust method of MakeController ");
-        customerForm.setLoggedInUser(customerForm.getLoggedInUser());
-        customerForm.setLoggedInRole(customerForm.getLoggedInRole());
-        customerForm.setCurrentCustomerVO(new CustomerVO());
-        return new ModelAndView("customer/DeleteCustomer", "customerForm", customerForm);
+                                   HttpServletResponse response, CustomerForm customerForm) {
+        log.info(" deleteCust method of CustomerController ");
+        log.info(" CustomerForm is " + customerForm);
+        try {
+            getCustomerDelegate().deleteCustomerFromId(customerForm.getId());
+        } catch (CustomerException e) {
+            e.printStackTrace();
+            log.error(" Exception type in controller " + e.ExceptionType);
+            if (e.getExceptionType().equalsIgnoreCase(CustomerException.DATABASE_ERROR)) {
+                log.info(" An error occurred while fetching data from database. !! ");
+            } else {
+                log.info(" An Unknown Error has been occurred !!");
+            }
+
+        } catch (Exception e1) {
+            e1.printStackTrace();
+            log.info(" An Unknown Error has been occurred !!");
+        }
+        return List(request, response, customerForm);
+    }
+
+    public ModelAndView saveCustomer(HttpServletRequest request,
+                                     HttpServletResponse response, CustomerForm customerForm) {
+        log.info(" saveCustomer method of CustomerController ");
+        log.info(" CustomerForm is " + customerForm);
+        try {
+            getCustomerDelegate().saveCustomer(customerForm.getCurrentCustomerVO());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return List(request, response, customerForm);
+    }
+
+    public ModelAndView updateCustomer(HttpServletRequest request,
+                                     HttpServletResponse response, CustomerForm customerForm) {
+        log.info(" updateCustomer method of CustomerController ");
+        log.info(" CustomerForm is " + customerForm);
+        try {
+            getCustomerDelegate().updateCustomer(customerForm.getCurrentCustomerVO());
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return List(request, response, customerForm);
     }
 }

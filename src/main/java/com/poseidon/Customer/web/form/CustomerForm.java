@@ -10,11 +10,20 @@ import java.util.List;
  * Time: 10:48:04 PM
  */
 public class CustomerForm {
+    private Long id;
     private List<CustomerVO> customerVOs;
     private CustomerVO currentCustomerVO;
     private CustomerVO searchCustomerVO;
     private String loggedInRole;
     private String loggedInUser;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public List<CustomerVO> getCustomerVOs() {
         return customerVOs;
@@ -54,5 +63,17 @@ public class CustomerForm {
 
     public void setLoggedInUser(String loggedInUser) {
         this.loggedInUser = loggedInUser;
+    }
+
+    @Override
+    public String toString() {
+        return "CustomerForm{" +
+                "id=" + id +
+                ", customerVOs=" + customerVOs +
+                ", currentCustomerVO=" + currentCustomerVO +
+                ", searchCustomerVO=" + searchCustomerVO +
+                ", loggedInRole='" + loggedInRole + '\'' +
+                ", loggedInUser='" + loggedInUser + '\'' +
+                '}';
     }
 }

@@ -20,13 +20,19 @@ import org.apache.commons.logging.LogFactory;
  * Time: 10:45:56 PM
  */
 public class CustomerDAOImpl extends JdbcDaoSupport implements CustomerDAO {
-//logger
-private final Log log = LogFactory.getLog(CustomerDAOImpl.class);
-private final String GET_CUSTOMERS_SQL = " SELECT Id, Name, ifnull(Address1,'') as Address1,ifnull(address2,'') as Address2," +
-        " ifnull(Phone,'') as Phone,ifnull(Mobile,'') as Mobile, " +
-        " ifnull(email,'') as email, ifnull(ContactPerson1,'') as ContactPerson1," +
-        " ifnull(ContactPh1,'') as ContactPh1, ifnull(ContactPerson2,'') as ContactPerson2, " +
-        " ifnull(ContactPh2,'') as ContactPh2, ifnull(Note,'') as Note FROM customer ;";
+    //logger
+    private final Log log = LogFactory.getLog(CustomerDAOImpl.class);
+    private final String GET_CUSTOMERS_SQL = " SELECT Id, Name, ifnull(Address1,'') as Address1,ifnull(address2,'') as Address2," +
+            " ifnull(Phone,'') as Phone,ifnull(Mobile,'') as Mobile, " +
+            " ifnull(email,'') as email, ifnull(ContactPerson1,'') as ContactPerson1," +
+            " ifnull(ContactPh1,'') as ContactPh1, ifnull(ContactPerson2,'') as ContactPerson2, " +
+            " ifnull(ContactPh2,'') as ContactPh2, ifnull(Note,'') as Note FROM customer ;";
+    private final String INSERT_NEW_CUSTOMER_SQL = "insert into customer (Name, Address1, address2, Phone, Mobile, email, ContactPerson1, " +
+            " ContactPh1, ContactPerson2, ContactPh2, Note ) values (?, ?, ?, ?, ?, ?,? ,? ,? ,? , ?)";
+    private final String GET_SINGLE_CUSTOMER_SQL = " select * from customer where id = ? ";
+    private final String DELETE_CUSTOMER_BY_ID_SQL = " delete from customer where id = ? ";
+    private final String UPDATE_CUSTOMER_SQL = " update customer set Name = ? , Address1 = ? , address2 = ? , Phone = ?," +
+            " Mobile = ? , email = ?, ContactPerson1 = ?, ContactPh1 = ?, ContactPerson2 = ?, ContactPh2 = ?, Note = ?  where id = ? ";
 
     public List<CustomerVO> listAllCustomerDetails() throws CustomerException {
         List<CustomerVO> customerVOs = null;
@@ -36,6 +42,78 @@ private final String GET_CUSTOMERS_SQL = " SELECT Id, Name, ifnull(Address1,'') 
             throw new CustomerException(CustomerException.DATABASE_ERROR);
         }
         return customerVOs;
+    }
+
+    public void saveCustomer(CustomerVO currentCustomerVO) throws CustomerException {
+        try {
+            saveCustomerDetails(currentCustomerVO);
+        } catch (DataAccessException e) {
+            e.printStackTrace();
+            throw new CustomerException(CustomerException.DATABASE_ERROR);
+        }
+    }
+
+    public CustomerVO getCustomerFromId(Long id) throws CustomerException {
+        CustomerVO customerVO;
+        try {
+            customerVO = fetchCustomerFromId(id);
+        } catch (DataAccessException e) {
+            e.printStackTrace();
+            throw new CustomerException(CustomerException.DATABASE_ERROR);
+        }
+        return customerVO;
+    }
+
+    public void deleteCustomerFromId(Long id) throws CustomerException {
+        try {
+            Object[] parameters = new Object[]{id};
+            getJdbcTemplate().update(DELETE_CUSTOMER_BY_ID_SQL, parameters);
+        } catch (DataAccessException e) {
+            e.printStackTrace();
+            throw new CustomerException(CustomerException.DATABASE_ERROR);
+        }
+    }
+
+    public void updateCustomer(CustomerVO currentCustomerVO) throws CustomerException {
+        Object[] parameters = new Object[]{currentCustomerVO.getCustomerName(),
+                        currentCustomerVO.getAddress1(),
+                        currentCustomerVO.getAddress2(),
+                        currentCustomerVO.getPhoneNo(),
+                        currentCustomerVO.getMobile(),
+                        currentCustomerVO.getEmail(),
+                        currentCustomerVO.getContactPerson1(),
+                        currentCustomerVO.getContactMobile1(),
+                        currentCustomerVO.getContactPerson2(),
+                        currentCustomerVO.getContactMobile2(),
+                        currentCustomerVO.getNotes(),
+                        currentCustomerVO.getCustomerId()};
+
+        try {
+            getJdbcTemplate().update(UPDATE_CUSTOMER_SQL, parameters);
+        } catch (DataAccessException e) {
+            e.printStackTrace();
+            throw new CustomerException(CustomerException.DATABASE_ERROR);
+        }
+    }
+
+    private CustomerVO fetchCustomerFromId(Long id) {
+        return (CustomerVO) getJdbcTemplate().queryForObject(GET_SINGLE_CUSTOMER_SQL, new Object[]{id}, new CustomerListRowMapper());
+    }
+
+    private void saveCustomerDetails(CustomerVO currentCustomerVO) {
+        Object[] parameters =
+                new Object[]{currentCustomerVO.getCustomerName(),
+                        currentCustomerVO.getAddress1(),
+                        currentCustomerVO.getAddress2(),
+                        currentCustomerVO.getPhoneNo(),
+                        currentCustomerVO.getMobile(),
+                        currentCustomerVO.getEmail(),
+                        currentCustomerVO.getContactPerson1(),
+                        currentCustomerVO.getContactMobile1(),
+                        currentCustomerVO.getContactPerson2(),
+                        currentCustomerVO.getContactMobile2(),
+                        currentCustomerVO.getNotes()};
+        getJdbcTemplate().update(INSERT_NEW_CUSTOMER_SQL, parameters);
     }
 
     private List<CustomerVO> fetchAllCustomers() {

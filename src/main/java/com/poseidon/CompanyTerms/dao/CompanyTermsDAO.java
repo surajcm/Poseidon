@@ -16,4 +16,8 @@ public interface CompanyTermsDAO {
     public CompanyTermsVO fetchCompany() throws CompanyTermsException;
 
     public CompanyTermsVO fetchTerms( )throws CompanyTermsException;
+
+    public void updateTerms(String termsAndConditions)throws CompanyTermsException;
+
+    public void updateCompany(String companyDetails) throws CompanyTermsException;
 }

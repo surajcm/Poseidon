@@ -36,4 +36,38 @@ public class CustomerServiceImpl implements CustomerService {
         }
         return customerVOs;
     }
+
+    public void saveCustomer(CustomerVO currentCustomerVO) throws CustomerException {
+        try {
+            getCustomerDAO().saveCustomer(currentCustomerVO);
+        }catch (CustomerException e){
+            e.printStackTrace();
+        }
+    }
+
+    public CustomerVO getCustomerFromId(Long id) throws CustomerException {
+        CustomerVO customerVO= null;
+        try {
+            customerVO = getCustomerDAO().getCustomerFromId(id);
+        }catch (CustomerException e){
+            e.printStackTrace();
+        }
+        return customerVO;
+    }
+
+    public void deleteCustomerFromId(Long id) throws CustomerException {
+        try {
+            getCustomerDAO().deleteCustomerFromId(id);
+        }catch (CustomerException e){
+            e.printStackTrace();
+        }
+    }
+
+    public void updateCustomer(CustomerVO currentCustomerVO) throws CustomerException {
+        try {
+            getCustomerDAO().updateCustomer(currentCustomerVO);
+        }catch (CustomerException e){
+            e.printStackTrace();
+        }
+    }
 }
