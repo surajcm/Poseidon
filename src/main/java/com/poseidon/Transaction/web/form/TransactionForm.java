@@ -1,6 +1,7 @@
 package com.poseidon.Transaction.web.form;
 
 import com.poseidon.Transaction.domain.TransactionVO;
+import com.poseidon.Make.domain.MakeVO;
 
 import java.util.List;
 
@@ -15,6 +16,9 @@ public class TransactionForm {
     private List<TransactionVO> transactionsList;
     private String loggedInUser;
     private String loggedInRole;
+    private List<MakeVO> makeVOs;
+    private List<String> statusList;
+
     public TransactionVO getCurrentTransaction() {
         return currentTransaction;
     }
@@ -55,6 +59,22 @@ public class TransactionForm {
         this.loggedInRole = loggedInRole;
     }
 
+    public List<MakeVO> getMakeVOs() {
+        return makeVOs;
+    }
+
+    public void setMakeVOs(List<MakeVO> makeVOs) {
+        this.makeVOs = makeVOs;
+    }
+
+    public List<String> getStatusList() {
+        return statusList;
+    }
+
+    public void setStatusList(List<String> statusList) {
+        this.statusList = statusList;
+    }
+
     @Override
     public String toString() {
         return "TransactionForm{" +
@@ -63,6 +83,8 @@ public class TransactionForm {
                 ", transactionsList=" + transactionsList +
                 ", loggedInUser='" + loggedInUser + '\'' +
                 ", loggedInRole='" + loggedInRole + '\'' +
+                ", makeVOs=" + makeVOs +
+                ", statusList=" + statusList +
                 '}';
     }
 }

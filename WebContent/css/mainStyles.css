@@ -47,9 +47,14 @@ input {
     border: 1px solid #999999;
 }
 
-input.textboxes {
-    width:200px;
+textboxes {
+    width:150px;
     background-color:#ffffff;
+    height:12px;
+    max-height:12px;
+    box-sizing: border-box;
+    -moz-box-sizing:border-box;
+    -webkit-box-sizing:border-box;
 }
 
 input.btn {

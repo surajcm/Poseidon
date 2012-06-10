@@ -7,6 +7,8 @@ import org.apache.commons.logging.LogFactory;
 import com.poseidon.Transaction.delegate.TransactionDelegate;
 import com.poseidon.Transaction.web.form.TransactionForm;
 import com.poseidon.Transaction.domain.TransactionVO;
+import com.poseidon.Make.delegate.MakeDelegate;
+import com.poseidon.Make.domain.MakeVO;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -25,6 +27,7 @@ public class TransactionController extends MultiActionController {
      */
     private TransactionDelegate transactionDelegate;
 
+    private MakeDelegate makeDelegate;
     /**
      * logger for user controller
      */
@@ -36,6 +39,14 @@ public class TransactionController extends MultiActionController {
 
     public void setTransactionDelegate(TransactionDelegate transactionDelegate) {
         this.transactionDelegate = transactionDelegate;
+    }
+
+    public MakeDelegate getMakeDelegate() {
+        return makeDelegate;
+    }
+
+    public void setMakeDelegate(MakeDelegate makeDelegate) {
+        this.makeDelegate = makeDelegate;
     }
 
     public ModelAndView List(HttpServletRequest request,
@@ -51,27 +62,39 @@ public class TransactionController extends MultiActionController {
         }
         if (transactionVOs != null) {
             for (TransactionVO transactionVO : transactionVOs) {
-                log.info(" transaction vo is " + transactionVOs);
+                log.info(" transaction vo is " + transactionVO);
             }
             transactionForm.setTransactionsList(transactionVOs);
         }
-        transactionForm.setSearchTransaction(populateSearchVO());
+        //get all the make list for displaying in search
+        List<MakeVO> makeVOs =  null;
+        try {
+            makeVOs = getMakeDelegate().listAllMakes();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if(makeVOs != null){
+            for(MakeVO makeVO:makeVOs){
+                log.info("make vo is"+makeVO);
+            }
+            transactionForm.setMakeVOs(makeVOs);
+        }
+        transactionForm.setSearchTransaction(new TransactionVO());
         transactionForm.setLoggedInRole(transactionForm.getLoggedInRole());
         transactionForm.setLoggedInUser(transactionForm.getLoggedInUser());
+        transactionForm.setStatusList(populateStatus());
         return new ModelAndView("txs/TransactionList", "transactionForm", transactionForm);
     }
 
-    private TransactionVO populateSearchVO() {
-        TransactionVO vo = new TransactionVO();
+    private List<String> populateStatus() {
         List<String> statusList = new ArrayList<String>();
         statusList.add("--Select--");
         statusList.add("NEW");
         statusList.add("ACCEPTED");
         statusList.add("VERIFIED");
         statusList.add("CLOSED");
-        statusList.add("REJECTEd");
-        vo.setStatusList(statusList);
-        return vo;
+        statusList.add("REJECTED");
+        return statusList;
     }
 
     public ModelAndView AddTxn(HttpServletRequest request,
@@ -79,6 +102,19 @@ public class TransactionController extends MultiActionController {
         log.info(" Inside AddTxn method of TransactionController ");
         transactionForm.setLoggedInUser(transactionForm.getLoggedInUser());
         transactionForm.setLoggedInRole(transactionForm.getLoggedInRole());
+        //get all the make list for displaying in search
+        List<MakeVO> makeVOs =  null;
+        try {
+            makeVOs = getMakeDelegate().listAllMakes();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if(makeVOs != null){
+            for(MakeVO makeVO:makeVOs){
+                log.info("make vo is"+makeVO);
+            }
+            transactionForm.setMakeVOs(makeVOs);
+        }
         transactionForm.setCurrentTransaction(new TransactionVO());
         return new ModelAndView("txs/TxnAdd", "transactionForm", transactionForm);
     }

@@ -203,8 +203,12 @@
                             </label>
                         </td>
                         <td>
-                            <form:input path="searchTransaction.makeName" cssClass="textboxes" id="makeName"/>
-                            <form:errors path="searchTransaction.makeName"/>
+                            <form:select id="makeName" path="searchTransaction.makeName" tabindex="1"
+                                         onkeypress="handleEnter(event);"
+                                         cssClass="textboxes" cssStyle="height:20px">
+                                <form:options items="${transactionForm.makeVOs}"
+                                              itemValue="makeId" itemLabel="makeName"/>
+                            </form:select>
                         </td>
                         <td colspan="2">&nbsp;</td>
                         <td>
@@ -223,8 +227,11 @@
                             </label>
                         </td>
                         <td>
-                            <form:input path="searchTransaction.Status" cssClass="textboxes" id="Status"/>
-                            <form:errors path="searchTransaction.Status"/>
+                            <form:select id="Status" path="searchTransaction.Status"
+                                         onkeypress="handleEnter(event);"
+                                         cssClass="textboxes" cssStyle="height:20px">
+                                <form:options items="${transactionForm.statusList}" />
+                            </form:select>
                         </td>
                         <td colspan="2">&nbsp;</td>
                         <td>

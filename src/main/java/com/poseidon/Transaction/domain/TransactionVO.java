@@ -32,7 +32,6 @@ public class TransactionVO {
     private String modifiedBy;
     private Boolean startswith;
     private Boolean includes;
-    private List<String> statusList;
     private String notes;
 
     public Long getId() {
@@ -219,14 +218,6 @@ public class TransactionVO {
         this.includes = includes;
     }
 
-    public List<String> getStatusList() {
-        return statusList;
-    }
-
-    public void setStatusList(List<String> statusList) {
-        this.statusList = statusList;
-    }
-
     public String getNotes() {
         return notes;
     }
@@ -261,7 +252,6 @@ public class TransactionVO {
                 ", modifiedBy='" + modifiedBy + '\'' +
                 ", startswith=" + startswith +
                 ", includes=" + includes +
-                ", statusList=" + statusList +
                 ", notes='" + notes + '\'' +
                 '}';
     }
