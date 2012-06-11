@@ -160,8 +160,7 @@
                             </label>
                         </td>
                         <td>
-                            <form:input path="searchTransaction.TagNo" cssClass="textboxes" id="TagNo"/>
-                            <form:errors path="searchTransaction.TagNo"/>
+                            <form:input path="searchTransaction.TagNo" cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;" id="TagNo"/>
                         </td>
                         <td colspan="2">&nbsp;</td>
                         <td>
@@ -170,12 +169,11 @@
                             </label>
                         </td>
                         <td>
-                            <form:input path="searchTransaction.CustomerName" cssClass="textboxes" id="CustomerName"/>
-                            <form:errors path="searchTransaction.CustomerName"/>
+                            <form:input path="searchTransaction.CustomerName" cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;" id="CustomerName"/>
                         </td>
                         <td colspan="2">&nbsp;</td>
                         <td>
-                            <label for="role" style="font-size: .70em;">
+                            <label for="date" style="font-size: .70em;">
                                 Reported Date
                             </label>
                         </td>
@@ -189,8 +187,7 @@
                             </label>
                         </td>
                         <td>
-                            <form:input path="searchTransaction.SerialNo" cssClass="textboxes" id="SerialNo"/>
-                            <form:errors path="searchTransaction.SerialNo"/>
+                            <form:input path="searchTransaction.SerialNo" cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;" id="SerialNo"/>
                         </td>
                     </tr>
                     <tr>
@@ -205,7 +202,7 @@
                         <td>
                             <form:select id="makeName" path="searchTransaction.makeName" tabindex="1"
                                          onkeypress="handleEnter(event);"
-                                         cssClass="textboxes" cssStyle="height:20px">
+                                         cssStyle="border:3px double #CCCCCC; width: 200px;height:25px;">
                                 <form:options items="${transactionForm.makeVOs}"
                                               itemValue="makeId" itemLabel="makeName"/>
                             </form:select>
@@ -217,8 +214,7 @@
                             </label>
                         </td>
                         <td>
-                            <form:input path="searchTransaction.ModelName" cssClass="textboxes" id="ModelName"/>
-                            <form:errors path="searchTransaction.ModelName"/>
+                            <form:input path="searchTransaction.ModelName" cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;" id="ModelName"/>
                         </td>
                         <td colspan="2">&nbsp;</td>
                         <td>
@@ -229,7 +225,7 @@
                         <td>
                             <form:select id="Status" path="searchTransaction.Status"
                                          onkeypress="handleEnter(event);"
-                                         cssClass="textboxes" cssStyle="height:20px">
+                                         cssStyle="border:3px double #CCCCCC; width: 200px;height:25px;">
                                 <form:options items="${transactionForm.statusList}" />
                             </form:select>
                         </td>
@@ -237,13 +233,13 @@
                         <td>
                             <label for="includes" style="font-size: .70em;">
                                 <spring:message code="user.includes" text="Includes"/>
-                                <input type="checkbox" name="includes" value="includes"/>
+                                <form:checkbox path="searchTransaction.includes" cssStyle="vertical-align:middle" id="includes" value="" />
                             </label>
                         </td>
                         <td>
                             <label for="startswith" style="font-size: .70em;">
                                 <spring:message code="user.startsWith" text="Starts with"/>
-                                <input type="checkbox" name="startswith" value="startswith"/>
+                                <form:checkbox path="searchTransaction.startswith" cssStyle="vertical-align:middle" id="startswith" value="" />
                             </label>
                         </td>
                     </tr>

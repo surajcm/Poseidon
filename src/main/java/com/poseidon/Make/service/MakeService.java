@@ -1,5 +1,6 @@
 package com.poseidon.Make.service;
 
+import com.poseidon.Make.domain.MakeAndModelVO;
 import com.poseidon.Make.domain.MakeVO;
 
 import java.util.List;
@@ -11,23 +12,27 @@ import java.util.List;
  */
 public interface MakeService {
 
-    public List<MakeVO> listAllMakesAndModels();
+    public List<MakeAndModelVO> listAllMakesAndModels();
 
-    public List<MakeVO> listAllMakes();
+    public List<MakeAndModelVO> listAllMakes();
 
-    public void addNewMake(MakeVO currentMakeVO);
+    public void addNewMake(MakeAndModelVO currentMakeVO);
 
-    public MakeVO getMakeFromId(Long makeId);
+    public MakeAndModelVO getMakeFromId(Long makeId);
 
     public void deleteMake(Long makeId);
 
-    public MakeVO getModelFromId(Long modelId);
+    public MakeAndModelVO getModelFromId(Long modelId);
 
     public void deleteModel(Long modelId);
 
-    public void updateMake(MakeVO currentMakeVO);
+    public void updateMake(MakeAndModelVO currentMakeVO);
 
-    public void addNewModel(MakeVO currentMakeVO);
+    public void addNewModel(MakeAndModelVO currentMakeVO);
 
-    public void updateModel(MakeVO currentMakeVO);
+    public void updateModel(MakeAndModelVO currentMakeVO);
+
+    public List<MakeAndModelVO> searchMakeVOs(MakeAndModelVO searchMakeVO);
+
+    public List<MakeVO> fetchMakes();
 }

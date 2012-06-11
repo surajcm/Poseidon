@@ -1,6 +1,7 @@
 package com.poseidon.Make.service.impl;
 
 import com.poseidon.Make.service.MakeService;
+import com.poseidon.Make.domain.MakeAndModelVO;
 import com.poseidon.Make.domain.MakeVO;
 import com.poseidon.Make.dao.MakeDAO;
 import com.poseidon.Make.exception.MakeException;
@@ -28,8 +29,8 @@ public class MakeServiceImpl implements MakeService {
         this.makeDAO = makeDAO;
     }
 
-    public List<MakeVO> listAllMakesAndModels() {
-        List<MakeVO> makeVOs = null;
+    public List<MakeAndModelVO> listAllMakesAndModels() {
+        List<MakeAndModelVO> makeVOs = null;
         try {
             makeVOs = getMakeDAO().listAllMakesAndModels();
         } catch (MakeException makeException) {
@@ -38,8 +39,8 @@ public class MakeServiceImpl implements MakeService {
         return makeVOs;
     }
 
-    public List<MakeVO> listAllMakes() {
-        List<MakeVO> makeVOs = null;
+    public List<MakeAndModelVO> listAllMakes() {
+        List<MakeAndModelVO> makeVOs = null;
         try {
             makeVOs = getMakeDAO().listAllMakes();
         } catch (MakeException makeException) {
@@ -48,7 +49,7 @@ public class MakeServiceImpl implements MakeService {
         return makeVOs;
     }
 
-    public void addNewMake(MakeVO currentMakeVO) {
+    public void addNewMake(MakeAndModelVO currentMakeVO) {
         try {
             getMakeDAO().addNewMake(currentMakeVO);
         } catch (MakeException makeException) {
@@ -56,8 +57,8 @@ public class MakeServiceImpl implements MakeService {
         }
     }
 
-    public MakeVO getMakeFromId(Long makeId) {
-        MakeVO makeVO= null;
+    public MakeAndModelVO getMakeFromId(Long makeId) {
+        MakeAndModelVO makeVO= null;
         try {
             makeVO = getMakeDAO().getMakeFromId(makeId);
         } catch (MakeException makeException) {
@@ -74,8 +75,8 @@ public class MakeServiceImpl implements MakeService {
         }
     }
 
-    public MakeVO getModelFromId(Long modelId) {
-        MakeVO makeVO= null;
+    public MakeAndModelVO getModelFromId(Long modelId) {
+        MakeAndModelVO makeVO= null;
         try {
             makeVO = getMakeDAO().getModelFromId(modelId);
         } catch (MakeException makeException) {
@@ -92,7 +93,7 @@ public class MakeServiceImpl implements MakeService {
         }
     }
 
-    public void updateMake(MakeVO currentMakeVO) {
+    public void updateMake(MakeAndModelVO currentMakeVO) {
         try {
             getMakeDAO().updateMake(currentMakeVO);
         } catch (MakeException makeException) {
@@ -100,7 +101,7 @@ public class MakeServiceImpl implements MakeService {
         }
     }
 
-    public void addNewModel(MakeVO currentMakeVO) {
+    public void addNewModel(MakeAndModelVO currentMakeVO) {
         try {
             getMakeDAO().addNewModel(currentMakeVO);
         } catch (MakeException makeException) {
@@ -108,11 +109,31 @@ public class MakeServiceImpl implements MakeService {
         }
     }
 
-    public void updateModel(MakeVO currentMakeVO) {
+    public void updateModel(MakeAndModelVO currentMakeVO) {
         try {
             getMakeDAO().updateModel(currentMakeVO);
         } catch (MakeException makeException) {
             log.info("Make Exception occurred" + makeException.getMessage());
         }
+    }
+
+    public List<MakeAndModelVO> searchMakeVOs(MakeAndModelVO searchMakeVO) {
+        List<MakeAndModelVO> makeVOs = null;
+        try {
+            makeVOs = getMakeDAO().searchMakeVOs(searchMakeVO);
+        } catch (MakeException makeException) {
+            log.info("Make Exception occurred" + makeException.getMessage());
+        }
+        return makeVOs;
+    }
+
+    public List<MakeVO> fetchMakes() {
+        List<MakeVO> makeVOs = null;
+        try {
+            makeVOs = getMakeDAO().fetchMakes();
+        } catch (MakeException makeException) {
+            log.info("Make Exception occurred" + makeException.getMessage());
+        }
+        return makeVOs;
     }
 }

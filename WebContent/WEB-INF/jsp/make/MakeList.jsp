@@ -19,7 +19,10 @@
                 document.forms[0].action = "addModel.htm";
                 document.forms[0].submit();
             }
-			
+			function search(){
+                document.forms[0].action = "searchModel.htm";
+                document.forms[0].submit();
+            }
 			//validation before edit 
 			function editModel(){
 				var check ='false';
@@ -157,39 +160,39 @@
 							<tr>
 								<td>
 									<label for="makeName" style="font-size: .70em;">
-										Make Name
+										Make Name :
 									</label>
 								</td>
 								<td>
-									<form:select id="makeName" path="searchMakeVO.makeName" tabindex="1" onkeypress="handleEnter(event);"
-                                                 cssClass="textboxes" cssStyle="height:20px">
+									<form:select id="makeName" path="searchMakeAndModelVO.makeId" tabindex="1" onkeypress="handleEnter(event);"
+                                                 cssStyle="border:3px double #CCCCCC; width: 200px;height:25px;">
+                                        <form:option value="0" label="-- Select --"/>
                                         <form:options items="${makeForm.makeVOs}"
-                                                      itemValue="makeId" itemLabel="makeName"/>
+                                                      itemValue="id" itemLabel="makeName"/>
                                     </form:select>
 								</td>
 								<td colspan="2">&nbsp;</td>
 								<td>
 									<label for="modelName" style="font-size: .70em;">
-										modelName
+										Model Name :
 									</label>
 								</td>
 								<td>
-									<form:input path="searchMakeVO.modelName" cssClass="textboxes" id="modelName"/>
-									<form:errors path="searchMakeVO.modelName"/>
+									<form:input path="searchMakeAndModelVO.modelName" cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;" id="modelName"/>
 								</td>
 							<tr>
 							<tr>
 								<td colspan="2">
 									<label for="includes" style="font-size: .70em;">
 										<spring:message code="user.includes" text="Includes"/>
-										<input type="checkbox" name="includes" value="includes"/>
+										<form:checkbox path="searchMakeAndModelVO.includes" cssStyle="vertical-align:middle" id="includes" value="" /> 
 									</label>
 								</td>
 								<td colspan="2">&nbsp;</td>
 								<td colspan="2">
 									<label for="startswith" style="font-size: .70em;">
 										<spring:message code="user.startsWith" text="Starts with"/>
-										<input type="checkbox" name="startswith" value="startswith"/>
+                                        <form:checkbox path="searchMakeAndModelVO.startswith" cssStyle="vertical-align:middle" id="startswith" value="" />
 									</label>
 								</td>
 							<tr>
@@ -205,7 +208,13 @@
 						</table>
 					</fieldset>
 					<br/>
-					<fieldset>
+                    <c:if test="${makeForm.statusMessage!=null}">
+                        <div style="border:solid 1px #DEDEDE;background:#EFEFEF;color:#222222;padding:4px;text-align:center;font-size: .70em;">
+                                <c:out value="${makeForm.statusMessage}" />
+                        </div>
+                        <br/>
+                    </c:if>
+                    <fieldset>
 						<legend>Model Details</legend>
 						<table border="2" id="myTable" style="font-size: .60em;">
 							<thead>
@@ -217,7 +226,7 @@
 							</thead>
 
 							<tbody>
-							<c:forEach items="${makeForm.makeVOs}" var="iterationMake">
+							<c:forEach items="${makeForm.makeAndModelVOs}" var="iterationMake">
 								<tr>
 									<td><input type="checkbox" name="checkField" onclick="javascript:checkCall(this)"
 											   value="<c:out value="${iterationMake.modelId}" />"/></td>

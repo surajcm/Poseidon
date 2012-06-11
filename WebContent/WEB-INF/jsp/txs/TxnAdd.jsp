@@ -34,135 +34,254 @@
     <form:hidden name="loggedInUser" path="loggedInUser"/>
     <form:hidden name="loggedInRole" path="loggedInRole"/>
     <div id="content">
-        <fieldset style="text-align:right;">
+        <fieldset>
             <legend>Add Transaction</legend>
-            <table class="myTable" width="100%">
+            <table class="myTable" width="100%" >
                 <tr>
-                    <td>
+                    <td style="text-align:right;">
                         <label for="TagNo" style="font-size: .70em;">Tag Number</label>
                         <label class="mandatory">*</label>
                     </td>
-                    <td>
-                        <form:input path="currentTransaction.TagNo" cssClass="textboxes" id="TagNo"/>
+                    <td style="text-align:left;">
+                        <form:input path="currentTransaction.TagNo" cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;" id="TagNo"/>
                     </td>
                     <td colspan="2"> &nbsp;</td>
-                    <td>
+                    <td style="text-align:right;">
                         <label for="productCategory" style="font-size: .70em;">Product Category</label>
                         <label class="mandatory">*</label>
                     </td>
-                    <td>
-                        <form:input path="currentTransaction.productCategory" cssClass="textboxes"
+                    <td style="text-align:left;">
+                        <form:input path="currentTransaction.productCategory" cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;"
                                     id="productCategory"/>
+                    </td>
+                    <td colspan="2"> &nbsp;</td>
+                    <td style="text-align:right;">
+                        <label for="serialNo" style="font-size: .70em;">Serial No</label>
+                        <label class="mandatory">*</label>
+                    </td>
+                    <td style="text-align:left;">
+                        <form:input path="currentTransaction.serialNo" cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;" id="serialNo"/>
                     </td>
                 </tr>
                 <tr>
-                    <td>
+                    <td colspan="10"> &nbsp;</td>
+                </tr>
+                <tr>
+                    <td style="text-align:right;">
                         <label for="customerId" style="font-size: .70em;">Customer Id</label>
                         <label class="mandatory">*</label>
                     </td>
-                    <td>
-                        <form:input path="currentTransaction.customerId" cssClass="textboxes" id="customerId"/>
+                    <td style="text-align:left;">
+                        <form:input path="customerVO.customerId" cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;" id="customerId"/>
                     </td>
-                    <td colspan="4"> &nbsp;</td>
+                    <td colspan="8"> <label style="font-size: .70em;color:blue;">Enter Customer Details in case of New Customer</label> </td>
                 </tr>
                 <tr>
-                    <td>
-                        <label for="makeId" style="font-size: .70em;">MakeId</label>
+                    <td style="text-align:right;">
+                        <label for="customerName" style="font-size: .70em;">
+                            Customer Name
+                        </label>
+                    </td>
+                    <td style="text-align:left;">
+                        <form:input path="customerVO.customerName" cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;" id="customerName"/>
+                    </td>
+                    <td colspan="2">&nbsp;</td>
+                    <td style="text-align:right;">
+                        <label for="address1" style="font-size: .70em;">
+                            Address Line 1
+                        </label>
+                    </td>
+                    <td style="text-align:left;">
+                        <form:textarea path="customerVO.address1" rows="5" cols="30" cssStyle="border:3px double #CCCCCC; width: 200px;height:40px;"
+                                       id="address1"/>
+                    </td>
+                    <td colspan="2"> &nbsp;</td>
+					<td style="text-align:right;">
+                        <label for="address2" style="font-size: .70em;">
+                            Address Line 2
+                        </label>
+                    </td>
+                    <td style="text-align:left;">
+                        <form:textarea path="customerVO.address2" rows="5" cols="30" cssStyle="border:3px double #CCCCCC; width: 200px;height:40px;"
+                        id="address2"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td style="text-align:right;">
+						<label for="phoneNo" style="font-size: .70em;">
+							Phone
+						</label>
+					</td>
+					<td style="text-align:left;">
+						<form:input path="customerVO.phoneNo" cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;" id="phoneNo"/>
+					</td>
+					<td colspan="2">&nbsp;</td>
+					<td style="text-align:right;">
+						<label for="mobile" style="font-size: .70em;">
+							Mobile
+						</label>
+					</td>
+					<td style="text-align:left;">
+						<form:input path="customerVO.mobile" cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;" id="mobile"/>
+					</td>
+					<td colspan="2">&nbsp;</td>
+					<td style="text-align:right;">
+						<label for="email" style="font-size: .70em;">
+							email
+						</label>
+					</td>
+					<td style="text-align:left;">
+						<form:input path="customerVO.email" cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;" id="email"/>
+					</td>
+                </tr>
+				<tr>
+                    <td style="text-align:right;">
+						<label for="contactPerson1" style="font-size: .70em;">
+							Contact Person 1
+						</label>
+					</td>
+					<td style="text-align:left;">
+						<form:input path="customerVO.contactPerson1" cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;"
+									id="contactPerson1"/>
+					</td>
+					<td colspan="2">&nbsp;</td>
+					<td style="text-align:right;">
+						<label for="contactMobile1" style="font-size: .70em;">
+							Mobile of Contact Person 1
+						</label>
+					</td>
+					<td style="text-align:left;">
+						<form:input path="customerVO.contactMobile1" cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;"
+									id="contactMobile1"/>
+					</td>
+					<td colspan="4">&nbsp;</td>
+                </tr>
+				<tr>
+                    <td style="text-align:right;">
+						<label for="contactPerson2" style="font-size: .70em;">
+							Contact Person 2
+						</label>
+					</td>
+					<td style="text-align:left;">
+						<form:input path="customerVO.contactPerson2" cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;"
+									id="contactPerson2"/>
+					</td>
+					<td colspan="2">&nbsp;</td>
+					<td style="text-align:right;">
+						<label for="contactMobile2" style="font-size: .70em;">
+							Mobile of Contact Person 2
+						</label>
+					</td>
+					<td style="text-align:left;">
+						<form:input path="customerVO.contactMobile2" cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;"
+									id="contactMobile2"/>
+					</td>
+					<td colspan="2">&nbsp;</td>
+					<td style="text-align:right;">
+						<label for="notes" style="font-size: .70em;">
+							Notes
+						</label>
+					</td>
+					<td style="text-align:left;">
+						<form:textarea path="customerVO.notes" rows="5" cols="30" cssStyle="border:3px double #CCCCCC; width: 200px;height:40px;"
+									   id="notes"/>
+					</td>
+                </tr>
+				<tr>
+                    <td colspan="10">&nbsp;</td>
+                </tr>
+                <tr>
+                    <td style="text-align:right;">
+                        <label for="makeId" style="font-size: .70em;">Make</label>
                         <label class="mandatory">*</label>
                     </td>
-                    <td>
+                    <td style="text-align:left;">
                         <form:select id="makeId" path="currentTransaction.makeId" tabindex="1"
                                          onkeypress="handleEnter(event);"
-                                         cssClass="textboxes" cssStyle="height:20px">
+                                         cssStyle="border:3px double #CCCCCC; width: 200px;height:25px;">
                                 <form:options items="${transactionForm.makeVOs}"
                                               itemValue="makeId" itemLabel="makeName"/>
                             </form:select>
                     </td>
                     <td colspan="2"> &nbsp;</td>
-                    <td>
-                        <label for="modelId" style="font-size: .70em;">ModelId</label>
+                    <td style="text-align:right;">
+                        <label for="modelId" style="font-size: .70em;">Model</label>
                         <label class="mandatory">*</label>
                     </td>
-                    <td>
-                        <form:input path="currentTransaction.modelId" cssClass="textboxes" id="modelId"/>
+                    <td style="text-align:left;">
+                        <form:input path="currentTransaction.modelId" cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;" id="modelId"/>
                     </td>
+                    <td colspan="2"> &nbsp;</td>
+                    <td colspan="2"> <a id="gotoNewModel" href="<%=request.getContextPath()%>/make/addModel.htm" > Add New Model</a></td>
+                </tr>
+				<tr>
+                    <td colspan="10">&nbsp;</td>
                 </tr>
                 <tr>
-                    <td>
-                        <label for="serialNo" style="font-size: .70em;">Serial No</label>
-                        <label class="mandatory">*</label>
-                    </td>
-                    <td>
-                        <form:input path="currentTransaction.serialNo" cssClass="textboxes" id="serialNo"/>
-                    </td>
-                    <td colspan="4"> &nbsp;</td>
-                </tr>
-                <tr>
-                    <td>
+                    <td style="text-align:right;">
                         <label for="accessories" style="font-size: .70em;">Accessories</label>
                         <label class="mandatory">*</label>
                     </td>
-                    <td>
-                        <form:textarea path="currentTransaction.accessories" rows="5" cols="30" cssClass="textboxes"
+                    <td style="text-align:left;">
+                        <form:textarea path="currentTransaction.accessories" rows="5" cols="30" cssStyle="border:3px double #CCCCCC; width: 200px;height:40px;"
                                        id="accessories"/>
                     </td>
                     <td colspan="2"> &nbsp;</td>
-                    <td>
+                    <td style="text-align:right;">
                         <label for="complaintReported" style="font-size: .70em;">Complaint Reported</label>
                         <label class="mandatory">*</label>
                     </td>
-                    <td>
+                    <td style="text-align:left;">
                         <form:textarea path="currentTransaction.complaintReported" rows="5" cols="30"
-                                       cssClass="textboxes"
+                                       cssStyle="border:3px double #CCCCCC; width: 200px;height:40px;"
                                        id="complaintReported"/>
                     </td>
-                </tr>
-                <tr>
-                    <td>
+                    <td colspan="2"> &nbsp;</td>
+					<td style="text-align:right;">
                         <label for="complaintDiagonsed" style="font-size: .70em;">Complaint Diagonsed</label>
                         <label class="mandatory">*</label>
                     </td>
-                    <td>
+                    <td style="text-align:left;">
                         <form:textarea path="currentTransaction.complaintDiagonsed" rows="5" cols="30"
-                                       cssClass="textboxes"
+                                       cssStyle="border:3px double #CCCCCC; width: 200px;height:40px;"
                                        id="complaintDiagonsed"/>
-                    </td>
-                    <td colspan="2"> &nbsp;</td>
-                    <td>
-                        <label for="enggRemark" style="font-size: .70em;">Engineer Remarks</label>
-                        <label class="mandatory">*</label>
-                    </td>
-                    <td>
-                        <form:textarea path="currentTransaction.enggRemark" rows="5" cols="30" cssClass="textboxes"
-                                       id="enggRemark"/>
                     </td>
                 </tr>
                 <tr>
-                    <td>
+                    <td style="text-align:right;">
+                        <label for="enggRemark" style="font-size: .70em;">Engineer Remarks</label>
+                        <label class="mandatory">*</label>
+                    </td>
+                    <td style="text-align:left;">
+                        <form:textarea path="currentTransaction.enggRemark" rows="5" cols="30" cssStyle="border:3px double #CCCCCC; width: 200px;height:40px;"
+                                       id="enggRemark"/>
+                    </td>
+                    <td colspan="2"> &nbsp;</td>
+					<td style="text-align:right;">
                         <label for="repairAction" style="font-size: .70em;">Repair Action</label>
                         <label class="mandatory">*</label>
                     </td>
-                    <td>
-                        <form:textarea path="currentTransaction.repairAction" rows="5" cols="30" cssClass="textboxes"
+                    <td style="text-align:left;">
+                        <form:textarea path="currentTransaction.repairAction" rows="5" cols="30" cssStyle="border:3px double #CCCCCC; width: 200px;height:40px;"
                                        id="repairAction"/>
                     </td>
                     <td colspan="2"> &nbsp;</td>
-                    <td>
+                    <td style="text-align:right;">
                         <label for="notes" style="font-size: .70em;">Notes</label>
                         <label class="mandatory">*</label>
                     </td>
-                    <td>
-                        <form:textarea path="currentTransaction.notes" rows="5" cols="30" cssClass="textboxes"
+                    <td style="text-align:left;">
+                        <form:textarea path="currentTransaction.notes" rows="5" cols="30" cssStyle="border:3px double #CCCCCC; width: 200px;height:40px;"
                                        id="notes"/>
                     </td>
                 </tr>
                 <tr>
-                    <td colspan="6">
+                    <td colspan="10">
                         &nbsp;
                     </td>
                 </tr>
                 <tr>
-                    <td colspan="4">
+                    <td colspan="8">
                         &nbsp;
                     </td>
                     <td colspan="2">

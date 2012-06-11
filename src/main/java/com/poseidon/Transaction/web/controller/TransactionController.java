@@ -8,12 +8,16 @@ import com.poseidon.Transaction.delegate.TransactionDelegate;
 import com.poseidon.Transaction.web.form.TransactionForm;
 import com.poseidon.Transaction.domain.TransactionVO;
 import com.poseidon.Make.delegate.MakeDelegate;
-import com.poseidon.Make.domain.MakeVO;
+import com.poseidon.Make.domain.MakeAndModelVO;
+import com.poseidon.Customer.domain.CustomerVO;
+import com.poseidon.Customer.delegate.CustomerDelegate;
+import com.poseidon.Customer.exception.CustomerException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * User: Suraj
@@ -28,6 +32,8 @@ public class TransactionController extends MultiActionController {
     private TransactionDelegate transactionDelegate;
 
     private MakeDelegate makeDelegate;
+
+    private CustomerDelegate customerDelegate;
     /**
      * logger for user controller
      */
@@ -49,6 +55,14 @@ public class TransactionController extends MultiActionController {
         this.makeDelegate = makeDelegate;
     }
 
+    public CustomerDelegate getCustomerDelegate() {
+        return customerDelegate;
+    }
+
+    public void setCustomerDelegate(CustomerDelegate customerDelegate) {
+        this.customerDelegate = customerDelegate;
+    }
+
     public ModelAndView List(HttpServletRequest request,
                              HttpServletResponse response, TransactionForm transactionForm) {
         log.info(" Inside List method of TransactionController ");
@@ -67,14 +81,14 @@ public class TransactionController extends MultiActionController {
             transactionForm.setTransactionsList(transactionVOs);
         }
         //get all the make list for displaying in search
-        List<MakeVO> makeVOs =  null;
+        List<MakeAndModelVO> makeVOs =  null;
         try {
             makeVOs = getMakeDelegate().listAllMakes();
         } catch (Exception e) {
             e.printStackTrace();
         }
         if(makeVOs != null){
-            for(MakeVO makeVO:makeVOs){
+            for(MakeAndModelVO makeVO:makeVOs){
                 log.info("make vo is"+makeVO);
             }
             transactionForm.setMakeVOs(makeVOs);
@@ -103,19 +117,20 @@ public class TransactionController extends MultiActionController {
         transactionForm.setLoggedInUser(transactionForm.getLoggedInUser());
         transactionForm.setLoggedInRole(transactionForm.getLoggedInRole());
         //get all the make list for displaying in search
-        List<MakeVO> makeVOs =  null;
+        List<MakeAndModelVO> makeVOs =  null;
         try {
             makeVOs = getMakeDelegate().listAllMakes();
         } catch (Exception e) {
             e.printStackTrace();
         }
         if(makeVOs != null){
-            for(MakeVO makeVO:makeVOs){
+            for(MakeAndModelVO makeVO:makeVOs){
                 log.info("make vo is"+makeVO);
             }
             transactionForm.setMakeVOs(makeVOs);
         }
         transactionForm.setCurrentTransaction(new TransactionVO());
+        transactionForm.setCustomerVO(new CustomerVO());
         return new ModelAndView("txs/TxnAdd", "transactionForm", transactionForm);
     }
 
@@ -123,8 +138,17 @@ public class TransactionController extends MultiActionController {
                                HttpServletResponse response, TransactionForm transactionForm) {
         log.info(" Inside SaveTxn method of TransactionController ");
         log.info(" form details are "+transactionForm);
+        TransactionVO transactionVO = transactionForm.getCurrentTransaction();
+        transactionVO.setDateReported(new Date());
+        if(transactionVO.getCustomerId()== null){
+            try {
+                getCustomerDelegate().saveCustomer(transactionForm.getCustomerVO());
+            } catch (CustomerException e) {
+                e.printStackTrace(); 
+            }
+        }
         try{
-            getTransactionDelegate().saveTransaction(transactionForm.getCurrentTransaction());    
+            getTransactionDelegate().saveTransaction(transactionVO);
         }catch(Exception e){
             e.printStackTrace();
 

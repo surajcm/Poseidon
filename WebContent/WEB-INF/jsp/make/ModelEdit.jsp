@@ -25,7 +25,7 @@
         <%@include file="/WEB-INF/jsp/myHeader.jsp" %>
         <form:hidden name="loggedInUser" path="loggedInUser" />
         <form:hidden name="loggedInRole" path="loggedInRole" />
-        <form:hidden name="currentMakeVO.modelId" path="currentMakeVO.modelId" />
+        <form:hidden name="currentMakeAndModeVO.modelId" path="currentMakeAndModeVO.modelId" />
             <div id="content">
                 <div class="wrap">
                     <fieldset style="text-align:right;">
@@ -39,9 +39,9 @@
                                 </td>
                                 <td colspan="2">&nbsp;</td>
                                 <td>
-                                    <form:select id="makeId" path="currentMakeVO.makeId" tabindex="1" onkeypress="handleEnter(event);"
+                                    <form:select id="makeId" path="currentMakeAndModeVO.makeId" tabindex="1" onkeypress="handleEnter(event);"
                                                  cssClass="textboxes" cssStyle="height:20px">
-                                        <form:options items="${makeForm.makeVOs}"
+                                        <form:options items="${makeForm.makeAndModelVOs}"
                                                       itemValue="makeId" itemLabel="makeName"/>
                                     </form:select>
                                 </td>
@@ -54,8 +54,7 @@
                                 </td>
                                 <td colspan="2">&nbsp;</td>
                                 <td>
-                                    <form:input path="currentMakeVO.modelName" cssClass="textboxes" id="modelName"/>
-                                    <form:errors path="currentMakeVO.modelName"/>
+                                    <form:input path="currentMakeAndModeVO.modelName" cssClass="textboxes" id="modelName"/>
                                 </td>
                             </tr>
                             <tr>

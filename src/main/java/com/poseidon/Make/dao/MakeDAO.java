@@ -1,5 +1,6 @@
 package com.poseidon.Make.dao;
 
+import com.poseidon.Make.domain.MakeAndModelVO;
 import com.poseidon.Make.domain.MakeVO;
 import com.poseidon.Make.exception.MakeException;
 
@@ -11,23 +12,28 @@ import java.util.List;
  * Time: 7:27:17 PM
  */
 public interface MakeDAO {
-    public List<MakeVO> listAllMakesAndModels() throws MakeException;
+    public List<MakeAndModelVO> listAllMakesAndModels() throws MakeException;
 
-    public List<MakeVO> listAllMakes() throws MakeException;
+    public List<MakeAndModelVO> listAllMakes() throws MakeException;
 
-    public void addNewMake(MakeVO currentMakeVO) throws MakeException;
+    public void addNewMake(MakeAndModelVO currentMakeVO) throws MakeException;
 
-    public MakeVO getMakeFromId(Long makeId) throws MakeException;
+    public MakeAndModelVO getMakeFromId(Long makeId) throws MakeException;
 
     public void deleteMake(Long makeId) throws MakeException;
 
-    public MakeVO getModelFromId(Long modelId) throws MakeException;
+    public MakeAndModelVO getModelFromId(Long modelId) throws MakeException;
 
     public void deleteModel(Long modelId) throws MakeException;
 
-    public void updateMake(MakeVO currentMakeVO) throws MakeException;
+    public void updateMake(MakeAndModelVO currentMakeVO) throws MakeException;
 
-    public void addNewModel(MakeVO currentMakeVO) throws MakeException;
+    public void addNewModel(MakeAndModelVO currentMakeVO) throws MakeException;
 
-    public void updateModel(MakeVO currentMakeVO) throws MakeException;
+    public void updateModel(MakeAndModelVO currentMakeVO) throws MakeException;
+
+    public List<MakeAndModelVO> searchMakeVOs(MakeAndModelVO searchMakeVO) throws MakeException;
+
+    public List<MakeVO> fetchMakes() throws MakeException;
+
 }

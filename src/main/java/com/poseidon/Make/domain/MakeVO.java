@@ -4,37 +4,24 @@ import java.util.Date;
 
 /**
  * User: Suraj
- * Date: Jun 2, 2012
- * Time: 7:26:27 PM
+ * Date: Jun 10, 2012
+ * Time: 10:25:12 PM
  */
 public class MakeVO {
-    private Long Id;
-    private Long makeId;
-    private Long modelId;
+    private Long id;
     private String makeName;
-    private String modelName;
     private String description;
-    private Boolean startswith;
-    private Boolean includes;
-    private Date createdDate;
-    private Date modifiedDate;
+    private Date createdOn;
+    private Date modifiedOn;
     private String createdBy;
     private String modifiedBy;
 
     public Long getId() {
-        return Id;
+        return id;
     }
 
     public void setId(Long id) {
-        Id = id;
-    }
-
-    public Long getMakeId() {
-        return makeId;
-    }
-
-    public void setMakeId(Long makeId) {
-        this.makeId = makeId;
+        this.id = id;
     }
 
     public String getMakeName() {
@@ -53,52 +40,20 @@ public class MakeVO {
         this.description = description;
     }
 
-    public Long getModelId() {
-        return modelId;
+    public Date getCreatedOn() {
+        return createdOn;
     }
 
-    public void setModelId(Long modelId) {
-        this.modelId = modelId;
+    public void setCreatedOn(Date createdOn) {
+        this.createdOn = createdOn;
     }
 
-    public String getModelName() {
-        return modelName;
+    public Date getModifiedOn() {
+        return modifiedOn;
     }
 
-    public void setModelName(String modelName) {
-        this.modelName = modelName;
-    }
-
-    public Boolean getStartswith() {
-        return startswith;
-    }
-
-    public void setStartswith(Boolean startswith) {
-        this.startswith = startswith;
-    }
-
-    public Boolean getIncludes() {
-        return includes;
-    }
-
-    public void setIncludes(Boolean includes) {
-        this.includes = includes;
-    }
-
-    public Date getCreatedDate() {
-        return createdDate;
-    }
-
-    public void setCreatedDate(Date createdDate) {
-        this.createdDate = createdDate;
-    }
-
-    public Date getModifiedDate() {
-        return modifiedDate;
-    }
-
-    public void setModifiedDate(Date modifiedDate) {
-        this.modifiedDate = modifiedDate;
+    public void setModifiedOn(Date modifiedOn) {
+        this.modifiedOn = modifiedOn;
     }
 
     public String getCreatedBy() {
@@ -120,16 +75,11 @@ public class MakeVO {
     @Override
     public String toString() {
         return "MakeVO{" +
-                "Id=" + Id +
-                ", makeId=" + makeId +
-                ", modelId=" + modelId +
+                "id=" + id +
                 ", makeName='" + makeName + '\'' +
-                ", modelName='" + modelName + '\'' +
                 ", description='" + description + '\'' +
-                ", startswith=" + startswith +
-                ", includes=" + includes +
-                ", createdDate=" + createdDate +
-                ", modifiedDate=" + modifiedDate +
+                ", createdOn=" + createdOn +
+                ", modifiedOn=" + modifiedOn +
                 ", createdBy='" + createdBy + '\'' +
                 ", modifiedBy='" + modifiedBy + '\'' +
                 '}';

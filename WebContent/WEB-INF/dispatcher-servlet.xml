@@ -14,6 +14,7 @@
     <bean name="/txs/*.htm" class="com.poseidon.Transaction.web.controller.TransactionController" >
         <property name="transactionDelegate" ref="txsDelegate"/>
         <property name="makeDelegate" ref="makeDelegate"/>
+        <property name="customerDelegate" ref="customerDelegate"/>
     </bean>
 
     <bean name="/make/*.htm" class="com.poseidon.Make.web.controller.MakeController" >
