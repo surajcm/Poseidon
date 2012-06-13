@@ -41,4 +41,8 @@ public class CustomerDelegate {
     public void updateCustomer(CustomerVO currentCustomerVO) throws CustomerException {
         getCustomerService().updateCustomer(currentCustomerVO);
     }
+
+    public List<CustomerVO> searchCustomer(CustomerVO searchCustomerVO)throws CustomerException {
+        return getCustomerService().searchCustomer(searchCustomerVO);
+    }
 }

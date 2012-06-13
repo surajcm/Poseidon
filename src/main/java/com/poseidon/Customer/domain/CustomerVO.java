@@ -18,6 +18,8 @@ public class CustomerVO {
     private String contactMobile1;
     private String contactMobile2;
     private String notes;
+    private Boolean startsWith;
+    private Boolean includes;
 
     public Long getCustomerId() {
         return customerId;
@@ -113,6 +115,22 @@ public class CustomerVO {
 
     public void setNotes(String notes) {
         this.notes = notes;
+    }
+
+    public Boolean getStartsWith() {
+        return startsWith;
+    }
+
+    public void setStartsWith(Boolean startsWith) {
+        this.startsWith = startsWith;
+    }
+
+    public Boolean getIncludes() {
+        return includes;
+    }
+
+    public void setIncludes(Boolean includes) {
+        this.includes = includes;
     }
 
     @Override

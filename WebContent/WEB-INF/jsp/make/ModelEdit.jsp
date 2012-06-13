@@ -40,7 +40,7 @@
                                 <td colspan="2">&nbsp;</td>
                                 <td>
                                     <form:select id="makeId" path="currentMakeAndModeVO.makeId" tabindex="1" onkeypress="handleEnter(event);"
-                                                 cssClass="textboxes" cssStyle="height:20px">
+                                                 cssStyle="border:3px double #CCCCCC; width: 200px;height:25px;">
                                         <form:options items="${makeForm.makeAndModelVOs}"
                                                       itemValue="makeId" itemLabel="makeName"/>
                                     </form:select>
@@ -54,7 +54,7 @@
                                 </td>
                                 <td colspan="2">&nbsp;</td>
                                 <td>
-                                    <form:input path="currentMakeAndModeVO.modelName" cssClass="textboxes" id="modelName"/>
+                                    <form:input path="currentMakeAndModeVO.modelName" cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;" id="modelName"/>
                                 </td>
                             </tr>
                             <tr>

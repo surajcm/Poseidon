@@ -48,11 +48,11 @@ input {
 }
 
 textboxes {
-    background-color:#ffffff;
+    /*background-color:#ffffff;
     max-height:12px;
     box-sizing: border-box;
     -moz-box-sizing:border-box;
-    -webkit-box-sizing:border-box;
+    -webkit-box-sizing:border-box;*/
     border:3px double #CCCCCC;
     width: 200px;
     height:20px;

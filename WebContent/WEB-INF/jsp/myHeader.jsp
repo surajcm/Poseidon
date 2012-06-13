@@ -58,7 +58,7 @@
 		    }
 
             function MakeMe(){
-                document.forms[0].action="<%=request.getContextPath()%>" + "/make/List.htm";
+                document.forms[0].action="<%=request.getContextPath()%>" + "/make/ModelList.htm";
 				document.forms[0].submit();
             }
 

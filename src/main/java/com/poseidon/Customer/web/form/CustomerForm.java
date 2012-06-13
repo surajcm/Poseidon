@@ -16,6 +16,9 @@ public class CustomerForm {
     private CustomerVO searchCustomerVO;
     private String loggedInRole;
     private String loggedInUser;
+    private String statusMessage;
+    private String statusMessageType;
+
 
     public Long getId() {
         return id;
@@ -63,6 +66,22 @@ public class CustomerForm {
 
     public void setLoggedInUser(String loggedInUser) {
         this.loggedInUser = loggedInUser;
+    }
+
+    public String getStatusMessage() {
+        return statusMessage;
+    }
+
+    public void setStatusMessage(String statusMessage) {
+        this.statusMessage = statusMessage;
+    }
+
+    public String getStatusMessageType() {
+        return statusMessageType;
+    }
+
+    public void setStatusMessageType(String statusMessageType) {
+        this.statusMessageType = statusMessageType;
     }
 
     @Override

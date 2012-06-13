@@ -39,7 +39,7 @@
             <table class="myTable" width="100%" >
                 <tr>
                     <td style="text-align:right;">
-                        <label for="TagNo" style="font-size: .70em;">Tag Number</label>
+                        <label for="TagNo" style="font-size: .70em;">Tag Number :</label>
                         <label class="mandatory">*</label>
                     </td>
                     <td style="text-align:left;">
@@ -47,7 +47,7 @@
                     </td>
                     <td colspan="2"> &nbsp;</td>
                     <td style="text-align:right;">
-                        <label for="productCategory" style="font-size: .70em;">Product Category</label>
+                        <label for="productCategory" style="font-size: .70em;">Product Category :</label>
                         <label class="mandatory">*</label>
                     </td>
                     <td style="text-align:left;">
@@ -56,7 +56,7 @@
                     </td>
                     <td colspan="2"> &nbsp;</td>
                     <td style="text-align:right;">
-                        <label for="serialNo" style="font-size: .70em;">Serial No</label>
+                        <label for="serialNo" style="font-size: .70em;">Serial No :</label>
                         <label class="mandatory">*</label>
                     </td>
                     <td style="text-align:left;">
@@ -68,7 +68,7 @@
                 </tr>
                 <tr>
                     <td style="text-align:right;">
-                        <label for="customerId" style="font-size: .70em;">Customer Id</label>
+                        <label for="customerId" style="font-size: .70em;">Customer Id :</label>
                         <label class="mandatory">*</label>
                     </td>
                     <td style="text-align:left;">
@@ -79,7 +79,7 @@
                 <tr>
                     <td style="text-align:right;">
                         <label for="customerName" style="font-size: .70em;">
-                            Customer Name
+                            Customer Name :
                         </label>
                     </td>
                     <td style="text-align:left;">
@@ -88,7 +88,7 @@
                     <td colspan="2">&nbsp;</td>
                     <td style="text-align:right;">
                         <label for="address1" style="font-size: .70em;">
-                            Address Line 1
+                            Address Line 1 :
                         </label>
                     </td>
                     <td style="text-align:left;">
@@ -98,7 +98,7 @@
                     <td colspan="2"> &nbsp;</td>
 					<td style="text-align:right;">
                         <label for="address2" style="font-size: .70em;">
-                            Address Line 2
+                            Address Line 2 :
                         </label>
                     </td>
                     <td style="text-align:left;">
@@ -109,7 +109,7 @@
                 <tr>
                     <td style="text-align:right;">
 						<label for="phoneNo" style="font-size: .70em;">
-							Phone
+							Phone :
 						</label>
 					</td>
 					<td style="text-align:left;">
@@ -118,7 +118,7 @@
 					<td colspan="2">&nbsp;</td>
 					<td style="text-align:right;">
 						<label for="mobile" style="font-size: .70em;">
-							Mobile
+							Mobile :
 						</label>
 					</td>
 					<td style="text-align:left;">
@@ -127,7 +127,7 @@
 					<td colspan="2">&nbsp;</td>
 					<td style="text-align:right;">
 						<label for="email" style="font-size: .70em;">
-							email
+							Email :
 						</label>
 					</td>
 					<td style="text-align:left;">
@@ -137,7 +137,7 @@
 				<tr>
                     <td style="text-align:right;">
 						<label for="contactPerson1" style="font-size: .70em;">
-							Contact Person 1
+							Contact Person 1 :
 						</label>
 					</td>
 					<td style="text-align:left;">
@@ -147,7 +147,7 @@
 					<td colspan="2">&nbsp;</td>
 					<td style="text-align:right;">
 						<label for="contactMobile1" style="font-size: .70em;">
-							Mobile of Contact Person 1
+							Mobile of Contact Person 1 :
 						</label>
 					</td>
 					<td style="text-align:left;">
@@ -159,7 +159,7 @@
 				<tr>
                     <td style="text-align:right;">
 						<label for="contactPerson2" style="font-size: .70em;">
-							Contact Person 2
+							Contact Person 2 :
 						</label>
 					</td>
 					<td style="text-align:left;">
@@ -169,7 +169,7 @@
 					<td colspan="2">&nbsp;</td>
 					<td style="text-align:right;">
 						<label for="contactMobile2" style="font-size: .70em;">
-							Mobile of Contact Person 2
+							Mobile of Contact Person 2 :
 						</label>
 					</td>
 					<td style="text-align:left;">
@@ -179,7 +179,7 @@
 					<td colspan="2">&nbsp;</td>
 					<td style="text-align:right;">
 						<label for="notes" style="font-size: .70em;">
-							Notes
+							Notes :
 						</label>
 					</td>
 					<td style="text-align:left;">
@@ -192,7 +192,7 @@
                 </tr>
                 <tr>
                     <td style="text-align:right;">
-                        <label for="makeId" style="font-size: .70em;">Make</label>
+                        <label for="makeId" style="font-size: .70em;">Make :</label>
                         <label class="mandatory">*</label>
                     </td>
                     <td style="text-align:left;">
@@ -205,7 +205,7 @@
                     </td>
                     <td colspan="2"> &nbsp;</td>
                     <td style="text-align:right;">
-                        <label for="modelId" style="font-size: .70em;">Model</label>
+                        <label for="modelId" style="font-size: .70em;">Model :</label>
                         <label class="mandatory">*</label>
                     </td>
                     <td style="text-align:left;">
@@ -219,7 +219,7 @@
                 </tr>
                 <tr>
                     <td style="text-align:right;">
-                        <label for="accessories" style="font-size: .70em;">Accessories</label>
+                        <label for="accessories" style="font-size: .70em;">Accessories :</label>
                         <label class="mandatory">*</label>
                     </td>
                     <td style="text-align:left;">
@@ -228,7 +228,7 @@
                     </td>
                     <td colspan="2"> &nbsp;</td>
                     <td style="text-align:right;">
-                        <label for="complaintReported" style="font-size: .70em;">Complaint Reported</label>
+                        <label for="complaintReported" style="font-size: .70em;">Complaint Reported :</label>
                         <label class="mandatory">*</label>
                     </td>
                     <td style="text-align:left;">
@@ -238,7 +238,7 @@
                     </td>
                     <td colspan="2"> &nbsp;</td>
 					<td style="text-align:right;">
-                        <label for="complaintDiagonsed" style="font-size: .70em;">Complaint Diagonsed</label>
+                        <label for="complaintDiagonsed" style="font-size: .70em;">Complaint Diagnosed :</label>
                         <label class="mandatory">*</label>
                     </td>
                     <td style="text-align:left;">
@@ -249,7 +249,7 @@
                 </tr>
                 <tr>
                     <td style="text-align:right;">
-                        <label for="enggRemark" style="font-size: .70em;">Engineer Remarks</label>
+                        <label for="enggRemark" style="font-size: .70em;">Engineer Remarks :</label>
                         <label class="mandatory">*</label>
                     </td>
                     <td style="text-align:left;">
@@ -258,7 +258,7 @@
                     </td>
                     <td colspan="2"> &nbsp;</td>
 					<td style="text-align:right;">
-                        <label for="repairAction" style="font-size: .70em;">Repair Action</label>
+                        <label for="repairAction" style="font-size: .70em;">Repair Action :</label>
                         <label class="mandatory">*</label>
                     </td>
                     <td style="text-align:left;">
@@ -267,7 +267,7 @@
                     </td>
                     <td colspan="2"> &nbsp;</td>
                     <td style="text-align:right;">
-                        <label for="notes" style="font-size: .70em;">Notes</label>
+                        <label for="notes" style="font-size: .70em;">Notes :</label>
                         <label class="mandatory">*</label>
                     </td>
                     <td style="text-align:left;">

@@ -8,12 +8,56 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 		<title>Customer List</title>
 		<link rel="stylesheet" type="text/css" href="../css/mainStyles.css" />
+        <style type="text/css">
+
+            .info, .success, .error {
+                border: 1px solid;
+                margin: 10px 0px;
+                padding: 15px 10px 15px 50px;
+                background-repeat: no-repeat;
+                background-position: 10px center;
+            }
+
+            .info {
+                color: #00529B;
+                background-color: #BDE5F8;
+                background-image: url( "<%=request.getContextPath()%>/images/Info.png" );
+            }
+
+            .success {
+                color: #4F8A10;
+                background-color: #DFF2BF;
+                background-image: url( '<%=request.getContextPath()%>/images/Success.png' );
+            }
+
+            .error {
+                color: #D8000C;
+                background-color: #FFBABA;
+                background-image: url( '<%=request.getContextPath()%>/images/Error.png' );
+            }
+        </style>
         <script type="text/javascript">
             function addCust(){
                 document.forms[0].action = "addCust.htm";
                 document.forms[0].submit();
             }
 
+            function search(){
+                if(document.getElementById("customerId").value == ""
+                        || isNumber(document.getElementById("customerId").value)) {
+                    document.forms[0].action = "searchCustomer.htm";
+                    document.forms[0].submit();
+                }else{
+                    alert("Incorrect customerId format found, Please update the field with a numeric value");
+                }
+            }
+            function isNumber(n) {
+                return !isNaN(parseFloat(n)) && isFinite(n);
+            }
+
+            function clear(){
+                alert("this is for clearing");
+            }
             //validation before edit 
 			function editCust(){
 				var check ='false';
@@ -150,7 +194,7 @@
                             <tr>
                                 <td>
                                     <label for="customerId" style="font-size: .70em;">
-                                        customerId
+                                        Customer Id :
                                     </label>
                                 </td>
                                 <td>
@@ -160,7 +204,7 @@
                                 <td colspan="2">&nbsp;</td>
                                 <td>
                                     <label for="customerName" style="font-size: .70em;">
-                                        Customer Name
+                                        Customer Name :
                                     </label>
                                 </td>
                                 <td>
@@ -170,7 +214,7 @@
                                 <td colspan="2">&nbsp;</td>
                                 <td>
                                     <label for="mobile" style="font-size: .70em;">
-                                        mobile
+                                        Mobile :
                                     </label>
                                 </td>
                                 <td>
@@ -183,13 +227,15 @@
                                 <td>
                                     <label for="includes" style="font-size: .70em;">
                                         <spring:message code="user.includes" text="Includes"/>
-                                        <input type="checkbox" name="includes" value="includes"/>
+                                        <form:checkbox path="searchCustomerVO.includes" cssStyle="vertical-align:middle"
+                                                       id="includes" value=""/>
                                     </label>
                                 </td>
                                 <td>
-                                    <label for="startswith" style="font-size: .70em;">
+                                    <label for="startsWith" style="font-size: .70em;">
                                         <spring:message code="user.startsWith" text="Starts with"/>
-                                        <input type="checkbox" name="startswith" value="startswith"/>
+                                        <form:checkbox path="searchCustomerVO.startsWith" cssStyle="vertical-align:middle"
+                                                       id="startsWith" value=""/>
                                     </label>
                                 </td>
                             </tr>
@@ -209,6 +255,12 @@
                             </tr>
                         </table>
                     </fieldset>
+                    <c:if test="${customerForm.statusMessage!=null}">
+                        <div class="<c:out value="${customerForm.statusMessageType}"/>">
+                            <c:out value="${customerForm.statusMessage}"/>
+                        </div>
+                        <br/>
+                    </c:if>
                     <br/>
                     <fieldset>
                         <legend>Customer Details</legend>

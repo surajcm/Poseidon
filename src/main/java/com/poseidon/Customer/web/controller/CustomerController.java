@@ -109,7 +109,11 @@ public class CustomerController extends MultiActionController {
         log.info(" CustomerForm is " + customerForm);
         try {
             getCustomerDelegate().deleteCustomerFromId(customerForm.getId());
+            customerForm.setStatusMessage("Deleted the Customer details successfully");
+            customerForm.setStatusMessageType("success");
         } catch (CustomerException e) {
+            customerForm.setStatusMessage("Unable to delete the selected Customer details due to a Data base error");
+            customerForm.setStatusMessageType("error");
             e.printStackTrace();
             log.error(" Exception type in controller " + e.ExceptionType);
             if (e.getExceptionType().equalsIgnoreCase(CustomerException.DATABASE_ERROR)) {
@@ -119,6 +123,8 @@ public class CustomerController extends MultiActionController {
             }
 
         } catch (Exception e1) {
+            customerForm.setStatusMessage("Unable to delete the selected Customer details");
+            customerForm.setStatusMessageType("error");
             e1.printStackTrace();
             log.info(" An Unknown Error has been occurred !!");
         }
@@ -131,8 +137,24 @@ public class CustomerController extends MultiActionController {
         log.info(" CustomerForm is " + customerForm);
         try {
             getCustomerDelegate().saveCustomer(customerForm.getCurrentCustomerVO());
-        } catch (Exception e) {
+            customerForm.setStatusMessage("Added the new Customer details successfully");
+            customerForm.setStatusMessageType("success");
+        } catch (CustomerException e) {
+            customerForm.setStatusMessage("Unable to add the new Customer details due to a Data base error");
+            customerForm.setStatusMessageType("error");
             e.printStackTrace();
+            log.error(" Exception type in controller " + e.ExceptionType);
+            if (e.getExceptionType().equalsIgnoreCase(CustomerException.DATABASE_ERROR)) {
+                log.info(" An error occurred while fetching data from database. !! ");
+            } else {
+                log.info(" An Unknown Error has been occurred !!");
+            }
+
+        } catch (Exception e1) {
+            customerForm.setStatusMessage("Unable to add the new Customer details");
+            customerForm.setStatusMessageType("error");
+            e1.printStackTrace();
+            log.info(" An Unknown Error has been occurred !!");
         }
         return List(request, response, customerForm);
     }
@@ -143,9 +165,65 @@ public class CustomerController extends MultiActionController {
         log.info(" CustomerForm is " + customerForm);
         try {
             getCustomerDelegate().updateCustomer(customerForm.getCurrentCustomerVO());
-        } catch (Exception e) {
+            customerForm.setStatusMessage("Updated the selected Customer details successfully");
+            customerForm.setStatusMessageType("success");
+        } catch (CustomerException e) {
+            customerForm.setStatusMessage("Unable to update the selected Customer details due to a Data base error");
+            customerForm.setStatusMessageType("error");
             e.printStackTrace();
+            log.error(" Exception type in controller " + e.ExceptionType);
+            if (e.getExceptionType().equalsIgnoreCase(CustomerException.DATABASE_ERROR)) {
+                log.info(" An error occurred while fetching data from database. !! ");
+            } else {
+                log.info(" An Unknown Error has been occurred !!");
+            }
+
+        } catch (Exception e1) {
+            customerForm.setStatusMessage("Unable to update the selected Customer details");
+            customerForm.setStatusMessageType("error");
+            e1.printStackTrace();
+            log.info(" An Unknown Error has been occurred !!");
         }
         return List(request, response, customerForm);
     }
+
+    public ModelAndView searchCustomer(HttpServletRequest request,
+                                     HttpServletResponse response, CustomerForm customerForm) {
+        log.info(" searchCustomer method of CustomerController ");
+        log.info(" CustomerForm is " + customerForm);
+        List<CustomerVO> customerVOs = null;
+        try {
+            customerVOs = getCustomerDelegate().searchCustomer(customerForm.getSearchCustomerVO());
+            customerForm.setStatusMessage("Found "+ customerVOs.size() +" Customer details");
+            customerForm.setStatusMessageType("info");
+        } catch (CustomerException e) {
+            customerForm.setStatusMessage("Unable to fetch Customer details due to a Data base error");
+            customerForm.setStatusMessageType("error");
+            e.printStackTrace();
+            log.error(" Exception type in controller " + e.ExceptionType);
+            if (e.getExceptionType().equalsIgnoreCase(CustomerException.DATABASE_ERROR)) {
+                log.info(" An error occurred while fetching data from database. !! ");
+            } else {
+                log.info(" An Unknown Error has been occurred !!");
+            }
+
+        } catch (Exception e1) {
+            customerForm.setStatusMessage("Unable fetch Customer details");
+            customerForm.setStatusMessageType("error");
+            e1.printStackTrace();
+            log.info(" An Unknown Error has been occurred !!");
+        }
+
+        if (customerVOs != null) {
+            for (CustomerVO customerVO : customerVOs) {
+                log.info(" customerVO is " + customerVO);
+            }
+            customerForm.setCustomerVOs(customerVOs);
+        }
+        customerForm.setSearchCustomerVO(new CustomerVO());
+        customerForm.setLoggedInRole(customerForm.getLoggedInRole());
+        customerForm.setLoggedInUser(customerForm.getLoggedInUser());
+        return new ModelAndView("customer/CustomerList", "customerForm", customerForm);
+    }
+
 }

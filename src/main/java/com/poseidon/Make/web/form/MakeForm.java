@@ -20,7 +20,8 @@ public class MakeForm {
     private MakeVO makeVO;
     private List<MakeVO> makeVOs;
     private String statusMessage;
-    
+    private String statusMessageType;
+
     public List<MakeAndModelVO> getMakeAndModelVOs() {
         return makeAndModelVOs;
     }
@@ -91,6 +92,14 @@ public class MakeForm {
 
     public void setStatusMessage(String statusMessage) {
         this.statusMessage = statusMessage;
+    }
+
+    public String getStatusMessageType() {
+        return statusMessageType;
+    }
+
+    public void setStatusMessageType(String statusMessageType) {
+        this.statusMessageType = statusMessageType;
     }
 
     @Override

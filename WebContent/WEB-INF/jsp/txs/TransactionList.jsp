@@ -24,8 +24,12 @@
             }
         }
         function search() {
+            if()
             document.forms[0].action = "SearchTxn.htm";
             document.forms[0].submit();
+        }
+        function isNumber(n) {
+            return !isNaN(parseFloat(n)) && isFinite(n);
         }
 
         function clear() {
@@ -156,7 +160,7 @@
                     <tr>
                         <td>
                             <label for="TagNo" style="font-size: .70em;">
-                                Tag No
+                                Tag No :
                             </label>
                         </td>
                         <td>
@@ -165,7 +169,7 @@
                         <td colspan="2">&nbsp;</td>
                         <td>
                             <label for="CustomerName" style="font-size: .70em;">
-                                Customer Name
+                                Customer Name :
                             </label>
                         </td>
                         <td>
@@ -174,7 +178,7 @@
                         <td colspan="2">&nbsp;</td>
                         <td>
                             <label for="date" style="font-size: .70em;">
-                                Reported Date
+                                Reported Date :
                             </label>
                         </td>
                         <td>
@@ -183,7 +187,7 @@
                         <td colspan="2">&nbsp;</td>
                         <td>
                             <label for="SerialNo" style="font-size: .70em;">
-                                Serial No
+                                Serial No :
                             </label>
                         </td>
                         <td>
@@ -196,13 +200,13 @@
                     <tr>
                         <td>
                             <label for="makeName" style="font-size: .70em;">
-                                Make
+                                Make :
                             </label>
                         </td>
                         <td>
                             <form:select id="makeName" path="searchTransaction.makeName" tabindex="1"
                                          onkeypress="handleEnter(event);"
-                                         cssStyle="border:3px double #CCCCCC; width: 200px;height:25px;">
+                                         cssStyle="border:3px double #CCCCCC; width: 200px;height:28px;">
                                 <form:options items="${transactionForm.makeVOs}"
                                               itemValue="makeId" itemLabel="makeName"/>
                             </form:select>
@@ -210,7 +214,7 @@
                         <td colspan="2">&nbsp;</td>
                         <td>
                             <label for="ModelName" style="font-size: .70em;">
-                                Model Name
+                                Model Name :
                             </label>
                         </td>
                         <td>
@@ -219,7 +223,7 @@
                         <td colspan="2">&nbsp;</td>
                         <td>
                             <label for="Status" style="font-size: .70em;">
-                                Status
+                                Status :
                             </label>
                         </td>
                         <td>

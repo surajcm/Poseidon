@@ -70,4 +70,14 @@ public class CustomerServiceImpl implements CustomerService {
             e.printStackTrace();
         }
     }
+
+    public List<CustomerVO> searchCustomer(CustomerVO searchCustomerVO) throws CustomerException {
+        List<CustomerVO> customerVOs = null;
+        try {
+            customerVOs = getCustomerDAO().searchCustomer(searchCustomerVO);
+        }catch (CustomerException e){
+            e.printStackTrace();
+        }
+        return customerVOs;
+    }
 }

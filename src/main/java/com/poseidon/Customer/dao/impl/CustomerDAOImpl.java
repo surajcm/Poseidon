@@ -96,6 +96,16 @@ public class CustomerDAOImpl extends JdbcDaoSupport implements CustomerDAO {
         }
     }
 
+    public List<CustomerVO> searchCustomer(CustomerVO searchCustomerVO) throws CustomerException {
+        List<CustomerVO> customerVOs = null;
+        try {
+            customerVOs = fetchAllCustomers();
+        } catch (DataAccessException e) {
+            throw new CustomerException(CustomerException.DATABASE_ERROR);
+        }
+        return customerVOs;
+    }
+
     private CustomerVO fetchCustomerFromId(Long id) {
         return (CustomerVO) getJdbcTemplate().queryForObject(GET_SINGLE_CUSTOMER_SQL, new Object[]{id}, new CustomerListRowMapper());
     }

@@ -20,4 +20,6 @@ public interface CustomerDAO {
     public void deleteCustomerFromId(Long id) throws CustomerException;
 
     public void updateCustomer(CustomerVO currentCustomerVO) throws CustomerException;
+
+    public List<CustomerVO> searchCustomer(CustomerVO searchCustomerVO)throws CustomerException;
 }
