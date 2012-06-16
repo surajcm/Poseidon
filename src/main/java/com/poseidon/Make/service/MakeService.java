@@ -35,4 +35,6 @@ public interface MakeService {
     public List<MakeAndModelVO> searchMakeVOs(MakeAndModelVO searchMakeVO);
 
     public List<MakeVO> fetchMakes();
+
+    public List<MakeAndModelVO> getAllModelsFromMakeId(Long id);
 }

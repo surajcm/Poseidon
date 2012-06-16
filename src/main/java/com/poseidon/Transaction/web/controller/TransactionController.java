@@ -1,5 +1,7 @@
 package com.poseidon.Transaction.web.controller;
 
+import com.poseidon.Make.domain.MakeVO;
+import com.poseidon.Make.exception.MakeException;
 import org.springframework.web.servlet.mvc.multiaction.MultiActionController;
 import org.springframework.web.servlet.ModelAndView;
 import org.apache.commons.logging.Log;
@@ -15,6 +17,8 @@ import com.poseidon.Customer.exception.CustomerException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.Date;
@@ -81,15 +85,15 @@ public class TransactionController extends MultiActionController {
             transactionForm.setTransactionsList(transactionVOs);
         }
         //get all the make list for displaying in search
-        List<MakeAndModelVO> makeVOs =  null;
+        List<MakeVO> makeVOs = null;
         try {
-            makeVOs = getMakeDelegate().listAllMakes();
+            makeVOs = getMakeDelegate().fetchMakes();
         } catch (Exception e) {
             e.printStackTrace();
         }
-        if(makeVOs != null){
-            for(MakeAndModelVO makeVO:makeVOs){
-                log.info("make vo is"+makeVO);
+        if (makeVOs != null) {
+            for (MakeVO makeVO : makeVOs) {
+                log.info("make vo is" + makeVO);
             }
             transactionForm.setMakeVOs(makeVOs);
         }
@@ -117,17 +121,32 @@ public class TransactionController extends MultiActionController {
         transactionForm.setLoggedInUser(transactionForm.getLoggedInUser());
         transactionForm.setLoggedInRole(transactionForm.getLoggedInRole());
         //get all the make list for displaying in search
-        List<MakeAndModelVO> makeVOs =  null;
+        List<MakeVO> makeVOs = null;
         try {
-            makeVOs = getMakeDelegate().listAllMakes();
+            makeVOs = getMakeDelegate().fetchMakes();
         } catch (Exception e) {
             e.printStackTrace();
         }
-        if(makeVOs != null){
-            for(MakeAndModelVO makeVO:makeVOs){
-                log.info("make vo is"+makeVO);
+        if (makeVOs != null) {
+            for (MakeVO makeVO : makeVOs) {
+                log.info("make vo is" + makeVO);
             }
             transactionForm.setMakeVOs(makeVOs);
+            if (makeVOs.size() > 0) {
+                List<MakeAndModelVO> makeAndModelVOs = null;
+                try {
+                    log.info("The selected make id is " + makeVOs.get(0).getId());
+                    makeAndModelVOs = getMakeDelegate().getAllModelsFromMakeId(makeVOs.get(0).getId());
+                    if (makeAndModelVOs != null) {
+                        transactionForm.setMakeAndModelVOs(makeAndModelVOs);
+                        for (MakeAndModelVO makeAndModelVO : makeAndModelVOs) {
+                            log.info("makeAndModel vo is" + makeAndModelVO);
+                        }
+                    }
+                } catch (MakeException e) {
+                    e.printStackTrace();
+                }
+            }
         }
         transactionForm.setCurrentTransaction(new TransactionVO());
         transactionForm.setCustomerVO(new CustomerVO());
@@ -135,27 +154,61 @@ public class TransactionController extends MultiActionController {
     }
 
     public ModelAndView SaveTxn(HttpServletRequest request,
-                               HttpServletResponse response, TransactionForm transactionForm) {
+                                HttpServletResponse response, TransactionForm transactionForm) {
         log.info(" Inside SaveTxn method of TransactionController ");
-        log.info(" form details are "+transactionForm);
+        log.info(" form details are " + transactionForm);
         TransactionVO transactionVO = transactionForm.getCurrentTransaction();
         transactionVO.setDateReported(new Date());
-        if(transactionVO.getCustomerId()== null){
+        if (transactionVO.getCustomerId() == null) {
             try {
                 getCustomerDelegate().saveCustomer(transactionForm.getCustomerVO());
             } catch (CustomerException e) {
-                e.printStackTrace(); 
+                e.printStackTrace();
             }
         }
-        try{
+        try {
             getTransactionDelegate().saveTransaction(transactionVO);
-        }catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
 
         }
         transactionForm.setLoggedInUser(transactionForm.getLoggedInUser());
         transactionForm.setLoggedInRole(transactionForm.getLoggedInRole());
         transactionForm.setCurrentTransaction(new TransactionVO());
-        return List(request,response,transactionForm);
+        return List(request, response, transactionForm);
+    }
+
+    public void UpdateModelAjax(HttpServletRequest httpServletRequest,
+                                HttpServletResponse httpServletResponse) {
+        StringBuffer responseString = new StringBuffer();
+
+        String selectMakeId = httpServletRequest.getParameter("selectMakeId");
+        //get all the models for this make id
+        List<MakeAndModelVO> makeAndModelVOs = null;
+        try {
+            makeAndModelVOs = getMakeDelegate().getAllModelsFromMakeId(Long.valueOf(selectMakeId));
+            if (makeAndModelVOs != null && makeAndModelVOs.size() > 0) {
+                for (MakeAndModelVO makeAndModelVO : makeAndModelVOs) {
+                    responseString.append("#start#");
+                    responseString.append("#id#").append(makeAndModelVO.getModelId()).append("#id#");
+                    responseString.append("#modelName#").append(makeAndModelVO.getModelName()).append("#modelName#");
+                    responseString.append("#start#");
+                }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+
+        }
+        // get a id-name combination, which is splittable by js
+        httpServletResponse.setContentType("text/plain");
+        PrintWriter out = null;
+        try {
+            out = httpServletResponse.getWriter();
+            out.print(responseString.toString());
+            out.flush();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        //return abc;
     }
 }

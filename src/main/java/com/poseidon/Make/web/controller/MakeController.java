@@ -413,12 +413,16 @@ public class MakeController extends MultiActionController {
     public ModelAndView searchModel(HttpServletRequest request,
                                  HttpServletResponse response, MakeForm makeForm) {
         log.info(" searchModel method of MakeController ");
-        log.info(" makeForm instance to add to database " + makeForm.toString());
-        log.info(" searchVO instance to add to database " + makeForm.getSearchMakeAndModelVO());
+        log.info(" makeForm instance to search " + makeForm.toString());
+        log.info(" searchVO instance to search " + makeForm.getSearchMakeAndModelVO());
         List<MakeAndModelVO> makeVOs = null;
         try {
             makeVOs = getMakeDelegate().searchMakeVOs(makeForm.getSearchMakeAndModelVO());
+            makeForm.setStatusMessage("Found "+ makeVOs.size() +" Models");
+            makeForm.setStatusMessageType("info");
         } catch (Exception e) {
+            makeForm.setStatusMessage("Unable get the Model");
+            makeForm.setStatusMessageType("error");
             e.printStackTrace();
         }
         if (makeVOs != null) {
@@ -426,6 +430,18 @@ public class MakeController extends MultiActionController {
                 log.info(" makeVO is " + makeVO);
             }
             makeForm.setMakeAndModelVOs(makeVOs);
+        }
+        List<MakeVO> searchMakeVOs = null;
+        try {
+            searchMakeVOs = getMakeDelegate().fetchMakes();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if (makeVOs != null) {
+            for (MakeVO searchMakeVO : searchMakeVOs) {
+                log.info(" searchMakeVO is " + searchMakeVO);
+            }
+            makeForm.setMakeVOs(searchMakeVOs);
         }
         makeForm.setLoggedInRole(makeForm.getLoggedInRole());
         makeForm.setLoggedInUser(makeForm.getLoggedInUser());

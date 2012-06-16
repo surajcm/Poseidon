@@ -36,4 +36,5 @@ public interface MakeDAO {
 
     public List<MakeVO> fetchMakes() throws MakeException;
 
+    public List<MakeAndModelVO> getAllModelsFromMakeId(Long id) throws MakeException;
 }

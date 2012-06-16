@@ -83,4 +83,5 @@
     <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
         <property name="dataSource"> <ref local="dataSource" /></property>
     </bean>
+
 </beans>

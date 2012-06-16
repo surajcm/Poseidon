@@ -1,5 +1,6 @@
 package com.poseidon.Transaction.web.form;
 
+import com.poseidon.Make.domain.MakeVO;
 import com.poseidon.Transaction.domain.TransactionVO;
 import com.poseidon.Make.domain.MakeAndModelVO;
 import com.poseidon.Customer.domain.CustomerVO;
@@ -17,7 +18,8 @@ public class TransactionForm {
     private List<TransactionVO> transactionsList;
     private String loggedInUser;
     private String loggedInRole;
-    private List<MakeAndModelVO> makeVOs;
+    private List<MakeVO> makeVOs;
+    private List<MakeAndModelVO> makeAndModelVOs;
     private List<String> statusList;
     private CustomerVO customerVO;
 
@@ -61,11 +63,11 @@ public class TransactionForm {
         this.loggedInRole = loggedInRole;
     }
 
-    public List<MakeAndModelVO> getMakeVOs() {
+    public List<MakeVO> getMakeVOs() {
         return makeVOs;
     }
 
-    public void setMakeVOs(List<MakeAndModelVO> makeVOs) {
+    public void setMakeVOs(List<MakeVO> makeVOs) {
         this.makeVOs = makeVOs;
     }
 
@@ -83,6 +85,14 @@ public class TransactionForm {
 
     public void setCustomerVO(CustomerVO customerVO) {
         this.customerVO = customerVO;
+    }
+
+    public List<MakeAndModelVO> getMakeAndModelVOs() {
+        return makeAndModelVOs;
+    }
+
+    public void setMakeAndModelVOs(List<MakeAndModelVO> makeAndModelVOs) {
+        this.makeAndModelVOs = makeAndModelVOs;
     }
 
     @Override

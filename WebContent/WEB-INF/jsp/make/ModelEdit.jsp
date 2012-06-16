@@ -15,7 +15,8 @@
             }
 
             function cancel(){
-
+                document.forms[0].action = "ModelList.htm";
+                document.forms[0].submit();
             }
         </script>
 

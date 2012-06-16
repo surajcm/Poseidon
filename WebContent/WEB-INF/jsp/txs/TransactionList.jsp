@@ -24,7 +24,7 @@
             }
         }
         function search() {
-            if()
+            //if()
             document.forms[0].action = "SearchTxn.htm";
             document.forms[0].submit();
         }
@@ -208,7 +208,7 @@
                                          onkeypress="handleEnter(event);"
                                          cssStyle="border:3px double #CCCCCC; width: 200px;height:28px;">
                                 <form:options items="${transactionForm.makeVOs}"
-                                              itemValue="makeId" itemLabel="makeName"/>
+                                              itemValue="Id" itemLabel="makeName"/>
                             </form:select>
                         </td>
                         <td colspan="2">&nbsp;</td>

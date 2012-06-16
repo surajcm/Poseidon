@@ -14,8 +14,18 @@
             document.forms[0].submit();
         }
 
-        function clear() {
-
+        function clearOut() {
+            document.getElementById('customerName').value = "";
+            document.getElementById('address1').value = "";
+            document.getElementById('address2').value = "";
+            document.getElementById('phoneNo').value = "";
+            document.getElementById('mobile').value = "";
+            document.getElementById('email').value = "";
+            document.getElementById('contactPerson1').value = "";
+            document.getElementById('contactMobile1').value = "";
+            document.getElementById('contactPerson2').value = "";
+            document.getElementById('contactMobile2').value = "";
+            document.getElementById('notes').value = "";
         }
     </script>
 
@@ -177,7 +187,7 @@
                         </td>
                         <td colspan="2">&nbsp;</td>
                         <td>
-                            <input class="btn" value="Clear" type="button" onclick="javascript:clear()"/>
+                            <input class="btn" value="Clear" type="button" onclick="javascript:clearOut()"/>
                         </td>
                     </tr>
                 </table>

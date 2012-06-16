@@ -39,7 +39,7 @@
                                 <td colspan="2">&nbsp;</td>
                                 <td>
                                     <form:select id="makeId" path="currentMakeAndModeVO.makeId" tabindex="1" onkeypress="handleEnter(event);"
-                                                 cssStyle="border:3px double #CCCCCC; width: 210px;height:25px;">
+                                                 cssStyle="border:3px double #CCCCCC; width: 205px;height:28px;">
                                         <form:options items="${makeForm.makeAndModelVOs}"
                                                       itemValue="makeId" itemLabel="makeName"/>
                                     </form:select>

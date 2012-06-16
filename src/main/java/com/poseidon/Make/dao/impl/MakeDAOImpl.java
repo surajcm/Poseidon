@@ -164,18 +164,69 @@ public class MakeDAOImpl extends JdbcDaoSupport implements MakeDAO {
         return makeVOs;
     }
 
+    public List<MakeAndModelVO> getAllModelsFromMakeId(Long makeId) throws MakeException {
+        List<MakeAndModelVO> makeVOs = null;
+        try {
+            makeVOs = fetchModelsForId(makeId);
+        } catch (DataAccessException e) {
+            e.printStackTrace();
+            throw new MakeException(MakeException.DATABASE_ERROR);
+        }
+        return makeVOs;
+    }
+
+    private List<MakeAndModelVO> fetchModelsForId(Long makeId) {
+        StringBuffer FETCH_MODEL_QUERY = new StringBuffer("SELECT m.Id, m.ModelName,m.makeId,ma.MakeName ")
+                .append(" FROM model m inner join make ma on m.makeId=ma.Id and ma.Id = ").append(makeId);
+        log.info("The query generated is " + FETCH_MODEL_QUERY);
+        return (List<MakeAndModelVO>) getJdbcTemplate().query(FETCH_MODEL_QUERY.toString(), new MakeAndModelListRowMapper());
+    }
+
     private List<MakeVO> fetchAllMakes() {
         return (List<MakeVO>) getJdbcTemplate().query(GET_MAKE_SQL, new MakeOnlyRowMapper());
     }
 
     private List<MakeAndModelVO> searchModels(MakeAndModelVO searchMakeVO) {
         StringBuffer DYNAMIC_MODEL_SEARCH_QUERY = new StringBuffer();
-        if(searchMakeVO.getMakeId() > 0){
+        DYNAMIC_MODEL_SEARCH_QUERY.append(" SELECT m.Id, m.ModelName,m.makeId,ma.MakeName ")
+                .append(" FROM model m inner join make ma on m.makeId = ma.Id ");
+        if (searchMakeVO.getMakeId() != null && searchMakeVO.getMakeId() > 0) {
             //include make table too
-            DYNAMIC_MODEL_SEARCH_QUERY.append("select * from model where makeid = "+searchMakeVO.getMakeId());
-        }else {
+            DYNAMIC_MODEL_SEARCH_QUERY.append(" WHERE ma.Id = ").append(searchMakeVO.getMakeId());
+            if (searchMakeVO.getModelName() != null && searchMakeVO.getModelName().trim().length() > 0) {
+                if (searchMakeVO.getStartswith()) {
+                    if (searchMakeVO.getIncludes()) {
+                        DYNAMIC_MODEL_SEARCH_QUERY.append(" and m.ModelName like '%").append(searchMakeVO.getModelName()).append("%'");
+                    } else {
+                        DYNAMIC_MODEL_SEARCH_QUERY.append(" and m.ModelName like '").append(searchMakeVO.getModelName()).append("%'");
+
+                    }
+
+                } else if (searchMakeVO.getIncludes()) {
+                    DYNAMIC_MODEL_SEARCH_QUERY.append(" and m.ModelName like '%").append(searchMakeVO.getModelName()).append("%'");
+                } else {
+                    DYNAMIC_MODEL_SEARCH_QUERY.append(" and m.ModelName like '").append(searchMakeVO.getModelName()).append("'");
+                }
+            }
+        } else {
             // find model name,
+            if (searchMakeVO.getModelName() != null && searchMakeVO.getModelName().trim().length() > 0) {
+                if (searchMakeVO.getStartswith()) {
+                    if (searchMakeVO.getIncludes()) {
+                        DYNAMIC_MODEL_SEARCH_QUERY.append(" WHERE m.ModelName like '%").append(searchMakeVO.getModelName()).append("%'");
+                    } else {
+                        DYNAMIC_MODEL_SEARCH_QUERY.append(" WHERE m.ModelName like '").append(searchMakeVO.getModelName()).append("%'");
+
+                    }
+
+                } else if (searchMakeVO.getIncludes()) {
+                    DYNAMIC_MODEL_SEARCH_QUERY.append(" WHERE m.ModelName like '%").append(searchMakeVO.getModelName()).append("%'");
+                } else {
+                    DYNAMIC_MODEL_SEARCH_QUERY.append(" WHERE m.ModelName like '").append(searchMakeVO.getModelName()).append("'");
+                }
+            }
         }
+        log.info(" The query generated for search is " + DYNAMIC_MODEL_SEARCH_QUERY.toString());
         return (List<MakeAndModelVO>) getJdbcTemplate().query(DYNAMIC_MODEL_SEARCH_QUERY.toString(), new MakeAndModelListRowMapper());
     }
 

@@ -73,4 +73,8 @@ public class MakeDelegate {
     public List<MakeVO> fetchMakes() {
         return makeService.fetchMakes();
     }
+
+    public List<MakeAndModelVO> getAllModelsFromMakeId(Long id) throws MakeException {
+        return makeService.getAllModelsFromMakeId(id);
+    }
 }

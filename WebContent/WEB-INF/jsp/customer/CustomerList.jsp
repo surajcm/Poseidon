@@ -55,8 +55,12 @@
                 return !isNaN(parseFloat(n)) && isFinite(n);
             }
 
-            function clear(){
-                alert("this is for clearing");
+            function clearOut(){
+                document.getElementById("customerId").value = "";
+                document.getElementById("customerName").value = "";
+                document.getElementById("mobile").value = "";
+                document.getElementById('includes').checked = false;
+                document.getElementById('startsWith').checked = false;
             }
             //validation before edit 
 			function editCust(){
@@ -198,7 +202,7 @@
                                     </label>
                                 </td>
                                 <td>
-                                    <form:input path="searchCustomerVO.customerId" cssClass="textboxes" id="customerId"/>
+                                    <form:input path="searchCustomerVO.customerId" cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;" id="customerId"/>
                                     <form:errors path="searchCustomerVO.customerId"/>
                                 </td>
                                 <td colspan="2">&nbsp;</td>
@@ -208,7 +212,7 @@
                                     </label>
                                 </td>
                                 <td>
-                                    <form:input path="searchCustomerVO.customerName" cssClass="textboxes" id="customerName"/>
+                                    <form:input path="searchCustomerVO.customerName" cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;" id="customerName"/>
                                     <form:errors path="searchCustomerVO.customerName"/>
                                 </td>
                                 <td colspan="2">&nbsp;</td>
@@ -218,7 +222,7 @@
                                     </label>
                                 </td>
                                 <td>
-                                    <form:input path="searchCustomerVO.mobile" cssClass="textboxes" id="mobile"/>
+                                    <form:input path="searchCustomerVO.mobile" cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;" id="mobile"/>
                                     <form:errors path="searchCustomerVO.mobile"/>
                                 </td>
                             </tr>
@@ -250,7 +254,7 @@
                                 </td>
                                 <td>
                                     <input class="btn" value="<spring:message code="poseidon.clear" text="Clear" />"
-                                           type="button" onclick="javascript:clear()"/>
+                                           type="button" onclick="javascript:clearOut()"/>
                                 </td>
                             </tr>
                         </table>
@@ -259,7 +263,6 @@
                         <div class="<c:out value="${customerForm.statusMessageType}"/>">
                             <c:out value="${customerForm.statusMessage}"/>
                         </div>
-                        <br/>
                     </c:if>
                     <br/>
                     <fieldset>

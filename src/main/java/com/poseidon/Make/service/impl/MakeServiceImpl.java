@@ -136,4 +136,14 @@ public class MakeServiceImpl implements MakeService {
         }
         return makeVOs;
     }
+
+    public List<MakeAndModelVO> getAllModelsFromMakeId(Long id) {
+        List<MakeAndModelVO> makeVOs = null;
+        try {
+            makeVOs = getMakeDAO().getAllModelsFromMakeId(id);
+        } catch (MakeException makeException) {
+            log.info("Make Exception occurred" + makeException.getMessage());
+        }
+        return makeVOs;
+    }
 }

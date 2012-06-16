@@ -52,7 +52,7 @@
             document.forms[0].action = "searchModel.htm";
             document.forms[0].submit();
         }
-        function clear(){
+        function clearOut(){
             document.getElementById("makeName").value = document.getElementById('makeName').options[0].value;
             document.getElementById('modelName').value ="";
             document.getElementById('includes').checked = false;
@@ -242,7 +242,7 @@
                         </td>
                         <td colspan="2">&nbsp;</td>
                         <td colspan="2">
-                            <input class="btn" value="Clear" type="button" onclick="javascript:clear()"/>
+                            <input class="btn" value="Clear" type="button" onclick="javascript:clearOut()"/>
                         </td>
                     <tr>
                 </table>

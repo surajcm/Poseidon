@@ -15,7 +15,7 @@
             }
 
             function cancel(){
-                document.forms[0].action = "listMake.htm";
+                document.forms[0].action = "MakeList.htm";
                 document.forms[0].submit();
             }
         </script>
@@ -40,7 +40,7 @@
                                 </td>
                                 <td colspan="2">&nbsp;</td>
                                 <td>
-                                    <form:input path="currentMakeAndModeVO.makeName" cssClass="textboxes" id="makeName"/>
+                                    <form:input path="currentMakeAndModeVO.makeName" cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;" id="makeName"/>
                                     <form:errors path="currentMakeAndModeVO.makeName"/>
                                 </td>
                             </tr>
@@ -52,7 +52,7 @@
                                 </td>
                                 <td colspan="2">&nbsp;</td>
                                 <td>
-                                    <form:input path="currentMakeAndModeVO.description" cssClass="textboxes" id="description"/>
+                                    <form:input path="currentMakeAndModeVO.description" cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;" id="description"/>
                                     <form:errors path="currentMakeAndModeVO.description"/>
                                 </td>
                             </tr>
