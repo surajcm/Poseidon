@@ -191,7 +191,7 @@
     <div id="content">
         <div class="wrap">
             <fieldset style="text-align:right;">
-                <legend>Search Make /Model</legend>
+                <legend>Search Model</legend>
                 <table style="margin:auto;top:50%;left:50%;">
                     <tr>
                         <td>
@@ -252,7 +252,6 @@
                 <div class="<c:out value="${makeForm.statusMessageType}"/>">
                     <c:out value="${makeForm.statusMessage}"/>
                 </div>
-                <br/>
             </c:if>
             <fieldset>
                 <legend>Model Details</legend>

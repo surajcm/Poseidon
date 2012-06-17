@@ -8,7 +8,38 @@
     <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
     <title>Transaction List</title>
     <link rel="stylesheet" type="text/css" href="../css/mainStyles.css"/>
+    <link rel="stylesheet" type="text/css" href="../css/mainStyles.css"/>
+    <style type="text/css">
+
+        .info, .success, .error {
+            border: 1px solid;
+            margin: 10px 0px;
+            padding: 15px 10px 15px 50px;
+            background-repeat: no-repeat;
+            background-position: 10px center;
+        }
+
+        .info {
+            color: #00529B;
+            background-color: #BDE5F8;
+            background-image: url( "<%=request.getContextPath()%>/images/Info.png" );
+        }
+
+        .success {
+            color: #4F8A10;
+            background-color: #DFF2BF;
+            background-image: url( '<%=request.getContextPath()%>/images/Success.png' );
+        }
+
+        .error {
+            color: #D8000C;
+            background-color: #FFBABA;
+            background-image: url( '<%=request.getContextPath()%>/images/Error.png' );
+        }
+    </style>
     <script type="text/javascript">
+        var req;
+
         function addNew() {
             document.forms[0].action = "AddTxn.htm";
             document.forms[0].submit();
@@ -24,7 +55,6 @@
             }
         }
         function search() {
-            //if()
             document.forms[0].action = "SearchTxn.htm";
             document.forms[0].submit();
         }
@@ -35,6 +65,64 @@
         function clear() {
         }
 
+        function changeTheModel(){
+            var selectMakeId = document.transactionForm.makeId.value;
+            var url = "<%=request.getContextPath()%>" + "/txs/UpdateModelAjax.htm";
+            url = url + "?selectMakeId=" + selectMakeId;
+            bustcacheparameter = (url.indexOf("?") != -1) ? "&" + new Date().getTime() : "?" + new Date().getTime();
+            createAjaxRequest();
+            if (req) {
+                req.onreadystatechange = stateChange;
+                req.open("POST", url + bustcacheparameter, true);
+                req.send(url + bustcacheparameter);
+            }
+        }
+        function createAjaxRequest() {
+            if (window.XMLHttpRequest){
+                req = new XMLHttpRequest() ;
+            } else if (window.ActiveXObject) {
+                try {
+                    req = new ActiveXObject("Msxml2.XMLHTTP");
+                } catch (e) {
+                    try {
+                        req = new ActiveXObject("Microsoft.XMLHTTP");
+                    } catch (e) {
+                    }
+                }
+            }
+        }
+
+        function stateChange() {
+            if (req.readyState == 4 && (req.status == 200 || window.location.href.indexOf("http") == -1)) {
+                textReturned = req.responseText;
+                if(textReturned != "") {
+                    var fullContent = textReturned.split("#start#");
+                    var resultIds = new Array();
+                    var resultNames = new Array();
+                    var k = 0;
+                    var j = 0;
+                    var t = 0;
+
+                    for (j = 0; j < fullContent.length; j++) {
+                        if(fullContent[j].length > 0 ) {
+                            resultIds[k] = fullContent[j].split("#id#")[1];
+                            var testing = fullContent[j].split("#id#")[2];
+                            resultNames[k] = testing.split("#modelName#")[1];
+                            k++;
+                        }
+                    }
+                    var l =0;
+                    document.transactionForm.modelId.options.length = resultIds.length - 1;
+                    document.transactionForm.modelId.options[0] = new Option("<-- Select -->", "");
+                    for (var i = 1; i <= (resultIds.length); i++) {
+                        document.transactionForm.modelId.options[i] = new Option(resultNames[i - 1], resultIds[i - 1]);
+                    }
+                } else {
+                    document.transactionForm.modelId.options.length = 0;
+                    document.transactionForm.modelId.options[0] = new Option("<-- Select -->", "");
+                }
+            }
+        }
         //validation before edit
         function editMe() {
             var check = 'false';
@@ -150,6 +238,8 @@
 <body style="background: #A9A9A9 ;">
 <form:form method="POST" commandName="transactionForm" name="transactionForm" action="List.htm">
     <%@include file="/WEB-INF/jsp/myHeader.jsp" %>
+    <form:hidden name="loggedInUser" path="loggedInUser"/>
+    <form:hidden name="loggedInRole" path="loggedInRole"/>
     <input type="hidden" name="id" id="id"/>
 
     <div id="content">
@@ -199,26 +289,33 @@
                     </tr>
                     <tr>
                         <td>
-                            <label for="makeName" style="font-size: .70em;">
+                            <label for="makeId" style="font-size: .70em;">
                                 Make :
                             </label>
                         </td>
                         <td>
-                            <form:select id="makeName" path="searchTransaction.makeName" tabindex="1"
-                                         onkeypress="handleEnter(event);"
+                            <form:select id="makeId" path="searchTransaction.makeName" tabindex="1"
+                                         onkeypress="handleEnter(event);" onchange="changeTheModel();"
                                          cssStyle="border:3px double #CCCCCC; width: 200px;height:28px;">
+                                <form:option value=""><spring:message code="common.select" text="<-- Select -->"/></form:option>
                                 <form:options items="${transactionForm.makeVOs}"
                                               itemValue="Id" itemLabel="makeName"/>
                             </form:select>
                         </td>
                         <td colspan="2">&nbsp;</td>
                         <td>
-                            <label for="ModelName" style="font-size: .70em;">
+                            <label for="modelId" style="font-size: .70em;">
                                 Model Name :
                             </label>
                         </td>
                         <td>
-                            <form:input path="searchTransaction.ModelName" cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;" id="ModelName"/>
+                            <form:select id="modelId" path="searchTransaction.modelId" tabindex="1"
+                                         onkeypress="handleEnter(event);"
+                                         cssStyle="border:3px double #CCCCCC; width: 200px;height:25px;">
+                                <form:option value=""><spring:message code="common.select" text="<-- Select -->"/></form:option>
+                                <form:options items="${transactionForm.makeAndModelVOs}"
+                                              itemValue="modelId" itemLabel="modelName"/>
+                            </form:select>
                         </td>
                         <td colspan="2">&nbsp;</td>
                         <td>
@@ -230,6 +327,7 @@
                             <form:select id="Status" path="searchTransaction.Status"
                                          onkeypress="handleEnter(event);"
                                          cssStyle="border:3px double #CCCCCC; width: 200px;height:25px;">
+                                <form:option value=""><spring:message code="common.select" text="<-- Select -->"/></form:option>
                                 <form:options items="${transactionForm.statusList}" />
                             </form:select>
                         </td>
@@ -263,7 +361,11 @@
                     </tr>
                 </table>
             </fieldset>
-            <br/>
+            <c:if test="${transactionForm.statusMessage!=null}">
+                <div class="<c:out value="${transactionForm.statusMessageType}"/>">
+                    <c:out value="${transactionForm.statusMessage}"/>
+                </div>
+            </c:if>
             <fieldset>
                 <legend>Transaction Details</legend>
                 <table border="2" id="myTable" style="font-size: .60em;">

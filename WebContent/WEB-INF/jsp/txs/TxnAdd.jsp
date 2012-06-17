@@ -259,6 +259,7 @@
         <form:select id="makeId" path="currentTransaction.makeId" tabindex="1"
                      onkeypress="handleEnter(event);" onchange="changeTheModel();"
                      cssStyle="border:3px double #CCCCCC; width: 200px;height:25px;">
+            <form:option value=""><spring:message code="common.select" text="<-- Select -->"/></form:option>
             <form:options items="${transactionForm.makeVOs}"
                           itemValue="Id" itemLabel="makeName"/>
         </form:select>
@@ -272,6 +273,7 @@
         <form:select id="modelId" path="currentTransaction.modelId" tabindex="1"
                      onkeypress="handleEnter(event);"
                      cssStyle="border:3px double #CCCCCC; width: 200px;height:25px;">
+            <form:option value=""><spring:message code="common.select" text="<-- Select -->"/></form:option>
             <form:options items="${transactionForm.makeAndModelVOs}"
                           itemValue="modelId" itemLabel="modelName"/>
         </form:select>

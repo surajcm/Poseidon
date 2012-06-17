@@ -51,6 +51,7 @@
                     alert("Incorrect customerId format found, Please update the field with a numeric value");
                 }
             }
+
             function isNumber(n) {
                 return !isNaN(parseFloat(n)) && isFinite(n);
             }
@@ -264,12 +265,12 @@
                             <c:out value="${customerForm.statusMessage}"/>
                         </div>
                     </c:if>
-                    <br/>
                     <fieldset>
                         <legend>Customer Details</legend>
                         <table border="2" id="myTable" style="font-size: .60em;">
                             <thead>
                             <tr>
+                                <th>&nbsp;</th>
                                 <th><spring:message code="poseidon.id" text="id"/></th>
                                 <th>Name</th>
                                 <th>Address Line1</th>
@@ -290,6 +291,7 @@
                                 <tr>
                                     <td><input type="checkbox" name="checkField" onclick="javascript:checkCall(this)"
                                                value="<c:out value="${iterationCust.customerId}" />"/></td>
+                                    <td><c:out value="${iterationCust.customerId}"/></td>
                                     <td><c:out value="${iterationCust.customerName}"/></td>
                                     <td><c:out value="${iterationCust.address1}"/></td>
                                     <td><c:out value="${iterationCust.address2}"/></td>

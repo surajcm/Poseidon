@@ -34,4 +34,11 @@ public class TransactionDelegate {
     }
 
 
+    public List<TransactionVO> searchTransactions(TransactionVO searchTransaction) throws  TransactionException{
+        return getTransactionService().searchTransactions(searchTransaction);
+    }
+
+    public TransactionVO fetchTransactionFromId(Long id) throws TransactionException{
+        return getTransactionService().fetchTransactionFromId(id);
+    }
 }

@@ -54,4 +54,30 @@ public class TransactionServiceImpl implements TransactionService {
             e1.printStackTrace();
         }
     }
+
+    public List<TransactionVO> searchTransactions(TransactionVO searchTransaction) throws TransactionException {
+        List<TransactionVO> transactionVOs = null;
+        try {
+            transactionVOs = getTransactionDAO().searchTransactions(searchTransaction);
+        } catch (TransactionException t) {
+            log.error(" Exception type in service impl " + t.getExceptionType());
+            throw new TransactionException(t.getExceptionType());
+        } catch (Exception e1) {
+            e1.printStackTrace();
+        }
+        return transactionVOs;
+    }
+
+    public TransactionVO fetchTransactionFromId(Long id) throws TransactionException {
+        TransactionVO transactionVO= null;
+        try {
+            transactionVO = getTransactionDAO().fetchTransactionFromId(id);
+        } catch (TransactionException t) {
+            log.error(" Exception type in service impl " + t.getExceptionType());
+            throw new TransactionException(t.getExceptionType());
+        } catch (Exception e1) {
+            e1.printStackTrace();
+        }
+        return transactionVO;
+    }
 }

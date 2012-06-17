@@ -2,6 +2,7 @@ package com.poseidon.Transaction.web.controller;
 
 import com.poseidon.Make.domain.MakeVO;
 import com.poseidon.Make.exception.MakeException;
+import com.poseidon.Transaction.exception.TransactionException;
 import org.springframework.web.servlet.mvc.multiaction.MultiActionController;
 import org.springframework.web.servlet.ModelAndView;
 import org.apache.commons.logging.Log;
@@ -106,7 +107,6 @@ public class TransactionController extends MultiActionController {
 
     private List<String> populateStatus() {
         List<String> statusList = new ArrayList<String>();
-        statusList.add("--Select--");
         statusList.add("NEW");
         statusList.add("ACCEPTED");
         statusList.add("VERIFIED");
@@ -159,14 +159,28 @@ public class TransactionController extends MultiActionController {
         log.info(" form details are " + transactionForm);
         TransactionVO transactionVO = transactionForm.getCurrentTransaction();
         transactionVO.setDateReported(new Date());
-        if (transactionVO.getCustomerId() == null) {
-            try {
-                getCustomerDelegate().saveCustomer(transactionForm.getCustomerVO());
-            } catch (CustomerException e) {
-                e.printStackTrace();
-            }
-        }
+        transactionVO.setCreatedOn(new Date());
+        transactionVO.setModifiedOn(new Date());
+        transactionVO.setCreatedBy(transactionForm.getLoggedInUser());
+        transactionVO.setModifiedBy(transactionForm.getLoggedInUser());
+        transactionVO.setStatus("NEW");
         try {
+            if (transactionVO.getCustomerId() == null) {
+                try {
+                    getCustomerDelegate().saveCustomer(transactionForm.getCustomerVO());
+                    //get the customer Id
+                    transactionForm.getCustomerVO().setStartsWith(Boolean.FALSE);
+                    transactionForm.getCustomerVO().setIncludes(Boolean.FALSE);
+                    List<CustomerVO> customerVOs = getCustomerDelegate().searchCustomer(transactionForm.getCustomerVO());
+                    if (customerVOs != null && customerVOs.size() > 0) {
+                        transactionForm.getCustomerVO().setCustomerId(customerVOs.get(0).getCustomerId());
+                        transactionVO.setCustomerId(customerVOs.get(0).getCustomerId());
+                        log.info("the customer id from db is " + customerVOs.get(0).getCustomerId());
+                    }
+                } catch (CustomerException e) {
+                    e.printStackTrace();
+                }
+            }
             getTransactionDelegate().saveTransaction(transactionVO);
         } catch (Exception e) {
             e.printStackTrace();
@@ -210,5 +224,88 @@ public class TransactionController extends MultiActionController {
             e.printStackTrace();
         }
         //return abc;
+    }
+
+    public ModelAndView SearchTxn(HttpServletRequest request,
+                                  HttpServletResponse response, TransactionForm transactionForm) {
+        log.info(" Inside SearchTxn method of TransactionController ");
+        log.info(" form details are " + transactionForm);
+        log.info(" form search details are " + transactionForm.getSearchTransaction());
+        List<TransactionVO> transactionVOs = null;
+        try {
+            transactionVOs = getTransactionDelegate().searchTransactions(transactionForm.getSearchTransaction());
+            transactionForm.setStatusMessage("Found " + transactionVOs.size() + " Transactions ");
+            transactionForm.setStatusMessageType("info");
+        } catch (TransactionException e) {
+            transactionForm.setStatusMessage("Unable to search due to a data base error");
+            transactionForm.setStatusMessageType("error");
+            e.printStackTrace();
+            log.error(" Exception type in controller " + e.ExceptionType);
+            if (e.getExceptionType().equalsIgnoreCase(TransactionException.DATABASE_ERROR)) {
+                log.info(" An error occurred while fetching data from database. !! ");
+            } else {
+                log.info(" An Unknown Error has been occurred !!");
+            }
+
+        } catch (Exception e1) {
+            transactionForm.setStatusMessage("Unable to search ");
+            transactionForm.setStatusMessageType("error");
+            e1.printStackTrace();
+            log.info(" An Unknown Error has been occurred !!");
+
+        }
+        if (transactionVOs != null) {
+            for (TransactionVO transactionVO : transactionVOs) {
+                log.info(" transaction vo is " + transactionVO);
+            }
+            transactionForm.setTransactionsList(transactionVOs);
+        }
+        //get all the make list for displaying in search
+        List<MakeVO> makeVOs = null;
+        try {
+            makeVOs = getMakeDelegate().fetchMakes();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if (makeVOs != null) {
+            for (MakeVO makeVO : makeVOs) {
+                log.info("make vo is" + makeVO);
+            }
+            transactionForm.setMakeVOs(makeVOs);
+        }
+        //transactionForm.setSearchTransaction(new TransactionVO());
+        transactionForm.setLoggedInRole(transactionForm.getLoggedInRole());
+        transactionForm.setLoggedInUser(transactionForm.getLoggedInUser());
+        transactionForm.setStatusList(populateStatus());
+        return new ModelAndView("txs/TransactionList", "transactionForm", transactionForm);
+    }
+
+    public ModelAndView EditTxn(HttpServletRequest request,
+                                HttpServletResponse response, TransactionForm transactionForm) {
+        log.info(" EditTxn method of TransactionController ");
+
+        log.info(" transactionForm is " + transactionForm.toString());
+        TransactionVO transactionVO = null;
+        try {
+            transactionVO = getTransactionDelegate().fetchTransactionFromId(transactionForm.getId());
+        } catch (TransactionException e) {
+            e.printStackTrace();
+            log.error(" Exception type in controller " + e.ExceptionType);
+            if (e.getExceptionType().equalsIgnoreCase(TransactionException.DATABASE_ERROR)) {
+                log.info(" An error occurred while fetching data from database. !! ");
+            } else {
+                log.info(" An Unknown Error has been occurred !!");
+            }
+        } catch (Exception e1) {
+            e1.printStackTrace();
+            log.info(" An Unknown Error has been occurred !!");
+        }
+        if(transactionVO != null ){
+            log.info("transactionVO "+transactionVO);
+        }
+        transactionForm.setCurrentTransaction(transactionVO);
+        transactionForm.setLoggedInRole(transactionForm.getLoggedInRole());
+        transactionForm.setLoggedInUser(transactionForm.getLoggedInUser());
+        return new ModelAndView("txs/TxnEdit", "transactionForm", transactionForm);
     }
 }

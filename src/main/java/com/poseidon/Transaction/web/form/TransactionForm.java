@@ -22,6 +22,9 @@ public class TransactionForm {
     private List<MakeAndModelVO> makeAndModelVOs;
     private List<String> statusList;
     private CustomerVO customerVO;
+    private String statusMessage;
+    private String statusMessageType;
+    private Long Id;
 
     public TransactionVO getCurrentTransaction() {
         return currentTransaction;
@@ -93,6 +96,30 @@ public class TransactionForm {
 
     public void setMakeAndModelVOs(List<MakeAndModelVO> makeAndModelVOs) {
         this.makeAndModelVOs = makeAndModelVOs;
+    }
+
+    public String getStatusMessage() {
+        return statusMessage;
+    }
+
+    public void setStatusMessage(String statusMessage) {
+        this.statusMessage = statusMessage;
+    }
+
+    public String getStatusMessageType() {
+        return statusMessageType;
+    }
+
+    public void setStatusMessageType(String statusMessageType) {
+        this.statusMessageType = statusMessageType;
+    }
+
+    public Long getId() {
+        return Id;
+    }
+
+    public void setId(Long id) {
+        Id = id;
     }
 
     @Override

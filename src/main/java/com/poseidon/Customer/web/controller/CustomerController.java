@@ -220,7 +220,6 @@ public class CustomerController extends MultiActionController {
             }
             customerForm.setCustomerVOs(customerVOs);
         }
-        customerForm.setSearchCustomerVO(new CustomerVO());
         customerForm.setLoggedInRole(customerForm.getLoggedInRole());
         customerForm.setLoggedInUser(customerForm.getLoggedInUser());
         return new ModelAndView("customer/CustomerList", "customerForm", customerForm);

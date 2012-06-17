@@ -99,8 +99,9 @@ public class CustomerDAOImpl extends JdbcDaoSupport implements CustomerDAO {
     public List<CustomerVO> searchCustomer(CustomerVO searchCustomerVO) throws CustomerException {
         List<CustomerVO> customerVOs = null;
         try {
-            customerVOs = fetchAllCustomers();
+            customerVOs = SearchCustomer(searchCustomerVO);
         } catch (DataAccessException e) {
+            e.printStackTrace();
             throw new CustomerException(CustomerException.DATABASE_ERROR);
         }
         return customerVOs;
@@ -128,6 +129,50 @@ public class CustomerDAOImpl extends JdbcDaoSupport implements CustomerDAO {
 
     private List<CustomerVO> fetchAllCustomers() {
         return (List<CustomerVO>) getJdbcTemplate().query(GET_CUSTOMERS_SQL, new CustomerListRowMapper());
+    }
+
+    private List<CustomerVO> SearchCustomer(CustomerVO searchVO) {
+        StringBuffer SEARCH_QUERY = new StringBuffer();
+        SEARCH_QUERY.append(" SELECT Id, Name,Address1,address2,Phone,Mobile,email,ContactPerson1,")
+                .append(" ContactPh1,ContactPerson2,ContactPh2,Note FROM customer ");
+        Boolean isWhereAdded = Boolean.FALSE;
+        if(searchVO.getCustomerId() != null && searchVO.getCustomerId() > 0){
+            SEARCH_QUERY.append(" where ");
+            isWhereAdded = Boolean.TRUE;
+            SEARCH_QUERY.append(" Id = ").append(searchVO.getCustomerId());
+        }
+        if(searchVO.getCustomerName() != null && searchVO.getCustomerName().trim().length() > 0){
+            if (!isWhereAdded) {
+                SEARCH_QUERY.append(" where ");
+                isWhereAdded = Boolean.TRUE;
+            } else {
+                SEARCH_QUERY.append(" and ");
+            }
+            if(searchVO.getIncludes()){
+                SEARCH_QUERY.append(" Name like '%").append(searchVO.getCustomerName()).append("%'");
+            }else if (searchVO.getStartsWith()){
+                SEARCH_QUERY.append(" Name like '").append(searchVO.getCustomerName()).append("%'");
+            }else {
+                SEARCH_QUERY.append(" Name like '").append(searchVO.getCustomerName()).append("'");
+            }
+        }
+        if (searchVO.getMobile() != null && searchVO.getMobile().trim().length() > 0 ) {
+            if (!isWhereAdded) {
+                SEARCH_QUERY.append(" where ");
+                isWhereAdded = Boolean.TRUE;
+            } else {
+                SEARCH_QUERY.append(" and ");
+            }
+            if(searchVO.getIncludes()){
+                SEARCH_QUERY.append(" Mobile like '%").append(searchVO.getMobile()).append("%'");
+            }else if (searchVO.getStartsWith()){
+                SEARCH_QUERY.append(" Mobile like '").append(searchVO.getMobile()).append("%'");
+            }else {
+                SEARCH_QUERY.append(" Mobile like '").append(searchVO.getMobile()).append("'");
+            }
+        }
+        log.info("Search query is " +SEARCH_QUERY.toString());
+        return (List<CustomerVO>) getJdbcTemplate().query(SEARCH_QUERY.toString(), new CustomerListRowMapper());
     }
 
     private class CustomerListRowMapper implements RowMapper {

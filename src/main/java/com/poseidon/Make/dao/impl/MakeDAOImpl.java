@@ -190,42 +190,28 @@ public class MakeDAOImpl extends JdbcDaoSupport implements MakeDAO {
         StringBuffer DYNAMIC_MODEL_SEARCH_QUERY = new StringBuffer();
         DYNAMIC_MODEL_SEARCH_QUERY.append(" SELECT m.Id, m.ModelName,m.makeId,ma.MakeName ")
                 .append(" FROM model m inner join make ma on m.makeId = ma.Id ");
+        Boolean isWhereAdded = Boolean.FALSE;
         if (searchMakeVO.getMakeId() != null && searchMakeVO.getMakeId() > 0) {
-            //include make table too
-            DYNAMIC_MODEL_SEARCH_QUERY.append(" WHERE ma.Id = ").append(searchMakeVO.getMakeId());
-            if (searchMakeVO.getModelName() != null && searchMakeVO.getModelName().trim().length() > 0) {
-                if (searchMakeVO.getStartswith()) {
-                    if (searchMakeVO.getIncludes()) {
-                        DYNAMIC_MODEL_SEARCH_QUERY.append(" and m.ModelName like '%").append(searchMakeVO.getModelName()).append("%'");
-                    } else {
-                        DYNAMIC_MODEL_SEARCH_QUERY.append(" and m.ModelName like '").append(searchMakeVO.getModelName()).append("%'");
-
-                    }
-
-                } else if (searchMakeVO.getIncludes()) {
-                    DYNAMIC_MODEL_SEARCH_QUERY.append(" and m.ModelName like '%").append(searchMakeVO.getModelName()).append("%'");
-                } else {
-                    DYNAMIC_MODEL_SEARCH_QUERY.append(" and m.ModelName like '").append(searchMakeVO.getModelName()).append("'");
-                }
+            DYNAMIC_MODEL_SEARCH_QUERY.append(" where ");
+            isWhereAdded = Boolean.TRUE;
+            DYNAMIC_MODEL_SEARCH_QUERY.append(" ma.Id = ").append(searchMakeVO.getMakeId());
+        }
+        if(searchMakeVO.getModelName() != null && searchMakeVO.getModelName().trim().length() > 0){
+            if (!isWhereAdded) {
+                DYNAMIC_MODEL_SEARCH_QUERY.append(" where ");
+                isWhereAdded = Boolean.TRUE;
+            } else {
+                DYNAMIC_MODEL_SEARCH_QUERY.append(" and ");
             }
-        } else {
-            // find model name,
-            if (searchMakeVO.getModelName() != null && searchMakeVO.getModelName().trim().length() > 0) {
-                if (searchMakeVO.getStartswith()) {
-                    if (searchMakeVO.getIncludes()) {
-                        DYNAMIC_MODEL_SEARCH_QUERY.append(" WHERE m.ModelName like '%").append(searchMakeVO.getModelName()).append("%'");
-                    } else {
-                        DYNAMIC_MODEL_SEARCH_QUERY.append(" WHERE m.ModelName like '").append(searchMakeVO.getModelName()).append("%'");
-
-                    }
-
-                } else if (searchMakeVO.getIncludes()) {
-                    DYNAMIC_MODEL_SEARCH_QUERY.append(" WHERE m.ModelName like '%").append(searchMakeVO.getModelName()).append("%'");
-                } else {
-                    DYNAMIC_MODEL_SEARCH_QUERY.append(" WHERE m.ModelName like '").append(searchMakeVO.getModelName()).append("'");
-                }
+            if(searchMakeVO.getIncludes()){
+                DYNAMIC_MODEL_SEARCH_QUERY.append(" m.ModelName like '%").append(searchMakeVO.getModelName()).append("%'");
+            }else if (searchMakeVO.getStartswith()){
+                DYNAMIC_MODEL_SEARCH_QUERY.append(" m.ModelName like '").append(searchMakeVO.getModelName()).append("%'");
+            }else {
+                DYNAMIC_MODEL_SEARCH_QUERY.append(" m.ModelName like '").append(searchMakeVO.getModelName()).append("'");
             }
         }
+
         log.info(" The query generated for search is " + DYNAMIC_MODEL_SEARCH_QUERY.toString());
         return (List<MakeAndModelVO>) getJdbcTemplate().query(DYNAMIC_MODEL_SEARCH_QUERY.toString(), new MakeAndModelListRowMapper());
     }
