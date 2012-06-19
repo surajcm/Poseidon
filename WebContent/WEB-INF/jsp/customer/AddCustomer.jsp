@@ -10,8 +10,12 @@
     <link rel="stylesheet" type="text/css" href="../css/mainStyles.css"/>
     <script type="text/javascript">
         function save() {
-            document.forms[0].action = "saveCustomer.htm";
-            document.forms[0].submit();
+            if(document.getElementById('customerName').value = ""){
+                alert("Please enter a valid Customer Name");
+            }else {
+                document.forms[0].action = "saveCustomer.htm";
+                document.forms[0].submit();
+            }
         }
 
         function clearOut() {

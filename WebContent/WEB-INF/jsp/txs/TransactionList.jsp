@@ -8,7 +8,6 @@
     <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
     <title>Transaction List</title>
     <link rel="stylesheet" type="text/css" href="../css/mainStyles.css"/>
-    <link rel="stylesheet" type="text/css" href="../css/mainStyles.css"/>
     <style type="text/css">
 
         .info, .success, .error {

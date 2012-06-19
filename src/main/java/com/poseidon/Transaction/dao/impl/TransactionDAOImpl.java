@@ -33,8 +33,10 @@ public class TransactionDAOImpl  extends JdbcDaoSupport implements TransactionDA
             " ComplaintDiagonsed, EnggRemark, RepairAction, Note, Status, createdOn, modifiedOn, " +
             " createdBy, ModifiedBy) values( ? , ? ,? , ? , ?, ?, ?, ?, ? ," +
             " ? , ? , ? , ? , ? , ?, ?, ? , ? )";
-    private static final String GET_SINGLE_TRANSACTION_SQL = "SELECT t.Id, t.TagNo,C.Name, t.DateReported, mk.MakeName, " +
-            " mdl.ModelName, t.SerialNo, t.Status " +
+    private static final String GET_SINGLE_TRANSACTION_SQL = "SELECT t.Id, t.TagNo, t.DateReported, t.CustomerId, " +
+            " t.ProductCategory, t.MakeId, " +
+            " t.ModelId, t.SerialNo, t.Status, t.Accessories, t.ComplaintReported, " +
+            " t.ComplaintDiagonsed ,t.EnggRemark, t.RepairAction, t.Note "+
             " FROM transaction t inner join customer c on t.CustomerId=C.Id " +
             " inner join make mk on mk.Id=t.MakeId " +
             " inner join model mdl on mdl.Id=t.ModelId " +
@@ -105,7 +107,7 @@ public class TransactionDAOImpl  extends JdbcDaoSupport implements TransactionDA
     }
 
     private TransactionVO fetchTxn(Long id) {
-        return (TransactionVO) getJdbcTemplate().queryForObject(GET_SINGLE_TRANSACTION_SQL, new Object[]{id}, new TransactionListRowMapper());
+        return (TransactionVO) getJdbcTemplate().queryForObject(GET_SINGLE_TRANSACTION_SQL, new Object[]{id}, new TransactionFullRowMapper());
     }
 
     private List<TransactionVO> searchTxs(TransactionVO searchTransaction) {
@@ -222,17 +224,47 @@ public class TransactionDAOImpl  extends JdbcDaoSupport implements TransactionDA
             TransactionVO txs = new TransactionVO();
             txs.setId(resultSet.getLong("Id"));
             txs.setTagNo(resultSet.getString("TagNo"));
-            txs.setCustomerName(resultSet.getString("Name"));
             txs.setDateReported(resultSet.getDate("DateReported"));
+            txs.setCustomerName(resultSet.getString("Name"));
             txs.setMakeName(resultSet.getString("MakeName"));
             txs.setModelName(resultSet.getString("ModelName"));
             txs.setSerialNo(resultSet.getString("SerialNo"));
             txs.setStatus(resultSet.getString("Status"));
-            /*txs.setCreatedBy(resultSet.getString("createdBy"));
-            txs.setCreatedOn(resultSet.getDate("createdOn"));
-            txs.setModifiedBy(resultSet.getString("modifiedBy"));
-            txs.setModifiedOn(resultSet.getDate("modifiedOn"));*/
+            return txs;
+        }
 
+    }
+
+    /**
+     * Row mapper as inner class
+     */
+    private class TransactionFullRowMapper implements RowMapper {
+
+        /**
+         * method to map the result to vo
+         *
+         * @param resultSet resultSet instance
+         * @param i         i instance
+         * @return UserVO as Object
+         * @throws java.sql.SQLException on error
+         */
+        public Object mapRow(ResultSet resultSet, int i) throws SQLException {
+            TransactionVO txs = new TransactionVO();
+            txs.setId(resultSet.getLong("Id"));
+            txs.setTagNo(resultSet.getString("TagNo"));
+            txs.setDateReported(resultSet.getDate("DateReported"));
+            txs.setCustomerId(resultSet.getLong("CustomerId"));
+            txs.setProductCategory(resultSet.getString("ProductCategory"));
+            txs.setMakeId(resultSet.getLong("MakeId"));
+            txs.setModelId(resultSet.getLong("ModelId"));
+            txs.setSerialNo(resultSet.getString("SerialNo"));
+            txs.setStatus(resultSet.getString("Status"));
+            txs.setAccessories(resultSet.getString("Accessories"));
+            txs.setComplaintReported(resultSet.getString("ComplaintReported"));
+            txs.setComplaintDiagonsed(resultSet.getString("ComplaintDiagonsed"));
+            txs.setEnggRemark(resultSet.getString("EnggRemark"));
+            txs.setRepairAction(resultSet.getString("RepairAction"));
+            txs.setNotes(resultSet.getString("Note"));
             return txs;
         }
 

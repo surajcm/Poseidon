@@ -286,8 +286,34 @@ public class TransactionController extends MultiActionController {
 
         log.info(" transactionForm is " + transactionForm.toString());
         TransactionVO transactionVO = null;
+        CustomerVO customerVO = null;
         try {
             transactionVO = getTransactionDelegate().fetchTransactionFromId(transactionForm.getId());
+            if(transactionVO != null && transactionVO.getCustomerId() != null && transactionVO.getCustomerId() > 0 ){
+                customerVO = getCustomerDelegate().getCustomerFromId(transactionVO.getCustomerId());
+            }
+            if(transactionVO != null && transactionVO.getMakeId() != null && transactionVO.getMakeId() > 0){
+                List<MakeVO> makeVOs = null;
+                try {
+                    makeVOs = getMakeDelegate().fetchMakes();
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                if (makeVOs != null) {
+                    for (MakeVO makeVO : makeVOs) {
+                        log.info("make vo is" + makeVO);
+                    }
+                    transactionForm.setMakeVOs(makeVOs);
+                }
+                List<MakeAndModelVO> makeAndModelVOs = null;
+                makeAndModelVOs = getMakeDelegate().getAllModelsFromMakeId(transactionVO.getMakeId());
+                if (makeAndModelVOs != null) {
+                    transactionForm.setMakeAndModelVOs(makeAndModelVOs);
+                    for (MakeAndModelVO makeAndModelVO : makeAndModelVOs) {
+                        log.info("makeAndModel vo is" + makeAndModelVO);
+                    }
+                }
+            }
         } catch (TransactionException e) {
             e.printStackTrace();
             log.error(" Exception type in controller " + e.ExceptionType);
@@ -304,8 +330,34 @@ public class TransactionController extends MultiActionController {
             log.info("transactionVO "+transactionVO);
         }
         transactionForm.setCurrentTransaction(transactionVO);
+        if(customerVO != null){
+            transactionForm.setCustomerVO(customerVO);
+        }else {
+            transactionForm.setCustomerVO(new CustomerVO());
+        }
+        transactionForm.setStatusList(populateStatus());
         transactionForm.setLoggedInRole(transactionForm.getLoggedInRole());
         transactionForm.setLoggedInUser(transactionForm.getLoggedInUser());
         return new ModelAndView("txs/TxnEdit", "transactionForm", transactionForm);
+    }
+
+    public ModelAndView updateTxn(HttpServletRequest request,
+                                  HttpServletResponse response, TransactionForm transactionForm) {
+        log.info(" updateTxn method of TransactionController ");
+
+        transactionForm.setLoggedInRole(transactionForm.getLoggedInRole());
+        transactionForm.setLoggedInUser(transactionForm.getLoggedInUser());
+        transactionForm.setStatusList(populateStatus());
+        return new ModelAndView("txs/TransactionList", "transactionForm", transactionForm);
+    }
+
+    public ModelAndView editCust(HttpServletRequest request,
+                                  HttpServletResponse response, TransactionForm transactionForm) {
+        log.info(" editCust method of TransactionController ");
+        log.info(transactionForm);
+        transactionForm.setLoggedInRole(transactionForm.getLoggedInRole());
+        transactionForm.setLoggedInUser(transactionForm.getLoggedInUser());
+        transactionForm.setStatusList(populateStatus());
+        return new ModelAndView("txs/TransactionList", "transactionForm", transactionForm);
     }
 }
