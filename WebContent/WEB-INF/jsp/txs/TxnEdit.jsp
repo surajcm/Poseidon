@@ -25,6 +25,7 @@
             <%@include file="/WEB-INF/jsp/myHeader.jsp" %>
             <form:hidden name="loggedInUser" path="loggedInUser" />
             <form:hidden name="loggedInRole" path="loggedInRole" />
+            <form:hidden name="id" path="currentTransaction.id" />
             <div id="content">
                 <fieldset>
                 <legend>Edit Transaction</legend>
@@ -67,7 +68,7 @@
                             <form:input path="customerVO.customerId" cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;" id="customerId"/>
                         </td>
                         <td colspan="2"> &nbsp;</td>
-                        <td colspan="2"> <a id="editCustomer" href="<%=request.getContextPath()%>/txs/editCust.htm" > Edit Customer</a></td>
+                        <td colspan="2"> <a id="editCustomer" href="<%=request.getContextPath()%>/customer/editCustomer.htm" > Edit Customer</a></td>
                         <td colspan="4"> &nbsp;</td>
                     </tr>
                     <tr>
@@ -77,7 +78,7 @@
                             </label>
                         </td>
                         <td style="text-align:left;">
-                            <form:input path="customerVO.customerName" cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;"
+                            <form:input path="customerVO.customerName" cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;background: #A9A9A9 ;"
                                         id="customerName" readonly="true"/>
                         </td>
                         <td colspan="2">&nbsp;</td>
@@ -87,7 +88,7 @@
                             </label>
                         </td>
                         <td style="text-align:left;">
-                            <form:textarea path="customerVO.address1" rows="5" cols="30" cssStyle="border:3px double #CCCCCC; width: 200px;height:40px;"
+                            <form:textarea path="customerVO.address1" rows="5" cols="30" cssStyle="border:3px double #CCCCCC; width: 200px;height:40px;background: #A9A9A9 ;"
                                            id="address1" readonly="true"/>
                         </td>
                         <td colspan="2"> &nbsp;</td>
@@ -97,7 +98,7 @@
                             </label>
                         </td>
                         <td style="text-align:left;">
-                            <form:textarea path="customerVO.address2" rows="5" cols="30" cssStyle="border:3px double #CCCCCC; width: 200px;height:40px;"
+                            <form:textarea path="customerVO.address2" rows="5" cols="30" cssStyle="border:3px double #CCCCCC; width: 200px;height:40px;background: #A9A9A9 ;"
                                            id="address2" readonly="true"/>
                         </td>
                     </tr>
@@ -108,7 +109,7 @@
                             </label>
                         </td>
                         <td style="text-align:left;">
-                            <form:input path="customerVO.phoneNo" cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;"
+                            <form:input path="customerVO.phoneNo" cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;background: #A9A9A9 ;"
                                         id="phoneNo" readonly="true"/>
                         </td>
                         <td colspan="2">&nbsp;</td>
@@ -118,7 +119,7 @@
                             </label>
                         </td>
                         <td style="text-align:left;">
-                            <form:input path="customerVO.mobile" cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;"
+                            <form:input path="customerVO.mobile" cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;background: #A9A9A9 ;"
                                         id="mobile" readonly="true"/>
                         </td>
                         <td colspan="2">&nbsp;</td>
@@ -128,7 +129,7 @@
                             </label>
                         </td>
                         <td style="text-align:left;">
-                            <form:input path="customerVO.email" cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;"
+                            <form:input path="customerVO.email" cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;background: #A9A9A9 ;"
                                         id="email" readonly="true"/>
                         </td>
                     </tr>
@@ -139,7 +140,7 @@
                             </label>
                         </td>
                         <td style="text-align:left;">
-                            <form:input path="customerVO.contactPerson1" cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;"
+                            <form:input path="customerVO.contactPerson1" cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;background: #A9A9A9 ;"
                                         id="contactPerson1" readonly="true"/>
                         </td>
                         <td colspan="2">&nbsp;</td>
@@ -149,7 +150,7 @@
                             </label>
                         </td>
                         <td style="text-align:left;">
-                            <form:input path="customerVO.contactMobile1" cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;"
+                            <form:input path="customerVO.contactMobile1" cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;background: #A9A9A9 ;"
                                         id="contactMobile1" readonly="true"/>
                         </td>
                         <td colspan="4">&nbsp;</td>
@@ -161,7 +162,7 @@
                             </label>
                         </td>
                         <td style="text-align:left;">
-                            <form:input path="customerVO.contactPerson2" cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;"
+                            <form:input path="customerVO.contactPerson2" cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;background: #A9A9A9 ;"
                                         id="contactPerson2" readonly="true"/>
                         </td>
                         <td colspan="2">&nbsp;</td>
@@ -171,7 +172,7 @@
                             </label>
                         </td>
                         <td style="text-align:left;">
-                            <form:input path="customerVO.contactMobile2" cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;"
+                            <form:input path="customerVO.contactMobile2" cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;background: #A9A9A9 ;"
                                         id="contactMobile2" readonly="true"/>
                         </td>
                         <td colspan="2">&nbsp;</td>
@@ -181,7 +182,7 @@
                             </label>
                         </td>
                         <td style="text-align:left;">
-                            <form:textarea path="customerVO.notes" rows="5" cols="30" cssStyle="border:3px double #CCCCCC; width: 200px;height:40px;"
+                            <form:textarea path="customerVO.notes" rows="5" cols="30" cssStyle="border:3px double #CCCCCC; width: 200px;height:40px;background: #A9A9A9 ;"
                                            id="notes" readonly="true"/>
                         </td>
                     </tr>
@@ -218,12 +219,12 @@
                         </td>
                         <td colspan="2"> &nbsp;</td>
                         <td style="text-align:right;">
-                            <label for="Status" style="font-size: .70em;">
+                            <label for="status" style="font-size: .70em;">
                                 Status :
                             </label>
                         </td>
                         <td style="text-align:left;">
-                            <form:select id="Status" path="currentTransaction.Status"
+                            <form:select id="status" path="currentTransaction.status"
                                          onkeypress="handleEnter(event);"
                                          cssStyle="border:3px double #CCCCCC; width: 200px;height:25px;">
                                 <form:option value=""><spring:message code="common.select" text="<-- Select -->"/></form:option>

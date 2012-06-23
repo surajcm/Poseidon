@@ -41,4 +41,12 @@ public class TransactionDelegate {
     public TransactionVO fetchTransactionFromId(Long id) throws TransactionException{
         return getTransactionService().fetchTransactionFromId(id);
     }
+
+    public void updateTransaction(TransactionVO currentTransaction)throws TransactionException{
+        getTransactionService().updateTransaction(currentTransaction);
+    }
+
+    public void deleteTransaction(Long id) throws TransactionException{
+        getTransactionService().deleteTransaction(id);
+    }
 }

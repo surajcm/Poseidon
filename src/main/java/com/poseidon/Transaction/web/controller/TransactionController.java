@@ -1,5 +1,7 @@
 package com.poseidon.Transaction.web.controller;
 
+import com.poseidon.Customer.web.controller.CustomerController;
+import com.poseidon.Customer.web.form.CustomerForm;
 import com.poseidon.Make.domain.MakeVO;
 import com.poseidon.Make.exception.MakeException;
 import com.poseidon.Transaction.exception.TransactionException;
@@ -182,9 +184,24 @@ public class TransactionController extends MultiActionController {
                 }
             }
             getTransactionDelegate().saveTransaction(transactionVO);
-        } catch (Exception e) {
+            transactionForm.setStatusMessage("Successfully added the Transaction");
+            transactionForm.setStatusMessageType("success");
+        } catch (TransactionException e) {
+            transactionForm.setStatusMessage("Unable to create a new transaction due to a Data base error");
+            transactionForm.setStatusMessageType("error");
             e.printStackTrace();
+            log.error(" Exception type in controller " + e.ExceptionType);
+            if (e.getExceptionType().equalsIgnoreCase(TransactionException.DATABASE_ERROR)) {
+                log.info(" An error occurred while fetching data from database. !! ");
+            } else {
+                log.info(" An Unknown Error has been occurred !!");
+            }
 
+        }catch (Exception e){
+            transactionForm.setStatusMessage("Unable to create the new Transaction");
+            transactionForm.setStatusMessageType("error");
+            e.printStackTrace();
+            log.info(" An Unknown Error has been occurred !!");
         }
         transactionForm.setLoggedInUser(transactionForm.getLoggedInUser());
         transactionForm.setLoggedInRole(transactionForm.getLoggedInRole());
@@ -344,20 +361,116 @@ public class TransactionController extends MultiActionController {
     public ModelAndView updateTxn(HttpServletRequest request,
                                   HttpServletResponse response, TransactionForm transactionForm) {
         log.info(" updateTxn method of TransactionController ");
-
+        log.info("TransactionForm values are "+transactionForm);
+        transactionForm.getCurrentTransaction().setModifiedBy(transactionForm.getLoggedInUser());
+        transactionForm.getCurrentTransaction().setModifiedOn(new Date());
+        log.info("TransactionForm, current transactions are values are "+transactionForm.getCurrentTransaction());
+        try {
+            getTransactionDelegate().updateTransaction(transactionForm.getCurrentTransaction());
+            transactionForm.setStatusMessage("Successfully updated the Transaction");
+            transactionForm.setStatusMessageType("success");
+        }catch (TransactionException e){
+            transactionForm.setStatusMessage("Unable to update the selected transaction due to a Data base error");
+            transactionForm.setStatusMessageType("error");
+            e.printStackTrace();
+            log.error(" Exception type in controller " + e.ExceptionType);
+            if (e.getExceptionType().equalsIgnoreCase(TransactionException.DATABASE_ERROR)) {
+                log.info(" An error occurred while fetching data from database. !! ");
+            } else {
+                log.info(" An Unknown Error has been occurred !!");
+            }
+        }catch (Exception e){
+            transactionForm.setStatusMessage("Unable to update the selected Transaction");
+            transactionForm.setStatusMessageType("error");
+            e.printStackTrace();
+            log.info(" An Unknown Error has been occurred !!");
+        }
+        List<TransactionVO> transactionVOs = null;
+        try {
+            transactionVOs = getTransactionDelegate().listTodaysTransactions();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if (transactionVOs != null) {
+            for (TransactionVO transactionVO : transactionVOs) {
+                log.info(" transaction vo is " + transactionVO);
+            }
+            transactionForm.setTransactionsList(transactionVOs);
+        }
+        //get all the make list for displaying in search
+        List<MakeVO> makeVOs = null;
+        try {
+            makeVOs = getMakeDelegate().fetchMakes();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if (makeVOs != null) {
+            for (MakeVO makeVO : makeVOs) {
+                log.info("make vo is" + makeVO);
+            }
+            transactionForm.setMakeVOs(makeVOs);
+        }
+        transactionForm.setSearchTransaction(new TransactionVO());
         transactionForm.setLoggedInRole(transactionForm.getLoggedInRole());
         transactionForm.setLoggedInUser(transactionForm.getLoggedInUser());
         transactionForm.setStatusList(populateStatus());
         return new ModelAndView("txs/TransactionList", "transactionForm", transactionForm);
     }
 
-    public ModelAndView editCust(HttpServletRequest request,
+    public ModelAndView DeleteTxn(HttpServletRequest request,
                                   HttpServletResponse response, TransactionForm transactionForm) {
-        log.info(" editCust method of TransactionController ");
-        log.info(transactionForm);
+        log.info(" DeleteTxn method of TransactionController ");
+        log.info("TransactionForm values are "+transactionForm);
+        try {
+            getTransactionDelegate().deleteTransaction(transactionForm.getId());
+            transactionForm.setStatusMessage("Successfully deleted the Transaction");
+            transactionForm.setStatusMessageType("success");
+        }catch (TransactionException e){
+            transactionForm.setStatusMessage("Unable to delete the selected transaction due to a Data base error");
+            transactionForm.setStatusMessageType("error");
+            e.printStackTrace();
+            log.error(" Exception type in controller " + e.ExceptionType);
+            if (e.getExceptionType().equalsIgnoreCase(TransactionException.DATABASE_ERROR)) {
+                log.info(" An error occurred while fetching data from database. !! ");
+            } else {
+                log.info(" An Unknown Error has been occurred !!");
+            }
+        }catch (Exception e){
+            transactionForm.setStatusMessage("Unable to delete the selected Transaction");
+            transactionForm.setStatusMessageType("error");
+            e.printStackTrace();
+            log.info(" An Unknown Error has been occurred !!");
+        }
+        List<TransactionVO> transactionVOs = null;
+        try {
+            transactionVOs = getTransactionDelegate().listTodaysTransactions();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if (transactionVOs != null) {
+            for (TransactionVO transactionVO : transactionVOs) {
+                log.info(" transaction vo is " + transactionVO);
+            }
+            transactionForm.setTransactionsList(transactionVOs);
+        }
+        //get all the make list for displaying in search
+        List<MakeVO> makeVOs = null;
+        try {
+            makeVOs = getMakeDelegate().fetchMakes();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if (makeVOs != null) {
+            for (MakeVO makeVO : makeVOs) {
+                log.info("make vo is" + makeVO);
+            }
+            transactionForm.setMakeVOs(makeVOs);
+        }
+        transactionForm.setSearchTransaction(new TransactionVO());
         transactionForm.setLoggedInRole(transactionForm.getLoggedInRole());
         transactionForm.setLoggedInUser(transactionForm.getLoggedInUser());
         transactionForm.setStatusList(populateStatus());
         return new ModelAndView("txs/TransactionList", "transactionForm", transactionForm);
     }
+
 }

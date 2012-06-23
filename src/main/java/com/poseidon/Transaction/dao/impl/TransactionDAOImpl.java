@@ -41,6 +41,11 @@ public class TransactionDAOImpl  extends JdbcDaoSupport implements TransactionDA
             " inner join make mk on mk.Id=t.MakeId " +
             " inner join model mdl on mdl.Id=t.ModelId " +
             " WHERE t.Id = ? ;";
+    private static final String UPDATE_TRANSACTION_SQL = " update transaction set TagNo = ?, ProductCategory = ?," +
+            " MakeId = ?, ModelId = ? , SerialNo = ? , Status = ? , Accessories = ?, ComplaintReported = ? , " +
+            " ComplaintDiagonsed = ?, EnggRemark = ?, RepairAction = ?, Note = ?, modifiedOn = ? , ModifiedBy =  ? " +
+            " where Id = ? ";
+    private static final String DELETE_TRANSACTION_BY_ID = " delete from transaction where id = ?";
 
     public List<TransactionVO> listTodaysTransactions() throws TransactionException {
         List<TransactionVO> transactionVOList;
@@ -104,6 +109,42 @@ public class TransactionDAOImpl  extends JdbcDaoSupport implements TransactionDA
             throw new TransactionException(TransactionException.DATABASE_ERROR);
         }
         return transactionVO;
+    }
+
+    public void updateTransaction(TransactionVO currentTransaction) throws TransactionException {
+        Object[] parameters = new Object[]{
+                currentTransaction.getTagNo(),
+                currentTransaction.getProductCategory(),
+                currentTransaction.getMakeId(),
+                currentTransaction.getModelId(),
+                currentTransaction.getSerialNo(),
+                currentTransaction.getStatus(),
+                currentTransaction.getAccessories(),
+                currentTransaction.getComplaintReported(),
+                currentTransaction.getComplaintDiagonsed(),
+                currentTransaction.getEnggRemark(),
+                currentTransaction.getRepairAction(),
+                currentTransaction.getNotes(),
+                currentTransaction.getModifiedOn(),
+                currentTransaction.getModifiedBy(),
+                currentTransaction.getId()};
+
+        try {
+            getJdbcTemplate().update(UPDATE_TRANSACTION_SQL, parameters);
+        } catch (DataAccessException e) {
+            e.printStackTrace();
+            throw new TransactionException(TransactionException.DATABASE_ERROR);
+        }
+    }
+
+    public void deleteTransaction(Long id) throws TransactionException {
+        try {
+            Object[] parameters = new Object[]{id};
+            getJdbcTemplate().update(DELETE_TRANSACTION_BY_ID, parameters);
+        } catch (DataAccessException e) {
+            e.printStackTrace();
+            throw new TransactionException(TransactionException.DATABASE_ERROR);
+        }
     }
 
     private TransactionVO fetchTxn(Long id) {

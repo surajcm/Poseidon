@@ -33,6 +33,8 @@ public class TransactionVO {
     private Boolean startswith;
     private Boolean includes;
     private String notes;
+    private String startDate;
+    private String endDate;
 
     public Long getId() {
         return id;
@@ -224,6 +226,22 @@ public class TransactionVO {
 
     public void setNotes(String notes) {
         this.notes = notes;
+    }
+
+    public String getStartDate() {
+        return startDate;
+    }
+
+    public void setStartDate(String startDate) {
+        this.startDate = startDate;
+    }
+
+    public String getEndDate() {
+        return endDate;
+    }
+
+    public void setEndDate(String endDate) {
+        this.endDate = endDate;
     }
 
     @Override

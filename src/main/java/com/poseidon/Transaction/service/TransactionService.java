@@ -19,4 +19,8 @@ public interface TransactionService {
     public List<TransactionVO> searchTransactions(TransactionVO searchTransaction) throws  TransactionException;
 
     public TransactionVO fetchTransactionFromId(Long id) throws  TransactionException;
+
+    public void updateTransaction(TransactionVO currentTransaction) throws  TransactionException;
+
+    public void deleteTransaction(Long id)throws  TransactionException;
 }

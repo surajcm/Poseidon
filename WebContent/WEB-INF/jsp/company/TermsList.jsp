@@ -41,8 +41,14 @@
 
                     <tbody>
                     <tr>
-                        <td><c:out value="${companyTermsForm.currentCompanyTermsVO.termsAndConditions}"/></td>
-                        <td><c:out value="${companyTermsForm.currentCompanyTermsVO.companyDetails}"/></td>
+                        <td style="text-align:right;">
+                            <form:textarea path="currentCompanyTermsVO.termsAndConditions" rows="5" cols="30" cssStyle="border:0;background: #A9A9A9 ;"
+                                        id="termsAndConditions" readonly="true"/>
+                        </td>
+                        <td style="text-align:left;">
+                            <form:textarea path="currentCompanyTermsVO.companyDetails" rows="5" cols="30" cssStyle="border:0; background: #A9A9A9 ;"
+                                        id="companyDetails" readonly="true"/>
+                        </td>
                     </tr>
                     </tbody>
                 </table>

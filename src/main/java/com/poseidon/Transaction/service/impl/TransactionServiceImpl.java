@@ -80,4 +80,26 @@ public class TransactionServiceImpl implements TransactionService {
         }
         return transactionVO;
     }
+
+    public void updateTransaction(TransactionVO currentTransaction) throws TransactionException {
+        try {
+            getTransactionDAO().updateTransaction(currentTransaction);
+        } catch (TransactionException t) {
+            log.error(" Exception type in service impl " + t.getExceptionType());
+            throw new TransactionException(t.getExceptionType());
+        } catch (Exception e1) {
+            e1.printStackTrace();
+        }
+    }
+
+    public void deleteTransaction(Long id) throws TransactionException {
+        try {
+            getTransactionDAO().deleteTransaction(id);
+        } catch (TransactionException t) {
+            log.error(" Exception type in service impl " + t.getExceptionType());
+            throw new TransactionException(t.getExceptionType());
+        } catch (Exception e1) {
+            e1.printStackTrace();
+        }
+    }
 }

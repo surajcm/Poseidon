@@ -266,14 +266,27 @@
                         </td>
                         <td colspan="2">&nbsp;</td>
                         <td>
-                            <label for="date" style="font-size: .70em;">
-                                Reported Date :
+                            <label for="startDate" style="font-size: .70em;">
+                                Start Date :
                             </label>
                         </td>
                         <td>
-                            <input type="text" value="will be used for date"/>
+                            <form:input path="searchTransaction.startDate" cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;" id="startDate"/>
                         </td>
                         <td colspan="2">&nbsp;</td>
+                        <td>
+                            <label for="endDate" style="font-size: .70em;">
+                                End Date :
+                            </label>
+                        </td>
+                        <td>
+                            <form:input path="searchTransaction.endDate" cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;" id="endDate"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="14">&nbsp;</td>
+                    </tr>
+                    <tr>
                         <td>
                             <label for="SerialNo" style="font-size: .70em;">
                                 Serial No :
@@ -282,18 +295,14 @@
                         <td>
                             <form:input path="searchTransaction.SerialNo" cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;" id="SerialNo"/>
                         </td>
-                    </tr>
-                    <tr>
-                        <td colspan="14">&nbsp;</td>
-                    </tr>
-                    <tr>
+                        <td colspan="2">&nbsp;</td>
                         <td>
                             <label for="makeId" style="font-size: .70em;">
                                 Make :
                             </label>
                         </td>
                         <td>
-                            <form:select id="makeId" path="searchTransaction.makeName" tabindex="1"
+                            <form:select id="makeId" path="searchTransaction.makeId" tabindex="1"
                                          onkeypress="handleEnter(event);" onchange="changeTheModel();"
                                          cssStyle="border:3px double #CCCCCC; width: 200px;height:28px;">
                                 <form:option value=""><spring:message code="common.select" text="<-- Select -->"/></form:option>
@@ -330,7 +339,12 @@
                                 <form:options items="${transactionForm.statusList}" />
                             </form:select>
                         </td>
-                        <td colspan="2">&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td colspan="14">&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td colspan="12">&nbsp;</td>
                         <td>
                             <label for="includes" style="font-size: .70em;">
                                 <spring:message code="user.includes" text="Includes"/>
@@ -343,9 +357,6 @@
                                 <form:checkbox path="searchTransaction.startswith" cssStyle="vertical-align:middle" id="startswith" value="" />
                             </label>
                         </td>
-                    </tr>
-                    <tr>
-                        <td colspan="14">&nbsp;</td>
                     </tr>
                     <tr>
                         <td colspan="12">&nbsp;</td>

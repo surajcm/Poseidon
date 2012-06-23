@@ -1,5 +1,6 @@
 package com.poseidon.Customer.web.controller;
 
+import com.poseidon.Transaction.web.form.TransactionForm;
 import org.springframework.web.servlet.mvc.multiaction.MultiActionController;
 import org.springframework.web.servlet.ModelAndView;
 import org.apache.commons.logging.Log;
@@ -223,6 +224,16 @@ public class CustomerController extends MultiActionController {
         customerForm.setLoggedInRole(customerForm.getLoggedInRole());
         customerForm.setLoggedInUser(customerForm.getLoggedInUser());
         return new ModelAndView("customer/CustomerList", "customerForm", customerForm);
+    }
+
+    public ModelAndView editCustomer(HttpServletRequest request,
+                                 HttpServletResponse response, TransactionForm transactionForm){
+        log.info(" DeleteTxn method of TransactionController ");
+        log.info("TransactionForm values are "+transactionForm);
+        CustomerForm customerForm = new CustomerForm();
+        customerForm.setId(transactionForm.getCustomerVO().getCustomerId());
+        return editCust(request,response,customerForm);
+
     }
 
 }
