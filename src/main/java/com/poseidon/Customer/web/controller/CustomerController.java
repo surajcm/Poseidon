@@ -161,7 +161,7 @@ public class CustomerController extends MultiActionController {
     }
 
     public ModelAndView updateCustomer(HttpServletRequest request,
-                                     HttpServletResponse response, CustomerForm customerForm) {
+                                       HttpServletResponse response, CustomerForm customerForm) {
         log.info(" updateCustomer method of CustomerController ");
         log.info(" CustomerForm is " + customerForm);
         try {
@@ -189,13 +189,13 @@ public class CustomerController extends MultiActionController {
     }
 
     public ModelAndView searchCustomer(HttpServletRequest request,
-                                     HttpServletResponse response, CustomerForm customerForm) {
+                                       HttpServletResponse response, CustomerForm customerForm) {
         log.info(" searchCustomer method of CustomerController ");
         log.info(" CustomerForm is " + customerForm);
         List<CustomerVO> customerVOs = null;
         try {
             customerVOs = getCustomerDelegate().searchCustomer(customerForm.getSearchCustomerVO());
-            customerForm.setStatusMessage("Found "+ customerVOs.size() +" Customer details");
+            customerForm.setStatusMessage("Found " + customerVOs.size() + " Customer details");
             customerForm.setStatusMessageType("info");
         } catch (CustomerException e) {
             customerForm.setStatusMessage("Unable to fetch Customer details due to a Data base error");
@@ -227,12 +227,16 @@ public class CustomerController extends MultiActionController {
     }
 
     public ModelAndView editCustomer(HttpServletRequest request,
-                                 HttpServletResponse response, TransactionForm transactionForm){
-        log.info(" DeleteTxn method of TransactionController ");
-        log.info("TransactionForm values are "+transactionForm);
+                                     HttpServletResponse response, TransactionForm transactionForm) {
+        log.info(" editCustomer method of TransactionController ");
+        log.info("TransactionForm values are " + transactionForm);
         CustomerForm customerForm = new CustomerForm();
-        customerForm.setId(transactionForm.getCustomerVO().getCustomerId());
-        return editCust(request,response,customerForm);
+        if (transactionForm.getCustomerVO() != null && transactionForm.getCustomerVO().getCustomerId() > 0) {
+            customerForm.setId(transactionForm.getCustomerVO().getCustomerId());
+            return editCust(request, response, customerForm);
+        }else{
+            return new ModelAndView("ErrorPage","userForm",customerForm);
+        }
 
     }
 

@@ -5,7 +5,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
-        <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Edit Transaction</title>
         <link rel="stylesheet" type="text/css" href="../css/mainStyles.css"/>
         <script type="text/javascript">
@@ -17,6 +17,15 @@
             function cancel() {
                 document.forms[0].action = "List.htm";
                 document.forms[0].submit();
+            }
+            function editThisCustomer(){
+                if(document.getElementById("customerId") != null){
+                    document.forms[0].action = "<%=request.getContextPath()%>" + "/customer/editCustomer.htm"+
+                            "?customerId=" +document.getElementById("customerId").value;
+                    document.forms[0].submit();
+                }else{
+                    alert("Unable to get the customer Details !!!");
+                }
             }
         </script>
     </head>
@@ -68,7 +77,9 @@
                             <form:input path="customerVO.customerId" cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;" id="customerId"/>
                         </td>
                         <td colspan="2"> &nbsp;</td>
-                        <td colspan="2"> <a id="editCustomer" href="<%=request.getContextPath()%>/customer/editCustomer.htm" > Edit Customer</a></td>
+                        <td colspan="2">
+                            <input class="btn" value="Edit Customer Details" type="button" onclick="javascript:editThisCustomer();"/>
+                        </td>
                         <td colspan="4"> &nbsp;</td>
                     </tr>
                     <tr>

@@ -5,7 +5,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Add Transaction</title>
     <link rel="stylesheet" type="text/css" href="../css/mainStyles.css"/>
     <script type="text/javascript">
@@ -22,9 +22,30 @@
         }
 
         //code to edit a user
-        function clear() {
+        function clearOut() {
             document.getElementById("TagNo").value = "";
+            document.getElementById("productCategory").value = "";
+            document.getElementById("serialNo").value = "";
             document.getElementById("customerId").value = "";
+            document.getElementById("customerName").value = "";
+            document.getElementById("address1").value = "";
+            document.getElementById("address2").value = "";
+            document.getElementById("phoneNo").value = "";
+            document.getElementById("mobile").value = "";
+            document.getElementById("email").value = "";
+            document.getElementById("contactPerson1").value = "";
+            document.getElementById("contactMobile1").value = "";
+            document.getElementById("contactPerson2").value = "";
+            document.getElementById("contactMobile2").value = "";
+            document.getElementById("notes").value = "";
+            document.getElementById("makeId").value = document.getElementById('makeId').options[0].value;
+            document.getElementById("modelId").value = document.getElementById('modelId').options[0].value;
+            document.getElementById("accessories").value = "";
+            document.getElementById("complaintReported").value = "";
+            document.getElementById("complaintDiagonsed").value = "";
+            document.getElementById("enggRemark").value = "";
+            document.getElementById("repairAction").value = "";
+            document.getElementById("notes").value = "";
         }
 
         function changeTheModel(){
@@ -353,7 +374,7 @@
     </td>
     <td colspan="2">
         <input class="btn" value="Save" type="button" onclick="javascript:save();"/>
-        <input class="btn" value="Clear" type="button" onclick="javascript:clear();"/>
+        <input class="btn" value="Clear" type="button" onclick="javascript:clearOut();"/>
     </td>
 </tr>
 </table>
