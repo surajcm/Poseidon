@@ -1,85 +1,117 @@
 <%@ page language="java" contentType="text/html;charset=UTF-8" %>
-<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
-<%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
+<%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
-	<head>
-	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
-		<title>User Add</title>
-		<link rel="stylesheet" type="text/css" href="../css/mainStyles.css" />
-		<script type="text/javascript">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>User Add</title>
+    <link rel="stylesheet" type="text/css" href="../css/mainStyles.css"/>
+    <script type="text/javascript">
 
-			//code to add New user
-			function save(){
-				document.forms[0].action="SaveUser.htm";
-				document.forms[0].submit();
-			}
+        //code to add New user
+        function save() {
+            document.forms[0].action = "SaveUser.htm";
+            document.forms[0].submit();
+        }
 
-		    //code to edit a user
-			function clear(){
-				document.getElementById("name").value ="";
-				document.getElementById("psw").value ="";
-			}
-		</script>
-	</head>
-	<body>
-        <form:form method="POST" commandName="userForm" name="userForm" >
-            <%@include file="/WEB-INF/jsp/myHeader.jsp" %>
-            <form:hidden name="loggedInUser" path="loggedInUser" />
-	        <form:hidden name="loggedInRole" path="loggedInRole" />
-            <div id="content">
-                <table class="myTable">
+        //code to edit a user
+        function clearOut() {
+            document.getElementById("name").value = "";
+            document.getElementById("psw").value = "";
+        }
+    </script>
+</head>
+<body style="background: #A9A9A9 ;">
+<form:form method="POST" commandName="userForm" name="userForm">
+    <form:hidden name="loggedInUser" path="loggedInUser"/>
+    <form:hidden name="loggedInRole" path="loggedInRole"/>
+    <%@include file="/WEB-INF/jsp/myHeader.jsp" %>
+    <div id="content">
+        <div class="wrap">
+            <fieldset style="text-align:right;">
+                <legend>Add User</legend>
+                <table style="margin:auto;top:50%;left:50%;">
                     <tr>
                         <td>
-                            <label for="name"><spring:message code="poseidon.username" text="User Name" /></label>
-                            <label class="mandatory">*</label>
+                            <label for="name" style="font-size: .70em;">
+                                <spring:message code="poseidon.username" text="User Name"/>
+                            </label>
                         </td>
+                        <td colspan="2">&nbsp;</td>
                         <td>
-                            <form:input path="user.name" cssClass="textboxes" id="name" />
+                            <form:input path="user.name" cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;"
+                                        id="name"/>
                         </td>
                     </tr>
                     <tr>
-                        <td>
-                            <label for="name"><spring:message code="poseidon.loginId" text="loginId" /></label>
-                            <label class="mandatory">*</label>
-                        </td>
-                        <td>
-                            <form:input path="user.loginId" cssClass="textboxes" id="loginId" />
-                        </td>
+                        <td colspan="4">&nbsp;</td>
                     </tr>
                     <tr>
                         <td>
-                            <label for="password"><spring:message code="poseidon.password" text="Password" /></label>
-                            <label class="mandatory">*</label>
+                            <label for="loginId" style="font-size: .70em;">
+                                <spring:message code="poseidon.loginId" text="loginId"/>
+                            </label>
                         </td>
+                        <td colspan="2">&nbsp;</td>
                         <td>
-                            <form:password path="user.password" cssClass="textboxes" id="psw" />
+                            <form:input path="user.loginId"
+                                        cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;" id="loginId"/>
                         </td>
                     </tr>
                     <tr>
+                        <td colspan="4">&nbsp;</td>
+                    </tr>
+                    <tr>
                         <td>
-                            <label	for="role"><spring:message code="poseidon.role" text="Role" /></label>
-                            <label class="mandatory">*</label>
+                            <label for="psw" style="font-size: .70em;">
+                                <spring:message code="poseidon.password" text="Password"/>
+                            </label>
                         </td>
+                        <td colspan="2">&nbsp;</td>
                         <td>
-                            <form:select path="user.role" cssClass="textboxes" id="role" >
-                                <form:option value="admin"><spring:message code="poseidon.admin" text="admin" /></form:option>
-                                <form:option value="guest"><spring:message code="poseidon.guest" text="guest" /></form:option>
+                            <form:password path="user.password"
+                                           cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;" id="psw"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="4">&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="role" style="font-size: .70em;">
+                                <spring:message code="poseidon.role" text="Role"/>
+                            </label>
+                        </td>
+                        <td colspan="2">&nbsp;</td>
+                        <td>
+                            <form:select id="role" path="user.role"
+                                         onkeypress="handleEnter(event);"
+                                         cssStyle="border:3px double #CCCCCC; width: 200px;height:25px;">
+                                <form:option value=""><spring:message code="common.select" text="<-- Select -->"/></form:option>
+                                <form:options items="${userForm.roleList}" />
                             </form:select>
                         </td>
                     </tr>
                     <tr>
-                        <td>
+                        <td colspan="4">&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td colspan="2">
                             &nbsp;
                         </td>
                         <td>
-                            <input class="btn" value="Save" type="button" onclick="javascript:save();" />
-                            <input class="btn" value="Clear" type="button" onclick="javascript:clear();" />
+                            <input class="btn" value="Save" type="button" onclick="javascript:save();"/>
+                        </td>
+                        <td>
+                            <input class="btn" value="Clear" type="button" onclick="javascript:clearOut();"/>
                         </td>
                     </tr>
                 </table>
-		    </div>
-        </form:form>
-	</body>
+            </fieldset>
+        </div>
+    </div>
+</form:form>
+</body>
 </html>

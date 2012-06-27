@@ -11,6 +11,7 @@ import org.springframework.web.servlet.mvc.multiaction.MultiActionController;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -137,6 +138,8 @@ public class UserController extends MultiActionController {
         try {
             userList = getUserDelegate().getAllUserDetails();
         } catch (UserException e) {
+            userForm.setStatusMessage("Unable to list the Users due to an error");
+            userForm.setStatusMessageType("error");
             e.printStackTrace();
             log.error(" Exception type in controller " + e.ExceptionType);
             if (e.getExceptionType().equalsIgnoreCase(UserException.DATABASE_ERROR)) {
@@ -159,7 +162,15 @@ public class UserController extends MultiActionController {
         userForm.setLoggedInUser(userForm.getLoggedInUser());
         userForm.setLoggedInRole(userForm.getLoggedInRole());
         userForm.setSearchUser(new UserVO());
+        userForm.setRoleList(populateRoles());
         return new ModelAndView("user/UserList", "userForm", userForm);
+    }
+
+    private List<String> populateRoles() {
+        List<String> roleList = new ArrayList<String>();
+        roleList.add("ADMIN");
+        roleList.add("GUEST");
+        return roleList;
     }
 
     /**
@@ -177,6 +188,7 @@ public class UserController extends MultiActionController {
         userForm.setLoggedInUser(userForm.getLoggedInUser());
         userForm.setLoggedInRole(userForm.getLoggedInRole());
         userForm.setUser(new UserVO());
+        userForm.setRoleList(populateRoles());
         return new ModelAndView("user/userAdd", "userForm", userForm);
     }
 
@@ -199,7 +211,32 @@ public class UserController extends MultiActionController {
             userForm.getUser().setCreatedBy(userForm.getLoggedInUser());
             userForm.getUser().setLastModifiedBy(userForm.getLoggedInUser());
             getUserDelegate().addNewUser(userForm.getUser());
+            userForm.setStatusMessage("Successfully saved the new User");
+            userForm.setStatusMessageType("success");
         } catch (UserException e) {
+            userForm.setStatusMessage("Unable to save the User due to a database error");
+            userForm.setStatusMessageType("error");
+            e.printStackTrace();
+            log.error(" Exception type in controller " + e.ExceptionType);
+            if (e.getExceptionType().equalsIgnoreCase(UserException.DATABASE_ERROR)) {
+                log.info(" An error occurred while fetching data from database. !! ");
+            } else {
+                log.info(" An Unknown Error has been occurred !!");
+            }
+
+        } catch (Exception e1) {
+            userForm.setStatusMessage("Unable to save the User due to an error");
+            userForm.setStatusMessageType("error");
+            e1.printStackTrace();
+            log.info(" An Unknown Error has been occurred !!");
+
+        }
+        List<UserVO> userList = null;
+        try {
+            userList = getUserDelegate().getAllUserDetails();
+        } catch (UserException e) {
+            userForm.setStatusMessage("Unable to list the Users due to an error");
+            userForm.setStatusMessageType("error");
             e.printStackTrace();
             log.error(" Exception type in controller " + e.ExceptionType);
             if (e.getExceptionType().equalsIgnoreCase(UserException.DATABASE_ERROR)) {
@@ -213,7 +250,17 @@ public class UserController extends MultiActionController {
             log.info(" An Unknown Error has been occurred !!");
 
         }
-        return ListAll(request, response, userForm);
+        if (userList != null) {
+            for (UserVO userIteration : userList) {
+                log.info(" User detail " + userIteration.toString());
+            }
+        }
+        userForm.setUserVOs(userList);
+        userForm.setLoggedInUser(userForm.getLoggedInUser());
+        userForm.setLoggedInRole(userForm.getLoggedInRole());
+        userForm.setSearchUser(new UserVO());
+        userForm.setRoleList(populateRoles());
+        return new ModelAndView("user/UserList", "userForm", userForm);
     }
 
     /**
@@ -253,6 +300,7 @@ public class UserController extends MultiActionController {
         userForm.setUser(userVO);
         userForm.setLoggedInUser(userForm.getLoggedInUser());
         userForm.setLoggedInRole(userForm.getLoggedInRole());
+        userForm.setRoleList(populateRoles());
         return new ModelAndView("user/userEdit", "userForm", userForm);
     }
 
@@ -273,7 +321,11 @@ public class UserController extends MultiActionController {
             userForm.getUser().setModifiedDate(new Date());
             log.info(" User instance to update " + userForm.getUser().toString());
             getUserDelegate().UpdateUser(userForm.getUser());
+            userForm.setStatusMessage("Successfully updated the User");
+            userForm.setStatusMessageType("success");
         } catch (UserException e) {
+            userForm.setStatusMessage("Unable to update the User due to a database error");
+            userForm.setStatusMessageType("error");
             e.printStackTrace();
             log.error(" Exception type in controller " + e.ExceptionType);
             if (e.getExceptionType().equalsIgnoreCase(UserException.DATABASE_ERROR)) {
@@ -283,6 +335,8 @@ public class UserController extends MultiActionController {
             }
 
         } catch (Exception e1) {
+            userForm.setStatusMessage("Unable to update the User due to an error");
+            userForm.setStatusMessageType("error");
             e1.printStackTrace();
             log.info(" An Unknown Error has been occurred !!");
 
@@ -305,7 +359,11 @@ public class UserController extends MultiActionController {
         log.info(" user is " + userForm.toString());
         try {
             getUserDelegate().deleteUser(userForm.getId());
+            userForm.setStatusMessage("Successfully deleted the User");
+            userForm.setStatusMessageType("success");
         } catch (UserException e) {
+            userForm.setStatusMessage("Unable to delete the User due to a database error");
+            userForm.setStatusMessageType("error");
             e.printStackTrace();
             log.error(" Exception type in controller " + e.ExceptionType);
             if (e.getExceptionType().equalsIgnoreCase(UserException.DATABASE_ERROR)) {
@@ -315,6 +373,8 @@ public class UserController extends MultiActionController {
             }
 
         } catch (Exception e1) {
+            userForm.setStatusMessage("Unable to delete the User due to an error");
+            userForm.setStatusMessageType("error");
             e1.printStackTrace();
             log.info(" An Unknown Error has been occurred !!");
 
@@ -374,7 +434,13 @@ public class UserController extends MultiActionController {
         List<UserVO> userList = null;
         try {
             userList = getUserDelegate().searchUser(userForm.getSearchUser());
+            if(userList != null && userList.size()> 0){
+                userForm.setStatusMessage("Successfully fetched "+userList.size()+ " Users");
+                userForm.setStatusMessageType("info");
+            }
         } catch (UserException e) {
+            userForm.setStatusMessage("Unable to search due to a database error");
+            userForm.setStatusMessageType("error");
             e.printStackTrace();
             log.error(" Exception type in controller " + e.ExceptionType);
             if (e.getExceptionType().equalsIgnoreCase(UserException.DATABASE_ERROR)) {
@@ -384,6 +450,8 @@ public class UserController extends MultiActionController {
             }
 
         } catch (Exception e1) {
+            userForm.setStatusMessage("Unable to search due to an error");
+            userForm.setStatusMessageType("error");
             e1.printStackTrace();
             log.info(" An Unknown Error has been occurred !!");
 
@@ -394,6 +462,7 @@ public class UserController extends MultiActionController {
             }
         }
         userForm.setUserVOs(userList);
+        userForm.setRoleList(populateRoles());
         return new ModelAndView("user/UserList", "userForm", userForm);
     }
 

@@ -8,6 +8,9 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Transaction List</title>
 <link rel="stylesheet" type="text/css" href="../css/mainStyles.css"/>
+<link rel="stylesheet" type="text/css" href="../css/ui-lightness/jquery-ui-1.8.21.custom.css"/>
+<script type="text/javascript" src="../js/jquery-1.7.2.min.js" language="javascript" ></script>
+<script type="text/javascript" src="../js/jquery-ui-1.8.21.custom.min.js" language="javascript" ></script>
 <style type="text/css">
 
     .info, .success, .error {
@@ -243,13 +246,19 @@ function deleteRow() {
 
 
 </script>
+<script>
+    $(function() {
+        $( "#startDate" ).datepicker({ dateFormat: "dd/mm/yy" });
+        $( "#endDate" ).datepicker({ dateFormat: "dd/mm/yy" });
+    });
+</script>
 </head>
 <body style="background: #A9A9A9 ;">
 <form:form method="POST" commandName="transactionForm" name="transactionForm" action="List.htm">
-    <%@include file="/WEB-INF/jsp/myHeader.jsp" %>
     <form:hidden name="loggedInUser" path="loggedInUser"/>
     <form:hidden name="loggedInRole" path="loggedInRole"/>
     <input type="hidden" name="id" id="id"/>
+    <%@include file="/WEB-INF/jsp/myHeader.jsp" %>
 
     <div id="content">
         <div class="wrap">
@@ -263,7 +272,7 @@ function deleteRow() {
                             </label>
                         </td>
                         <td>
-                            <form:input path="searchTransaction.TagNo" cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;" id="TagNo"/>
+                            <form:input path="searchTransaction.TagNo" cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;font-size: .70em;" id="TagNo"/>
                         </td>
                         <td colspan="2">&nbsp;</td>
                         <td>
@@ -272,7 +281,7 @@ function deleteRow() {
                             </label>
                         </td>
                         <td>
-                            <form:input path="searchTransaction.CustomerName" cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;" id="CustomerName"/>
+                            <form:input path="searchTransaction.CustomerName" cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;font-size: .70em;" id="CustomerName"/>
                         </td>
                         <td colspan="2">&nbsp;</td>
                         <td>
@@ -281,7 +290,7 @@ function deleteRow() {
                             </label>
                         </td>
                         <td>
-                            <form:input path="searchTransaction.startDate" cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;" id="startDate"/>
+                            <form:input path="searchTransaction.startDate" cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;font-size: .70em;" id="startDate"/>
                         </td>
                         <td colspan="2">&nbsp;</td>
                         <td>
@@ -290,7 +299,7 @@ function deleteRow() {
                             </label>
                         </td>
                         <td>
-                            <form:input path="searchTransaction.endDate" cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;" id="endDate"/>
+                            <form:input path="searchTransaction.endDate" cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;font-size: .70em;" id="endDate"/>
                         </td>
                     </tr>
                     <tr>
@@ -303,7 +312,7 @@ function deleteRow() {
                             </label>
                         </td>
                         <td>
-                            <form:input path="searchTransaction.SerialNo" cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;" id="SerialNo"/>
+                            <form:input path="searchTransaction.SerialNo" cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;font-size: .70em;" id="SerialNo"/>
                         </td>
                         <td colspan="2">&nbsp;</td>
                         <td>

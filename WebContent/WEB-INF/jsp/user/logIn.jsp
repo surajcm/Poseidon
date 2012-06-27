@@ -5,7 +5,7 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 	<head>
-	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<title>Log In</title>
         <link rel="stylesheet" type="text/css" href="../css/logInStyles.css" />
 		<script type="text/javascript">
@@ -23,12 +23,12 @@
                     <div class="sign_in">
                         <fieldset>
                             <p class="">
-                                <label for="name"><spring:message code="poseidon.username" text="User Name:" /></label>
+                                <label for="loginId"><spring:message code="poseidon.username" text="User Name:" /></label>
                                 <form:input path="loginId" cssClass="textboxes" id="loginId" />
                                 <form:errors path="loginId" />
                             </p>
                             <p class="">
-                                <label for="password"><spring:message code="poseidon.password" text="Password:" /></label>
+                                <label for="psw"><spring:message code="poseidon.password" text="Password:" /></label>
                                 <form:password path="password" cssClass="textboxes" id="psw" />
                                 <form:errors path="password" />
                             </p>

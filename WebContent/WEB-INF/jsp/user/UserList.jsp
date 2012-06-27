@@ -5,10 +5,38 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 	<head>
-	<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<title><spring:message code="poseidon.userListPage" text="User List" /></title>
 		<link rel="stylesheet" type="text/css" href="../css/mainStyles.css" />
-		<script type="text/javascript">
+        <style type="text/css">
+
+            .info, .success, .error {
+                border: 1px solid;
+                margin: 10px 0px;
+                padding: 15px 10px 15px 50px;
+                background-repeat: no-repeat;
+                background-position: 10px center;
+            }
+
+            .info {
+                color: #00529B;
+                background-color: #BDE5F8;
+                background-image: url( "<%=request.getContextPath()%>/images/Info.png" );
+            }
+
+            .success {
+                color: #4F8A10;
+                background-color: #DFF2BF;
+                background-image: url( '<%=request.getContextPath()%>/images/Success.png' );
+            }
+
+            .error {
+                color: #D8000C;
+                background-color: #FFBABA;
+                background-image: url( '<%=request.getContextPath()%>/images/Error.png' );
+            }
+        </style>
+        <script type="text/javascript">
 
 			//code to add New user
 			function addNew(){
@@ -142,18 +170,18 @@
 				document.forms[0].submit();
 			}
 
-			function clear(){
+			function clearOut(){
 			}
 
 		</script>
 	</head>
 	<body style="background: #A9A9A9 ;" >
         <form:form method="POST" commandName="userForm" name="userForm" action="listAll.htm" >
-        <%@include file="/WEB-INF/jsp/myHeader.jsp" %>
-        <input type="hidden" name="id" id="id" />
-        <form:hidden name="loggedInUser" path="loggedInUser" />
-	    <form:hidden name="loggedInRole" path="loggedInRole" />
-        <div id="content">
+            <input type="hidden" name="id" id="id" />
+            <form:hidden name="loggedInUser" path="loggedInUser" />
+            <form:hidden name="loggedInRole" path="loggedInRole" />
+            <%@include file="/WEB-INF/jsp/myHeader.jsp" %>
+            <div id="content">
             <div class="wrap">
                 <fieldset style="text-align:right;">
 					<legend><spring:message code="user.searchUser" text="Search User Details" /></legend>
@@ -165,19 +193,17 @@
 								</label>
 							</td>
 							<td>
-								<form:input path="searchUser.name" cssClass="textboxes" id="name" />
-                                <form:errors path="searchUser.name" />
+								<form:input path="searchUser.name" cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;" id="name" />
 							</td>
 							<td colspan="2">&nbsp;</td>
 							<td>
-								<label for="createdBy" style="font-size: .70em;">
+								<label for="loginId" style="font-size: .70em;">
 									<spring:message code="poseidon.loginId" text="loginId" />
 								</label>
 							</td>
 							<td>
-								<form:input path="searchUser.createdBy" cssClass="textboxes" id="createdBy" />
-                                <form:errors path="searchUser.createdBy" />
-							</td>
+								<form:input path="searchUser.loginId" cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;" id="loginId" />
+                            </td>
 							<td colspan="2">&nbsp;</td>
 							<td>
 								<label for="role" style="font-size: .70em;">
@@ -185,9 +211,13 @@
 								</label>
 							</td>
 							<td>
-								<form:input path="searchUser.role" cssClass="textboxes" id="role" />
-                                <form:errors path="searchUser.role" />
-							</td>
+								<form:select id="role" path="searchUser.role"
+                                             onkeypress="handleEnter(event);"
+                                             cssStyle="border:3px double #CCCCCC; width: 200px;height:25px;">
+                                    <form:option value=""><spring:message code="common.select" text="<-- Select -->"/></form:option>
+                                    <form:options items="${userForm.roleList}" />
+                                </form:select>
+                            </td>
 						</tr>
 						<tr>
 							<td colspan="4">&nbsp;</td>
@@ -197,13 +227,13 @@
 							<td>
 								<label for="includes" style="font-size: .70em;">
 								    <spring:message code="user.includes" text="Includes" />
-									<input type="checkbox" name="includes" value="includes" />
+                                    <form:checkbox path="searchUser.includes" cssStyle="vertical-align:middle" id="includes" value="" />
 								</label>
 							</td>
 							<td>
-								<label for="startswith" style="font-size: .70em;">
+								<label for="startsWith" style="font-size: .70em;">
 								    <spring:message code="user.startsWith" text="Starts with" />
-									<input type="checkbox" name="startswith" value="startswith" />
+                                    <form:checkbox path="searchUser.startsWith" cssStyle="vertical-align:middle" id="startswith" value="" />
 								</label>
 							</td>
 						</tr>
@@ -213,14 +243,18 @@
 								<input class="btn" value="<spring:message code="poseidon.search" text="Search" />" type="button" onclick="javascript:search()" />
 							</td>
 							<td>
-								<input class="btn" value="<spring:message code="poseidon.clear" text="Clear" />" type="button" onclick="javascript:clear()" />
+								<input class="btn" value="<spring:message code="poseidon.clear" text="Clear" />" type="button" onclick="javascript:clearOut()" />
 							</td>
 						</tr>
 					</table>
 				</fieldset>
-				<br/>
+                <c:if test="${userForm.statusMessage!=null}">
+                    <div class="<c:out value="${userForm.statusMessageType}"/>">
+                        <c:out value="${userForm.statusMessage}"/>
+                    </div>
+                </c:if>
 				<fieldset>
-					<legend><spring:message code="user.UserDetail" text="User Details" /></legend>
+					<legend><spring:message code="user.userDetails" text="User Details" /></legend>
 					<table border="2" id="myTable" style="font-size: .60em;">
 						<thead>
 							<tr>

@@ -111,9 +111,9 @@
 </head>
 <body style="background: #A9A9A9 ;">
 <form:form method="POST" commandName="transactionForm" name="transactionForm">
-<%@include file="/WEB-INF/jsp/myHeader.jsp" %>
 <form:hidden name="loggedInUser" path="loggedInUser"/>
 <form:hidden name="loggedInRole" path="loggedInRole"/>
+<%@include file="/WEB-INF/jsp/myHeader.jsp" %>
 <div id="content">
 <fieldset>
 <legend>Add Transaction</legend>
@@ -124,7 +124,7 @@
         <label class="mandatory">*</label>
     </td>
     <td style="text-align:left;">
-        <form:input path="currentTransaction.TagNo" cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;" id="TagNo"/>
+        <form:input path="currentTransaction.TagNo" cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;font-size: .70em;" id="TagNo"/>
     </td>
     <td colspan="2"> &nbsp;</td>
     <td style="text-align:right;">
@@ -132,7 +132,7 @@
         <label class="mandatory">*</label>
     </td>
     <td style="text-align:left;">
-        <form:input path="currentTransaction.productCategory" cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;"
+        <form:input path="currentTransaction.productCategory" cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;font-size: .70em;"
                     id="productCategory"/>
     </td>
     <td colspan="2"> &nbsp;</td>
@@ -141,7 +141,7 @@
         <label class="mandatory">*</label>
     </td>
     <td style="text-align:left;">
-        <form:input path="currentTransaction.serialNo" cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;" id="serialNo"/>
+        <form:input path="currentTransaction.serialNo" cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;font-size: .70em;" id="serialNo"/>
     </td>
 </tr>
 <tr>
@@ -153,7 +153,7 @@
         <label class="mandatory">*</label>
     </td>
     <td style="text-align:left;">
-        <form:input path="customerVO.customerId" cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;" id="customerId"/>
+        <form:input path="customerVO.customerId" cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;font-size: .70em;" id="customerId"/>
     </td>
     <td colspan="8"> <label style="font-size: .70em;color:blue;">Enter Customer Details in case of New Customer</label> </td>
 </tr>
@@ -164,7 +164,7 @@
         </label>
     </td>
     <td style="text-align:left;">
-        <form:input path="customerVO.customerName" cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;" id="customerName"/>
+        <form:input path="customerVO.customerName" cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;font-size: .70em;" id="customerName"/>
     </td>
     <td colspan="2">&nbsp;</td>
     <td style="text-align:right;">
@@ -194,7 +194,7 @@
         </label>
     </td>
     <td style="text-align:left;">
-        <form:input path="customerVO.phoneNo" cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;" id="phoneNo"/>
+        <form:input path="customerVO.phoneNo" cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;font-size: .70em;" id="phoneNo"/>
     </td>
     <td colspan="2">&nbsp;</td>
     <td style="text-align:right;">
@@ -203,7 +203,7 @@
         </label>
     </td>
     <td style="text-align:left;">
-        <form:input path="customerVO.mobile" cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;" id="mobile"/>
+        <form:input path="customerVO.mobile" cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;font-size: .70em;" id="mobile"/>
     </td>
     <td colspan="2">&nbsp;</td>
     <td style="text-align:right;">
@@ -212,7 +212,7 @@
         </label>
     </td>
     <td style="text-align:left;">
-        <form:input path="customerVO.email" cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;" id="email"/>
+        <form:input path="customerVO.email" cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;font-size: .70em;" id="email"/>
     </td>
 </tr>
 <tr>
@@ -222,7 +222,7 @@
         </label>
     </td>
     <td style="text-align:left;">
-        <form:input path="customerVO.contactPerson1" cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;"
+        <form:input path="customerVO.contactPerson1" cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;font-size: .70em;"
                     id="contactPerson1"/>
     </td>
     <td colspan="2">&nbsp;</td>
@@ -232,7 +232,7 @@
         </label>
     </td>
     <td style="text-align:left;">
-        <form:input path="customerVO.contactMobile1" cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;"
+        <form:input path="customerVO.contactMobile1" cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;font-size: .70em;"
                     id="contactMobile1"/>
     </td>
     <td colspan="4">&nbsp;</td>
@@ -244,7 +244,7 @@
         </label>
     </td>
     <td style="text-align:left;">
-        <form:input path="customerVO.contactPerson2" cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;"
+        <form:input path="customerVO.contactPerson2" cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;font-size: .70em;"
                     id="contactPerson2"/>
     </td>
     <td colspan="2">&nbsp;</td>
@@ -254,7 +254,7 @@
         </label>
     </td>
     <td style="text-align:left;">
-        <form:input path="customerVO.contactMobile2" cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;"
+        <form:input path="customerVO.contactMobile2" cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;font-size: .70em;"
                     id="contactMobile2"/>
     </td>
     <td colspan="2">&nbsp;</td>

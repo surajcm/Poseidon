@@ -18,6 +18,8 @@ public class UserVO {
     private Date modifiedDate;
     private String createdBy;
     private String lastModifiedBy;
+    private Boolean startsWith;
+    private Boolean includes;
 
     public Long getId() {
         return id;
@@ -78,6 +80,22 @@ public class UserVO {
 
     public void setLastModifiedBy(String lastModifiedBy) {
         this.lastModifiedBy = lastModifiedBy;
+    }
+
+    public Boolean getStartsWith() {
+        return startsWith;
+    }
+
+    public void setStartsWith(Boolean startsWith) {
+        this.startsWith = startsWith;
+    }
+
+    public Boolean getIncludes() {
+        return includes;
+    }
+
+    public void setIncludes(Boolean includes) {
+        this.includes = includes;
     }
 
     @Override

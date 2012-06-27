@@ -144,33 +144,51 @@ public class UserDAOImpl extends JdbcDaoSupport implements UserDAO {
     @SuppressWarnings("unchecked")
     public List<UserVO> searchAllUsers(UserVO searchUser) throws DataAccessException {
         StringBuilder dynamicQuery = new StringBuilder(GET_ALL_USERS_SQL);
-        List<Object> parameterList = new ArrayList<Object>();
         Boolean isWhereAppended = Boolean.FALSE;
-        if (searchUser.getName() != null) {
+        if (searchUser.getName() != null && searchUser.getName().trim().length() > 0) {
             dynamicQuery.append(" where ");
             isWhereAppended = Boolean.TRUE;
-            dynamicQuery.append(" Name like  ").append(searchUser.getName());
-            parameterList.add(searchUser.getName());
-        } else if (searchUser.getLoginId() != null) {
+            if(searchUser.getIncludes()){
+                dynamicQuery.append(" Name like '%").append(searchUser.getName()).append("%'");
+            }else if (searchUser.getStartsWith()){
+                dynamicQuery.append(" Name like '").append(searchUser.getName()).append("%'");
+            }else {
+                dynamicQuery.append(" Name like '").append(searchUser.getName()).append("'");
+            }
+        }
+
+        if (searchUser.getLoginId() != null &&searchUser.getLoginId().trim().length() > 0) {
             if (!isWhereAppended) {
                 dynamicQuery.append(" where ");
             } else {
                 dynamicQuery.append(" and ");
             }
-            dynamicQuery.append(" LogId like  ").append(searchUser.getLoginId());
-            parameterList.add(searchUser.getRole());
-        } else if (searchUser.getRole() != null) {
+            if(searchUser.getIncludes()){
+                dynamicQuery.append(" LogId like '%").append(searchUser.getLoginId()).append("%'");
+            }else if (searchUser.getStartsWith()){
+                dynamicQuery.append(" LogId like '").append(searchUser.getLoginId()).append("%'");
+            }else {
+                dynamicQuery.append(" LogId like '").append(searchUser.getLoginId()).append("'");
+            }
+        }
+
+        if (searchUser.getRole() != null) {
             if (!isWhereAppended) {
                 dynamicQuery.append(" where ");
             } else {
                 dynamicQuery.append(" and ");
             }
-            dynamicQuery.append(" Role like  ").append(searchUser.getRole());
-            parameterList.add(searchUser.getRole());
+            if(searchUser.getIncludes()){
+                dynamicQuery.append(" Role like '%").append(searchUser.getRole()).append("%'");
+            }else if (searchUser.getStartsWith()){
+                dynamicQuery.append(" Role like '").append(searchUser.getRole()).append("%'");
+            }else {
+                dynamicQuery.append(" Role like '").append(searchUser.getRole()).append("'");
+            }
         }
         
         log.info("Query generated is " + dynamicQuery);
-        return (List<UserVO>) getJdbcTemplate().queryForObject(dynamicQuery.toString(), parameterList.toArray(), new UserRowMapper());
+        return (List<UserVO>) getJdbcTemplate().query(dynamicQuery.toString(), new UserRowMapper());
     }
 
     /**

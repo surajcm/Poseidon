@@ -31,10 +31,10 @@
     </head>
     <body style="background: #A9A9A9 ;">
         <form:form method="POST" commandName="transactionForm" name="transactionForm" >
-            <%@include file="/WEB-INF/jsp/myHeader.jsp" %>
             <form:hidden name="loggedInUser" path="loggedInUser" />
             <form:hidden name="loggedInRole" path="loggedInRole" />
             <form:hidden name="id" path="currentTransaction.id" />
+            <%@include file="/WEB-INF/jsp/myHeader.jsp" %>
             <div id="content">
                 <fieldset>
                 <legend>Edit Transaction</legend>

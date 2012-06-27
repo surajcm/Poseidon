@@ -240,6 +240,19 @@ public class TransactionDAOImpl  extends JdbcDaoSupport implements TransactionDA
             }
             SEARCH_TRANSACTION_QUERY.append(" Tr.Status like '").append(searchTransaction.getStatus()).append("'");
         }
+        if(searchTransaction.getStartDate() != null
+                && searchTransaction.getStartDate().trim().length() > 0
+                && searchTransaction.getEndDate() != null
+                && searchTransaction.getEndDate().trim().length() > 0){
+            if (!isWhereAdded) {
+                SEARCH_TRANSACTION_QUERY.append(" where ");
+                isWhereAdded = Boolean.TRUE;
+            } else {
+                SEARCH_TRANSACTION_QUERY.append(" and ");
+            }
+            SEARCH_TRANSACTION_QUERY.append(" Tr.DateReported between '").append(searchTransaction.getStartDate())
+                    .append("' and '").append(searchTransaction.getEndDate()).append("'");
+        }
         log.info("query created is "+ SEARCH_TRANSACTION_QUERY.toString());
         return (List<TransactionVO>) getJdbcTemplate().query(SEARCH_TRANSACTION_QUERY.toString(), new TransactionListRowMapper());
     }

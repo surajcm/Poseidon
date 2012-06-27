@@ -3,6 +3,7 @@ package com.poseidon.User.web.form;
 import com.poseidon.User.domain.UserVO;
 
 import java.util.Collection;
+import java.util.List;
 
 /**
  * @author : Suraj Muraleedharan
@@ -22,6 +23,9 @@ public class UserForm {
     private String loggedInUser;
     private String loggedInRole;
     private UserVO searchUser;
+    private String statusMessage;
+    private String statusMessageType;
+    private List<String> roleList;
 
     public Long getId() {
         return id;
@@ -120,6 +124,30 @@ public class UserForm {
 
     public void setSearchUser(UserVO searchUser) {
         this.searchUser = searchUser;
+    }
+
+    public String getStatusMessage() {
+        return statusMessage;
+    }
+
+    public void setStatusMessage(String statusMessage) {
+        this.statusMessage = statusMessage;
+    }
+
+    public String getStatusMessageType() {
+        return statusMessageType;
+    }
+
+    public void setStatusMessageType(String statusMessageType) {
+        this.statusMessageType = statusMessageType;
+    }
+
+    public List<String> getRoleList() {
+        return roleList;
+    }
+
+    public void setRoleList(List<String> roleList) {
+        this.roleList = roleList;
     }
 
     @Override

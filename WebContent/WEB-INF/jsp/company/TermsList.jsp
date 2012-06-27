@@ -24,9 +24,9 @@
 </head>
 <body  style="background: #A9A9A9 ;">
 <form:form method="POST" commandName="companyTermsForm" name="companyTermsForm">
-    <%@include file="/WEB-INF/jsp/myHeader.jsp" %>
     <form:hidden name="loggedInUser" path="loggedInUser"/>
     <form:hidden name="loggedInRole" path="loggedInRole"/>
+    <%@include file="/WEB-INF/jsp/myHeader.jsp" %>
     <div id="content">
         <div class="wrap">
             <fieldset style="text-align:right;">

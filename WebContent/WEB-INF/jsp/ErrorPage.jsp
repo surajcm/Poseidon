@@ -22,10 +22,10 @@
 </head>
 <body>
 <form:form method="POST" commandName="userForm" name="userForm" action="listAll.htm" >
-    <%@include file="/WEB-INF/jsp/myHeader.jsp" %>
     <input type="hidden" name="id" id="id" />
     <form:hidden name="loggedInUser" path="loggedInUser" />
     <form:hidden name="loggedInRole" path="loggedInRole" />
+    <%@include file="/WEB-INF/jsp/myHeader.jsp" %>
     <div id="content">
         <div class="error">
             <label> An error has been occurred while processing the page</label>

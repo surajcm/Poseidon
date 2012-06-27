@@ -117,17 +117,16 @@
     </tr>
     <tr>
         <td>
-            <c:set var="roleFinder" value="admin" />
-            <c:choose>
-                <c:when test="${forms[0].loggedInRole eq roleFinder}">
-                    <label style="font-weight: bold;color:white;font-size: .90em;"  onMouseOver="this.style.cursor='pointer'"  >|</label>
-                    <label onclick="javascript:goToHome();" style="font-weight: bold;color:white;font-size: .70em;"  onMouseOver="this.style.cursor='pointer'"  >Home</label>
-                    <label style="font-weight: bold;color:white;font-size: .90em;"  onMouseOver="this.style.cursor='pointer'"  >|</label>
-                    <label onclick="javascript:listMe();" style="font-weight: bold;color:white;font-size: .70em;" onMouseOver="this.style.cursor='pointer'" >UserManagement</label>
-                </c:when>
-                <c:otherwise>
-                </c:otherwise>
-            </c:choose>
+            <script type="text/javascript">
+                if ( document.forms[0].loggedInRole != null
+                        && document.forms[0].loggedInRole.value != null
+                        && document.forms[0].loggedInRole.value == 'ADMIN'){
+                    document.write("<label style=\"font-weight: bold;color:white;font-size: .90em;\"  onMouseOver=\"this.style.cursor='pointer'\"  > | </label>");
+                    document.write("<label onclick=\"javascript:goToHome();\" style=\"font-weight: bold;color:white;font-size: .70em;\"  onMouseOver=\"this.style.cursor='pointer'\"  > Home </label>");
+                    document.write("<label style=\"font-weight: bold;color:white;font-size: .90em;\"  onMouseOver=\"this.style.cursor='pointer'\"  > | </label>");
+                    document.write("<label onclick=\"javascript:listMe();\" style=\"font-weight: bold;color:white;font-size: .70em;\" onMouseOver=\"this.style.cursor='pointer'\" > UserManagement </label>");
+                }
+            </script>
             <label style="font-weight: bold;color:white;font-size: .90em;"  onMouseOver="this.style.cursor='pointer'"  >|</label>
             <label onclick="javascript:MakeMe();" style="font-weight: bold;color:white;font-size: .70em;" onMouseOver="this.style.cursor='pointer'" >MakeManagement</label>
             <label style="font-weight: bold;color:white;font-size: .90em;"  onMouseOver="this.style.cursor='pointer'"  >|</label>

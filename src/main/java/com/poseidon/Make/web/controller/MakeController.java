@@ -48,6 +48,8 @@ public class MakeController extends MultiActionController {
         try {
             makeAndModelVOs = getMakeDelegate().listAllMakesAndModels();
         } catch (Exception e) {
+            makeForm.setStatusMessage("Unable to list the Models due to an error");
+            makeForm.setStatusMessageType("error");
             e.printStackTrace();
         }
         if (makeAndModelVOs != null) {
@@ -81,6 +83,8 @@ public class MakeController extends MultiActionController {
         try {
             makeAndModelVOs = getMakeDelegate().listAllMakes();
         } catch (Exception e) {
+            makeForm.setStatusMessage("Unable to list the Makes due to an error");
+            makeForm.setStatusMessageType("error");
             e.printStackTrace();
         }
         if (makeAndModelVOs != null) {
