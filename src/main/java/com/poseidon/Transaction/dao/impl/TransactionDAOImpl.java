@@ -4,6 +4,9 @@ import com.poseidon.Transaction.dao.TransactionDAO;
 import com.poseidon.Transaction.domain.TransactionVO;
 import com.poseidon.Transaction.exception.TransactionException;
 
+import java.text.Format;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -250,11 +253,18 @@ public class TransactionDAOImpl  extends JdbcDaoSupport implements TransactionDA
             } else {
                 SEARCH_TRANSACTION_QUERY.append(" and ");
             }
-            SEARCH_TRANSACTION_QUERY.append(" Tr.DateReported between '").append(searchTransaction.getStartDate())
-                    .append("' and '").append(searchTransaction.getEndDate()).append("'");
+
+            SEARCH_TRANSACTION_QUERY.append(" Tr.DateReported between '").append(getMySQLFriendlyDate(searchTransaction.getStartDate()))
+                    .append("' and '").append(getMySQLFriendlyDate(searchTransaction.getEndDate())).append("'");
         }
         log.info("query created is "+ SEARCH_TRANSACTION_QUERY.toString());
         return (List<TransactionVO>) getJdbcTemplate().query(SEARCH_TRANSACTION_QUERY.toString(), new TransactionListRowMapper());
+    }
+
+    private String getMySQLFriendlyDate(String startDate) {
+        Date startReportDate = new Date(startDate);
+        Format formatter = new SimpleDateFormat("yyyy-mm-dd");
+        return formatter.format(startReportDate);
     }
 
     public List<TransactionVO> getTodaysTransactions() throws DataAccessException {

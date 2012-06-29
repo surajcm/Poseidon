@@ -10,18 +10,18 @@ import java.util.List;
  * Time: 10:41:08 AM
  */
 public class ReportsForm {
-    private ReportsVO currentReports;
+    private ReportsVO currentReport;
     private ReportsVO searchReports;
     private List<ReportsVO> reportsVOs;
     private String loggedInUser;
     private String loggedInRole;
 
-    public ReportsVO getCurrentReports() {
-        return currentReports;
+    public ReportsVO getCurrentReport() {
+        return currentReport;
     }
 
-    public void setCurrentReports(ReportsVO currentReports) {
-        this.currentReports = currentReports;
+    public void setCurrentReport(ReportsVO currentReport) {
+        this.currentReport = currentReport;
     }
 
     public ReportsVO getSearchReports() {
@@ -54,5 +54,16 @@ public class ReportsForm {
 
     public void setLoggedInRole(String loggedInRole) {
         this.loggedInRole = loggedInRole;
+    }
+
+    @Override
+    public String toString() {
+        return "ReportsForm{" +
+                "currentReport=" + currentReport +
+                ", searchReports=" + searchReports +
+                ", reportsVOs=" + reportsVOs +
+                ", loggedInUser='" + loggedInUser + '\'' +
+                ", loggedInRole='" + loggedInRole + '\'' +
+                '}';
     }
 }

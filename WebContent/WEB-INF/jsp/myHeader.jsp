@@ -100,7 +100,11 @@
     <tr>
         <td align="middle" colspan="2" >
             <label class="menuFirstLine">Welcome </label>
-            <label class="menuFirstLine"><c:out value="${forms[0].loggedInUser}" /></label>|
+            <label class="menuFirstLine">
+                <script type="text/javascript">
+                    document.write(document.forms[0].loggedInUser.value);
+                </script>
+            </label>|
             <label class="menuFirstLine"><%=fmt.format(cal.getTime()) %></label>|
             <label class="menuFirstLine"><%=fmt_time.format(cal.getTime()) %></label>
         </td>

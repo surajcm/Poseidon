@@ -1,9 +1,18 @@
 package com.poseidon.Reports.delegate;
 
+import com.poseidon.Make.delegate.MakeDelegate;
 import com.poseidon.Reports.domain.ReportsVO;
 import com.poseidon.Reports.service.ReportsService;
+import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import org.springframework.jdbc.datasource.DataSourceUtils;
 
+import java.sql.Connection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * User: Suraj
@@ -23,5 +32,10 @@ public class ReportsDelegate {
 
     public List<ReportsVO> generateDailyReport() {
         return getReportsService().generateDailyReport();
+    }
+
+    public JasperPrint getMakeDetailsChart(JasperReport jasperReport, ReportsVO currentReport) throws JRException {
+        return getReportsService().getMakeDetailsChart(jasperReport,currentReport);
+
     }
 }
