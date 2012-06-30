@@ -1,5 +1,6 @@
 package com.poseidon.Transaction.dao;
 
+import com.poseidon.Transaction.domain.TransactionReportVO;
 import com.poseidon.Transaction.domain.TransactionVO;
 import com.poseidon.Transaction.exception.TransactionException;
 
@@ -22,4 +23,6 @@ public interface TransactionDAO {
     public void updateTransaction(TransactionVO currentTransaction) throws TransactionException;
 
     public void deleteTransaction(Long id)throws TransactionException;
+
+    public TransactionReportVO fetchTransactionFromTag(String tagNo) throws TransactionException;
 }

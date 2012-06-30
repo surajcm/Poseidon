@@ -1,5 +1,6 @@
 package com.poseidon.Transaction.service.impl;
 
+import com.poseidon.Transaction.domain.TransactionReportVO;
 import com.poseidon.Transaction.service.TransactionService;
 import com.poseidon.Transaction.dao.TransactionDAO;
 import com.poseidon.Transaction.domain.TransactionVO;
@@ -72,6 +73,19 @@ public class TransactionServiceImpl implements TransactionService {
         TransactionVO transactionVO= null;
         try {
             transactionVO = getTransactionDAO().fetchTransactionFromId(id);
+        } catch (TransactionException t) {
+            log.error(" Exception type in service impl " + t.getExceptionType());
+            throw new TransactionException(t.getExceptionType());
+        } catch (Exception e1) {
+            e1.printStackTrace();
+        }
+        return transactionVO;
+    }
+
+    public TransactionReportVO fetchTransactionFromTag(String tagNo) throws TransactionException {
+        TransactionReportVO transactionVO= null;
+        try {
+            transactionVO = getTransactionDAO().fetchTransactionFromTag(tagNo);
         } catch (TransactionException t) {
             log.error(" Exception type in service impl " + t.getExceptionType());
             throw new TransactionException(t.getExceptionType());

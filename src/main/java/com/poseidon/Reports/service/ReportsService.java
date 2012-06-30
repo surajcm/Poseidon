@@ -1,6 +1,8 @@
 package com.poseidon.Reports.service;
 
+import com.poseidon.CompanyTerms.domain.CompanyTermsVO;
 import com.poseidon.Reports.domain.ReportsVO;
+import com.poseidon.Transaction.domain.TransactionReportVO;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
 
@@ -15,4 +17,9 @@ public interface ReportsService {
     public List<ReportsVO> generateDailyReport();
 
     public JasperPrint getMakeDetailsChart(JasperReport jasperReport, ReportsVO currentReport);
+
+    public JasperPrint getCallReport(JasperReport jasperReport,
+                                     ReportsVO currentReport,
+                                     CompanyTermsVO companyTermsVO,
+                                     TransactionReportVO transactionVO);
 }

@@ -5,4 +5,5 @@ Things to do
 3.reports
 a) go to db.. fetch data.. fill in reports vo
 b) use the db call of make vo.. convert make vo to report vo
-c) 
+
+4.login success page, for all users

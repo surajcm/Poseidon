@@ -1,8 +1,15 @@
 package com.poseidon.Reports.delegate;
 
+import com.poseidon.CompanyTerms.delegate.CompanyTermsDelegate;
+import com.poseidon.CompanyTerms.domain.CompanyTermsVO;
+import com.poseidon.CompanyTerms.service.CompanyTermsService;
 import com.poseidon.Make.delegate.MakeDelegate;
 import com.poseidon.Reports.domain.ReportsVO;
 import com.poseidon.Reports.service.ReportsService;
+import com.poseidon.Transaction.domain.TransactionReportVO;
+import com.poseidon.Transaction.domain.TransactionVO;
+import com.poseidon.Transaction.exception.TransactionException;
+import com.poseidon.Transaction.service.TransactionService;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
@@ -21,13 +28,30 @@ import java.util.Map;
  */
 public class ReportsDelegate {
     private ReportsService reportsService;
-
+    private CompanyTermsService companyTermsService;
+    private TransactionService transactionService;
     public ReportsService getReportsService() {
         return reportsService;
     }
 
     public void setReportsService(ReportsService reportsService) {
         this.reportsService = reportsService;
+    }
+
+    public CompanyTermsService getCompanyTermsService() {
+        return companyTermsService;
+    }
+
+    public void setCompanyTermsService(CompanyTermsService companyTermsService) {
+        this.companyTermsService = companyTermsService;
+    }
+
+    public TransactionService getTransactionService() {
+        return transactionService;
+    }
+
+    public void setTransactionService(TransactionService transactionService) {
+        this.transactionService = transactionService;
     }
 
     public List<ReportsVO> generateDailyReport() {
@@ -37,5 +61,14 @@ public class ReportsDelegate {
     public JasperPrint getMakeDetailsChart(JasperReport jasperReport, ReportsVO currentReport) throws JRException {
         return getReportsService().getMakeDetailsChart(jasperReport,currentReport);
 
+    }
+
+    public JasperPrint getCallReport(JasperReport jasperReport,ReportsVO currentReport) throws TransactionException {
+        CompanyTermsVO companyTermsVO =getCompanyTermsService().listCompanyTerms();
+        TransactionReportVO transactionVO = getTransactionService().fetchTransactionFromTag(currentReport.getTagNo());
+        return getReportsService().getCallReport(jasperReport,
+                currentReport,
+                companyTermsVO,
+                transactionVO);
     }
 }

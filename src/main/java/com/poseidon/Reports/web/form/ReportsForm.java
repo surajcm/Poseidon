@@ -15,6 +15,7 @@ public class ReportsForm {
     private List<ReportsVO> reportsVOs;
     private String loggedInUser;
     private String loggedInRole;
+    private List<String> exportList;
 
     public ReportsVO getCurrentReport() {
         return currentReport;
@@ -56,6 +57,14 @@ public class ReportsForm {
         this.loggedInRole = loggedInRole;
     }
 
+    public List<String> getExportList() {
+        return exportList;
+    }
+
+    public void setExportList(List<String> exportList) {
+        this.exportList = exportList;
+    }
+
     @Override
     public String toString() {
         return "ReportsForm{" +
@@ -64,6 +73,7 @@ public class ReportsForm {
                 ", reportsVOs=" + reportsVOs +
                 ", loggedInUser='" + loggedInUser + '\'' +
                 ", loggedInRole='" + loggedInRole + '\'' +
+                ", exportList=" + exportList +
                 '}';
     }
 }

@@ -1,5 +1,6 @@
 package com.poseidon.Reports.service.impl;
 
+import com.poseidon.CompanyTerms.domain.CompanyTermsVO;
 import com.poseidon.Reports.service.ReportsService;
 import com.poseidon.Reports.domain.ReportsVO;
 import com.poseidon.Reports.dao.ReportsDAO;
@@ -8,6 +9,7 @@ import com.poseidon.Reports.exception.ReportsException;
 import java.sql.SQLException;
 import java.util.List;
 
+import com.poseidon.Transaction.domain.TransactionReportVO;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
@@ -50,6 +52,24 @@ public class ReportsServiceImpl implements ReportsService{
         } catch (JRException e) {
             e.printStackTrace();
         } catch (ReportsException e) {
+            e.printStackTrace();
+        }
+        return jasperPrint;
+    }
+
+    public JasperPrint getCallReport(JasperReport jasperReport,
+                                     ReportsVO currentReport,
+                                     CompanyTermsVO companyTermsVO,
+                                     TransactionReportVO transactionVO) {
+        JasperPrint jasperPrint = new JasperPrint();
+        try {
+            jasperPrint = getReportsDAO().getCallReport(jasperReport,
+                    currentReport,
+                    companyTermsVO
+                    ,transactionVO);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } catch (JRException e) {
             e.printStackTrace();
         }
         return jasperPrint;

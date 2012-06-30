@@ -106,12 +106,12 @@ public class UserController extends MultiActionController {
             return new ModelAndView("user/logIn", "userForm", userForm);
         }
         if (realUser != null && realUser.getRole() != null) {
-            if(realUser.getRole().equalsIgnoreCase("ADMIN")){
+            /*if(realUser.getRole().equalsIgnoreCase("ADMIN")){
                 userForm.setLoggedInUser(realUser.getName());
                 userForm.setLoggedInRole(realUser.getRole());
                 log.info("Logged in successfully");
                 return ListAll(request, response, userForm);
-            }
+            }*/
              userForm.setLoggedInUser(realUser.getName());
              userForm.setLoggedInRole(realUser.getRole());
              return ToHome(request, response, userForm);

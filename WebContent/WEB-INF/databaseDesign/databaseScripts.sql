@@ -187,8 +187,8 @@ CREATE TABLE `user` (
 
 /*!40000 ALTER TABLE `user` DISABLE KEYS */;
 INSERT INTO `user` (`id`,`Name`,`LogId`,`Pass`,`Role`,`createdOn`,`modifiedOn`,`createdBy`,`modifiedBy`) VALUES
- (1,'admin','admin','admin','admin','2012-06-02 00:00:00','2012-06-02 00:00:00','admin','admin'),
- (2,'guest','guest','guest','guest','2012-06-02 00:00:00','2012-06-02 00:00:00','admin','admin');
+ (1,'admin','admin','admin','ADMIN','2012-06-02 00:00:00','2012-06-02 00:00:00','admin','admin'),
+ (2,'guest','guest','guest','GUEST','2012-06-02 00:00:00','2012-06-02 00:00:00','admin','admin');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
 
 

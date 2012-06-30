@@ -15,6 +15,8 @@ public class ReportsVO {
     private String exportTo;
     private String rptfilename;
     private List<MakeVO> makeVOList;
+    private String tagNo;
+
     public Locale getLocale() {
         return locale;
     }
@@ -45,6 +47,14 @@ public class ReportsVO {
 
     public void setMakeVOList(List<MakeVO> makeVOList) {
         this.makeVOList = makeVOList;
+    }
+
+    public String getTagNo() {
+        return tagNo;
+    }
+
+    public void setTagNo(String tagNo) {
+        this.tagNo = tagNo;
     }
 
     @Override

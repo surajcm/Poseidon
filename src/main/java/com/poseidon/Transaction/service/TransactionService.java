@@ -1,5 +1,6 @@
 package com.poseidon.Transaction.service;
 
+import com.poseidon.Transaction.domain.TransactionReportVO;
 import com.poseidon.Transaction.domain.TransactionVO;
 import com.poseidon.Transaction.exception.TransactionException;
 
@@ -19,6 +20,8 @@ public interface TransactionService {
     public List<TransactionVO> searchTransactions(TransactionVO searchTransaction) throws  TransactionException;
 
     public TransactionVO fetchTransactionFromId(Long id) throws  TransactionException;
+
+    public TransactionReportVO fetchTransactionFromTag(String tagNo) throws  TransactionException;
 
     public void updateTransaction(TransactionVO currentTransaction) throws  TransactionException;
 

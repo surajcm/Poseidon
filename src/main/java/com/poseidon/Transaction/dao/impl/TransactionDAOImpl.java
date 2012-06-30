@@ -1,6 +1,7 @@
 package com.poseidon.Transaction.dao.impl;
 
 import com.poseidon.Transaction.dao.TransactionDAO;
+import com.poseidon.Transaction.domain.TransactionReportVO;
 import com.poseidon.Transaction.domain.TransactionVO;
 import com.poseidon.Transaction.exception.TransactionException;
 
@@ -49,6 +50,13 @@ public class TransactionDAOImpl  extends JdbcDaoSupport implements TransactionDA
             " ComplaintDiagonsed = ?, EnggRemark = ?, RepairAction = ?, Note = ?, modifiedOn = ? , ModifiedBy =  ? " +
             " where Id = ? ";
     private static final String DELETE_TRANSACTION_BY_ID = " delete from transaction where id = ?";
+
+    private static final String GET_SINGLE_TRANSACTION_FROM_TAG_SQL = "SELECT t.id, t.TagNo, t.DateReported, " +
+            " c.Name, c.Address1, c.address2, c.Phone, c.Mobile, c.email, c.ContactPerson1, c.ContactPh1, c.ContactPerson2, " +
+            " c.ContactPh2, t.ProductCategory, mk.MakeName, mdl.ModelName, t.SerialNo, t.Accessories, t.ComplaintReported, " +
+            " t.ComplaintDiagonsed, t.EnggRemark, t.RepairAction, t.Note, t.Status FROM transaction t inner join customer c " +
+            " on t.CustomerId=c.Id inner join make mk on t.MakeId=mk.Id inner join model mdl " +
+            " on t.ModelId=mdl.Id and mdl.makeId=mk.Id where t.TagNo = ?";
 
     public List<TransactionVO> listTodaysTransactions() throws TransactionException {
         List<TransactionVO> transactionVOList;
@@ -150,8 +158,23 @@ public class TransactionDAOImpl  extends JdbcDaoSupport implements TransactionDA
         }
     }
 
+    public TransactionReportVO fetchTransactionFromTag(String tagNo) throws TransactionException {
+        TransactionReportVO transactionVO;
+        try {
+            transactionVO = fetchTxnFromTag(tagNo);
+        } catch (DataAccessException e) {
+            e.printStackTrace();
+            throw new TransactionException(TransactionException.DATABASE_ERROR);
+        }
+        return transactionVO;
+    }
+
     private TransactionVO fetchTxn(Long id) {
         return (TransactionVO) getJdbcTemplate().queryForObject(GET_SINGLE_TRANSACTION_SQL, new Object[]{id}, new TransactionFullRowMapper());
+    }
+
+    private TransactionReportVO fetchTxnFromTag(String tag) {
+        return (TransactionReportVO) getJdbcTemplate().queryForObject(GET_SINGLE_TRANSACTION_FROM_TAG_SQL, new Object[]{tag}, new TransactionReportRowMapper());
     }
 
     private List<TransactionVO> searchTxs(TransactionVO searchTransaction) {
@@ -329,6 +352,50 @@ public class TransactionDAOImpl  extends JdbcDaoSupport implements TransactionDA
             txs.setEnggRemark(resultSet.getString("EnggRemark"));
             txs.setRepairAction(resultSet.getString("RepairAction"));
             txs.setNotes(resultSet.getString("Note"));
+            return txs;
+        }
+
+    }
+
+    /**
+     * Row mapper as inner class
+     */
+    private class TransactionReportRowMapper implements RowMapper {
+
+        /**
+         * method to map the result to vo
+         *
+         * @param resultSet resultSet instance
+         * @param i         i instance
+         * @return UserVO as Object
+         * @throws java.sql.SQLException on error
+         */
+        public Object mapRow(ResultSet resultSet, int i) throws SQLException {
+            TransactionReportVO txs = new TransactionReportVO();
+            txs.setId(resultSet.getLong("Id"));
+            txs.setTagNo(resultSet.getString("TagNo"));
+            txs.setDateReported(resultSet.getDate("DateReported"));
+            txs.setCustomerName(resultSet.getString("Name"));
+            txs.setAddress1(resultSet.getString("Address1"));
+            txs.setAddress2(resultSet.getString("address2"));
+            txs.setPhone(resultSet.getString("Phone"));
+            txs.setMobile(resultSet.getString("Mobile"));
+            txs.setEmail(resultSet.getString("email"));
+            txs.setContactPerson1(resultSet.getString("ContactPerson1"));
+            txs.setContactPh1(resultSet.getString("ContactPh1"));
+            txs.setContactPerson2(resultSet.getString("ContactPerson2"));
+            txs.setContactPh2(resultSet.getString("ContactPh2"));
+            txs.setProductCategory(resultSet.getString("ProductCategory"));
+            txs.setMakeName(resultSet.getString("MakeName"));
+            txs.setModelName(resultSet.getString("ModelName"));
+            txs.setSerialNo(resultSet.getString("SerialNo"));
+            txs.setAccessories(resultSet.getString("Accessories"));
+            txs.setComplaintReported(resultSet.getString("ComplaintReported"));
+            txs.setComplaintDiagonsed(resultSet.getString("ComplaintDiagonsed"));
+            txs.setEnggRemark(resultSet.getString("EnggRemark"));
+            txs.setRepairAction(resultSet.getString("RepairAction"));
+            txs.setNotes(resultSet.getString("Note"));
+            txs.setStatus(resultSet.getString("Status"));
             return txs;
         }
 

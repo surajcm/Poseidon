@@ -61,6 +61,8 @@
 
     <bean id="reportsDelegate" class="com.poseidon.Reports.delegate.ReportsDelegate">
         <property name="reportsService" ref="reportsService"/>
+        <property name="companyTermsService" ref="companyService"/>
+        <property name="transactionService" ref="transactionService"/>
     </bean>
     <bean id="reportsService" class="com.poseidon.Reports.service.impl.ReportsServiceImpl">
         <property name="reportsDAO" ref="reportsDAO"/>

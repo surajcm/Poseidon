@@ -3,6 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
+    <link rel="shortcut icon" href="<%=request.getContextPath()%>/images/Poseidon_Ico.ico" >
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <style type="text/css">
         #menuimg {
@@ -88,30 +89,33 @@
 <table id="menuimg" border="0"  width="100%" style="font-size: .70em;" >
     <tr>
         <td colspan="2">
-            <%
-                String DATE_FORMAT = "dd-MMM-yyyy";
-                String TIME_NOW = "HH:mm";
-                java.util.Calendar cal = java.util.Calendar.getInstance();
-                java.text.SimpleDateFormat fmt = new java.text.SimpleDateFormat(DATE_FORMAT);
-                java.text.SimpleDateFormat fmt_time = new java.text.SimpleDateFormat(TIME_NOW);
-            %>
-        </td>
-    </tr>
-    <tr>
-        <td align="middle" colspan="2" >
-            <label class="menuFirstLine">Welcome </label>
-            <label class="menuFirstLine">
-                <script type="text/javascript">
-                    document.write(document.forms[0].loggedInUser.value);
-                </script>
-            </label>|
-            <label class="menuFirstLine"><%=fmt.format(cal.getTime()) %></label>|
-            <label class="menuFirstLine"><%=fmt_time.format(cal.getTime()) %></label>
-        </td>
-    </tr>
-    <tr>
-        <td colspan="2">
-            <br/>
+            <table width="100%" style="font-size: .90em;">
+                <tr>
+                    <td width="20%">
+                        <img src="<%=request.getContextPath()%>/images/Poseidon.png" style="margin:0px; width:150px; height:50px"/>
+                        <%
+                            String DATE_FORMAT = "dd-MMM-yyyy";
+                            String TIME_NOW = "HH:mm";
+                            java.util.Calendar cal = java.util.Calendar.getInstance();
+                            java.text.SimpleDateFormat fmt = new java.text.SimpleDateFormat(DATE_FORMAT);
+                            java.text.SimpleDateFormat fmt_time = new java.text.SimpleDateFormat(TIME_NOW);
+                        %>
+                    </td>
+                    <td align="center" valign="middle" >
+                        <label class="menuFirstLine">Welcome </label>
+                        <label class="menuFirstLine">
+                            <script type="text/javascript">
+                                document.write(document.forms[0].loggedInUser.value);
+                            </script>
+                        </label>|
+                        <label class="menuFirstLine"><%=fmt.format(cal.getTime()) %></label>|
+                        <label class="menuFirstLine"><%=fmt_time.format(cal.getTime()) %></label>
+                    </td>
+                    <td width="20%">
+                        &nbsp;
+                    </td>
+                </tr>
+            </table>
         </td>
     </tr>
     <tr>
@@ -121,12 +125,12 @@
     </tr>
     <tr>
         <td>
+            <label style="font-weight: bold;color:white;font-size: .90em;"  onMouseOver="this.style.cursor='pointer'"  > | </label>
+            <label onclick="javascript:goToHome();" style="font-weight: bold;color:white;font-size: .70em;"  onMouseOver="this.style.cursor='pointer'"  > Home </label>
             <script type="text/javascript">
                 if ( document.forms[0].loggedInRole != null
                         && document.forms[0].loggedInRole.value != null
                         && document.forms[0].loggedInRole.value == 'ADMIN'){
-                    document.write("<label style=\"font-weight: bold;color:white;font-size: .90em;\"  onMouseOver=\"this.style.cursor='pointer'\"  > | </label>");
-                    document.write("<label onclick=\"javascript:goToHome();\" style=\"font-weight: bold;color:white;font-size: .70em;\"  onMouseOver=\"this.style.cursor='pointer'\"  > Home </label>");
                     document.write("<label style=\"font-weight: bold;color:white;font-size: .90em;\"  onMouseOver=\"this.style.cursor='pointer'\"  > | </label>");
                     document.write("<label onclick=\"javascript:listMe();\" style=\"font-weight: bold;color:white;font-size: .70em;\" onMouseOver=\"this.style.cursor='pointer'\" > UserManagement </label>");
                 }
