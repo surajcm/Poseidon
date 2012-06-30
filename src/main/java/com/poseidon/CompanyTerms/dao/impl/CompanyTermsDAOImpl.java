@@ -76,6 +76,7 @@ public class CompanyTermsDAOImpl extends JdbcDaoSupport implements CompanyTermsD
     }
 
     public void updateTerms(String termsAndConditions) throws CompanyTermsException {
+
         Object[] parameters = new Object[]{termsAndConditions};
 
         try {

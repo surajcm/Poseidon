@@ -166,6 +166,11 @@ public class TransactionController extends MultiActionController {
         transactionVO.setCreatedBy(transactionForm.getLoggedInUser());
         transactionVO.setModifiedBy(transactionForm.getLoggedInUser());
         transactionVO.setStatus("NEW");
+        if(transactionForm.getCustomerVO() != null
+                && transactionForm.getCustomerVO().getCustomerId() != null
+                && transactionForm.getCustomerVO().getCustomerId() > 0){
+            transactionVO.setCustomerId(transactionForm.getCustomerVO().getCustomerId());
+        }
         try {
             if (transactionVO.getCustomerId() == null) {
                 try {

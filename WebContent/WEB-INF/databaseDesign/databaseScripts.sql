@@ -190,7 +190,8 @@ INSERT INTO `user` (`id`,`Name`,`LogId`,`Pass`,`Role`,`createdOn`,`modifiedOn`,`
  (1,'admin','admin','admin','ADMIN','2012-06-02 00:00:00','2012-06-02 00:00:00','admin','admin'),
  (2,'guest','guest','guest','GUEST','2012-06-02 00:00:00','2012-06-02 00:00:00','admin','admin');
 /*!40000 ALTER TABLE `user` ENABLE KEYS */;
-
+INSERT INTO companyterms (Id, Terms, CompanyDetails) VALUES
+(1, 'terms', 'my company');
 
 
 

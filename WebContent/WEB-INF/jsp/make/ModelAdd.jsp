@@ -10,12 +10,18 @@
 		<link rel="stylesheet" type="text/css" href="../css/mainStyles.css" />
         <script type="text/javascript">
             function save(){
-                document.forms[0].action = "saveModel.htm";
-                document.forms[0].submit();
+                if(document.getElementById('makeId').value.length > 0
+                        && document.getElementById('modelName').value.length > 0 ){
+                    document.forms[0].action = "saveModel.htm";
+                    document.forms[0].submit();
+                }else{
+                    alert(" Please enter both Make and Model");
+                }
             }
 
             function clear(){
-
+                document.getElementById('modelName').value = "";
+                document.getElementById("makeId").value = document.getElementById('makeId').options[0].value;
             }
         </script>
 

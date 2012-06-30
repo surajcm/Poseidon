@@ -10,8 +10,16 @@
     <link rel="stylesheet" type="text/css" href="../css/mainStyles.css"/>
     <script type="text/javascript">
         function update(){
-            document.forms[0].action = "updateCustomer.htm";
-            document.forms[0].submit();
+            if(document.getElementById('customerName').value == null ||
+                    document.getElementById('customerName').value.length == 0){
+                alert("Please enter a valid Customer Name");
+            }else if(document.getElementById('mobile').value == null
+                    && document.getElementById('mobile').value.length == 0){
+                alert("Please enter a valid Mobile Number");
+            } else {
+                document.forms[0].action = "updateCustomer.htm";
+                document.forms[0].submit();
+            }
         }
 
         function cancel(){

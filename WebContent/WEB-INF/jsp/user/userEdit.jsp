@@ -12,8 +12,15 @@
 
         //code to update user
         function UpdateMe(){
-            document.forms[0].action="UpdateUser.htm";
-            document.forms[0].submit();
+            if(document.getElementById('name').value.length > 0
+                    && document.getElementById('loginId').value.length > 0
+                    && document.getElementById('psw').value.length > 0
+                    && document.getElementById('role').value.length > 0 ){
+                document.forms[0].action="UpdateUser.htm";
+                document.forms[0].submit();
+            }else{
+                alert(" Please enter all details");
+            }
         }
 
         //code to clear

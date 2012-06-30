@@ -10,8 +10,13 @@
 		<link rel="stylesheet" type="text/css" href="../css/mainStyles.css" />
         <script type="text/javascript">
             function update(){
-                document.forms[0].action = "updateMake.htm";
-                document.forms[0].submit();
+                if(document.getElementById('makeName').value.length > 0
+                        && document.getElementById('description').value.length > 0 ){
+                    document.forms[0].action = "updateMake.htm";
+                    document.forms[0].submit();
+                }else{
+                    alert(" Please enter both Make Name and Description");
+                }
             }
 
             function cancel(){

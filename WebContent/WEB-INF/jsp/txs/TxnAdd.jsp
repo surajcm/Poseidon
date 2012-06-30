@@ -12,13 +12,25 @@
         var req;
         //code to add New user
         function save() {
-            //validate
-            var custId = document.getElementsByName('customerId');
-            //if(custId.value){
-
-            //}
-            document.forms[0].action = "SaveTxn.htm";
-            document.forms[0].submit();
+            if(document.getElementById('TagNo').value.length == 0){
+                alert("Please enter a valid TagNo");
+            }else if(document.getElementById('productCategory').value.length == 0){
+                alert("Please enter a valid Product Category");
+            }else if(document.getElementById('serialNo').value.length == 0){
+                alert("Please enter a valid Serial No");
+            }else if(document.getElementById('customerId').value.length == 0){
+                if(document.getElementById('customerName').value.length == 0
+                        || document.getElementById('mobile').value.length == 0){
+                    alert("Please enter a valid Customer Details");
+                }
+            }else if(document.getElementById('makeId').value.length == 0){
+                alert("Please enter a valid Make detail");
+            }else if(document.getElementById('modelId').value.length == 0){
+                alert("Please enter a valid Model detail");
+            } else {
+                document.forms[0].action = "SaveTxn.htm";
+                document.forms[0].submit();
+            }
         }
 
         //code to edit a user

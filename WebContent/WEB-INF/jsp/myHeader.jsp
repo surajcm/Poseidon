@@ -105,7 +105,9 @@
                         <label class="menuFirstLine">Welcome </label>
                         <label class="menuFirstLine">
                             <script type="text/javascript">
-                                document.write(document.forms[0].loggedInUser.value);
+                                if(document.forms[0].loggedInUser != null) {
+                                    document.write(document.forms[0].loggedInUser.value);
+                                }
                             </script>
                         </label>|
                         <label class="menuFirstLine"><%=fmt.format(cal.getTime()) %></label>|

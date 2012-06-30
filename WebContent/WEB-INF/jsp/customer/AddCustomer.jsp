@@ -5,14 +5,18 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Add New Customer</title>
     <link rel="stylesheet" type="text/css" href="../css/mainStyles.css"/>
     <script type="text/javascript">
         function save() {
-            if(document.getElementById('customerName').value = ""){
+            if(document.getElementById('customerName').value == null ||
+                    document.getElementById('customerName').value.length == 0){
                 alert("Please enter a valid Customer Name");
-            }else {
+            }else if(document.getElementById('mobile').value == null
+                    && document.getElementById('mobile').value.length == 0){
+                alert("Please enter a valid Mobile Number");
+            } else {
                 document.forms[0].action = "saveCustomer.htm";
                 document.forms[0].submit();
             }
@@ -36,9 +40,9 @@
 </head>
 <body style="background: #A9A9A9 ;">
 <form:form method="POST" commandName="customerForm" name="customerForm">
-    <%@include file="/WEB-INF/jsp/myHeader.jsp" %>
     <form:hidden name="loggedInUser" path="loggedInUser"/>
     <form:hidden name="loggedInRole" path="loggedInRole"/>
+    <%@include file="/WEB-INF/jsp/myHeader.jsp" %>
     <div id="content">
         <div class="wrap">
             <fieldset>

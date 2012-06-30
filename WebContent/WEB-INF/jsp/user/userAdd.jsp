@@ -12,8 +12,15 @@
 
         //code to add New user
         function save() {
-            document.forms[0].action = "SaveUser.htm";
-            document.forms[0].submit();
+            if(document.getElementById('name').value.length > 0
+                    && document.getElementById('loginId').value.length > 0
+                    && document.getElementById('psw').value.length > 0
+                    && document.getElementById('role').value.length > 0 ){
+                document.forms[0].action = "SaveUser.htm";
+                document.forms[0].submit();
+            }else{
+                alert(" Please enter all details");
+            }
         }
 
         //code to edit a user

@@ -1,9 +1,3 @@
 Things to do
 -------------
 1.Validations in edit add list txn page
-2.time should be auto updating
-3.reports
-a) go to db.. fetch data.. fill in reports vo
-b) use the db call of make vo.. convert make vo to report vo
-
-4.login success page, for all users

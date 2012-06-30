@@ -63,7 +63,7 @@ public class CustomerController extends MultiActionController {
 
     public ModelAndView addCust(HttpServletRequest request,
                                 HttpServletResponse response, CustomerForm customerForm) {
-        log.info(" addCust method of CustomerController ");
+        log.info(" addCust method of CustomerController "+customerForm);
         customerForm.setLoggedInUser(customerForm.getLoggedInUser());
         customerForm.setLoggedInRole(customerForm.getLoggedInRole());
         customerForm.setCurrentCustomerVO(new CustomerVO());
