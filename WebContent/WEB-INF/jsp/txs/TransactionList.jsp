@@ -243,6 +243,10 @@ function deleteRow() {
     }
 
 }
+function hideAlerts(){
+    var options = {};
+    $( "#effect" ).hide( "blind", options, 8000);
+}
 
 
 </script>
@@ -253,7 +257,7 @@ function deleteRow() {
     });
 </script>
 </head>
-<body style="background: #A9A9A9 ;">
+<body style="background: #A9A9A9 ;" onload="javascript:hideAlerts()">
 <form:form method="POST" commandName="transactionForm" name="transactionForm" action="List.htm">
     <form:hidden name="loggedInUser" path="loggedInUser"/>
     <form:hidden name="loggedInRole" path="loggedInRole"/>
@@ -391,7 +395,7 @@ function deleteRow() {
                 </table>
             </fieldset>
             <c:if test="${transactionForm.statusMessage!=null}">
-                <div class="<c:out value="${transactionForm.statusMessageType}"/>">
+                <div  id="effect" class="<c:out value="${transactionForm.statusMessageType}"/>">
                     <c:out value="${transactionForm.statusMessage}"/>
                 </div>
             </c:if>

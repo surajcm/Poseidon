@@ -79,7 +79,14 @@
         <property name="url" value="jdbc:mysql://localhost:3306/poseidon">
         </property>
     </bean>
-
+    <!-- For cloud, use the below data source -->
+    <!--<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="com.cloudbees.jdbc.Driver" />
+        <property name="username" value="localuser"></property>
+        <property name="password" value="localuser"></property>
+        <property name="url" value="jdbc:cloudbees://poseidon">
+        </property>
+    </bean>-->
 
     <!-- Transaction Manager For a Single JDBC DataSource-->
     <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">

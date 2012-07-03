@@ -8,6 +8,9 @@
     <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
     <title>Make and Model List</title>
     <link rel="stylesheet" type="text/css" href="../css/mainStyles.css"/>
+    <link rel="stylesheet" type="text/css" href="../css/ui-lightness/jquery-ui-1.8.21.custom.css"/>
+    <script type="text/javascript" src="../js/jquery-1.7.2.min.js" language="javascript" ></script>
+    <script type="text/javascript" src="../js/jquery-ui-1.8.21.custom.min.js" language="javascript" ></script>
     <style type="text/css">
 
         .info, .success, .error {
@@ -178,11 +181,14 @@
                 }
             }
         }
-
+        function hideAlerts(){
+            var options = {};
+            $( "#effect" ).hide( "blind", options, 8000);
+        }
     </script>
 
 </head>
-<body style="background: #A9A9A9 ;">
+<body style="background: #A9A9A9 ;" onload="javascript:hideAlerts()">
 <form:form method="POST" commandName="makeForm" name="makeForm">
     <input type="hidden" name="id" id="id"/>
     <form:hidden name="loggedInUser" path="loggedInUser"/>
@@ -249,7 +255,7 @@
             </fieldset>
             <br/>
             <c:if test="${makeForm.statusMessage!=null}">
-                <div class="<c:out value="${makeForm.statusMessageType}"/>">
+                <div  id="effect"class="<c:out value="${makeForm.statusMessageType}"/>">
                     <c:out value="${makeForm.statusMessage}"/>
                 </div>
             </c:if>

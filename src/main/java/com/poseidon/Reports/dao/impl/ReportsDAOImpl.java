@@ -14,10 +14,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.poseidon.Transaction.domain.TransactionReportVO;
-import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JasperFillManager;
-import net.sf.jasperreports.engine.JasperPrint;
-import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.*;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.support.JdbcDaoSupport;
@@ -47,8 +44,8 @@ public class ReportsDAOImpl extends JdbcDaoSupport implements ReportsDAO {
     public JasperPrint getCallReport(JasperReport jasperReport,
                                      ReportsVO currentReport,
                                      CompanyTermsVO companyTermsVO,
-                                     TransactionReportVO transactionVO) throws SQLException, JRException {
-        JasperPrint jasperPrint;
+                                     TransactionReportVO transactionVO) {
+        JasperPrint jasperPrint = null;
         Map<String, Object> params = new HashMap<String, Object>();
         params.put("TAG", currentReport.getTagNo());
         if (companyTermsVO != null) {
@@ -123,8 +120,23 @@ public class ReportsDAOImpl extends JdbcDaoSupport implements ReportsDAO {
                 params.put("STATUS", "");
             }
         }
-        Connection connection = getDataSource().getConnection();
-        jasperPrint = JasperFillManager.fillReport(jasperReport, params, connection);
+        Connection connection = null;
+        try {
+            connection = getDataSource().getConnection();
+            jasperPrint = JasperFillManager.fillReport(jasperReport, params, connection);
+        } catch (JRException e) {
+            e.printStackTrace();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally{
+            if(connection != null){
+                try {
+                    connection.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
         return jasperPrint;
     }
 
