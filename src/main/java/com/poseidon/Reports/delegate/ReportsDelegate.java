@@ -4,6 +4,7 @@ import com.poseidon.CompanyTerms.delegate.CompanyTermsDelegate;
 import com.poseidon.CompanyTerms.domain.CompanyTermsVO;
 import com.poseidon.CompanyTerms.service.CompanyTermsService;
 import com.poseidon.Make.delegate.MakeDelegate;
+import com.poseidon.Make.service.MakeService;
 import com.poseidon.Reports.domain.ReportsVO;
 import com.poseidon.Reports.service.ReportsService;
 import com.poseidon.Transaction.domain.TransactionReportVO;
@@ -30,6 +31,8 @@ public class ReportsDelegate {
     private ReportsService reportsService;
     private CompanyTermsService companyTermsService;
     private TransactionService transactionService;
+    private MakeService makeService;
+
     public ReportsService getReportsService() {
         return reportsService;
     }
@@ -54,11 +57,20 @@ public class ReportsDelegate {
         this.transactionService = transactionService;
     }
 
+    public MakeService getMakeService() {
+        return makeService;
+    }
+
+    public void setMakeService(MakeService makeService) {
+        this.makeService = makeService;
+    }
+
     public List<ReportsVO> generateDailyReport() {
         return getReportsService().generateDailyReport();
     }
 
     public JasperPrint getMakeDetailsChart(JasperReport jasperReport, ReportsVO currentReport) throws JRException {
+        currentReport.setMakeVOList(getMakeService().fetchMakes());
         return getReportsService().getMakeDetailsChart(jasperReport,currentReport);
 
     }

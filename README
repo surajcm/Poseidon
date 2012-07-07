@@ -37,4 +37,4 @@ The changes we plan are:
 3)  Ability to read data from a property file
 4)  Mock the db , and should be able to be live on mock mode
 5)  Internationalization of pages (web pages, its partially done now)
-6)  Jasper reports integration (in progress)
+6)  Jasper reports integration (partially done)

@@ -18,6 +18,7 @@
             margin-left: 10px;
             font-size: 0.5em;
             font-family: Verdana, Arial, Helvetica, sans-serif;
+            color:white
         }
 
         div.popup a:hover { background-color: #faa; }

@@ -2,7 +2,7 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="callReport" pageWidth="595" pageHeight="842" columnWidth="555" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="9b67b5b0-89dc-44f6-ac80-04052e4ecdbb">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="40"/>
+	<property name="ireport.y" value="0"/>
 	<parameter name="TAG" class="java.lang.String">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
@@ -49,35 +49,9 @@
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
 	<queryString>
-		<![CDATA[SELECT t.id, t.TagNo, t.DateReported,c.Name, c.Address1, c.address2, c.Phone, c.Mobile, c.email, c.ContactPerson1, c.ContactPh1,c.ContactPerson2, c.ContactPh2, t.ProductCategory, mk.MakeName, mdl.ModelName, t.SerialNo, t.Accessories, t.ComplaintReported, t.ComplaintDiagonsed, t.EnggRemark, t.RepairAction, t.Note, t.Status
-FROM transaction t inner join customer c
-on t.CustomerId=c.Id inner join make mk on t.MakeId=mk.Id inner join model mdl on t.ModelId=mdl.Id and mdl.makeId=mk.Id
- where t.TagNo = $P{TAG}]]>
+		<![CDATA[SELECT t.id FROM transaction t where t.TagNo = $P{TAG}]]>
 	</queryString>
 	<field name="id" class="java.math.BigInteger"/>
-	<field name="TagNo" class="java.lang.String"/>
-	<field name="DateReported" class="java.sql.Timestamp"/>
-	<field name="Name" class="java.lang.String"/>
-	<field name="Address1" class="java.lang.String"/>
-	<field name="address2" class="java.lang.String"/>
-	<field name="Phone" class="java.lang.String"/>
-	<field name="Mobile" class="java.lang.String"/>
-	<field name="email" class="java.lang.String"/>
-	<field name="ContactPerson1" class="java.lang.String"/>
-	<field name="ContactPh1" class="java.lang.String"/>
-	<field name="ContactPerson2" class="java.lang.String"/>
-	<field name="ContactPh2" class="java.lang.String"/>
-	<field name="ProductCategory" class="java.lang.String"/>
-	<field name="MakeName" class="java.lang.String"/>
-	<field name="ModelName" class="java.lang.String"/>
-	<field name="SerialNo" class="java.lang.String"/>
-	<field name="Accessories" class="java.lang.String"/>
-	<field name="ComplaintReported" class="java.lang.String"/>
-	<field name="ComplaintDiagonsed" class="java.lang.String"/>
-	<field name="EnggRemark" class="java.lang.String"/>
-	<field name="RepairAction" class="java.lang.String"/>
-	<field name="Note" class="java.lang.String"/>
-	<field name="Status" class="java.lang.String"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>

@@ -63,6 +63,7 @@
         <property name="reportsService" ref="reportsService"/>
         <property name="companyTermsService" ref="companyService"/>
         <property name="transactionService" ref="transactionService"/>
+        <property name="makeService" ref="makeService"/>
     </bean>
     <bean id="reportsService" class="com.poseidon.Reports.service.impl.ReportsServiceImpl">
         <property name="reportsDAO" ref="reportsDAO"/>

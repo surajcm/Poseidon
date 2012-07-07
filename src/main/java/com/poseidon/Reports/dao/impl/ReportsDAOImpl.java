@@ -34,8 +34,6 @@ public class ReportsDAOImpl extends JdbcDaoSupport implements ReportsDAO {
     public JasperPrint getMakeDetailsChart(JasperReport jasperReport, ReportsVO currentReport) throws SQLException, JRException, ReportsException {
         JasperPrint jasperPrint;
         Map<String, Object> params = new HashMap<String, Object>();
-
-        currentReport.setMakeVOList(getMakeVOList());
         Connection connection = getDataSource().getConnection();
         jasperPrint = JasperFillManager.fillReport(jasperReport, params, connection);
         return jasperPrint;
@@ -138,39 +136,6 @@ public class ReportsDAOImpl extends JdbcDaoSupport implements ReportsDAO {
             }
         }
         return jasperPrint;
-    }
-
-    private List<MakeVO> getMakeVOList() throws ReportsException {
-        List<MakeVO> makeVOs = null;
-        try {
-            makeVOs = fetchAllMakes();
-        } catch (DataAccessException e) {
-            e.printStackTrace();
-            throw new ReportsException(ReportsException.DATABASE_ERROR);
-        }
-        return makeVOs;
-    }
-
-    private List<MakeVO> fetchAllMakes() {
-        return (List<MakeVO>) getJdbcTemplate().query(GET_MAKE_SQL, new MakeOnlyRowMapper());
-    }
-
-    private class MakeOnlyRowMapper implements RowMapper {
-        /**
-         * method to map the result to vo
-         *
-         * @param resultSet resultSet instance
-         * @param i         i instance
-         * @return UserVO as Object
-         * @throws java.sql.SQLException on error
-         */
-        public Object mapRow(ResultSet resultSet, int i) throws SQLException {
-            MakeVO makeVO = new MakeVO();
-            makeVO.setId(resultSet.getLong("Id"));
-            makeVO.setMakeName(resultSet.getString("MakeName"));
-            makeVO.setDescription(resultSet.getString("Description"));
-            return makeVO;
-        }
     }
 
 }
