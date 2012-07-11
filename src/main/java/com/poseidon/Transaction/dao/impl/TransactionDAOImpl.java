@@ -6,15 +6,20 @@ import com.poseidon.Transaction.domain.TransactionVO;
 import com.poseidon.Transaction.exception.TransactionException;
 
 import java.text.Format;
+import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.Locale;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.dao.DataAccessException;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.jdbc.core.namedparam.SqlParameterSource;
+import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.jdbc.core.support.JdbcDaoSupport;
 import org.springframework.jdbc.core.RowMapper;
 
@@ -24,7 +29,8 @@ import org.springframework.jdbc.core.RowMapper;
  * Time: 3:46:15 PM
  */
 public class TransactionDAOImpl  extends JdbcDaoSupport implements TransactionDAO {
-   //logger
+    private SimpleJdbcInsert insertTransaction;
+    //logger
     private final Log log = LogFactory.getLog(TransactionDAOImpl.class);
     private final String GET_TODAYS_TRANSACTIONS_SQL ="SELECT t.Id, t.TagNo,C.Name, t.DateReported, mk.MakeName, " +
             " mdl.ModelName, t.SerialNo, t.Status " +
@@ -32,11 +38,7 @@ public class TransactionDAOImpl  extends JdbcDaoSupport implements TransactionDA
             " inner join make mk on mk.Id=t.MakeId " +
             " inner join model mdl on mdl.Id=t.ModelId " +
             " WHERE CAST(t.DateReported AS DATE) = current_date();";
-    private static final String INSERT_NEW_TRANSACTION_SQL = " insert into transaction (TagNo, DateReported, " +
-            " CustomerId, ProductCategory, MakeId, ModelId, SerialNo, Accessories, ComplaintReported, " +
-            " ComplaintDiagonsed, EnggRemark, RepairAction, Note, Status, createdOn, modifiedOn, " +
-            " createdBy, ModifiedBy) values( ? , ? ,? , ? , ?, ?, ?, ?, ? ," +
-            " ? , ? , ? , ? , ? , ?, ?, ? , ? )";
+
     private static final String GET_SINGLE_TRANSACTION_SQL = "SELECT t.Id, t.TagNo, t.DateReported, t.CustomerId, " +
             " t.ProductCategory, t.MakeId, " +
             " t.ModelId, t.SerialNo, t.Status, t.Accessories, t.ComplaintReported, " +
@@ -45,7 +47,7 @@ public class TransactionDAOImpl  extends JdbcDaoSupport implements TransactionDA
             " inner join make mk on mk.Id=t.MakeId " +
             " inner join model mdl on mdl.Id=t.ModelId " +
             " WHERE t.Id = ? ;";
-    private static final String UPDATE_TRANSACTION_SQL = " update transaction set TagNo = ?, ProductCategory = ?," +
+    private static final String UPDATE_TRANSACTION_SQL = " update transaction set ProductCategory = ?," +
             " MakeId = ?, ModelId = ? , SerialNo = ? , Status = ? , Accessories = ?, ComplaintReported = ? , " +
             " ComplaintDiagonsed = ?, EnggRemark = ?, RepairAction = ?, Note = ?, modifiedOn = ? , ModifiedBy =  ? " +
             " where Id = ? ";
@@ -78,26 +80,33 @@ public class TransactionDAOImpl  extends JdbcDaoSupport implements TransactionDA
     }
 
     private void saveTxn(TransactionVO currentTransaction) {
-        Object[] parameters =
-                new Object[]{currentTransaction.getTagNo(),
-                        currentTransaction.getDateReported(),
-                        currentTransaction.getCustomerId(),
-                        currentTransaction.getProductCategory(),
-                        currentTransaction.getMakeId(),
-                        currentTransaction.getModelId(),
-                        currentTransaction.getSerialNo(),
-                        currentTransaction.getAccessories(),
-                        currentTransaction.getComplaintReported(),
-                        currentTransaction.getComplaintDiagonsed(),
-                        currentTransaction.getEnggRemark(),
-                        currentTransaction.getRepairAction(),
-                        currentTransaction.getNotes(),
-                        currentTransaction.getStatus(),
-                        currentTransaction.getCreatedOn(),
-                        currentTransaction.getModifiedOn(),
-                        currentTransaction.getCreatedBy(),
-                        currentTransaction.getModifiedBy()};
-        getJdbcTemplate().update(INSERT_NEW_TRANSACTION_SQL, parameters);
+        insertTransaction = new SimpleJdbcInsert(getDataSource()).withTableName("transaction").usingGeneratedKeyColumns("id");
+
+        SqlParameterSource parameters = new MapSqlParameterSource()
+                .addValue("DateReported", new Date(currentTransaction.getDateReported()))
+                .addValue("CustomerId", currentTransaction.getCustomerId())
+                .addValue("ProductCategory", currentTransaction.getProductCategory())
+                .addValue("MakeId", currentTransaction.getMakeId())
+                .addValue("ModelId", currentTransaction.getModelId())
+                .addValue("SerialNo", currentTransaction.getSerialNo())
+                .addValue("Accessories", currentTransaction.getAccessories())
+                .addValue("ComplaintReported", currentTransaction.getComplaintReported())
+                .addValue("ComplaintDiagonsed", currentTransaction.getComplaintDiagonsed())
+                .addValue("EnggRemark", currentTransaction.getEnggRemark())
+                .addValue("RepairAction", currentTransaction.getRepairAction())
+                .addValue("Note", currentTransaction.getNotes())
+                .addValue("Status", currentTransaction.getStatus())
+                .addValue("createdOn", currentTransaction.getCreatedOn())
+                .addValue("modifiedOn", currentTransaction.getModifiedOn())
+                .addValue("createdBy", currentTransaction.getCreatedBy())
+                .addValue("ModifiedBy", currentTransaction.getModifiedBy());
+        Number newId = insertTransaction.executeAndReturnKey(parameters);
+        log.info(" the queryForInt resulted in  " + newId.longValue());
+        currentTransaction.setId(newId.longValue());
+        // update the tag No
+        String tagNo = "WON2N"+newId.longValue();
+        String query = "update transaction set TagNo = '"+tagNo+"' where id ="+newId.longValue();
+        getJdbcTemplate().update(query);
     }
 
     public List<TransactionVO> searchTransactions(TransactionVO searchTransaction) throws TransactionException {
@@ -105,6 +114,9 @@ public class TransactionDAOImpl  extends JdbcDaoSupport implements TransactionDA
         try {
             transactionVOList = searchTxs(searchTransaction);
         } catch (DataAccessException e) {
+            e.printStackTrace();
+            throw new TransactionException(TransactionException.DATABASE_ERROR);
+        } catch (ParseException e) {
             e.printStackTrace();
             throw new TransactionException(TransactionException.DATABASE_ERROR);
         }
@@ -124,7 +136,6 @@ public class TransactionDAOImpl  extends JdbcDaoSupport implements TransactionDA
 
     public void updateTransaction(TransactionVO currentTransaction) throws TransactionException {
         Object[] parameters = new Object[]{
-                currentTransaction.getTagNo(),
                 currentTransaction.getProductCategory(),
                 currentTransaction.getMakeId(),
                 currentTransaction.getModelId(),
@@ -177,7 +188,7 @@ public class TransactionDAOImpl  extends JdbcDaoSupport implements TransactionDA
         return (TransactionReportVO) getJdbcTemplate().queryForObject(GET_SINGLE_TRANSACTION_FROM_TAG_SQL, new Object[]{tag}, new TransactionReportRowMapper());
     }
 
-    private List<TransactionVO> searchTxs(TransactionVO searchTransaction) {
+    private List<TransactionVO> searchTxs(TransactionVO searchTransaction) throws ParseException {
         StringBuffer SEARCH_TRANSACTION_QUERY = new StringBuffer();
         SEARCH_TRANSACTION_QUERY.append("SELECT Tr.id,")
                 .append(" Tr.TagNo, ")
@@ -284,9 +295,9 @@ public class TransactionDAOImpl  extends JdbcDaoSupport implements TransactionDA
         return (List<TransactionVO>) getJdbcTemplate().query(SEARCH_TRANSACTION_QUERY.toString(), new TransactionListRowMapper());
     }
 
-    private String getMySQLFriendlyDate(String startDate) {
-        Date startReportDate = new Date(startDate);
-        Format formatter = new SimpleDateFormat("yyyy-mm-dd");
+    private String getMySQLFriendlyDate(String startDate) throws ParseException {
+        Date startReportDate = new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH).parse(startDate);
+        Format formatter = new SimpleDateFormat("yyyy-MM-dd");
         return formatter.format(startReportDate);
     }
 
@@ -311,7 +322,7 @@ public class TransactionDAOImpl  extends JdbcDaoSupport implements TransactionDA
             TransactionVO txs = new TransactionVO();
             txs.setId(resultSet.getLong("Id"));
             txs.setTagNo(resultSet.getString("TagNo"));
-            txs.setDateReported(resultSet.getDate("DateReported"));
+            txs.setDateReported(resultSet.getDate("DateReported").toString());
             txs.setCustomerName(resultSet.getString("Name"));
             txs.setMakeName(resultSet.getString("MakeName"));
             txs.setModelName(resultSet.getString("ModelName"));
@@ -339,7 +350,7 @@ public class TransactionDAOImpl  extends JdbcDaoSupport implements TransactionDA
             TransactionVO txs = new TransactionVO();
             txs.setId(resultSet.getLong("Id"));
             txs.setTagNo(resultSet.getString("TagNo"));
-            txs.setDateReported(resultSet.getDate("DateReported"));
+            txs.setDateReported(resultSet.getDate("DateReported").toString());
             txs.setCustomerId(resultSet.getLong("CustomerId"));
             txs.setProductCategory(resultSet.getString("ProductCategory"));
             txs.setMakeId(resultSet.getLong("MakeId"));

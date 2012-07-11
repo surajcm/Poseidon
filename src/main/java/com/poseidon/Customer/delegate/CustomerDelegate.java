@@ -26,8 +26,8 @@ public class CustomerDelegate {
         return getCustomerService().listAllCustomerDetails();
     }
 
-    public void saveCustomer(CustomerVO currentCustomerVO) throws CustomerException {
-        getCustomerService().saveCustomer(currentCustomerVO);
+    public long saveCustomer(CustomerVO currentCustomerVO) throws CustomerException {
+        return getCustomerService().saveCustomer(currentCustomerVO);
     }
 
     public CustomerVO getCustomerFromId(Long id) throws CustomerException {

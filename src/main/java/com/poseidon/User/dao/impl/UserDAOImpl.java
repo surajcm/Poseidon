@@ -7,11 +7,13 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.jdbc.core.namedparam.SqlParameterSource;
+import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.jdbc.core.support.JdbcDaoSupport;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -21,6 +23,7 @@ import java.util.List;
  *         Time: 12:43:13 PM
  */
 public class UserDAOImpl extends JdbcDaoSupport implements UserDAO {
+    private SimpleJdbcInsert insertUser;
 
     //logger
     private final Log log = LogFactory.getLog(UserDAOImpl.class);
@@ -36,9 +39,6 @@ public class UserDAOImpl extends JdbcDaoSupport implements UserDAO {
 
     // update user details
     private static final String UPDATE_USER_SQL = " update user set Name = ?, LogId = ? ,Pass = ?, Role = ?, modifiedOn = ? , modifiedBy = ? where id = ?";
-
-    // insert new user
-    private static final String INSERT_USER_SQL = " insert into user(Name, LogId, Pass, Role, createdOn, modifiedOn, createdBy, modifiedBy) values (?, ?, ? ,?, ? , ? ,? , ?)";
 
     // delete user details by id
     private static final String DELETE_BY_ID_SQL = " delete from user where id = ? ";
@@ -148,26 +148,26 @@ public class UserDAOImpl extends JdbcDaoSupport implements UserDAO {
         if (searchUser.getName() != null && searchUser.getName().trim().length() > 0) {
             dynamicQuery.append(" where ");
             isWhereAppended = Boolean.TRUE;
-            if(searchUser.getIncludes()){
+            if (searchUser.getIncludes()) {
                 dynamicQuery.append(" Name like '%").append(searchUser.getName()).append("%'");
-            }else if (searchUser.getStartsWith()){
+            } else if (searchUser.getStartsWith()) {
                 dynamicQuery.append(" Name like '").append(searchUser.getName()).append("%'");
-            }else {
+            } else {
                 dynamicQuery.append(" Name like '").append(searchUser.getName()).append("'");
             }
         }
 
-        if (searchUser.getLoginId() != null &&searchUser.getLoginId().trim().length() > 0) {
+        if (searchUser.getLoginId() != null && searchUser.getLoginId().trim().length() > 0) {
             if (!isWhereAppended) {
                 dynamicQuery.append(" where ");
             } else {
                 dynamicQuery.append(" and ");
             }
-            if(searchUser.getIncludes()){
+            if (searchUser.getIncludes()) {
                 dynamicQuery.append(" LogId like '%").append(searchUser.getLoginId()).append("%'");
-            }else if (searchUser.getStartsWith()){
+            } else if (searchUser.getStartsWith()) {
                 dynamicQuery.append(" LogId like '").append(searchUser.getLoginId()).append("%'");
-            }else {
+            } else {
                 dynamicQuery.append(" LogId like '").append(searchUser.getLoginId()).append("'");
             }
         }
@@ -178,15 +178,15 @@ public class UserDAOImpl extends JdbcDaoSupport implements UserDAO {
             } else {
                 dynamicQuery.append(" and ");
             }
-            if(searchUser.getIncludes()){
+            if (searchUser.getIncludes()) {
                 dynamicQuery.append(" Role like '%").append(searchUser.getRole()).append("%'");
-            }else if (searchUser.getStartsWith()){
+            } else if (searchUser.getStartsWith()) {
                 dynamicQuery.append(" Role like '").append(searchUser.getRole()).append("%'");
-            }else {
+            } else {
                 dynamicQuery.append(" Role like '").append(searchUser.getRole()).append("'");
             }
         }
-        
+
         log.info("Query generated is " + dynamicQuery);
         return (List<UserVO>) getJdbcTemplate().query(dynamicQuery.toString(), new UserRowMapper());
     }
@@ -245,16 +245,19 @@ public class UserDAOImpl extends JdbcDaoSupport implements UserDAO {
      * @throws DataAccessException on error
      */
     public void saveUser(final UserVO user) throws DataAccessException {
-        Object[] parameters =
-                new Object[]{user.getName(),
-                        user.getLoginId(),
-                        user.getPassword(),
-                        user.getRole(),
-                        user.getCreatedDate(),
-                        user.getModifiedDate(),
-                        user.getCreatedBy(),
-                        user.getLastModifiedBy()};
-        getJdbcTemplate().update(INSERT_USER_SQL, parameters);
+        insertUser = new SimpleJdbcInsert(getDataSource()).withTableName("user").usingGeneratedKeyColumns("id");
+        SqlParameterSource parameters = new MapSqlParameterSource()
+                .addValue("Name", user.getName())
+                .addValue("LogId", user.getLoginId())
+                .addValue("Pass", user.getPassword())
+                .addValue("Role", user.getRole())
+                .addValue("createdOn", user.getCreatedDate())
+                .addValue("modifiedOn", user.getModifiedDate())
+                .addValue("createdBy", user.getCreatedBy())
+                .addValue("modifiedBy", user.getLastModifiedBy());
+        Number newId = insertUser.executeAndReturnKey(parameters);
+        log.info(" the queryForInt resulted in  " + newId.longValue());
+        user.setId(newId.longValue());
 
     }
 

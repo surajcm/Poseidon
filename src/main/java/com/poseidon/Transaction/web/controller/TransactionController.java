@@ -160,30 +160,24 @@ public class TransactionController extends MultiActionController {
         log.info(" Inside SaveTxn method of TransactionController ");
         log.info(" form details are " + transactionForm);
         TransactionVO transactionVO = transactionForm.getCurrentTransaction();
-        transactionVO.setDateReported(new Date());
         transactionVO.setCreatedOn(new Date());
         transactionVO.setModifiedOn(new Date());
         transactionVO.setCreatedBy(transactionForm.getLoggedInUser());
         transactionVO.setModifiedBy(transactionForm.getLoggedInUser());
         transactionVO.setStatus("NEW");
-        if(transactionForm.getCustomerVO() != null
+        if (transactionForm.getCustomerVO() != null
                 && transactionForm.getCustomerVO().getCustomerId() != null
-                && transactionForm.getCustomerVO().getCustomerId() > 0){
+                && transactionForm.getCustomerVO().getCustomerId() > 0) {
             transactionVO.setCustomerId(transactionForm.getCustomerVO().getCustomerId());
         }
         try {
             if (transactionVO.getCustomerId() == null) {
                 try {
-                    getCustomerDelegate().saveCustomer(transactionForm.getCustomerVO());
-                    //get the customer Id
-                    transactionForm.getCustomerVO().setStartsWith(Boolean.FALSE);
-                    transactionForm.getCustomerVO().setIncludes(Boolean.FALSE);
-                    List<CustomerVO> customerVOs = getCustomerDelegate().searchCustomer(transactionForm.getCustomerVO());
-                    if (customerVOs != null && customerVOs.size() > 0) {
-                        transactionForm.getCustomerVO().setCustomerId(customerVOs.get(0).getCustomerId());
-                        transactionVO.setCustomerId(customerVOs.get(0).getCustomerId());
-                        log.info("the customer id from db is " + customerVOs.get(0).getCustomerId());
-                    }
+                    long customerId = getCustomerDelegate().saveCustomer(transactionForm.getCustomerVO());
+                    transactionForm.getCustomerVO().setCustomerId(customerId);
+                    transactionVO.setCustomerId(customerId);
+                    log.info("the customer id from db is " + customerId);
+
                 } catch (CustomerException e) {
                     e.printStackTrace();
                 }
@@ -202,7 +196,7 @@ public class TransactionController extends MultiActionController {
                 log.info(" An Unknown Error has been occurred !!");
             }
 
-        }catch (Exception e){
+        } catch (Exception e) {
             transactionForm.setStatusMessage("Unable to create the new Transaction");
             transactionForm.setStatusMessageType("error");
             e.printStackTrace();
@@ -311,10 +305,10 @@ public class TransactionController extends MultiActionController {
         CustomerVO customerVO = null;
         try {
             transactionVO = getTransactionDelegate().fetchTransactionFromId(transactionForm.getId());
-            if(transactionVO != null && transactionVO.getCustomerId() != null && transactionVO.getCustomerId() > 0 ){
+            if (transactionVO != null && transactionVO.getCustomerId() != null && transactionVO.getCustomerId() > 0) {
                 customerVO = getCustomerDelegate().getCustomerFromId(transactionVO.getCustomerId());
             }
-            if(transactionVO != null && transactionVO.getMakeId() != null && transactionVO.getMakeId() > 0){
+            if (transactionVO != null && transactionVO.getMakeId() != null && transactionVO.getMakeId() > 0) {
                 List<MakeVO> makeVOs = null;
                 try {
                     makeVOs = getMakeDelegate().fetchMakes();
@@ -348,13 +342,13 @@ public class TransactionController extends MultiActionController {
             e1.printStackTrace();
             log.info(" An Unknown Error has been occurred !!");
         }
-        if(transactionVO != null ){
-            log.info("transactionVO "+transactionVO);
+        if (transactionVO != null) {
+            log.info("transactionVO " + transactionVO);
         }
         transactionForm.setCurrentTransaction(transactionVO);
-        if(customerVO != null){
+        if (customerVO != null) {
             transactionForm.setCustomerVO(customerVO);
-        }else {
+        } else {
             transactionForm.setCustomerVO(new CustomerVO());
         }
         transactionForm.setStatusList(populateStatus());
@@ -366,15 +360,15 @@ public class TransactionController extends MultiActionController {
     public ModelAndView updateTxn(HttpServletRequest request,
                                   HttpServletResponse response, TransactionForm transactionForm) {
         log.info(" updateTxn method of TransactionController ");
-        log.info("TransactionForm values are "+transactionForm);
+        log.info("TransactionForm values are " + transactionForm);
         transactionForm.getCurrentTransaction().setModifiedBy(transactionForm.getLoggedInUser());
         transactionForm.getCurrentTransaction().setModifiedOn(new Date());
-        log.info("TransactionForm, current transactions are values are "+transactionForm.getCurrentTransaction());
+        log.info("TransactionForm, current transactions are values are " + transactionForm.getCurrentTransaction());
         try {
             getTransactionDelegate().updateTransaction(transactionForm.getCurrentTransaction());
             transactionForm.setStatusMessage("Successfully updated the Transaction");
             transactionForm.setStatusMessageType("success");
-        }catch (TransactionException e){
+        } catch (TransactionException e) {
             transactionForm.setStatusMessage("Unable to update the selected transaction due to a Data base error");
             transactionForm.setStatusMessageType("error");
             e.printStackTrace();
@@ -384,7 +378,7 @@ public class TransactionController extends MultiActionController {
             } else {
                 log.info(" An Unknown Error has been occurred !!");
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             transactionForm.setStatusMessage("Unable to update the selected Transaction");
             transactionForm.setStatusMessageType("error");
             e.printStackTrace();
@@ -425,12 +419,12 @@ public class TransactionController extends MultiActionController {
     public ModelAndView DeleteTxn(HttpServletRequest request,
                                   HttpServletResponse response, TransactionForm transactionForm) {
         log.info(" DeleteTxn method of TransactionController ");
-        log.info("TransactionForm values are "+transactionForm);
+        log.info("TransactionForm values are " + transactionForm);
         try {
             getTransactionDelegate().deleteTransaction(transactionForm.getId());
             transactionForm.setStatusMessage("Successfully deleted the Transaction");
             transactionForm.setStatusMessageType("success");
-        }catch (TransactionException e){
+        } catch (TransactionException e) {
             transactionForm.setStatusMessage("Unable to delete the selected transaction due to a Data base error");
             transactionForm.setStatusMessageType("error");
             e.printStackTrace();
@@ -440,7 +434,7 @@ public class TransactionController extends MultiActionController {
             } else {
                 log.info(" An Unknown Error has been occurred !!");
             }
-        }catch (Exception e){
+        } catch (Exception e) {
             transactionForm.setStatusMessage("Unable to delete the selected Transaction");
             transactionForm.setStatusMessageType("error");
             e.printStackTrace();

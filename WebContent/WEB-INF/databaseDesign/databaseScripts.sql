@@ -220,3 +220,6 @@ INSERT INTO companyterms (Id, Terms, CompanyDetails) VALUES
 -- grant delete on model to localuser@localhost;
 -- grant delete on transaction to localuser@localhost;
 -- grant delete on user to localuser@localhost;
+
+-- UPGRADES--
+ALTER TABLE `poseidon`.`transaction` MODIFY COLUMN `TagNo` VARCHAR(45) CHARACTER SET latin1 COLLATE latin1_swedish_ci DEFAULT NULL;

@@ -13,7 +13,7 @@ import java.util.List;
 public interface CustomerService {
     public List<CustomerVO> listAllCustomerDetails() throws CustomerException;
 
-    public void saveCustomer(CustomerVO currentCustomerVO) throws CustomerException;
+    public long saveCustomer(CustomerVO currentCustomerVO) throws CustomerException;
 
     public CustomerVO getCustomerFromId(Long id) throws CustomerException;
 

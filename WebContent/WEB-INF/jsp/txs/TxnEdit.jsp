@@ -58,14 +58,6 @@
                 <table class="myTable" width="100%" >
                     <tr>
                         <td style="text-align:right;">
-                            <label for="TagNo" style="font-size: .70em;">Tag Number :</label>
-                            <label class="mandatory">*</label>
-                        </td>
-                        <td style="text-align:left;">
-                            <form:input path="currentTransaction.TagNo" cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;" id="TagNo"/>
-                        </td>
-                        <td colspan="2"> &nbsp;</td>
-                        <td style="text-align:right;">
                             <label for="productCategory" style="font-size: .70em;">Product Category :</label>
                             <label class="mandatory">*</label>
                         </td>
@@ -80,6 +72,14 @@
                         </td>
                         <td style="text-align:left;">
                             <form:input path="currentTransaction.serialNo" cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;" id="serialNo"/>
+                        </td>
+                        <td colspan="2"> &nbsp;</td>
+                        <td style="text-align:right;">
+                            <label for="dateReported" style="font-size: .70em;">Transaction Date :</label>
+                            <label class="mandatory">*</label>
+                        </td>
+                        <td style="text-align:left;">
+                            <form:input path="currentTransaction.dateReported" cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;" id="dateReported"/>
                         </td>
                     </tr>
                     <tr>

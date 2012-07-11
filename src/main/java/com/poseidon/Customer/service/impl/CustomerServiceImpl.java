@@ -37,12 +37,14 @@ public class CustomerServiceImpl implements CustomerService {
         return customerVOs;
     }
 
-    public void saveCustomer(CustomerVO currentCustomerVO) throws CustomerException {
+    public long saveCustomer(CustomerVO currentCustomerVO) throws CustomerException {
+        long customerId = 0L;
         try {
-            getCustomerDAO().saveCustomer(currentCustomerVO);
+            customerId = getCustomerDAO().saveCustomer(currentCustomerVO);
         }catch (CustomerException e){
             e.printStackTrace();
         }
+        return customerId;
     }
 
     public CustomerVO getCustomerFromId(Long id) throws CustomerException {

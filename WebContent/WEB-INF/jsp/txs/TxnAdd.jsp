@@ -8,24 +8,26 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Add Transaction</title>
     <link rel="stylesheet" type="text/css" href="../css/mainStyles.css"/>
+    <link rel="stylesheet" type="text/css" href="../css/ui-lightness/jquery-ui-1.8.21.custom.css"/>
+    <script type="text/javascript" src="../js/jquery-1.7.2.min.js" language="javascript"></script>
+    <script type="text/javascript" src="../js/jquery-ui-1.8.21.custom.min.js" language="javascript"></script>
     <script type="text/javascript">
         var req;
         //code to add New user
         function save() {
-            if(document.getElementById('TagNo').value.length == 0){
-                alert("Please enter a valid TagNo");
-            }else if(document.getElementById('productCategory').value.length == 0){
+            if (document.getElementById('dateReported').value.length == 0) {
+                alert("Please enter a valid Transaction Date");
+            } else if (document.getElementById('productCategory').value.length == 0) {
                 alert("Please enter a valid Product Category");
-            }else if(document.getElementById('serialNo').value.length == 0){
+            } else if (document.getElementById('serialNo').value.length == 0) {
                 alert("Please enter a valid Serial No");
-            }else if(document.getElementById('customerId').value.length == 0){
-                if(document.getElementById('customerName').value.length == 0
-                        || document.getElementById('mobile').value.length == 0){
-                    alert("Please enter a valid Customer Details");
-                }
-            }else if(document.getElementById('makeId').value.length == 0){
+            } else if ((document.getElementById('customerId').value.length == 0)
+                    && (document.getElementById('customerName').value.length == 0
+                    || document.getElementById('mobile').value.length == 0)) {
+                alert("Please enter a valid Customer Details");
+            } else if (document.getElementById('makeId').value.length == 0) {
                 alert("Please enter a valid Make detail");
-            }else if(document.getElementById('modelId').value.length == 0){
+            } else if (document.getElementById('modelId').value.length == 0) {
                 alert("Please enter a valid Model detail");
             } else {
                 document.forms[0].action = "SaveTxn.htm";
@@ -35,7 +37,7 @@
 
         //code to edit a user
         function clearOut() {
-            document.getElementById("TagNo").value = "";
+            document.getElementById("dateReported").value = "";
             document.getElementById("productCategory").value = "";
             document.getElementById("serialNo").value = "";
             document.getElementById("customerId").value = "";
@@ -60,7 +62,7 @@
             document.getElementById("notes").value = "";
         }
 
-        function changeTheModel(){
+        function changeTheModel() {
             var selectMakeId = document.transactionForm.makeId.value;
             var url = "<%=request.getContextPath()%>" + "/txs/UpdateModelAjax.htm";
             url = url + "?selectMakeId=" + selectMakeId;
@@ -74,8 +76,8 @@
         }
 
         function createAjaxRequest() {
-            if (window.XMLHttpRequest){
-                req = new XMLHttpRequest() ;
+            if (window.XMLHttpRequest) {
+                req = new XMLHttpRequest();
             } else if (window.ActiveXObject) {
                 try {
                     req = new ActiveXObject("Msxml2.XMLHTTP");
@@ -91,7 +93,7 @@
         function stateChange() {
             if (req.readyState == 4 && (req.status == 200 || window.location.href.indexOf("http") == -1)) {
                 textReturned = req.responseText;
-                if(textReturned != "") {
+                if (textReturned != "") {
                     var fullContent = textReturned.split("#start#");
                     var resultIds = new Array();
                     var resultNames = new Array();
@@ -100,14 +102,14 @@
                     var t = 0;
 
                     for (j = 0; j < fullContent.length; j++) {
-                        if(fullContent[j].length > 0 ) {
+                        if (fullContent[j].length > 0) {
                             resultIds[k] = fullContent[j].split("#id#")[1];
                             var testing = fullContent[j].split("#id#")[2];
                             resultNames[k] = testing.split("#modelName#")[1];
                             k++;
                         }
                     }
-                    var l =0;
+                    var l = 0;
                     document.transactionForm.modelId.options.length = resultIds.length - 1;
                     document.transactionForm.modelId.options[0] = new Option("<---- Select ---->", "");
                     for (var i = 1; i <= (resultIds.length); i++) {
@@ -120,6 +122,11 @@
             }
         }
     </script>
+    <script>
+        $(function () {
+            $("#dateReported").datepicker({ dateFormat:"dd/mm/yy" });
+        });
+    </script>
 </head>
 <body style="background: #A9A9A9 ;">
 <form:form method="POST" commandName="transactionForm" name="transactionForm">
@@ -129,22 +136,15 @@
 <div id="content">
 <fieldset>
 <legend>Add Transaction</legend>
-<table class="myTable" width="100%" >
+<table class="myTable" width="100%">
 <tr>
-    <td style="text-align:right;">
-        <label for="TagNo" style="font-size: .70em;">Tag Number :</label>
-        <label class="mandatory">*</label>
-    </td>
-    <td style="text-align:left;">
-        <form:input path="currentTransaction.TagNo" cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;font-size: .70em;" id="TagNo"/>
-    </td>
-    <td colspan="2"> &nbsp;</td>
     <td style="text-align:right;">
         <label for="productCategory" style="font-size: .70em;">Product Category :</label>
         <label class="mandatory">*</label>
     </td>
     <td style="text-align:left;">
-        <form:input path="currentTransaction.productCategory" cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;font-size: .70em;"
+        <form:input path="currentTransaction.productCategory"
+                    cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;font-size: .70em;"
                     id="productCategory"/>
     </td>
     <td colspan="2"> &nbsp;</td>
@@ -153,7 +153,17 @@
         <label class="mandatory">*</label>
     </td>
     <td style="text-align:left;">
-        <form:input path="currentTransaction.serialNo" cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;font-size: .70em;" id="serialNo"/>
+        <form:input path="currentTransaction.serialNo"
+                    cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;font-size: .70em;" id="serialNo"/>
+    </td>
+    <td colspan="2"> &nbsp;</td>
+    <td style="text-align:right;">
+        <label for="dateReported" style="font-size: .70em;">Transaction Date :</label>
+        <label class="mandatory">*</label>
+    </td>
+    <td style="text-align:left;">
+        <form:input path="currentTransaction.dateReported"
+                    cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;font-size: .70em;" id="dateReported"/>
     </td>
 </tr>
 <tr>
@@ -165,9 +175,11 @@
         <label class="mandatory">*</label>
     </td>
     <td style="text-align:left;">
-        <form:input path="customerVO.customerId" cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;font-size: .70em;" id="customerId"/>
+        <form:input path="customerVO.customerId"
+                    cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;font-size: .70em;" id="customerId"/>
     </td>
-    <td colspan="8"> <label style="font-size: .70em;color:blue;">Enter Customer Details in case of New Customer</label> </td>
+    <td colspan="8"><label style="font-size: .70em;color:blue;">Enter Customer Details in case of New Customer</label>
+    </td>
 </tr>
 <tr>
     <td style="text-align:right;">
@@ -176,7 +188,8 @@
         </label>
     </td>
     <td style="text-align:left;">
-        <form:input path="customerVO.customerName" cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;font-size: .70em;" id="customerName"/>
+        <form:input path="customerVO.customerName"
+                    cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;font-size: .70em;" id="customerName"/>
     </td>
     <td colspan="2">&nbsp;</td>
     <td style="text-align:right;">
@@ -185,7 +198,8 @@
         </label>
     </td>
     <td style="text-align:left;">
-        <form:textarea path="customerVO.address1" rows="5" cols="30" cssStyle="border:3px double #CCCCCC; width: 200px;height:40px;"
+        <form:textarea path="customerVO.address1" rows="5" cols="30"
+                       cssStyle="border:3px double #CCCCCC; width: 200px;height:40px;"
                        id="address1"/>
     </td>
     <td colspan="2"> &nbsp;</td>
@@ -195,7 +209,8 @@
         </label>
     </td>
     <td style="text-align:left;">
-        <form:textarea path="customerVO.address2" rows="5" cols="30" cssStyle="border:3px double #CCCCCC; width: 200px;height:40px;"
+        <form:textarea path="customerVO.address2" rows="5" cols="30"
+                       cssStyle="border:3px double #CCCCCC; width: 200px;height:40px;"
                        id="address2"/>
     </td>
 </tr>
@@ -206,7 +221,8 @@
         </label>
     </td>
     <td style="text-align:left;">
-        <form:input path="customerVO.phoneNo" cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;font-size: .70em;" id="phoneNo"/>
+        <form:input path="customerVO.phoneNo"
+                    cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;font-size: .70em;" id="phoneNo"/>
     </td>
     <td colspan="2">&nbsp;</td>
     <td style="text-align:right;">
@@ -215,7 +231,8 @@
         </label>
     </td>
     <td style="text-align:left;">
-        <form:input path="customerVO.mobile" cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;font-size: .70em;" id="mobile"/>
+        <form:input path="customerVO.mobile"
+                    cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;font-size: .70em;" id="mobile"/>
     </td>
     <td colspan="2">&nbsp;</td>
     <td style="text-align:right;">
@@ -224,7 +241,8 @@
         </label>
     </td>
     <td style="text-align:left;">
-        <form:input path="customerVO.email" cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;font-size: .70em;" id="email"/>
+        <form:input path="customerVO.email"
+                    cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;font-size: .70em;" id="email"/>
     </td>
 </tr>
 <tr>
@@ -234,7 +252,8 @@
         </label>
     </td>
     <td style="text-align:left;">
-        <form:input path="customerVO.contactPerson1" cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;font-size: .70em;"
+        <form:input path="customerVO.contactPerson1"
+                    cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;font-size: .70em;"
                     id="contactPerson1"/>
     </td>
     <td colspan="2">&nbsp;</td>
@@ -244,7 +263,8 @@
         </label>
     </td>
     <td style="text-align:left;">
-        <form:input path="customerVO.contactMobile1" cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;font-size: .70em;"
+        <form:input path="customerVO.contactMobile1"
+                    cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;font-size: .70em;"
                     id="contactMobile1"/>
     </td>
     <td colspan="4">&nbsp;</td>
@@ -256,7 +276,8 @@
         </label>
     </td>
     <td style="text-align:left;">
-        <form:input path="customerVO.contactPerson2" cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;font-size: .70em;"
+        <form:input path="customerVO.contactPerson2"
+                    cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;font-size: .70em;"
                     id="contactPerson2"/>
     </td>
     <td colspan="2">&nbsp;</td>
@@ -266,7 +287,8 @@
         </label>
     </td>
     <td style="text-align:left;">
-        <form:input path="customerVO.contactMobile2" cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;font-size: .70em;"
+        <form:input path="customerVO.contactMobile2"
+                    cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;font-size: .70em;"
                     id="contactMobile2"/>
     </td>
     <td colspan="2">&nbsp;</td>
@@ -276,7 +298,8 @@
         </label>
     </td>
     <td style="text-align:left;">
-        <form:textarea path="customerVO.notes" rows="5" cols="30" cssStyle="border:3px double #CCCCCC; width: 200px;height:40px;"
+        <form:textarea path="customerVO.notes" rows="5" cols="30"
+                       cssStyle="border:3px double #CCCCCC; width: 200px;height:40px;"
                        id="notes"/>
     </td>
 </tr>
@@ -312,7 +335,7 @@
         </form:select>
     </td>
     <td colspan="2"> &nbsp;</td>
-    <td colspan="2"> <a id="gotoNewModel" href="<%=request.getContextPath()%>/make/addModel.htm" > Add New Model</a></td>
+    <td colspan="2"><a id="gotoNewModel" href="<%=request.getContextPath()%>/make/addModel.htm"> Add New Model</a></td>
 </tr>
 <tr>
     <td colspan="10">&nbsp;</td>
@@ -323,7 +346,8 @@
         <label class="mandatory">*</label>
     </td>
     <td style="text-align:left;">
-        <form:textarea path="currentTransaction.accessories" rows="5" cols="30" cssStyle="border:3px double #CCCCCC; width: 200px;height:40px;"
+        <form:textarea path="currentTransaction.accessories" rows="5" cols="30"
+                       cssStyle="border:3px double #CCCCCC; width: 200px;height:40px;"
                        id="accessories"/>
     </td>
     <td colspan="2"> &nbsp;</td>
@@ -353,7 +377,8 @@
         <label class="mandatory">*</label>
     </td>
     <td style="text-align:left;">
-        <form:textarea path="currentTransaction.enggRemark" rows="5" cols="30" cssStyle="border:3px double #CCCCCC; width: 200px;height:40px;"
+        <form:textarea path="currentTransaction.enggRemark" rows="5" cols="30"
+                       cssStyle="border:3px double #CCCCCC; width: 200px;height:40px;"
                        id="enggRemark"/>
     </td>
     <td colspan="2"> &nbsp;</td>
@@ -362,7 +387,8 @@
         <label class="mandatory">*</label>
     </td>
     <td style="text-align:left;">
-        <form:textarea path="currentTransaction.repairAction" rows="5" cols="30" cssStyle="border:3px double #CCCCCC; width: 200px;height:40px;"
+        <form:textarea path="currentTransaction.repairAction" rows="5" cols="30"
+                       cssStyle="border:3px double #CCCCCC; width: 200px;height:40px;"
                        id="repairAction"/>
     </td>
     <td colspan="2"> &nbsp;</td>
@@ -371,7 +397,8 @@
         <label class="mandatory">*</label>
     </td>
     <td style="text-align:left;">
-        <form:textarea path="currentTransaction.notes" rows="5" cols="30" cssStyle="border:3px double #CCCCCC; width: 200px;height:40px;"
+        <form:textarea path="currentTransaction.notes" rows="5" cols="30"
+                       cssStyle="border:3px double #CCCCCC; width: 200px;height:40px;"
                        id="notes"/>
     </td>
 </tr>

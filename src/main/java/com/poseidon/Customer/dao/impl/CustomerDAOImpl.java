@@ -8,6 +8,9 @@ import java.util.List;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.jdbc.core.namedparam.SqlParameterSource;
+import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.jdbc.core.support.JdbcDaoSupport;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.dao.DataAccessException;
@@ -20,6 +23,7 @@ import org.apache.commons.logging.LogFactory;
  * Time: 10:45:56 PM
  */
 public class CustomerDAOImpl extends JdbcDaoSupport implements CustomerDAO {
+    private SimpleJdbcInsert insertCustomer;
     //logger
     private final Log log = LogFactory.getLog(CustomerDAOImpl.class);
     private final String GET_CUSTOMERS_SQL = " SELECT Id, Name, ifnull(Address1,'') as Address1,ifnull(address2,'') as Address2," +
@@ -27,8 +31,7 @@ public class CustomerDAOImpl extends JdbcDaoSupport implements CustomerDAO {
             " ifnull(email,'') as email, ifnull(ContactPerson1,'') as ContactPerson1," +
             " ifnull(ContactPh1,'') as ContactPh1, ifnull(ContactPerson2,'') as ContactPerson2, " +
             " ifnull(ContactPh2,'') as ContactPh2, ifnull(Note,'') as Note FROM customer ;";
-    private final String INSERT_NEW_CUSTOMER_SQL = "insert into customer (Name, Address1, address2, Phone, Mobile, email, ContactPerson1, " +
-            " ContactPh1, ContactPerson2, ContactPh2, Note ) values (?, ?, ?, ?, ?, ?,? ,? ,? ,? , ?)";
+
     private final String GET_SINGLE_CUSTOMER_SQL = " select * from customer where id = ? ";
     private final String DELETE_CUSTOMER_BY_ID_SQL = " delete from customer where id = ? ";
     private final String UPDATE_CUSTOMER_SQL = " update customer set Name = ? , Address1 = ? , address2 = ? , Phone = ?," +
@@ -44,9 +47,10 @@ public class CustomerDAOImpl extends JdbcDaoSupport implements CustomerDAO {
         return customerVOs;
     }
 
-    public void saveCustomer(CustomerVO currentCustomerVO) throws CustomerException {
+    public long saveCustomer(CustomerVO currentCustomerVO) throws CustomerException {
+
         try {
-            saveCustomerDetails(currentCustomerVO);
+            return saveCustomerDetails(currentCustomerVO);
         } catch (DataAccessException e) {
             e.printStackTrace();
             throw new CustomerException(CustomerException.DATABASE_ERROR);
@@ -111,20 +115,25 @@ public class CustomerDAOImpl extends JdbcDaoSupport implements CustomerDAO {
         return (CustomerVO) getJdbcTemplate().queryForObject(GET_SINGLE_CUSTOMER_SQL, new Object[]{id}, new CustomerListRowMapper());
     }
 
-    private void saveCustomerDetails(CustomerVO currentCustomerVO) {
-        Object[] parameters =
-                new Object[]{currentCustomerVO.getCustomerName(),
-                        currentCustomerVO.getAddress1(),
-                        currentCustomerVO.getAddress2(),
-                        currentCustomerVO.getPhoneNo(),
-                        currentCustomerVO.getMobile(),
-                        currentCustomerVO.getEmail(),
-                        currentCustomerVO.getContactPerson1(),
-                        currentCustomerVO.getContactMobile1(),
-                        currentCustomerVO.getContactPerson2(),
-                        currentCustomerVO.getContactMobile2(),
-                        currentCustomerVO.getNotes()};
-        getJdbcTemplate().update(INSERT_NEW_CUSTOMER_SQL, parameters);
+    private long saveCustomerDetails(CustomerVO currentCustomerVO) {
+        insertCustomer = new SimpleJdbcInsert(getDataSource()).withTableName("customer").usingGeneratedKeyColumns("id");
+        SqlParameterSource parameters = new MapSqlParameterSource()
+                .addValue("Name", currentCustomerVO.getCustomerName())
+                .addValue("Address1", currentCustomerVO.getAddress1())
+                .addValue("address2", currentCustomerVO.getAddress2())
+                .addValue("Phone", currentCustomerVO.getPhoneNo())
+                .addValue("Mobile", currentCustomerVO.getMobile())
+                .addValue("email", currentCustomerVO.getEmail())
+                .addValue("ContactPerson1", currentCustomerVO.getContactPerson1())
+                .addValue("ContactPh1", currentCustomerVO.getContactMobile1())
+                .addValue("ContactPerson2", currentCustomerVO.getContactPerson2())
+                .addValue("ContactPh2", currentCustomerVO.getContactMobile2())
+                .addValue("Note", currentCustomerVO.getNotes());
+
+        Number newId = insertCustomer.executeAndReturnKey(parameters);
+        log.info(" the query resulted in  " + newId.longValue());
+        currentCustomerVO.setCustomerId(newId.longValue());
+        return newId.longValue();
     }
 
     private List<CustomerVO> fetchAllCustomers() {

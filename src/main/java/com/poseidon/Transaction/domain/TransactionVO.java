@@ -11,7 +11,7 @@ import java.util.List;
 public class TransactionVO {
     private Long id;
     private String tagNo;
-    private Date dateReported;
+    private String dateReported;
     private Long customerId;
     private String customerName;
     private String productCategory;
@@ -52,11 +52,11 @@ public class TransactionVO {
         this.tagNo = tagNo;
     }
 
-    public Date getDateReported() {
+    public String getDateReported() {
         return dateReported;
     }
 
-    public void setDateReported(Date dateReported) {
+    public void setDateReported(String dateReported) {
         this.dateReported = dateReported;
     }
 

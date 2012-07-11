@@ -1,3 +1,4 @@
 Things to do
 -------------
-1.Validations in edit add list txn page
+1.replace ajax with jquery based ajax
+2.log out .. if user is null
