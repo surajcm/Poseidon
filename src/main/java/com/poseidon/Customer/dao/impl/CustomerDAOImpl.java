@@ -30,12 +30,13 @@ public class CustomerDAOImpl extends JdbcDaoSupport implements CustomerDAO {
             " ifnull(Phone,'') as Phone,ifnull(Mobile,'') as Mobile, " +
             " ifnull(email,'') as email, ifnull(ContactPerson1,'') as ContactPerson1," +
             " ifnull(ContactPh1,'') as ContactPh1, ifnull(ContactPerson2,'') as ContactPerson2, " +
-            " ifnull(ContactPh2,'') as ContactPh2, ifnull(Note,'') as Note FROM customer ;";
+            " ifnull(ContactPh2,'') as ContactPh2, ifnull(Note,'') as Note FROM customer order by modifiedOn;";
 
     private final String GET_SINGLE_CUSTOMER_SQL = " select * from customer where id = ? ";
     private final String DELETE_CUSTOMER_BY_ID_SQL = " delete from customer where id = ? ";
     private final String UPDATE_CUSTOMER_SQL = " update customer set Name = ? , Address1 = ? , address2 = ? , Phone = ?," +
-            " Mobile = ? , email = ?, ContactPerson1 = ?, ContactPh1 = ?, ContactPerson2 = ?, ContactPh2 = ?, Note = ?  where id = ? ";
+            " Mobile = ? , email = ?, ContactPerson1 = ?, ContactPh1 = ?, ContactPerson2 = ?, ContactPh2 = ?," +
+            " Note = ?, modifiedOn = ?, modifiedBy = ?  where id = ? ";
 
     public List<CustomerVO> listAllCustomerDetails() throws CustomerException {
         List<CustomerVO> customerVOs = null;
@@ -80,17 +81,19 @@ public class CustomerDAOImpl extends JdbcDaoSupport implements CustomerDAO {
 
     public void updateCustomer(CustomerVO currentCustomerVO) throws CustomerException {
         Object[] parameters = new Object[]{currentCustomerVO.getCustomerName(),
-                        currentCustomerVO.getAddress1(),
-                        currentCustomerVO.getAddress2(),
-                        currentCustomerVO.getPhoneNo(),
-                        currentCustomerVO.getMobile(),
-                        currentCustomerVO.getEmail(),
-                        currentCustomerVO.getContactPerson1(),
-                        currentCustomerVO.getContactMobile1(),
-                        currentCustomerVO.getContactPerson2(),
-                        currentCustomerVO.getContactMobile2(),
-                        currentCustomerVO.getNotes(),
-                        currentCustomerVO.getCustomerId()};
+                currentCustomerVO.getAddress1(),
+                currentCustomerVO.getAddress2(),
+                currentCustomerVO.getPhoneNo(),
+                currentCustomerVO.getMobile(),
+                currentCustomerVO.getEmail(),
+                currentCustomerVO.getContactPerson1(),
+                currentCustomerVO.getContactMobile1(),
+                currentCustomerVO.getContactPerson2(),
+                currentCustomerVO.getContactMobile2(),
+                currentCustomerVO.getNotes(),
+                currentCustomerVO.getCustomerId(),
+                currentCustomerVO.getModifiedOn(),
+                currentCustomerVO.getModifiedBy()};
 
         try {
             getJdbcTemplate().update(UPDATE_CUSTOMER_SQL, parameters);
@@ -128,7 +131,11 @@ public class CustomerDAOImpl extends JdbcDaoSupport implements CustomerDAO {
                 .addValue("ContactPh1", currentCustomerVO.getContactMobile1())
                 .addValue("ContactPerson2", currentCustomerVO.getContactPerson2())
                 .addValue("ContactPh2", currentCustomerVO.getContactMobile2())
-                .addValue("Note", currentCustomerVO.getNotes());
+                .addValue("Note", currentCustomerVO.getNotes())
+                .addValue("createdOn", currentCustomerVO.getCreatedOn())
+                .addValue("modifiedOn", currentCustomerVO.getModifiedOn())
+                .addValue("createdBy", currentCustomerVO.getCreatedBy())
+                .addValue("modifiedBy", currentCustomerVO.getModifiedBy());
 
         Number newId = insertCustomer.executeAndReturnKey(parameters);
         log.info(" the query resulted in  " + newId.longValue());
@@ -145,42 +152,42 @@ public class CustomerDAOImpl extends JdbcDaoSupport implements CustomerDAO {
         SEARCH_QUERY.append(" SELECT Id, Name,Address1,address2,Phone,Mobile,email,ContactPerson1,")
                 .append(" ContactPh1,ContactPerson2,ContactPh2,Note FROM customer ");
         Boolean isWhereAdded = Boolean.FALSE;
-        if(searchVO.getCustomerId() != null && searchVO.getCustomerId() > 0){
+        if (searchVO.getCustomerId() != null && searchVO.getCustomerId() > 0) {
             SEARCH_QUERY.append(" where ");
             isWhereAdded = Boolean.TRUE;
             SEARCH_QUERY.append(" Id = ").append(searchVO.getCustomerId());
         }
-        if(searchVO.getCustomerName() != null && searchVO.getCustomerName().trim().length() > 0){
+        if (searchVO.getCustomerName() != null && searchVO.getCustomerName().trim().length() > 0) {
             if (!isWhereAdded) {
                 SEARCH_QUERY.append(" where ");
                 isWhereAdded = Boolean.TRUE;
             } else {
                 SEARCH_QUERY.append(" and ");
             }
-            if(searchVO.getIncludes()){
+            if (searchVO.getIncludes()) {
                 SEARCH_QUERY.append(" Name like '%").append(searchVO.getCustomerName()).append("%'");
-            }else if (searchVO.getStartsWith()){
+            } else if (searchVO.getStartsWith()) {
                 SEARCH_QUERY.append(" Name like '").append(searchVO.getCustomerName()).append("%'");
-            }else {
+            } else {
                 SEARCH_QUERY.append(" Name like '").append(searchVO.getCustomerName()).append("'");
             }
         }
-        if (searchVO.getMobile() != null && searchVO.getMobile().trim().length() > 0 ) {
+        if (searchVO.getMobile() != null && searchVO.getMobile().trim().length() > 0) {
             if (!isWhereAdded) {
                 SEARCH_QUERY.append(" where ");
                 isWhereAdded = Boolean.TRUE;
             } else {
                 SEARCH_QUERY.append(" and ");
             }
-            if(searchVO.getIncludes()){
+            if (searchVO.getIncludes()) {
                 SEARCH_QUERY.append(" Mobile like '%").append(searchVO.getMobile()).append("%'");
-            }else if (searchVO.getStartsWith()){
+            } else if (searchVO.getStartsWith()) {
                 SEARCH_QUERY.append(" Mobile like '").append(searchVO.getMobile()).append("%'");
-            }else {
+            } else {
                 SEARCH_QUERY.append(" Mobile like '").append(searchVO.getMobile()).append("'");
             }
         }
-        log.info("Search query is " +SEARCH_QUERY.toString());
+        log.info("Search query is " + SEARCH_QUERY.toString());
         return (List<CustomerVO>) getJdbcTemplate().query(SEARCH_QUERY.toString(), new CustomerListRowMapper());
     }
 

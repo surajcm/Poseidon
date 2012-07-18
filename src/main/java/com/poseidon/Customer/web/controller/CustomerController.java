@@ -12,6 +12,7 @@ import com.poseidon.Customer.exception.CustomerException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -137,7 +138,12 @@ public class CustomerController extends MultiActionController {
         log.info(" saveCustomer method of CustomerController ");
         log.info(" CustomerForm is " + customerForm);
         try {
-            getCustomerDelegate().saveCustomer(customerForm.getCurrentCustomerVO());
+            CustomerVO customerVO = customerForm.getCurrentCustomerVO();
+            customerVO.setCreatedOn(new Date());
+            customerVO.setModifiedOn(new Date());
+            customerVO.setCreatedBy(customerForm.getLoggedInUser());
+            customerVO.setModifiedBy(customerForm.getLoggedInUser());
+            getCustomerDelegate().saveCustomer(customerVO);
             customerForm.setStatusMessage("Added the new Customer details successfully");
             customerForm.setStatusMessageType("success");
         } catch (CustomerException e) {
@@ -165,7 +171,10 @@ public class CustomerController extends MultiActionController {
         log.info(" updateCustomer method of CustomerController ");
         log.info(" CustomerForm is " + customerForm);
         try {
-            getCustomerDelegate().updateCustomer(customerForm.getCurrentCustomerVO());
+            CustomerVO customerVO = customerForm.getCurrentCustomerVO();
+            customerVO.setModifiedOn(new Date());
+            customerVO.setModifiedBy(customerForm.getLoggedInUser());
+            getCustomerDelegate().updateCustomer(customerVO);
             customerForm.setStatusMessage("Updated the selected Customer details successfully");
             customerForm.setStatusMessageType("success");
         } catch (CustomerException e) {

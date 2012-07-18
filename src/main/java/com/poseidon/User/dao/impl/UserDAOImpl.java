@@ -29,7 +29,7 @@ public class UserDAOImpl extends JdbcDaoSupport implements UserDAO {
     private final Log log = LogFactory.getLog(UserDAOImpl.class);
 
     //select all from table
-    private static final String GET_ALL_USERS_SQL = " select * from user ";
+    private static final String GET_ALL_USERS_SQL = " select * from user order by modifiedOn";
 
     // select single user information from database
     private static final String GET_SINGLE_USER_SQL = " select * from user where id = ? ";

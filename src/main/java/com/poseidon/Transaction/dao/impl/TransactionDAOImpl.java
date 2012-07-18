@@ -37,7 +37,7 @@ public class TransactionDAOImpl  extends JdbcDaoSupport implements TransactionDA
             " FROM transaction t inner join customer c on t.CustomerId=C.Id " +
             " inner join make mk on mk.Id=t.MakeId " +
             " inner join model mdl on mdl.Id=t.ModelId " +
-            " WHERE CAST(t.DateReported AS DATE) = current_date();";
+            " WHERE CAST(t.DateReported AS DATE) = current_date() order by t.modifiedOn;";
 
     private static final String GET_SINGLE_TRANSACTION_SQL = "SELECT t.Id, t.TagNo, t.DateReported, t.CustomerId, " +
             " t.ProductCategory, t.MakeId, " +
@@ -76,14 +76,17 @@ public class TransactionDAOImpl  extends JdbcDaoSupport implements TransactionDA
         } catch (DataAccessException e) {
             e.printStackTrace();
             throw new TransactionException(TransactionException.DATABASE_ERROR);
+        } catch (ParseException e) {
+            e.printStackTrace();
+            throw new TransactionException(TransactionException.DATABASE_ERROR);
         }
     }
 
-    private void saveTxn(TransactionVO currentTransaction) {
+    private void saveTxn(TransactionVO currentTransaction) throws ParseException {
         insertTransaction = new SimpleJdbcInsert(getDataSource()).withTableName("transaction").usingGeneratedKeyColumns("id");
 
         SqlParameterSource parameters = new MapSqlParameterSource()
-                .addValue("DateReported", new Date(currentTransaction.getDateReported()))
+                .addValue("DateReported", getMySQLSaveDate(currentTransaction.getDateReported()))
                 .addValue("CustomerId", currentTransaction.getCustomerId())
                 .addValue("ProductCategory", currentTransaction.getProductCategory())
                 .addValue("MakeId", currentTransaction.getMakeId())
@@ -300,7 +303,9 @@ public class TransactionDAOImpl  extends JdbcDaoSupport implements TransactionDA
         Format formatter = new SimpleDateFormat("yyyy-MM-dd");
         return formatter.format(startReportDate);
     }
-
+    private Date getMySQLSaveDate(String dateVal) throws ParseException {
+        return new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH).parse(dateVal);
+    }
     public List<TransactionVO> getTodaysTransactions() throws DataAccessException {
         return (List<TransactionVO>) getJdbcTemplate().query(GET_TODAYS_TRANSACTIONS_SQL, new TransactionListRowMapper());
     }

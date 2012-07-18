@@ -87,17 +87,17 @@ public class ReportsController extends MultiActionController {
             reportsForm.setCurrentReport(new ReportsVO());
             reportsForm.getCurrentReport().setLocale(Locale.US);
 
-            String rptfilename = "makeListReport";
+            String reportFileName = "makeListReport";
             String reportType = reportsForm.getCurrentReport().getExportTo();
-            reportsForm.getCurrentReport().setRptfilename(rptfilename);
+            reportsForm.getCurrentReport().setRptfilename(reportFileName);
             String path = getServletContext().getRealPath("/reports");
             log.info(" going to compile report");
-            jasperReport = JasperCompileManager.compileReport(path + '/' + rptfilename + ".jrxml");
+            jasperReport = JasperCompileManager.compileReport(path + '/' + reportFileName + ".jrxml");
 
             jasperPrint = getReportsDelegate().getMakeDetailsChart(jasperReport,
                     reportsForm.getCurrentReport());
             logger.info(jasperPrint.toString());
-            getJasperReport(httpServletRequest, httpServletResponse, jasperPrint, rptfilename, reportType);
+            getJasperReport(httpServletRequest, httpServletResponse, jasperPrint, reportFileName, reportType);
         } catch (Exception e) {
             e.printStackTrace();
         }

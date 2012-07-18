@@ -1,5 +1,7 @@
 package com.poseidon.Customer.domain;
 
+import java.util.Date;
+
 /**
  * User: Suraj
  * Date: Jun 2, 2012
@@ -20,6 +22,10 @@ public class CustomerVO {
     private String notes;
     private Boolean startsWith;
     private Boolean includes;
+    private Date createdOn;
+    private Date modifiedOn;
+    private String createdBy;
+    private String modifiedBy;
 
     public Long getCustomerId() {
         return customerId;
@@ -133,6 +139,38 @@ public class CustomerVO {
         this.includes = includes;
     }
 
+    public Date getCreatedOn() {
+        return createdOn;
+    }
+
+    public void setCreatedOn(Date createdOn) {
+        this.createdOn = createdOn;
+    }
+
+    public Date getModifiedOn() {
+        return modifiedOn;
+    }
+
+    public void setModifiedOn(Date modifiedOn) {
+        this.modifiedOn = modifiedOn;
+    }
+
+    public String getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(String createdBy) {
+        this.createdBy = createdBy;
+    }
+
+    public String getModifiedBy() {
+        return modifiedBy;
+    }
+
+    public void setModifiedBy(String modifiedBy) {
+        this.modifiedBy = modifiedBy;
+    }
+
     @Override
     public String toString() {
         return "CustomerVO{" +
@@ -148,6 +186,12 @@ public class CustomerVO {
                 ", contactMobile1='" + contactMobile1 + '\'' +
                 ", contactMobile2='" + contactMobile2 + '\'' +
                 ", notes='" + notes + '\'' +
+                ", startsWith=" + startsWith +
+                ", includes=" + includes +
+                ", createdOn=" + createdOn +
+                ", modifiedOn=" + modifiedOn +
+                ", createdBy='" + createdBy + '\'' +
+                ", modifiedBy='" + modifiedBy + '\'' +
                 '}';
     }
 }

@@ -36,7 +36,7 @@
     <div id="content">
         <div class="wrap">
             <fieldset style="text-align:right;">
-                <legend>Generate Call Report</legend>
+                <legend>Generate Call Report :</legend>
                 <table style="margin:auto;top:50%;left:50%;">
                     <tr>
                         <td>
@@ -68,6 +68,20 @@
                         <td>
                             <input class="btn" value="Fetch Call Report" type="button"
                                    onclick="javascript:fetchCallReport()"/>
+                        </td>
+                        <td>
+                            <input class="btn" value="Clear" type="button" onclick="javascript:clearOut()"/>
+                        </td>
+                    </tr>
+                </table>
+            </fieldset>
+            <fieldset>
+                <legend>Generate Make Report :</legend>
+                <table style="margin:auto;top:50%;left:50%;">
+                    <tr>
+                        <td>
+                            <input class="btn" value="Fetch Make Report" type="button"
+                                   onclick="javascript:fetchMakeReport()"/>
                         </td>
                         <td>
                             <input class="btn" value="Clear" type="button" onclick="javascript:clearOut()"/>

@@ -57,8 +57,14 @@
             document.getElementById('includes').checked = false;
             document.getElementById('startswith').checked = false;
         }
+
         function search() {
             document.forms[0].action = "searchModel.htm";
+            document.forms[0].submit();
+        }
+
+        function printMe() {
+            document.forms[0].action = "printMake.htm";
             document.forms[0].submit();
         }
 
@@ -283,7 +289,7 @@
                 </table>
                 <table style="margin:auto;top:50%;left:50%;">
                     <tr>
-                        <td colspan="4">
+                        <td colspan="5">
                             <br/>
                             <br/>
                         <td>
@@ -300,6 +306,9 @@
                         </td>
                         <td>
                             <input class="btn" value="Delete Make" type="button" onclick="javascript:deleteMake()"/>
+                        </td>
+                        <td>
+                            <input class="btn" value="Print MakeList" type="button" onclick="javascript:printMe()"/>
                         </td>
                     </tr>
                 </table>

@@ -223,3 +223,18 @@ INSERT INTO companyterms (Id, Terms, CompanyDetails) VALUES
 
 -- UPGRADES--
 ALTER TABLE `poseidon`.`transaction` MODIFY COLUMN `TagNo` VARCHAR(45) CHARACTER SET latin1 COLLATE latin1_swedish_ci DEFAULT NULL;
+
+ALTER TABLE `poseidon`.`customer` ADD COLUMN `createdOn` DATETIME NOT NULL AFTER `Note`,
+ ADD COLUMN `modifiedOn` DATETIME NOT NULL AFTER `createdOn`,
+ ADD COLUMN `createdBy` VARCHAR(45) NOT NULL AFTER `modifiedOn`,
+ ADD COLUMN `modifiedBy` VARCHAR(45) NOT NULL AFTER `createdBy`;
+
+ DROP TABLE IF EXISTS `poseidon`.`invoice`;
+CREATE TABLE  `poseidon`.`invoice` (
+  `id` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `TranId` int(10) unsigned NOT NULL,
+  `Description1` varchar(150) NOT NULL,
+  `Description2` varchar(150) NOT NULL,
+  `Amount` varchar(20) NOT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=latin1;

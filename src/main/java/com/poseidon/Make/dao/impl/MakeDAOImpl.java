@@ -24,8 +24,8 @@ import org.apache.commons.logging.LogFactory;
 public class MakeDAOImpl extends JdbcDaoSupport implements MakeDAO {
     //logger
     private final Log log = LogFactory.getLog(MakeDAOImpl.class);
-    private final String GET_MAKE_AND_MODEL_SQL = "SELECT m.Id, m.ModelName,m.makeId,ma.MakeName FROM model m inner join make ma on m.makeId=ma.Id;";
-    private final String GET_MAKE_SQL = "SELECT Id,MakeName,Description FROM make ;";
+    private final String GET_MAKE_AND_MODEL_SQL = "SELECT m.Id, m.ModelName,m.makeId,ma.MakeName FROM model m inner join make ma on m.makeId=ma.Id order by m.modifiedOn;";
+    private final String GET_MAKE_SQL = "SELECT Id,MakeName,Description FROM make order by modifiedOn;";
     private final String INSERT_NEW_MAKE_SQL = "insert into make( MakeName, Description, createdOn, modifiedOn, createdBy, modifiedBy ) values (?, ?, ?, ?, ?, ?); ";
     private final String INSERT_NEW_MODEL_SQL = "insert into model( ModelName, makeId, createdOn, modifiedOn, createdBy, modifiedBy ) values (?, ?, ?, ?, ?, ?); ";
     private final String GET_SINGLE_MAKE_SQL = "select * from make where Id = ?";
