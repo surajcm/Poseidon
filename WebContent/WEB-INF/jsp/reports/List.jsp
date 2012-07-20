@@ -29,6 +29,13 @@
             document.reportsForm.submit();
             document.reportsForm.target = '';
         }
+
+        function fetchModelListReport() {
+            document.reportsForm.target = 'reportContent';
+            document.reportsForm.action = 'getModelListReport.htm';
+            document.reportsForm.submit();
+            document.reportsForm.target = '';
+        }
     </script>
 </head>
 <body style="background: #A9A9A9 ;">
@@ -99,6 +106,20 @@
                         <td>
                             <input class="btn" value="Fetch Transactions List Report" type="button"
                                    onclick="javascript:fetchTransactionsListReport()"/>
+                        </td>
+                        <td>
+                            <input class="btn" value="Clear" type="button" onclick="javascript:clearOut()"/>
+                        </td>
+                    </tr>
+                </table>
+            </fieldset>
+            <fieldset>
+                <legend>Generate ModelList Report :</legend>
+                <table style="margin:auto;top:50%;left:50%;">
+                    <tr>
+                        <td>
+                            <input class="btn" value="Fetch Model List Report" type="button"
+                                   onclick="javascript:fetchModelListReport()"/>
                         </td>
                         <td>
                             <input class="btn" value="Clear" type="button" onclick="javascript:clearOut()"/>

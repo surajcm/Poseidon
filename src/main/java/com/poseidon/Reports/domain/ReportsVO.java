@@ -1,5 +1,6 @@
 package com.poseidon.Reports.domain;
 
+import com.poseidon.Make.domain.MakeAndModelVO;
 import com.poseidon.Make.domain.MakeVO;
 import com.poseidon.Transaction.domain.TransactionVO;
 
@@ -18,6 +19,7 @@ public class ReportsVO {
     private List<MakeVO> makeVOList;
     private String tagNo;
     private List<TransactionVO> transactionsList;
+    private List<MakeAndModelVO> makeAndModelVOs;
 
     public Locale getLocale() {
         return locale;
@@ -65,6 +67,14 @@ public class ReportsVO {
 
     public void setTransactionsList(List<TransactionVO> transactionsList) {
         this.transactionsList = transactionsList;
+    }
+
+    public List<MakeAndModelVO> getMakeAndModelVOs() {
+        return makeAndModelVOs;
+    }
+
+    public void setMakeAndModelVOs(List<MakeAndModelVO> makeAndModelVOs) {
+        this.makeAndModelVOs = makeAndModelVOs;
     }
 
     @Override

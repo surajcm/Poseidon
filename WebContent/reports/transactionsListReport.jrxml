@@ -24,7 +24,7 @@
 			<staticText>
 				<reportElement uuid="efee56cb-bedb-432a-a98a-25d7c15d83b4" x="0" y="0" width="720" height="36"/>
 				<textElement textAlignment="Center">
-					<font fontName="Calibri" size="26"/>
+					<font fontName="Calibri" size="26" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Transactions List Report]]></text>
 			</staticText>
@@ -41,49 +41,49 @@
 			<staticText>
 				<reportElement uuid="2949cd9c-3b18-4a74-bc8b-e4a186f09e93" x="210" y="0" width="100" height="36"/>
 				<textElement textAlignment="Center">
-					<font fontName="Calibri" size="11"/>
+					<font fontName="Calibri" size="11" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Reported Date]]></text>
 			</staticText>
 			<staticText>
 				<reportElement uuid="2681112f-9edf-4992-b869-5dc935e347c3" x="0" y="0" width="100" height="36"/>
 				<textElement textAlignment="Center">
-					<font fontName="Calibri" size="11"/>
+					<font fontName="Calibri" size="11" isBold="true"/>
 				</textElement>
 				<text><![CDATA[TagNo]]></text>
 			</staticText>
 			<staticText>
 				<reportElement uuid="2332c5ca-2e23-4060-9fa3-2dfa101c3d68" x="100" y="0" width="110" height="36"/>
 				<textElement textAlignment="Center">
-					<font fontName="Calibri" size="11"/>
+					<font fontName="Calibri" size="11" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Customer Name]]></text>
 			</staticText>
 			<staticText>
 				<reportElement uuid="0b121c2b-009d-486a-8297-bd30edd7f0da" x="310" y="0" width="100" height="36"/>
 				<textElement textAlignment="Center">
-					<font fontName="Calibri" size="11"/>
+					<font fontName="Calibri" size="11" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Make]]></text>
 			</staticText>
 			<staticText>
 				<reportElement uuid="7a55555b-00e6-45e7-b51d-73ba2ab01f6c" x="410" y="0" width="110" height="36"/>
 				<textElement textAlignment="Center">
-					<font fontName="Calibri" size="11"/>
+					<font fontName="Calibri" size="11" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Model]]></text>
 			</staticText>
 			<staticText>
 				<reportElement uuid="e1827eaa-b192-4392-a2b2-a848cf99788c" x="520" y="0" width="100" height="36"/>
 				<textElement textAlignment="Center">
-					<font fontName="Calibri" size="11"/>
+					<font fontName="Calibri" size="11" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Serial no]]></text>
 			</staticText>
 			<staticText>
 				<reportElement uuid="39225ae4-9112-47fc-86f5-132583932c00" x="620" y="0" width="100" height="36"/>
 				<textElement textAlignment="Center">
-					<font fontName="Calibri" size="11"/>
+					<font fontName="Calibri" size="11" isBold="true"/>
 				</textElement>
 				<text><![CDATA[Status]]></text>
 			</staticText>

@@ -76,7 +76,7 @@ public class ReportsDelegate {
     }
 
     public JasperPrint getCallReport(JasperReport jasperReport,ReportsVO currentReport) throws TransactionException {
-        CompanyTermsVO companyTermsVO =getCompanyTermsService().listCompanyTerms();
+        CompanyTermsVO companyTermsVO = getCompanyTermsService().listCompanyTerms();
         TransactionReportVO transactionVO = getTransactionService().fetchTransactionFromTag(currentReport.getTagNo());
         return getReportsService().getCallReport(jasperReport,
                 currentReport,
@@ -91,5 +91,10 @@ public class ReportsDelegate {
         searchTransaction.setStartswith(Boolean.FALSE);
         currentReport.setTransactionsList(getTransactionService().searchTransactions(searchTransaction));
         return getReportsService().getTransactionsListReport(jasperReport,currentReport);
+    }
+
+    public JasperPrint getModelListReport(JasperReport jasperReport, ReportsVO currentReport) {
+        currentReport.setMakeAndModelVOs(getMakeService().listAllMakesAndModels());
+        return getReportsService().getModelListReport(jasperReport,currentReport);
     }
 }

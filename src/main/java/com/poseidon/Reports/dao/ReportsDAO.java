@@ -27,4 +27,6 @@ public interface ReportsDAO {
                                      TransactionReportVO transactionVO) throws SQLException, JRException;
 
     public JasperPrint getTransactionsListReport(JasperReport jasperReport, ReportsVO currentReport) throws JRException;
+
+    public JasperPrint getModelListReport(JasperReport jasperReport, ReportsVO currentReport) throws  JRException;
 }

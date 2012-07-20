@@ -24,4 +24,6 @@ public interface ReportsService {
                                      TransactionReportVO transactionVO);
 
     public JasperPrint getTransactionsListReport(JasperReport jasperReport, ReportsVO currentReport);
+
+    public JasperPrint getModelListReport(JasperReport jasperReport, ReportsVO currentReport);
 }

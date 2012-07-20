@@ -80,4 +80,14 @@ public class ReportsServiceImpl implements ReportsService{
         }
         return jasperPrint;
     }
+
+    public JasperPrint getModelListReport(JasperReport jasperReport, ReportsVO currentReport) {
+        JasperPrint jasperPrint = new JasperPrint();
+        try {
+            jasperPrint = getReportsDAO().getModelListReport(jasperReport, currentReport);
+        } catch (JRException e) {
+            e.printStackTrace();
+        }
+        return jasperPrint;
+    }
 }

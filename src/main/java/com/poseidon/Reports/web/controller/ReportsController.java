@@ -154,6 +154,32 @@ public class ReportsController extends MultiActionController {
         }
         return null;
     }
+
+    public ModelAndView getModelListReport(HttpServletRequest httpServletRequest,
+                                                  HttpServletResponse httpServletResponse,
+                                                  ReportsForm reportsForm) {
+        log.info(" Inside getModelListReport method of ReportsController ");
+        log.info(" form details are" + reportsForm);
+        JasperReport jasperReport = null;
+        JasperPrint jasperPrint = null;
+        try {
+            reportsForm.getCurrentReport().setLocale(Locale.US);
+
+            String reportFileName = "modelListReport";
+            String reportType = reportsForm.getCurrentReport().getExportTo();
+            reportsForm.getCurrentReport().setRptfilename(reportFileName);
+            String path = getServletContext().getRealPath("/reports");
+            log.info(" going to compile report");
+            jasperReport = JasperCompileManager.compileReport(path + '/' + reportFileName + ".jrxml");
+
+            jasperPrint =  getReportsDelegate().getModelListReport(jasperReport,reportsForm.getCurrentReport());
+            logger.info(jasperPrint.toString());
+            getJasperReport(httpServletRequest, httpServletResponse, jasperPrint, reportFileName, reportType);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
     /**
      * This method is used for generating the jasper report
      *

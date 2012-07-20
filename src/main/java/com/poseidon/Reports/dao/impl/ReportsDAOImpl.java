@@ -145,4 +145,11 @@ public class ReportsDAOImpl extends JdbcDaoSupport implements ReportsDAO {
         return jasperPrint;
     }
 
+    public JasperPrint getModelListReport(JasperReport jasperReport, ReportsVO currentReport) throws JRException {
+        JasperPrint jasperPrint;
+        Map<String, Object> params = new HashMap<String, Object>();
+        jasperPrint = JasperFillManager.fillReport(jasperReport, params,  new JRBeanCollectionDataSource(currentReport.getMakeAndModelVOs()));
+        return jasperPrint;
+    }
+
 }
