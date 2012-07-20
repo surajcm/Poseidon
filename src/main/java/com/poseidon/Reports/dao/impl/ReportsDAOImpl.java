@@ -15,6 +15,7 @@ import java.util.Map;
 
 import com.poseidon.Transaction.domain.TransactionReportVO;
 import net.sf.jasperreports.engine.*;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.support.JdbcDaoSupport;
@@ -31,11 +32,10 @@ public class ReportsDAOImpl extends JdbcDaoSupport implements ReportsDAO {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
-    public JasperPrint getMakeDetailsChart(JasperReport jasperReport, ReportsVO currentReport) throws SQLException, JRException, ReportsException {
+    public JasperPrint getMakeDetailsChart(JasperReport jasperReport, ReportsVO currentReport) throws JRException {
         JasperPrint jasperPrint;
         Map<String, Object> params = new HashMap<String, Object>();
-        Connection connection = getDataSource().getConnection();
-        jasperPrint = JasperFillManager.fillReport(jasperReport, params, connection);
+        jasperPrint = JasperFillManager.fillReport(jasperReport, params,  new JRBeanCollectionDataSource(currentReport.getMakeVOList()));
         return jasperPrint;
     }
 
@@ -135,6 +135,13 @@ public class ReportsDAOImpl extends JdbcDaoSupport implements ReportsDAO {
                 }
             }
         }
+        return jasperPrint;
+    }
+
+    public JasperPrint getTransactionsListReport(JasperReport jasperReport, ReportsVO currentReport) throws JRException {
+        JasperPrint jasperPrint;
+        Map<String, Object> params = new HashMap<String, Object>();
+        jasperPrint = JasperFillManager.fillReport(jasperReport, params,  new JRBeanCollectionDataSource(currentReport.getTransactionsList()));
         return jasperPrint;
     }
 

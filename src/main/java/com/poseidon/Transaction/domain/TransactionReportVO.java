@@ -45,9 +45,6 @@ public class TransactionReportVO {
     private String contactPerson2;
     private String contactPh2;
 
-
-
-
     public Long getId() {
         return id;
     }

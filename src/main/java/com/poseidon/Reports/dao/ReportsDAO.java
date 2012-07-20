@@ -19,10 +19,12 @@ import java.util.List;
 public interface ReportsDAO {
     public List<ReportsVO> generateDailyReport() throws ReportsException;
 
-    public JasperPrint getMakeDetailsChart(JasperReport jasperReport, ReportsVO currentReport) throws SQLException, JRException, ReportsException;
+    public JasperPrint getMakeDetailsChart(JasperReport jasperReport, ReportsVO currentReport) throws  JRException;
 
     public JasperPrint getCallReport(JasperReport jasperReport,
                                      ReportsVO currentReport,
                                      CompanyTermsVO companyTermsVO,
                                      TransactionReportVO transactionVO) throws SQLException, JRException;
+
+    public JasperPrint getTransactionsListReport(JasperReport jasperReport, ReportsVO currentReport) throws JRException;
 }

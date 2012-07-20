@@ -1,6 +1,7 @@
 package com.poseidon.Reports.domain;
 
 import com.poseidon.Make.domain.MakeVO;
+import com.poseidon.Transaction.domain.TransactionVO;
 
 import java.util.List;
 import java.util.Locale;
@@ -16,6 +17,7 @@ public class ReportsVO {
     private String rptfilename;
     private List<MakeVO> makeVOList;
     private String tagNo;
+    private List<TransactionVO> transactionsList;
 
     public Locale getLocale() {
         return locale;
@@ -55,6 +57,14 @@ public class ReportsVO {
 
     public void setTagNo(String tagNo) {
         this.tagNo = tagNo;
+    }
+
+    public List<TransactionVO> getTransactionsList() {
+        return transactionsList;
+    }
+
+    public void setTransactionsList(List<TransactionVO> transactionsList) {
+        this.transactionsList = transactionsList;
     }
 
     @Override

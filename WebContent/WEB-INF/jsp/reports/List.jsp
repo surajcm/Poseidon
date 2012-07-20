@@ -11,18 +11,21 @@
     <script type="text/javascript">
         function fetchMakeReport() {
             document.reportsForm.target = 'reportContent';
-            var url = 'getMakeDetailsReport.htm';
-            //var url = 'reports.htm?action=getMakeDetailsReport';
-            //url = url + "?rptfilename=makeListReport";
-            document.reportsForm.action = url;
+            document.reportsForm.action = 'getMakeDetailsReport.htm';
             document.reportsForm.submit();
             document.reportsForm.target = '';
         }
 
         function fetchCallReport() {
             document.reportsForm.target = 'reportContent';
-            var url = 'getCallReport.htm';
-            document.reportsForm.action = url;
+            document.reportsForm.action = 'getCallReport.htm';
+            document.reportsForm.submit();
+            document.reportsForm.target = '';
+        }
+
+        function fetchTransactionsListReport() {
+            document.reportsForm.target = 'reportContent';
+            document.reportsForm.action = 'getTransactionsListReport.htm';
             document.reportsForm.submit();
             document.reportsForm.target = '';
         }
@@ -82,6 +85,20 @@
                         <td>
                             <input class="btn" value="Fetch Make Report" type="button"
                                    onclick="javascript:fetchMakeReport()"/>
+                        </td>
+                        <td>
+                            <input class="btn" value="Clear" type="button" onclick="javascript:clearOut()"/>
+                        </td>
+                    </tr>
+                </table>
+            </fieldset>
+            <fieldset>
+                <legend>Generate TransactionsList Report :</legend>
+                <table style="margin:auto;top:50%;left:50%;">
+                    <tr>
+                        <td>
+                            <input class="btn" value="Fetch Transactions List Report" type="button"
+                                   onclick="javascript:fetchTransactionsListReport()"/>
                         </td>
                         <td>
                             <input class="btn" value="Clear" type="button" onclick="javascript:clearOut()"/>
