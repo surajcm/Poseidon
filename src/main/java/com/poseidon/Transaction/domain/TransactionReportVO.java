@@ -44,6 +44,7 @@ public class TransactionReportVO {
     private String contactPh1;
     private String contactPerson2;
     private String contactPh2;
+    private String companyTerms;
 
     public Long getId() {
         return id;
@@ -323,6 +324,14 @@ public class TransactionReportVO {
 
     public void setContactPh2(String contactPh2) {
         this.contactPh2 = contactPh2;
+    }
+
+    public String getCompanyTerms() {
+        return companyTerms;
+    }
+
+    public void setCompanyTerms(String companyTerms) {
+        this.companyTerms = companyTerms;
     }
 
     @Override

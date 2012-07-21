@@ -23,10 +23,11 @@ public interface ReportsDAO {
 
     public JasperPrint getCallReport(JasperReport jasperReport,
                                      ReportsVO currentReport,
-                                     CompanyTermsVO companyTermsVO,
-                                     TransactionReportVO transactionVO) throws SQLException, JRException;
+                                     CompanyTermsVO companyTermsVO) throws JRException;
 
     public JasperPrint getTransactionsListReport(JasperReport jasperReport, ReportsVO currentReport) throws JRException;
 
     public JasperPrint getModelListReport(JasperReport jasperReport, ReportsVO currentReport) throws  JRException;
+
+    public JasperPrint getErrorReport(JasperReport jasperReport, ReportsVO currentReport)throws  JRException;
 }

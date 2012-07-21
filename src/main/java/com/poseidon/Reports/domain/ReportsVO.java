@@ -2,6 +2,7 @@ package com.poseidon.Reports.domain;
 
 import com.poseidon.Make.domain.MakeAndModelVO;
 import com.poseidon.Make.domain.MakeVO;
+import com.poseidon.Transaction.domain.TransactionReportVO;
 import com.poseidon.Transaction.domain.TransactionVO;
 
 import java.util.List;
@@ -20,6 +21,7 @@ public class ReportsVO {
     private String tagNo;
     private List<TransactionVO> transactionsList;
     private List<MakeAndModelVO> makeAndModelVOs;
+    private TransactionReportVO transactionReportVO;
 
     public Locale getLocale() {
         return locale;
@@ -75,6 +77,14 @@ public class ReportsVO {
 
     public void setMakeAndModelVOs(List<MakeAndModelVO> makeAndModelVOs) {
         this.makeAndModelVOs = makeAndModelVOs;
+    }
+
+    public TransactionReportVO getTransactionReportVO() {
+        return transactionReportVO;
+    }
+
+    public void setTransactionReportVO(TransactionReportVO transactionReportVO) {
+        this.transactionReportVO = transactionReportVO;
     }
 
     @Override

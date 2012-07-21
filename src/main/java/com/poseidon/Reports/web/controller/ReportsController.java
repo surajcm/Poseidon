@@ -1,14 +1,19 @@
 package com.poseidon.Reports.web.controller;
 
-import net.sf.jasperreports.engine.*;
+import net.sf.jasperreports.engine.JRAbstractExporter;
+import net.sf.jasperreports.engine.JRExporter;
+import net.sf.jasperreports.engine.JRExporterParameter;
+import net.sf.jasperreports.engine.JasperCompileManager;
+import net.sf.jasperreports.engine.JasperFillManager;
+import net.sf.jasperreports.engine.JasperPrint;
+import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import net.sf.jasperreports.engine.export.JRHtmlExporter;
 import net.sf.jasperreports.engine.export.JRHtmlExporterParameter;
 import net.sf.jasperreports.engine.export.JRXlsExporter;
 import net.sf.jasperreports.engine.export.JRXlsExporterParameter;
 import net.sf.jasperreports.engine.export.ooxml.JRDocxExporter;
 import net.sf.jasperreports.engine.export.ooxml.JRDocxExporterParameter;
-import org.springframework.context.support.ClassPathXmlApplicationContext;
-import org.springframework.jdbc.core.support.JdbcDaoSupport;
 import org.springframework.web.servlet.mvc.multiaction.MultiActionController;
 import org.springframework.web.servlet.ModelAndView;
 import org.apache.commons.logging.Log;
@@ -20,10 +25,11 @@ import com.poseidon.Reports.domain.ReportsVO;
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import javax.sql.DataSource;
 import java.io.ByteArrayOutputStream;
-import java.sql.Connection;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Locale;
 
 /**
  * User: Suraj
@@ -110,14 +116,16 @@ public class ReportsController extends MultiActionController {
         log.info(" form details are" + reportsForm);
         JasperReport jasperReport = null;
         JasperPrint jasperPrint = null;
+        String reportType = null;
+        String reportFileName;
         try {
             reportsForm.getCurrentReport().setLocale(Locale.US);
 
-            String reportFileName = "callReport";
-            String reportType = reportsForm.getCurrentReport().getExportTo();
+            reportFileName = "callReport";
+            reportType = reportsForm.getCurrentReport().getExportTo();
             reportsForm.getCurrentReport().setRptfilename(reportFileName);
             String path = getServletContext().getRealPath("/reports");
-            log.info(" going to compile report");
+            log.info(" going to compile report, at getCallReport");
             jasperReport = JasperCompileManager.compileReport(path + '/' + reportFileName + ".jrxml");
 
             jasperPrint =  getReportsDelegate().getCallReport(jasperReport,reportsForm.getCurrentReport());
@@ -125,6 +133,7 @@ public class ReportsController extends MultiActionController {
             getJasperReport(httpServletRequest, httpServletResponse, jasperPrint, reportFileName, reportType);
         } catch (Exception e) {
             e.printStackTrace();
+            return getErrorReport(httpServletRequest,httpServletResponse,reportsForm);
         }
         return null;
     }
@@ -136,17 +145,19 @@ public class ReportsController extends MultiActionController {
         log.info(" form details are" + reportsForm);
         JasperReport jasperReport = null;
         JasperPrint jasperPrint = null;
+        String reportType = null;
+        String reportFileName;
         try {
             reportsForm.getCurrentReport().setLocale(Locale.US);
 
-            String reportFileName = "transactionsListReport";
-            String reportType = reportsForm.getCurrentReport().getExportTo();
+            reportFileName = "transactionsListReport";
+            reportType = reportsForm.getCurrentReport().getExportTo();
             reportsForm.getCurrentReport().setRptfilename(reportFileName);
             String path = getServletContext().getRealPath("/reports");
             log.info(" going to compile report");
             jasperReport = JasperCompileManager.compileReport(path + '/' + reportFileName + ".jrxml");
 
-            jasperPrint =  getReportsDelegate().getTransactionsListReport(jasperReport,reportsForm.getCurrentReport());
+            jasperPrint =  getReportsDelegate().getTransactionsListReport(jasperReport, reportsForm.getCurrentReport());
             logger.info(jasperPrint.toString());
             getJasperReport(httpServletRequest, httpServletResponse, jasperPrint, reportFileName, reportType);
         } catch (Exception e) {
@@ -172,13 +183,44 @@ public class ReportsController extends MultiActionController {
             log.info(" going to compile report");
             jasperReport = JasperCompileManager.compileReport(path + '/' + reportFileName + ".jrxml");
 
-            jasperPrint =  getReportsDelegate().getModelListReport(jasperReport,reportsForm.getCurrentReport());
+            jasperPrint =  getReportsDelegate().getModelListReport(jasperReport, reportsForm.getCurrentReport());
             logger.info(jasperPrint.toString());
             getJasperReport(httpServletRequest, httpServletResponse, jasperPrint, reportFileName, reportType);
         } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
+    }
+
+    public ModelAndView getErrorReport(HttpServletRequest httpServletRequest,
+                                                  HttpServletResponse httpServletResponse,
+                                                  ReportsForm reportsForm) {
+        log.info(" Inside getErrorReport method of ReportsController ");
+        log.info(" form details are" + reportsForm);
+        JasperReport jasperReport = null;
+        JasperPrint jasperPrint = null;
+        try {
+            reportsForm.getCurrentReport().setLocale(Locale.US);
+
+            String reportFileName = "errorReport";
+            String reportType = reportsForm.getCurrentReport().getExportTo();
+            reportsForm.getCurrentReport().setRptfilename(reportFileName);
+            String path = getServletContext().getRealPath("/reports");
+            log.info(" going to compile report");
+            jasperReport = JasperCompileManager.compileReport(path + '/' + reportFileName + ".jrxml");
+            jasperPrint = getReportsDelegate().getErrorReport(jasperReport, reportsForm.getCurrentReport());
+            logger.info(jasperPrint.toString());
+            getJasperReport(httpServletRequest, httpServletResponse, jasperPrint, reportFileName, reportType);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public ModelAndView getInvoiceReport(HttpServletRequest httpServletRequest,
+                                         HttpServletResponse httpServletResponse,
+                                         ReportsForm reportsForm){
+        return getErrorReport(httpServletRequest,httpServletResponse,reportsForm);
     }
     /**
      * This method is used for generating the jasper report

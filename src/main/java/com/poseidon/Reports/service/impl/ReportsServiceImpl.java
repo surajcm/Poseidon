@@ -55,16 +55,12 @@ public class ReportsServiceImpl implements ReportsService{
 
     public JasperPrint getCallReport(JasperReport jasperReport,
                                      ReportsVO currentReport,
-                                     CompanyTermsVO companyTermsVO,
-                                     TransactionReportVO transactionVO) {
+                                     CompanyTermsVO companyTermsVO) {
         JasperPrint jasperPrint = new JasperPrint();
         try {
             jasperPrint = getReportsDAO().getCallReport(jasperReport,
                     currentReport,
-                    companyTermsVO
-                    ,transactionVO);
-        } catch (SQLException e) {
-            e.printStackTrace();
+                    companyTermsVO);
         } catch (JRException e) {
             e.printStackTrace();
         }
@@ -85,6 +81,16 @@ public class ReportsServiceImpl implements ReportsService{
         JasperPrint jasperPrint = new JasperPrint();
         try {
             jasperPrint = getReportsDAO().getModelListReport(jasperReport, currentReport);
+        } catch (JRException e) {
+            e.printStackTrace();
+        }
+        return jasperPrint;
+    }
+
+    public JasperPrint getErrorReport(JasperReport jasperReport, ReportsVO currentReport) {
+        JasperPrint jasperPrint = new JasperPrint();
+        try {
+            jasperPrint = getReportsDAO().getErrorReport(jasperReport, currentReport);
         } catch (JRException e) {
             e.printStackTrace();
         }

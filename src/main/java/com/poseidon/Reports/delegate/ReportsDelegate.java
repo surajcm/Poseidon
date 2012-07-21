@@ -78,10 +78,10 @@ public class ReportsDelegate {
     public JasperPrint getCallReport(JasperReport jasperReport,ReportsVO currentReport) throws TransactionException {
         CompanyTermsVO companyTermsVO = getCompanyTermsService().listCompanyTerms();
         TransactionReportVO transactionVO = getTransactionService().fetchTransactionFromTag(currentReport.getTagNo());
+        currentReport.setTransactionReportVO(transactionVO);
         return getReportsService().getCallReport(jasperReport,
                 currentReport,
-                companyTermsVO,
-                transactionVO);
+                companyTermsVO);
     }
 
     public JasperPrint getTransactionsListReport(JasperReport jasperReport, ReportsVO currentReport) throws TransactionException {
@@ -96,5 +96,9 @@ public class ReportsDelegate {
     public JasperPrint getModelListReport(JasperReport jasperReport, ReportsVO currentReport) {
         currentReport.setMakeAndModelVOs(getMakeService().listAllMakesAndModels());
         return getReportsService().getModelListReport(jasperReport,currentReport);
+    }
+
+    public JasperPrint getErrorReport(JasperReport jasperReport, ReportsVO currentReport) {
+        return  getReportsService().getErrorReport(jasperReport,currentReport);
     }
 }

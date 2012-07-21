@@ -20,10 +20,11 @@ public interface ReportsService {
 
     public JasperPrint getCallReport(JasperReport jasperReport,
                                      ReportsVO currentReport,
-                                     CompanyTermsVO companyTermsVO,
-                                     TransactionReportVO transactionVO);
+                                     CompanyTermsVO companyTermsVO);
 
     public JasperPrint getTransactionsListReport(JasperReport jasperReport, ReportsVO currentReport);
 
     public JasperPrint getModelListReport(JasperReport jasperReport, ReportsVO currentReport);
+
+    public JasperPrint getErrorReport(JasperReport jasperReport, ReportsVO currentReport);
 }

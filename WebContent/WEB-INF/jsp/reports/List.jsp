@@ -36,6 +36,13 @@
             document.reportsForm.submit();
             document.reportsForm.target = '';
         }
+
+        function fetchInvoiceReport() {
+            document.reportsForm.target = 'reportContent';
+            document.reportsForm.action = 'getInvoiceReport.htm';
+            document.reportsForm.submit();
+            document.reportsForm.target = '';
+        }
     </script>
 </head>
 <body style="background: #A9A9A9 ;">
@@ -69,8 +76,9 @@
                             <form:select id="exportTo" path="currentReport.exportTo"
                                          onkeypress="handleEnter(event);"
                                          cssStyle="border:3px double #CCCCCC; width: 200px;height:25px;">
-                                <form:option value=""><spring:message code="common.select"
-                                                                      text="<-- Select -->"/></form:option>
+                                <form:option value="">
+                                    <spring:message code="common.select" text="<-- Select -->"/>
+                                </form:option>
                                 <form:options items="${reportsForm.exportList}"/>
                             </form:select>
                         </td>
@@ -100,6 +108,20 @@
                 </table>
             </fieldset>
             <fieldset>
+                <legend>Generate ModelList Report :</legend>
+                <table style="margin:auto;top:50%;left:50%;">
+                    <tr>
+                        <td>
+                            <input class="btn" value="Fetch Model List Report" type="button"
+                                   onclick="javascript:fetchModelListReport()"/>
+                        </td>
+                        <td>
+                            <input class="btn" value="Clear" type="button" onclick="javascript:clearOut()"/>
+                        </td>
+                    </tr>
+                </table>
+            </fieldset>
+            <fieldset>
                 <legend>Generate TransactionsList Report :</legend>
                 <table style="margin:auto;top:50%;left:50%;">
                     <tr>
@@ -114,12 +136,12 @@
                 </table>
             </fieldset>
             <fieldset>
-                <legend>Generate ModelList Report :</legend>
+                <legend>Generate Invoice Report :</legend>
                 <table style="margin:auto;top:50%;left:50%;">
                     <tr>
                         <td>
-                            <input class="btn" value="Fetch Model List Report" type="button"
-                                   onclick="javascript:fetchModelListReport()"/>
+                            <input class="btn" value="Fetch Invoice Report" type="button"
+                                   onclick="javascript:fetchInvoiceReport()"/>
                         </td>
                         <td>
                             <input class="btn" value="Clear" type="button" onclick="javascript:clearOut()"/>
