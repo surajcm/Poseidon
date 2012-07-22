@@ -84,11 +84,9 @@ public class ReportsDelegate {
                 companyTermsVO);
     }
 
-    public JasperPrint getTransactionsListReport(JasperReport jasperReport, ReportsVO currentReport) throws TransactionException {
-        TransactionVO searchTransaction = new TransactionVO();
-        searchTransaction.setTagNo("WON2N12");
-        searchTransaction.setIncludes(Boolean.FALSE);
-        searchTransaction.setStartswith(Boolean.FALSE);
+    public JasperPrint getTransactionsListReport(JasperReport jasperReport,
+                                                 ReportsVO currentReport,
+                                                 TransactionVO searchTransaction) throws TransactionException {
         currentReport.setTransactionsList(getTransactionService().searchTransactions(searchTransaction));
         return getReportsService().getTransactionsListReport(jasperReport,currentReport);
     }

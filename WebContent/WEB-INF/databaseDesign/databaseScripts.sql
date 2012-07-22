@@ -238,3 +238,67 @@ CREATE TABLE  `poseidon`.`invoice` (
   `Amount` varchar(20) NOT NULL,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1;
+
+
+ALTER TABLE `poseidon`.`transaction` CHANGE COLUMN `TagNo` `tagNo` VARCHAR(45) CHARACTER SET latin1 COLLATE latin1_swedish_ci DEFAULT NULL,
+ CHANGE COLUMN `DateReported` `dateReported` DATETIME NOT NULL,
+ CHANGE COLUMN `CustomerId` `customerId` BIGINT(20) UNSIGNED NOT NULL,
+ CHANGE COLUMN `ProductCategory` `productCategory` VARCHAR(45) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
+ CHANGE COLUMN `MakeId` `makeId` BIGINT(20) UNSIGNED NOT NULL,
+ CHANGE COLUMN `ModelId` `modelId` BIGINT(20) UNSIGNED NOT NULL,
+ CHANGE COLUMN `SerialNo` `serialNo` VARCHAR(45) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
+ CHANGE COLUMN `Accessories` `accessories` VARCHAR(200) CHARACTER SET latin1 COLLATE latin1_swedish_ci DEFAULT NULL,
+ CHANGE COLUMN `ComplaintReported` `complaintReported` VARCHAR(200) CHARACTER SET latin1 COLLATE latin1_swedish_ci DEFAULT NULL,
+ CHANGE COLUMN `ComplaintDiagonsed` `complaintDiagnosed` VARCHAR(200) CHARACTER SET latin1 COLLATE latin1_swedish_ci DEFAULT NULL,
+ CHANGE COLUMN `EnggRemark` `engineerRemarks` VARCHAR(200) CHARACTER SET latin1 COLLATE latin1_swedish_ci DEFAULT NULL,
+ CHANGE COLUMN `RepairAction` `repairAction` VARCHAR(200) CHARACTER SET latin1 COLLATE latin1_swedish_ci DEFAULT NULL,
+ CHANGE COLUMN `Note` `note` VARCHAR(500) CHARACTER SET latin1 COLLATE latin1_swedish_ci DEFAULT NULL,
+ CHANGE COLUMN `Status` `status` VARCHAR(45) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
+ CHANGE COLUMN `ModifiedBy` `modifiedBy` VARCHAR(45) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
+ DROP PRIMARY KEY,
+ ADD PRIMARY KEY  USING BTREE(`id`, `customerId`, `makeId`, `modelId`),
+ DROP INDEX `FK_transaction_Customer`,
+ ADD INDEX `FK_transaction_Customer` USING BTREE(`customerId`),
+ DROP INDEX `FK_transaction_Make`,
+ ADD INDEX `FK_transaction_Make` USING BTREE(`makeId`),
+ DROP INDEX `FK_transaction_Model`,
+ ADD INDEX `FK_transaction_Model` USING BTREE(`modelId`, `makeId`);
+
+ALTER TABLE `poseidon`.`companyterms` CHANGE COLUMN `Terms` `terms` VARCHAR(500) CHARACTER SET latin1 COLLATE latin1_swedish_ci DEFAULT NULL,
+ CHANGE COLUMN `CompanyDetails` `companyDetails` VARCHAR(500) CHARACTER SET latin1 COLLATE latin1_swedish_ci DEFAULT NULL;
+
+
+ALTER TABLE `poseidon`.`customer` CHANGE COLUMN `Id` `id` BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+ CHANGE COLUMN `Name` `name` VARCHAR(150) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
+ CHANGE COLUMN `Address1` `address1` VARCHAR(200) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
+ CHANGE COLUMN `Phone` `phone` VARCHAR(20) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
+ CHANGE COLUMN `Mobile` `mobile` VARCHAR(20) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
+ CHANGE COLUMN `ContactPerson1` `contactPerson1` VARCHAR(150) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
+ CHANGE COLUMN `ContactPh1` `contactPhone1` VARCHAR(20) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
+ CHANGE COLUMN `ContactPerson2` `contactPerson2` VARCHAR(150) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
+ CHANGE COLUMN `ContactPh2` `contactPhone2` VARCHAR(20) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
+ CHANGE COLUMN `Note` `note` VARCHAR(500) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
+ DROP PRIMARY KEY,
+ ADD PRIMARY KEY  USING BTREE(`id`);
+
+ALTER TABLE `poseidon`.`invoice` CHANGE COLUMN `TranId` `tranId` INT(10) UNSIGNED NOT NULL,
+ CHANGE COLUMN `Description1` `description1` VARCHAR(150) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
+ CHANGE COLUMN `Description2` `description2` VARCHAR(150) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
+ CHANGE COLUMN `Amount` `amount` VARCHAR(20) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL;
+
+ ALTER TABLE `poseidon`.`make` CHANGE COLUMN `Id` `id` BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+ CHANGE COLUMN `MakeName` `makeName` VARCHAR(45) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
+ CHANGE COLUMN `Description` `description` VARCHAR(200) CHARACTER SET latin1 COLLATE latin1_swedish_ci DEFAULT NULL,
+ DROP PRIMARY KEY,
+ ADD PRIMARY KEY  USING BTREE(`id`);
+
+ ALTER TABLE `poseidon`.`model` CHANGE COLUMN `Id` `id` BIGINT(20) UNSIGNED NOT NULL AUTO_INCREMENT,
+ CHANGE COLUMN `ModelName` `modelName` VARCHAR(145) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
+ DROP PRIMARY KEY,
+ ADD PRIMARY KEY  USING BTREE(`id`, `makeId`);
+
+ ALTER TABLE `poseidon`.`user` CHANGE COLUMN `Name` `name` VARCHAR(45) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
+ CHANGE COLUMN `LogId` `logInId` VARCHAR(45) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
+ CHANGE COLUMN `Pass` `password` VARCHAR(45) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
+ CHANGE COLUMN `Role` `role` VARCHAR(45) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL;
+

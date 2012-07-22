@@ -326,7 +326,7 @@ function hideAlerts(){
                         </td>
                         <td>
                             <form:select id="makeId" path="searchTransaction.makeId" tabindex="1"
-                                         onkeypress="handleEnter(event);" onchange="changeTheModel();"
+                                         onchange="changeTheModel();"
                                          cssStyle="border:3px double #CCCCCC; width: 200px;height:28px;">
                                 <form:option value=""><spring:message code="common.select" text="<-- Select -->"/></form:option>
                                 <form:options items="${transactionForm.makeVOs}"
@@ -341,7 +341,6 @@ function hideAlerts(){
                         </td>
                         <td>
                             <form:select id="modelId" path="searchTransaction.modelId" tabindex="1"
-                                         onkeypress="handleEnter(event);"
                                          cssStyle="border:3px double #CCCCCC; width: 200px;height:25px;">
                                 <form:option value=""><spring:message code="common.select" text="<-- Select -->"/></form:option>
                                 <form:options items="${transactionForm.makeAndModelVOs}"
@@ -356,7 +355,6 @@ function hideAlerts(){
                         </td>
                         <td>
                             <form:select id="Status" path="searchTransaction.Status"
-                                         onkeypress="handleEnter(event);"
                                          cssStyle="border:3px double #CCCCCC; width: 200px;height:25px;">
                                 <form:option value=""><spring:message code="common.select" text="<-- Select -->"/></form:option>
                                 <form:options items="${transactionForm.statusList}" />

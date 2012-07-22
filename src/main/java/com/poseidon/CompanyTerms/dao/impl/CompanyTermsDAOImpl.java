@@ -23,11 +23,11 @@ public class CompanyTermsDAOImpl extends JdbcDaoSupport implements CompanyTermsD
     //logger
     private final Log log = LogFactory.getLog(CompanyTermsDAOImpl.class);
 
-    private final String GET_COMPANY_TERMS_SQL = "SELECT Id, Terms, CompanyDetails FROM companyterms ;";
-    private final String GET_COMPANY_SQL = "SELECT Id, CompanyDetails FROM companyterms ;";
-    private final String GET_TERMS_SQL = "SELECT Id, Terms FROM companyterms ;";
-    private final String UPDATE_TERMS_SQL = "update companyterms set Terms = ? where Id = 1 ;";
-    private final String UPDATE_COMPANY_SQL = "update companyterms set CompanyDetails = ? where Id = 1 ;";
+    private final String GET_COMPANY_TERMS_SQL = "SELECT id, terms, companyDetails FROM companyterms ;";
+    private final String GET_COMPANY_SQL = "SELECT id, companyDetails FROM companyterms ;";
+    private final String GET_TERMS_SQL = "SELECT id, terms FROM companyterms ;";
+    private final String UPDATE_TERMS_SQL = "update companyterms set terms = ? where id = 1 ;";
+    private final String UPDATE_COMPANY_SQL = "update companyterms set companyDetails = ? where id = 1 ;";
 
     public CompanyTermsVO listCompanyTerms() throws CompanyTermsException {
         CompanyTermsVO companyTermsVO= null;
@@ -117,9 +117,9 @@ public class CompanyTermsDAOImpl extends JdbcDaoSupport implements CompanyTermsD
          */
         public Object mapRow(ResultSet resultSet, int i) throws SQLException {
             CompanyTermsVO companyTermsVO = new CompanyTermsVO();
-            companyTermsVO.setTermsId(resultSet.getLong("Id"));
-            companyTermsVO.setTermsAndConditions(resultSet.getString("Terms"));
-            companyTermsVO.setCompanyDetails(resultSet.getString("CompanyDetails"));
+            companyTermsVO.setTermsId(resultSet.getLong("id"));
+            companyTermsVO.setTermsAndConditions(resultSet.getString("terms"));
+            companyTermsVO.setCompanyDetails(resultSet.getString("companyDetails"));
             return companyTermsVO;
         }
     }
@@ -134,8 +134,8 @@ public class CompanyTermsDAOImpl extends JdbcDaoSupport implements CompanyTermsD
          */
         public Object mapRow(ResultSet resultSet, int i) throws SQLException {
             CompanyTermsVO companyTermsVO = new CompanyTermsVO();
-            companyTermsVO.setTermsId(resultSet.getLong("Id"));
-            companyTermsVO.setCompanyDetails(resultSet.getString("CompanyDetails"));
+            companyTermsVO.setTermsId(resultSet.getLong("id"));
+            companyTermsVO.setCompanyDetails(resultSet.getString("companyDetails"));
             return companyTermsVO;
         }
     }
@@ -151,8 +151,8 @@ public class CompanyTermsDAOImpl extends JdbcDaoSupport implements CompanyTermsD
          */
         public Object mapRow(ResultSet resultSet, int i) throws SQLException {
             CompanyTermsVO companyTermsVO = new CompanyTermsVO();
-            companyTermsVO.setTermsId(resultSet.getLong("Id"));
-            companyTermsVO.setTermsAndConditions(resultSet.getString("Terms"));
+            companyTermsVO.setTermsId(resultSet.getLong("id"));
+            companyTermsVO.setTermsAndConditions(resultSet.getString("terms"));
             return companyTermsVO;
         }
     }

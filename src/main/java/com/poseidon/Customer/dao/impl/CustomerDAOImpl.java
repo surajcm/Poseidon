@@ -26,17 +26,17 @@ public class CustomerDAOImpl extends JdbcDaoSupport implements CustomerDAO {
     private SimpleJdbcInsert insertCustomer;
     //logger
     private final Log log = LogFactory.getLog(CustomerDAOImpl.class);
-    private final String GET_CUSTOMERS_SQL = " SELECT Id, Name, ifnull(Address1,'') as Address1,ifnull(address2,'') as Address2," +
-            " ifnull(Phone,'') as Phone,ifnull(Mobile,'') as Mobile, " +
-            " ifnull(email,'') as email, ifnull(ContactPerson1,'') as ContactPerson1," +
-            " ifnull(ContactPh1,'') as ContactPh1, ifnull(ContactPerson2,'') as ContactPerson2, " +
-            " ifnull(ContactPh2,'') as ContactPh2, ifnull(Note,'') as Note FROM customer order by modifiedOn;";
+    private final String GET_CUSTOMERS_SQL = " SELECT id, Name, ifnull(address1,'') as address1,ifnull(address2,'') as address2," +
+            " ifnull(phone,'') as phone, ifnull(mobile,'') as mobile, " +
+            " ifnull(email,'') as email, ifnull(contactPerson1,'') as contactPerson1," +
+            " ifnull(contactPhone1,'') as contactPhone1, ifnull(contactPerson2,'') as contactPerson2, " +
+            " ifnull(contactPhone2,'') as contactPhone2, ifnull(note,'') as note FROM customer order by modifiedOn;";
 
     private final String GET_SINGLE_CUSTOMER_SQL = " select * from customer where id = ? ";
     private final String DELETE_CUSTOMER_BY_ID_SQL = " delete from customer where id = ? ";
-    private final String UPDATE_CUSTOMER_SQL = " update customer set Name = ? , Address1 = ? , address2 = ? , Phone = ?," +
-            " Mobile = ? , email = ?, ContactPerson1 = ?, ContactPh1 = ?, ContactPerson2 = ?, ContactPh2 = ?," +
-            " Note = ?, modifiedOn = ?, modifiedBy = ?  where id = ? ";
+    private final String UPDATE_CUSTOMER_SQL = " update customer set name = ? , address1 = ? , address2 = ? , phone = ?," +
+            " mobile = ? , email = ?, contactPerson1 = ?, contactPhone1 = ?, contactPerson2 = ?, contactPhone2 = ?," +
+            " note = ?, modifiedOn = ?, modifiedBy = ?  where id = ? ";
 
     public List<CustomerVO> listAllCustomerDetails() throws CustomerException {
         List<CustomerVO> customerVOs = null;
@@ -121,17 +121,17 @@ public class CustomerDAOImpl extends JdbcDaoSupport implements CustomerDAO {
     private long saveCustomerDetails(CustomerVO currentCustomerVO) {
         insertCustomer = new SimpleJdbcInsert(getDataSource()).withTableName("customer").usingGeneratedKeyColumns("id");
         SqlParameterSource parameters = new MapSqlParameterSource()
-                .addValue("Name", currentCustomerVO.getCustomerName())
-                .addValue("Address1", currentCustomerVO.getAddress1())
+                .addValue("name", currentCustomerVO.getCustomerName())
+                .addValue("address1", currentCustomerVO.getAddress1())
                 .addValue("address2", currentCustomerVO.getAddress2())
-                .addValue("Phone", currentCustomerVO.getPhoneNo())
-                .addValue("Mobile", currentCustomerVO.getMobile())
+                .addValue("phone", currentCustomerVO.getPhoneNo())
+                .addValue("mobile", currentCustomerVO.getMobile())
                 .addValue("email", currentCustomerVO.getEmail())
-                .addValue("ContactPerson1", currentCustomerVO.getContactPerson1())
-                .addValue("ContactPh1", currentCustomerVO.getContactMobile1())
-                .addValue("ContactPerson2", currentCustomerVO.getContactPerson2())
-                .addValue("ContactPh2", currentCustomerVO.getContactMobile2())
-                .addValue("Note", currentCustomerVO.getNotes())
+                .addValue("contactPerson1", currentCustomerVO.getContactPerson1())
+                .addValue("contactPhone1", currentCustomerVO.getContactMobile1())
+                .addValue("contactPerson2", currentCustomerVO.getContactPerson2())
+                .addValue("contactPhone2", currentCustomerVO.getContactMobile2())
+                .addValue("note", currentCustomerVO.getNotes())
                 .addValue("createdOn", currentCustomerVO.getCreatedOn())
                 .addValue("modifiedOn", currentCustomerVO.getModifiedOn())
                 .addValue("createdBy", currentCustomerVO.getCreatedBy())
@@ -149,13 +149,13 @@ public class CustomerDAOImpl extends JdbcDaoSupport implements CustomerDAO {
 
     private List<CustomerVO> SearchCustomer(CustomerVO searchVO) {
         StringBuffer SEARCH_QUERY = new StringBuffer();
-        SEARCH_QUERY.append(" SELECT Id, Name,Address1,address2,Phone,Mobile,email,ContactPerson1,")
-                .append(" ContactPh1,ContactPerson2,ContactPh2,Note FROM customer ");
+        SEARCH_QUERY.append(" SELECT id, name, address1, address2, phone, mobile, email, contactPerson1,")
+                .append(" contactPhone1, contactPerson2, ContactPhone2, note FROM customer ");
         Boolean isWhereAdded = Boolean.FALSE;
         if (searchVO.getCustomerId() != null && searchVO.getCustomerId() > 0) {
             SEARCH_QUERY.append(" where ");
             isWhereAdded = Boolean.TRUE;
-            SEARCH_QUERY.append(" Id = ").append(searchVO.getCustomerId());
+            SEARCH_QUERY.append(" id = ").append(searchVO.getCustomerId());
         }
         if (searchVO.getCustomerName() != null && searchVO.getCustomerName().trim().length() > 0) {
             if (!isWhereAdded) {
@@ -165,11 +165,11 @@ public class CustomerDAOImpl extends JdbcDaoSupport implements CustomerDAO {
                 SEARCH_QUERY.append(" and ");
             }
             if (searchVO.getIncludes()) {
-                SEARCH_QUERY.append(" Name like '%").append(searchVO.getCustomerName()).append("%'");
+                SEARCH_QUERY.append(" name like '%").append(searchVO.getCustomerName()).append("%'");
             } else if (searchVO.getStartsWith()) {
-                SEARCH_QUERY.append(" Name like '").append(searchVO.getCustomerName()).append("%'");
+                SEARCH_QUERY.append(" name like '").append(searchVO.getCustomerName()).append("%'");
             } else {
-                SEARCH_QUERY.append(" Name like '").append(searchVO.getCustomerName()).append("'");
+                SEARCH_QUERY.append(" name like '").append(searchVO.getCustomerName()).append("'");
             }
         }
         if (searchVO.getMobile() != null && searchVO.getMobile().trim().length() > 0) {
@@ -180,11 +180,11 @@ public class CustomerDAOImpl extends JdbcDaoSupport implements CustomerDAO {
                 SEARCH_QUERY.append(" and ");
             }
             if (searchVO.getIncludes()) {
-                SEARCH_QUERY.append(" Mobile like '%").append(searchVO.getMobile()).append("%'");
+                SEARCH_QUERY.append(" mobile like '%").append(searchVO.getMobile()).append("%'");
             } else if (searchVO.getStartsWith()) {
-                SEARCH_QUERY.append(" Mobile like '").append(searchVO.getMobile()).append("%'");
+                SEARCH_QUERY.append(" mobile like '").append(searchVO.getMobile()).append("%'");
             } else {
-                SEARCH_QUERY.append(" Mobile like '").append(searchVO.getMobile()).append("'");
+                SEARCH_QUERY.append(" mobile like '").append(searchVO.getMobile()).append("'");
             }
         }
         log.info("Search query is " + SEARCH_QUERY.toString());
@@ -202,18 +202,18 @@ public class CustomerDAOImpl extends JdbcDaoSupport implements CustomerDAO {
          */
         public Object mapRow(ResultSet resultSet, int i) throws SQLException {
             CustomerVO customerVO = new CustomerVO();
-            customerVO.setCustomerId(resultSet.getLong("Id"));
-            customerVO.setCustomerName(resultSet.getString("Name"));
-            customerVO.setAddress1(resultSet.getString("Address1"));
-            customerVO.setAddress2(resultSet.getString("Address2"));
-            customerVO.setPhoneNo(resultSet.getString("Phone"));
-            customerVO.setMobile(resultSet.getString("Mobile"));
+            customerVO.setCustomerId(resultSet.getLong("id"));
+            customerVO.setCustomerName(resultSet.getString("name"));
+            customerVO.setAddress1(resultSet.getString("address1"));
+            customerVO.setAddress2(resultSet.getString("address2"));
+            customerVO.setPhoneNo(resultSet.getString("phone"));
+            customerVO.setMobile(resultSet.getString("mobile"));
             customerVO.setEmail(resultSet.getString("email"));
-            customerVO.setContactPerson1(resultSet.getString("ContactPerson1"));
-            customerVO.setContactMobile1(resultSet.getString("ContactPh1"));
-            customerVO.setContactPerson2(resultSet.getString("ContactPerson2"));
-            customerVO.setContactMobile2(resultSet.getString("ContactPh2"));
-            customerVO.setNotes(resultSet.getString("Note"));
+            customerVO.setContactPerson1(resultSet.getString("contactPerson1"));
+            customerVO.setContactMobile1(resultSet.getString("contactPhone1"));
+            customerVO.setContactPerson2(resultSet.getString("contactPerson2"));
+            customerVO.setContactMobile2(resultSet.getString("contactPhone2"));
+            customerVO.setNotes(resultSet.getString("note"));
             return customerVO;
         }
     }

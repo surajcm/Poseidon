@@ -32,33 +32,33 @@ public class TransactionDAOImpl  extends JdbcDaoSupport implements TransactionDA
     private SimpleJdbcInsert insertTransaction;
     //logger
     private final Log log = LogFactory.getLog(TransactionDAOImpl.class);
-    private final String GET_TODAYS_TRANSACTIONS_SQL ="SELECT t.Id, t.TagNo,C.Name, t.DateReported, mk.MakeName, " +
-            " mdl.ModelName, t.SerialNo, t.Status " +
-            " FROM transaction t inner join customer c on t.CustomerId=C.Id " +
-            " inner join make mk on mk.Id=t.MakeId " +
-            " inner join model mdl on mdl.Id=t.ModelId " +
-            " WHERE CAST(t.DateReported AS DATE) = current_date() order by t.modifiedOn;";
+    private final String GET_TODAYS_TRANSACTIONS_SQL ="SELECT t.Id, t.tagNo,c.name, t.dateReported, mk.makeName, " +
+            " mdl.modelName, t.serialNo, t.status " +
+            " FROM transaction t inner join customer c on t.customerId=c.Id " +
+            " inner join make mk on mk.id=t.makeId " +
+            " inner join model mdl on mdl.id=t.modelId " +
+            " WHERE CAST(t.dateReported AS DATE) = current_date() order by t.modifiedOn;";
 
-    private static final String GET_SINGLE_TRANSACTION_SQL = "SELECT t.Id, t.TagNo, t.DateReported, t.CustomerId, " +
-            " t.ProductCategory, t.MakeId, " +
-            " t.ModelId, t.SerialNo, t.Status, t.Accessories, t.ComplaintReported, " +
-            " t.ComplaintDiagonsed ,t.EnggRemark, t.RepairAction, t.Note "+
-            " FROM transaction t inner join customer c on t.CustomerId=C.Id " +
-            " inner join make mk on mk.Id=t.MakeId " +
-            " inner join model mdl on mdl.Id=t.ModelId " +
-            " WHERE t.Id = ? ;";
-    private static final String UPDATE_TRANSACTION_SQL = " update transaction set ProductCategory = ?," +
-            " MakeId = ?, ModelId = ? , SerialNo = ? , Status = ? , Accessories = ?, ComplaintReported = ? , " +
-            " ComplaintDiagonsed = ?, EnggRemark = ?, RepairAction = ?, Note = ?, modifiedOn = ? , ModifiedBy =  ? " +
-            " where Id = ? ";
+    private static final String GET_SINGLE_TRANSACTION_SQL = "SELECT t.Id, t.tagNo, t.dateReported, t.customerId, " +
+            " t.productCategory, t.makeId, " +
+            " t.modelId, t.serialNo, t.status, t.accessories, t.complaintReported, " +
+            " t.complaintDiagnosed ,t.engineerRemarks, t.repairAction, t.note "+
+            " FROM transaction t inner join customer c on t.customerId=c.Id " +
+            " inner join make mk on mk.id=t.makeId " +
+            " inner join model mdl on mdl.id=t.modelId " +
+            " WHERE t.id = ? ;";
+    private static final String UPDATE_TRANSACTION_SQL = " update transaction set productCategory = ?," +
+            " makeId = ?, modelId = ? , serialNo = ? , status = ? , accessories = ?, complaintReported = ? , " +
+            " complaintDiagnosed = ?, engineerRemarks = ?, repairAction = ?, note = ?, modifiedOn = ? , modifiedBy =  ? " +
+            " where id = ? ";
     private static final String DELETE_TRANSACTION_BY_ID = " delete from transaction where id = ?";
 
-    private static final String GET_SINGLE_TRANSACTION_FROM_TAG_SQL = "SELECT t.id, t.TagNo, t.DateReported, " +
-            " c.Name, c.Address1, c.address2, c.Phone, c.Mobile, c.email, c.ContactPerson1, c.ContactPh1, c.ContactPerson2, " +
-            " c.ContactPh2, t.ProductCategory, mk.MakeName, mdl.ModelName, t.SerialNo, t.Accessories, t.ComplaintReported, " +
-            " t.ComplaintDiagonsed, t.EnggRemark, t.RepairAction, t.Note, t.Status FROM transaction t inner join customer c " +
-            " on t.CustomerId=c.Id inner join make mk on t.MakeId=mk.Id inner join model mdl " +
-            " on t.ModelId=mdl.Id and mdl.makeId=mk.Id where t.TagNo = ?";
+    private static final String GET_SINGLE_TRANSACTION_FROM_TAG_SQL = "SELECT t.id, t.tagNo, t.dateReported, " +
+            " c.name, c.address1, c.address2, c.phone, c.mobile, c.email, c.contactPerson1, c.contactPhone1, c.contactPerson2, " +
+            " c.contactPhone2, t.productCategory, mk.makeName, mdl.modelName, t.serialNo, t.accessories, t.complaintReported, " +
+            " t.complaintDiagnosed, t.engineerRemarks, t.repairAction, t.note, t.status FROM transaction t inner join customer c " +
+            " on t.customerId=c.id inner join make mk on t.makeId=mk.id inner join model mdl " +
+            " on t.modelId=mdl.id and mdl.makeId=mk.id where t.tagNo = ?";
 
     public List<TransactionVO> listTodaysTransactions() throws TransactionException {
         List<TransactionVO> transactionVOList;
@@ -86,23 +86,23 @@ public class TransactionDAOImpl  extends JdbcDaoSupport implements TransactionDA
         insertTransaction = new SimpleJdbcInsert(getDataSource()).withTableName("transaction").usingGeneratedKeyColumns("id");
 
         SqlParameterSource parameters = new MapSqlParameterSource()
-                .addValue("DateReported", getMySQLSaveDate(currentTransaction.getDateReported()))
-                .addValue("CustomerId", currentTransaction.getCustomerId())
-                .addValue("ProductCategory", currentTransaction.getProductCategory())
-                .addValue("MakeId", currentTransaction.getMakeId())
-                .addValue("ModelId", currentTransaction.getModelId())
-                .addValue("SerialNo", currentTransaction.getSerialNo())
-                .addValue("Accessories", currentTransaction.getAccessories())
-                .addValue("ComplaintReported", currentTransaction.getComplaintReported())
-                .addValue("ComplaintDiagonsed", currentTransaction.getComplaintDiagonsed())
-                .addValue("EnggRemark", currentTransaction.getEnggRemark())
-                .addValue("RepairAction", currentTransaction.getRepairAction())
-                .addValue("Note", currentTransaction.getNotes())
-                .addValue("Status", currentTransaction.getStatus())
+                .addValue("dateReported", getMySQLSaveDate(currentTransaction.getDateReported()))
+                .addValue("customerId", currentTransaction.getCustomerId())
+                .addValue("productCategory", currentTransaction.getProductCategory())
+                .addValue("makeId", currentTransaction.getMakeId())
+                .addValue("modelId", currentTransaction.getModelId())
+                .addValue("serialNo", currentTransaction.getSerialNo())
+                .addValue("accessories", currentTransaction.getAccessories())
+                .addValue("complaintReported", currentTransaction.getComplaintReported())
+                .addValue("complaintDiagnosed", currentTransaction.getComplaintDiagonsed())
+                .addValue("engineerRemarks", currentTransaction.getEnggRemark())
+                .addValue("repairAction", currentTransaction.getRepairAction())
+                .addValue("note", currentTransaction.getNotes())
+                .addValue("status", currentTransaction.getStatus())
                 .addValue("createdOn", currentTransaction.getCreatedOn())
                 .addValue("modifiedOn", currentTransaction.getModifiedOn())
                 .addValue("createdBy", currentTransaction.getCreatedBy())
-                .addValue("ModifiedBy", currentTransaction.getModifiedBy());
+                .addValue("modifiedBy", currentTransaction.getModifiedBy());
         Number newId = insertTransaction.executeAndReturnKey(parameters);
         log.info(" the queryForInt resulted in  " + newId.longValue());
         currentTransaction.setId(newId.longValue());
@@ -194,27 +194,27 @@ public class TransactionDAOImpl  extends JdbcDaoSupport implements TransactionDA
     private List<TransactionVO> searchTxs(TransactionVO searchTransaction) throws ParseException {
         StringBuffer SEARCH_TRANSACTION_QUERY = new StringBuffer();
         SEARCH_TRANSACTION_QUERY.append("SELECT Tr.id,")
-                .append(" Tr.TagNo, ")
-                .append(" Cust.Name ,")
-                .append(" Tr.DateReported ,")
-                .append(" Mk.MakeName ,")
-                .append(" Mdl.ModelName ,")
-                .append(" Tr.SerialNo,")
-                .append(" Tr.Status ")
-                .append(" FROM transaction Tr inner join make Mk on Tr.MakeId=Mk.Id ")
-                .append(" inner join model Mdl on Tr.ModelId=Mdl.Id and Mdl.MakeId=Mk.Id ")
-                .append(" inner join customer Cust on Cust.Id=Tr.CustomerId ");
+                .append(" Tr.tagNo, ")
+                .append(" Cust.name ,")
+                .append(" Tr.dateReported ,")
+                .append(" Mk.makeName ,")
+                .append(" Mdl.modelName ,")
+                .append(" Tr.serialNo,")
+                .append(" Tr.status ")
+                .append(" FROM transaction Tr inner join make Mk on Tr.makeId=Mk.id ")
+                .append(" inner join model Mdl on Tr.modelId=Mdl.id and Mdl.makeId=Mk.id ")
+                .append(" inner join customer Cust on Cust.id=Tr.customerId ");
         Boolean isWhereAdded = Boolean.FALSE;
 
         if(searchTransaction.getTagNo() != null && searchTransaction.getTagNo().trim().length() > 0){
             SEARCH_TRANSACTION_QUERY.append(" where ");
             isWhereAdded = Boolean.TRUE;
             if(searchTransaction.getIncludes()){
-                SEARCH_TRANSACTION_QUERY.append(" Tr.TagNo like '%").append(searchTransaction.getTagNo()).append("%'");
+                SEARCH_TRANSACTION_QUERY.append(" Tr.tagNo like '%").append(searchTransaction.getTagNo()).append("%'");
             }else if (searchTransaction.getStartswith()){
-                SEARCH_TRANSACTION_QUERY.append(" Tr.TagNo like '").append(searchTransaction.getTagNo()).append("%'");
+                SEARCH_TRANSACTION_QUERY.append(" Tr.tagNo like '").append(searchTransaction.getTagNo()).append("%'");
             }else {
-                SEARCH_TRANSACTION_QUERY.append(" Tr.TagNo like '").append(searchTransaction.getTagNo()).append("'");
+                SEARCH_TRANSACTION_QUERY.append(" Tr.tagNo like '").append(searchTransaction.getTagNo()).append("'");
             }
         }
 
@@ -226,11 +226,11 @@ public class TransactionDAOImpl  extends JdbcDaoSupport implements TransactionDA
                 SEARCH_TRANSACTION_QUERY.append(" and ");
             }
             if(searchTransaction.getIncludes()){
-                SEARCH_TRANSACTION_QUERY.append(" Cust.Name like '%").append(searchTransaction.getCustomerName()).append("%'");
+                SEARCH_TRANSACTION_QUERY.append(" Cust.name like '%").append(searchTransaction.getCustomerName()).append("%'");
             }else if (searchTransaction.getStartswith()){
-                SEARCH_TRANSACTION_QUERY.append(" Cust.Name like '").append(searchTransaction.getCustomerName()).append("%'");
+                SEARCH_TRANSACTION_QUERY.append(" Cust.name like '").append(searchTransaction.getCustomerName()).append("%'");
             }else {
-                SEARCH_TRANSACTION_QUERY.append(" Cust.Name like '").append(searchTransaction.getCustomerName()).append("'");
+                SEARCH_TRANSACTION_QUERY.append(" Cust.name like '").append(searchTransaction.getCustomerName()).append("'");
             }
         }
 
@@ -243,11 +243,11 @@ public class TransactionDAOImpl  extends JdbcDaoSupport implements TransactionDA
                 SEARCH_TRANSACTION_QUERY.append(" and ");
             }
             if(searchTransaction.getIncludes()){
-                SEARCH_TRANSACTION_QUERY.append(" Tr.SerialNo like '%").append(searchTransaction.getSerialNo()).append("%'");
+                SEARCH_TRANSACTION_QUERY.append(" Tr.serialNo like '%").append(searchTransaction.getSerialNo()).append("%'");
             }else if (searchTransaction.getStartswith()){
-                SEARCH_TRANSACTION_QUERY.append(" Tr.SerialNo like '").append(searchTransaction.getSerialNo()).append("%'");
+                SEARCH_TRANSACTION_QUERY.append(" Tr.serialNo like '").append(searchTransaction.getSerialNo()).append("%'");
             }else {
-                SEARCH_TRANSACTION_QUERY.append(" Tr.SerialNo like '").append(searchTransaction.getSerialNo()).append("'");
+                SEARCH_TRANSACTION_QUERY.append(" Tr.serialNo like '").append(searchTransaction.getSerialNo()).append("'");
             }
         }
 
@@ -258,7 +258,7 @@ public class TransactionDAOImpl  extends JdbcDaoSupport implements TransactionDA
             } else {
                 SEARCH_TRANSACTION_QUERY.append(" and ");
             }
-            SEARCH_TRANSACTION_QUERY.append(" Tr.MakeId = ").append(searchTransaction.getMakeId());
+            SEARCH_TRANSACTION_QUERY.append(" Tr.makeId = ").append(searchTransaction.getMakeId());
         }
 
         if(searchTransaction.getModelId() != null && searchTransaction.getModelId() > 0 ){
@@ -268,7 +268,7 @@ public class TransactionDAOImpl  extends JdbcDaoSupport implements TransactionDA
             } else {
                 SEARCH_TRANSACTION_QUERY.append(" and ");
             }
-            SEARCH_TRANSACTION_QUERY.append(" Tr.ModelId = ").append(searchTransaction.getModelId());
+            SEARCH_TRANSACTION_QUERY.append(" Tr.modelId = ").append(searchTransaction.getModelId());
         }
 
         if(searchTransaction.getStatus() != null && searchTransaction.getStatus().trim().length() > 0 ){
@@ -278,7 +278,7 @@ public class TransactionDAOImpl  extends JdbcDaoSupport implements TransactionDA
             } else {
                 SEARCH_TRANSACTION_QUERY.append(" and ");
             }
-            SEARCH_TRANSACTION_QUERY.append(" Tr.Status like '").append(searchTransaction.getStatus()).append("'");
+            SEARCH_TRANSACTION_QUERY.append(" Tr.status like '").append(searchTransaction.getStatus()).append("'");
         }
         if(searchTransaction.getStartDate() != null
                 && searchTransaction.getStartDate().trim().length() > 0
@@ -291,7 +291,7 @@ public class TransactionDAOImpl  extends JdbcDaoSupport implements TransactionDA
                 SEARCH_TRANSACTION_QUERY.append(" and ");
             }
 
-            SEARCH_TRANSACTION_QUERY.append(" Tr.DateReported between '").append(getMySQLFriendlyDate(searchTransaction.getStartDate()))
+            SEARCH_TRANSACTION_QUERY.append(" Tr.dateReported between '").append(getMySQLFriendlyDate(searchTransaction.getStartDate()))
                     .append("' and '").append(getMySQLFriendlyDate(searchTransaction.getEndDate())).append("'");
         }
         log.info("query created is "+ SEARCH_TRANSACTION_QUERY.toString());
@@ -325,14 +325,14 @@ public class TransactionDAOImpl  extends JdbcDaoSupport implements TransactionDA
          */
         public Object mapRow(ResultSet resultSet, int i) throws SQLException {
             TransactionVO txs = new TransactionVO();
-            txs.setId(resultSet.getLong("Id"));
-            txs.setTagNo(resultSet.getString("TagNo"));
-            txs.setDateReported(resultSet.getDate("DateReported").toString());
-            txs.setCustomerName(resultSet.getString("Name"));
-            txs.setMakeName(resultSet.getString("MakeName"));
-            txs.setModelName(resultSet.getString("ModelName"));
-            txs.setSerialNo(resultSet.getString("SerialNo"));
-            txs.setStatus(resultSet.getString("Status"));
+            txs.setId(resultSet.getLong("id"));
+            txs.setTagNo(resultSet.getString("tagNo"));
+            txs.setDateReported(resultSet.getDate("dateReported").toString());
+            txs.setCustomerName(resultSet.getString("name"));
+            txs.setMakeName(resultSet.getString("makeName"));
+            txs.setModelName(resultSet.getString("modelName"));
+            txs.setSerialNo(resultSet.getString("serialNo"));
+            txs.setStatus(resultSet.getString("status"));
             return txs;
         }
 
@@ -353,21 +353,21 @@ public class TransactionDAOImpl  extends JdbcDaoSupport implements TransactionDA
          */
         public Object mapRow(ResultSet resultSet, int i) throws SQLException {
             TransactionVO txs = new TransactionVO();
-            txs.setId(resultSet.getLong("Id"));
-            txs.setTagNo(resultSet.getString("TagNo"));
-            txs.setDateReported(resultSet.getDate("DateReported").toString());
-            txs.setCustomerId(resultSet.getLong("CustomerId"));
-            txs.setProductCategory(resultSet.getString("ProductCategory"));
-            txs.setMakeId(resultSet.getLong("MakeId"));
-            txs.setModelId(resultSet.getLong("ModelId"));
-            txs.setSerialNo(resultSet.getString("SerialNo"));
-            txs.setStatus(resultSet.getString("Status"));
-            txs.setAccessories(resultSet.getString("Accessories"));
-            txs.setComplaintReported(resultSet.getString("ComplaintReported"));
-            txs.setComplaintDiagonsed(resultSet.getString("ComplaintDiagonsed"));
-            txs.setEnggRemark(resultSet.getString("EnggRemark"));
-            txs.setRepairAction(resultSet.getString("RepairAction"));
-            txs.setNotes(resultSet.getString("Note"));
+            txs.setId(resultSet.getLong("id"));
+            txs.setTagNo(resultSet.getString("tagNo"));
+            txs.setDateReported(resultSet.getDate("dateReported").toString());
+            txs.setCustomerId(resultSet.getLong("customerId"));
+            txs.setProductCategory(resultSet.getString("productCategory"));
+            txs.setMakeId(resultSet.getLong("makeId"));
+            txs.setModelId(resultSet.getLong("modelId"));
+            txs.setSerialNo(resultSet.getString("serialNo"));
+            txs.setStatus(resultSet.getString("status"));
+            txs.setAccessories(resultSet.getString("accessories"));
+            txs.setComplaintReported(resultSet.getString("complaintReported"));
+            txs.setComplaintDiagonsed(resultSet.getString("complaintDiagnosed"));
+            txs.setEnggRemark(resultSet.getString("engineerRemarks"));
+            txs.setRepairAction(resultSet.getString("repairAction"));
+            txs.setNotes(resultSet.getString("note"));
             return txs;
         }
 
@@ -388,30 +388,30 @@ public class TransactionDAOImpl  extends JdbcDaoSupport implements TransactionDA
          */
         public Object mapRow(ResultSet resultSet, int i) throws SQLException {
             TransactionReportVO txs = new TransactionReportVO();
-            txs.setId(resultSet.getLong("Id"));
-            txs.setTagNo(resultSet.getString("TagNo"));
-            txs.setDateReported(resultSet.getDate("DateReported"));
-            txs.setCustomerName(resultSet.getString("Name"));
-            txs.setAddress1(resultSet.getString("Address1"));
+            txs.setId(resultSet.getLong("id"));
+            txs.setTagNo(resultSet.getString("tagNo"));
+            txs.setDateReported(resultSet.getDate("dateReported"));
+            txs.setCustomerName(resultSet.getString("name"));
+            txs.setAddress1(resultSet.getString("address1"));
             txs.setAddress2(resultSet.getString("address2"));
-            txs.setPhone(resultSet.getString("Phone"));
-            txs.setMobile(resultSet.getString("Mobile"));
+            txs.setPhone(resultSet.getString("phone"));
+            txs.setMobile(resultSet.getString("mobile"));
             txs.setEmail(resultSet.getString("email"));
-            txs.setContactPerson1(resultSet.getString("ContactPerson1"));
-            txs.setContactPh1(resultSet.getString("ContactPh1"));
-            txs.setContactPerson2(resultSet.getString("ContactPerson2"));
-            txs.setContactPh2(resultSet.getString("ContactPh2"));
-            txs.setProductCategory(resultSet.getString("ProductCategory"));
-            txs.setMakeName(resultSet.getString("MakeName"));
-            txs.setModelName(resultSet.getString("ModelName"));
-            txs.setSerialNo(resultSet.getString("SerialNo"));
-            txs.setAccessories(resultSet.getString("Accessories"));
-            txs.setComplaintReported(resultSet.getString("ComplaintReported"));
-            txs.setComplaintDiagonsed(resultSet.getString("ComplaintDiagonsed"));
-            txs.setEnggRemark(resultSet.getString("EnggRemark"));
-            txs.setRepairAction(resultSet.getString("RepairAction"));
-            txs.setNotes(resultSet.getString("Note"));
-            txs.setStatus(resultSet.getString("Status"));
+            txs.setContactPerson1(resultSet.getString("contactPerson1"));
+            txs.setContactPh1(resultSet.getString("contactPhone1"));
+            txs.setContactPerson2(resultSet.getString("contactPerson2"));
+            txs.setContactPh2(resultSet.getString("contactPhone2"));
+            txs.setProductCategory(resultSet.getString("productCategory"));
+            txs.setMakeName(resultSet.getString("makeName"));
+            txs.setModelName(resultSet.getString("modelName"));
+            txs.setSerialNo(resultSet.getString("serialNo"));
+            txs.setAccessories(resultSet.getString("accessories"));
+            txs.setComplaintReported(resultSet.getString("complaintReported"));
+            txs.setComplaintDiagonsed(resultSet.getString("complaintDiagnosed"));
+            txs.setEnggRemark(resultSet.getString("engineerRemarks"));
+            txs.setRepairAction(resultSet.getString("repairAction"));
+            txs.setNotes(resultSet.getString("note"));
+            txs.setStatus(resultSet.getString("status"));
             return txs;
         }
 

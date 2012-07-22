@@ -1,6 +1,8 @@
 package com.poseidon.Reports.web.form;
 
+import com.poseidon.Make.domain.MakeVO;
 import com.poseidon.Reports.domain.ReportsVO;
+import com.poseidon.Transaction.domain.TransactionVO;
 
 import java.util.List;
 
@@ -16,6 +18,10 @@ public class ReportsForm {
     private String loggedInUser;
     private String loggedInRole;
     private List<String> exportList;
+    private TransactionVO searchTransaction;
+    private List<MakeVO> makeVOs;
+    private List<String> statusList;
+
 
     public ReportsVO getCurrentReport() {
         return currentReport;
@@ -63,6 +69,30 @@ public class ReportsForm {
 
     public void setExportList(List<String> exportList) {
         this.exportList = exportList;
+    }
+
+    public TransactionVO getSearchTransaction() {
+        return searchTransaction;
+    }
+
+    public void setSearchTransaction(TransactionVO searchTransaction) {
+        this.searchTransaction = searchTransaction;
+    }
+
+    public List<MakeVO> getMakeVOs() {
+        return makeVOs;
+    }
+
+    public void setMakeVOs(List<MakeVO> makeVOs) {
+        this.makeVOs = makeVOs;
+    }
+
+    public List<String> getStatusList() {
+        return statusList;
+    }
+
+    public void setStatusList(List<String> statusList) {
+        this.statusList = statusList;
     }
 
     @Override

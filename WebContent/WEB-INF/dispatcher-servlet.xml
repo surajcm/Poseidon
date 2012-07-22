@@ -30,6 +30,7 @@
     </bean>
 
     <bean name="/reports/*.htm" class="com.poseidon.Reports.web.controller.ReportsController" >
+        <property name="makeDelegate" ref="makeDelegate"/>
         <property name="reportsDelegate" ref="reportsDelegate"/>
     </bean>
 

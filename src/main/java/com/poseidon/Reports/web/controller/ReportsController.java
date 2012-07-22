@@ -1,5 +1,7 @@
 package com.poseidon.Reports.web.controller;
 
+import com.poseidon.Make.delegate.MakeDelegate;
+import com.poseidon.Make.domain.MakeVO;
 import net.sf.jasperreports.engine.JRAbstractExporter;
 import net.sf.jasperreports.engine.JRExporter;
 import net.sf.jasperreports.engine.JRExporterParameter;
@@ -38,6 +40,7 @@ import java.util.Locale;
  */
 public class ReportsController extends MultiActionController {
     private ReportsDelegate reportsDelegate;
+    private MakeDelegate makeDelegate;
     private final Log log = LogFactory.getLog(ReportsController.class);
 
     public ReportsDelegate getReportsDelegate() {
@@ -46,6 +49,14 @@ public class ReportsController extends MultiActionController {
 
     public void setReportsDelegate(ReportsDelegate reportsDelegate) {
         this.reportsDelegate = reportsDelegate;
+    }
+
+    public MakeDelegate getMakeDelegate() {
+        return makeDelegate;
+    }
+
+    public void setMakeDelegate(MakeDelegate makeDelegate) {
+        this.makeDelegate = makeDelegate;
     }
 
     public ModelAndView List(HttpServletRequest request,
@@ -65,12 +76,36 @@ public class ReportsController extends MultiActionController {
             }
             reportsForm.setReportsVOs(reportsVOs);
         }
+        //get all the make list for displaying in search
+        List<MakeVO> makeVOs = null;
+        try {
+            makeVOs = getMakeDelegate().fetchMakes();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        if (makeVOs != null) {
+            for (MakeVO makeVO : makeVOs) {
+                log.info("make vo is" + makeVO);
+            }
+            reportsForm.setMakeVOs(makeVOs);
+        }
         reportsForm.setSearchReports(new ReportsVO());
         reportsForm.setLoggedInRole(reportsForm.getLoggedInRole());
         reportsForm.setLoggedInUser(reportsForm.getLoggedInUser());
         reportsForm.setExportList(populateExportToList());
+        reportsForm.setStatusList(populateStatus());
         reportsForm.setCurrentReport(new ReportsVO());
         return new ModelAndView("reports/List", "reportsForm", reportsForm);
+    }
+
+    private List<String> populateStatus() {
+        List<String> statusList = new ArrayList<String>();
+        statusList.add("NEW");
+        statusList.add("ACCEPTED");
+        statusList.add("VERIFIED");
+        statusList.add("CLOSED");
+        statusList.add("REJECTED");
+        return statusList;
     }
 
     private List<String> populateExportToList() {
@@ -157,7 +192,9 @@ public class ReportsController extends MultiActionController {
             log.info(" going to compile report");
             jasperReport = JasperCompileManager.compileReport(path + '/' + reportFileName + ".jrxml");
 
-            jasperPrint =  getReportsDelegate().getTransactionsListReport(jasperReport, reportsForm.getCurrentReport());
+            jasperPrint =  getReportsDelegate().getTransactionsListReport(jasperReport,
+                    reportsForm.getCurrentReport(),
+                    reportsForm.getSearchTransaction());
             logger.info(jasperPrint.toString());
             getJasperReport(httpServletRequest, httpServletResponse, jasperPrint, reportFileName, reportType);
         } catch (Exception e) {
