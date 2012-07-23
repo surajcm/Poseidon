@@ -213,7 +213,6 @@
                         </td>
                         <td>
                             <form:select id="makeName" path="searchMakeAndModelVO.makeName" tabindex="1"
-                                         onkeypress="handleEnter(event);"
                                          cssStyle="border:3px double #CCCCCC; width: 200px;height:25px;">
                                 <form:option value="0" label="-- Select --"/>
                                 <form:options items="${makeForm.makeVOs}"

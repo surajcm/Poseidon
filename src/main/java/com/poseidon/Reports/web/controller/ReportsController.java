@@ -1,6 +1,7 @@
 package com.poseidon.Reports.web.controller;
 
 import com.poseidon.Make.delegate.MakeDelegate;
+import com.poseidon.Make.domain.MakeAndModelVO;
 import com.poseidon.Make.domain.MakeVO;
 import net.sf.jasperreports.engine.JRAbstractExporter;
 import net.sf.jasperreports.engine.JRExporter;
@@ -95,6 +96,7 @@ public class ReportsController extends MultiActionController {
         reportsForm.setExportList(populateExportToList());
         reportsForm.setStatusList(populateStatus());
         reportsForm.setCurrentReport(new ReportsVO());
+        reportsForm.setSearchMakeAndModelVO(new MakeAndModelVO());
         return new ModelAndView("reports/List", "reportsForm", reportsForm);
     }
 

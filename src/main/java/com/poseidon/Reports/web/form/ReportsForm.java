@@ -1,5 +1,6 @@
 package com.poseidon.Reports.web.form;
 
+import com.poseidon.Make.domain.MakeAndModelVO;
 import com.poseidon.Make.domain.MakeVO;
 import com.poseidon.Reports.domain.ReportsVO;
 import com.poseidon.Transaction.domain.TransactionVO;
@@ -21,7 +22,7 @@ public class ReportsForm {
     private TransactionVO searchTransaction;
     private List<MakeVO> makeVOs;
     private List<String> statusList;
-
+    private MakeAndModelVO searchMakeAndModelVO;
 
     public ReportsVO getCurrentReport() {
         return currentReport;
@@ -93,6 +94,14 @@ public class ReportsForm {
 
     public void setStatusList(List<String> statusList) {
         this.statusList = statusList;
+    }
+
+    public MakeAndModelVO getSearchMakeAndModelVO() {
+        return searchMakeAndModelVO;
+    }
+
+    public void setSearchMakeAndModelVO(MakeAndModelVO searchMakeAndModelVO) {
+        this.searchMakeAndModelVO = searchMakeAndModelVO;
     }
 
     @Override

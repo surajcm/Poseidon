@@ -175,12 +175,53 @@
                         <legend>Generate Make/ModelList Report :</legend>
                         <table style="margin:auto;top:50%;left:50%;">
                             <tr>
+                                <td>
+                                    <label>
+                                        Make Name :
+                                    </label>
+                                </td>
+                                <td>
+                                    <form:select id="makeName" path="searchMakeAndModelVO.makeName" tabindex="1"
+                                                 cssStyle="border:3px double #CCCCCC; width: 200px;height:25px;">
+                                        <form:option value="0" label="-- Select --"/>
+                                        <form:options items="${reportsForm.makeVOs}"
+                                                      itemValue="id" itemLabel="makeName"/>
+                                    </form:select>
+                                </td>
+                                <td colspan="2">&nbsp;</td>
+                                <td>
+                                    <label >
+                                        Model Name :
+                                    </label>
+                                </td>
+                                <td>
+                                    <form:input path="searchMakeAndModelVO.modelName"
+                                                cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;" id="modelName"/>
+                                </td>
+                            <tr>
+                            <tr>
+                                <td colspan="2">
+                                    <label>
+                                        <spring:message code="user.includes" text="Includes"/>
+                                        <form:checkbox path="searchMakeAndModelVO.includes" cssStyle="vertical-align:middle"
+                                                       id="includes" value=""/>
+                                    </label>
+                                </td>
+                                <td colspan="2">&nbsp;</td>
+                                <td colspan="2">
+                                    <label>
+                                        <spring:message code="user.startsWith" text="Starts with"/>
+                                        <form:checkbox path="searchMakeAndModelVO.startswith" cssStyle="vertical-align:middle"
+                                                       id="startswith" value=""/>
+                                    </label>
+                                </td>
+                            <tr>
+                            <tr>
                                 <td colspan="2">
                                     <input class="btn" value="Fetch Make Report" type="button"
                                            onclick="javascript:fetchMakeReport()"/>
                                 </td>
-                            </tr>
-                            <tr>
+                                <td colspan="2">&nbsp;</td>
                                 <td>
                                     <input class="btn" value="Fetch Model List Report" type="button"
                                            onclick="javascript:fetchModelListReport()"/>

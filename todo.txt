@@ -5,4 +5,6 @@ Things to do
 3.user creation scripts in dbdesign sql file
 4.update company details page
 5. size of text boxes, fonts
+6. move export to to all tabs
+7. introduce the inovice page
 
