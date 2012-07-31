@@ -1,6 +1,7 @@
 package com.poseidon.Invoice.web.controller;
 
 import com.poseidon.Invoice.delegate.InvoiceDelegate;
+import com.poseidon.Invoice.domain.InvoiceVO;
 import com.poseidon.Invoice.web.form.InvoiceForm;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.multiaction.MultiActionController;
@@ -27,6 +28,7 @@ public class InvoiceController extends MultiActionController {
     public ModelAndView ListInvoice(HttpServletRequest request,
                                     HttpServletResponse response){
         InvoiceForm invoiceForm = new InvoiceForm();
+        invoiceForm.setSearchInvoiceVO(new InvoiceVO());
         return new ModelAndView("invoice/ListInvoice", "invoiceForm", invoiceForm);
     }
 }

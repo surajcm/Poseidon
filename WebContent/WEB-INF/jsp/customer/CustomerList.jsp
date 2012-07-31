@@ -211,7 +211,6 @@
                                 </td>
                                 <td>
                                     <form:input path="searchCustomerVO.customerId" cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;" id="customerId"/>
-                                    <form:errors path="searchCustomerVO.customerId"/>
                                 </td>
                                 <td colspan="2">&nbsp;</td>
                                 <td>
@@ -221,7 +220,6 @@
                                 </td>
                                 <td>
                                     <form:input path="searchCustomerVO.customerName" cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;" id="customerName"/>
-                                    <form:errors path="searchCustomerVO.customerName"/>
                                 </td>
                                 <td colspan="2">&nbsp;</td>
                                 <td>
@@ -231,7 +229,6 @@
                                 </td>
                                 <td>
                                     <form:input path="searchCustomerVO.mobile" cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;" id="mobile"/>
-                                    <form:errors path="searchCustomerVO.mobile"/>
                                 </td>
                             </tr>
                             <tr>
