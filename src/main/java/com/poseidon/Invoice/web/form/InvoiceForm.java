@@ -25,6 +25,7 @@ public class InvoiceForm {
     private double amount;
     private double totalAmount;
     private InvoiceVO searchInvoiceVO;
+    private InvoiceVO currentInvoiceVO;
     private List<InvoiceVO> invoiceVOs;
 
     public String getLoggedInUser() {
@@ -155,6 +156,14 @@ public class InvoiceForm {
         this.invoiceVOs = invoiceVOs;
     }
 
+    public InvoiceVO getCurrentInvoiceVO() {
+        return currentInvoiceVO;
+    }
+
+    public void setCurrentInvoiceVO(InvoiceVO currentInvoiceVO) {
+        this.currentInvoiceVO = currentInvoiceVO;
+    }
+
     @Override
     public String toString() {
         return "InvoiceForm{" +
@@ -172,6 +181,9 @@ public class InvoiceForm {
                 ", rate=" + rate +
                 ", amount=" + amount +
                 ", totalAmount=" + totalAmount +
+                ", searchInvoiceVO=" + searchInvoiceVO +
+                ", currentInvoiceVO=" + currentInvoiceVO +
+                ", invoiceVOs=" + invoiceVOs +
                 '}';
     }
 }

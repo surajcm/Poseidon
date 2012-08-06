@@ -1,5 +1,7 @@
 package com.poseidon.Invoice.domain;
 
+import java.util.Date;
+
 /**
  * User: Suraj
  * Date: 7/26/12
@@ -15,7 +17,14 @@ public class InvoiceVO {
     private int quantity;
     private double rate;
     private double amount;
-    private double totalAmount;
+    private Boolean startsWith;
+    private Boolean includes;
+    private Boolean greater;
+    private Boolean lesser;
+    private Date createdDate;
+    private Date modifiedDate;
+    private String createdBy;
+    private String modifiedBy;
 
     public Long getId() {
         return id;
@@ -89,11 +98,86 @@ public class InvoiceVO {
         this.amount = amount;
     }
 
-    public double getTotalAmount() {
-        return totalAmount;
+    public Boolean getStartsWith() {
+        return startsWith;
     }
 
-    public void setTotalAmount(double totalAmount) {
-        this.totalAmount = totalAmount;
+    public void setStartsWith(Boolean startsWith) {
+        this.startsWith = startsWith;
+    }
+
+    public Boolean getIncludes() {
+        return includes;
+    }
+
+    public void setIncludes(Boolean includes) {
+        this.includes = includes;
+    }
+
+    public Boolean getGreater() {
+        return greater;
+    }
+
+    public void setGreater(Boolean greater) {
+        this.greater = greater;
+    }
+
+    public Boolean getLesser() {
+        return lesser;
+    }
+
+    public void setLesser(Boolean lesser) {
+        this.lesser = lesser;
+    }
+
+    @Override
+    public String toString() {
+        return "InvoiceVO{" +
+                "id=" + id +
+                ", tagNo='" + tagNo + '\'' +
+                ", customerId=" + customerId +
+                ", customerName='" + customerName + '\'' +
+                ", description='" + description + '\'' +
+                ", serialNo='" + serialNo + '\'' +
+                ", quantity=" + quantity +
+                ", rate=" + rate +
+                ", amount=" + amount +
+                ", startsWith=" + startsWith +
+                ", includes=" + includes +
+                ", greater=" + greater +
+                ", lesser=" + lesser +
+                '}';
+    }
+
+    public Date getCreatedDate() {
+        return createdDate;
+    }
+
+    public void setCreatedDate(Date createdDate) {
+        this.createdDate = createdDate;
+    }
+
+    public Date getModifiedDate() {
+        return modifiedDate;
+    }
+
+    public void setModifiedDate(Date modifiedDate) {
+        this.modifiedDate = modifiedDate;
+    }
+
+    public String getCreatedBy() {
+        return createdBy;
+    }
+
+    public void setCreatedBy(String createdBy) {
+        this.createdBy = createdBy;
+    }
+
+    public String getModifiedBy() {
+        return modifiedBy;
+    }
+
+    public void setModifiedBy(String modifiedBy) {
+        this.modifiedBy = modifiedBy;
     }
 }

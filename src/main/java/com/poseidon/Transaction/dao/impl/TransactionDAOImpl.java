@@ -28,11 +28,11 @@ import org.springframework.jdbc.core.RowMapper;
  * Date: Jun 2, 2012
  * Time: 3:46:15 PM
  */
-public class TransactionDAOImpl  extends JdbcDaoSupport implements TransactionDAO {
+public class TransactionDAOImpl extends JdbcDaoSupport implements TransactionDAO {
     private SimpleJdbcInsert insertTransaction;
     //logger
     private final Log log = LogFactory.getLog(TransactionDAOImpl.class);
-    private final String GET_TODAYS_TRANSACTIONS_SQL ="SELECT t.Id, t.tagNo,c.name, t.dateReported, mk.makeName, " +
+    private final String GET_TODAYS_TRANSACTIONS_SQL = "SELECT t.Id, t.tagNo,c.name, t.dateReported, mk.makeName, " +
             " mdl.modelName, t.serialNo, t.status " +
             " FROM transaction t inner join customer c on t.customerId=c.Id " +
             " inner join make mk on mk.id=t.makeId " +
@@ -42,19 +42,19 @@ public class TransactionDAOImpl  extends JdbcDaoSupport implements TransactionDA
     private static final String GET_SINGLE_TRANSACTION_SQL = "SELECT t.Id, t.tagNo, t.dateReported, t.customerId, " +
             " t.productCategory, t.makeId, " +
             " t.modelId, t.serialNo, t.status, t.accessories, t.complaintReported, " +
-            " t.complaintDiagnosed ,t.engineerRemarks, t.repairAction, t.note "+
+            " t.complaintDiagnosed ,t.engineerRemarks, t.repairAction, t.note " +
             " FROM transaction t inner join customer c on t.customerId=c.Id " +
             " inner join make mk on mk.id=t.makeId " +
             " inner join model mdl on mdl.id=t.modelId " +
             " WHERE t.id = ? ;";
-    private static final String UPDATE_TRANSACTION_SQL = " update transaction set productCategory = ?," +
+    private static final String UPDATE_TRANSACTION_SQL = " update transaction set dateReported = ? , productCategory = ?," +
             " makeId = ?, modelId = ? , serialNo = ? , status = ? , accessories = ?, complaintReported = ? , " +
             " complaintDiagnosed = ?, engineerRemarks = ?, repairAction = ?, note = ?, modifiedOn = ? , modifiedBy =  ? " +
             " where id = ? ";
     private static final String DELETE_TRANSACTION_BY_ID = " delete from transaction where id = ?";
 
     private static final String GET_SINGLE_TRANSACTION_FROM_TAG_SQL = "SELECT t.id, t.tagNo, t.dateReported, " +
-            " c.name, c.address1, c.address2, c.phone, c.mobile, c.email, c.contactPerson1, c.contactPhone1, c.contactPerson2, " +
+            " t.customerId, c.name, c.address1, c.address2, c.phone, c.mobile, c.email, c.contactPerson1, c.contactPhone1, c.contactPerson2, " +
             " c.contactPhone2, t.productCategory, mk.makeName, mdl.modelName, t.serialNo, t.accessories, t.complaintReported, " +
             " t.complaintDiagnosed, t.engineerRemarks, t.repairAction, t.note, t.status FROM transaction t inner join customer c " +
             " on t.customerId=c.id inner join make mk on t.makeId=mk.id inner join model mdl " +
@@ -107,8 +107,8 @@ public class TransactionDAOImpl  extends JdbcDaoSupport implements TransactionDA
         log.info(" the queryForInt resulted in  " + newId.longValue());
         currentTransaction.setId(newId.longValue());
         // update the tag No
-        String tagNo = "WON2N"+newId.longValue();
-        String query = "update transaction set TagNo = '"+tagNo+"' where id ="+newId.longValue();
+        String tagNo = "WON2N" + newId.longValue();
+        String query = "update transaction set TagNo = '" + tagNo + "' where id =" + newId.longValue();
         getJdbcTemplate().update(query);
     }
 
@@ -138,25 +138,30 @@ public class TransactionDAOImpl  extends JdbcDaoSupport implements TransactionDA
     }
 
     public void updateTransaction(TransactionVO currentTransaction) throws TransactionException {
-        Object[] parameters = new Object[]{
-                currentTransaction.getProductCategory(),
-                currentTransaction.getMakeId(),
-                currentTransaction.getModelId(),
-                currentTransaction.getSerialNo(),
-                currentTransaction.getStatus(),
-                currentTransaction.getAccessories(),
-                currentTransaction.getComplaintReported(),
-                currentTransaction.getComplaintDiagonsed(),
-                currentTransaction.getEnggRemark(),
-                currentTransaction.getRepairAction(),
-                currentTransaction.getNotes(),
-                currentTransaction.getModifiedOn(),
-                currentTransaction.getModifiedBy(),
-                currentTransaction.getId()};
-
         try {
+            Object[] parameters = new Object[]{
+                    getMySQLSaveDate(currentTransaction.getDateReported()),
+                    currentTransaction.getProductCategory(),
+                    currentTransaction.getMakeId(),
+                    currentTransaction.getModelId(),
+                    currentTransaction.getSerialNo(),
+                    currentTransaction.getStatus(),
+                    currentTransaction.getAccessories(),
+                    currentTransaction.getComplaintReported(),
+                    currentTransaction.getComplaintDiagonsed(),
+                    currentTransaction.getEnggRemark(),
+                    currentTransaction.getRepairAction(),
+                    currentTransaction.getNotes(),
+                    currentTransaction.getModifiedOn(),
+                    currentTransaction.getModifiedBy(),
+                    currentTransaction.getId()};
+
+
             getJdbcTemplate().update(UPDATE_TRANSACTION_SQL, parameters);
         } catch (DataAccessException e) {
+            e.printStackTrace();
+            throw new TransactionException(TransactionException.DATABASE_ERROR);
+        } catch (ParseException e) {
             e.printStackTrace();
             throw new TransactionException(TransactionException.DATABASE_ERROR);
         }
@@ -206,52 +211,52 @@ public class TransactionDAOImpl  extends JdbcDaoSupport implements TransactionDA
                 .append(" inner join customer Cust on Cust.id=Tr.customerId ");
         Boolean isWhereAdded = Boolean.FALSE;
 
-        if(searchTransaction.getTagNo() != null && searchTransaction.getTagNo().trim().length() > 0){
+        if (searchTransaction.getTagNo() != null && searchTransaction.getTagNo().trim().length() > 0) {
             SEARCH_TRANSACTION_QUERY.append(" where ");
             isWhereAdded = Boolean.TRUE;
-            if(searchTransaction.getIncludes()){
+            if (searchTransaction.getIncludes()) {
                 SEARCH_TRANSACTION_QUERY.append(" Tr.tagNo like '%").append(searchTransaction.getTagNo()).append("%'");
-            }else if (searchTransaction.getStartswith()){
+            } else if (searchTransaction.getStartswith()) {
                 SEARCH_TRANSACTION_QUERY.append(" Tr.tagNo like '").append(searchTransaction.getTagNo()).append("%'");
-            }else {
+            } else {
                 SEARCH_TRANSACTION_QUERY.append(" Tr.tagNo like '").append(searchTransaction.getTagNo()).append("'");
             }
         }
 
-        if (searchTransaction.getCustomerName() != null && searchTransaction.getCustomerName().trim().length() > 0 ) {
+        if (searchTransaction.getCustomerName() != null && searchTransaction.getCustomerName().trim().length() > 0) {
             if (!isWhereAdded) {
                 SEARCH_TRANSACTION_QUERY.append(" where ");
                 isWhereAdded = Boolean.TRUE;
             } else {
                 SEARCH_TRANSACTION_QUERY.append(" and ");
             }
-            if(searchTransaction.getIncludes()){
+            if (searchTransaction.getIncludes()) {
                 SEARCH_TRANSACTION_QUERY.append(" Cust.name like '%").append(searchTransaction.getCustomerName()).append("%'");
-            }else if (searchTransaction.getStartswith()){
+            } else if (searchTransaction.getStartswith()) {
                 SEARCH_TRANSACTION_QUERY.append(" Cust.name like '").append(searchTransaction.getCustomerName()).append("%'");
-            }else {
+            } else {
                 SEARCH_TRANSACTION_QUERY.append(" Cust.name like '").append(searchTransaction.getCustomerName()).append("'");
             }
         }
 
         // need to implement  and Tr.DateReported like '%%'
-        if (searchTransaction.getSerialNo() != null && searchTransaction.getSerialNo().trim().length() > 0 ) {
+        if (searchTransaction.getSerialNo() != null && searchTransaction.getSerialNo().trim().length() > 0) {
             if (!isWhereAdded) {
                 SEARCH_TRANSACTION_QUERY.append(" where ");
                 isWhereAdded = Boolean.TRUE;
             } else {
                 SEARCH_TRANSACTION_QUERY.append(" and ");
             }
-            if(searchTransaction.getIncludes()){
+            if (searchTransaction.getIncludes()) {
                 SEARCH_TRANSACTION_QUERY.append(" Tr.serialNo like '%").append(searchTransaction.getSerialNo()).append("%'");
-            }else if (searchTransaction.getStartswith()){
+            } else if (searchTransaction.getStartswith()) {
                 SEARCH_TRANSACTION_QUERY.append(" Tr.serialNo like '").append(searchTransaction.getSerialNo()).append("%'");
-            }else {
+            } else {
                 SEARCH_TRANSACTION_QUERY.append(" Tr.serialNo like '").append(searchTransaction.getSerialNo()).append("'");
             }
         }
 
-        if(searchTransaction.getMakeId() != null && searchTransaction.getMakeId() > 0 ){
+        if (searchTransaction.getMakeId() != null && searchTransaction.getMakeId() > 0) {
             if (!isWhereAdded) {
                 SEARCH_TRANSACTION_QUERY.append(" where ");
                 isWhereAdded = Boolean.TRUE;
@@ -261,7 +266,7 @@ public class TransactionDAOImpl  extends JdbcDaoSupport implements TransactionDA
             SEARCH_TRANSACTION_QUERY.append(" Tr.makeId = ").append(searchTransaction.getMakeId());
         }
 
-        if(searchTransaction.getModelId() != null && searchTransaction.getModelId() > 0 ){
+        if (searchTransaction.getModelId() != null && searchTransaction.getModelId() > 0) {
             if (!isWhereAdded) {
                 SEARCH_TRANSACTION_QUERY.append(" where ");
                 isWhereAdded = Boolean.TRUE;
@@ -271,7 +276,7 @@ public class TransactionDAOImpl  extends JdbcDaoSupport implements TransactionDA
             SEARCH_TRANSACTION_QUERY.append(" Tr.modelId = ").append(searchTransaction.getModelId());
         }
 
-        if(searchTransaction.getStatus() != null && searchTransaction.getStatus().trim().length() > 0 ){
+        if (searchTransaction.getStatus() != null && searchTransaction.getStatus().trim().length() > 0) {
             if (!isWhereAdded) {
                 SEARCH_TRANSACTION_QUERY.append(" where ");
                 isWhereAdded = Boolean.TRUE;
@@ -280,10 +285,10 @@ public class TransactionDAOImpl  extends JdbcDaoSupport implements TransactionDA
             }
             SEARCH_TRANSACTION_QUERY.append(" Tr.status like '").append(searchTransaction.getStatus()).append("'");
         }
-        if(searchTransaction.getStartDate() != null
+        if (searchTransaction.getStartDate() != null
                 && searchTransaction.getStartDate().trim().length() > 0
                 && searchTransaction.getEndDate() != null
-                && searchTransaction.getEndDate().trim().length() > 0){
+                && searchTransaction.getEndDate().trim().length() > 0) {
             if (!isWhereAdded) {
                 SEARCH_TRANSACTION_QUERY.append(" where ");
                 isWhereAdded = Boolean.TRUE;
@@ -294,7 +299,7 @@ public class TransactionDAOImpl  extends JdbcDaoSupport implements TransactionDA
             SEARCH_TRANSACTION_QUERY.append(" Tr.dateReported between '").append(getMySQLFriendlyDate(searchTransaction.getStartDate()))
                     .append("' and '").append(getMySQLFriendlyDate(searchTransaction.getEndDate())).append("'");
         }
-        log.info("query created is "+ SEARCH_TRANSACTION_QUERY.toString());
+        log.info("query created is " + SEARCH_TRANSACTION_QUERY.toString());
         return (List<TransactionVO>) getJdbcTemplate().query(SEARCH_TRANSACTION_QUERY.toString(), new TransactionListRowMapper());
     }
 
@@ -303,9 +308,11 @@ public class TransactionDAOImpl  extends JdbcDaoSupport implements TransactionDA
         Format formatter = new SimpleDateFormat("yyyy-MM-dd");
         return formatter.format(startReportDate);
     }
+
     private Date getMySQLSaveDate(String dateVal) throws ParseException {
         return new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH).parse(dateVal);
     }
+
     public List<TransactionVO> getTodaysTransactions() throws DataAccessException {
         return (List<TransactionVO>) getJdbcTemplate().query(GET_TODAYS_TRANSACTIONS_SQL, new TransactionListRowMapper());
     }
@@ -392,6 +399,7 @@ public class TransactionDAOImpl  extends JdbcDaoSupport implements TransactionDA
             txs.setTagNo(resultSet.getString("tagNo"));
             txs.setDateReported(resultSet.getDate("dateReported"));
             txs.setCustomerName(resultSet.getString("name"));
+            txs.setCustomerId(resultSet.getLong("customerId"));
             txs.setAddress1(resultSet.getString("address1"));
             txs.setAddress2(resultSet.getString("address2"));
             txs.setPhone(resultSet.getString("phone"));

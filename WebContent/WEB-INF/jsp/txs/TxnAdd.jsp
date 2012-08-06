@@ -13,7 +13,7 @@
     <script type="text/javascript" src="../js/jquery-ui-1.8.21.custom.min.js" language="javascript"></script>
     <script type="text/javascript">
         var req;
-        //code to add New user
+
         function save() {
             if (document.getElementById('dateReported').value.length == 0) {
                 alert("Please enter a valid Transaction Date");

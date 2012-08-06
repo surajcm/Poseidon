@@ -8,11 +8,14 @@
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Edit Transaction</title>
         <link rel="stylesheet" type="text/css" href="../css/mainStyles.css"/>
+    <link rel="stylesheet" type="text/css" href="../css/ui-lightness/jquery-ui-1.8.21.custom.css"/>
+    <script type="text/javascript" src="../js/jquery-1.7.2.min.js" language="javascript"></script>
+    <script type="text/javascript" src="../js/jquery-ui-1.8.21.custom.min.js" language="javascript"></script>
         <script type="text/javascript">
+            var req;
+
             function update() {
-                if(document.getElementById('TagNo').value.length == 0){
-                    alert("Please enter a valid TagNo");
-                }else if(document.getElementById('productCategory').value.length == 0){
+                 if(document.getElementById('productCategory').value.length == 0){
                     alert("Please enter a valid Product Category");
                 }else if(document.getElementById('serialNo').value.length == 0){
                     alert("Please enter a valid Serial No");
@@ -44,6 +47,71 @@
                     alert("Unable to get the customer Details !!!");
                 }
             }
+
+            function changeTheModel() {
+                var selectMakeId = document.transactionForm.makeId.value;
+                var url = "<%=request.getContextPath()%>" + "/txs/UpdateModelAjax.htm";
+                url = url + "?selectMakeId=" + selectMakeId;
+                bustcacheparameter = (url.indexOf("?") != -1) ? "&" + new Date().getTime() : "?" + new Date().getTime();
+                createAjaxRequest();
+                if (req) {
+                    req.onreadystatechange = stateChange;
+                    req.open("POST", url + bustcacheparameter, true);
+                    req.send(url + bustcacheparameter);
+                }
+            }
+
+            function createAjaxRequest() {
+                if (window.XMLHttpRequest) {
+                    req = new XMLHttpRequest();
+                } else if (window.ActiveXObject) {
+                    try {
+                        req = new ActiveXObject("Msxml2.XMLHTTP");
+                    } catch (e) {
+                        try {
+                            req = new ActiveXObject("Microsoft.XMLHTTP");
+                        } catch (e) {
+                        }
+                    }
+                }
+            }
+
+            function stateChange() {
+                if (req.readyState == 4 && (req.status == 200 || window.location.href.indexOf("http") == -1)) {
+                    textReturned = req.responseText;
+                    if (textReturned != "") {
+                        var fullContent = textReturned.split("#start#");
+                        var resultIds = new Array();
+                        var resultNames = new Array();
+                        var k = 0;
+                        var j = 0;
+                        var t = 0;
+
+                        for (j = 0; j < fullContent.length; j++) {
+                            if (fullContent[j].length > 0) {
+                                resultIds[k] = fullContent[j].split("#id#")[1];
+                                var testing = fullContent[j].split("#id#")[2];
+                                resultNames[k] = testing.split("#modelName#")[1];
+                                k++;
+                            }
+                        }
+                        var l = 0;
+                        document.transactionForm.modelId.options.length = resultIds.length - 1;
+                        document.transactionForm.modelId.options[0] = new Option("<---- Select ---->", "");
+                        for (var i = 1; i <= (resultIds.length); i++) {
+                            document.transactionForm.modelId.options[i] = new Option(resultNames[i - 1], resultIds[i - 1]);
+                        }
+                    } else {
+                        document.transactionForm.modelId.options.length = 0;
+                        document.transactionForm.modelId.options[0] = new Option("<---- Select ---->", "");
+                    }
+                }
+            }
+        </script>
+        <script>
+            $(function () {
+                $("#dateReported").datepicker({ dateFormat:"dd/mm/yy" });
+            });
         </script>
     </head>
     <body style="background: #A9A9A9 ;">
@@ -62,7 +130,7 @@
                             <label class="mandatory">*</label>
                         </td>
                         <td style="text-align:left;">
-                            <form:input path="currentTransaction.productCategory" cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;"
+                            <form:input path="currentTransaction.productCategory" cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;font-size: .70em;"
                                         id="productCategory"/>
                         </td>
                         <td colspan="2"> &nbsp;</td>
@@ -71,7 +139,7 @@
                             <label class="mandatory">*</label>
                         </td>
                         <td style="text-align:left;">
-                            <form:input path="currentTransaction.serialNo" cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;" id="serialNo"/>
+                            <form:input path="currentTransaction.serialNo" cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;font-size: .70em;" id="serialNo"/>
                         </td>
                         <td colspan="2"> &nbsp;</td>
                         <td style="text-align:right;">
@@ -79,7 +147,7 @@
                             <label class="mandatory">*</label>
                         </td>
                         <td style="text-align:left;">
-                            <form:input path="currentTransaction.dateReported" cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;" id="dateReported"/>
+                            <form:input path="currentTransaction.dateReported" cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;font-size: .70em;" id="dateReported"/>
                         </td>
                     </tr>
                     <tr>
@@ -91,7 +159,7 @@
                             <label class="mandatory">*</label>
                         </td>
                         <td style="text-align:left;">
-                            <form:input path="customerVO.customerId" cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;" id="customerId"/>
+                            <form:input path="customerVO.customerId" cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;font-size: .70em;" id="customerId"/>
                         </td>
                         <td colspan="2"> &nbsp;</td>
                         <td colspan="2">
@@ -106,7 +174,7 @@
                             </label>
                         </td>
                         <td style="text-align:left;">
-                            <form:input path="customerVO.customerName" cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;background: #A9A9A9 ;"
+                            <form:input path="customerVO.customerName" cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;font-size: .70em;background: #A9A9A9 ;"
                                         id="customerName" readonly="true"/>
                         </td>
                         <td colspan="2">&nbsp;</td>
@@ -137,7 +205,7 @@
                             </label>
                         </td>
                         <td style="text-align:left;">
-                            <form:input path="customerVO.phoneNo" cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;background: #A9A9A9 ;"
+                            <form:input path="customerVO.phoneNo" cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;font-size: .70em;background: #A9A9A9 ;"
                                         id="phoneNo" readonly="true"/>
                         </td>
                         <td colspan="2">&nbsp;</td>
@@ -147,7 +215,7 @@
                             </label>
                         </td>
                         <td style="text-align:left;">
-                            <form:input path="customerVO.mobile" cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;background: #A9A9A9 ;"
+                            <form:input path="customerVO.mobile" cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;font-size: .70em;background: #A9A9A9 ;"
                                         id="mobile" readonly="true"/>
                         </td>
                         <td colspan="2">&nbsp;</td>
@@ -157,7 +225,7 @@
                             </label>
                         </td>
                         <td style="text-align:left;">
-                            <form:input path="customerVO.email" cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;background: #A9A9A9 ;"
+                            <form:input path="customerVO.email" cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;font-size: .70em;background: #A9A9A9 ;"
                                         id="email" readonly="true"/>
                         </td>
                     </tr>
@@ -168,7 +236,7 @@
                             </label>
                         </td>
                         <td style="text-align:left;">
-                            <form:input path="customerVO.contactPerson1" cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;background: #A9A9A9 ;"
+                            <form:input path="customerVO.contactPerson1" cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;font-size: .70em;background: #A9A9A9 ;"
                                         id="contactPerson1" readonly="true"/>
                         </td>
                         <td colspan="2">&nbsp;</td>
@@ -178,7 +246,7 @@
                             </label>
                         </td>
                         <td style="text-align:left;">
-                            <form:input path="customerVO.contactMobile1" cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;background: #A9A9A9 ;"
+                            <form:input path="customerVO.contactMobile1" cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;font-size: .70em;background: #A9A9A9 ;"
                                         id="contactMobile1" readonly="true"/>
                         </td>
                         <td colspan="4">&nbsp;</td>
@@ -190,7 +258,7 @@
                             </label>
                         </td>
                         <td style="text-align:left;">
-                            <form:input path="customerVO.contactPerson2" cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;background: #A9A9A9 ;"
+                            <form:input path="customerVO.contactPerson2" cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;font-size: .70em;background: #A9A9A9 ;"
                                         id="contactPerson2" readonly="true"/>
                         </td>
                         <td colspan="2">&nbsp;</td>
@@ -200,7 +268,7 @@
                             </label>
                         </td>
                         <td style="text-align:left;">
-                            <form:input path="customerVO.contactMobile2" cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;background: #A9A9A9 ;"
+                            <form:input path="customerVO.contactMobile2" cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;font-size: .70em;background: #A9A9A9 ;"
                                         id="contactMobile2" readonly="true"/>
                         </td>
                         <td colspan="2">&nbsp;</td>
@@ -210,7 +278,7 @@
                             </label>
                         </td>
                         <td style="text-align:left;">
-                            <form:textarea path="customerVO.notes" rows="5" cols="30" cssStyle="border:3px double #CCCCCC; width: 200px;height:40px;background: #A9A9A9 ;"
+                            <form:textarea path="customerVO.notes" rows="5" cols="30" cssStyle="border:3px double #CCCCCC; width: 200px;height:40px;font-size: .70em;background: #A9A9A9 ;"
                                            id="notes" readonly="true"/>
                         </td>
                     </tr>

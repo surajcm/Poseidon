@@ -302,3 +302,26 @@ ALTER TABLE `poseidon`.`invoice` CHANGE COLUMN `TranId` `tranId` INT(10) UNSIGNE
  CHANGE COLUMN `Pass` `password` VARCHAR(45) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
  CHANGE COLUMN `Role` `role` VARCHAR(45) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL;
 
+ALTER TABLE `poseidon`.`invoice` ADD COLUMN `quantity` VARCHAR(45) AFTER `amount`,
+ ADD COLUMN `rate` VARCHAR(45) AFTER `quantity`;
+
+ALTER TABLE `poseidon`.`invoice` MODIFY COLUMN `tranId` INT(10) UNSIGNED DEFAULT NULL;
+
+ALTER TABLE `poseidon`.`invoice` CHANGE COLUMN `description1` `description` VARCHAR(150) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL,
+ CHANGE COLUMN `description2` `serialNo` VARCHAR(150) CHARACTER SET latin1 COLLATE latin1_swedish_ci NOT NULL;
+
+ALTER TABLE `poseidon`.`invoice` ADD COLUMN `customerId` INTEGER UNSIGNED NOT NULL AFTER `rate`,
+ ADD COLUMN `customerName` VARCHAR(45) NOT NULL AFTER `customerId`;
+
+ ALTER TABLE `poseidon`.`invoice` ADD COLUMN `createDate` DATETIME NOT NULL AFTER `customerName`,
+ ADD COLUMN `createdBy` VARCHAR(45) NOT NULL AFTER `createDate`,
+ ADD COLUMN `modifyDate` DATETIME NOT NULL AFTER `createdBy`,
+ ADD COLUMN `modifiedBy` VARCHAR(45) NOT NULL AFTER `modifyDate`;
+
+ALTER TABLE `poseidon`.`invoice` CHANGE COLUMN `createDate` `createdOn` DATETIME NOT NULL,
+ CHANGE COLUMN `modifyDate` `modifiedOn` DATETIME NOT NULL;
+
+ ALTER TABLE `poseidon`.`invoice` CHANGE COLUMN `tranId` `transactionId` INT(10) UNSIGNED DEFAULT NULL;
+
+ALTER TABLE `poseidon`.`invoice` ADD COLUMN `tagNo` VARCHAR(45) NOT NULL AFTER `modifiedBy`;
+ ALTER TABLE `poseidon`.`invoice` MODIFY COLUMN `transactionId` VARCHAR(45) DEFAULT NULL;
