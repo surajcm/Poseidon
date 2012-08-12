@@ -3,6 +3,7 @@ package com.poseidon.Invoice.dao.impl;
 import com.poseidon.Invoice.dao.InvoiceDAO;
 import com.poseidon.Invoice.domain.InvoiceVO;
 import com.poseidon.Invoice.exception.InvoiceException;
+import com.poseidon.Transaction.domain.TransactionVO;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.dao.DataAccessException;
@@ -25,7 +26,12 @@ import java.util.List;
  */
 public class InvoiceDAOImpl  extends JdbcDaoSupport implements InvoiceDAO {
     private SimpleJdbcInsert insertInvoice;
-    private final String GET_TODAYS_INVOICE_SQL ="SELECT id,customerName,tagNo,description,serialNo,amount from invoice ";
+    private final String GET_TODAYS_INVOICE_SQL = "SELECT id,customerName,tagNo,description,serialNo,amount from invoice ";
+    private final String GET_SINGLE_INVOICE_SQL = "SELECT id,customerName,tagNo,description,serialNo,amount from invoice where id = ?";
+    private final String DELETE_INVOICE_BY_ID_SQL = " delete from invoice where id = ?  ";
+    private final String UPDATE_INVOICE_SQL = " update invoice set tagNo = ? ,description = ? ,serialNo = ? ,amount = ?," +
+            " quantity = ?,rate = ?, customerName = ? ,customerId = ?, modifiedOn = ?,modifiedBy = ? where id = ?  ";
+
     private final Log log = LogFactory.getLog(InvoiceDAOImpl.class);
     public void addInvoice(InvoiceVO currentInvoiceVO) throws InvoiceException {
         try {
@@ -44,6 +50,138 @@ public class InvoiceDAOImpl  extends JdbcDaoSupport implements InvoiceDAO {
             throw new InvoiceException(InvoiceException.DATABASE_ERROR);
         }
         return invoiceVOs;
+    }
+
+    public InvoiceVO fetchInvoiceVOFromId(Long id)  throws InvoiceException {
+        return (InvoiceVO) getJdbcTemplate().queryForObject(GET_SINGLE_INVOICE_SQL, new Object[]{id}, new InvoiceRowMapper());
+    }
+
+    public void deleteInvoice(Long id) throws InvoiceException {
+        try {
+            Object[] parameters = new Object[]{id};
+            getJdbcTemplate().update(DELETE_INVOICE_BY_ID_SQL, parameters);
+        } catch (DataAccessException e) {
+            e.printStackTrace();
+            throw new InvoiceException(InvoiceException.DATABASE_ERROR);
+        }
+    }
+
+    public void updateInvoice(InvoiceVO currentInvoiceVO) throws InvoiceException {
+        Object[] parameters = new Object[]{
+                currentInvoiceVO.getTagNo(),
+                currentInvoiceVO.getDescription(),
+                currentInvoiceVO.getSerialNo(),
+                currentInvoiceVO.getAmount(),
+                currentInvoiceVO.getQuantity(),
+                currentInvoiceVO.getRate(),
+                currentInvoiceVO.getCustomerName(),
+                currentInvoiceVO.getCustomerId(),
+                currentInvoiceVO.getModifiedDate(),
+                currentInvoiceVO.getModifiedBy(),
+                currentInvoiceVO.getId()};
+
+        try {
+            getJdbcTemplate().update(UPDATE_INVOICE_SQL, parameters);
+        } catch (DataAccessException e) {
+            e.printStackTrace();
+            throw new InvoiceException(InvoiceException.DATABASE_ERROR);
+        }
+    }
+
+    public List<InvoiceVO> findInvoices(InvoiceVO searchInvoiceVO) throws InvoiceException {
+        List<InvoiceVO> invoiceVOs;
+        try {
+            invoiceVOs = searchInvoice(searchInvoiceVO);
+        } catch (DataAccessException e) {
+            e.printStackTrace();
+            throw new InvoiceException(InvoiceException.DATABASE_ERROR);
+        }
+        return invoiceVOs;
+    }
+
+    private List<InvoiceVO> searchInvoice(InvoiceVO searchInvoiceVO) {
+        StringBuffer SEARCH_INVOICE_QUERY = new StringBuffer();
+        SEARCH_INVOICE_QUERY.append("SELECT id,")
+                .append(" customerName,")
+                .append(" tagNo,")
+                .append(" description,")
+                .append(" serialNo,")
+                .append(" amount ")
+                .append(" FROM invoice ");
+        Boolean isWhereAdded = Boolean.FALSE;
+        if (searchInvoiceVO.getTagNo() != null && searchInvoiceVO.getTagNo().trim().length() > 0) {
+            SEARCH_INVOICE_QUERY.append(" where ");
+            isWhereAdded = Boolean.TRUE;
+            if (searchInvoiceVO.getIncludes()) {
+                SEARCH_INVOICE_QUERY.append(" tagNo like '%").append(searchInvoiceVO.getTagNo()).append("%'");
+            } else if (searchInvoiceVO.getStartsWith()) {
+                SEARCH_INVOICE_QUERY.append(" tagNo like '").append(searchInvoiceVO.getTagNo()).append("%'");
+            } else {
+                SEARCH_INVOICE_QUERY.append(" tagNo like '").append(searchInvoiceVO.getTagNo()).append("'");
+            }
+        }
+
+        if (searchInvoiceVO.getSerialNo() != null && searchInvoiceVO.getSerialNo().trim().length() > 0) {
+            if (!isWhereAdded) {
+                SEARCH_INVOICE_QUERY.append(" where ");
+                isWhereAdded = Boolean.TRUE;
+            } else {
+                SEARCH_INVOICE_QUERY.append(" and ");
+            }
+            if (searchInvoiceVO.getIncludes()) {
+                SEARCH_INVOICE_QUERY.append(" serialNo like '%").append(searchInvoiceVO.getSerialNo()).append("%'");
+            } else if (searchInvoiceVO.getStartsWith()) {
+                SEARCH_INVOICE_QUERY.append(" serialNo like '").append(searchInvoiceVO.getSerialNo()).append("%'");
+            } else {
+                SEARCH_INVOICE_QUERY.append(" serialNo like '").append(searchInvoiceVO.getSerialNo()).append("'");
+            }
+        }
+
+        if (searchInvoiceVO.getDescription() != null && searchInvoiceVO.getDescription().trim().length() > 0) {
+            if (!isWhereAdded) {
+                SEARCH_INVOICE_QUERY.append(" where ");
+                isWhereAdded = Boolean.TRUE;
+            } else {
+                SEARCH_INVOICE_QUERY.append(" and ");
+            }
+            if (searchInvoiceVO.getIncludes()) {
+                SEARCH_INVOICE_QUERY.append(" description like '%").append(searchInvoiceVO.getDescription()).append("%'");
+            } else if (searchInvoiceVO.getStartsWith()) {
+                SEARCH_INVOICE_QUERY.append(" description like '").append(searchInvoiceVO.getDescription()).append("%'");
+            } else {
+                SEARCH_INVOICE_QUERY.append(" description like '").append(searchInvoiceVO.getDescription()).append("'");
+            }
+        }
+
+        if (searchInvoiceVO.getId() != null && searchInvoiceVO.getId() > 0) {
+            if (!isWhereAdded) {
+                SEARCH_INVOICE_QUERY.append(" where ");
+                isWhereAdded = Boolean.TRUE;
+            } else {
+                SEARCH_INVOICE_QUERY.append(" and ");
+            }
+            SEARCH_INVOICE_QUERY.append(" id = ").append(searchInvoiceVO.getId());
+        }
+
+        if (searchInvoiceVO.getAmount() > 0) {
+            if (!isWhereAdded) {
+                SEARCH_INVOICE_QUERY.append(" where ");
+                isWhereAdded = Boolean.TRUE;
+            } else {
+                SEARCH_INVOICE_QUERY.append(" and ");
+            }
+            if (searchInvoiceVO.getGreater() && !searchInvoiceVO.getLesser()) {
+                SEARCH_INVOICE_QUERY.append(" amount >= ").append(searchInvoiceVO.getAmount());
+
+            } else if (searchInvoiceVO.getLesser() && !searchInvoiceVO.getGreater()) {
+                SEARCH_INVOICE_QUERY.append(" amount <= ").append(searchInvoiceVO.getAmount());
+            } else if(!searchInvoiceVO.getLesser() && !searchInvoiceVO.getGreater()) {
+                SEARCH_INVOICE_QUERY.append(" amount = ").append(searchInvoiceVO.getAmount());
+            }
+        }
+
+        log.info("query created is " + SEARCH_INVOICE_QUERY.toString());
+        return (List<InvoiceVO>) getJdbcTemplate().query(SEARCH_INVOICE_QUERY.toString(), new InvoiceRowMapper());
     }
 
     private List<InvoiceVO> getTodaysInvoices(List<String> tagNumbers) throws DataAccessException {

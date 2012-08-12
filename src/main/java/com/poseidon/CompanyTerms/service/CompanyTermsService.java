@@ -12,11 +12,6 @@ import java.util.List;
 public interface CompanyTermsService {
     public CompanyTermsVO listCompanyTerms();
 
-    public CompanyTermsVO fetchCompany();
+    public void updateCompanyDetails(CompanyTermsVO companyTermsVO);
 
-    public CompanyTermsVO fetchTerms();
-
-    public void updateTerms(String termsAndConditions);
-
-    public void updateCompany(String companyDetails);
 }

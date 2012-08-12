@@ -1,6 +1,6 @@
-<%@ page language="java" contentType="text/html;charset=UTF-8" %>
-<%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
-<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
+<%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -8,6 +8,9 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Invoice List</title>
     <link rel="stylesheet" type="text/css" href="../css/mainStyles.css" />
+    <link rel="stylesheet" type="text/css" href="../css/ui-lightness/jquery-ui-1.8.21.custom.css"/>
+    <script type="text/javascript" src="../js/jquery-1.7.2.min.js" language="javascript" ></script>
+    <script type="text/javascript" src="../js/jquery-ui-1.8.21.custom.min.js" language="javascript" ></script>
     <style type="text/css">
 
         .info, .success, .error {
@@ -164,16 +167,29 @@
             }
 
         }
+        //preventing multiple checks
+        function checkCall(e) {
+            var min = e.value;
+            var checks = document.getElementsByName('checkField');
+            for (var i = 0; i < checks.length; i++) {
+                if (checks[i].value != min) {
+                    checks[i].checked = false;
+                }
+            }
+        }
+
         function hideAlerts(){
             var options = {};
             $( "#effect" ).hide( "blind", options, 8000);
         }
+
     </script>
 </head>
 <body style="background: #A9A9A9 ;" onload="javascript:hideAlerts()">
 <form:form method="POST" commandName="invoiceForm" name="invoiceForm" >
     <form:hidden name="loggedInUser" path="loggedInUser" />
     <form:hidden name="loggedInRole" path="loggedInRole" />
+    <input type="hidden" name="id" id="id"/>
     <%@include file="/WEB-INF/jsp/myHeader.jsp" %>
     <div id="content">
         <div class="wrap">

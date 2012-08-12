@@ -2,6 +2,7 @@ package com.poseidon.CompanyTerms.web.form;
 
 import com.poseidon.CompanyTerms.domain.CompanyTermsVO;
 
+import java.security.PrivateKey;
 import java.util.List;
 
 /**
@@ -10,8 +11,14 @@ import java.util.List;
  * Time: 10:45:13 PM
  */
 public class CompanyTermsForm {
+    private Long id;
+    private String companyName;
+    private String companyAddress;
+    private String companyPhoneNumber;
+    private String companyWebsite;
+    private String companyEmail;
+    private String companyTerms;
     private CompanyTermsVO currentCompanyTermsVO;
-    private CompanyTermsVO searchCompanyTermsVO;
     private String loggedInRole;
     private String loggedInUser;
 
@@ -21,14 +28,6 @@ public class CompanyTermsForm {
 
     public void setCurrentCompanyTermsVO(CompanyTermsVO currentCompanyTermsVO) {
         this.currentCompanyTermsVO = currentCompanyTermsVO;
-    }
-
-    public CompanyTermsVO getSearchCompanyTermsVO() {
-        return searchCompanyTermsVO;
-    }
-
-    public void setSearchCompanyTermsVO(CompanyTermsVO searchCompanyTermsVO) {
-        this.searchCompanyTermsVO = searchCompanyTermsVO;
     }
 
     public String getLoggedInRole() {
@@ -47,11 +46,73 @@ public class CompanyTermsForm {
         this.loggedInUser = loggedInUser;
     }
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getCompanyName() {
+        return companyName;
+    }
+
+    public void setCompanyName(String companyName) {
+        this.companyName = companyName;
+    }
+
+    public String getCompanyAddress() {
+        return companyAddress;
+    }
+
+    public void setCompanyAddress(String companyAddress) {
+        this.companyAddress = companyAddress;
+    }
+
+    public String getCompanyPhoneNumber() {
+        return companyPhoneNumber;
+    }
+
+    public void setCompanyPhoneNumber(String companyPhoneNumber) {
+        this.companyPhoneNumber = companyPhoneNumber;
+    }
+
+    public String getCompanyWebsite() {
+        return companyWebsite;
+    }
+
+    public void setCompanyWebsite(String companyWebsite) {
+        this.companyWebsite = companyWebsite;
+    }
+
+    public String getCompanyTerms() {
+        return companyTerms;
+    }
+
+    public void setCompanyTerms(String companyTerms) {
+        this.companyTerms = companyTerms;
+    }
+
+    public String getCompanyEmail() {
+        return companyEmail;
+    }
+
+    public void setCompanyEmail(String companyEmail) {
+        this.companyEmail = companyEmail;
+    }
+
     @Override
     public String toString() {
         return "CompanyTermsForm{" +
-                "currentCompanyTermsVO=" + currentCompanyTermsVO +
-                ", searchCompanyTermsVO=" + searchCompanyTermsVO +
+                "id=" + id +
+                ", companyName='" + companyName + '\'' +
+                ", companyAddress='" + companyAddress + '\'' +
+                ", companyPhoneNumber='" + companyPhoneNumber + '\'' +
+                ", companyWebsite='" + companyWebsite + '\'' +
+                ", companyEmail='" + companyEmail + '\'' +
+                ", companyTerms='" + companyTerms + '\'' +
+                ", currentCompanyTermsVO=" + currentCompanyTermsVO +
                 ", loggedInRole='" + loggedInRole + '\'' +
                 ", loggedInUser='" + loggedInUser + '\'' +
                 '}';

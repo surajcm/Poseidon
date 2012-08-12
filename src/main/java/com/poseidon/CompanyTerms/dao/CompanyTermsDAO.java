@@ -11,13 +11,8 @@ import java.util.List;
  * Time: 9:59:42 PM
  */
 public interface CompanyTermsDAO {
+
     public CompanyTermsVO listCompanyTerms() throws CompanyTermsException;
 
-    public CompanyTermsVO fetchCompany() throws CompanyTermsException;
-
-    public CompanyTermsVO fetchTerms( )throws CompanyTermsException;
-
-    public void updateTerms(String termsAndConditions)throws CompanyTermsException;
-
-    public void updateCompany(String companyDetails) throws CompanyTermsException;
+    public void updateCompanyDetails(CompanyTermsVO companyTermsVO)throws CompanyTermsException;
 }

@@ -45,17 +45,37 @@ public class InvoiceDelegate {
         getInvoiceService().addInvoice(currentInvoiceVO);
     }
 
-    public List<InvoiceVO> listTodaysInvoice()throws InvoiceException, TransactionException {
+    public List<InvoiceVO> listTodaysInvoice() throws InvoiceException, TransactionException {
         List<TransactionVO> transactionVOs = getTransactionService().listTodaysTransactions();
         List<String> tagNumbers = fetchTagNoFromListOfTransactionVOs(transactionVOs);
         return getInvoiceService().fetchInvoiceForListOfTransactions(tagNumbers);
     }
 
-    private List<String> fetchTagNoFromListOfTransactionVOs(List<TransactionVO> transactionVOs) {
+    private List<String> fetchTagNoFromListOfTransactionVOs(List<TransactionVO> transactionVOs) throws InvoiceException {
         List<String> tagNumbers = new ArrayList<String>();
         for(TransactionVO transactionVO:transactionVOs){
             tagNumbers.add(transactionVO.getTagNo());
         }
         return tagNumbers;
+    }
+
+    public InvoiceVO fetchInvoiceVOFromId(Long id) throws InvoiceException {
+        return getInvoiceService().fetchInvoiceVOFromId(id);
+    }
+
+    public void deleteInvoice(Long id) throws InvoiceException {
+        getInvoiceService().deleteInvoice(id);
+    }
+
+    public void updateInvoice(InvoiceVO currentInvoiceVO) throws InvoiceException, TransactionException {
+        TransactionReportVO transactionReportVO = getTransactionService().fetchTransactionFromTag(currentInvoiceVO.getTagNo());
+        currentInvoiceVO.setCustomerId(transactionReportVO.getCustomerId());
+        currentInvoiceVO.setCustomerName(transactionReportVO.getCustomerName());
+        currentInvoiceVO.setSerialNo(transactionReportVO.getSerialNo());
+        getInvoiceService().updateInvoice(currentInvoiceVO);
+    }
+
+    public List<InvoiceVO> findInvoices(InvoiceVO searchInvoiceVO)throws InvoiceException {
+        return getInvoiceService().findInvoices(searchInvoiceVO);
     }
 }

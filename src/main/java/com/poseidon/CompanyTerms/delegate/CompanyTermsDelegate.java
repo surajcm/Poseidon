@@ -25,20 +25,8 @@ public class CompanyTermsDelegate {
         return getCompanyTermsService().listCompanyTerms();
     }
 
-
-    public CompanyTermsVO fetchCompany() {
-        return getCompanyTermsService().fetchCompany();
+    public void updateCompanyDetails(CompanyTermsVO companyTermsVO) {
+        getCompanyTermsService().updateCompanyDetails(companyTermsVO);
     }
 
-    public CompanyTermsVO fetchTerms() {
-        return getCompanyTermsService().fetchTerms();
-    }
-
-    public void updateTerms(String termsAndConditions) {
-        getCompanyTermsService().updateTerms(termsAndConditions);
-    }
-
-    public void updateCompany(String companyDetails) {
-        getCompanyTermsService().updateCompany(companyDetails);
-    }
 }

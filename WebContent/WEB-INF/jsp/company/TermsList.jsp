@@ -8,21 +8,63 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Terms And Company details</title>
     <link rel="stylesheet" type="text/css" href="../css/mainStyles.css"/>
+    <link rel="stylesheet" type="text/css" href="../css/ui-lightness/jquery-ui-1.8.21.custom.css"/>
+    <script type="text/javascript" src="../js/jquery-1.7.2.min.js" language="javascript" ></script>
+    <script type="text/javascript" src="../js/jquery-ui-1.8.21.custom.min.js" language="javascript" ></script>
     <script type="text/javascript">
 
-			function editTerms() {
-                document.forms[0].action = "editTerms.htm";
-                document.forms[0].submit();
-            }
+        function editMe(){
+            makeEverythingWritable();
+            hideEditAndShowUpdate();
+        }
 
-			function editCompany() {
-                document.forms[0].action = "editCompany.htm";
-                document.forms[0].submit();
-            }
+        function makeEverythingWritable(){
+            document.getElementById("companyName").style.background ="#FFFFFF";
+            document.getElementById('companyName').readOnly=false;
+            document.getElementById("companyPhoneNumber").style.background ="#FFFFFF";
+            document.getElementById('companyPhoneNumber').readOnly=false;
+            document.getElementById("companyEmail").style.background ="#FFFFFF";
+            document.getElementById('companyEmail').readOnly=false;
+            document.getElementById("companyWebsite").style.background ="#FFFFFF";
+            document.getElementById('companyWebsite').readOnly=false;
+            document.getElementById("companyAddress").style.background ="#FFFFFF";
+            document.getElementById('companyAddress').readOnly=false;
+            document.getElementById("companyTerms").style.background ="#FFFFFF";
+            document.getElementById('companyTerms').readOnly=false;
+        }
+        function hideEditAndShowUpdate(){
+            document.getElementById('edit').style.visibility='hidden';
+            document.getElementById('update').style.visibility='visible';
+        }
+
+        function hideUpdate(){
+            document.getElementById('update').style.visibility='hidden';
+            makeEverythingReadOnly();
+        }
+
+        function makeEverythingReadOnly() {
+            document.getElementById('companyName').readOnly=true;
+            document.getElementById("companyName").style.background ="#A9A9A9";
+            document.getElementById('companyPhoneNumber').readOnly=true;
+            document.getElementById("companyPhoneNumber").style.background ="#A9A9A9";
+            document.getElementById('companyEmail').readOnly=true;
+            document.getElementById("companyEmail").style.background ="#A9A9A9";
+            document.getElementById('companyWebsite').readOnly=true;
+            document.getElementById("companyWebsite").style.background ="#A9A9A9";
+            document.getElementById('companyAddress').readOnly=true;
+            document.getElementById("companyAddress").style.background ="#A9A9A9";
+            document.getElementById('companyTerms').readOnly=true;
+            document.getElementById("companyTerms").style.background ="#A9A9A9";
+        }
+
+        function updateCompanyDetails(){
+            document.forms[0].action = "updateCompanyDetails.htm";
+            document.forms[0].submit();
+        }
     </script>
 
 </head>
-<body  style="background: #A9A9A9 ;">
+<body  style="background: #A9A9A9 ;" onload="javascript:hideUpdate()">
 <form:form method="POST" commandName="companyTermsForm" name="companyTermsForm">
     <form:hidden name="loggedInUser" path="loggedInUser"/>
     <form:hidden name="loggedInRole" path="loggedInRole"/>
@@ -30,35 +72,105 @@
     <div id="content">
         <div class="wrap">
             <fieldset style="text-align:right;">
-                <legend>Company Terms and Details List</legend>
-                <table border="2" id="myTable" style="font-size: .60em;">
-                    <thead>
-                    <tr>
-                        <th>Terms And Conditions</th>
-                        <th>Company Details</th>
-                    </tr>
-                    </thead>
-
-                    <tbody>
-                    <tr>
-                        <td style="text-align:right;">
-                            <form:textarea path="currentCompanyTermsVO.termsAndConditions" rows="5" cols="30" cssStyle="border:0;background: #A9A9A9 ;"
-                                        id="termsAndConditions" readonly="true"/>
-                        </td>
-                        <td style="text-align:left;">
-                            <form:textarea path="currentCompanyTermsVO.companyDetails" rows="5" cols="30" cssStyle="border:0; background: #A9A9A9 ;"
-                                        id="companyDetails" readonly="true"/>
-                        </td>
-                    </tr>
-                    </tbody>
-                </table>
-                <table style="margin:auto;top:50%;left:50%;">
+                <legend>Company Details </legend>
+                <table style="margin:auto;top:50%;left:50%;" >
                     <tr>
                         <td>
-                            <br/>
-                            <br/>
-                            <input class="btn" value="Edit Terms" type="button" onclick="javascript:editTerms()"/>
-                            <input class="btn" value="Edit Company Details" type="button" onclick="javascript:editCompany()"/>
+                            <label for="companyName" style="font-size: .70em;">
+                                Company Name :
+                            </label>
+                        </td>
+                        <td align="left">
+                            <form:input path="currentCompanyTermsVO.companyName" cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;" id="companyName"/>
+                        </td>
+                        <td colspan="2">&nbsp;</td>
+                        <td>
+                            <label for="companyPhoneNumber" style="font-size: .70em;">
+                                Company Phone Number :
+                            </label>
+                        </td>
+                        <td align="left">
+                            <form:input path="currentCompanyTermsVO.companyPhoneNumber" cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;" id="companyPhoneNumber"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="6">&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="companyEmail" style="font-size: .70em;">
+                                Company email :
+                            </label>
+                        </td>
+                        <td align="left">
+                            <form:input path="currentCompanyTermsVO.companyEmail" cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;" id="companyEmail"/>
+                        </td>
+                        <td colspan="2">&nbsp;</td>
+                        <td>
+                            <label for="companyWebsite" style="font-size: .70em;">
+                                Company Website :
+                            </label>
+                        </td>
+                        <td align="left">
+                            <form:input path="currentCompanyTermsVO.companyWebsite" cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;" id="companyWebsite"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="6">&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="companyAddress" style="font-size: .70em;">
+                                Company Address :
+                            </label>
+                        </td>
+                        <td colspan="5" align="left">
+                            <form:textarea path="currentCompanyTermsVO.companyAddress" rows="5" cols="30" cssStyle="border:3px double #CCCCCC; width: 600px;height:40px;"
+                                           id="companyAddress" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="6">&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="companyTerms" style="font-size: .70em;">
+                                Company Terms & Conditions :
+                            </label>
+                        </td>
+                        <td colspan="5" align="left">
+                            <form:textarea path="currentCompanyTermsVO.companyTerms" rows="5" cols="30" cssStyle="border:3px double #CCCCCC; width: 600px;height:40px;"
+                                           id="companyTerms" />
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="6">&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="companyPhoneNumber" style="font-size: .70em;">
+                                Company Logo :
+                            </label>
+                        </td>
+                        <td>
+                            -------/n
+                            |       |
+                            |       |
+                            -------
+                        </td>
+                        <td colspan="4" align="left">
+                            <input class="btn" value="Upload New Image" type="button" onclick="javascript:uploadImage();"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="6">&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td colspan="4">&nbsp;</td>
+                        <td colspan="2">
+                            <input class="btn" id="edit" value="Edit" type="button" onclick="javascript:editMe();"/>
+                            <input class="btn" id="update" value="Update" type="button" onclick="javascript:updateCompanyDetails();"/>
+                            <input class="btn" value="Clear" type="button" onclick="javascript:clearOut();"/>
                         </td>
                     </tr>
                 </table>

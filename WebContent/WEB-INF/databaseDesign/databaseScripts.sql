@@ -325,3 +325,18 @@ ALTER TABLE `poseidon`.`invoice` CHANGE COLUMN `createDate` `createdOn` DATETIME
 
 ALTER TABLE `poseidon`.`invoice` ADD COLUMN `tagNo` VARCHAR(45) NOT NULL AFTER `modifiedBy`;
  ALTER TABLE `poseidon`.`invoice` MODIFY COLUMN `transactionId` VARCHAR(45) DEFAULT NULL;
+
+
+ALTER TABLE `poseidon`.`companyterms` CHANGE COLUMN `Id` `id` INT(10) UNSIGNED NOT NULL AUTO_INCREMENT,
+ ADD COLUMN `companyName` VARCHAR(45) AFTER `companyDetails`,
+ ADD COLUMN `companyPhone` VARCHAR(45) AFTER `companyName`,
+ ADD COLUMN `companyEmail` VARCHAR(45) AFTER `companyPhone`,
+ ADD COLUMN `companyWebsite` VARCHAR(45) AFTER `companyEmail`,
+ ADD COLUMN `createdOn` DATETIME AFTER `companyWebsite`,
+ ADD COLUMN `modifiedOn` DATETIME AFTER `createdOn`,
+ ADD COLUMN `createdBy` VARCHAR(45) AFTER `modifiedOn`,
+ ADD COLUMN `modifiedBy` VARCHAR(45) AFTER `createdBy`,
+ DROP PRIMARY KEY,
+ ADD PRIMARY KEY  USING BTREE(`id`);
+
+ ALTER TABLE `poseidon`.`companyterms` CHANGE COLUMN `companyDetails` `companyAddress` VARCHAR(500) CHARACTER SET latin1 COLLATE latin1_swedish_ci DEFAULT NULL;

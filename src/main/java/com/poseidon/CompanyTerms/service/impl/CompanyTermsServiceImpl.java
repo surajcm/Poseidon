@@ -37,39 +37,12 @@ public class CompanyTermsServiceImpl implements CompanyTermsService {
         return companyTermsVO;
     }
 
-    public CompanyTermsVO fetchCompany() {
-        CompanyTermsVO companyTermsVO= null;
+    public void updateCompanyDetails(CompanyTermsVO companyTermsVO) {
         try {
-            companyTermsVO = getCompanyTermsDAO().fetchCompany();
-        } catch (CompanyTermsException e) {
-            e.printStackTrace();
-        }
-        return companyTermsVO;
-    }
-
-    public CompanyTermsVO fetchTerms() {
-        CompanyTermsVO companyTermsVO= null;
-        try {
-            companyTermsVO = getCompanyTermsDAO().fetchTerms();
-        } catch (CompanyTermsException e) {
-            e.printStackTrace();
-        }
-        return companyTermsVO;
-    }
-
-    public void updateTerms(String termsAndConditions) {
-        try {
-            getCompanyTermsDAO().updateTerms(termsAndConditions);
+            getCompanyTermsDAO().updateCompanyDetails(companyTermsVO);
         } catch (CompanyTermsException e) {
             e.printStackTrace();
         }
     }
 
-    public void updateCompany(String companyDetails) {
-        try {
-            getCompanyTermsDAO().updateCompany(companyDetails);
-        } catch (CompanyTermsException e) {
-            e.printStackTrace();
-        }
-    }
 }

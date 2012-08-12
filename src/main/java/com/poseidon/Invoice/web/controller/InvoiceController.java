@@ -33,9 +33,8 @@ public class InvoiceController extends MultiActionController {
     }
 
     public ModelAndView ListInvoice(HttpServletRequest request,
-                                    HttpServletResponse response){
+                                    HttpServletResponse response,InvoiceForm invoiceForm){
         log.info(" Inside ListInvoice method of InvoiceController ");
-        InvoiceForm invoiceForm = new InvoiceForm();
         List<InvoiceVO> invoiceVOs;
         try{
             invoiceVOs = getInvoiceDelegate().listTodaysInvoice();
@@ -52,6 +51,8 @@ public class InvoiceController extends MultiActionController {
             e.printStackTrace();
         }
         invoiceForm.setSearchInvoiceVO(new InvoiceVO());
+        invoiceForm.setLoggedInUser(invoiceForm.getLoggedInUser());
+        invoiceForm.setLoggedInRole(invoiceForm.getLoggedInRole());
         return new ModelAndView("invoice/ListInvoice", "invoiceForm", invoiceForm);
     }
 
@@ -106,14 +107,44 @@ public class InvoiceController extends MultiActionController {
                                       HttpServletResponse response,InvoiceForm invoiceForm){
         log.info(" Inside EditInvoice method of InvoiceController ");
         log.info(" Invoice Form details are " + invoiceForm);
-        invoiceForm.setSearchInvoiceVO(new InvoiceVO());
-        return new ModelAndView("invoice/ListInvoice", "invoiceForm", invoiceForm);
+        InvoiceVO invoiceVO;
+        try {
+            invoiceVO = getInvoiceDelegate().fetchInvoiceVOFromId(invoiceForm.getId());
+            invoiceForm.setCurrentInvoiceVO(invoiceVO);
+        }catch (InvoiceException e){
+            e.printStackTrace();
+        }
+        return new ModelAndView("invoice/EditInvoice", "invoiceForm", invoiceForm);
     }
 
     public ModelAndView DeleteInvoice(HttpServletRequest request,
                                       HttpServletResponse response,InvoiceForm invoiceForm){
         log.info(" Inside DeleteInvoice method of InvoiceController ");
         log.info(" Invoice Form details are " + invoiceForm);
+        try {
+            getInvoiceDelegate().deleteInvoice(invoiceForm.getId());
+            invoiceForm.setStatusMessage("Successfully deleted the new Invoice Detail");
+            invoiceForm.setStatusMessageType("success");
+        }catch (InvoiceException e){
+            invoiceForm.setStatusMessage("Unable to delete the invoice due to an error");
+            invoiceForm.setStatusMessageType("error");
+            e.printStackTrace();
+        }catch (Exception e){
+            invoiceForm.setStatusMessage("Unable to delete the invoice due to an error");
+            invoiceForm.setStatusMessageType("error");
+            e.printStackTrace();
+        }
+        List<InvoiceVO> invoiceVOs;
+        try{
+            invoiceVOs = getInvoiceDelegate().listTodaysInvoice();
+            if(invoiceVOs != null && invoiceVOs.size() >0){
+                invoiceForm.setInvoiceVOs(invoiceVOs);
+            }
+        }catch (InvoiceException e){
+            e.printStackTrace();
+        } catch (TransactionException e) {
+            e.printStackTrace();
+        }
         invoiceForm.setSearchInvoiceVO(new InvoiceVO());
         return new ModelAndView("invoice/ListInvoice", "invoiceForm", invoiceForm);
     }
@@ -122,6 +153,56 @@ public class InvoiceController extends MultiActionController {
                                       HttpServletResponse response,InvoiceForm invoiceForm){
         log.info(" Inside SearchInvoice method of InvoiceController ");
         log.info(" Invoice Form details are " + invoiceForm);
+        List<InvoiceVO> invoiceVOs;
+        try{
+            invoiceVOs = getInvoiceDelegate().findInvoices(invoiceForm.getSearchInvoiceVO());
+            if(invoiceVOs != null && invoiceVOs.size() >0){
+                invoiceForm.setInvoiceVOs(invoiceVOs);
+            }
+            invoiceForm.setStatusMessage("Found " + invoiceVOs.size() + " Invoice details");
+            invoiceForm.setStatusMessageType("info");
+        }catch (InvoiceException e){
+            invoiceForm.setStatusMessage("Unable to find the Invoices due to an error");
+            invoiceForm.setStatusMessageType("error");
+            e.printStackTrace();
+        }
+        return new ModelAndView("invoice/ListInvoice", "invoiceForm", invoiceForm);
+    }
+
+    public ModelAndView updateInvoice(HttpServletRequest request,
+                                      HttpServletResponse response,InvoiceForm invoiceForm){
+        log.info(" Inside updateInvoice method of InvoiceController ");
+        log.info(" Invoice Form details are " + invoiceForm);
+        invoiceForm.getCurrentInvoiceVO().setModifiedBy(invoiceForm.getLoggedInUser());
+        invoiceForm.getCurrentInvoiceVO().setModifiedDate(new Date());
+        try{
+            getInvoiceDelegate().updateInvoice(invoiceForm.getCurrentInvoiceVO());
+            invoiceForm.setStatusMessage("Successfully updated the new Invoice Detail");
+            invoiceForm.setStatusMessageType("success");
+        }catch (InvoiceException e){
+            invoiceForm.setStatusMessage("Unable to update the invoice due to an error");
+            invoiceForm.setStatusMessageType("error");
+            e.printStackTrace();
+        }catch (TransactionException e){
+            invoiceForm.setStatusMessage("Unable to update the invoice due to an error");
+            invoiceForm.setStatusMessageType("error");
+            e.printStackTrace();
+        }catch (Exception e){
+            invoiceForm.setStatusMessage("Unable to update the invoice due to an error");
+            invoiceForm.setStatusMessageType("error");
+            e.printStackTrace();
+        }
+        List<InvoiceVO> invoiceVOs;
+        try{
+            invoiceVOs = getInvoiceDelegate().listTodaysInvoice();
+            if(invoiceVOs != null && invoiceVOs.size() >0){
+                invoiceForm.setInvoiceVOs(invoiceVOs);
+            }
+        }catch (InvoiceException e){
+            e.printStackTrace();
+        } catch (TransactionException e) {
+            e.printStackTrace();
+        }
         invoiceForm.setSearchInvoiceVO(new InvoiceVO());
         return new ModelAndView("invoice/ListInvoice", "invoiceForm", invoiceForm);
     }
