@@ -96,4 +96,14 @@ public class ReportsServiceImpl implements ReportsService{
         }
         return jasperPrint;
     }
+
+    public JasperPrint getInvoiceReport(JasperReport jasperReport, ReportsVO currentReport) {
+        JasperPrint jasperPrint = new JasperPrint();
+        try {
+            jasperPrint = getReportsDAO().getInvoiceReport(jasperReport, currentReport);
+        } catch (JRException e) {
+            e.printStackTrace();
+        }
+        return jasperPrint;
+    }
 }

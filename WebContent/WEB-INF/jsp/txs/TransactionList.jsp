@@ -243,6 +243,59 @@ function deleteRow() {
     }
 
 }
+
+
+function invoiceTxn() {
+    var check = 'false';
+    var count = 0;
+    // get all check boxes
+    var checks = document.getElementsByName('checkField');
+    if (checks) {
+        //if total number of rows is one
+        if (checks.checked) {
+            invoiceRow();
+        } else {
+            for (var i = 0; i < checks.length; i++) {
+                if (checks[i].checked) {
+                    check = 'true';
+                    count = count + 1;
+                }
+            }
+            //check for validity
+            if (check = 'true') {
+                if (count == 1) {
+                    invoiceRow();
+                } else {
+                    alert(" Only one row can be invoiced at a time, please select one row ");
+                }
+            } else {
+                alert(" No rows selected, please select one row ");
+            }
+        }
+    }
+}
+
+function invoiceRow() {
+
+    var userRow;
+    var checks = document.getElementsByName('checkField');
+    if (checks.checked) {
+        userRow = document.getElementById("myTable").rows[0];
+        document.getElementById("id").value = userRow.cells[0].childNodes[0].value;
+        document.forms[0].action = "InvoiceTxn.htm";
+        document.forms[0].submit();
+    } else {
+        for (var i = 0; i < checks.length; i++) {
+            if (checks[i].checked) {
+                userRow = document.getElementById("myTable").rows[i + 1];
+            }
+        }
+        document.getElementById("id").value = userRow.cells[0].childNodes[0].value;
+        document.forms[0].action = "InvoiceTxn.htm";
+        document.forms[0].submit();
+    }
+}
+
 function hideAlerts(){
     var options = {};
     $( "#effect" ).hide( "blind", options, 8000);
@@ -436,8 +489,8 @@ function hideAlerts(){
                             <br/>
                             <input class="btn" value="Add New Transaction" type="button" onclick="javascript:addNew()"/>
                             <input class="btn" value="Edit Transaction" type="button" onclick="javascript:editMe()"/>
-                            <input class="btn" value="Delete Transaction" type="button"
-                                   onclick="javascript:deleteTxn()"/>
+                            <input class="btn" value="Delete Transaction" type="button" onclick="javascript:deleteTxn()"/>
+                            <input class="btn" value="Invoice Transaction" type="button" onclick="javascript:invoiceTxn()"/>
                         </td>
                     </tr>
                 </table>

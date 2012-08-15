@@ -95,4 +95,9 @@ public class ReportsDelegate {
     public JasperPrint getErrorReport(JasperReport jasperReport, ReportsVO currentReport) {
         return  getReportsService().getErrorReport(jasperReport,currentReport);
     }
+
+    public JasperPrint getInvoiceReport(JasperReport jasperReport, ReportsVO currentReport) {
+        currentReport.setInvoiceReportVO();
+        return getReportsService().getInvoiceReport(jasperReport,currentReport);
+    }
 }

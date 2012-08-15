@@ -31,6 +31,10 @@
             document.getElementById('companyAddress').readOnly=false;
             document.getElementById("companyTerms").style.background ="#FFFFFF";
             document.getElementById('companyTerms').readOnly=false;
+            document.getElementById("vat_tin").style.background ="#FFFFFF";
+            document.getElementById('vat_tin').readOnly=false;
+            document.getElementById("cst_tin").style.background ="#FFFFFF";
+            document.getElementById('cst_tin').readOnly=false;
         }
         function hideEditAndShowUpdate(){
             document.getElementById('edit').style.visibility='hidden';
@@ -55,6 +59,10 @@
             document.getElementById("companyAddress").style.background ="#A9A9A9";
             document.getElementById('companyTerms').readOnly=true;
             document.getElementById("companyTerms").style.background ="#A9A9A9";
+            document.getElementById('vat_tin').readOnly=true;
+            document.getElementById("vat_tin").style.background ="#A9A9A9";
+            document.getElementById('cst_tin').readOnly=true;
+            document.getElementById("cst_tin").style.background ="#A9A9A9";
         }
 
         function updateCompanyDetails(){
@@ -148,15 +156,34 @@
                     </tr>
                     <tr>
                         <td>
-                            <label for="companyPhoneNumber" style="font-size: .70em;">
+                            <label for="vat_tin" style="font-size: .70em;">
+                                Company's VAT TIN :
+                            </label>
+                        </td>
+                        <td align="left">
+                            <form:input path="currentCompanyTermsVO.companyVATTIN" cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;" id="vat_tin"/>
+                        </td>
+                        <td colspan="2">&nbsp;</td>
+                        <td>
+                            <label for="cst_tin" style="font-size: .70em;">
+                                Company's CST TIN :
+                            </label>
+                        </td>
+                        <td align="left">
+                            <form:input path="currentCompanyTermsVO.companyCSTTIN" cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;" id="cst_tin"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="6">&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="companylogo" style="font-size: .70em;">
                                 Company Logo :
                             </label>
                         </td>
                         <td>
-                            -------/n
-                            |       |
-                            |       |
-                            -------
+                            --------------
                         </td>
                         <td colspan="4" align="left">
                             <input class="btn" value="Upload New Image" type="button" onclick="javascript:uploadImage();"/>

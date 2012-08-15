@@ -6,9 +6,6 @@
 	<parameter name="TAG" class="java.lang.String">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
-	<parameter name="TERMS" class="java.lang.String">
-		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
-	</parameter>
 	<parameter name="DATE_REP" class="java.util.Date">
 		<defaultValueExpression><![CDATA[]]></defaultValueExpression>
 	</parameter>
@@ -66,7 +63,7 @@
 	<field name="complaintDiagonsed" class="java.lang.String"/>
 	<field name="enggRemark" class="java.lang.String"/>
 	<field name="status" class="java.lang.String"/>
-	<field name="companyTerms" class="java.lang.String"/>
+	<field name="terms" class="java.lang.String"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -350,7 +347,7 @@
 				<textElement>
 					<font fontName="Calibri" size="11"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{companyTerms}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{terms}]]></textFieldExpression>
 			</textField>
 		</band>
 	</columnFooter>

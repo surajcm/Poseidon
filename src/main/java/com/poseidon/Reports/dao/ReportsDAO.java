@@ -30,4 +30,6 @@ public interface ReportsDAO {
     public JasperPrint getModelListReport(JasperReport jasperReport, ReportsVO currentReport) throws  JRException;
 
     public JasperPrint getErrorReport(JasperReport jasperReport, ReportsVO currentReport)throws  JRException;
+
+    public JasperPrint getInvoiceReport(JasperReport jasperReport, ReportsVO currentReport) throws  JRException;
 }

@@ -17,6 +17,8 @@ public class CompanyTermsVO {
     private String companyTerms;
     private String termsAndConditions;
     private String companyDetails;
+    private String companyVATTIN;
+    private String companyCSTTIN;
     private Date createdDate;
     private Date modifiedDate;
     private String createdBy;
@@ -92,6 +94,22 @@ public class CompanyTermsVO {
 
     public void setCompanyDetails(String companyDetails) {
         this.companyDetails = companyDetails;
+    }
+
+    public String getCompanyVATTIN() {
+        return companyVATTIN;
+    }
+
+    public void setCompanyVATTIN(String companyVATTIN) {
+        this.companyVATTIN = companyVATTIN;
+    }
+
+    public String getCompanyCSTTIN() {
+        return companyCSTTIN;
+    }
+
+    public void setCompanyCSTTIN(String companyCSTTIN) {
+        this.companyCSTTIN = companyCSTTIN;
     }
 
     public Date getCreatedDate() {

@@ -340,3 +340,6 @@ ALTER TABLE `poseidon`.`companyterms` CHANGE COLUMN `Id` `id` INT(10) UNSIGNED N
  ADD PRIMARY KEY  USING BTREE(`id`);
 
  ALTER TABLE `poseidon`.`companyterms` CHANGE COLUMN `companyDetails` `companyAddress` VARCHAR(500) CHARACTER SET latin1 COLLATE latin1_swedish_ci DEFAULT NULL;
+
+ ALTER TABLE `poseidon`.`companyterms` ADD COLUMN `vat_tin` VARCHAR(45) AFTER `modifiedBy`,
+ ADD COLUMN `cst_tin` VARCHAR(45) AFTER `vat_tin`;

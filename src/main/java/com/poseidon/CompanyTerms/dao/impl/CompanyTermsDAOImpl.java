@@ -20,9 +20,9 @@ import org.springframework.dao.DataAccessException;
 public class CompanyTermsDAOImpl extends JdbcDaoSupport implements CompanyTermsDAO {
 
     private final String GET_COMPANY_TERMS_SQL = "SELECT id, terms, companyName, companyAddress, companyPhone, " +
-            " companyEmail,companyWebsite FROM companyterms ;";
+            " companyEmail, companyWebsite, vat_tin, cst_tin FROM companyterms ;";
     private final String UPDATE_TERMS_SQL = "update companyterms set terms = ?,companyAddress = ?, companyName = ?, " +
-            " companyPhone = ?, companyEmail = ? , companyWebsite = ?, modifiedOn = ?, modifiedBy = ?  where id = 1 ;";
+            " companyPhone = ?, companyEmail = ? , companyWebsite = ?, vat_tin = ? , cst_tin = ?, modifiedOn = ?, modifiedBy = ?  where id = 1 ;";
 
 
     public CompanyTermsVO listCompanyTerms() throws CompanyTermsException {
@@ -46,6 +46,8 @@ public class CompanyTermsDAOImpl extends JdbcDaoSupport implements CompanyTermsD
                 companyTermsVO.getCompanyPhoneNumber(),
                 companyTermsVO.getCompanyEmail(),
                 companyTermsVO.getCompanyWebsite(),
+                companyTermsVO.getCompanyVATTIN(),
+                companyTermsVO.getCompanyCSTTIN(),
                 companyTermsVO.getModifiedDate(),
                 companyTermsVO.getModifiedBy()};
 
@@ -79,6 +81,8 @@ public class CompanyTermsDAOImpl extends JdbcDaoSupport implements CompanyTermsD
             companyTermsVO.setCompanyEmail(resultSet.getString("companyEmail"));
             companyTermsVO.setCompanyWebsite(resultSet.getString("companyWebsite"));
             companyTermsVO.setCompanyTerms(resultSet.getString("terms"));
+            companyTermsVO.setCompanyVATTIN(resultSet.getString("vat_tin"));
+            companyTermsVO.setCompanyCSTTIN(resultSet.getString("cst_tin"));
             return companyTermsVO;
         }
     }

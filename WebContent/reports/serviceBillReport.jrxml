@@ -2,7 +2,26 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="serviceBillReport" pageWidth="720" pageHeight="842" columnWidth="680" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="a2c091f1-3c47-408a-aa2e-aadbef7b9055">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="0"/>
+	<property name="ireport.y" value="165"/>
+	<field name="invoiceId" class="java.math.BigInteger"/>
+	<field name="tagNo" class="java.lang.String"/>
+	<field name="dateReported" class="java.util.Date"/>
+	<field name="customerName" class="java.lang.String"/>
+	<field name="customerAddress1" class="java.lang.String"/>
+	<field name="customerAddress2" class="java.lang.String"/>
+	<field name="description" class="java.lang.String"/>
+	<field name="serialNo" class="java.lang.String"/>
+	<field name="quantity" class="java.lang.Integer"/>
+	<field name="rate" class="java.lang.Double"/>
+	<field name="amount" class="java.lang.Double"/>
+	<field name="totalAmount" class="java.lang.Double"/>
+	<field name="companyName" class="java.lang.String"/>
+	<field name="companyAddress" class="java.lang.String"/>
+	<field name="companyPhoneNumber" class="java.lang.String"/>
+	<field name="companyWebsite" class="java.lang.String"/>
+	<field name="companyEmail" class="java.lang.String"/>
+	<field name="companyVATTIN" class="java.lang.String"/>
+	<field name="companyCSTTIN" class="java.lang.String"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -24,35 +43,35 @@
 				<textElement>
 					<font fontName="Calibri" size="11"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{field}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{companyAddress}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement uuid="43c8ddbd-593e-4947-a5b7-3cad9e676429" x="101" y="80" width="180" height="20"/>
 				<textElement>
 					<font fontName="Calibri" size="11"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{field}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{companyPhoneNumber}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement uuid="876ee1de-44d5-4d68-8bf0-35f44d0c0296" x="101" y="104" width="180" height="20"/>
 				<textElement>
 					<font fontName="Calibri" size="11"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{field}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{companyWebsite}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement uuid="f2d75cdf-4615-471e-89da-f40410db4b66" x="101" y="129" width="180" height="20"/>
 				<textElement>
 					<font fontName="Calibri" size="11"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{field}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{companyEmail}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement uuid="25878df8-b484-49b3-8094-7611ff57c181" x="101" y="32" width="180" height="20"/>
 				<textElement>
 					<font fontName="Calibri" size="11"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{field}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{companyName}]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement uuid="b10e3863-9fcd-4404-846a-1b980d4a744f" x="296" y="49" width="70" height="20"/>
@@ -103,22 +122,27 @@
 			<textField>
 				<reportElement uuid="56e66e49-0347-49cd-8139-80d2c5663eaa" x="371" y="49" width="100" height="20"/>
 				<textElement/>
-				<textFieldExpression><![CDATA[$F{field}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{invoiceId}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement uuid="f02ce34b-2845-4fab-892e-501e418a694b" x="580" y="49" width="100" height="20"/>
-				<textElement/>
-				<textFieldExpression><![CDATA[$F{field}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement uuid="785496b1-13d4-4ab5-8bf6-17357ea631c4" x="580" y="109" width="100" height="20"/>
-				<textElement/>
-				<textFieldExpression><![CDATA[$F{field}]]></textFieldExpression>
+				<reportElement uuid="785496b1-13d4-4ab5-8bf6-17357ea631c4" x="580" y="108" width="100" height="20"/>
+				<textElement>
+					<font fontName="Calibri" size="11"/>
+				</textElement>
 			</textField>
 			<textField>
 				<reportElement uuid="9bc751ab-e565-44dd-b85a-b30f4c03c37d" x="374" y="109" width="100" height="20"/>
-				<textElement/>
-				<textFieldExpression><![CDATA[$F{field}]]></textFieldExpression>
+				<textElement>
+					<font size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{tagNo}]]></textFieldExpression>
+			</textField>
+			<textField pattern="dd/MM/yyyy">
+				<reportElement uuid="f5992eff-5456-4c63-8805-5143efb41f93" x="580" y="54" width="100" height="20"/>
+				<textElement>
+					<font fontName="Calibri" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
 			</textField>
 		</band>
 	</title>
@@ -132,39 +156,25 @@
 				<text><![CDATA[TO :]]></text>
 			</staticText>
 			<textField>
-				<reportElement uuid="e92b44fa-3baa-471a-85f2-353fa0488245" x="91" y="37" width="386" height="20"/>
+				<reportElement uuid="e92b44fa-3baa-471a-85f2-353fa0488245" x="91" y="37" width="386" height="40"/>
 				<textElement>
 					<font fontName="Calibri" size="11"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{field}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{customerAddress1}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement uuid="a86bedf4-03ae-4640-9cf5-c74cc7a62a57" x="91" y="61" width="386" height="20"/>
+				<reportElement uuid="a1d4b4da-07d0-42f7-88b0-64e8e827ace5" x="91" y="82" width="386" height="40"/>
 				<textElement>
 					<font fontName="Calibri" size="11"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{field}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement uuid="a1d4b4da-07d0-42f7-88b0-64e8e827ace5" x="91" y="85" width="386" height="20"/>
-				<textElement>
-					<font fontName="Calibri" size="11"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{field}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement uuid="d182437b-57c6-4b37-84d3-074adf8f57b9" x="91" y="111" width="386" height="20"/>
-				<textElement>
-					<font fontName="Calibri" size="11"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{field}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{customerAddress2}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement uuid="841146ed-41e9-4128-b954-a74a36b56b2f" x="91" y="13" width="386" height="20"/>
 				<textElement>
 					<font fontName="Calibri" size="11"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{field}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{customerName}]]></textFieldExpression>
 			</textField>
 		</band>
 	</pageHeader>
@@ -208,41 +218,55 @@
 		</band>
 	</columnHeader>
 	<detail>
-		<band height="45" splitType="Stretch">
+		<band height="67" splitType="Stretch">
 			<textField>
 				<reportElement uuid="4eec663e-466e-4c4b-99f4-d30cd937cb5b" x="15" y="12" width="30" height="20"/>
 				<textElement>
 					<font fontName="Calibri" size="11"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{field}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[1]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement uuid="c5aa0495-2841-4cc6-93ec-b69fca2171ac" x="55" y="12" width="305" height="20"/>
 				<textElement>
 					<font fontName="Calibri" size="11"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{field}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{description}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement uuid="05d0244a-9fb0-4a86-9e7c-b165f271d184" x="371" y="12" width="55" height="20"/>
 				<textElement>
 					<font fontName="Calibri" size="11"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{field}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{quantity}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement uuid="f7019c73-76d6-4581-be0f-86ea3499952a" x="445" y="12" width="66" height="20"/>
 				<textElement>
 					<font fontName="Calibri" size="11"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{field}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{rate}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement uuid="0387b7d9-6194-413d-8f03-8271a5b8e541" x="539" y="12" width="100" height="20"/>
 				<textElement>
 					<font fontName="Calibri" size="11"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{field}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{amount}]]></textFieldExpression>
+			</textField>
+			<staticText>
+				<reportElement uuid="2f47e215-d45c-4488-b5c6-711794a5522b" x="55" y="47" width="45" height="20"/>
+				<textElement>
+					<font fontName="Calibri"/>
+				</textElement>
+				<text><![CDATA[SL NO:]]></text>
+			</staticText>
+			<textField>
+				<reportElement uuid="3550d782-42f5-45fd-9bd0-f4b9ccf36232" x="101" y="47" width="259" height="20"/>
+				<textElement>
+					<font fontName="Calibri" size="11"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{serialNo}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>
@@ -260,7 +284,7 @@
 				<textElement>
 					<font fontName="Calibri" size="11"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{field}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{totalAmount}]]></textFieldExpression>
 			</textField>
 		</band>
 	</columnFooter>
@@ -292,14 +316,14 @@
 				<textElement>
 					<font fontName="Calibri" size="11"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{field}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{companyVATTIN}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement uuid="c9d6cd77-d3a1-450c-943a-32bb3bc0e12f" x="121" y="118" width="100" height="20"/>
 				<textElement>
 					<font fontName="Calibri" size="11"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{field}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{companyCSTTIN}]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement uuid="73e46f9b-93ca-45c9-a1ce-13da2bf4517b" x="387" y="110" width="168" height="20"/>

@@ -1,6 +1,7 @@
 package com.poseidon.Reports.dao.impl;
 
 import com.poseidon.CompanyTerms.domain.CompanyTermsVO;
+import com.poseidon.Invoice.domain.InvoiceReportVO;
 import com.poseidon.Make.domain.MakeVO;
 import com.poseidon.Reports.dao.ReportsDAO;
 import com.poseidon.Reports.domain.ReportsVO;
@@ -73,6 +74,16 @@ public class ReportsDAOImpl extends JdbcDaoSupport implements ReportsDAO {
         JasperPrint jasperPrint;
         Map<String, Object> params = new HashMap<String, Object>();
         jasperPrint = JasperFillManager.fillReport(jasperReport, params,  new JRBeanCollectionDataSource(new ArrayList<Object>()));
+        return jasperPrint;
+    }
+
+    @Override
+    public JasperPrint getInvoiceReport(JasperReport jasperReport, ReportsVO currentReport) throws JRException {
+        JasperPrint jasperPrint;
+        Map<String, Object> params = new HashMap<String, Object>();
+        List<InvoiceReportVO> invoiceReportVOs = new ArrayList<InvoiceReportVO>();
+        invoiceReportVOs.add(currentReport.getInvoiceReportVO());
+        jasperPrint = JasperFillManager.fillReport(jasperReport, params,  new JRBeanCollectionDataSource(invoiceReportVOs));
         return jasperPrint;
     }
 

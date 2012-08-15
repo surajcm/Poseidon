@@ -27,4 +27,6 @@ public interface ReportsService {
     public JasperPrint getModelListReport(JasperReport jasperReport, ReportsVO currentReport);
 
     public JasperPrint getErrorReport(JasperReport jasperReport, ReportsVO currentReport);
+
+    public JasperPrint getInvoiceReport(JasperReport jasperReport, ReportsVO currentReport);
 }
