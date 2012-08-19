@@ -47,7 +47,7 @@ public class ReportsDAOImpl extends JdbcDaoSupport implements ReportsDAO {
         Map<String, Object> params = new HashMap<String, Object>();
         if (companyTermsVO != null) {
             if (companyTermsVO.getTermsAndConditions() != null) {
-                currentReport.getTransactionReportVO().setCompanyTerms(companyTermsVO.getTermsAndConditions());
+                currentReport.getTransactionReportVO().setCompanyTerms(companyTermsVO.getCompanyTerms());
             }
         }
         List<TransactionReportVO> reportVOs = new ArrayList<TransactionReportVO>();

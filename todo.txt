@@ -6,5 +6,7 @@ Things to do
 4.update company details page
 5. size of text boxes, fonts
 6. move export to to all tabs
-7. introduce the inovice page
+7. display tagNo in save message... of new txn
+8. fix save issue in invoice 
+9. add tag no to invoicing report
 

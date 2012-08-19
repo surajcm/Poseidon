@@ -2,6 +2,10 @@ package com.poseidon.Reports.delegate;
 
 import com.poseidon.CompanyTerms.domain.CompanyTermsVO;
 import com.poseidon.CompanyTerms.service.CompanyTermsService;
+import com.poseidon.Invoice.domain.InvoiceReportVO;
+import com.poseidon.Invoice.domain.InvoiceVO;
+import com.poseidon.Invoice.exception.InvoiceException;
+import com.poseidon.Invoice.service.InvoiceService;
 import com.poseidon.Make.domain.MakeAndModelVO;
 import com.poseidon.Make.service.MakeService;
 import com.poseidon.Reports.domain.ReportsVO;
@@ -26,6 +30,7 @@ public class ReportsDelegate {
     private CompanyTermsService companyTermsService;
     private TransactionService transactionService;
     private MakeService makeService;
+    private InvoiceService invoiceService;
 
     public ReportsService getReportsService() {
         return reportsService;
@@ -63,13 +68,21 @@ public class ReportsDelegate {
         return getReportsService().generateDailyReport();
     }
 
+    public InvoiceService getInvoiceService() {
+        return invoiceService;
+    }
+
+    public void setInvoiceService(InvoiceService invoiceService) {
+        this.invoiceService = invoiceService;
+    }
+
     public JasperPrint getMakeDetailsChart(JasperReport jasperReport, ReportsVO currentReport) throws JRException {
         currentReport.setMakeVOList(getMakeService().fetchMakes());
-        return getReportsService().getMakeDetailsChart(jasperReport,currentReport);
+        return getReportsService().getMakeDetailsChart(jasperReport, currentReport);
 
     }
 
-    public JasperPrint getCallReport(JasperReport jasperReport,ReportsVO currentReport) throws TransactionException {
+    public JasperPrint getCallReport(JasperReport jasperReport, ReportsVO currentReport) throws TransactionException {
         CompanyTermsVO companyTermsVO = getCompanyTermsService().listCompanyTerms();
         TransactionReportVO transactionVO = getTransactionService().fetchTransactionFromTag(currentReport.getTagNo());
         currentReport.setTransactionReportVO(transactionVO);
@@ -82,22 +95,64 @@ public class ReportsDelegate {
                                                  ReportsVO currentReport,
                                                  TransactionVO searchTransaction) throws TransactionException {
         currentReport.setTransactionsList(getTransactionService().searchTransactions(searchTransaction));
-        return getReportsService().getTransactionsListReport(jasperReport,currentReport);
+        return getReportsService().getTransactionsListReport(jasperReport, currentReport);
     }
 
     public JasperPrint getModelListReport(JasperReport jasperReport,
                                           ReportsVO currentReport,
                                           MakeAndModelVO searchMakeAndModelVO) {
         currentReport.setMakeAndModelVOs(getMakeService().searchMakeVOs(searchMakeAndModelVO));
-        return getReportsService().getModelListReport(jasperReport,currentReport);
+        return getReportsService().getModelListReport(jasperReport, currentReport);
     }
 
     public JasperPrint getErrorReport(JasperReport jasperReport, ReportsVO currentReport) {
-        return  getReportsService().getErrorReport(jasperReport,currentReport);
+        return getReportsService().getErrorReport(jasperReport, currentReport);
     }
 
     public JasperPrint getInvoiceReport(JasperReport jasperReport, ReportsVO currentReport) {
-        currentReport.setInvoiceReportVO();
-        return getReportsService().getInvoiceReport(jasperReport,currentReport);
+        try {
+            InvoiceReportVO invoiceReportVO = new InvoiceReportVO();
+            CompanyTermsVO companyTermsVO = getCompanyTermsService().listCompanyTerms();
+            TransactionReportVO transactionVO = getTransactionService().fetchTransactionFromTag(currentReport.getTagNo());
+            if (transactionVO != null) {
+                InvoiceVO searchInvoiceVO = new InvoiceVO();
+                searchInvoiceVO.setTagNo(transactionVO.getTagNo());
+                searchInvoiceVO.setStartsWith(Boolean.FALSE);
+                searchInvoiceVO.setIncludes(Boolean.FALSE);
+                List<InvoiceVO> invoiceVOs = getInvoiceService().findInvoices(searchInvoiceVO);
+                if (invoiceVOs != null && invoiceVOs.size() > 0) {
+                    InvoiceVO invoiceVO = invoiceVOs.get(0);
+                    invoiceReportVO.setInvoiceId(invoiceVO.getId());
+                    invoiceReportVO.setTagNo(transactionVO.getTagNo());
+                    invoiceReportVO.setCustomerId(transactionVO.getCustomerId());
+                    invoiceReportVO.setCustomerName(transactionVO.getCustomerName());
+                    invoiceReportVO.setCustomerAddress1(transactionVO.getAddress1());
+                    invoiceReportVO.setCustomerAddress2(transactionVO.getAddress2());
+                    invoiceReportVO.setDescription(invoiceVO.getDescription());
+                    invoiceReportVO.setSerialNo(invoiceVO.getSerialNo());
+                    invoiceReportVO.setQuantity(invoiceVO.getQuantity());
+                    invoiceReportVO.setRate(invoiceVO.getRate());
+                    invoiceReportVO.setAmount(invoiceVO.getAmount());
+                    invoiceReportVO.setTotalAmount(invoiceVO.getAmount());
+                }
+            }
+            if (companyTermsVO != null) {
+                invoiceReportVO.setCompanyName(companyTermsVO.getCompanyName());
+                invoiceReportVO.setCompanyAddress(companyTermsVO.getCompanyAddress());
+                invoiceReportVO.setCompanyPhoneNumber(companyTermsVO.getCompanyPhoneNumber());
+                invoiceReportVO.setCompanyWebsite(companyTermsVO.getCompanyWebsite());
+                invoiceReportVO.setCompanyEmail(companyTermsVO.getCompanyEmail());
+                invoiceReportVO.setCompanyTerms(companyTermsVO.getCompanyTerms());
+                invoiceReportVO.setCompanyVATTIN(companyTermsVO.getCompanyVATTIN());
+                invoiceReportVO.setCompanyCSTTIN(companyTermsVO.getCompanyCSTTIN());
+            }
+
+            currentReport.setInvoiceReportVO(invoiceReportVO);
+        } catch (TransactionException e) {
+            e.printStackTrace();
+        } catch (InvoiceException e) {
+            e.printStackTrace();
+        }
+        return getReportsService().getInvoiceReport(jasperReport, currentReport);
     }
 }
