@@ -39,10 +39,14 @@
         function hideEditAndShowUpdate(){
             document.getElementById('edit').style.visibility='hidden';
             document.getElementById('update').style.visibility='visible';
+            document.getElementById('clear').style.visibility='visible';
+            document.getElementById('cancel').style.visibility='visible';
         }
 
         function hideUpdate(){
             document.getElementById('update').style.visibility='hidden';
+            document.getElementById('clear').style.visibility='hidden';
+            document.getElementById('cancel').style.visibility='hidden';
             makeEverythingReadOnly();
         }
 
@@ -67,6 +71,22 @@
 
         function updateCompanyDetails(){
             document.forms[0].action = "updateCompanyDetails.htm";
+            document.forms[0].submit();
+        }
+
+        function clearOut(){
+            document.getElementById('companyName').value = "";
+            document.getElementById('companyPhoneNumber').value = "";
+            document.getElementById('companyEmail').value = "";
+            document.getElementById('companyWebsite').value = "";
+            document.getElementById('companyAddress').value = "";
+            document.getElementById('companyTerms').value = "";
+            document.getElementById('vat_tin').value = "";
+            document.getElementById('cst_tin').value = "";
+        }
+
+        function cancelMe(){
+            document.forms[0].action = "List.htm";
             document.forms[0].submit();
         }
     </script>
@@ -197,7 +217,8 @@
                         <td colspan="2">
                             <input class="btn" id="edit" value="Edit" type="button" onclick="javascript:editMe();"/>
                             <input class="btn" id="update" value="Update" type="button" onclick="javascript:updateCompanyDetails();"/>
-                            <input class="btn" value="Clear" type="button" onclick="javascript:clearOut();"/>
+                            <input class="btn" id="clear" value="Clear" type="button" onclick="javascript:clearOut();"/>
+                            <input class="btn" id="cancel" value="Cancel" type="button" onclick="javascript:cancelMe();"/>
                         </td>
                     </tr>
                 </table>

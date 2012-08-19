@@ -1,12 +1,24 @@
 Things to do
 -------------
 1.replace ajax with jquery based ajax
-2.log out .. if user is null
+2. log out .. if user is null / spring security implementation
 3.user creation scripts in dbdesign sql file
-4.update company details page
-5. size of text boxes, fonts
-6. move export to to all tabs
-7. display tagNo in save message... of new txn
-8. fix save issue in invoice 
-9. add tag no to invoicing report
+4. size of text boxes, fonts
+5. dont invoice twice..
+6. automatic price * quantity
+7. check all the js buttons work fine
+ - UserManagement 
+ - MakeManagement 
+ - CustomerManagement 
+ - CompanyManagement 
+ - TransactionsManagement 
+ - InvoiceManagement 
+ - ReportManagement
+ 
+8. upload image functionality
 
+9. Redirect to print screen with selecting desired tab window
+
+10. email / phone no validation at create customer / transactions pages
+
+11. bug - terms is null in call report

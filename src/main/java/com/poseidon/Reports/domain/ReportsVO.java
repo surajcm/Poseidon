@@ -104,6 +104,11 @@ public class ReportsVO {
                 ", exportTo='" + exportTo + '\'' +
                 ", rptfilename='" + rptfilename + '\'' +
                 ", makeVOList=" + makeVOList +
+                ", tagNo='" + tagNo + '\'' +
+                ", transactionsList=" + transactionsList +
+                ", makeAndModelVOs=" + makeAndModelVOs +
+                ", transactionReportVO=" + transactionReportVO +
+                ", invoiceReportVO=" + invoiceReportVO +
                 '}';
     }
 }

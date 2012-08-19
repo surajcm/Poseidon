@@ -36,6 +36,8 @@
 
     <bean name="/invoice/*.htm" class="com.poseidon.Invoice.web.controller.InvoiceController" >
         <property name="invoiceDelegate" ref="invoiceDelegate"/>
+        <property name="makeDelegate" ref="makeDelegate"/>
+        <property name="transactionDelegate" ref="txsDelegate"/>
     </bean>
 
     <!-- View Resolution -->

@@ -200,7 +200,7 @@
                     <tr>
                         <td>
                             <label for="name" style="font-size: .70em;">
-                                <spring:message code="poseidon.name" text="Name" />
+                                <spring:message code="poseidon.name" text="Name" /> :
                             </label>
                         </td>
                         <td>
@@ -209,7 +209,7 @@
                         <td colspan="2">&nbsp;</td>
                         <td>
                             <label for="loginId" style="font-size: .70em;">
-                                <spring:message code="poseidon.loginId" text="loginId" />
+                                <spring:message code="poseidon.loginId" text="loginId" /> :
                             </label>
                         </td>
                         <td>
@@ -218,7 +218,7 @@
                         <td colspan="2">&nbsp;</td>
                         <td>
                             <label for="role" style="font-size: .70em;">
-                                <spring:message code="poseidon.role" text="Role" />
+                                <spring:message code="poseidon.role" text="Role" /> :
                             </label>
                         </td>
                         <td>

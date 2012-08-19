@@ -12,14 +12,31 @@
 
         //code to add New user
         function save() {
-            if(document.getElementById('name').value.length > 0
-                    && document.getElementById('loginId').value.length > 0
-                    && document.getElementById('psw').value.length > 0
-                    && document.getElementById('role').value.length > 0 ){
+            if(document.getElementById('name').value.length == 0) {
+                document.getElementById('name').style.background = 'Yellow';
+                alert(" Please enter The name");
+            } else if(document.getElementById('loginId').value.length == 0) {
+                document.getElementById('name').style.background = 'White';
+                document.getElementById('loginId').style.background = 'Yellow';
+                alert(" Please enter the Login Id");
+            } else if(document.getElementById('psw').value.length == 0) {
+                document.getElementById('name').style.background = 'White';
+                document.getElementById('loginId').style.background = 'White';
+                document.getElementById('psw').style.background = 'Yellow';
+                alert(" Please enter the password");
+            } else if (document.getElementById('role').value == document.getElementById('role').options[0].value ) {
+                document.getElementById('name').style.background = 'White';
+                document.getElementById('loginId').style.background = 'White';
+                document.getElementById('psw').style.background = 'White';
+                document.getElementById('role').style.background = 'Yellow';
+                alert(" Please select a valid role");
+            }else {
+                document.getElementById('name').style.background = 'White';
+                document.getElementById('loginId').style.background = 'White';
+                document.getElementById('psw').style.background = 'White';
+                document.getElementById('role').style.background = 'White';
                 document.forms[0].action = "SaveUser.htm";
                 document.forms[0].submit();
-            }else{
-                alert(" Please enter all details");
             }
         }
 
@@ -27,6 +44,8 @@
         function clearOut() {
             document.getElementById("name").value = "";
             document.getElementById("psw").value = "";
+            document.getElementById("loginId").value = "";
+            document.getElementById("role").value = document.getElementById('role').options[0].value;
         }
     </script>
 </head>
@@ -43,7 +62,7 @@
                     <tr>
                         <td>
                             <label for="name" style="font-size: .70em;">
-                                <spring:message code="poseidon.username" text="User Name"/>
+                                <spring:message code="poseidon.username" text="User Name"/> :
                             </label>
                         </td>
                         <td colspan="2">&nbsp;</td>
@@ -58,7 +77,7 @@
                     <tr>
                         <td>
                             <label for="loginId" style="font-size: .70em;">
-                                <spring:message code="poseidon.loginId" text="loginId"/>
+                                <spring:message code="poseidon.loginId" text="loginId"/> :
                             </label>
                         </td>
                         <td colspan="2">&nbsp;</td>
@@ -73,7 +92,7 @@
                     <tr>
                         <td>
                             <label for="psw" style="font-size: .70em;">
-                                <spring:message code="poseidon.password" text="Password"/>
+                                <spring:message code="poseidon.password" text="Password"/> :
                             </label>
                         </td>
                         <td colspan="2">&nbsp;</td>
@@ -88,11 +107,11 @@
                     <tr>
                         <td>
                             <label for="role" style="font-size: .70em;">
-                                <spring:message code="poseidon.role" text="Role"/>
+                                <spring:message code="poseidon.role" text="Role"/> :
                             </label>
                         </td>
                         <td colspan="2">&nbsp;</td>
-                        <td>
+                        <td align="left">
                             <form:select id="role" path="user.role"
                                          onkeypress="handleEnter(event);"
                                          cssStyle="border:3px double #CCCCCC; width: 200px;height:25px;">
@@ -105,12 +124,10 @@
                         <td colspan="4">&nbsp;</td>
                     </tr>
                     <tr>
-                        <td colspan="2">
-                            &nbsp;
-                        </td>
                         <td>
                             <input class="btn" value="Save" type="button" onclick="javascript:save();"/>
                         </td>
+                        <td colspan="2" />
                         <td>
                             <input class="btn" value="Clear" type="button" onclick="javascript:clearOut();"/>
                         </td>

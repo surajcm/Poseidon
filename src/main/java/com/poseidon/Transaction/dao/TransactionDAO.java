@@ -14,7 +14,7 @@ import java.util.List;
 public interface TransactionDAO {
     public List<TransactionVO> listTodaysTransactions() throws TransactionException;
 
-    public void saveTransaction(TransactionVO currentTransaction) throws TransactionException;
+    public String saveTransaction(TransactionVO currentTransaction) throws TransactionException;
 
     public List<TransactionVO> searchTransactions(TransactionVO searchTransaction) throws TransactionException;
 
@@ -25,4 +25,6 @@ public interface TransactionDAO {
     public void deleteTransaction(Long id)throws TransactionException;
 
     public TransactionReportVO fetchTransactionFromTag(String tagNo) throws TransactionException;
+
+    public void updateTransactionStatus(Long id, String status)throws TransactionException;
 }

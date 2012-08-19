@@ -15,7 +15,7 @@ public interface TransactionService {
 
     public List<TransactionVO> listTodaysTransactions() throws TransactionException;
 
-    public void saveTransaction(TransactionVO currentTransaction) throws TransactionException;
+    public String saveTransaction(TransactionVO currentTransaction) throws TransactionException;
 
     public List<TransactionVO> searchTransactions(TransactionVO searchTransaction) throws  TransactionException;
 
@@ -26,4 +26,6 @@ public interface TransactionService {
     public void updateTransaction(TransactionVO currentTransaction) throws  TransactionException;
 
     public void deleteTransaction(Long id)throws  TransactionException;
+
+    public void updateTransactionStatus(Long id, String status) throws TransactionException;
 }

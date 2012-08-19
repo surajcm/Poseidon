@@ -51,6 +51,9 @@ public class TransactionDAOImpl extends JdbcDaoSupport implements TransactionDAO
             " makeId = ?, modelId = ? , serialNo = ? , status = ? , accessories = ?, complaintReported = ? , " +
             " complaintDiagnosed = ?, engineerRemarks = ?, repairAction = ?, note = ?, modifiedOn = ? , modifiedBy =  ? " +
             " where id = ? ";
+
+    private static final String UPDATE_TRANSACTION_STATUS_SQL = " update transaction set status = ? " +
+            " where id = ? ";
     private static final String DELETE_TRANSACTION_BY_ID = " delete from transaction where id = ?";
 
     private static final String GET_SINGLE_TRANSACTION_FROM_TAG_SQL = "SELECT t.id, t.tagNo, t.dateReported, " +
@@ -70,9 +73,10 @@ public class TransactionDAOImpl extends JdbcDaoSupport implements TransactionDAO
         return transactionVOList;
     }
 
-    public void saveTransaction(TransactionVO currentTransaction) throws TransactionException {
+    public String saveTransaction(TransactionVO currentTransaction) throws TransactionException {
+        String tagNo = null;
         try {
-            saveTxn(currentTransaction);
+            tagNo = saveTxn(currentTransaction);
         } catch (DataAccessException e) {
             e.printStackTrace();
             throw new TransactionException(TransactionException.DATABASE_ERROR);
@@ -80,9 +84,10 @@ public class TransactionDAOImpl extends JdbcDaoSupport implements TransactionDAO
             e.printStackTrace();
             throw new TransactionException(TransactionException.DATABASE_ERROR);
         }
+        return tagNo;
     }
 
-    private void saveTxn(TransactionVO currentTransaction) throws ParseException {
+    private String saveTxn(TransactionVO currentTransaction) throws ParseException {
         insertTransaction = new SimpleJdbcInsert(getDataSource()).withTableName("transaction").usingGeneratedKeyColumns("id");
 
         SqlParameterSource parameters = new MapSqlParameterSource()
@@ -110,6 +115,7 @@ public class TransactionDAOImpl extends JdbcDaoSupport implements TransactionDAO
         String tagNo = "WON2N" + newId.longValue();
         String query = "update transaction set TagNo = '" + tagNo + "' where id =" + newId.longValue();
         getJdbcTemplate().update(query);
+        return tagNo;
     }
 
     public List<TransactionVO> searchTransactions(TransactionVO searchTransaction) throws TransactionException {
@@ -186,6 +192,19 @@ public class TransactionDAOImpl extends JdbcDaoSupport implements TransactionDAO
             throw new TransactionException(TransactionException.DATABASE_ERROR);
         }
         return transactionVO;
+    }
+
+    @Override
+    public void updateTransactionStatus(Long id, String status) throws TransactionException {
+        try {
+            Object[] parameters = new Object[]{status,id};
+
+
+            getJdbcTemplate().update(UPDATE_TRANSACTION_STATUS_SQL, parameters);
+        } catch (DataAccessException e) {
+            e.printStackTrace();
+            throw new TransactionException(TransactionException.DATABASE_ERROR);
+        }
     }
 
     private TransactionVO fetchTxn(Long id) {

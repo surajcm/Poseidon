@@ -35,9 +35,6 @@ import java.util.Date;
  */
 public class TransactionController extends MultiActionController {
 
-    /**
-     * user Delegate instance
-     */
     private TransactionDelegate transactionDelegate;
 
     private MakeDelegate makeDelegate;
@@ -116,6 +113,7 @@ public class TransactionController extends MultiActionController {
         statusList.add("VERIFIED");
         statusList.add("CLOSED");
         statusList.add("REJECTED");
+        statusList.add("INVOICED");
         return statusList;
     }
 
@@ -175,6 +173,10 @@ public class TransactionController extends MultiActionController {
         try {
             if (transactionVO.getCustomerId() == null) {
                 try {
+                    transactionForm.getCustomerVO().setCreatedOn(new Date());
+                    transactionForm.getCustomerVO().setModifiedOn(new Date());
+                    transactionForm.getCustomerVO().setCreatedBy(transactionForm.getLoggedInUser());
+                    transactionForm.getCustomerVO().setModifiedBy(transactionForm.getLoggedInUser());
                     long customerId = getCustomerDelegate().saveCustomer(transactionForm.getCustomerVO());
                     transactionForm.getCustomerVO().setCustomerId(customerId);
                     transactionVO.setCustomerId(customerId);
@@ -184,8 +186,8 @@ public class TransactionController extends MultiActionController {
                     e.printStackTrace();
                 }
             }
-            getTransactionDelegate().saveTransaction(transactionVO);
-            transactionForm.setStatusMessage("Successfully added the Transaction");
+            String tagNo = getTransactionDelegate().saveTransaction(transactionVO);
+            transactionForm.setStatusMessage("Successfully added the Transaction, Tag Number is "+tagNo);
             transactionForm.setStatusMessageType("success");
         } catch (TransactionException e) {
             transactionForm.setStatusMessage("Unable to create a new transaction due to a Data base error");
@@ -474,64 +476,5 @@ public class TransactionController extends MultiActionController {
         return new ModelAndView("txs/TransactionList", "transactionForm", transactionForm);
     }
 
-    public ModelAndView InvoiceTxn(HttpServletRequest request,
-                                   HttpServletResponse response, TransactionForm transactionForm){
-        //get the id
-        TransactionVO transactionVO = null;
-        try {
-            transactionVO = getTransactionDelegate().fetchTransactionFromId(transactionForm.getId());
-            if (transactionVO != null && transactionVO.getMakeId() != null && transactionVO.getMakeId() > 0) {
-                List<MakeVO> makeVOs = null;
-                try {
-                    makeVOs = getMakeDelegate().fetchMakes();
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-                if (makeVOs != null) {
-                    for (MakeVO makeVO : makeVOs) {
-                        log.info("make vo is" + makeVO);
-                    }
-                    transactionForm.setMakeVOs(makeVOs);
-                }
-                List<MakeAndModelVO> makeAndModelVOs = null;
-                makeAndModelVOs = getMakeDelegate().getAllModelsFromMakeId(transactionVO.getMakeId());
-                if (makeAndModelVOs != null) {
-                    transactionForm.setMakeAndModelVOs(makeAndModelVOs);
-                    for (MakeAndModelVO makeAndModelVO : makeAndModelVOs) {
-                        log.info("makeAndModel vo is" + makeAndModelVO);
-                    }
-                }
-            }
-        } catch (TransactionException e) {
-            e.printStackTrace();
-            log.error(" Exception type in controller " + e.ExceptionType);
-            if (e.getExceptionType().equalsIgnoreCase(TransactionException.DATABASE_ERROR)) {
-                log.info(" An error occurred while fetching data from database. !! ");
-            } else {
-                log.info(" An Unknown Error has been occurred !!");
-            }
-        } catch (Exception e1) {
-            e1.printStackTrace();
-            log.info(" An Unknown Error has been occurred !!");
-        }
-        // find tag no  and.. thus the description
-        InvoiceForm invoiceForm = new InvoiceForm();
-        invoiceForm.setLoggedInUser(transactionForm.getLoggedInUser());
-        invoiceForm.setLoggedInRole(transactionForm.getLoggedInRole());
-        InvoiceVO invoiceVO = new InvoiceVO();
-        if(transactionVO != null){
-            invoiceVO.setTagNo(transactionVO.getTagNo());
-            String makeName = "";
-            String modelName = "";
-            if(transactionForm.getMakeAndModelVOs() != null && transactionForm.getMakeAndModelVOs().size() > 0){
-                makeName = transactionForm.getMakeAndModelVOs().get(0).getMakeName();
-                modelName = transactionForm.getMakeAndModelVOs().get(0).getModelName();
-            }
-            invoiceVO.setDescription("SERVICE CHARGES FOR "+ makeName +" " +modelName);
-        }
-        invoiceForm.setCurrentInvoiceVO(invoiceVO);
-        // create a invoice VO object and se that to the form
-        return new ModelAndView("invoice/AddInvoice", "invoiceForm", invoiceForm);
-    }
 
 }

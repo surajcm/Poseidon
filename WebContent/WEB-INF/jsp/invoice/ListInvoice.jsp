@@ -41,15 +41,21 @@
     </style>
     <script type="text/javascript">
         function addInvoice(){
+            if(document.getElementById('amount').value.length == 0){
+                document.getElementById('amount').value = "0.0";
+            }
             document.forms[0].action = "addInvoice.htm";
             document.forms[0].submit();
         }
         function search() {
+            if(document.getElementById('amount').value.length == 0){
+                document.getElementById('amount').value = "0.0";
+            }
             document.forms[0].action = "SearchInvoice.htm";
             document.forms[0].submit();
         }
         function clearOut() {
-            document.getElementById('id').value = "";
+            document.getElementById('invoiceId').value = "";
             document.getElementById('description').value = "";
             document.getElementById('serialNo').value = "";
             document.getElementById('tagNo').value = "";
@@ -97,6 +103,9 @@
             if (checks.checked) {
                 userRow = document.getElementById("myTable").rows[0];
                 document.getElementById("id").value = userRow.cells[0].childNodes[0].value;
+                if(document.getElementById('amount').value.length == 0){
+                    document.getElementById('amount').value = "0.0";
+                }
                 document.forms[0].action = "EditInvoice.htm";
                 document.forms[0].submit();
             } else {
@@ -106,6 +115,9 @@
                     }
                 }
                 document.getElementById("id").value = userRow.cells[0].childNodes[0].value;
+                if(document.getElementById('amount').value.length == 0){
+                    document.getElementById('amount').value = "0.0";
+                }
                 document.forms[0].action = "EditInvoice.htm";
                 document.forms[0].submit();
             }
@@ -152,6 +164,9 @@
                 if (checks.checked) {
                     userRow = document.getElementById("myTable").rows[0];
                     document.getElementById("id").value = userRow.cells[0].childNodes[0].value;
+                    if(document.getElementById('amount').value.length == 0){
+                        document.getElementById('amount').value = "0.0";
+                    }
                     document.forms[0].action = "DeleteInvoice.htm";
                     document.forms[0].submit();
                 } else {
@@ -161,6 +176,9 @@
                         }
                     }
                     document.getElementById("id").value = userRow.cells[0].childNodes[0].value;
+                    if(document.getElementById('amount').value.length == 0){
+                        document.getElementById('amount').value = "0.0";
+                    }
                     document.forms[0].action = "DeleteInvoice.htm";
                     document.forms[0].submit();
                 }
@@ -203,7 +221,7 @@
                             </label>
                         </td>
                         <td>
-                            <form:input path="searchInvoiceVO.id" cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;" id="id"/>
+                            <form:input path="searchInvoiceVO.id" cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;" id="invoiceId"/>
                         </td>
                         <td colspan="2">&nbsp;</td>
                         <td>
@@ -302,21 +320,21 @@
                 <legend>Invoice Details</legend>
                 <table border="2" id="myTable" style="font-size: .60em;">
                     <thead>
-                        <tr>
-                            <th>&nbsp;</th>
-                            <th>Invoice Id</th>
-                            <th>Customer Name</th>
-                            <th>Tag No</th>
-                            <th>Item Description</th>
-                            <th>Serial No</th>
-                            <th>Total Amount</th>
-                        </tr>
+                    <tr>
+                        <th>&nbsp;</th>
+                        <th>Invoice Id</th>
+                        <th>Customer Name</th>
+                        <th>Tag No</th>
+                        <th>Item Description</th>
+                        <th>Serial No</th>
+                        <th>Total Amount</th>
+                    </tr>
                     </thead>
                     <tbody>
-                        <c:forEach items="${invoiceForm.invoiceVOs}" var="iterationInv">
+                    <c:forEach items="${invoiceForm.invoiceVOs}" var="iterationInv">
                         <tr>
                             <td><input type="checkbox" name="checkField" onclick="javascript:checkCall(this)"
-                            value="<c:out value="${iterationInv.id}" />"/></td>
+                                       value="<c:out value="${iterationInv.id}" />"/></td>
                             <td><c:out value="${iterationInv.id}"/></td>
                             <td><c:out value="${iterationInv.customerName}"/></td>
                             <td><c:out value="${iterationInv.tagNo}"/></td>
@@ -324,7 +342,7 @@
                             <td><c:out value="${iterationInv.serialNo}"/></td>
                             <td><c:out value="${iterationInv.amount}"/></td>
                         </tr>
-                        </c:forEach>
+                    </c:forEach>
                     </tbody>
                 </table>
                 <table style="margin:auto;top:50%;left:50%;">

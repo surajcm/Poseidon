@@ -19,9 +19,9 @@
                 }
             }
 
-            function clear(){
-                document.getElementById('modelName').value = "";
+            function clearOut(){
                 document.getElementById("makeId").value = document.getElementById('makeId').options[0].value;
+                document.getElementById('modelName').value = "";
             }
         </script>
 
@@ -39,7 +39,7 @@
                             <tr>
                                 <td>
                                     <label for="makeId" style="font-size: .70em;">
-                                        Make Name
+                                        Make Name :
                                     </label>
                                 </td>
                                 <td colspan="2">&nbsp;</td>
@@ -54,7 +54,7 @@
                             <tr>
                                 <td>
                                     <label for="modelName" style="font-size: .70em;">
-                                        Model Name
+                                        Model Name :
                                     </label>
                                 </td>
                                 <td colspan="2">&nbsp;</td>
@@ -69,7 +69,7 @@
                                 </td>
                                 <td colspan="2">&nbsp;</td>
                                 <td>
-                                    <input class="btn" value="Clear" type="button" onclick="javascript:clear()"/>
+                                    <input class="btn" value="Clear" type="button" onclick="javascript:clearOut()"/>
                                 </td>
                             </tr>
                         </table>

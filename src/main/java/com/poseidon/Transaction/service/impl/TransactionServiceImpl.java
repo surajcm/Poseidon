@@ -45,15 +45,17 @@ public class TransactionServiceImpl implements TransactionService {
         return transactionVOs;
     }
 
-    public void saveTransaction(TransactionVO currentTransaction) throws TransactionException {
+    public String saveTransaction(TransactionVO currentTransaction) throws TransactionException {
+        String tagNo = null;
         try {
-            getTransactionDAO().saveTransaction(currentTransaction);
+            tagNo = getTransactionDAO().saveTransaction(currentTransaction);
         } catch (TransactionException t) {
             log.error(" Exception type in service impl " + t.getExceptionType());
             throw new TransactionException(t.getExceptionType());
         } catch (Exception e1) {
             e1.printStackTrace();
         }
+        return tagNo;
     }
 
     public List<TransactionVO> searchTransactions(TransactionVO searchTransaction) throws TransactionException {
@@ -109,6 +111,18 @@ public class TransactionServiceImpl implements TransactionService {
     public void deleteTransaction(Long id) throws TransactionException {
         try {
             getTransactionDAO().deleteTransaction(id);
+        } catch (TransactionException t) {
+            log.error(" Exception type in service impl " + t.getExceptionType());
+            throw new TransactionException(t.getExceptionType());
+        } catch (Exception e1) {
+            e1.printStackTrace();
+        }
+    }
+
+    @Override
+    public void updateTransactionStatus(Long id, String status) throws TransactionException {
+        try {
+            getTransactionDAO().updateTransactionStatus(id,status);
         } catch (TransactionException t) {
             log.error(" Exception type in service impl " + t.getExceptionType());
             throw new TransactionException(t.getExceptionType());

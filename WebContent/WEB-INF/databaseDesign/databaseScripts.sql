@@ -343,3 +343,5 @@ ALTER TABLE `poseidon`.`companyterms` CHANGE COLUMN `Id` `id` INT(10) UNSIGNED N
 
  ALTER TABLE `poseidon`.`companyterms` ADD COLUMN `vat_tin` VARCHAR(45) AFTER `modifiedBy`,
  ADD COLUMN `cst_tin` VARCHAR(45) AFTER `vat_tin`;
+
+ ALTER TABLE `poseidon`.`companyterms` MODIFY COLUMN `terms` VARCHAR(5000) CHARACTER SET latin1 COLLATE latin1_swedish_ci DEFAULT NULL;

@@ -282,7 +282,7 @@ function invoiceRow() {
     if (checks.checked) {
         userRow = document.getElementById("myTable").rows[0];
         document.getElementById("id").value = userRow.cells[0].childNodes[0].value;
-        document.forms[0].action = "InvoiceTxn.htm";
+        document.forms[0].action="<%=request.getContextPath()%>" + "/invoice/InvoiceTxn.htm";
         document.forms[0].submit();
     } else {
         for (var i = 0; i < checks.length; i++) {
@@ -291,7 +291,7 @@ function invoiceRow() {
             }
         }
         document.getElementById("id").value = userRow.cells[0].childNodes[0].value;
-        document.forms[0].action = "InvoiceTxn.htm";
+        document.forms[0].action="<%=request.getContextPath()%>" + "/invoice/InvoiceTxn.htm";
         document.forms[0].submit();
     }
 }

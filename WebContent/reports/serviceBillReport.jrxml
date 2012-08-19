@@ -2,10 +2,9 @@
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="serviceBillReport" pageWidth="720" pageHeight="842" columnWidth="680" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="a2c091f1-3c47-408a-aa2e-aadbef7b9055">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
-	<property name="ireport.y" value="165"/>
-	<field name="invoiceId" class="java.math.BigInteger"/>
+	<property name="ireport.y" value="0"/>
+	<field name="invoiceId" class="java.lang.Long"/>
 	<field name="tagNo" class="java.lang.String"/>
-	<field name="dateReported" class="java.util.Date"/>
 	<field name="customerName" class="java.lang.String"/>
 	<field name="customerAddress1" class="java.lang.String"/>
 	<field name="customerAddress2" class="java.lang.String"/>
@@ -123,12 +122,6 @@
 				<reportElement uuid="56e66e49-0347-49cd-8139-80d2c5663eaa" x="371" y="49" width="100" height="20"/>
 				<textElement/>
 				<textFieldExpression><![CDATA[$F{invoiceId}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement uuid="785496b1-13d4-4ab5-8bf6-17357ea631c4" x="580" y="108" width="100" height="20"/>
-				<textElement>
-					<font fontName="Calibri" size="11"/>
-				</textElement>
 			</textField>
 			<textField>
 				<reportElement uuid="9bc751ab-e565-44dd-b85a-b30f4c03c37d" x="374" y="109" width="100" height="20"/>

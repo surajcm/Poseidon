@@ -29,8 +29,8 @@ public class TransactionDelegate {
         return getTransactionService().listTodaysTransactions();
     }
 
-    public void saveTransaction(TransactionVO currentTransaction) throws TransactionException {
-        getTransactionService().saveTransaction(currentTransaction);
+    public String saveTransaction(TransactionVO currentTransaction) throws TransactionException {
+        return getTransactionService().saveTransaction(currentTransaction);
     }
 
 
@@ -48,5 +48,9 @@ public class TransactionDelegate {
 
     public void deleteTransaction(Long id) throws TransactionException{
         getTransactionService().deleteTransaction(id);
+    }
+
+    public void updateTransactionStatus(Long id, String status)throws TransactionException{
+        getTransactionService().updateTransactionStatus(id,status);
     }
 }

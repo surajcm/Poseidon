@@ -13,6 +13,7 @@
     <script type="text/javascript" src="../js/jquery-ui-1.8.21.custom.min.js" language="javascript" ></script>
     <script type="text/javascript">
         function fetchMakeReport() {
+            document.getElementById('exportTo').value = document.getElementById('makeExportValue').options[document.getElementById('makeExportValue').selectedIndex].text;
             document.reportsForm.target = 'reportContent';
             document.reportsForm.action = 'getMakeDetailsReport.htm';
             document.reportsForm.submit();
@@ -20,11 +21,8 @@
         }
 
         function fetchCallReport() {
-            alert(document.getElementById('exportValue').selectedIndex);
-            document.getElementById('exportTo').value = document.getElementById('exportValue').options[document.getElementById('exportValue').selectedIndex].text;
-
-            alert(document.getElementById('exportValue').options[document.getElementById('exportValue').selectedIndex].text);
-            alert(document.getElementById('exportTo').value);
+            document.getElementById('exportTo').value = document.getElementById('callExportValue').options[document.getElementById('callExportValue').selectedIndex].text;
+            document.getElementById('tagNo').value = document.getElementById('callTagNo').value;
             document.reportsForm.target = 'reportContent';
             document.reportsForm.action = 'getCallReport.htm';
             document.reportsForm.submit();
@@ -32,6 +30,7 @@
         }
 
         function fetchTransactionsListReport() {
+            document.getElementById('exportTo').value = document.getElementById('txnExportValue').options[document.getElementById('txnExportValue').selectedIndex].text;
             document.reportsForm.target = 'reportContent';
             document.reportsForm.action = 'getTransactionsListReport.htm';
             document.reportsForm.submit();
@@ -39,6 +38,7 @@
         }
 
         function fetchModelListReport() {
+            document.getElementById('exportTo').value = document.getElementById('makeExportValue').options[document.getElementById('makeExportValue').selectedIndex].text;
             document.reportsForm.target = 'reportContent';
             document.reportsForm.action = 'getModelListReport.htm';
             document.reportsForm.submit();
@@ -46,6 +46,8 @@
         }
 
         function fetchInvoiceReport() {
+            document.getElementById('exportTo').value = document.getElementById('invoiceExportValue').options[document.getElementById('invoiceExportValue').selectedIndex].text;
+            document.getElementById('tagNo').value = document.getElementById('invoiceTagNo').value;
             document.reportsForm.target = 'reportContent';
             document.reportsForm.action = 'getInvoiceReport.htm';
             document.reportsForm.submit();
@@ -123,6 +125,7 @@
 <form:hidden name="loggedInUser" path="loggedInUser"/>
 <form:hidden name="loggedInRole" path="loggedInRole"/>
 <form:hidden name="exportTo" path="currentReport.exportTo" id="exportTo"/>
+<form:hidden name="tagNo" path="currentReport.tagNo" id="tagNo"/>
 <%@include file="/WEB-INF/jsp/myHeader.jsp" %>
 <div id="content">
 <div class="wrap">
@@ -144,9 +147,7 @@
                     </label>
                 </td>
                 <td>
-                    <form:input path="currentReport.tagNo"
-                                cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;font-size: .70em;"
-                                id="tagNo"/>
+                    <input type="text" style="border:3px double #CCCCCC; width: 200px;height:20px;font-size: .70em;" id="callTagNo" />
                 </td>
                 <td colspan="2">&nbsp;</td>
                 <td>
@@ -155,7 +156,7 @@
                     </label>
                 </td>
                 <td>
-                    <select style="border:3px double #CCCCCC; width: 200px;height:25px;" id="exportValue" >
+                    <select style="border:3px double #CCCCCC; width: 200px;height:25px;" id="callExportValue" >
                         <option value=""></option>
                         <c:forEach var="n" items="${reportsForm.exportList}" varStatus="rowCounter">
                             <option value="${n}">${n}</option>
@@ -221,11 +222,23 @@
                 </td>
             <tr>
             <tr>
+                <td>
+                    <label for="exportTo" >
+                        Export To :
+                    </label>
+                </td>
+                <td>
+                    <select style="border:3px double #CCCCCC; width: 200px;height:25px;" id="makeExportValue" >
+                        <option value=""></option>
+                        <c:forEach var="n" items="${reportsForm.exportList}" varStatus="rowCounter">
+                            <option value="${n}">${n}</option>
+                        </c:forEach>
+                    </select>
+                </td>
                 <td colspan="2">
                     <input class="btn" value="Fetch Make Report" type="button"
                            onclick="javascript:fetchMakeReport()"/>
                 </td>
-                <td colspan="2">&nbsp;</td>
                 <td>
                     <input class="btn" value="Fetch Model List Report" type="button"
                            onclick="javascript:fetchModelListReport()"/>
@@ -240,7 +253,7 @@
 <div id="txnReport">
     <fieldset>
         <legend>Generate TransactionsList Report :</legend>
-        <table style="margin:auto;top:50%;left:50%;">
+        <table style="margin:auto;top:50%;left:50%;" >
             <tr>
                 <td>
                     <label for="TagNo"  >
@@ -350,7 +363,21 @@
                 </td>
             </tr>
             <tr>
-                <td colspan="12">&nbsp;</td>
+                <td colspan="8">&nbsp;</td>
+                <td>
+                    <label for="exportTo" >
+                        Export To :
+                    </label>
+                </td>
+                <td>
+                    <select style="border:3px double #CCCCCC; width: 200px;height:25px;" id="txnExportValue" >
+                        <option value=""></option>
+                        <c:forEach var="n" items="${reportsForm.exportList}" varStatus="rowCounter">
+                            <option value="${n}">${n}</option>
+                        </c:forEach>
+                    </select>
+                </td>
+                <td colspan="2">&nbsp;</td>
                 <td>
                     <input class="btn" value="Fetch Transactions List Report" type="button"
                            onclick="javascript:fetchTransactionsListReport()"/>
@@ -367,6 +394,29 @@
         <legend>Generate Invoice Report :</legend>
         <table style="margin:auto;top:50%;left:50%;">
             <tr>
+                <td>
+                    <label for="tagNo">
+                        Tag To :
+                    </label>
+                </td>
+                <td>
+                    <input type="text" style="border:3px double #CCCCCC; width: 200px;height:20px;font-size: .70em;" id="invoiceTagNo" />
+                </td>
+                <td colspan="2">&nbsp;</td>
+                <td>
+                    <label for="exportTo" >
+                        Export To :
+                    </label>
+                </td>
+                <td>
+                    <select style="border:3px double #CCCCCC; width: 200px;height:25px;" id="invoiceExportValue" >
+                        <option value=""></option>
+                        <c:forEach var="n" items="${reportsForm.exportList}" varStatus="rowCounter">
+                            <option value="${n}">${n}</option>
+                        </c:forEach>
+                    </select>
+                </td>
+                <td colspan="2">&nbsp;</td>
                 <td>
                     <input class="btn" value="Fetch Invoice Report" type="button"
                            onclick="javascript:fetchInvoiceReport()"/>
