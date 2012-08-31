@@ -10,12 +10,13 @@
 		<link rel="stylesheet" type="text/css" href="../css/mainStyles.css" />
         <script type="text/javascript">
             function save(){
-                if(document.getElementById('makeId').value.length > 0
-                        && document.getElementById('modelName').value.length > 0 ){
+                if(document.getElementById('modelName').value.length == 0) {
+                    document.getElementById('modelName').style.background = 'Yellow';
+                    alert(" Please enter the Model name");
+                }else{
+                    document.getElementById('modelName').style.background = 'White';
                     document.forms[0].action = "saveModel.htm";
                     document.forms[0].submit();
-                }else{
-                    alert(" Please enter both Make and Model");
                 }
             }
 

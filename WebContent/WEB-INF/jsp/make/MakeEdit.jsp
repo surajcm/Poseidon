@@ -10,12 +10,18 @@
     <link rel="stylesheet" type="text/css" href="../css/mainStyles.css" />
     <script type="text/javascript">
         function update(){
-            if(document.getElementById('makeName').value.length > 0
-                    && document.getElementById('description').value.length > 0 ){
+            if(document.getElementById('makeName').value.length == 0) {
+                document.getElementById('makeName').style.background = 'Yellow';
+                alert(" Please enter the Make name");
+            }  else if(document.getElementById('description').value.length == 0) {
+                document.getElementById('makeName').style.background = 'White';
+                document.getElementById('description').style.background = 'Yellow';
+                alert(" Please enter the description");
+            } else{
+                document.getElementById('modelName').style.background = 'White';
+                document.getElementById('description').style.background = 'White';
                 document.forms[0].action = "updateMake.htm";
                 document.forms[0].submit();
-            }else{
-                alert(" Please enter both Make Name and Description");
             }
         }
 

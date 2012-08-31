@@ -10,13 +10,16 @@
     <link rel="stylesheet" type="text/css" href="../css/mainStyles.css"/>
     <script type="text/javascript">
         function save() {
-            if(document.getElementById('customerName').value == null ||
-                    document.getElementById('customerName').value.length == 0){
+            if(document.getElementById('customerName').value.length == 0){
+                document.getElementById('customerName').style.background = 'Yellow';
                 alert("Please enter a valid Customer Name");
-            }else if(document.getElementById('mobile').value == null
-                    && document.getElementById('mobile').value.length == 0){
+            }else if(document.getElementById('mobile').value.length == 0){
+                document.getElementById('customerName').style.background = 'White';
+                document.getElementById('mobile').style.background = 'Yellow';
                 alert("Please enter a valid Mobile Number");
             } else {
+                document.getElementById('customerName').style.background = 'White';
+                document.getElementById('mobile').style.background = 'White';
                 document.forms[0].action = "saveCustomer.htm";
                 document.forms[0].submit();
             }
