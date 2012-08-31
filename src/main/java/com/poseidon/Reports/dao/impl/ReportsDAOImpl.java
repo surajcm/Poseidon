@@ -46,9 +46,12 @@ public class ReportsDAOImpl extends JdbcDaoSupport implements ReportsDAO {
         JasperPrint jasperPrint = null;
         Map<String, Object> params = new HashMap<String, Object>();
         if (companyTermsVO != null) {
-            if (companyTermsVO.getTermsAndConditions() != null) {
-                currentReport.getTransactionReportVO().setCompanyTerms(companyTermsVO.getCompanyTerms());
-            }
+            currentReport.getTransactionReportVO().setCompanyName(companyTermsVO.getCompanyName());
+            currentReport.getTransactionReportVO().setCompanyAddress(companyTermsVO.getCompanyAddress());
+            currentReport.getTransactionReportVO().setCompanyPhoneNumber(companyTermsVO.getCompanyPhoneNumber());
+            currentReport.getTransactionReportVO().setCompanyWebsite(companyTermsVO.getCompanyWebsite());
+            currentReport.getTransactionReportVO().setCompanyEmail(companyTermsVO.getCompanyEmail());
+            currentReport.getTransactionReportVO().setCompanyTerms(companyTermsVO.getCompanyTerms());
         }
         List<TransactionReportVO> reportVOs = new ArrayList<TransactionReportVO>();
         reportVOs.add(currentReport.getTransactionReportVO());

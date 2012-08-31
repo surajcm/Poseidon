@@ -21,4 +21,6 @@ Things to do
 
 10. email / phone no validation at create customer / transactions pages
 
-11. bug - terms is null in call report
+11. in call report, company name and details are hardcoded... it should be what is already there in db
+
+12. when deleting an invoice.. update the status of transaction to ....?

@@ -128,6 +128,9 @@ public class ReportsController extends MultiActionController {
         JasperReport jasperReport = null;
         JasperPrint jasperPrint = null;
         try {
+            if( reportsForm.getCurrentReport() == null){
+                reportsForm.setCurrentReport(new ReportsVO());
+            }
             logger.info("Locale-->" + httpServletRequest.getLocale());
             reportsForm.getCurrentReport().setLocale(Locale.US);
 
@@ -158,6 +161,9 @@ public class ReportsController extends MultiActionController {
         String reportType = null;
         String reportFileName;
         try {
+            if( reportsForm.getCurrentReport() == null){
+                reportsForm.setCurrentReport(new ReportsVO());
+            }
             reportsForm.getCurrentReport().setLocale(Locale.US);
 
             reportFileName = "callReport";
@@ -187,6 +193,9 @@ public class ReportsController extends MultiActionController {
         String reportType = null;
         String reportFileName;
         try {
+            if( reportsForm.getCurrentReport() == null){
+                reportsForm.setCurrentReport(new ReportsVO());
+            }
             reportsForm.getCurrentReport().setLocale(Locale.US);
 
             reportFileName = "transactionsListReport";
@@ -215,6 +224,9 @@ public class ReportsController extends MultiActionController {
         JasperReport jasperReport = null;
         JasperPrint jasperPrint = null;
         try {
+            if( reportsForm.getCurrentReport() == null){
+                reportsForm.setCurrentReport(new ReportsVO());
+            }
             reportsForm.getCurrentReport().setLocale(Locale.US);
 
             String reportFileName = "modelListReport";
@@ -243,6 +255,9 @@ public class ReportsController extends MultiActionController {
         JasperReport jasperReport = null;
         JasperPrint jasperPrint = null;
         try {
+            if( reportsForm.getCurrentReport() == null){
+                reportsForm.setCurrentReport(new ReportsVO());
+            }
             reportsForm.getCurrentReport().setLocale(Locale.US);
 
             String reportFileName = "errorReport";
@@ -263,11 +278,14 @@ public class ReportsController extends MultiActionController {
     public ModelAndView getInvoiceReport(HttpServletRequest httpServletRequest,
                                          HttpServletResponse httpServletResponse,
                                          ReportsForm reportsForm){
-        log.info(" Inside getErrorReport method of ReportsController ");
+        log.info(" Inside getInvoiceReport method of ReportsController ");
         log.info(" form details are" + reportsForm);
         JasperReport jasperReport = null;
         JasperPrint jasperPrint = null;
         try {
+            if( reportsForm.getCurrentReport() == null){
+                reportsForm.setCurrentReport(new ReportsVO());
+            }
             reportsForm.getCurrentReport().setLocale(Locale.US);
 
             String reportFileName = "serviceBillReport";

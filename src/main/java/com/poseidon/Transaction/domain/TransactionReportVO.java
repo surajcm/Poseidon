@@ -44,6 +44,11 @@ public class TransactionReportVO {
     private String contactPh1;
     private String contactPerson2;
     private String contactPh2;
+    private String companyName;
+    private String companyAddress;
+    private String companyPhoneNumber;
+    private String companyWebsite;
+    private String companyEmail;
     private String companyTerms;
 
     public Long getId() {
@@ -332,6 +337,46 @@ public class TransactionReportVO {
 
     public void setCompanyTerms(String companyTerms) {
         this.companyTerms = companyTerms;
+    }
+
+    public String getCompanyName() {
+        return companyName;
+    }
+
+    public void setCompanyName(String companyName) {
+        this.companyName = companyName;
+    }
+
+    public String getCompanyAddress() {
+        return companyAddress;
+    }
+
+    public void setCompanyAddress(String companyAddress) {
+        this.companyAddress = companyAddress;
+    }
+
+    public String getCompanyPhoneNumber() {
+        return companyPhoneNumber;
+    }
+
+    public void setCompanyPhoneNumber(String companyPhoneNumber) {
+        this.companyPhoneNumber = companyPhoneNumber;
+    }
+
+    public String getCompanyWebsite() {
+        return companyWebsite;
+    }
+
+    public void setCompanyWebsite(String companyWebsite) {
+        this.companyWebsite = companyWebsite;
+    }
+
+    public String getCompanyEmail() {
+        return companyEmail;
+    }
+
+    public void setCompanyEmail(String companyEmail) {
+        this.companyEmail = companyEmail;
     }
 
     @Override
