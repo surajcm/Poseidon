@@ -276,7 +276,7 @@ public class TransactionController extends MultiActionController {
         }
         if (transactionVOs != null) {
             for (TransactionVO transactionVO : transactionVOs) {
-                log.info(" transaction vo is " + transactionVO);
+                log.debug(" transaction vo is " + transactionVO);
             }
             transactionForm.setTransactionsList(transactionVOs);
         }
@@ -289,7 +289,7 @@ public class TransactionController extends MultiActionController {
         }
         if (makeVOs != null) {
             for (MakeVO makeVO : makeVOs) {
-                log.info("make vo is" + makeVO);
+                log.debug("make vo is" + makeVO);
             }
             transactionForm.setMakeVOs(makeVOs);
         }

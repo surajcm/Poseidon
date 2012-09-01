@@ -306,9 +306,9 @@
                         <td>
                             <input class="btn" value="Delete Make" type="button" onclick="javascript:deleteMake()"/>
                         </td>
-                        <td>
+                        <!--td>
                             <input class="btn" value="Print MakeList" type="button" onclick="javascript:printMe()"/>
-                        </td>
+                        </td-->
                     </tr>
                 </table>
             </fieldset>

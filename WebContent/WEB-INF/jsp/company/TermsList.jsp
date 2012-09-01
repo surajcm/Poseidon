@@ -196,7 +196,7 @@
                     <tr>
                         <td colspan="6">&nbsp;</td>
                     </tr>
-                    <tr>
+                    <!--tr>
                         <td>
                             <label for="companylogo" style="font-size: .70em;">
                                 Company Logo :
@@ -211,7 +211,7 @@
                     </tr>
                     <tr>
                         <td colspan="6">&nbsp;</td>
-                    </tr>
+                    </tr-->
                     <tr>
                         <td colspan="4">&nbsp;</td>
                         <td colspan="2">

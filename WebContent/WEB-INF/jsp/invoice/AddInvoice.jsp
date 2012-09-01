@@ -10,15 +10,14 @@
     <link rel="stylesheet" type="text/css" href="../css/mainStyles.css"/>
     <script type="text/javascript">
         function save() {
-            if(document.getElementById('tagNo').value == null ||
-                    document.getElementById('tagNo').value.length == 0){
+            if(document.getElementById('tagNo').value.length == 0){
                 alert("Please enter a valid Tag No");
-            }else if(document.getElementById('quantity').value == null
-                    && document.getElementById('quantity').value.length == 0){
+            }else if(document.getElementById('quantity').value.length == 0){
                 alert("Please enter a valid Quantity");
-            }else if(document.getElementById('rate').value == null
-                    && document.getElementById('rate').value.length == 0){
+            }else if(document.getElementById('rate').value.length == 0){
                 alert("Please enter a valid Rate");
+            }else if(document.getElementById('amount').value.length == 0){
+                alert("Please enter a valid Amount");
             } else {
                 document.forms[0].action = "saveInvoice.htm";
                 document.forms[0].submit();

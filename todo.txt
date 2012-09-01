@@ -7,8 +7,7 @@ Things to do
 5. dont invoice twice..
 6. automatic price * quantity
 7. check all the js buttons work fine
- - UserManagement 
- - MakeManagement 
+
  - CustomerManagement 
  - CompanyManagement 
  - TransactionsManagement 
@@ -21,6 +20,4 @@ Things to do
 
 10. email / phone no validation at create customer / transactions pages
 
-11. in call report, company name and details are hardcoded... it should be what is already there in db
-
-12. when deleting an invoice.. update the status of transaction to ....?
+11. include add image button and functionality at company details page

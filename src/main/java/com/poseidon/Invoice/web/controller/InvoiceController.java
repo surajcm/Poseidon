@@ -8,6 +8,7 @@ import com.poseidon.Make.delegate.MakeDelegate;
 import com.poseidon.Make.domain.MakeAndModelVO;
 import com.poseidon.Make.domain.MakeVO;
 import com.poseidon.Transaction.delegate.TransactionDelegate;
+import com.poseidon.Transaction.domain.TransactionReportVO;
 import com.poseidon.Transaction.domain.TransactionVO;
 import com.poseidon.Transaction.exception.TransactionException;
 import com.poseidon.Transaction.web.form.TransactionForm;
@@ -99,27 +100,30 @@ public class InvoiceController extends MultiActionController {
         invoiceForm.getCurrentInvoiceVO().setCreatedDate(new Date());
         invoiceForm.getCurrentInvoiceVO().setModifiedDate(new Date());
         try{
-            getInvoiceDelegate().addInvoice(invoiceForm.getCurrentInvoiceVO());
-            invoiceForm.setStatusMessage("Successfully saved the new Invoice Detail");
-            invoiceForm.setStatusMessageType("success");
-            //update the transaction
-
             TransactionVO searchTransactionVO = new TransactionVO();
-            searchTransactionVO.setTagNo(invoiceForm.getTagNo());
-            searchTransactionVO.setStartswith(Boolean.FALSE);
-            searchTransactionVO.setIncludes(Boolean.FALSE);
+            searchTransactionVO.setTagNo(invoiceForm.getCurrentInvoiceVO().getTagNo());
+            searchTransactionVO.setStartswith(Boolean.TRUE);
+            searchTransactionVO.setIncludes(Boolean.TRUE);
             List<TransactionVO> transactionVOs = null;
             try {
                 transactionVOs = getTransactionDelegate().searchTransactions(searchTransactionVO);
             }catch (TransactionException e){
                 e.printStackTrace();
             }
+
+
             if(transactionVOs != null && transactionVOs.size() > 0){
+                getInvoiceDelegate().addInvoice(invoiceForm.getCurrentInvoiceVO());
+                invoiceForm.setStatusMessage("Successfully saved the new Invoice Detail");
+                invoiceForm.setStatusMessageType("success");
+                //update the transaction
                 TransactionVO transactionVO = transactionVOs.get(0);
                 String status = "INVOICED";
                 getTransactionDelegate().updateTransactionStatus(transactionVO.getId(),status);
+            }else{
+                invoiceForm.setStatusMessage("Unable to find a transaction with tagNo " + invoiceForm.getCurrentInvoiceVO().getTagNo());
+                invoiceForm.setStatusMessageType("error");
             }
-
         }catch (InvoiceException e){
             invoiceForm.setStatusMessage("Unable to save the invoice due to an error");
             invoiceForm.setStatusMessageType("error");
@@ -167,7 +171,12 @@ public class InvoiceController extends MultiActionController {
         log.info(" Inside DeleteInvoice method of InvoiceController ");
         log.info(" Invoice Form details are " + invoiceForm);
         try {
+            InvoiceVO invoiceVO = getInvoiceDelegate().fetchInvoiceVOFromId(invoiceForm.getId());
             getInvoiceDelegate().deleteInvoice(invoiceForm.getId());
+            TransactionReportVO reportVO = getTransactionDelegate().fetchTransactionFromTag(invoiceVO.getTagNo());
+            //get the tag no of it
+            // update the status to closed
+            getTransactionDelegate().updateTransactionStatus(reportVO.getId(),"CLOSED");
             invoiceForm.setStatusMessage("Successfully deleted the new Invoice Detail");
             invoiceForm.setStatusMessageType("success");
         }catch (InvoiceException e){

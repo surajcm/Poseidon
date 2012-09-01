@@ -1,5 +1,6 @@
 package com.poseidon.Transaction.delegate;
 
+import com.poseidon.Transaction.domain.TransactionReportVO;
 import com.poseidon.Transaction.service.TransactionService;
 import com.poseidon.Transaction.domain.TransactionVO;
 import com.poseidon.Transaction.exception.TransactionException;
@@ -52,5 +53,9 @@ public class TransactionDelegate {
 
     public void updateTransactionStatus(Long id, String status)throws TransactionException{
         getTransactionService().updateTransactionStatus(id,status);
+    }
+
+    public TransactionReportVO fetchTransactionFromTag(String tagNo) throws  TransactionException{
+        return getTransactionService().fetchTransactionFromTag(tagNo);
     }
 }
