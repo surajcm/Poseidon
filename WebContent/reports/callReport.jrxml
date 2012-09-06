@@ -34,7 +34,7 @@
 		<band height="88" splitType="Stretch">
 			<image>
 				<reportElement uuid="c7219682-6d21-4193-9bb0-69d4f4573544" x="6" y="6" width="74" height="74"/>
-				<imageExpression><![CDATA["C:\\CompnanyLogo.gif"]]></imageExpression>
+				<imageExpression><![CDATA["C:\\CompanyLogo.gif"]]></imageExpression>
 			</image>
 			<textField>
 				<reportElement uuid="e7af506d-39c6-48a6-a204-e04ab96bb2ab" x="360" y="18" width="179" height="36"/>
