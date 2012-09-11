@@ -84,7 +84,13 @@ public class ReportsDelegate {
 
     public JasperPrint getCallReport(JasperReport jasperReport, ReportsVO currentReport) throws TransactionException {
         CompanyTermsVO companyTermsVO = getCompanyTermsService().listCompanyTerms();
-        TransactionReportVO transactionVO = getTransactionService().fetchTransactionFromTag(currentReport.getTagNo());
+        TransactionReportVO transactionVO;
+        try{
+        transactionVO = getTransactionService().fetchTransactionFromTag(currentReport.getTagNo());
+        }catch (TransactionException e){
+            e.printStackTrace();
+            throw new TransactionException(e.getMessage());
+        }
         currentReport.setTransactionReportVO(transactionVO);
         return getReportsService().getCallReport(jasperReport,
                 currentReport,

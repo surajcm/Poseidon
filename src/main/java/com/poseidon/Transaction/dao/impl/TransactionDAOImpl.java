@@ -17,6 +17,7 @@ import java.util.Locale;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.dao.DataAccessException;
+import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
@@ -187,7 +188,13 @@ public class TransactionDAOImpl extends JdbcDaoSupport implements TransactionDAO
         TransactionReportVO transactionVO;
         try {
             transactionVO = fetchTxnFromTag(tagNo);
-        } catch (DataAccessException e) {
+        } catch (EmptyResultDataAccessException e){
+            e.printStackTrace();
+            throw new TransactionException(TransactionException.DATABASE_ERROR);
+        }catch (DataAccessException e) {
+            e.printStackTrace();
+            throw new TransactionException(TransactionException.DATABASE_ERROR);
+        } catch (Exception e){
             e.printStackTrace();
             throw new TransactionException(TransactionException.DATABASE_ERROR);
         }

@@ -18,7 +18,7 @@
                 document.getElementById('description').style.background = 'Yellow';
                 alert(" Please enter the description");
             } else{
-                document.getElementById('modelName').style.background = 'White';
+                document.getElementById('makeName').style.background = 'White';
                 document.getElementById('description').style.background = 'White';
                 document.forms[0].action = "saveMake.htm";
                 document.forms[0].submit();

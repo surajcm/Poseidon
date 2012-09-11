@@ -27,7 +27,7 @@ public class MakeController extends MultiActionController {
     private MakeDelegate makeDelegate;
 
     /**
-     * logger for user controller
+     * logger for MakeController
      */
     private final Log log = LogFactory.getLog(MakeController.class);
 
@@ -41,8 +41,8 @@ public class MakeController extends MultiActionController {
 
     public ModelAndView ModelList(HttpServletRequest request,
                              HttpServletResponse response, MakeForm makeForm) {
-        log.info(" Inside List method of MakeController ");
-        log.info(" form details are " + makeForm);
+        log.debug(" Inside List method of MakeController ");
+        log.debug(" form details are " + makeForm);
 
         List<MakeAndModelVO> makeAndModelVOs = null;
         try {
@@ -54,7 +54,7 @@ public class MakeController extends MultiActionController {
         }
         if (makeAndModelVOs != null) {
             for (MakeAndModelVO makeAndModelVO : makeAndModelVOs) {
-                log.info(" makeAndModelVO is " + makeAndModelVO);
+                log.debug(" makeAndModelVO is " + makeAndModelVO);
             }
             makeForm.setMakeAndModelVOs(makeAndModelVOs);
         }
@@ -66,7 +66,7 @@ public class MakeController extends MultiActionController {
         }
         if (makeVOs != null) {
             for (MakeVO makeVO : makeVOs) {
-                log.info(" makeVO is " + makeVO);
+                log.debug(" makeVO is " + makeVO);
             }
             makeForm.setMakeVOs(makeVOs);
         }
@@ -78,7 +78,7 @@ public class MakeController extends MultiActionController {
 
     public ModelAndView MakeList(HttpServletRequest request,
                                  HttpServletResponse response, MakeForm makeForm) {
-        log.info(" listMake List method of MakeController ");
+        log.debug(" listMake List method of MakeController ");
         List<MakeAndModelVO> makeAndModelVOs = null;
         try {
             makeAndModelVOs = getMakeDelegate().listAllMakes();
@@ -89,7 +89,7 @@ public class MakeController extends MultiActionController {
         }
         if (makeAndModelVOs != null) {
             for (MakeAndModelVO makeAndModelVO : makeAndModelVOs) {
-                log.info(" makeAndModelVO is " + makeAndModelVO);
+                log.debug(" makeAndModelVO is " + makeAndModelVO);
             }
             makeForm.setMakeAndModelVOs(makeAndModelVOs);
         }
@@ -102,7 +102,7 @@ public class MakeController extends MultiActionController {
         }
         if (makeVOs != null) {
             for (MakeVO makeVO : makeVOs) {
-                log.info(" makeVO is " + makeVO);
+                log.debug(" makeVO is " + makeVO);
             }
             makeForm.setMakeVOs(makeVOs);
         }
@@ -115,7 +115,7 @@ public class MakeController extends MultiActionController {
 
     public ModelAndView addMake(HttpServletRequest request,
                                 HttpServletResponse response, MakeForm makeForm) {
-        log.info(" listMake addMake method of MakeController ");
+        log.debug(" listMake addMake method of MakeController ");
         makeForm.setLoggedInUser(makeForm.getLoggedInUser());
         makeForm.setLoggedInRole(makeForm.getLoggedInRole());
         makeForm.setCurrentMakeAndModeVO(new MakeAndModelVO());
@@ -124,9 +124,8 @@ public class MakeController extends MultiActionController {
 
     public ModelAndView editMake(HttpServletRequest request,
                                  HttpServletResponse response, MakeForm makeForm) {
-        log.info(" listMake editMake method of MakeController ");
-        log.info(" makeForm is " + makeForm.toString());
-        log.info(" makeForm is " + makeForm.getCurrentMakeAndModeVO());
+        log.debug(" listMake editMake method of MakeController ");
+        log.debug(" makeForm is " + makeForm.toString());
         MakeAndModelVO makeVO = null;
         try {
             makeVO = getMakeDelegate().getMakeFromId(makeForm.getId());
@@ -134,20 +133,20 @@ public class MakeController extends MultiActionController {
             e.printStackTrace();
             log.error(" Exception type in controller " + e.ExceptionType);
             if (e.getExceptionType().equalsIgnoreCase(MakeException.DATABASE_ERROR)) {
-                log.info(" An error occurred while fetching data from database. !! ");
+                log.error(" An error occurred while fetching data from database. !! ");
             } else {
-                log.info(" An Unknown Error has been occurred !!");
+                log.error(" An Unknown Error has been occurred !!");
             }
 
         } catch (Exception e1) {
             e1.printStackTrace();
-            log.info(" An Unknown Error has been occurred !!");
+            log.error(" An Unknown Error has been occurred !!");
         }
 
         if (makeVO == null) {
             log.error(" No details found for current makeVO !!");
         } else {
-            log.info(" makeVO details are " + makeVO);
+            log.debug(" makeVO details are " + makeVO);
         }
 
         makeForm.setCurrentMakeAndModeVO(makeVO);
@@ -159,22 +158,22 @@ public class MakeController extends MultiActionController {
 
     public ModelAndView deleteMake(HttpServletRequest request,
                                    HttpServletResponse response, MakeForm makeForm) {
-        log.info("  deleteMake method of MakeController ");
-        log.info(" makeForm is " + makeForm.toString());
+        log.debug("  deleteMake method of MakeController ");
+        log.debug(" makeForm is " + makeForm.toString());
         try {
             getMakeDelegate().deleteMake(makeForm.getId());
         } catch (MakeException e) {
             e.printStackTrace();
             log.error(" Exception type in controller " + e.ExceptionType);
             if (e.getExceptionType().equalsIgnoreCase(MakeException.DATABASE_ERROR)) {
-                log.info(" An error occurred while fetching data from database. !! ");
+                log.error(" An error occurred while fetching data from database. !! ");
             } else {
-                log.info(" An Unknown Error has been occurred !!");
+                log.error(" An Unknown Error has been occurred !!");
             }
 
         } catch (Exception e1) {
             e1.printStackTrace();
-            log.info(" An Unknown Error has been occurred !!");
+            log.error(" An Unknown Error has been occurred !!");
 
         }
 
@@ -186,7 +185,7 @@ public class MakeController extends MultiActionController {
 
     public ModelAndView addModel(HttpServletRequest request,
                                  HttpServletResponse response, MakeForm makeForm) {
-        log.info("  addModel method of MakeController ");
+        log.debug("  addModel method of MakeController ");
         makeForm.setLoggedInUser(makeForm.getLoggedInUser());
         makeForm.setLoggedInRole(makeForm.getLoggedInRole());
         makeForm.setCurrentMakeAndModeVO(new MakeAndModelVO());
@@ -198,7 +197,7 @@ public class MakeController extends MultiActionController {
         }
         if (makeVOs != null) {
             for (MakeAndModelVO makeVO : makeVOs) {
-                log.info(" makeVO is " + makeVO);
+                log.debug(" makeVO is " + makeVO);
             }
             makeForm.setMakeAndModelVOs(makeVOs);
         }
@@ -207,9 +206,9 @@ public class MakeController extends MultiActionController {
 
     public ModelAndView editModel(HttpServletRequest request,
                                   HttpServletResponse response, MakeForm makeForm) {
-        log.info(" editModel method of MakeController ");
+        log.debug(" editModel method of MakeController ");
 
-        log.info(" makeForm is " + makeForm.toString());
+        log.debug(" makeForm is " + makeForm.toString());
         MakeAndModelVO makeVO = null;
         try {
             makeVO = getMakeDelegate().getModelFromId(makeForm.getId());
@@ -217,14 +216,14 @@ public class MakeController extends MultiActionController {
             e.printStackTrace();
             log.error(" Exception type in controller " + e.ExceptionType);
             if (e.getExceptionType().equalsIgnoreCase(MakeException.DATABASE_ERROR)) {
-                log.info(" An error occurred while fetching data from database. !! ");
+                log.error(" An error occurred while fetching data from database. !! ");
             } else {
-                log.info(" An Unknown Error has been occurred !!");
+                log.error(" An Unknown Error has been occurred !!");
             }
 
         } catch (Exception e1) {
             e1.printStackTrace();
-            log.info(" An Unknown Error has been occurred !!");
+            log.error(" An Unknown Error has been occurred !!");
         }
 
         if (makeVO == null) {
@@ -242,7 +241,7 @@ public class MakeController extends MultiActionController {
         }
         if (makeVOs != null) {
             for (MakeAndModelVO makeVONew : makeVOs) {
-                log.info(" makeVO is " + makeVONew);
+                log.debug(" makeVO is " + makeVONew);
             }
             makeForm.setMakeAndModelVOs(makeVOs);
         }
@@ -253,9 +252,9 @@ public class MakeController extends MultiActionController {
 
     public ModelAndView deleteModel(HttpServletRequest request,
                                     HttpServletResponse response, MakeForm makeForm) {
-        log.info(" listMake deleteModel method of MakeController ");
+        log.debug(" listMake deleteModel method of MakeController ");
 
-        log.info(" makeForm is " + makeForm.toString());
+        log.debug(" makeForm is " + makeForm.toString());
         try {
             getMakeDelegate().deleteModel(makeForm.getId());
             makeForm.setStatusMessage("Successfully deleted the selected Model");
@@ -266,15 +265,15 @@ public class MakeController extends MultiActionController {
             e.printStackTrace();
             log.error(" Exception type in controller " + e.ExceptionType);
             if (e.getExceptionType().equalsIgnoreCase(MakeException.DATABASE_ERROR)) {
-                log.info(" An error occurred while fetching data from database. !! ");
+                log.error(" An error occurred while fetching data from database. !! ");
             } else {
-                log.info(" An Unknown Error has been occurred !!");
+                log.error(" An Unknown Error has been occurred !!");
             }
         } catch (Exception e1) {
             makeForm.setStatusMessage("Unable to delete the selected Model");
             makeForm.setStatusMessageType("error");
             e1.printStackTrace();
-            log.info(" An Unknown Error has been occurred !!");
+            log.debug(" An Unknown Error has been occurred !!");
 
         }
 
@@ -286,8 +285,8 @@ public class MakeController extends MultiActionController {
 
     public ModelAndView saveMake(HttpServletRequest request,
                                  HttpServletResponse response, MakeForm makeForm) {
-        log.info(" listMake saveMake method of MakeController ");
-        log.info(" makeForm instance to add to database " + makeForm.toString());
+        log.debug(" listMake saveMake method of MakeController ");
+        log.debug(" makeForm instance to add to database " + makeForm.toString());
         makeForm.getCurrentMakeAndModeVO().setCreatedDate(new Date());
         makeForm.getCurrentMakeAndModeVO().setModifiedDate(new Date());
         makeForm.getCurrentMakeAndModeVO().setCreatedBy(makeForm.getLoggedInUser());
@@ -302,9 +301,9 @@ public class MakeController extends MultiActionController {
             e.printStackTrace();
             log.error(" Exception type in controller " + e.ExceptionType);
             if (e.getExceptionType().equalsIgnoreCase(MakeException.DATABASE_ERROR)) {
-                log.info(" An error occurred while fetching data from database. !! ");
+                log.error(" An error occurred while fetching data from database. !! ");
             } else {
-                log.info(" An Unknown Error has been occurred !!");
+                log.error(" An Unknown Error has been occurred !!");
             }
 
         } catch (Exception e1) {
@@ -319,8 +318,8 @@ public class MakeController extends MultiActionController {
 
     public ModelAndView updateMake(HttpServletRequest request,
                                  HttpServletResponse response, MakeForm makeForm) {
-        log.info(" listMake saveMake method of MakeController ");
-        log.info(" makeForm instance to add to database " + makeForm.toString());
+        log.debug(" listMake saveMake method of MakeController ");
+        log.debug(" makeForm instance to add to database " + makeForm.toString());
         makeForm.getCurrentMakeAndModeVO().setModifiedDate(new Date());
         makeForm.getCurrentMakeAndModeVO().setModifiedBy(makeForm.getLoggedInUser());
         try {
@@ -333,16 +332,16 @@ public class MakeController extends MultiActionController {
             e.printStackTrace();
             log.error(" Exception type in controller " + e.ExceptionType);
             if (e.getExceptionType().equalsIgnoreCase(MakeException.DATABASE_ERROR)) {
-                log.info(" An error occurred while fetching data from database. !! ");
+                log.error(" An error occurred while fetching data from database. !! ");
             } else {
-                log.info(" An Unknown Error has been occurred !!");
+                log.error(" An Unknown Error has been occurred !!");
             }
 
         } catch (Exception e1) {
             makeForm.setStatusMessage("Unable to update the selected Make");
             makeForm.setStatusMessageType("error");
             e1.printStackTrace();
-            log.info(" An Unknown Error has been occurred !!");
+            log.error(" An Unknown Error has been occurred !!");
 
         }
         return MakeList(request, response, makeForm);
@@ -351,8 +350,8 @@ public class MakeController extends MultiActionController {
 
     public ModelAndView updateModel(HttpServletRequest request,
                                  HttpServletResponse response, MakeForm makeForm) {
-        log.info(" updateModel method of MakeController ");
-        log.info(" makeForm instance to add to database " + makeForm.toString());
+        log.debug(" updateModel method of MakeController ");
+        log.debug(" makeForm instance to add to database " + makeForm.toString());
         makeForm.getCurrentMakeAndModeVO().setModifiedDate(new Date());
         makeForm.getCurrentMakeAndModeVO().setModifiedBy(makeForm.getLoggedInUser());
         try {
@@ -365,16 +364,16 @@ public class MakeController extends MultiActionController {
             e.printStackTrace();
             log.error(" Exception type in controller " + e.ExceptionType);
             if (e.getExceptionType().equalsIgnoreCase(MakeException.DATABASE_ERROR)) {
-                log.info(" An error occurred while fetching data from database. !! ");
+                log.error(" An error occurred while fetching data from database. !! ");
             } else {
-                log.info(" An Unknown Error has been occurred !!");
+                log.error(" An Unknown Error has been occurred !!");
             }
 
         } catch (Exception e1) {
             makeForm.setStatusMessage("Unable to update the selected Model");
             makeForm.setStatusMessageType("error");
             e1.printStackTrace();
-            log.info(" An Unknown Error has been occurred !!");
+            log.error(" An Unknown Error has been occurred !!");
 
         }
         return ModelList(request, response, makeForm);
@@ -383,8 +382,8 @@ public class MakeController extends MultiActionController {
 
     public ModelAndView saveModel(HttpServletRequest request,
                                  HttpServletResponse response, MakeForm makeForm) {
-        log.info(" saveModel method of MakeController ");
-        log.info(" makeForm instance to add to database " + makeForm.toString());
+        log.debug(" saveModel method of MakeController ");
+        log.debug(" makeForm instance to add to database " + makeForm.toString());
         makeForm.getCurrentMakeAndModeVO().setCreatedDate(new Date());
         makeForm.getCurrentMakeAndModeVO().setModifiedDate(new Date());
         makeForm.getCurrentMakeAndModeVO().setCreatedBy(makeForm.getLoggedInUser());
@@ -399,16 +398,16 @@ public class MakeController extends MultiActionController {
             e.printStackTrace();
             log.error(" Exception type in controller " + e.ExceptionType);
             if (e.getExceptionType().equalsIgnoreCase(MakeException.DATABASE_ERROR)) {
-                log.info(" An error occurred while fetching data from database. !! ");
+                log.error(" An error occurred while fetching data from database. !! ");
             } else {
-                log.info(" An Unknown Error has been occurred !!");
+                log.error(" An Unknown Error has been occurred !!");
             }
 
         } catch (Exception e1) {
             makeForm.setStatusMessage("Unable to save the new Model");
             makeForm.setStatusMessageType("error");
             e1.printStackTrace();
-            log.info(" An Unknown Error has been occurred !!");
+            log.error(" An Unknown Error has been occurred !!");
 
         }
         return ModelList(request, response, makeForm);
@@ -416,9 +415,9 @@ public class MakeController extends MultiActionController {
 
     public ModelAndView searchModel(HttpServletRequest request,
                                  HttpServletResponse response, MakeForm makeForm) {
-        log.info(" searchModel method of MakeController ");
-        log.info(" makeForm instance to search " + makeForm.toString());
-        log.info(" searchVO instance to search " + makeForm.getSearchMakeAndModelVO());
+        log.debug(" searchModel method of MakeController ");
+        log.debug(" makeForm instance to search " + makeForm.toString());
+        log.debug(" searchVO instance to search " + makeForm.getSearchMakeAndModelVO());
         List<MakeAndModelVO> makeVOs = null;
         try {
             makeVOs = getMakeDelegate().searchMakeVOs(makeForm.getSearchMakeAndModelVO());
@@ -431,7 +430,7 @@ public class MakeController extends MultiActionController {
         }
         if (makeVOs != null) {
             for (MakeAndModelVO makeVO : makeVOs) {
-                log.info(" makeVO is " + makeVO);
+                log.debug(" makeVO is " + makeVO);
             }
             makeForm.setMakeAndModelVOs(makeVOs);
         }
@@ -443,7 +442,7 @@ public class MakeController extends MultiActionController {
         }
         if (makeVOs != null) {
             for (MakeVO searchMakeVO : searchMakeVOs) {
-                log.info(" searchMakeVO is " + searchMakeVO);
+                log.debug(" searchMakeVO is " + searchMakeVO);
             }
             makeForm.setMakeVOs(searchMakeVOs);
         }

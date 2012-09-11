@@ -31,6 +31,8 @@ public class UserDAOImpl extends JdbcDaoSupport implements UserDAO {
     //select all from table
     private static final String GET_ALL_USERS_SQL = " select * from user order by modifiedOn";
 
+    private static final String SEARCH_USERS_SQL = " select * from user ";
+
     // select single user information from database
     private static final String GET_SINGLE_USER_SQL = " select * from user where id = ? ";
 
@@ -143,7 +145,7 @@ public class UserDAOImpl extends JdbcDaoSupport implements UserDAO {
      */
     @SuppressWarnings("unchecked")
     public List<UserVO> searchAllUsers(UserVO searchUser) throws DataAccessException {
-        StringBuilder dynamicQuery = new StringBuilder(GET_ALL_USERS_SQL);
+        StringBuilder dynamicQuery = new StringBuilder(SEARCH_USERS_SQL);
         Boolean isWhereAppended = Boolean.FALSE;
         if (searchUser.getName() != null && searchUser.getName().trim().length() > 0) {
             dynamicQuery.append(" where ");

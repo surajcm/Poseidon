@@ -27,7 +27,7 @@ import java.util.List;
 public class InvoiceDAOImpl  extends JdbcDaoSupport implements InvoiceDAO {
     private SimpleJdbcInsert insertInvoice;
     private final String GET_TODAYS_INVOICE_SQL = "SELECT id,customerName,tagNo,description,serialNo,amount from invoice ";
-    private final String GET_SINGLE_INVOICE_SQL = "SELECT id,customerName,tagNo,description,serialNo,amount from invoice where id = ?";
+    private final String GET_SINGLE_INVOICE_SQL = "SELECT id,customerName,tagNo,description,serialNo,amount,quantity,rate from invoice where id = ?";
     private final String DELETE_INVOICE_BY_ID_SQL = " delete from invoice where id = ?  ";
     private final String UPDATE_INVOICE_SQL = " update invoice set tagNo = ? ,description = ? ,serialNo = ? ,amount = ?," +
             " quantity = ?,rate = ?, customerName = ? ,customerId = ?, modifiedOn = ?,modifiedBy = ? where id = ?  ";
@@ -53,7 +53,7 @@ public class InvoiceDAOImpl  extends JdbcDaoSupport implements InvoiceDAO {
     }
 
     public InvoiceVO fetchInvoiceVOFromId(Long id)  throws InvoiceException {
-        return (InvoiceVO) getJdbcTemplate().queryForObject(GET_SINGLE_INVOICE_SQL, new Object[]{id}, new InvoiceRowMapper());
+        return (InvoiceVO) getJdbcTemplate().queryForObject(GET_SINGLE_INVOICE_SQL, new Object[]{id}, new InvoiceFullRowMapper());
     }
 
     public void deleteInvoice(Long id) throws InvoiceException {
@@ -249,6 +249,34 @@ public class InvoiceDAOImpl  extends JdbcDaoSupport implements InvoiceDAO {
             invoiceVO.setDescription(resultSet.getString("description"));
             invoiceVO.setSerialNo(resultSet.getString("serialNo"));
             invoiceVO.setAmount(resultSet.getDouble("amount"));
+            return invoiceVO;
+        }
+
+    }
+
+    /**
+     * Row mapper as inner class
+     */
+    private class InvoiceFullRowMapper implements RowMapper {
+
+        /**
+         * method to map the result to vo
+         *
+         * @param resultSet resultSet instance
+         * @param i         i instance
+         * @return UserVO as Object
+         * @throws java.sql.SQLException on error
+         */
+        public Object mapRow(ResultSet resultSet, int i) throws SQLException {
+            InvoiceVO  invoiceVO = new InvoiceVO();
+            invoiceVO.setId(resultSet.getLong("id"));
+            invoiceVO.setCustomerName(resultSet.getString("customerName"));
+            invoiceVO.setTagNo(resultSet.getString("tagNo"));
+            invoiceVO.setDescription(resultSet.getString("description"));
+            invoiceVO.setSerialNo(resultSet.getString("serialNo"));
+            invoiceVO.setAmount(resultSet.getDouble("amount"));
+            invoiceVO.setQuantity(resultSet.getInt("quantity"));
+            invoiceVO.setRate(resultSet.getInt("rate"));
             return invoiceVO;
         }
 

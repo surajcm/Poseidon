@@ -91,9 +91,9 @@ public class CustomerDAOImpl extends JdbcDaoSupport implements CustomerDAO {
                 currentCustomerVO.getContactPerson2(),
                 currentCustomerVO.getContactMobile2(),
                 currentCustomerVO.getNotes(),
-                currentCustomerVO.getCustomerId(),
                 currentCustomerVO.getModifiedOn(),
-                currentCustomerVO.getModifiedBy()};
+                currentCustomerVO.getModifiedBy(),
+                currentCustomerVO.getCustomerId()};
 
         try {
             getJdbcTemplate().update(UPDATE_CUSTOMER_SQL, parameters);
