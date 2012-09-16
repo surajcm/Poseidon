@@ -41,16 +41,16 @@
     </style>
     <script type="text/javascript">
         function addInvoice(){
-            if(document.getElementById('amount').value.length == 0){
+            /*if(document.getElementById('amount').value.length == 0){
                 document.getElementById('amount').value = "0.0";
-            }
+            }*/
             document.forms[0].action = "addInvoice.htm";
             document.forms[0].submit();
         }
         function search() {
-            if(document.getElementById('amount').value.length == 0){
+            /*if(document.getElementById('amount').value.length == 0){
                 document.getElementById('amount').value = "0.0";
-            }
+            }*/
             document.forms[0].action = "SearchInvoice.htm";
             document.forms[0].submit();
         }

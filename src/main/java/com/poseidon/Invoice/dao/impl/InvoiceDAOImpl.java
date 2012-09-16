@@ -276,7 +276,7 @@ public class InvoiceDAOImpl  extends JdbcDaoSupport implements InvoiceDAO {
             invoiceVO.setSerialNo(resultSet.getString("serialNo"));
             invoiceVO.setAmount(resultSet.getDouble("amount"));
             invoiceVO.setQuantity(resultSet.getInt("quantity"));
-            invoiceVO.setRate(resultSet.getInt("rate"));
+            invoiceVO.setRate(resultSet.getDouble("rate"));
             return invoiceVO;
         }
 

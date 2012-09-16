@@ -15,8 +15,8 @@ public class InvoiceVO {
     private String description;
     private String serialNo;
     private int quantity;
-    private double rate;
-    private double amount;
+    private Double rate;
+    private Double amount;
     private Boolean startsWith;
     private Boolean includes;
     private Boolean greater;
@@ -82,19 +82,19 @@ public class InvoiceVO {
         this.quantity = quantity;
     }
 
-    public double getRate() {
+    public Double getRate() {
         return rate;
     }
 
-    public void setRate(double rate) {
+    public void setRate(Double rate) {
         this.rate = rate;
     }
 
-    public double getAmount() {
+    public Double getAmount() {
         return amount;
     }
 
-    public void setAmount(double amount) {
+    public void setAmount(Double amount) {
         this.amount = amount;
     }
 

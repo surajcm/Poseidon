@@ -14,6 +14,9 @@ import com.poseidon.Transaction.exception.TransactionException;
 import com.poseidon.Transaction.web.form.TransactionForm;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.propertyeditors.CustomNumberEditor;
+import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.multiaction.MultiActionController;
 
@@ -319,5 +322,15 @@ public class InvoiceController extends MultiActionController {
         invoiceForm.setCurrentInvoiceVO(invoiceVO);
         // create a invoice VO object and se that to the form
         return new ModelAndView("invoice/AddInvoice", "invoiceForm", invoiceForm);
+    }
+
+    /**
+     * This is for avoiding errors when entering double fields
+     *
+     * @param webDataBinder webDataBinder
+     */
+    @InitBinder
+    public void initBinder(WebDataBinder webDataBinder) {
+        webDataBinder.registerCustomEditor(Double.class, new CustomNumberEditor(Double.class, true));
     }
 }
