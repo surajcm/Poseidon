@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="serviceBillReport" pageWidth="720" pageHeight="842" columnWidth="680" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="a2c091f1-3c47-408a-aa2e-aadbef7b9055">
-	<property name="ireport.zoom" value="5.0"/>
-	<property name="ireport.x" value="2855"/>
-	<property name="ireport.y" value="2481"/>
+	<property name="ireport.zoom" value="0.75"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
 	<field name="invoiceId" class="java.lang.Long"/>
 	<field name="tagNo" class="java.lang.String"/>
 	<field name="customerName" class="java.lang.String"/>
@@ -29,7 +29,7 @@
 			<staticText>
 				<reportElement uuid="d734a4fe-5a41-40da-bc55-2eeb4160efa2" x="253" y="0" width="210" height="25"/>
 				<textElement textAlignment="Center">
-					<font fontName="Calibri" size="18" isBold="true"/>
+					<font fontName="Arial" size="18" isBold="true"/>
 				</textElement>
 				<text><![CDATA[SERVICE BILL]]></text>
 			</staticText>
@@ -40,56 +40,56 @@
 			<textField>
 				<reportElement uuid="bb7b6665-51a4-4613-9d8b-5140f8a75dbe" x="101" y="56" width="180" height="30"/>
 				<textElement>
-					<font fontName="Calibri" size="11"/>
+					<font fontName="Arial" size="11"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{companyAddress}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement uuid="43c8ddbd-593e-4947-a5b7-3cad9e676429" x="101" y="90" width="180" height="20"/>
 				<textElement>
-					<font fontName="Calibri" size="11"/>
+					<font fontName="Arial" size="11"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{companyPhoneNumber}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement uuid="876ee1de-44d5-4d68-8bf0-35f44d0c0296" x="101" y="114" width="180" height="20"/>
 				<textElement>
-					<font fontName="Calibri" size="11"/>
+					<font fontName="Arial" size="11"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{companyWebsite}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement uuid="25878df8-b484-49b3-8094-7611ff57c181" x="101" y="32" width="180" height="20"/>
 				<textElement>
-					<font fontName="Calibri" size="11"/>
+					<font fontName="Arial" size="11"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{companyName}]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement uuid="b10e3863-9fcd-4404-846a-1b980d4a744f" x="296" y="49" width="70" height="20"/>
 				<textElement>
-					<font fontName="Calibri" size="11"/>
+					<font fontName="Arial" size="11"/>
 				</textElement>
 				<text><![CDATA[INVOICE NO:]]></text>
 			</staticText>
 			<staticText>
 				<reportElement uuid="baced107-3ea2-47d4-aa92-daebeb71bf39" x="298" y="109" width="73" height="20"/>
 				<textElement>
-					<font fontName="Calibri" size="11"/>
+					<font fontName="Arial" size="11"/>
 				</textElement>
 				<text><![CDATA[Suppliers Ref :]]></text>
 			</staticText>
 			<staticText>
 				<reportElement uuid="61eb8d47-b84b-4195-80ac-2d4dd9ecf096" x="487" y="54" width="42" height="20"/>
 				<textElement>
-					<font fontName="Calibri" size="11"/>
+					<font fontName="Arial" size="11"/>
 				</textElement>
 				<text><![CDATA[DATED :]]></text>
 			</staticText>
 			<staticText>
 				<reportElement uuid="e1c466a0-456b-4268-854f-a7a84e790ae0" x="488" y="108" width="100" height="20"/>
 				<textElement>
-					<font fontName="Calibri" size="11"/>
+					<font fontName="Arial" size="11"/>
 				</textElement>
 				<text><![CDATA[Other References : ]]></text>
 			</staticText>
@@ -101,20 +101,22 @@
 			</line>
 			<textField>
 				<reportElement uuid="56e66e49-0347-49cd-8139-80d2c5663eaa" x="371" y="49" width="100" height="20"/>
-				<textElement/>
+				<textElement>
+					<font fontName="Arial"/>
+				</textElement>
 				<textFieldExpression><![CDATA[$F{invoiceId}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement uuid="9bc751ab-e565-44dd-b85a-b30f4c03c37d" x="374" y="109" width="100" height="20"/>
 				<textElement>
-					<font size="11"/>
+					<font fontName="Arial" size="11"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{tagNo}]]></textFieldExpression>
 			</textField>
 			<textField pattern="dd/MM/yyyy">
 				<reportElement uuid="f5992eff-5456-4c63-8805-5143efb41f93" x="580" y="54" width="100" height="20"/>
 				<textElement>
-					<font fontName="Calibri" size="11"/>
+					<font fontName="Arial" size="11"/>
 				</textElement>
 				<textFieldExpression><![CDATA[new java.util.Date()]]></textFieldExpression>
 			</textField>
@@ -146,28 +148,28 @@
 			<staticText>
 				<reportElement uuid="d6324be2-9358-4dec-9c61-e568e3c2f58f" x="15" y="13" width="30" height="20"/>
 				<textElement>
-					<font fontName="Calibri" size="11"/>
+					<font fontName="Arial" size="11"/>
 				</textElement>
 				<text><![CDATA[TO :]]></text>
 			</staticText>
 			<textField>
 				<reportElement uuid="e92b44fa-3baa-471a-85f2-353fa0488245" x="91" y="37" width="386" height="40"/>
 				<textElement>
-					<font fontName="Calibri" size="11"/>
+					<font fontName="Arial" size="11"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{customerAddress1}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement uuid="a1d4b4da-07d0-42f7-88b0-64e8e827ace5" x="91" y="82" width="386" height="40"/>
 				<textElement>
-					<font fontName="Calibri" size="11"/>
+					<font fontName="Arial" size="11"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{customerAddress2}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement uuid="841146ed-41e9-4128-b954-a74a36b56b2f" x="91" y="13" width="386" height="20"/>
 				<textElement>
-					<font fontName="Calibri" size="11"/>
+					<font fontName="Arial" size="11"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{customerName}]]></textFieldExpression>
 			</textField>
@@ -187,35 +189,35 @@
 			<staticText>
 				<reportElement uuid="15a3d831-fb07-4461-9c8e-f2aff9618ba5" x="15" y="0" width="30" height="20"/>
 				<textElement>
-					<font fontName="Calibri" size="11"/>
+					<font fontName="Arial" size="11"/>
 				</textElement>
 				<text><![CDATA[SL NO]]></text>
 			</staticText>
 			<staticText>
 				<reportElement uuid="64299e19-9ab4-48bb-b8c3-19fd8dd8814a" x="55" y="0" width="305" height="20"/>
 				<textElement>
-					<font fontName="Calibri" size="11"/>
+					<font fontName="Arial" size="11"/>
 				</textElement>
 				<text><![CDATA[Item Description]]></text>
 			</staticText>
 			<staticText>
 				<reportElement uuid="5617ed92-40f1-4f97-be3d-b6484caf132c" x="371" y="0" width="62" height="20"/>
 				<textElement>
-					<font fontName="Calibri" size="11"/>
+					<font fontName="Arial" size="11"/>
 				</textElement>
 				<text><![CDATA[Quantity]]></text>
 			</staticText>
 			<staticText>
 				<reportElement uuid="7b60bd5d-f11c-4ecb-9282-f0871147106b" x="445" y="0" width="66" height="20"/>
 				<textElement>
-					<font fontName="Calibri" size="11"/>
+					<font fontName="Arial" size="11"/>
 				</textElement>
 				<text><![CDATA[Rate]]></text>
 			</staticText>
 			<staticText>
 				<reportElement uuid="195fa359-d315-4ede-a62f-7909ed8100f1" x="539" y="0" width="100" height="20"/>
 				<textElement>
-					<font fontName="Calibri" size="11"/>
+					<font fontName="Arial" size="11"/>
 				</textElement>
 				<text><![CDATA[Amount]]></text>
 			</staticText>
@@ -247,49 +249,49 @@
 			<textField>
 				<reportElement uuid="4eec663e-466e-4c4b-99f4-d30cd937cb5b" x="15" y="12" width="30" height="20"/>
 				<textElement>
-					<font fontName="Calibri" size="11"/>
+					<font fontName="Arial" size="11"/>
 				</textElement>
 				<textFieldExpression><![CDATA[1]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement uuid="c5aa0495-2841-4cc6-93ec-b69fca2171ac" x="55" y="12" width="305" height="20"/>
 				<textElement>
-					<font fontName="Calibri" size="11"/>
+					<font fontName="Arial" size="11"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{description}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement uuid="05d0244a-9fb0-4a86-9e7c-b165f271d184" x="371" y="12" width="62" height="20"/>
 				<textElement>
-					<font fontName="Calibri" size="11"/>
+					<font fontName="Arial" size="11"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{quantity}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement uuid="f7019c73-76d6-4581-be0f-86ea3499952a" x="445" y="12" width="66" height="20"/>
 				<textElement>
-					<font fontName="Calibri" size="11"/>
+					<font fontName="Arial" size="11"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{rate}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement uuid="0387b7d9-6194-413d-8f03-8271a5b8e541" x="539" y="12" width="100" height="20"/>
 				<textElement>
-					<font fontName="Calibri" size="11"/>
+					<font fontName="Arial" size="11"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{amount}]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement uuid="2f47e215-d45c-4488-b5c6-711794a5522b" x="55" y="47" width="45" height="20"/>
 				<textElement>
-					<font fontName="Calibri"/>
+					<font fontName="Arial"/>
 				</textElement>
 				<text><![CDATA[SL NO:]]></text>
 			</staticText>
 			<textField>
 				<reportElement uuid="3550d782-42f5-45fd-9bd0-f4b9ccf36232" x="101" y="47" width="259" height="20"/>
 				<textElement>
-					<font fontName="Calibri" size="11"/>
+					<font fontName="Arial" size="11"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{serialNo}]]></textFieldExpression>
 			</textField>
@@ -326,14 +328,14 @@
 			<staticText>
 				<reportElement uuid="130b5e29-7457-436b-bc6a-d15322bdc2eb" x="433" y="74" width="90" height="20"/>
 				<textElement>
-					<font fontName="Calibri" size="11"/>
+					<font fontName="Arial" size="11"/>
 				</textElement>
 				<text><![CDATA[Grand Total]]></text>
 			</staticText>
 			<textField>
 				<reportElement uuid="f8d51d71-eaa9-4709-b99b-a1c9b5479ddc" x="539" y="74" width="100" height="20"/>
 				<textElement>
-					<font fontName="Calibri" size="11"/>
+					<font fontName="Arial" size="11"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{totalAmount}]]></textFieldExpression>
 			</textField>
@@ -343,14 +345,14 @@
 			<staticText>
 				<reportElement uuid="8d1e1639-bfdf-464c-b5b6-c24c78b30b24" x="8" y="110" width="179" height="20"/>
 				<textElement>
-					<font fontName="Calibri" size="11"/>
+					<font fontName="Arial" size="11"/>
 				</textElement>
 				<text><![CDATA[Amount Chargeable in words :]]></text>
 			</staticText>
 			<staticText>
 				<reportElement uuid="51cb1a7c-2f84-40fc-8ce6-aa82073670e3" mode="Transparent" x="8" y="177" width="100" height="20" forecolor="#000000" backcolor="#FFFFFF"/>
 				<textElement textAlignment="Left" verticalAlignment="Top" rotation="None" markup="none">
-					<font fontName="Calibri" size="11" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<font fontName="Arial" size="11" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
 					<paragraph lineSpacing="Single"/>
 				</textElement>
 				<text><![CDATA[Company's VAT TIN :]]></text>
@@ -358,7 +360,7 @@
 			<staticText>
 				<reportElement uuid="61eb1259-7f98-43fc-b1ee-26616752f6dd" mode="Transparent" x="8" y="220" width="100" height="20" forecolor="#000000" backcolor="#FFFFFF"/>
 				<textElement textAlignment="Left" verticalAlignment="Top" rotation="None" markup="none">
-					<font fontName="Calibri" size="11" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<font fontName="Arial" size="11" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
 					<paragraph lineSpacing="Single"/>
 				</textElement>
 				<text><![CDATA[Company's CST TIN :]]></text>
@@ -366,21 +368,21 @@
 			<textField>
 				<reportElement uuid="c9d6cd77-d3a1-450c-943a-32bb3bc0e12f" x="135" y="220" width="100" height="20"/>
 				<textElement>
-					<font fontName="Calibri" size="11"/>
+					<font fontName="Arial" size="11"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{companyCSTTIN}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement uuid="0aca2970-3277-42a5-ae83-c7681bf9f408" x="135" y="177" width="100" height="20"/>
 				<textElement>
-					<font fontName="Calibri" size="11"/>
+					<font fontName="Arial" size="11"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{companyVATTIN}]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement uuid="acf49efc-7a6f-4168-b818-9580599b7bd3" mode="Transparent" x="371" y="220" width="168" height="20" forecolor="#000000" backcolor="#FFFFFF"/>
 				<textElement textAlignment="Left" verticalAlignment="Top" rotation="None" markup="none">
-					<font fontName="Calibri" size="11" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<font fontName="Arial" size="11" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
 					<paragraph lineSpacing="Single"/>
 				</textElement>
 				<text><![CDATA[For N2N Techno Solutions]]></text>
@@ -388,7 +390,7 @@
 			<staticText>
 				<reportElement uuid="ed4638be-5a21-4284-87c2-f619d8e7d28a" mode="Transparent" x="565" y="291" width="100" height="20" forecolor="#000000" backcolor="#FFFFFF"/>
 				<textElement textAlignment="Left" verticalAlignment="Top" rotation="None" markup="none">
-					<font fontName="Calibri" size="11" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
+					<font fontName="Arial" size="11" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
 					<paragraph lineSpacing="Single"/>
 				</textElement>
 				<text><![CDATA[Authorized Signatory]]></text>

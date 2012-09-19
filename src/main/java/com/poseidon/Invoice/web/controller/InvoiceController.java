@@ -90,7 +90,9 @@ public class InvoiceController extends MultiActionController {
     public ModelAndView addInvoice(HttpServletRequest request,
                                     HttpServletResponse response,InvoiceForm invoiceForm){
         log.info(" Inside addInvoice method of InvoiceController ");
-        invoiceForm.setCurrentInvoiceVO(new InvoiceVO());
+        InvoiceVO vo = new InvoiceVO();
+        vo.setQuantity(1);
+        invoiceForm.setCurrentInvoiceVO(vo);
         return new ModelAndView("invoice/AddInvoice", "invoiceForm", invoiceForm);
     }
 

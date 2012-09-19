@@ -163,7 +163,7 @@ public class InvoiceDAOImpl  extends JdbcDaoSupport implements InvoiceDAO {
             SEARCH_INVOICE_QUERY.append(" id = ").append(searchInvoiceVO.getId());
         }
 
-        if (searchInvoiceVO.getAmount() > 0) {
+        if (searchInvoiceVO.getAmount()!= null && searchInvoiceVO.getAmount() > 0) {
             if (!isWhereAdded) {
                 SEARCH_INVOICE_QUERY.append(" where ");
                 isWhereAdded = Boolean.TRUE;

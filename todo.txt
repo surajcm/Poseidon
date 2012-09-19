@@ -10,9 +10,7 @@ Things to do
 
 5. dont invoice twice..
 
-6. automatic price * quantity
-
-7. check all the js buttons work fine
+6. check all the js buttons work fine
 
  - CustomerManagement 
  - CompanyManagement 
@@ -20,14 +18,15 @@ Things to do
  - InvoiceManagement 
  - ReportManagement
  
-8. upload image functionality
+7. upload image functionality
 
-9. Redirect to print screen with selecting desired tab window
+8. Redirect to print screen with selecting desired tab window
 
-10. email / phone no validation at create customer / transactions pages
+9. email / phone no validation at create customer / transactions pages
 
-11. include add image button and functionality at company details page
+10. include add image button and functionality at company details page
 
-12. fix image issue in reports normal view
-left 6, top 86
-width 533 , height 50
+11. fix image issue in reports normal view
+
+12.Possibility to add the model / make through a iframe in new transaction page
+

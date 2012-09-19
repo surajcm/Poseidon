@@ -31,6 +31,18 @@
             document.getElementById('rate').value = "";
             document.getElementById('amount').value = "";
         }
+
+        function multiplyFromRate(){
+            if(document.getElementById('quantity').value.length > 0) {
+                document.getElementById('amount').value = document.getElementById('quantity').value * document.getElementById('rate').value;
+            }
+        }
+
+        function multiplyFromQty(){
+            if(document.getElementById('quantity').value.length > 0 && document.getElementById('rate').value > 0) {
+                document.getElementById('amount').value = document.getElementById('quantity').value * document.getElementById('rate').value;
+            }
+        }
     </script>
 </head>
 <body style="background: #A9A9A9 ;">
@@ -73,7 +85,7 @@
                         </td>
                         <td colspan="2">&nbsp;</td>
                         <td style="text-align:left;">
-                            <form:input path="currentInvoiceVO.quantity" cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;" id="quantity"/>
+                            <form:input path="currentInvoiceVO.quantity" cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;" id="quantity" onkeyup="javascript:multiplyFromQty()"/>
                         </td>
                         <td colspan="2">&nbsp;</td>
                         <td style="text-align:right;">
@@ -83,7 +95,7 @@
                         </td>
                         <td colspan="2">&nbsp;</td>
                         <td style="text-align:left;">
-                            <form:input path="currentInvoiceVO.rate" cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;" id="rate"/>
+                            <form:input path="currentInvoiceVO.rate" cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;" id="rate" onkeyup="javascript:multiplyFromRate()" />
                         </td>
                         <td colspan="2">&nbsp;</td>
                         <td style="text-align:right;">
