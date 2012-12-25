@@ -135,6 +135,7 @@
     <li><a href="#modelReport">Generate Make/Model Report :</a></li>
     <li><a href="#txnReport">Generate TransactionsList Report :</a></li>
     <li><a href="#invoiceReport">Generate Invoice Report :</a></li>
+    <li><a href="#invoiceListReport">Generate InvoiceList Report :</a></li>
 </ul>
 <div id="callReport">
     <fieldset style="text-align:right;">
@@ -428,6 +429,146 @@
         </table>
     </fieldset>
 </div>
+<div id="invoiceListReport">
+    <fieldset>
+        <legend>Generate InvoiceList Report :</legend>
+        <table style="margin:auto;top:50%;left:50%;" >
+            <tr>
+                <td>
+                    <label for="TagNo"  >
+                        Tag No :
+                    </label>
+                </td>
+                <td>
+                    <form:input path="searchTransaction.TagNo" cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;font-size: .70em;" id="TagNo"/>
+                </td>
+                <td colspan="2">&nbsp;</td>
+                <td>
+                    <label for="CustomerName"  >
+                        Customer Name :
+                    </label>
+                </td>
+                <td>
+                    <form:input path="searchTransaction.CustomerName" cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;font-size: .70em;" id="CustomerName"/>
+                </td>
+                <td colspan="2">&nbsp;</td>
+                <td>
+                    <label for="startDate"  >
+                        Reported Date (From) :
+                    </label>
+                </td>
+                <td>
+                    <form:input path="searchTransaction.startDate" cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;font-size: .70em;" id="startDate"/>
+                </td>
+                <td colspan="2">&nbsp;</td>
+                <td>
+                    <label for="endDate"  >
+                        Reported Date (To) :
+                    </label>
+                </td>
+                <td>
+                    <form:input path="searchTransaction.endDate" cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;font-size: .70em;" id="endDate"/>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="14">&nbsp;</td>
+            </tr>
+            <tr>
+                <td>
+                    <label for="SerialNo"  >
+                        Serial No :
+                    </label>
+                </td>
+                <td>
+                    <form:input path="searchTransaction.SerialNo" cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;font-size: .70em;" id="SerialNo"/>
+                </td>
+                <td colspan="2">&nbsp;</td>
+                <td>
+                    <label for="makeId"  >
+                        Make :
+                    </label>
+                </td>
+                <td>
+                    <form:select id="makeId" path="searchTransaction.makeId" tabindex="1"
+                                 onchange="changeTheModel();"
+                                 cssStyle="border:3px double #CCCCCC; width: 200px;height:28px;">
+                        <form:option value=""><spring:message code="common.select" text="<-- Select -->"/></form:option>
+                        <form:options items="${reportsForm.makeVOs}"
+                                      itemValue="Id" itemLabel="makeName"/>
+                    </form:select>
+                </td>
+                <td colspan="2">&nbsp;</td>
+                <td>
+                    <label for="modelId"  >
+                        Model Name :
+                    </label>
+                </td>
+                <td>
+                    <form:select id="modelId" path="searchTransaction.modelId" tabindex="1"
+                                 cssStyle="border:3px double #CCCCCC; width: 200px;height:25px;">
+                        <form:option value=""><spring:message code="common.select" text="<-- Select -->"/></form:option>
+                    </form:select>
+                </td>
+                <td colspan="2">&nbsp;</td>
+                <td>
+                    <label for="Status"  >
+                        Status :
+                    </label>
+                </td>
+                <td>
+                    <form:select id="Status" path="searchTransaction.Status"
+                                 cssStyle="border:3px double #CCCCCC; width: 200px;height:25px;">
+                        <form:option value=""><spring:message code="common.select" text="<-- Select -->"/></form:option>
+                        <form:options items="${reportsForm.statusList}" />
+                    </form:select>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="14">&nbsp;</td>
+            </tr>
+            <tr>
+                <td colspan="12">&nbsp;</td>
+                <td>
+                    <label for="includes"  >
+                        <spring:message code="user.includes" text="Includes"/>
+                        <form:checkbox path="searchTransaction.includes" cssStyle="vertical-align:middle" id="includes" value="" />
+                    </label>
+                </td>
+                <td>
+                    <label for="startswith"  >
+                        <spring:message code="user.startsWith" text="Starts with"/>
+                        <form:checkbox path="searchTransaction.startswith" cssStyle="vertical-align:middle" id="startswith" value="" />
+                    </label>
+                </td>
+            </tr>
+            <tr>
+                <td colspan="8">&nbsp;</td>
+                <td>
+                    <label for="exportTo" >
+                        Export To :
+                    </label>
+                </td>
+                <td>
+                    <select style="border:3px double #CCCCCC; width: 200px;height:25px;" id="txnExportValue" >
+                        <option value=""></option>
+                        <c:forEach var="n" items="${reportsForm.exportList}" varStatus="rowCounter">
+                            <option value="${n}">${n}</option>
+                        </c:forEach>
+                    </select>
+                </td>
+                <td colspan="2">&nbsp;</td>
+                <td>
+                    <input class="btn" value="Fetch Invoice List Report" type="button"
+                           onclick="javascript:fetchTransactionsListReport()"/>
+                </td>
+                <td>
+                    <input class="btn" value="Clear" type="button" onclick="javascript:clearOut()"/>
+                </td>
+            </tr>
+        </table>
+    </fieldset>
+</div>
+
 </div>
 <fieldset>
     <legend>Report :</legend>

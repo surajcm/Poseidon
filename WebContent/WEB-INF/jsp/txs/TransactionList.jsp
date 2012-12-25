@@ -446,7 +446,7 @@ function hideAlerts(){
                 </table>
             </fieldset>
             <c:if test="${transactionForm.statusMessage!=null}">
-                <div  id="effect" class="<c:out value="${transactionForm.statusMessageType}"/>">
+                <div  id="effect" class="<c:out value='${transactionForm.statusMessageType}'/>">
                     <c:out value="${transactionForm.statusMessage}"/>
                 </div>
             </c:if>
@@ -470,7 +470,7 @@ function hideAlerts(){
                     <c:forEach items="${transactionForm.transactionsList}" var="iterationTxn">
                         <tr>
                             <td><input type="checkbox" name="checkField" onclick="javascript:checkCall(this)"
-                                       value="<c:out value="${iterationTxn.id}" />"/></td>
+                                       value="<c:out value='${iterationTxn.id}' />"/></td>
                             <td><c:out value="${iterationTxn.tagNo}"/></td>
                             <td><c:out value="${iterationTxn.customerName}"/></td>
                             <td><c:out value="${iterationTxn.dateReported}"/></td>

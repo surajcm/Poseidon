@@ -63,7 +63,7 @@
                         <td>
                             <label for="name" style="font-size: .70em;">
                                 <spring:message code="poseidon.username" text="User Name"/> :
-                            </label>
+                           </label>
                         </td>
                         <td colspan="2">&nbsp;</td>
                         <td>
@@ -127,7 +127,7 @@
                         <td>
                             <input class="btn" value="Save" type="button" onclick="javascript:save();"/>
                         </td>
-                        <td colspan="2" />
+                        <td colspan="2"></td>
                         <td>
                             <input class="btn" value="Clear" type="button" onclick="javascript:clearOut();"/>
                         </td>

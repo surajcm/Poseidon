@@ -251,16 +251,16 @@
                     <tr>
                         <td colspan="8">&nbsp;</td>
                         <td>
-                            <input class="btn" value="<spring:message code="poseidon.search" text="Search" />" type="button" onclick="javascript:search()" />
+                            <input class="btn" value="<spring:message code='poseidon.search' text='Search' />" type="button" onclick="javascript:search()" />
                         </td>
                         <td>
-                            <input class="btn" value="<spring:message code="poseidon.clear" text="Clear" />" type="button" onclick="javascript:clearOut()" />
+                            <input class="btn" value="<spring:message code='poseidon.clear' text='Clear' />" type="button" onclick="javascript:clearOut()" />
                         </td>
                     </tr>
                 </table>
             </fieldset>
             <c:if test="${userForm.statusMessage!=null}">
-                <div  id="effect" class="<c:out value="${userForm.statusMessageType}"/>">
+                <div  id="effect" class="<c:out value='${userForm.statusMessageType}'/>">
                     <c:out value="${userForm.statusMessage}"/>
                 </div>
             </c:if>
@@ -300,9 +300,9 @@
                         <td>
                             <br/>
                             <br/>
-                            <input class="btn" value="<spring:message code="poseidon.add" text="Add New User" />" type="button" onclick="javascript:addNew()" />
-                            <input class="btn" value="<spring:message code="poseidon.edit" text="Edit User" />" type="button" onclick="javascript:editMe()" />
-                            <input class="btn" value="<spring:message code="poseidon.delete" text="Delete User" />" type="button" onclick="javascript:deleteUser()" />
+                            <input class="btn" value="<spring:message code='poseidon.add' text='Add New User' />" type="button" onclick="javascript:addNew()" />
+                            <input class="btn" value="<spring:message code='poseidon.edit' text='Edit User' />" type="button" onclick="javascript:editMe()" />
+                            <input class="btn" value="<spring:message code='poseidon.delete' text='Delete User' />" type="button" onclick="javascript:deleteUser()" />
                         </td>
                     </tr>
                 </table>

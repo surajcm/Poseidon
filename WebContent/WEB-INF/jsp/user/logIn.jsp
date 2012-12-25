@@ -1,5 +1,4 @@
-<%@ page language="java" contentType="text/html; charset=ISO-8859-1"
-         pageEncoding="ISO-8859-1"%>
+<%@ page language="java" contentType="text/html; charset=UTF-8" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml1-strict.dtd">
@@ -38,7 +37,7 @@
                                 <form:errors path="loginId" />
                             </p>
                             <p class="">
-                                <label for="psw"><spring:message code="poseidon.password" text="Password:" /></label>
+                                <label for="password"><spring:message code="poseidon.password" text="Password:" /></label>
                                 <form:password path="password" cssClass="textboxes" id="psw" />
                                 <form:errors path="password" />
                             </p>
