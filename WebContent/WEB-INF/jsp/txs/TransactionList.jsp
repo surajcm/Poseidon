@@ -38,6 +38,29 @@
         background-color: #FFBABA;
         background-image: url( '<%=request.getContextPath()%>/images/Error.png' );
     }
+	
+	.textfieldMyStyle 
+	{
+		border:3px double #CCCCCC;
+		width: 200px;
+		height:20px;
+	}
+	fieldset
+	{
+		text-align:right;
+	}
+	table
+	{
+		margin:auto;
+		top:50%;
+		left:50%;
+		font-size: .60em;
+	}
+	label
+	{
+		font-size: .70em;
+	}
+	
 </style>
 <script type="text/javascript">
 var req;
@@ -319,35 +342,35 @@ function hideAlerts(){
 
     <div id="content">
         <div class="wrap">
-            <fieldset style="text-align:right;">
+            <fieldset>
                 <legend>Search Transactions</legend>
-                <table style="margin:auto;top:50%;left:50%;">
+                <table>
                     <tr>
                         <td>
-                            <label for="TagNo" style="font-size: .70em;">
+                            <label for="TagNo">
                                 Tag No :
                             </label>
                         </td>
                         <td>
-                            <form:input path="searchTransaction.TagNo" cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;font-size: .70em;" id="TagNo"/>
+                            <form:input path="searchTransaction.TagNo" cssClass="textfieldMyStyle" id="TagNo"/>
                         </td>
                         <td colspan="2">&nbsp;</td>
                         <td>
-                            <label for="CustomerName" style="font-size: .70em;">
+                            <label for="CustomerName">
                                 Customer Name :
                             </label>
                         </td>
                         <td>
-                            <form:input path="searchTransaction.CustomerName" cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;font-size: .70em;" id="CustomerName"/>
+                            <form:input path="searchTransaction.CustomerName" cssClass="textfieldMyStyle" id="CustomerName"/>
                         </td>
                         <td colspan="2">&nbsp;</td>
                         <td>
-                            <label for="startDate" style="font-size: .70em;">
+                            <label for="startDate">
                                 Reported Date (From) :
                             </label>
                         </td>
                         <td>
-                            <form:input path="searchTransaction.startDate" cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;font-size: .70em;" id="startDate"/>
+                            <form:input path="searchTransaction.startDate" cssClass="textfieldMyStyle" id="startDate"/>
                         </td>
                         <td colspan="2">&nbsp;</td>
                         <td>
@@ -356,7 +379,7 @@ function hideAlerts(){
                             </label>
                         </td>
                         <td>
-                            <form:input path="searchTransaction.endDate" cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;font-size: .70em;" id="endDate"/>
+                            <form:input path="searchTransaction.endDate" cssClass="textfieldMyStyle" id="endDate"/>
                         </td>
                     </tr>
                     <tr>
@@ -364,23 +387,23 @@ function hideAlerts(){
                     </tr>
                     <tr>
                         <td>
-                            <label for="SerialNo" style="font-size: .70em;">
+                            <label for="SerialNo">
                                 Serial No :
                             </label>
                         </td>
                         <td>
-                            <form:input path="searchTransaction.SerialNo" cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;font-size: .70em;" id="SerialNo"/>
+                            <form:input path="searchTransaction.SerialNo" cssClass="textfieldMyStyle" id="SerialNo"/>
                         </td>
                         <td colspan="2">&nbsp;</td>
                         <td>
-                            <label for="makeId" style="font-size: .70em;">
+                            <label for="makeId">
                                 Make :
                             </label>
                         </td>
                         <td>
                             <form:select id="makeId" path="searchTransaction.makeId" tabindex="1"
                                          onchange="changeTheModel();"
-                                         cssStyle="border:3px double #CCCCCC; width: 200px;height:28px;">
+                                         cssClass="textfieldMyStyle">
                                 <form:option value=""><spring:message code="common.select" text="<-- Select -->"/></form:option>
                                 <form:options items="${transactionForm.makeVOs}"
                                               itemValue="Id" itemLabel="makeName"/>
@@ -388,13 +411,12 @@ function hideAlerts(){
                         </td>
                         <td colspan="2">&nbsp;</td>
                         <td>
-                            <label for="modelId" style="font-size: .70em;">
+                            <label for="modelId">
                                 Model Name :
                             </label>
                         </td>
                         <td>
-                            <form:select id="modelId" path="searchTransaction.modelId" tabindex="1"
-                                         cssStyle="border:3px double #CCCCCC; width: 200px;height:25px;">
+                            <form:select id="modelId" path="searchTransaction.modelId" tabindex="1" cssClass="textfieldMyStyle">
                                 <form:option value=""><spring:message code="common.select" text="<-- Select -->"/></form:option>
                                 <form:options items="${transactionForm.makeAndModelVOs}"
                                               itemValue="modelId" itemLabel="modelName"/>
@@ -402,13 +424,12 @@ function hideAlerts(){
                         </td>
                         <td colspan="2">&nbsp;</td>
                         <td>
-                            <label for="Status" style="font-size: .70em;">
+                            <label for="Status">
                                 Status :
                             </label>
                         </td>
                         <td>
-                            <form:select id="Status" path="searchTransaction.Status"
-                                         cssStyle="border:3px double #CCCCCC; width: 200px;height:25px;">
+                            <form:select id="Status" path="searchTransaction.Status" cssClass="textfieldMyStyle">
                                 <form:option value=""><spring:message code="common.select" text="<-- Select -->"/></form:option>
                                 <form:options items="${transactionForm.statusList}" />
                             </form:select>
@@ -420,7 +441,7 @@ function hideAlerts(){
                     <tr>
                         <td colspan="12">&nbsp;</td>
                         <td>
-                            <label for="includes" style="font-size: .70em;">
+                            <label for="includes">
                                 <spring:message code="user.includes" text="Includes"/>
                                 <form:checkbox path="searchTransaction.includes" cssStyle="vertical-align:middle" id="includes" value="" />
                             </label>
@@ -482,7 +503,7 @@ function hideAlerts(){
                     </c:forEach>
                     </tbody>
                 </table>
-                <table style="margin:auto;top:50%;left:50%;">
+                <table>
                     <tr>
                         <td>
                             <br/>

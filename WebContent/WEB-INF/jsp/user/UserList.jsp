@@ -38,6 +38,32 @@
             background-color: #FFBABA;
             background-image: url( '<%=request.getContextPath()%>/images/Error.png' );
         }
+		
+		.textfieldMyStyle {
+			border:3px double #CCCCCC;
+			width: 200px;
+			height:20px;
+		}
+        .foottable {
+            margin:auto;
+            top:50%;
+            left:50%;
+        }
+		fieldset
+		{
+			text-align:right;
+		}
+		label
+		{
+			font-size: .70em;
+		}
+		table
+		{
+			margin:auto;
+			top:50%;
+			left:50%;
+			font-size: .60em;
+		}
     </style>
     <script type="text/javascript">
 
@@ -194,37 +220,37 @@
     <%@include file="/WEB-INF/jsp/myHeader.jsp" %>
     <div id="content">
         <div class="wrap">
-            <fieldset style="text-align:right;">
+            <fieldset>
                 <legend><spring:message code="user.searchUser" text="Search User Details" /></legend>
-                <table style="margin:auto;top:50%;left:50%;">
+                <table>
                     <tr>
                         <td>
-                            <label for="name" style="font-size: .70em;">
+                            <label for="name">
                                 <spring:message code="poseidon.name" text="Name" /> :
                             </label>
                         </td>
                         <td>
-                            <form:input path="searchUser.name" cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;" id="name" />
+                            <form:input path="searchUser.name" cssClass="textfieldMyStyle" id="name" />
                         </td>
                         <td colspan="2">&nbsp;</td>
                         <td>
-                            <label for="loginId" style="font-size: .70em;">
+                            <label for="loginId">
                                 <spring:message code="poseidon.loginId" text="loginId" /> :
                             </label>
                         </td>
                         <td>
-                            <form:input path="searchUser.loginId" cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;" id="loginId" />
+                            <form:input path="searchUser.loginId" cssClass="textfieldMyStyle" id="loginId" />
                         </td>
                         <td colspan="2">&nbsp;</td>
                         <td>
-                            <label for="role" style="font-size: .70em;">
+                            <label for="role">
                                 <spring:message code="poseidon.role" text="Role" /> :
                             </label>
                         </td>
                         <td>
                             <form:select id="role" path="searchUser.role"
-                                         onkeypress="handleEnter(event);"
-                                         cssStyle="border:3px double #CCCCCC; width: 200px;height:25px;">
+                                         onkeypress="handleEnter(event);" cssClass="textfieldMyStyle"
+                                         cssStyle="height:25px;">
                                 <form:option value=""><spring:message code="common.select" text="<-- Select -->"/></form:option>
                                 <form:options items="${userForm.roleList}" />
                             </form:select>
@@ -236,13 +262,13 @@
                     <tr>
                         <td colspan="8">&nbsp;</td>
                         <td>
-                            <label for="includes" style="font-size: .70em;">
+                            <label for="includes">
                                 <spring:message code="user.includes" text="Includes" />
                                 <form:checkbox path="searchUser.includes" cssStyle="vertical-align:middle" id="includes" value="" />
                             </label>
                         </td>
                         <td>
-                            <label for="startsWith" style="font-size: .70em;">
+                            <label for="startsWith">
                                 <spring:message code="user.startsWith" text="Starts with" />
                                 <form:checkbox path="searchUser.startsWith" cssStyle="vertical-align:middle" id="startswith" value="" />
                             </label>
@@ -266,7 +292,7 @@
             </c:if>
             <fieldset>
                 <legend><spring:message code="user.userDetails" text="User Details" /></legend>
-                <table border="2" id="myTable" style="font-size: .60em;">
+                <table border="2" id="myTable">
                     <thead>
                     <tr>
                         <th><spring:message code="poseidon.id" text="id" /></th>
@@ -283,7 +309,8 @@
                     <tbody>
                     <c:forEach items="${userForm.userVOs}" var="iterationUser">
                         <tr>
-                            <td><input type="checkbox" name="checkField" onclick="javascript:checkCall(this)" value="<c:out value="${iterationUser.id}" />" /></td>
+                            <td><input type="checkbox" name="checkField" onclick="javascript:checkCall(this)"
+                                value='<c:out value="${iterationUser.id}" />' /></td>
                             <td><c:out value="${iterationUser.name}" /></td>
                             <td><c:out value="${iterationUser.loginId}" /></td>
                             <td><c:out value="${iterationUser.role}" /></td>
@@ -295,7 +322,7 @@
                     </c:forEach>
                     </tbody>
                 </table>
-                <table  style="margin:auto;top:50%;left:50%;">
+                <table class="foottable">
                     <tr>
                         <td>
                             <br/>

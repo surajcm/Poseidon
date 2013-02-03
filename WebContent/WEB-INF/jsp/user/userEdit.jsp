@@ -8,6 +8,29 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Edit User</title>
     <link rel="stylesheet" type="text/css" href="../css/mainStyles.css" />
+	<style type="text/css">
+	.textfieldMyStyle 
+	{
+		border:3px double #CCCCCC;
+		width: 200px;
+		height:20px;
+	}
+	fieldset
+	{
+		text-align:right;
+	}
+	table
+	{
+		margin:auto;
+		top:50%;
+		left:50%;
+		font-size: .60em;
+	}
+	label
+	{
+		font-size: .70em;
+	}
+	</style>
     <script type="text/javascript">
 
         //code to update user
@@ -55,20 +78,20 @@
     <%@include file="/WEB-INF/jsp/myHeader.jsp" %>
     <div id="content">
         <div class="wrap">
-            <fieldset style="text-align:right;">
+            <fieldset>
                 <legend>Edit User</legend>
                 <c:if test="${!empty userForm.user}">
                     <form:hidden path="user.id" />
-                    <table style="margin:auto;top:50%;left:50%;">
+                    <table>
                         <tr>
                             <td>
-                                <label for="name" style="font-size: .70em;">
+                                <label for="name">
                                     <spring:message code="poseidon.username" text="User Name:" /> :
                                 </label>
                             </td>
                             <td colspan="2">&nbsp;</td>
                             <td>
-                                <form:input path="user.name" cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;" id="name" />
+                                <form:input path="user.name" cssClass="textfieldMyStyle" id="name" />
                             </td>
                         </tr>
                         <tr>
@@ -76,14 +99,13 @@
                         </tr>
                         <tr>
                             <td>
-                                <label for="loginId" style="font-size: .70em;">
+                                <label for="loginId">
                                     <spring:message code="poseidon.loginId" text="loginId"/> :
                                 </label>
                             </td>
                             <td colspan="2">&nbsp;</td>
                             <td>
-                                <form:input path="user.loginId"
-                                            cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;" id="loginId"/>
+                                <form:input path="user.loginId" cssClass="textfieldMyStyle" id="loginId"/>
                             </td>
                         </tr>
                         <tr>
@@ -91,13 +113,13 @@
                         </tr>
                         <tr>
                             <td>
-                                <label for="psw" style="font-size: .70em;">
+                                <label for="psw">
                                     <spring:message code="poseidon.password" text="Password:" /> :
                                 </label>
                             </td>
                             <td colspan="2">&nbsp;</td>
                             <td>
-                                <form:input path="user.password" cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;" id="psw" />
+                                <form:input path="user.password" cssClass="textfieldMyStyle" id="psw" />
                             </td>
                         </tr>
                         <tr>
@@ -105,15 +127,14 @@
                         </tr>
                         <tr>
                             <td>
-                                <label for="role" style="font-size: .70em;">
+                                <label for="role">
                                     <spring:message code="poseidon.role" text="Role:" /> :
                                 </label>
                             </td>
                             <td colspan="2">&nbsp;</td>
                             <td align="left">
                                 <form:select id="role" path="user.role"
-                                             onkeypress="handleEnter(event);"
-                                             cssStyle="border:3px double #CCCCCC; width: 200px;height:25px;">
+                                             onkeypress="handleEnter(event);" cssClass="textfieldMyStyle">
                                     <form:option value=""><spring:message code="common.select" text="<-- Select -->"/></form:option>
                                     <form:options items="${userForm.roleList}" />
                                 </form:select>
