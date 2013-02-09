@@ -8,6 +8,7 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 		<title>Edit Model</title>
 		<link rel="stylesheet" type="text/css" href="../css/mainStyles.css" />
+		<link rel="stylesheet" type="text/css" href="../css/bootstrap.css" />
         <script type="text/javascript">
             function update(){
                 if(document.getElementById('modelName').value.length == 0) {

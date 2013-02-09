@@ -8,12 +8,17 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>User Add</title>
     <link rel="stylesheet" type="text/css" href="../css/mainStyles.css"/>
+    <link rel="stylesheet" type="text/css" href="../css/bootstrap.css"/>
 	<style type="text/css">
-	.textfieldMyStyle 
-	{
+	.textfieldMyStyle {
 		border:3px double #CCCCCC;
 		width: 200px;
 		height:20px;
+	}
+	.foottable {
+		margin:auto;
+		top:50%;
+		left:50%;
 	}
 	fieldset
 	{
@@ -24,11 +29,7 @@
 		margin:auto;
 		top:50%;
 		left:50%;
-		font-size: .60em;
-	}
-	label
-	{
-		font-size: .70em;
+
 	}
 	</style>
     <script type="text/javascript">

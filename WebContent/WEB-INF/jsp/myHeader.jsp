@@ -92,10 +92,10 @@
     </script>
 </head>
 <body>
-<table id="menuimg" border="0"  width="100%" style="font-size: .70em;" >
+<table id="menuimg" border="0"  width="100%" >
     <tr>
         <td colspan="2">
-            <table width="100%" style="font-size: .90em;">
+            <table width="100%">
                 <tr>
                     <td width="20%">
                         <img src="<%=request.getContextPath()%>/images/Poseidon.png" style="margin:0px; width:150px; height:50px"/>
@@ -133,7 +133,7 @@
     </tr>
     <tr>
         <td>
-            <label style="font-weight: bold;color:white;font-size: .90em;"  onMouseOver="this.style.cursor='pointer'"  > | </label>
+            <label style="font-weight: bold;color:white;"  onMouseOver="this.style.cursor='pointer'"  > | </label>
             <label onclick="javascript:goToHome();" style="font-weight: bold;color:white;font-size: .70em;"  onMouseOver="this.style.cursor='pointer'"  > Home </label>
             <script type="text/javascript">
                 if ( document.forms[0].loggedInRole != null
@@ -158,9 +158,9 @@
             <label style="font-weight: bold;color:white;font-size: .90em;"  onMouseOver="this.style.cursor='pointer'"  >|</label>
         </td>
         <td align="right" height="0px"  onclick="javascript:LogMeOut();">
-            <label style="font-weight: bold;color:white;font-size: .70em;" onMouseOver="this.style.cursor='pointer'" >Help</label>
+            <label style="font-weight: bold;color:white;font-size: .90em;" onMouseOver="this.style.cursor='pointer'" >Help</label>
             &nbsp;&nbsp;&nbsp;&nbsp;
-            <label style="font-weight: bold;color:white;font-size: .70em;" onMouseOver="this.style.cursor='pointer'" >LogOut</label>
+            <label style="font-weight: bold;color:white;font-size: .90em;" onMouseOver="this.style.cursor='pointer'" >LogOut</label>
         </td>
     </tr>
     <tr>

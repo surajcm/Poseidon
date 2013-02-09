@@ -8,7 +8,8 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Edit Make</title>
     <link rel="stylesheet" type="text/css" href="../css/mainStyles.css" />
-    <script type="text/javascript">
+    <link rel="stylesheet" type="text/css" href="../css/bootstrap.css" />
+	<script type="text/javascript">
         function update(){
             if(document.getElementById('makeName').value.length == 0) {
                 document.getElementById('makeName').style.background = 'Yellow';

@@ -33,11 +33,124 @@
                 background-image: url( '<%=request.getContextPath()%>/images/Success.png' );
             }
 
-            .error {
-                color: #D8000C;
-                background-color: #FFBABA;
-                background-image: url( '<%=request.getContextPath()%>/images/Error.png' );
-            }
+        .error {
+            color: #D8000C;
+            background-color: #FFBABA;
+            background-image: url( '<%=request.getContextPath()%>/images/Error.png' );
+        }
+		
+		.textfieldMyStyle {
+			border:3px double #CCCCCC;
+			width: 200px;
+			height:20px;
+		}
+        .foottable {
+            margin:auto;
+            top:50%;
+            left:50%;
+        }
+		fieldset
+		{
+			text-align:right;
+		}
+		
+		table
+		{
+			margin:auto;
+			top:50%;
+			left:50%;
+			
+		}
+		html {
+		  font-size: 100%;
+		  -webkit-text-size-adjust: 100%;
+		  -ms-text-size-adjust: 100%;
+		}
+		button,
+		input,
+		select,
+		textarea {
+		  margin: 0;
+		  font-size: 100%;
+		  vertical-align: middle;
+		}
+
+		button,
+		input {
+		  *overflow: visible;
+		  line-height: normal;
+		}
+
+		button::-moz-focus-inner,
+		input::-moz-focus-inner {
+		  padding: 0;
+		  border: 0;
+		}
+
+		button,
+		input[type="button"],
+		input[type="reset"],
+		input[type="submit"] {
+		  cursor: pointer;
+		  -webkit-appearance: button;
+		}
+		input[type="search"] {
+		  -webkit-box-sizing: content-box;
+			 -moz-box-sizing: content-box;
+				  box-sizing: content-box;
+		  -webkit-appearance: textfield;
+		}
+
+		input[type="search"]::-webkit-search-decoration,
+		input[type="search"]::-webkit-search-cancel-button {
+		  -webkit-appearance: none;
+		}
+
+		textarea {
+		  overflow: auto;
+		  vertical-align: top;
+		}
+
+		.clearfix {
+		  *zoom: 1;
+		}
+
+		.clearfix:before,
+		.clearfix:after {
+		  display: table;
+		  line-height: 0;
+		  content: "";
+		}
+
+		.clearfix:after {
+		  clear: both;
+		}
+
+		.hide-text {
+		  font: 0/0 a;
+		  color: transparent;
+		  text-shadow: none;
+		  background-color: transparent;
+		  border: 0;
+		}
+
+		.input-block-level {
+		  display: block;
+		  width: 100%;
+		  min-height: 30px;
+		  -webkit-box-sizing: border-box;
+			 -moz-box-sizing: border-box;
+				  box-sizing: border-box;
+		}
+
+		body {
+		  margin: 0;
+		  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+		  font-size: 14px;
+		  line-height: 20px;
+		  color: #333333;
+		  background-color: #ffffff;
+		}
         </style>
         <script type="text/javascript">
             function addCust(){
@@ -200,48 +313,48 @@
         <%@include file="/WEB-INF/jsp/myHeader.jsp" %>
         <div id="content">
                 <div class="wrap">
-                    <fieldset style="text-align:right;">
+                    <fieldset>
                         <legend>Search Customers</legend>
-                        <table style="margin:auto;top:50%;left:50%;">
+                        <table>
                             <tr>
                                 <td>
-                                    <label for="customerId" style="font-size: .70em;">
+                                    <label for="customerId">
                                         Customer Id :
                                     </label>
                                 </td>
                                 <td>
-                                    <form:input path="searchCustomerVO.customerId" cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;" id="customerId"/>
+                                    <form:input path="searchCustomerVO.customerId" cssClass="textfieldMyStyle" id="customerId"/>
                                 </td>
                                 <td colspan="2">&nbsp;</td>
                                 <td>
-                                    <label for="customerName" style="font-size: .70em;">
+                                    <label for="customerName">
                                         Customer Name :
                                     </label>
                                 </td>
                                 <td>
-                                    <form:input path="searchCustomerVO.customerName" cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;" id="customerName"/>
+                                    <form:input path="searchCustomerVO.customerName" cssClass="textfieldMyStyle" id="customerName"/>
                                 </td>
                                 <td colspan="2">&nbsp;</td>
                                 <td>
-                                    <label for="mobile" style="font-size: .70em;">
+                                    <label for="mobile">
                                         Mobile :
                                     </label>
                                 </td>
                                 <td>
-                                    <form:input path="searchCustomerVO.mobile" cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;" id="mobile"/>
+                                    <form:input path="searchCustomerVO.mobile" cssClass="textfieldMyStyle" id="mobile"/>
                                 </td>
                             </tr>
                             <tr>
                                 <td colspan="8">&nbsp;</td>
                                 <td>
-                                    <label for="includes" style="font-size: .70em;">
+                                    <label for="includes">
                                         <spring:message code="user.includes" text="Includes"/>
                                         <form:checkbox path="searchCustomerVO.includes" cssStyle="vertical-align:middle"
                                                        id="includes" value=""/>
                                     </label>
                                 </td>
                                 <td>
-                                    <label for="startsWith" style="font-size: .70em;">
+                                    <label for="startsWith">
                                         <spring:message code="user.startsWith" text="Starts with"/>
                                         <form:checkbox path="searchCustomerVO.startsWith" cssStyle="vertical-align:middle"
                                                        id="startsWith" value=""/>
@@ -271,7 +384,7 @@
                     </c:if>
                     <fieldset>
                         <legend>Customer Details</legend>
-                        <table border="2" id="myTable" style="font-size: .60em;">
+                        <table border="2" id="myTable">
                             <thead>
                             <tr>
                                 <th>&nbsp;</th>
@@ -311,7 +424,7 @@
                             </c:forEach>
                             </tbody>
                         </table>
-                        <table style="margin:auto;top:50%;left:50%;">
+                        <table>
                             <tr>
                                 <td>
                                     <br/>

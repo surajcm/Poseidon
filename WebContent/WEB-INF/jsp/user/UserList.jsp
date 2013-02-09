@@ -8,6 +8,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title><spring:message code="poseidon.userListPage" text="User List" /></title>
     <link rel="stylesheet" type="text/css" href="../css/mainStyles.css" />
+    <link rel="stylesheet" type="text/css" href="../css/bootstrap.css" />
     <link rel="stylesheet" type="text/css" href="../css/ui-lightness/jquery-ui-1.8.21.custom.css"/>
     <script type="text/javascript" src="../js/jquery-1.7.2.min.js" language="javascript" ></script>
     <script type="text/javascript" src="../js/jquery-ui-1.8.21.custom.min.js" language="javascript" ></script>
@@ -53,17 +54,14 @@
 		{
 			text-align:right;
 		}
-		label
-		{
-			font-size: .70em;
-		}
+		
 		table
 		{
 			margin:auto;
 			top:50%;
 			left:50%;
-			font-size: .60em;
 		}
+
     </style>
     <script type="text/javascript">
 

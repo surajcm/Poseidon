@@ -8,6 +8,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Edit User</title>
     <link rel="stylesheet" type="text/css" href="../css/mainStyles.css" />
+    <link rel="stylesheet" type="text/css" href="../css/bootstrap.css" />
 	<style type="text/css">
 	.textfieldMyStyle 
 	{
@@ -24,11 +25,6 @@
 		margin:auto;
 		top:50%;
 		left:50%;
-		font-size: .60em;
-	}
-	label
-	{
-		font-size: .70em;
 	}
 	</style>
     <script type="text/javascript">

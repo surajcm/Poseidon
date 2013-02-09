@@ -8,6 +8,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Make List</title>
     <link rel="stylesheet" type="text/css" href="../css/mainStyles.css"/>
+    <link rel="stylesheet" type="text/css" href="../css/bootstrap.css"/>
     <link rel="stylesheet" type="text/css" href="../css/ui-lightness/jquery-ui-1.8.21.custom.css"/>
     <script type="text/javascript" src="../js/jquery-1.7.2.min.js" language="javascript" ></script>
     <script type="text/javascript" src="../js/jquery-ui-1.8.21.custom.min.js" language="javascript" ></script>
@@ -38,6 +39,28 @@
             background-color: #FFBABA;
             background-image: url( '<%=request.getContextPath()%>/images/Error.png' );
         }
+		.textfieldMyStyle {
+			border:3px double #CCCCCC;
+			width: 200px;
+			height:20px;
+		}
+        .foottable {
+            margin:auto;
+            top:50%;
+            left:50%;
+        }
+		fieldset
+		{
+			text-align:right;
+		}
+		
+		table
+		{
+			margin:auto;
+			top:50%;
+			left:50%;
+			
+		}
     </style>
     <script type="text/javascript">
 
@@ -204,16 +227,16 @@
         <div class="wrap">
             <fieldset style="text-align:right;">
                 <legend>Search Model</legend>
-                <table style="margin:auto;top:50%;left:50%;">
+                <table>
                     <tr>
                         <td>
-                            <label for="makeName" style="font-size: .70em;">
+                            <label for="makeName">
                                 Make Name :
                             </label>
                         </td>
                         <td>
                             <form:select id="makeName" path="searchMakeAndModelVO.makeName" tabindex="1"
-                                         cssStyle="border:3px double #CCCCCC; width: 200px;height:25px;">
+                                         cssClass="textfieldMyStyle">
                                 <form:option value="0" label="-- Select --"/>
                                 <form:options items="${makeForm.makeVOs}"
                                               itemValue="id" itemLabel="makeName"/>
@@ -221,18 +244,18 @@
                         </td>
                         <td colspan="2">&nbsp;</td>
                         <td>
-                            <label for="modelName" style="font-size: .70em;">
+                            <label for="modelName">
                                 Model Name :
                             </label>
                         </td>
                         <td>
                             <form:input path="searchMakeAndModelVO.modelName"
-                                        cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;" id="modelName"/>
+                                        cssClass="textfieldMyStyle" id="modelName"/>
                         </td>
                     <tr>
                     <tr>
                         <td colspan="2">
-                            <label for="includes" style="font-size: .70em;">
+                            <label for="includes">
                                 <spring:message code="user.includes" text="Includes"/>
                                 <form:checkbox path="searchMakeAndModelVO.includes" cssStyle="vertical-align:middle"
                                                id="includes" value=""/>
@@ -240,7 +263,7 @@
                         </td>
                         <td colspan="2">&nbsp;</td>
                         <td colspan="2">
-                            <label for="startswith" style="font-size: .70em;">
+                            <label for="startswith">
                                 <spring:message code="user.startsWith" text="Starts with"/>
                                 <form:checkbox path="searchMakeAndModelVO.startswith" cssStyle="vertical-align:middle"
                                                id="startswith" value=""/>
@@ -266,7 +289,7 @@
             </c:if>
             <fieldset>
                 <legend>Make Details</legend>
-                <table border="2" id="myTable" style="font-size: .60em;">
+                <table border="2" id="myTable">
                     <thead>
                     <tr>
                         <th><spring:message code="poseidon.id" text="id"/></th>
@@ -286,7 +309,7 @@
                     </c:forEach>
                     </tbody>
                 </table>
-                <table style="margin:auto;top:50%;left:50%;">
+                <table>
                     <tr>
                         <td colspan="5">
                             <br/>

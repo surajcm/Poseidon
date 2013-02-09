@@ -11,6 +11,98 @@
     <link rel="stylesheet" type="text/css" href="../css/ui-lightness/jquery-ui-1.8.21.custom.css"/>
     <script type="text/javascript" src="../js/jquery-1.7.2.min.js" language="javascript" ></script>
     <script type="text/javascript" src="../js/jquery-ui-1.8.21.custom.min.js" language="javascript" ></script>
+    <style type="text/css">
+		html {
+		  font-size: 100%;
+		  -webkit-text-size-adjust: 100%;
+		  -ms-text-size-adjust: 100%;
+		}
+		button,
+		input,
+		select,
+		textarea {
+		  margin: 0;
+		  font-size: 100%;
+		  vertical-align: middle;
+		}
+
+		button,
+		input {
+		  *overflow: visible;
+		  line-height: normal;
+		}
+
+		button::-moz-focus-inner,
+		input::-moz-focus-inner {
+		  padding: 0;
+		  border: 0;
+		}
+
+		button,
+		input[type="button"],
+		input[type="reset"],
+		input[type="submit"] {
+		  cursor: pointer;
+		  -webkit-appearance: button;
+		}
+		input[type="search"] {
+		  -webkit-box-sizing: content-box;
+			 -moz-box-sizing: content-box;
+				  box-sizing: content-box;
+		  -webkit-appearance: textfield;
+		}
+
+		input[type="search"]::-webkit-search-decoration,
+		input[type="search"]::-webkit-search-cancel-button {
+		  -webkit-appearance: none;
+		}
+
+		textarea {
+		  overflow: auto;
+		  vertical-align: top;
+		}
+
+		.clearfix {
+		  *zoom: 1;
+		}
+
+		.clearfix:before,
+		.clearfix:after {
+		  display: table;
+		  line-height: 0;
+		  content: "";
+		}
+
+		.clearfix:after {
+		  clear: both;
+		}
+
+		.hide-text {
+		  font: 0/0 a;
+		  color: transparent;
+		  text-shadow: none;
+		  background-color: transparent;
+		  border: 0;
+		}
+
+		.input-block-level {
+		  display: block;
+		  width: 100%;
+		  min-height: 30px;
+		  -webkit-box-sizing: border-box;
+			 -moz-box-sizing: border-box;
+				  box-sizing: border-box;
+		}
+
+		body {
+		  margin: 0;
+		  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+		  font-size: 14px;
+		  line-height: 20px;
+		  color: #333333;
+		  background-color: #ffffff;
+		}
+    </style>
     <script type="text/javascript">
 
         function editMe(){
