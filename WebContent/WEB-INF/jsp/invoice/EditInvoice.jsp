@@ -8,97 +8,29 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Edit Invoice</title>
     <link rel="stylesheet" type="text/css" href="../css/mainStyles.css"/>
+    <link rel="stylesheet" type="text/css" href="../css/bootstrap.css"/>
     <style type="text/css">
-		html {
-		  font-size: 100%;
-		  -webkit-text-size-adjust: 100%;
-		  -ms-text-size-adjust: 100%;
-		}
-		button,
-		input,
-		select,
-		textarea {
-		  margin: 0;
-		  font-size: 100%;
-		  vertical-align: middle;
-		}
+        .textfieldMyStyle {
+            border:3px double #CCCCCC;
+            width: 200px;
+            height:20px;
+        }
+        .foottable {
+            margin:auto;
+            top:50%;
+            left:50%;
+        }
+        fieldset
+        {
+            text-align:right;
+        }
 
-		button,
-		input {
-		  *overflow: visible;
-		  line-height: normal;
-		}
-
-		button::-moz-focus-inner,
-		input::-moz-focus-inner {
-		  padding: 0;
-		  border: 0;
-		}
-
-		button,
-		input[type="button"],
-		input[type="reset"],
-		input[type="submit"] {
-		  cursor: pointer;
-		  -webkit-appearance: button;
-		}
-		input[type="search"] {
-		  -webkit-box-sizing: content-box;
-			 -moz-box-sizing: content-box;
-				  box-sizing: content-box;
-		  -webkit-appearance: textfield;
-		}
-
-		input[type="search"]::-webkit-search-decoration,
-		input[type="search"]::-webkit-search-cancel-button {
-		  -webkit-appearance: none;
-		}
-
-		textarea {
-		  overflow: auto;
-		  vertical-align: top;
-		}
-
-		.clearfix {
-		  *zoom: 1;
-		}
-
-		.clearfix:before,
-		.clearfix:after {
-		  display: table;
-		  line-height: 0;
-		  content: "";
-		}
-
-		.clearfix:after {
-		  clear: both;
-		}
-
-		.hide-text {
-		  font: 0/0 a;
-		  color: transparent;
-		  text-shadow: none;
-		  background-color: transparent;
-		  border: 0;
-		}
-
-		.input-block-level {
-		  display: block;
-		  width: 100%;
-		  min-height: 30px;
-		  -webkit-box-sizing: border-box;
-			 -moz-box-sizing: border-box;
-				  box-sizing: border-box;
-		}
-
-		body {
-		  margin: 0;
-		  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-		  font-size: 14px;
-		  line-height: 20px;
-		  color: #333333;
-		  background-color: #ffffff;
-		}
+        table
+        {
+            margin:auto;
+            top:50%;
+            left:50%;
+        }
     </style>
     <script type="text/javascript">
         function update(){
@@ -132,58 +64,58 @@
         <div class="wrap">
             <fieldset>
                 <legend>Edit Invoice</legend>
-                <table style="margin:auto;top:50%;left:50%;">
+                <table>
                     <tr>
                         <td style="text-align:right;">
-                            <label for="tagNo" style="font-size: .70em;">
+                            <label for="tagNo">
                                 Tag No
                             </label>
                         </td>
                         <td colspan="2">&nbsp;</td>
                         <td style="text-align:left;">
-                            <form:input path="currentInvoiceVO.tagNo" cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;" id="tagNo"/>
+                            <form:input path="currentInvoiceVO.tagNo" cssClass="textfieldMyStyle" id="tagNo"/>
                         </td>
                         <td colspan="2">&nbsp;</td>
                         <td style="text-align:right;">
-                            <label for="description" style="font-size: .70em;">
+                            <label for="description">
                                 Description
                             </label>
                         </td>
                         <td colspan="2">&nbsp;</td>
                         <td colspan="7" style="text-align:left;">
-                            <form:textarea path="currentInvoiceVO.description" rows="5" cols="30" cssStyle="border:3px double #CCCCCC; width: 500px;height:20px;"
+                            <form:textarea path="currentInvoiceVO.description" rows="5" cols="30" cssClass="textfieldMyStyle"
                                            id="description"/>
                         </td>
                     </tr>
                     <tr>
                         <td style="text-align:right;">
-                            <label for="quantity" style="font-size: .70em;">
+                            <label for="quantity">
                                 Quantity
                             </label>
                         </td>
                         <td colspan="2">&nbsp;</td>
                         <td style="text-align:left;">
-                            <form:input path="currentInvoiceVO.quantity" cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;" id="quantity"/>
+                            <form:input path="currentInvoiceVO.quantity" cssClass="textfieldMyStyle" id="quantity"/>
                         </td>
                         <td colspan="2">&nbsp;</td>
                         <td style="text-align:right;">
-                            <label for="rate" style="font-size: .70em;">
+                            <label for="rate">
                                 Rate
                             </label>
                         </td>
                         <td colspan="2">&nbsp;</td>
                         <td style="text-align:left;">
-                            <form:input path="currentInvoiceVO.rate" cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;" id="rate"/>
+                            <form:input path="currentInvoiceVO.rate" cssClass="textfieldMyStyle" id="rate"/>
                         </td>
                         <td colspan="2">&nbsp;</td>
                         <td style="text-align:right;">
-                            <label for="amount" style="font-size: .70em;">
+                            <label for="amount">
                                 Amount
                             </label>
                         </td>
                         <td colspan="2">&nbsp;</td>
                         <td style="text-align:left;">
-                            <form:input path="currentInvoiceVO.amount" cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;" id="amount"/>
+                            <form:input path="currentInvoiceVO.amount" cssClass="textfieldMyStyle" id="amount"/>
                         </td>
                     </tr>
                     <tr>

@@ -8,100 +8,30 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Terms And Company details</title>
     <link rel="stylesheet" type="text/css" href="../css/mainStyles.css"/>
+    <link rel="stylesheet" type="text/css" href="../css/bootstrap.css"/>
     <link rel="stylesheet" type="text/css" href="../css/ui-lightness/jquery-ui-1.8.21.custom.css"/>
     <script type="text/javascript" src="../js/jquery-1.7.2.min.js" language="javascript" ></script>
     <script type="text/javascript" src="../js/jquery-ui-1.8.21.custom.min.js" language="javascript" ></script>
     <style type="text/css">
-		html {
-		  font-size: 100%;
-		  -webkit-text-size-adjust: 100%;
-		  -ms-text-size-adjust: 100%;
-		}
-		button,
-		input,
-		select,
-		textarea {
-		  margin: 0;
-		  font-size: 100%;
-		  vertical-align: middle;
-		}
+		.textfieldMyStyle {
+            border:3px double #CCCCCC;
+            width: 200px;
+            height:20px;
+        }
+        .foottable {
+            margin:auto;
+            top:50%;
+            left:50%;
+        }
+        fieldset{
+            text-align:right;
+        }
 
-		button,
-		input {
-		  *overflow: visible;
-		  line-height: normal;
-		}
-
-		button::-moz-focus-inner,
-		input::-moz-focus-inner {
-		  padding: 0;
-		  border: 0;
-		}
-
-		button,
-		input[type="button"],
-		input[type="reset"],
-		input[type="submit"] {
-		  cursor: pointer;
-		  -webkit-appearance: button;
-		}
-		input[type="search"] {
-		  -webkit-box-sizing: content-box;
-			 -moz-box-sizing: content-box;
-				  box-sizing: content-box;
-		  -webkit-appearance: textfield;
-		}
-
-		input[type="search"]::-webkit-search-decoration,
-		input[type="search"]::-webkit-search-cancel-button {
-		  -webkit-appearance: none;
-		}
-
-		textarea {
-		  overflow: auto;
-		  vertical-align: top;
-		}
-
-		.clearfix {
-		  *zoom: 1;
-		}
-
-		.clearfix:before,
-		.clearfix:after {
-		  display: table;
-		  line-height: 0;
-		  content: "";
-		}
-
-		.clearfix:after {
-		  clear: both;
-		}
-
-		.hide-text {
-		  font: 0/0 a;
-		  color: transparent;
-		  text-shadow: none;
-		  background-color: transparent;
-		  border: 0;
-		}
-
-		.input-block-level {
-		  display: block;
-		  width: 100%;
-		  min-height: 30px;
-		  -webkit-box-sizing: border-box;
-			 -moz-box-sizing: border-box;
-				  box-sizing: border-box;
-		}
-
-		body {
-		  margin: 0;
-		  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-		  font-size: 14px;
-		  line-height: 20px;
-		  color: #333333;
-		  background-color: #ffffff;
-		}
+        table {
+            margin:auto;
+            top:50%;
+            left:50%;
+        }
     </style>
     <script type="text/javascript">
 
@@ -191,26 +121,26 @@
     <%@include file="/WEB-INF/jsp/myHeader.jsp" %>
     <div id="content">
         <div class="wrap">
-            <fieldset style="text-align:right;">
+            <fieldset>
                 <legend>Company Details </legend>
-                <table style="margin:auto;top:50%;left:50%;" >
+                <table>
                     <tr>
                         <td>
-                            <label for="companyName" style="font-size: .70em;">
+                            <label for="companyName">
                                 Company Name :
                             </label>
                         </td>
                         <td align="left">
-                            <form:input path="currentCompanyTermsVO.companyName" cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;" id="companyName"/>
+                            <form:input path="currentCompanyTermsVO.companyName" cssClass="textfieldMyStyle" id="companyName"/>
                         </td>
                         <td colspan="2">&nbsp;</td>
                         <td>
-                            <label for="companyPhoneNumber" style="font-size: .70em;">
+                            <label for="companyPhoneNumber">
                                 Company Phone Number :
                             </label>
                         </td>
                         <td align="left">
-                            <form:input path="currentCompanyTermsVO.companyPhoneNumber" cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;" id="companyPhoneNumber"/>
+                            <form:input path="currentCompanyTermsVO.companyPhoneNumber" cssClass="textfieldMyStyle" id="companyPhoneNumber"/>
                         </td>
                     </tr>
                     <tr>
@@ -218,21 +148,21 @@
                     </tr>
                     <tr>
                         <td>
-                            <label for="companyEmail" style="font-size: .70em;">
+                            <label for="companyEmail">
                                 Company email :
                             </label>
                         </td>
                         <td align="left">
-                            <form:input path="currentCompanyTermsVO.companyEmail" cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;" id="companyEmail"/>
+                            <form:input path="currentCompanyTermsVO.companyEmail" cssClass="textfieldMyStyle" id="companyEmail"/>
                         </td>
                         <td colspan="2">&nbsp;</td>
                         <td>
-                            <label for="companyWebsite" style="font-size: .70em;">
+                            <label for="companyWebsite">
                                 Company Website :
                             </label>
                         </td>
                         <td align="left">
-                            <form:input path="currentCompanyTermsVO.companyWebsite" cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;" id="companyWebsite"/>
+                            <form:input path="currentCompanyTermsVO.companyWebsite" cssClass="textfieldMyStyle" id="companyWebsite"/>
                         </td>
                     </tr>
                     <tr>
@@ -240,12 +170,12 @@
                     </tr>
                     <tr>
                         <td>
-                            <label for="companyAddress" style="font-size: .70em;">
+                            <label for="companyAddress">
                                 Company Address :
                             </label>
                         </td>
                         <td colspan="5" align="left">
-                            <form:textarea path="currentCompanyTermsVO.companyAddress" rows="5" cols="30" cssStyle="border:3px double #CCCCCC; width: 600px;height:40px;"
+                            <form:textarea path="currentCompanyTermsVO.companyAddress" rows="5" cols="30" cssClass="textfieldMyStyle"
                                            id="companyAddress" />
                         </td>
                     </tr>
@@ -254,12 +184,12 @@
                     </tr>
                     <tr>
                         <td>
-                            <label for="companyTerms" style="font-size: .70em;">
+                            <label for="companyTerms">
                                 Company Terms & Conditions :
                             </label>
                         </td>
                         <td colspan="5" align="left">
-                            <form:textarea path="currentCompanyTermsVO.companyTerms" rows="5" cols="30" cssStyle="border:3px double #CCCCCC; width: 600px;height:40px;"
+                            <form:textarea path="currentCompanyTermsVO.companyTerms" rows="5" cols="30" cssClass="textfieldMyStyle"
                                            id="companyTerms" />
                         </td>
                     </tr>
@@ -268,21 +198,21 @@
                     </tr>
                     <tr>
                         <td>
-                            <label for="vat_tin" style="font-size: .70em;">
+                            <label for="vat_tin">
                                 Company's VAT TIN :
                             </label>
                         </td>
                         <td align="left">
-                            <form:input path="currentCompanyTermsVO.companyVATTIN" cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;" id="vat_tin"/>
+                            <form:input path="currentCompanyTermsVO.companyVATTIN" cssClass="textfieldMyStyle" id="vat_tin"/>
                         </td>
                         <td colspan="2">&nbsp;</td>
                         <td>
-                            <label for="cst_tin" style="font-size: .70em;">
+                            <label for="cst_tin">
                                 Company's CST TIN :
                             </label>
                         </td>
                         <td align="left">
-                            <form:input path="currentCompanyTermsVO.companyCSTTIN" cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;" id="cst_tin"/>
+                            <form:input path="currentCompanyTermsVO.companyCSTTIN" cssClass="textfieldMyStyle" id="cst_tin"/>
                         </td>
                     </tr>
                     <tr>
@@ -290,7 +220,7 @@
                     </tr>
                     <!--tr>
                         <td>
-                            <label for="companylogo" style="font-size: .70em;">
+                            <label for="companylogo">
                                 Company Logo :
                             </label>
                         </td>

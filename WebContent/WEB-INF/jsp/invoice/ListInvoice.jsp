@@ -8,6 +8,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Invoice List</title>
     <link rel="stylesheet" type="text/css" href="../css/mainStyles.css" />
+    <link rel="stylesheet" type="text/css" href="../css/bootstrap.css" />
     <link rel="stylesheet" type="text/css" href="../css/ui-lightness/jquery-ui-1.8.21.custom.css"/>
     <script type="text/javascript" src="../js/jquery-1.7.2.min.js" language="javascript" ></script>
     <script type="text/javascript" src="../js/jquery-ui-1.8.21.custom.min.js" language="javascript" ></script>
@@ -48,109 +49,16 @@
             top:50%;
             left:50%;
         }
-		fieldset
-		{
+		fieldset {
 			text-align:right;
 		}
 		
-		table
-		{
+		table {
 			margin:auto;
 			top:50%;
 			left:50%;
-			
 		}
-		html {
-		  font-size: 100%;
-		  -webkit-text-size-adjust: 100%;
-		  -ms-text-size-adjust: 100%;
-		}
-		button,
-		input,
-		select,
-		textarea {
-		  margin: 0;
-		  font-size: 100%;
-		  vertical-align: middle;
-		}
-
-		button,
-		input {
-		  *overflow: visible;
-		  line-height: normal;
-		}
-
-		button::-moz-focus-inner,
-		input::-moz-focus-inner {
-		  padding: 0;
-		  border: 0;
-		}
-
-		button,
-		input[type="button"],
-		input[type="reset"],
-		input[type="submit"] {
-		  cursor: pointer;
-		  -webkit-appearance: button;
-		}
-		input[type="search"] {
-		  -webkit-box-sizing: content-box;
-			 -moz-box-sizing: content-box;
-				  box-sizing: content-box;
-		  -webkit-appearance: textfield;
-		}
-
-		input[type="search"]::-webkit-search-decoration,
-		input[type="search"]::-webkit-search-cancel-button {
-		  -webkit-appearance: none;
-		}
-
-		textarea {
-		  overflow: auto;
-		  vertical-align: top;
-		}
-
-		.clearfix {
-		  *zoom: 1;
-		}
-
-		.clearfix:before,
-		.clearfix:after {
-		  display: table;
-		  line-height: 0;
-		  content: "";
-		}
-
-		.clearfix:after {
-		  clear: both;
-		}
-
-		.hide-text {
-		  font: 0/0 a;
-		  color: transparent;
-		  text-shadow: none;
-		  background-color: transparent;
-		  border: 0;
-		}
-
-		.input-block-level {
-		  display: block;
-		  width: 100%;
-		  min-height: 30px;
-		  -webkit-box-sizing: border-box;
-			 -moz-box-sizing: border-box;
-				  box-sizing: border-box;
-		}
-
-		body {
-		  margin: 0;
-		  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-		  font-size: 14px;
-		  line-height: 20px;
-		  color: #333333;
-		  background-color: #ffffff;
-		}
-    </style>
+	</style>
     <script type="text/javascript">
         function addInvoice(){
             /*if(document.getElementById('amount').value.length == 0){
@@ -323,58 +231,58 @@
     <%@include file="/WEB-INF/jsp/myHeader.jsp" %>
     <div id="content">
         <div class="wrap">
-            <fieldset style="text-align:right;">
+            <fieldset>
                 <legend>Search Invoice</legend>
-                <table style="margin:auto;top:50%;left:50%;">
+                <table>
                     <tr>
                         <td>
-                            <label for="id" style="font-size: .70em;">
+                            <label for="id">
                                 Invoice Id :
                             </label>
                         </td>
                         <td>
-                            <form:input path="searchInvoiceVO.id" cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;" id="invoiceId"/>
+                            <form:input path="searchInvoiceVO.id" cssClass="textfieldMyStyle" id="invoiceId"/>
                         </td>
                         <td colspan="2">&nbsp;</td>
                         <td>
-                            <label for="Description" style="font-size: .70em;">
+                            <label for="Description">
                                 Description :
                             </label>
                         </td>
                         <td>
-                            <form:input path="searchInvoiceVO.description" cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;" id="description"/>
+                            <form:input path="searchInvoiceVO.description" cssClass="textfieldMyStyle" id="description"/>
                         </td>
                         <td colspan="2">&nbsp;</td>
                         <td>
-                            <label for="serialNo" style="font-size: .70em;">
+                            <label for="serialNo">
                                 Serial No :
                             </label>
                         </td>
                         <td>
-                            <form:input path="searchInvoiceVO.serialNo" cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;" id="serialNo"/>
+                            <form:input path="searchInvoiceVO.serialNo" cssClass="textfieldMyStyle" id="serialNo"/>
                         </td>
                         <td colspan="2">&nbsp;</td>
                         <td>
-                            <label for="tagNo" style="font-size: .70em;">
+                            <label for="tagNo">
                                 Tag No :
                             </label>
                         </td>
                         <td>
-                            <form:input path="searchInvoiceVO.tagNo" cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;" id="tagNo"/>
+                            <form:input path="searchInvoiceVO.tagNo" cssClass="textfieldMyStyle" id="tagNo"/>
                         </td>
                     </tr>
                     <tr>
                         <td>
-                            <label for="amount" style="font-size: .70em;">
+                            <label for="amount">
                                 Amount :
                             </label>
                         </td>
                         <td>
-                            <form:input path="searchInvoiceVO.amount" cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;" id="amount"/>
+                            <form:input path="searchInvoiceVO.amount" cssClass="textfieldMyStyle" id="amount"/>
                         </td>
                         <td colspan="3">&nbsp;</td>
                         <td>
-                            <label for="greater" style="font-size: .70em;">
+                            <label for="greater">
                                 Greater than & Equal
                                 <form:checkbox path="searchInvoiceVO.greater" cssStyle="vertical-align:middle"
                                                id="greater" value=""/>
@@ -382,7 +290,7 @@
                         </td>
                         <td colspan="3">&nbsp;</td>
                         <td>
-                            <label for="lesser" style="font-size: .70em;">
+                            <label for="lesser">
                                 Lesser than & Equal
                                 <form:checkbox path="searchInvoiceVO.lesser" cssStyle="vertical-align:middle"
                                                id="lesser" value=""/>
@@ -396,7 +304,7 @@
                     <tr>
                         <td>&nbsp;</td>
                         <td>
-                            <label for="includes" style="font-size: .70em;">
+                            <label for="includes">
                                 <spring:message code="user.includes" text="Includes"/>
                                 <form:checkbox path="searchInvoiceVO.includes" cssStyle="vertical-align:middle"
                                                id="includes" value=""/>
@@ -404,7 +312,7 @@
                         </td>
                         <td colspan="3">&nbsp;</td>
                         <td>
-                            <label for="startsWith" style="font-size: .70em;">
+                            <label for="startsWith">
                                 <spring:message code="user.startsWith" text="Starts with"/>
                                 <form:checkbox path="searchInvoiceVO.startsWith" cssStyle="vertical-align:middle"
                                                id="startsWith" value=""/>
@@ -430,7 +338,7 @@
             </c:if>
             <fieldset>
                 <legend>Invoice Details</legend>
-                <table border="2" id="myTable" style="font-size: .60em;">
+                <table border="2" id="myTable">
                     <thead>
                     <tr>
                         <th>&nbsp;</th>
@@ -457,7 +365,7 @@
                     </c:forEach>
                     </tbody>
                 </table>
-                <table style="margin:auto;top:50%;left:50%;">
+                <table>
                     <tr>
                         <td>
                             <br/>

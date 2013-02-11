@@ -28,8 +28,6 @@
             display: block;
             background-color: #99f;
         }
-
-
         div.menu div {
             width: 175px;
             background-color: #66f;

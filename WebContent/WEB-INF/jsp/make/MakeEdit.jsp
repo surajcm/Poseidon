@@ -9,6 +9,29 @@
     <title>Edit Make</title>
     <link rel="stylesheet" type="text/css" href="../css/mainStyles.css" />
     <link rel="stylesheet" type="text/css" href="../css/bootstrap.css" />
+	<style type="text/css">
+        .textfieldMyStyle {
+            border:3px double #CCCCCC;
+            width: 200px;
+            height:20px;
+        }
+        .foottable {
+            margin:auto;
+            top:50%;
+            left:50%;
+        }
+        fieldset
+        {
+            text-align:right;
+        }
+
+        table
+        {
+            margin:auto;
+            top:50%;
+            left:50%;
+        }
+    </style>
 	<script type="text/javascript">
         function update(){
             if(document.getElementById('makeName').value.length == 0) {
@@ -41,30 +64,30 @@
     <%@include file="/WEB-INF/jsp/myHeader.jsp" %>
     <div id="content">
         <div class="wrap">
-            <fieldset style="text-align:right;">
+            <fieldset>
                 <legend>Edit Make</legend>
-                <table style="margin:auto;top:50%;left:50%;">
+                <table>
                     <tr>
                         <td>
-                            <label for="makeName" style="font-size: .70em;">
+                            <label for="makeName">
                                 Make Name :
                             </label>
                         </td>
                         <td colspan="2">&nbsp;</td>
                         <td>
-                            <form:input path="currentMakeAndModeVO.makeName" cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;" id="makeName"/>
+                            <form:input path="currentMakeAndModeVO.makeName" cssClass="textfieldMyStyle" id="makeName"/>
                             <form:errors path="currentMakeAndModeVO.makeName"/>
                         </td>
                     </tr>
                     <tr>
                         <td>
-                            <label for="makeName" style="font-size: .70em;">
+                            <label for="makeName">
                                 Description :
                             </label>
                         </td>
                         <td colspan="2">&nbsp;</td>
                         <td>
-                            <form:input path="currentMakeAndModeVO.description" cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;" id="description"/>
+                            <form:input path="currentMakeAndModeVO.description" cssClass="textfieldMyStyle" id="description"/>
                             <form:errors path="currentMakeAndModeVO.description"/>
                         </td>
                     </tr>

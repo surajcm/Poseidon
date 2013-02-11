@@ -6,27 +6,49 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 	<head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-		<title>Edit Model</title>
-		<link rel="stylesheet" type="text/css" href="../css/mainStyles.css" />
-		<link rel="stylesheet" type="text/css" href="../css/bootstrap.css" />
-        <script type="text/javascript">
-            function update(){
-                if(document.getElementById('modelName').value.length == 0) {
-                    document.getElementById('modelName').style.background = 'Yellow';
-                    alert(" Please enter the Model name");
-                }else{
-                    document.getElementById('modelName').style.background = 'White';
-                    document.forms[0].action = "updateModel.htm";
-                    document.forms[0].submit();
-                }
-            }
+    <title>Edit Model</title>
+    <link rel="stylesheet" type="text/css" href="../css/mainStyles.css" />
+    <link rel="stylesheet" type="text/css" href="../css/bootstrap.css" />
+    <style type="text/css">
+        .textfieldMyStyle {
+            border:3px double #CCCCCC;
+            width: 200px;
+            height:20px;
+        }
+        .foottable {
+            margin:auto;
+            top:50%;
+            left:50%;
+        }
+        fieldset
+        {
+            text-align:right;
+        }
 
-            function cancel(){
-                document.forms[0].action = "ModelList.htm";
+        table
+        {
+            margin:auto;
+            top:50%;
+            left:50%;
+        }
+    </style>
+    <script type="text/javascript">
+        function update(){
+            if(document.getElementById('modelName').value.length == 0) {
+                document.getElementById('modelName').style.background = 'Yellow';
+                alert(" Please enter the Model name");
+            }else{
+                document.getElementById('modelName').style.background = 'White';
+                document.forms[0].action = "updateModel.htm";
                 document.forms[0].submit();
             }
-        </script>
+        }
 
+        function cancel(){
+            document.forms[0].action = "ModelList.htm";
+            document.forms[0].submit();
+        }
+    </script>
   </head>
   <body  style="background: #A9A9A9 ;">
   <form:form method="POST" commandName="makeForm" name="makeForm" >
@@ -36,19 +58,19 @@
       <%@include file="/WEB-INF/jsp/myHeader.jsp" %>
       <div id="content">
                 <div class="wrap">
-                    <fieldset style="text-align:right;">
+                    <fieldset>
                         <legend>Edit Model</legend>
-                        <table style="margin:auto;top:50%;left:50%;">
+                        <table>
                             <tr>
                                 <td>
-                                    <label for="makeId" style="font-size: .70em;">
+                                    <label for="makeId">
                                         Make Name
                                     </label>
                                 </td>
                                 <td colspan="2">&nbsp;</td>
                                 <td>
                                     <form:select id="makeId" path="currentMakeAndModeVO.makeId" tabindex="1" onkeypress="handleEnter(event);"
-                                                 cssStyle="border:3px double #CCCCCC; width: 200px;height:25px;">
+                                                 cssClass="textfieldMyStyle">
                                         <form:options items="${makeForm.makeAndModelVOs}"
                                                       itemValue="makeId" itemLabel="makeName"/>
                                     </form:select>
@@ -56,13 +78,13 @@
                             </tr>
                             <tr>
                                 <td>
-                                    <label for="modelName" style="font-size: .70em;">
+                                    <label for="modelName">
                                         Model Name
                                     </label>
                                 </td>
                                 <td colspan="2">&nbsp;</td>
                                 <td>
-                                    <form:input path="currentMakeAndModeVO.modelName" cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;" id="modelName"/>
+                                    <form:input path="currentMakeAndModeVO.modelName" cssClass="textfieldMyStyle" id="modelName"/>
                                 </td>
                             </tr>
                             <tr>

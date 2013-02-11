@@ -8,7 +8,31 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Reports List</title>
     <link rel="stylesheet" type="text/css" href="../css/mainStyles.css"/>
+    <link rel="stylesheet" type="text/css" href="../css/bootstrap.css"/>
     <link rel="stylesheet" type="text/css" href="../css/ui-lightness/jquery-ui-1.8.21.custom.css"/>
+    <style type="text/css">
+        .textfieldMyStyle {
+            border:3px double #CCCCCC;
+            width: 200px;
+            height:20px;
+        }
+        .foottable {
+            margin:auto;
+            top:50%;
+            left:50%;
+        }
+        fieldset
+        {
+            text-align:right;
+        }
+
+        table
+        {
+            margin:auto;
+            top:50%;
+            left:50%;
+        }
+    </style>
     <script type="text/javascript" src="../js/jquery-1.7.2.min.js" language="javascript" ></script>
     <script type="text/javascript" src="../js/jquery-ui-1.8.21.custom.min.js" language="javascript" ></script>
     <script type="text/javascript">
@@ -140,7 +164,7 @@
 <div id="callReport">
     <fieldset style="text-align:right;">
         <legend>Generate Call Report :</legend>
-        <table style="margin:auto;top:50%;left:50%;">
+        <table>
             <tr>
                 <td>
                     <label for="tagNo">
@@ -148,7 +172,7 @@
                     </label>
                 </td>
                 <td>
-                    <input type="text" style="border:3px double #CCCCCC; width: 200px;height:20px;font-size: .70em;" id="callTagNo" />
+                    <input type="text" class="textfieldMyStyle" id="callTagNo" />
                 </td>
                 <td colspan="2">&nbsp;</td>
                 <td>
@@ -157,7 +181,7 @@
                     </label>
                 </td>
                 <td>
-                    <select style="border:3px double #CCCCCC; width: 200px;height:25px;" id="callExportValue" >
+                    <select class="textfieldMyStyle" id="callExportValue" >
                         <option value=""></option>
                         <c:forEach var="n" items="${reportsForm.exportList}" varStatus="rowCounter">
                             <option value="${n}">${n}</option>
@@ -179,7 +203,7 @@
 <div id="modelReport">
     <fieldset>
         <legend>Generate Make/ModelList Report :</legend>
-        <table style="margin:auto;top:50%;left:50%;">
+        <table>
             <tr>
                 <td>
                     <label>
@@ -188,7 +212,7 @@
                 </td>
                 <td>
                     <form:select id="makeName" path="searchMakeAndModelVO.makeId" tabindex="1"
-                                 cssStyle="border:3px double #CCCCCC; width: 200px;height:25px;">
+                                 cssClass="textfieldMyStyle">
                         <form:option value="0" label="-- Select --"/>
                         <form:options items="${reportsForm.makeVOs}"
                                       itemValue="id" itemLabel="makeName"/>
@@ -202,7 +226,7 @@
                 </td>
                 <td>
                     <form:input path="searchMakeAndModelVO.modelName"
-                                cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;" id="modelName"/>
+                                cssClass="textfieldMyStyle" id="modelName"/>
                 </td>
             <tr>
             <tr>
@@ -229,7 +253,7 @@
                     </label>
                 </td>
                 <td>
-                    <select style="border:3px double #CCCCCC; width: 200px;height:25px;" id="makeExportValue" >
+                    <select class="textfieldMyStyle" id="makeExportValue" >
                         <option value=""></option>
                         <c:forEach var="n" items="${reportsForm.exportList}" varStatus="rowCounter">
                             <option value="${n}">${n}</option>
@@ -254,7 +278,7 @@
 <div id="txnReport">
     <fieldset>
         <legend>Generate TransactionsList Report :</legend>
-        <table style="margin:auto;top:50%;left:50%;" >
+        <table >
             <tr>
                 <td>
                     <label for="TagNo"  >
@@ -262,7 +286,7 @@
                     </label>
                 </td>
                 <td>
-                    <form:input path="searchTransaction.TagNo" cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;font-size: .70em;" id="TagNo"/>
+                    <form:input path="searchTransaction.TagNo" cssClass="textfieldMyStyle" id="TagNo"/>
                 </td>
                 <td colspan="2">&nbsp;</td>
                 <td>
@@ -271,7 +295,7 @@
                     </label>
                 </td>
                 <td>
-                    <form:input path="searchTransaction.CustomerName" cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;font-size: .70em;" id="CustomerName"/>
+                    <form:input path="searchTransaction.CustomerName" cssClass="textfieldMyStyle" id="CustomerName"/>
                 </td>
                 <td colspan="2">&nbsp;</td>
                 <td>
@@ -280,7 +304,7 @@
                     </label>
                 </td>
                 <td>
-                    <form:input path="searchTransaction.startDate" cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;font-size: .70em;" id="startDate"/>
+                    <form:input path="searchTransaction.startDate" cssClass="textfieldMyStyle" id="startDate"/>
                 </td>
                 <td colspan="2">&nbsp;</td>
                 <td>
@@ -289,7 +313,7 @@
                     </label>
                 </td>
                 <td>
-                    <form:input path="searchTransaction.endDate" cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;font-size: .70em;" id="endDate"/>
+                    <form:input path="searchTransaction.endDate" cssClass="textfieldMyStyle" id="endDate"/>
                 </td>
             </tr>
             <tr>
@@ -302,7 +326,7 @@
                     </label>
                 </td>
                 <td>
-                    <form:input path="searchTransaction.SerialNo" cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;font-size: .70em;" id="SerialNo"/>
+                    <form:input path="searchTransaction.SerialNo" cssClass="textfieldMyStyle" id="SerialNo"/>
                 </td>
                 <td colspan="2">&nbsp;</td>
                 <td>
@@ -313,7 +337,7 @@
                 <td>
                     <form:select id="makeId" path="searchTransaction.makeId" tabindex="1"
                                  onchange="changeTheModel();"
-                                 cssStyle="border:3px double #CCCCCC; width: 200px;height:28px;">
+                                 cssClass="textfieldMyStyle">
                         <form:option value=""><spring:message code="common.select" text="<-- Select -->"/></form:option>
                         <form:options items="${reportsForm.makeVOs}"
                                       itemValue="Id" itemLabel="makeName"/>
@@ -326,8 +350,7 @@
                     </label>
                 </td>
                 <td>
-                    <form:select id="modelId" path="searchTransaction.modelId" tabindex="1"
-                                 cssStyle="border:3px double #CCCCCC; width: 200px;height:25px;">
+                    <form:select id="modelId" path="searchTransaction.modelId" tabindex="1" cssClass="textfieldMyStyle">
                         <form:option value=""><spring:message code="common.select" text="<-- Select -->"/></form:option>
                     </form:select>
                 </td>
@@ -339,7 +362,7 @@
                 </td>
                 <td>
                     <form:select id="Status" path="searchTransaction.Status"
-                                 cssStyle="border:3px double #CCCCCC; width: 200px;height:25px;">
+                                 cssClass="textfieldMyStyle">
                         <form:option value=""><spring:message code="common.select" text="<-- Select -->"/></form:option>
                         <form:options items="${reportsForm.statusList}" />
                     </form:select>
@@ -371,7 +394,7 @@
                     </label>
                 </td>
                 <td>
-                    <select style="border:3px double #CCCCCC; width: 200px;height:25px;" id="txnExportValue" >
+                    <select class="textfieldMyStyle" id="txnExportValue" >
                         <option value=""></option>
                         <c:forEach var="n" items="${reportsForm.exportList}" varStatus="rowCounter">
                             <option value="${n}">${n}</option>
@@ -393,7 +416,7 @@
 <div id="invoiceReport">
     <fieldset>
         <legend>Generate Invoice Report :</legend>
-        <table style="margin:auto;top:50%;left:50%;">
+        <table>
             <tr>
                 <td>
                     <label for="tagNo">
@@ -401,7 +424,7 @@
                     </label>
                 </td>
                 <td>
-                    <input type="text" style="border:3px double #CCCCCC; width: 200px;height:20px;font-size: .70em;" id="invoiceTagNo" />
+                    <input type="text" class="textfieldMyStyle" id="invoiceTagNo" />
                 </td>
                 <td colspan="2">&nbsp;</td>
                 <td>
@@ -410,7 +433,7 @@
                     </label>
                 </td>
                 <td>
-                    <select style="border:3px double #CCCCCC; width: 200px;height:25px;" id="invoiceExportValue" >
+                    <select class="textfieldMyStyle" id="invoiceExportValue" >
                         <option value=""></option>
                         <c:forEach var="n" items="${reportsForm.exportList}" varStatus="rowCounter">
                             <option value="${n}">${n}</option>
@@ -432,7 +455,7 @@
 <div id="invoiceListReport">
     <fieldset>
         <legend>Generate InvoiceList Report :</legend>
-        <table style="margin:auto;top:50%;left:50%;" >
+        <table>
             <tr>
                 <td>
                     <label for="TagNo"  >
@@ -440,7 +463,7 @@
                     </label>
                 </td>
                 <td>
-                    <form:input path="searchTransaction.TagNo" cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;font-size: .70em;" id="TagNo"/>
+                    <form:input path="searchTransaction.TagNo" cssClass="textfieldMyStyle" id="TagNo"/>
                 </td>
                 <td colspan="2">&nbsp;</td>
                 <td>
@@ -449,7 +472,7 @@
                     </label>
                 </td>
                 <td>
-                    <form:input path="searchTransaction.CustomerName" cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;font-size: .70em;" id="CustomerName"/>
+                    <form:input path="searchTransaction.CustomerName" cssClass="textfieldMyStyle" id="CustomerName"/>
                 </td>
                 <td colspan="2">&nbsp;</td>
                 <td>
@@ -458,7 +481,7 @@
                     </label>
                 </td>
                 <td>
-                    <form:input path="searchTransaction.startDate" cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;font-size: .70em;" id="startDate"/>
+                    <form:input path="searchTransaction.startDate" cssClass="textfieldMyStyle" id="startDate"/>
                 </td>
                 <td colspan="2">&nbsp;</td>
                 <td>
@@ -467,7 +490,7 @@
                     </label>
                 </td>
                 <td>
-                    <form:input path="searchTransaction.endDate" cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;font-size: .70em;" id="endDate"/>
+                    <form:input path="searchTransaction.endDate" cssClass="textfieldMyStyle" id="endDate"/>
                 </td>
             </tr>
             <tr>
@@ -480,7 +503,7 @@
                     </label>
                 </td>
                 <td>
-                    <form:input path="searchTransaction.SerialNo" cssStyle="border:3px double #CCCCCC; width: 200px;height:20px;font-size: .70em;" id="SerialNo"/>
+                    <form:input path="searchTransaction.SerialNo" cssClass="textfieldMyStyle" id="SerialNo"/>
                 </td>
                 <td colspan="2">&nbsp;</td>
                 <td>
@@ -491,7 +514,7 @@
                 <td>
                     <form:select id="makeId" path="searchTransaction.makeId" tabindex="1"
                                  onchange="changeTheModel();"
-                                 cssStyle="border:3px double #CCCCCC; width: 200px;height:28px;">
+                                 cssClass="textfieldMyStyle">
                         <form:option value=""><spring:message code="common.select" text="<-- Select -->"/></form:option>
                         <form:options items="${reportsForm.makeVOs}"
                                       itemValue="Id" itemLabel="makeName"/>
@@ -505,7 +528,7 @@
                 </td>
                 <td>
                     <form:select id="modelId" path="searchTransaction.modelId" tabindex="1"
-                                 cssStyle="border:3px double #CCCCCC; width: 200px;height:25px;">
+                                 cssClass="textfieldMyStyle">
                         <form:option value=""><spring:message code="common.select" text="<-- Select -->"/></form:option>
                     </form:select>
                 </td>
@@ -516,8 +539,7 @@
                     </label>
                 </td>
                 <td>
-                    <form:select id="Status" path="searchTransaction.Status"
-                                 cssStyle="border:3px double #CCCCCC; width: 200px;height:25px;">
+                    <form:select id="Status" path="searchTransaction.Status" cssClass="textfieldMyStyle">
                         <form:option value=""><spring:message code="common.select" text="<-- Select -->"/></form:option>
                         <form:options items="${reportsForm.statusList}" />
                     </form:select>
@@ -549,7 +571,7 @@
                     </label>
                 </td>
                 <td>
-                    <select style="border:3px double #CCCCCC; width: 200px;height:25px;" id="txnExportValue" >
+                    <select class="textfieldMyStyle" id="txnExportValue" >
                         <option value=""></option>
                         <c:forEach var="n" items="${reportsForm.exportList}" varStatus="rowCounter">
                             <option value="${n}">${n}</option>
