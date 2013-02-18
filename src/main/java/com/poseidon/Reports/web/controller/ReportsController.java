@@ -64,7 +64,7 @@ public class ReportsController extends MultiActionController {
     public ModelAndView List(HttpServletRequest request,
                              HttpServletResponse response, ReportsForm reportsForm) {
         log.info(" Inside List method of ReportsController ");
-        log.info(" form details are" + reportsForm);
+        log.info(" form details are : " + reportsForm);
 
         List<ReportsVO> reportsVOs = null;
         try {

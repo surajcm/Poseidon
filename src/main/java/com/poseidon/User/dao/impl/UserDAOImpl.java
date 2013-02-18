@@ -37,7 +37,7 @@ public class UserDAOImpl extends JdbcDaoSupport implements UserDAO {
     private static final String GET_SINGLE_USER_SQL = " select * from user where id = ? ";
 
     // get user details by name
-    private static final String GET_USER_BY_NAME_SQL = " select * from user where logInId = ? ";
+    private static final String GET_USER_BY_LOGINID_SQL = " select * from user where logInId = ? ";
 
     // update user details
     private static final String UPDATE_USER_SQL = " update user set name = ?, logInId = ? ,password = ?, Role = ?, modifiedOn = ? , modifiedBy = ? where id = ?";
@@ -55,14 +55,14 @@ public class UserDAOImpl extends JdbcDaoSupport implements UserDAO {
     public UserVO logIn(UserVO user) throws UserException {
         UserVO currentUser;
         try {
-            currentUser = getUserByName(user.getLoginId());
+            currentUser = getUserByLogInId(user.getLoginId());
         } catch (DataAccessException e) {
             e.printStackTrace();
             throw new UserException(UserException.DATABASE_ERROR);
         }
 
         if (currentUser != null) {
-            log.info(" User details fetched successfully,for user name " + user.getName());
+            log.info(" User details fetched successfully,for user name " + currentUser.getName());
             // check whether the password given is correct or not
             if (!user.getPassword().equalsIgnoreCase(currentUser.getPassword())) {
                 throw new UserException(UserException.INCORRECT_PASSWORD);
@@ -213,8 +213,8 @@ public class UserDAOImpl extends JdbcDaoSupport implements UserDAO {
      * @throws DataAccessException on error
      */
     @SuppressWarnings("unchecked")
-    public UserVO getUserByName(String loginId) throws DataAccessException {
-        return (UserVO) getJdbcTemplate().queryForObject(GET_USER_BY_NAME_SQL, new Object[]{loginId}, new UserRowMapper());
+    public UserVO getUserByLogInId(String loginId) throws DataAccessException {
+        return (UserVO) getJdbcTemplate().queryForObject(GET_USER_BY_LOGINID_SQL, new Object[]{loginId}, new UserRowMapper());
     }
 
     /**

@@ -25,7 +25,7 @@ public class MakeDAOImpl extends JdbcDaoSupport implements MakeDAO {
     //logger
     private final Log log = LogFactory.getLog(MakeDAOImpl.class);
     private final String GET_MAKE_AND_MODEL_SQL = "SELECT m.id, m.modelName,m.makeId,ma.makeName FROM model m inner join make ma on m.makeId=ma.id order by m.modifiedOn;";
-    private final String GET_MAKE_SQL = "SELECT id,makeName,description FROM make order by modifiedOn;";
+    private final String GET_MAKE_SQL = "SELECT id,makeName,description,createdOn,modifiedOn,createdBy,modifiedBy FROM poseidon.make order by modifiedOn;";
     private final String INSERT_NEW_MAKE_SQL = "insert into make( makeName, description, createdOn, modifiedOn, createdBy, modifiedBy ) values (?, ?, ?, ?, ?, ?); ";
     private final String INSERT_NEW_MODEL_SQL = "insert into model( modelName, makeId, createdOn, modifiedOn, createdBy, modifiedBy ) values (?, ?, ?, ?, ?, ?); ";
     private final String GET_SINGLE_MAKE_SQL = "select * from make where id = ?";
@@ -267,7 +267,6 @@ public class MakeDAOImpl extends JdbcDaoSupport implements MakeDAO {
             makeVO.setModelName(resultSet.getString("modelName"));
             makeVO.setMakeId(resultSet.getLong("makeId"));
             makeVO.setMakeName(resultSet.getString("makeName"));
-
             return makeVO;
         }
     }
@@ -304,6 +303,10 @@ public class MakeDAOImpl extends JdbcDaoSupport implements MakeDAO {
             makeVO.setId(resultSet.getLong("id"));
             makeVO.setMakeName(resultSet.getString("makeName"));
             makeVO.setDescription(resultSet.getString("description"));
+            makeVO.setCreatedOn(resultSet.getDate("createdOn"));
+            makeVO.setModifiedOn(resultSet.getDate("modifiedOn"));
+            makeVO.setCreatedBy(resultSet.getString("createdBy"));
+            makeVO.setModifiedBy(resultSet.getString("modifiedBy"));
             return makeVO;
         }
     }
