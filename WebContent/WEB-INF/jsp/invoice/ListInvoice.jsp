@@ -223,7 +223,7 @@
 
     </script>
 </head>
-<body style="background: #A9A9A9 ;" onload="javascript:hideAlerts()">
+<body onload="javascript:hideAlerts()">
 <form:form method="POST" commandName="invoiceForm" name="invoiceForm" >
     <form:hidden name="loggedInUser" path="loggedInUser" />
     <form:hidden name="loggedInRole" path="loggedInRole" />

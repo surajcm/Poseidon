@@ -213,7 +213,7 @@
         </script>
 
   </head>
-  <body  style="background: #A9A9A9 ;" onload="javascript:hideAlerts()">
+  <body onload="javascript:hideAlerts()">
   <form:form method="POST" commandName="customerForm" name="customerForm" >
         <input type="hidden" name="id" id="id" />
         <form:hidden name="loggedInUser" path="loggedInUser" />

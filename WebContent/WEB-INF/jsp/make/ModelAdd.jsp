@@ -50,7 +50,7 @@
         }
     </script>
   </head>
-  <body  style="background: #A9A9A9 ;">
+  <body>
   <form:form method="POST" commandName="makeForm" name="makeForm" >
             <form:hidden name="loggedInUser" path="loggedInUser" />
             <form:hidden name="loggedInRole" path="loggedInRole" />

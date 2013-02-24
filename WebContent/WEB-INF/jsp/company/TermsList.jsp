@@ -114,7 +114,7 @@
     </script>
 
 </head>
-<body  style="background: #A9A9A9 ;" onload="javascript:hideUpdate()">
+<body onload="javascript:hideUpdate()">
 <form:form method="POST" commandName="companyTermsForm" name="companyTermsForm">
     <form:hidden name="loggedInUser" path="loggedInUser"/>
     <form:hidden name="loggedInRole" path="loggedInRole"/>

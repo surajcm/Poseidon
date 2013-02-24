@@ -9,7 +9,7 @@
     <link rel="stylesheet" type="text/css" href="../css/mainStyles.css" />
     <link rel="stylesheet" type="text/css" href="../css/bootstrap.css" />
 </head>
-<body style="background: #A9A9A9 ;">
+<body>
 <form:form method="POST" commandName="userForm" name="userForm" action="listAll.htm" >
     <input type="hidden" name="id" id="id" />
     <form:hidden name="loggedInUser" path="loggedInUser" />
