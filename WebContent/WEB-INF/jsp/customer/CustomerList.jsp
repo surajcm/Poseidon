@@ -6,9 +6,9 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 	<head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-		<title>Customer List</title>
-		<link rel="stylesheet" type="text/css" href="../css/mainStyles.css" />
-		<link rel="stylesheet" type="text/css" href="../css/bootstrap.css" />
+    <title>Customer List</title>
+    <link rel="stylesheet" type="text/css" href="../css/mainStyles.css" />
+    <!--link rel="stylesheet" type="text/css" href="../css/bootstrap.css" /-->
     <link rel="stylesheet" type="text/css" href="../css/ui-lightness/jquery-ui-1.8.21.custom.css"/>
     <script type="text/javascript" src="../js/jquery-1.7.2.min.js" language="javascript" ></script>
     <script type="text/javascript" src="../js/jquery-ui-1.8.21.custom.min.js" language="javascript" ></script>

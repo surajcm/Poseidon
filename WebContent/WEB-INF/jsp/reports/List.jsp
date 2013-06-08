@@ -8,7 +8,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Reports List</title>
     <link rel="stylesheet" type="text/css" href="../css/mainStyles.css"/>
-    <link rel="stylesheet" type="text/css" href="../css/bootstrap.css"/>
+    <!--link rel="stylesheet" type="text/css" href="../css/bootstrap.css"/-->
     <link rel="stylesheet" type="text/css" href="../css/ui-lightness/jquery-ui-1.8.21.custom.css"/>
     <style type="text/css">
         .textfieldMyStyle {

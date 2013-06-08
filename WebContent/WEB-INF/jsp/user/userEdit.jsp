@@ -8,7 +8,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Edit User</title>
     <link rel="stylesheet" type="text/css" href="../css/mainStyles.css" />
-    <link rel="stylesheet" type="text/css" href="../css/bootstrap.css" />
+    <!--link rel="stylesheet" type="text/css" href="../css/bootstrap.css" /-->
 	<style type="text/css">
 	.textfieldMyStyle 
 	{

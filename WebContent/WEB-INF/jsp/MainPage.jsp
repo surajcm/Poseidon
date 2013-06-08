@@ -7,7 +7,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Welcome</title>
     <link rel="stylesheet" type="text/css" href="../css/mainStyles.css" />
-    <link rel="stylesheet" type="text/css" href="../css/bootstrap.css" />
+    <!--link rel="stylesheet" type="text/css" href="../css/bootstrap.css" /-->
 </head>
 <body>
 <form:form method="POST" commandName="userForm" name="userForm" action="listAll.htm" >
