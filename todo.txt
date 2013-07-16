@@ -26,6 +26,6 @@ Things to do
 
 10.Possibility to add the model / make through a iframe in new transaction page
 
-11. use Twitter bootstrap UI
+11. make use of Twitter bootstrap UI
 
 
