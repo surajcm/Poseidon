@@ -8,7 +8,6 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Make List</title>
     <link rel="stylesheet" type="text/css" href="../css/mainStyles.css"/>
-    <!--link rel="stylesheet" type="text/css" href="../css/bootstrap.css"/-->
     <link rel="stylesheet" type="text/css" href="../css/ui-lightness/jquery-ui-1.8.21.custom.css"/>
     <script type="text/javascript" src="../js/jquery-1.7.2.min.js" language="javascript" ></script>
     <script type="text/javascript" src="../js/jquery-ui-1.8.21.custom.min.js" language="javascript" ></script>
@@ -211,6 +210,7 @@
             }
         }
         function hideAlerts(){
+            document.getElementById('makeme').className = "active";
             var options = {};
             $( "#effect" ).hide( "blind", options, 8000);
         }
@@ -235,8 +235,7 @@
                             </label>
                         </td>
                         <td>
-                            <form:select id="makeName" path="searchMakeAndModelVO.makeName" tabindex="1"
-                                         cssClass="textfieldMyStyle">
+                            <form:select id="makeName" path="searchMakeAndModelVO.makeName" tabindex="1">
                                 <form:option value="0" label="-- Select --"/>
                                 <form:options items="${makeForm.makeVOs}"
                                               itemValue="id" itemLabel="makeName"/>
@@ -272,11 +271,11 @@
                     <tr>
                     <tr>
                         <td colspan="2">
-                            <input class="btn" value="Search" type="button" onclick="javascript:search()"/>
+                            <input class="btn btn-primary" value="Search" type="button" onclick="javascript:search()"/>
                         </td>
                         <td colspan="2">&nbsp;</td>
                         <td colspan="2">
-                            <input class="btn" value="Clear" type="button" onclick="javascript:clearOut()"/>
+                            <input class="btn btn-primary" value="Clear" type="button" onclick="javascript:clearOut()"/>
                         </td>
                     <tr>
                 </table>
@@ -289,7 +288,7 @@
             </c:if>
             <fieldset>
                 <legend>Make Details</legend>
-                <table border="2" id="myTable">
+                <table class="table table-striped table-condensed">
                     <thead>
                     <tr>
                         <th><spring:message code="poseidon.id" text="id"/></th>
@@ -318,16 +317,16 @@
                     </tr>
                     <tr>
                         <td>
-                            <input class="btn" value="Model List" type="button" onclick="javascript:listAllModel()"/>
+                            <input class="btn btn-primary" value="Model List" type="button" onclick="javascript:listAllModel()"/>
                         </td>
                         <td>
-                            <input class="btn" value="Add Make" type="button" onclick="javascript:addNewMake()"/>
+                            <input class="btn btn-primary" value="Add Make" type="button" onclick="javascript:addNewMake()"/>
                         </td>
                         <td>
-                            <input class="btn" value="Edit Make" type="button" onclick="javascript:editMake()"/>
+                            <input class="btn btn-primary" value="Edit Make" type="button" onclick="javascript:editMake()"/>
                         </td>
                         <td>
-                            <input class="btn" value="Delete Make" type="button" onclick="javascript:deleteMake()"/>
+                            <input class="btn btn-primary" value="Delete Make" type="button" onclick="javascript:deleteMake()"/>
                         </td>
                         <!--td>
                             <input class="btn" value="Print MakeList" type="button" onclick="javascript:printMe()"/>

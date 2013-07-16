@@ -92,11 +92,11 @@
                     </tr>
                     <tr>
                         <td>
-                            <input class="btn" value="Save" type="button" onclick="javascript:save();" />
+                            <input class="btn btn-primary" value="Save" type="button" onclick="javascript:save();" />
                         </td>
                         <td colspan="2">&nbsp;</td>
                         <td>
-                            <input class="btn" value="Clear" type="button" onclick="javascript:clearOut();" />
+                            <input class="btn btn-primary" value="Clear" type="button" onclick="javascript:clearOut();" />
                         </td>
                     </tr>
                 </table>

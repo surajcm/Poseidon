@@ -4,13 +4,9 @@ Things to do
 
 2. log out .. if user is null / spring security implementation
 
-3.user creation scripts in dbdesign sql file
+3. dont invoice twice..
 
-4. size of text boxes, fonts
-
-5. dont invoice twice..
-
-6. check all the js buttons work fine
+4. check all the js buttons work fine
 
  - CustomerManagement 
  - CompanyManagement 
@@ -18,18 +14,18 @@ Things to do
  - InvoiceManagement 
  - ReportManagement
  
-7. upload image functionality
+5. upload image functionality
 
-8. Redirect to print screen with selecting desired tab window
+6. Redirect to print screen with selecting desired tab window
 
-9. email / phone no validation at create customer / transactions pages
+7. email / phone no validation at create customer / transactions pages
 
-10. include add image button and functionality at company details page
+8. include add image button and functionality at company details page
 
-11. fix image issue in reports normal view
+9. fix image issue in reports normal view
 
-12.Possibility to add the model / make through a iframe in new transaction page
+10.Possibility to add the model / make through a iframe in new transaction page
 
-13. use Twitter bootstrap UI
+11. use Twitter bootstrap UI
 
 

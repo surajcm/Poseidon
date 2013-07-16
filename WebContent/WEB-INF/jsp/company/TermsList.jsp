@@ -237,10 +237,10 @@
                     <tr>
                         <td colspan="4">&nbsp;</td>
                         <td colspan="2">
-                            <input class="btn" id="edit" value="Edit" type="button" onclick="javascript:editMe();"/>
-                            <input class="btn" id="update" value="Update" type="button" onclick="javascript:updateCompanyDetails();"/>
-                            <input class="btn" id="clear" value="Clear" type="button" onclick="javascript:clearOut();"/>
-                            <input class="btn" id="cancel" value="Cancel" type="button" onclick="javascript:cancelMe();"/>
+                            <input class="btn btn-primary" id="edit" value="Edit" type="button" onclick="javascript:editMe();"/>
+                            <input class="btn btn-primary" id="update" value="Update" type="button" onclick="javascript:updateCompanyDetails();"/>
+                            <input class="btn btn-primary" id="clear" value="Clear" type="button" onclick="javascript:clearOut();"/>
+                            <input class="btn btn-primary" id="cancel" value="Cancel" type="button" onclick="javascript:cancelMe();"/>
                         </td>
                     </tr>
                 </table>

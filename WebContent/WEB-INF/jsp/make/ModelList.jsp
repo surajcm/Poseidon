@@ -205,6 +205,7 @@
             }
         }
         function hideAlerts(){
+            document.getElementById('makeme').className = "active";
             var options = {};
             $( "#effect" ).hide( "blind", options, 8000);
         }
@@ -230,7 +231,7 @@
                         </td>
                         <td>
                             <form:select id="makeName" path="searchMakeAndModelVO.makeId" tabindex="1"
-                                         onkeypress="handleEnter(event);" cssClass="textfieldMyStyle">
+                                         onkeypress="handleEnter(event);" >
                                 <form:option value="0" label="-- Select --"/>
                                 <form:options items="${makeForm.makeVOs}"
                                               itemValue="id" itemLabel="makeName"/>
@@ -265,11 +266,11 @@
                     <tr>
                     <tr>
                         <td colspan="2">
-                            <input class="btn" value="Search" type="button" onclick="javascript:search()"/>
+                            <input class="btn btn-primary" value="Search" type="button" onclick="javascript:search()"/>
                         </td>
                         <td colspan="2">&nbsp;</td>
                         <td colspan="2">
-                            <input class="btn" value="Clear" type="button" onclick="javascript:clearOut()"/>
+                            <input class="btn btn-primary" value="Clear" type="button" onclick="javascript:clearOut()"/>
                         </td>
                     <tr>
                 </table>
@@ -311,16 +312,16 @@
                     </tr>
                     <tr>
                         <td>
-                            <input class="btn" value="Make List" type="button" onclick="javascript:listAllMake()"/>
+                            <input class="btn btn-primary" value="Make List" type="button" onclick="javascript:listAllMake()"/>
                         </td>
                         <td>
-                            <input class="btn" value="Add Model" type="button" onclick="javascript:addNewModel()"/>
+                            <input class="btn btn-primary" value="Add Model" type="button" onclick="javascript:addNewModel()"/>
                         </td>
                         <td>
-                            <input class="btn" value="Edit Model" type="button" onclick="javascript:editModel()"/>
+                            <input class="btn btn-primary" value="Edit Model" type="button" onclick="javascript:editModel()"/>
                         </td>
                         <td>
-                            <input class="btn" value="Delete Model" type="button" onclick="javascript:deleteModel()"/>
+                            <input class="btn btn-primary" value="Delete Model" type="button" onclick="javascript:deleteModel()"/>
                         </td>
                     </tr>
                 </table>

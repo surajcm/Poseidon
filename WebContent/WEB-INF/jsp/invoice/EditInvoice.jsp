@@ -124,11 +124,11 @@
                     <tr>
                         <td colspan="12">&nbsp;</td>
                         <td>
-                            <input class="btn" value="Update" type="button" onclick="javascript:update()"/>
+                            <input class="btn btn-primary" value="Update" type="button" onclick="javascript:update()"/>
                         </td>
                         <td colspan="2">&nbsp;</td>
                         <td>
-                            <input class="btn" value="Cancel" type="button" onclick="javascript:cancel()"/>
+                            <input class="btn btn-primary" value="Cancel" type="button" onclick="javascript:cancel()"/>
                         </td>
                     </tr>
                 </table>

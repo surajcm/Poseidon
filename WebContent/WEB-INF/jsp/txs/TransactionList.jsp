@@ -398,8 +398,7 @@ function hideAlerts(){
                         </td>
                         <td>
                             <form:select id="makeId" path="searchTransaction.makeId" tabindex="1"
-                                         onchange="changeTheModel();"
-                                         cssClass="textfieldMyStyle">
+                                         onchange="changeTheModel();">
                                 <form:option value=""><spring:message code="common.select" text="<-- Select -->"/></form:option>
                                 <form:options items="${transactionForm.makeVOs}"
                                               itemValue="Id" itemLabel="makeName"/>
@@ -412,7 +411,7 @@ function hideAlerts(){
                             </label>
                         </td>
                         <td>
-                            <form:select id="modelId" path="searchTransaction.modelId" tabindex="1" cssClass="textfieldMyStyle">
+                            <form:select id="modelId" path="searchTransaction.modelId" tabindex="1">
                                 <form:option value=""><spring:message code="common.select" text="<-- Select -->"/></form:option>
                                 <form:options items="${transactionForm.makeAndModelVOs}"
                                               itemValue="modelId" itemLabel="modelName"/>
@@ -425,7 +424,7 @@ function hideAlerts(){
                             </label>
                         </td>
                         <td>
-                            <form:select id="Status" path="searchTransaction.Status" cssClass="textfieldMyStyle">
+                            <form:select id="Status" path="searchTransaction.Status">
                                 <form:option value=""><spring:message code="common.select" text="<-- Select -->"/></form:option>
                                 <form:options items="${transactionForm.statusList}" />
                             </form:select>
@@ -452,11 +451,11 @@ function hideAlerts(){
                     <tr>
                         <td colspan="12">&nbsp;</td>
                         <td>
-                            <input class="btn" value="<spring:message code="poseidon.search" text="Search" />"
+                            <input class="btn btn-primary" value="<spring:message code="poseidon.search" text="Search" />"
                                    type="button" onclick="javascript:search()"/>
                         </td>
                         <td>
-                            <input class="btn" value="<spring:message code="poseidon.clear" text="Clear" />"
+                            <input class="btn btn-primary" value="<spring:message code="poseidon.clear" text="Clear" />"
                                    type="button" onclick="javascript:clearOut()"/>
                         </td>
                     </tr>
@@ -504,10 +503,10 @@ function hideAlerts(){
                         <td>
                             <br/>
                             <br/>
-                            <input class="btn" value="Add New Transaction" type="button" onclick="javascript:addNew()"/>
-                            <input class="btn" value="Edit Transaction" type="button" onclick="javascript:editMe()"/>
-                            <input class="btn" value="Delete Transaction" type="button" onclick="javascript:deleteTxn()"/>
-                            <input class="btn" value="Invoice Transaction" type="button" onclick="javascript:invoiceTxn()"/>
+                            <input class="btn btn-primary" value="Add New Transaction" type="button" onclick="javascript:addNew()"/>
+                            <input class="btn btn-primary" value="Edit Transaction" type="button" onclick="javascript:editMe()"/>
+                            <input class="btn btn-primary" value="Delete Transaction" type="button" onclick="javascript:deleteTxn()"/>
+                            <input class="btn btn-primary" value="Invoice Transaction" type="button" onclick="javascript:invoiceTxn()"/>
                         </td>
                     </tr>
                 </table>

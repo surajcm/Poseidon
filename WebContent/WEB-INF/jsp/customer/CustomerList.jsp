@@ -275,11 +275,11 @@
                             <tr>
                                 <td colspan="8">&nbsp;</td>
                                 <td>
-                                    <input class="btn" value="<spring:message code="poseidon.search" text="Search" />"
+                                    <input class="btn btn-primary" value="<spring:message code="poseidon.search" text="Search" />"
                                            type="button" onclick="javascript:search()"/>
                                 </td>
                                 <td>
-                                    <input class="btn" value="<spring:message code="poseidon.clear" text="Clear" />"
+                                    <input class="btn btn-primary" value="<spring:message code="poseidon.clear" text="Clear" />"
                                            type="button" onclick="javascript:clearOut()"/>
                                 </td>
                             </tr>
@@ -337,9 +337,9 @@
                                 <td>
                                     <br/>
                                     <br/>
-                                    <input class="btn" value="Add New Customer" type="button" onclick="javascript:addCust()"/>
-                                    <input class="btn" value="Edit Customer" type="button" onclick="javascript:editCust()"/>
-                                    <input class="btn" value="Delete Customer" type="button" onclick="javascript:deleteCust()"/>
+                                    <input class="btn btn-primary" value="Add New Customer" type="button" onclick="javascript:addCust()"/>
+                                    <input class="btn btn-primary" value="Edit Customer" type="button" onclick="javascript:editCust()"/>
+                                    <input class="btn btn-primary" value="Delete Customer" type="button" onclick="javascript:deleteCust()"/>
                                 </td>
                             </tr>
                         </table>

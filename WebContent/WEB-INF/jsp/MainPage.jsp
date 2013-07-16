@@ -6,10 +6,15 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Welcome</title>
-    <link rel="stylesheet" type="text/css" href="../css/mainStyles.css" />
-    <!--link rel="stylesheet" type="text/css" href="../css/bootstrap.css" /-->
+    <link rel="stylesheet" type="text/css" href="../css/mainStyles.css"/>
+    <%--<script type="text/javascript">
+        function hideAlerts(){
+            document.getElementById('hometab').className = "active";
+        }
+    </script>--%>
 </head>
 <body>
+<%--<body onload="javascript:hideAlerts()">--%>
 <form:form method="POST" commandName="userForm" name="userForm" action="listAll.htm" >
     <input type="hidden" name="id" id="id" />
     <form:hidden name="loggedInUser" path="loggedInUser" />
@@ -17,17 +22,18 @@
     <%@include file="/WEB-INF/jsp/myHeader.jsp" %>
     <table width="100%" height="100%">
         <tr>
-            <td>
-                &nbsp;
+            <td>&nbsp;
+
             </td>
             <td align="center">
                 <img src="<%=request.getContextPath()%>/images/poseidon_god_of_the_sea.jpg" style="margin:0px; width:800px; height:600px;"/>
             </td>
-            <td>
-                &nbsp;
+            <td>&nbsp;
+
             </td>
         </tr>
     </table>
+
 </form:form>
 </body>
 </html>

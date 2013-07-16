@@ -181,7 +181,7 @@
                     </label>
                 </td>
                 <td>
-                    <select class="textfieldMyStyle" id="callExportValue" >
+                    <select id="callExportValue" >
                         <option value=""></option>
                         <c:forEach var="n" items="${reportsForm.exportList}" varStatus="rowCounter">
                             <option value="${n}">${n}</option>
@@ -190,11 +190,11 @@
                 </td>
                 <td colspan="2">&nbsp;</td>
                 <td>
-                    <input class="btn" value="Fetch Call Report" type="button"
+                    <input class="btn btn-primary" value="Fetch Call Report" type="button"
                            onclick="javascript:fetchCallReport()"/>
                 </td>
                 <td>
-                    <input class="btn" value="Clear" type="button" onclick="javascript:clearOut()"/>
+                    <input class="btn btn-primary" value="Clear" type="button" onclick="javascript:clearOut()"/>
                 </td>
             </tr>
         </table>
@@ -211,8 +211,7 @@
                     </label>
                 </td>
                 <td>
-                    <form:select id="makeName" path="searchMakeAndModelVO.makeId" tabindex="1"
-                                 cssClass="textfieldMyStyle">
+                    <form:select id="makeName" path="searchMakeAndModelVO.makeId" tabindex="1">
                         <form:option value="0" label="-- Select --"/>
                         <form:options items="${reportsForm.makeVOs}"
                                       itemValue="id" itemLabel="makeName"/>
@@ -253,7 +252,7 @@
                     </label>
                 </td>
                 <td>
-                    <select class="textfieldMyStyle" id="makeExportValue" >
+                    <select id="makeExportValue" >
                         <option value=""></option>
                         <c:forEach var="n" items="${reportsForm.exportList}" varStatus="rowCounter">
                             <option value="${n}">${n}</option>
@@ -261,15 +260,15 @@
                     </select>
                 </td>
                 <td colspan="2">
-                    <input class="btn" value="Fetch Make Report" type="button"
+                    <input class="btn btn-primary" value="Fetch Make Report" type="button"
                            onclick="javascript:fetchMakeReport()"/>
                 </td>
                 <td>
-                    <input class="btn" value="Fetch Model List Report" type="button"
+                    <input class="btn btn-primary" value="Fetch Model List Report" type="button"
                            onclick="javascript:fetchModelListReport()"/>
                 </td>
                 <td>
-                    <input class="btn" value="Clear" type="button" onclick="javascript:clearOut()"/>
+                    <input class="btn btn-primary" value="Clear" type="button" onclick="javascript:clearOut()"/>
                 </td>
             </tr>
         </table>
@@ -336,8 +335,7 @@
                 </td>
                 <td>
                     <form:select id="makeId" path="searchTransaction.makeId" tabindex="1"
-                                 onchange="changeTheModel();"
-                                 cssClass="textfieldMyStyle">
+                                 onchange="changeTheModel();">
                         <form:option value=""><spring:message code="common.select" text="<-- Select -->"/></form:option>
                         <form:options items="${reportsForm.makeVOs}"
                                       itemValue="Id" itemLabel="makeName"/>
@@ -350,7 +348,7 @@
                     </label>
                 </td>
                 <td>
-                    <form:select id="modelId" path="searchTransaction.modelId" tabindex="1" cssClass="textfieldMyStyle">
+                    <form:select id="modelId" path="searchTransaction.modelId" tabindex="1">
                         <form:option value=""><spring:message code="common.select" text="<-- Select -->"/></form:option>
                     </form:select>
                 </td>
@@ -361,8 +359,7 @@
                     </label>
                 </td>
                 <td>
-                    <form:select id="Status" path="searchTransaction.Status"
-                                 cssClass="textfieldMyStyle">
+                    <form:select id="Status" path="searchTransaction.Status">
                         <form:option value=""><spring:message code="common.select" text="<-- Select -->"/></form:option>
                         <form:options items="${reportsForm.statusList}" />
                     </form:select>
@@ -394,7 +391,7 @@
                     </label>
                 </td>
                 <td>
-                    <select class="textfieldMyStyle" id="txnExportValue" >
+                    <select id="txnExportValue" >
                         <option value=""></option>
                         <c:forEach var="n" items="${reportsForm.exportList}" varStatus="rowCounter">
                             <option value="${n}">${n}</option>
@@ -403,11 +400,11 @@
                 </td>
                 <td colspan="2">&nbsp;</td>
                 <td>
-                    <input class="btn" value="Fetch Transactions List Report" type="button"
+                    <input class="btn btn-primary" value="Fetch Transactions List Report" type="button"
                            onclick="javascript:fetchTransactionsListReport()"/>
                 </td>
                 <td>
-                    <input class="btn" value="Clear" type="button" onclick="javascript:clearOut()"/>
+                    <input class="btn btn-primary" value="Clear" type="button" onclick="javascript:clearOut()"/>
                 </td>
             </tr>
         </table>
@@ -433,7 +430,7 @@
                     </label>
                 </td>
                 <td>
-                    <select class="textfieldMyStyle" id="invoiceExportValue" >
+                    <select id="invoiceExportValue" >
                         <option value=""></option>
                         <c:forEach var="n" items="${reportsForm.exportList}" varStatus="rowCounter">
                             <option value="${n}">${n}</option>
@@ -442,11 +439,11 @@
                 </td>
                 <td colspan="2">&nbsp;</td>
                 <td>
-                    <input class="btn" value="Fetch Invoice Report" type="button"
+                    <input class="btn btn-primary" value="Fetch Invoice Report" type="button"
                            onclick="javascript:fetchInvoiceReport()"/>
                 </td>
                 <td>
-                    <input class="btn" value="Clear" type="button" onclick="javascript:clearOut()"/>
+                    <input class="btn btn-primary" value="Clear" type="button" onclick="javascript:clearOut()"/>
                 </td>
             </tr>
         </table>
@@ -513,8 +510,7 @@
                 </td>
                 <td>
                     <form:select id="makeId" path="searchTransaction.makeId" tabindex="1"
-                                 onchange="changeTheModel();"
-                                 cssClass="textfieldMyStyle">
+                                 onchange="changeTheModel();">
                         <form:option value=""><spring:message code="common.select" text="<-- Select -->"/></form:option>
                         <form:options items="${reportsForm.makeVOs}"
                                       itemValue="Id" itemLabel="makeName"/>
@@ -527,8 +523,7 @@
                     </label>
                 </td>
                 <td>
-                    <form:select id="modelId" path="searchTransaction.modelId" tabindex="1"
-                                 cssClass="textfieldMyStyle">
+                    <form:select id="modelId" path="searchTransaction.modelId" tabindex="1">
                         <form:option value=""><spring:message code="common.select" text="<-- Select -->"/></form:option>
                     </form:select>
                 </td>
@@ -539,7 +534,7 @@
                     </label>
                 </td>
                 <td>
-                    <form:select id="Status" path="searchTransaction.Status" cssClass="textfieldMyStyle">
+                    <form:select id="Status" path="searchTransaction.Status">
                         <form:option value=""><spring:message code="common.select" text="<-- Select -->"/></form:option>
                         <form:options items="${reportsForm.statusList}" />
                     </form:select>
@@ -571,7 +566,7 @@
                     </label>
                 </td>
                 <td>
-                    <select class="textfieldMyStyle" id="txnExportValue" >
+                    <select id="txnExportValue" >
                         <option value=""></option>
                         <c:forEach var="n" items="${reportsForm.exportList}" varStatus="rowCounter">
                             <option value="${n}">${n}</option>
@@ -580,11 +575,11 @@
                 </td>
                 <td colspan="2">&nbsp;</td>
                 <td>
-                    <input class="btn" value="Fetch Invoice List Report" type="button"
+                    <input class="btn btn-primary" value="Fetch Invoice List Report" type="button"
                            onclick="javascript:fetchTransactionsListReport()"/>
                 </td>
                 <td>
-                    <input class="btn" value="Clear" type="button" onclick="javascript:clearOut()"/>
+                    <input class="btn btn-primary" value="Clear" type="button" onclick="javascript:clearOut()"/>
                 </td>
             </tr>
         </table>

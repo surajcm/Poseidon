@@ -5,43 +5,14 @@
 <head>
     <link rel="shortcut icon" href="<%=request.getContextPath()%>/images/Poseidon_Ico.ico" >
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <style type="text/css">
-        #menuimg {
-            background-repeat: repeat-x;
-            background-color: #A9A9A9;
-            margin:auto;
-            border-collapse:collapse;
-        }
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="../css/bootstrap.css" rel="stylesheet" type="text/css">
+    <link href="../css/bootstrap-responsive.css" rel="stylesheet" type="text/css">
 
-        div.menu {
-            float: left;
-            margin-left: 10px;
-            font-size: 0.5em;
-            font-family: Verdana, Arial, Helvetica, sans-serif;
-            color:white
-        }
-
-        div.popup a:hover { background-color: #faa; }
-        div.menu:hover div:first-child { border-bottom: none; }
-        div.menu div.popup { display: none; }
-        div.menu:hover div.popup {
-            display: block;
-            background-color: #99f;
-        }
-        div.menu div {
-            width: 175px;
-            background-color: #66f;
-            padding: 5px;
-            border: solid 2px blue;
-        }
-
-        #menuFirstLine {
-            font-weight: bold;
-            font-size: 08;
-            font-family: Verdana, Arial, Helvetica, sans-serif;
-        }
-
-    </style>
+    <!-- HTML5 shim for IE backwards compatibility -->
+    <!--[if lt IE 9]>
+    <script src="js/html5.js"></script>
+    <![endif]-->
     <script type="text/javascript">
         function listMe(){
             document.forms[0].action="<%=request.getContextPath()%>"+"/user/ListAll.htm";
@@ -90,6 +61,33 @@
     </script>
 </head>
 <body>
+<nav class="navbar navbar-inverse">
+    <div class="navbar-inner">
+        <a id="hometab" class="brand" href="#" onclick="javascript:goToHome();" >Poseidon</a>
+        <ul class="nav">
+            <script type="text/javascript">
+                if ( document.forms[0].loggedInRole != null
+                        && document.forms[0].loggedInRole.value != null
+                        && document.forms[0].loggedInRole.value == 'ADMIN'){
+                    document.write("<li id='user'><a href='#' onclick='javascript:listMe();' >User</a></li>");
+                }
+            </script>
+            <li id="makeme"><a href="#" onclick="javascript:MakeMe();" >Make</a></li>
+            <li id="customermgt"><a href="#" onclick="javascript:fetchCustomers();" >Customer</a></li>
+            <li id="companymgt"><a href="#" onclick="javascript:fetchTerms();" >Company</a></li>
+            <li id="txnmgt"><a href="#" onclick="javascript:fetchTransactions();" >Transactions</a></li>
+            <li id="invmgt"><a href="#" onclick="javascript:fetchInvoice();" >Invoice</a></li>
+            <li id="reportmgt"><a href="#" onclick="javascript:fetchReport();" >Report</a></li>
+        </ul>
+        <div class="pull-right">
+            <ul class="nav pull-right">
+                <li class="dropdown">
+                    <a href="#" class="pull-right" onclick="javascript:LogMeOut();" >Log Out</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
 <table id="menuimg" border="0"  width="100%" >
     <tr>
         <td colspan="2">
@@ -97,75 +95,25 @@
                 <tr>
                     <td width="20%">
                         <img src="<%=request.getContextPath()%>/images/Poseidon.png" style="margin:0px; width:150px; height:50px"/>
-                        <%
-                            String DATE_FORMAT = "dd-MMM-yyyy";
-                            String TIME_NOW = "HH:mm";
-                            java.util.Calendar cal = java.util.Calendar.getInstance();
-                            java.text.SimpleDateFormat fmt = new java.text.SimpleDateFormat(DATE_FORMAT);
-                            java.text.SimpleDateFormat fmt_time = new java.text.SimpleDateFormat(TIME_NOW);
-                        %>
-                    </td>
-                    <td align="center" valign="middle" >
-                        <label class="menuFirstLine">Welcome </label>
-                        <label class="menuFirstLine">
-                            <script type="text/javascript">
-                                if(document.forms[0].loggedInUser != null) {
-                                    document.write(document.forms[0].loggedInUser.value);
-                                }
-                            </script>
-                        </label>|
-                        <label class="menuFirstLine"><%=fmt.format(cal.getTime()) %></label>|
-                        <label class="menuFirstLine"><%=fmt_time.format(cal.getTime()) %></label>
-                    </td>
-                    <td width="20%">
-                        &nbsp;
                     </td>
                 </tr>
             </table>
         </td>
     </tr>
-    <tr>
-        <td colspan="2">
-            <hr/>
-        </td>
-    </tr>
-    <tr>
-        <td>
-            <label style="font-weight: bold;color:white;"  onMouseOver="this.style.cursor='pointer'"  > | </label>
-            <label onclick="javascript:goToHome();" style="font-weight: bold;color:white;font-size: .70em;"  onMouseOver="this.style.cursor='pointer'"  > Home </label>
-            <script type="text/javascript">
-                if ( document.forms[0].loggedInRole != null
-                        && document.forms[0].loggedInRole.value != null
-                        && document.forms[0].loggedInRole.value == 'ADMIN'){
-                    document.write("<label style=\"font-weight: bold;color:white;font-size: .90em;\"  onMouseOver=\"this.style.cursor='pointer'\"  > | </label>");
-                    document.write("<label onclick=\"javascript:listMe();\" style=\"font-weight: bold;color:white;font-size: .70em;\" onMouseOver=\"this.style.cursor='pointer'\" > UserManagement </label>");
-                }
-            </script>
-            <label style="font-weight: bold;color:white;font-size: .90em;"  onMouseOver="this.style.cursor='pointer'"  >|</label>
-            <label onclick="javascript:MakeMe();" style="font-weight: bold;color:white;font-size: .70em;" onMouseOver="this.style.cursor='pointer'" >MakeManagement</label>
-            <label style="font-weight: bold;color:white;font-size: .90em;"  onMouseOver="this.style.cursor='pointer'"  >|</label>
-            <label onclick="javascript:fetchCustomers();" style="font-weight: bold;color:white;font-size: .70em;" onMouseOver="this.style.cursor='pointer'" >CustomerManagement</label>
-            <label style="font-weight: bold;color:white;font-size: .90em;"  onMouseOver="this.style.cursor='pointer'"  >|</label>
-            <label onclick="javascript:fetchTerms();" style="font-weight: bold;color:white;font-size: .70em;" onMouseOver="this.style.cursor='pointer'" >CompanyManagement</label>
-            <label style="font-weight: bold;color:white;font-size: .90em;"  onMouseOver="this.style.cursor='pointer'"  >|</label>
-            <label onclick="javascript:fetchTransactions();" style="font-weight: bold;color:white;font-size: .70em;" onMouseOver="this.style.cursor='pointer'" >TransactionsManagement</label>
-            <label style="font-weight: bold;color:white;font-size: .90em;"  onMouseOver="this.style.cursor='pointer'"  >|</label>
-            <label onclick="javascript:fetchInvoice();" style="font-weight: bold;color:white;font-size: .70em;" onMouseOver="this.style.cursor='pointer'" >InvoiceManagement</label>
-            <label style="font-weight: bold;color:white;font-size: .90em;"  onMouseOver="this.style.cursor='pointer'"  >|</label>
-            <label onclick="javascript:fetchReport();" style="font-weight: bold;color:white;font-size: .70em;" onMouseOver="this.style.cursor='pointer'" >ReportManagement</label>
-            <label style="font-weight: bold;color:white;font-size: .90em;"  onMouseOver="this.style.cursor='pointer'"  >|</label>
-        </td>
-        <td align="right" height="0px"  onclick="javascript:LogMeOut();">
-            <label style="font-weight: bold;color:white;font-size: .90em;" onMouseOver="this.style.cursor='pointer'" >Help</label>
-            &nbsp;&nbsp;&nbsp;&nbsp;
-            <label style="font-weight: bold;color:white;font-size: .90em;" onMouseOver="this.style.cursor='pointer'" >LogOut</label>
-        </td>
-    </tr>
-    <tr>
-        <td colspan="2">
-            <hr/>
-        </td>
-    </tr>
 </table>
+<script src="js/jquery-latest.js"></script>
+<script src="js/bootstrap.js"></script>
+<script src="js/bootstrap.min.js"></script>
+<script src="js/bootstrap-dropdown.js"></script>
+
+<script>
+    $(document).ready(function()
+    {
+        //Handles menu drop down
+        $('.dropdown-menu').find('form').click(function (e) {
+            e.stopPropagation();
+        });
+    });
+</script>
 </body>
 </html>

@@ -8,7 +8,6 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Invoice List</title>
     <link rel="stylesheet" type="text/css" href="../css/mainStyles.css" />
-    <!--link rel="stylesheet" type="text/css" href="../css/bootstrap.css" /-->
     <link rel="stylesheet" type="text/css" href="../css/ui-lightness/jquery-ui-1.8.21.custom.css"/>
     <script type="text/javascript" src="../js/jquery-1.7.2.min.js" language="javascript" ></script>
     <script type="text/javascript" src="../js/jquery-ui-1.8.21.custom.min.js" language="javascript" ></script>
@@ -320,12 +319,12 @@
                         </td>
                         <td colspan="3">&nbsp;</td>
                         <td>
-                            <input class="btn" value="<spring:message code="poseidon.search" text="Search" />"
+                            <input class="btn btn-primary" value="<spring:message code="poseidon.search" text="Search" />"
                                    type="button" onclick="javascript:search()"/>
                         </td>
                         <td colspan="3">&nbsp;</td>
                         <td>
-                            <input class="btn" value="<spring:message code="poseidon.clear" text="Clear" />"
+                            <input class="btn btn-primary" value="<spring:message code="poseidon.clear" text="Clear" />"
                                    type="button" onclick="javascript:clearOut()"/>
                         </td>
                     </tr>
@@ -370,9 +369,9 @@
                         <td>
                             <br/>
                             <br/>
-                            <input class="btn" value="Add New Invoice" type="button" onclick="javascript:addInvoice()"/>
-                            <input class="btn" value="Edit Invoice" type="button" onclick="javascript:editMe()"/>
-                            <input class="btn" value="Delete Invoice" type="button" onclick="javascript:deleteInvoice()"/>
+                            <input class="btn btn-primary" value="Add New Invoice" type="button" onclick="javascript:addInvoice()"/>
+                            <input class="btn btn-primary" value="Edit Invoice" type="button" onclick="javascript:editMe()"/>
+                            <input class="btn btn-primary" value="Delete Invoice" type="button" onclick="javascript:deleteInvoice()"/>
                         </td>
                     </tr>
                 </table>

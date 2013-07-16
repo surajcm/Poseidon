@@ -68,8 +68,7 @@
                                 </td>
                                 <td colspan="2">&nbsp;</td>
                                 <td>
-                                    <form:select id="makeId" path="currentMakeAndModeVO.makeId" tabindex="1" onkeypress="handleEnter(event);"
-                                                 cssClass="textfieldMyStyle">
+                                    <form:select id="makeId" path="currentMakeAndModeVO.makeId" tabindex="1" onkeypress="handleEnter(event);">
                                         <form:options items="${makeForm.makeAndModelVOs}"
                                                       itemValue="makeId" itemLabel="makeName"/>
                                     </form:select>
@@ -89,11 +88,11 @@
                             </tr>
                             <tr>
                                 <td>
-                                    <input class="btn" value="Save" type="button" onclick="javascript:save()"/>
+                                    <input class="btn btn-primary" value="Save" type="button" onclick="javascript:save()"/>
                                 </td>
                                 <td colspan="2">&nbsp;</td>
                                 <td>
-                                    <input class="btn" value="Clear" type="button" onclick="javascript:clearOut()"/>
+                                    <input class="btn btn-primary" value="Clear" type="button" onclick="javascript:clearOut()"/>
                                 </td>
                             </tr>
                         </table>
