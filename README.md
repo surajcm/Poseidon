@@ -1,6 +1,8 @@
 # Poseidon
 
-This is a software for laptop service center management, which uses spring multi action controller.
+Poseidon is a service center management software, primarly designed as a solution for keeping the inventory and billing for a laptop service centre.
+
+![Poseidon](http://s12.postimg.org/3xei02465/txn_2.png)
 
 
 ## Programs needed to download / set up
@@ -31,7 +33,7 @@ Now everything will work as expected.
 * Twitter bootstrap
 * Jasper reports integration (partially done)
 
-## The changes we plan are:
+## The changes we plan
 * Hibernate
 * Add Unit test - junit 3
 * Ability to read data from a property file
