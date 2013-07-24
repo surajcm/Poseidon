@@ -166,6 +166,11 @@ public class UserController extends MultiActionController {
         return new ModelAndView("user/UserList", "userForm", userForm);
     }
 
+    /**
+     * populateRoles
+     *
+     * @return List of String
+     */
     private List<String> populateRoles() {
         List<String> roleList = new ArrayList<String>();
         roleList.add("ADMIN");

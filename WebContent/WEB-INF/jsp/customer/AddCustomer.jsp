@@ -83,7 +83,7 @@
                         </td>
                         <td colspan="2">&nbsp;</td>
                         <td style="text-align:left;">
-                            <form:input path="currentCustomerVO.customerName" cssClass="textfieldMyStyle" id="customerName"/>
+                            <form:input path="currentCustomerVO.customerName" id="customerName"/>
                         </td>
                         <td colspan="2">&nbsp;</td>
                         <td style="text-align:right;">
@@ -93,8 +93,7 @@
                         </td>
                         <td colspan="2">&nbsp;</td>
                         <td style="text-align:left;">
-                            <form:textarea path="currentCustomerVO.address1" rows="5" cols="30" cssClass="textfieldMyStyle"
-                                           id="address1"/>
+                            <form:textarea path="currentCustomerVO.address1" id="address1"/>
                         </td>
                         <td colspan="2">&nbsp;</td>
                         <td style="text-align:right;">
@@ -104,8 +103,7 @@
                         </td>
                         <td colspan="2">&nbsp;</td>
                         <td style="text-align:left;">
-                            <form:textarea path="currentCustomerVO.address2" rows="5" cols="30" cssClass="textfieldMyStyle"
-                                           id="address2"/>
+                            <form:textarea path="currentCustomerVO.address2" id="address2"/>
                         </td>
                     </tr>
                     <tr>
@@ -119,7 +117,7 @@
                         </td>
                         <td colspan="2">&nbsp;</td>
                         <td style="text-align:left;">
-                            <form:input path="currentCustomerVO.phoneNo" cssClass="textfieldMyStyle" id="phoneNo"/>
+                            <form:input path="currentCustomerVO.phoneNo" id="phoneNo"/>
                         </td>
                         <td colspan="2">&nbsp;</td>
                         <td style="text-align:right;">
@@ -129,7 +127,7 @@
                         </td>
                         <td colspan="2">&nbsp;</td>
                         <td style="text-align:left;">
-                            <form:input path="currentCustomerVO.mobile" cssClass="textfieldMyStyle" id="mobile"/>
+                            <form:input path="currentCustomerVO.mobile" id="mobile"/>
                         </td>
                         <td colspan="2">&nbsp;</td>
                         <td style="text-align:right;">
@@ -139,7 +137,7 @@
                         </td>
                         <td colspan="2">&nbsp;</td>
                         <td style="text-align:left;">
-                            <form:input path="currentCustomerVO.email" cssClass="textfieldMyStyle" id="email"/>
+                            <form:input path="currentCustomerVO.email" id="email"/>
                         </td>
                     </tr>
                     <tr>
@@ -153,8 +151,7 @@
                         </td>
                         <td colspan="2">&nbsp;</td>
                         <td style="text-align:left;">
-                            <form:input path="currentCustomerVO.contactPerson1" cssClass="textfieldMyStyle"
-                                        id="contactPerson1"/>
+                            <form:input path="currentCustomerVO.contactPerson1" id="contactPerson1"/>
                         </td>
                         <td colspan="2">&nbsp;</td>
                         <td style="text-align:right;">
@@ -164,8 +161,7 @@
                         </td>
                         <td colspan="2">&nbsp;</td>
                         <td style="text-align:left;">
-                            <form:input path="currentCustomerVO.contactMobile1" cssClass="textfieldMyStyle"
-                                        id="contactMobile1"/>
+                            <form:input path="currentCustomerVO.contactMobile1" id="contactMobile1"/>
                         </td>
                         <td colspan="6">&nbsp;</td>
                     </tr>
@@ -180,8 +176,7 @@
                         </td>
                         <td colspan="2">&nbsp;</td>
                         <td style="text-align:left;">
-                            <form:input path="currentCustomerVO.contactPerson2" cssClass="textfieldMyStyle"
-                                        id="contactPerson2"/>
+                            <form:input path="currentCustomerVO.contactPerson2" id="contactPerson2"/>
                         </td>
                         <td colspan="2">&nbsp;</td>
                         <td style="text-align:right;">
@@ -191,8 +186,7 @@
                         </td>
                         <td colspan="2">&nbsp;</td>
                         <td style="text-align:left;">
-                            <form:input path="currentCustomerVO.contactMobile2" cssClass="textfieldMyStyle"
-                                        id="contactMobile2"/>
+                            <form:input path="currentCustomerVO.contactMobile2" id="contactMobile2"/>
                         </td>
                         <td colspan="6">&nbsp;</td>
                     </tr>
@@ -207,8 +201,7 @@
                         </td>
                         <td colspan="2">&nbsp;</td>
                         <td style="text-align:left;">
-                            <form:textarea path="currentCustomerVO.notes" rows="5" cols="30" cssClass="textfieldMyStyle"
-                                           id="notes"/>
+                            <form:textarea path="currentCustomerVO.notes" id="notes"/>
                         </td>
                         <td colspan="12">&nbsp;</td>
                     </tr>
@@ -218,11 +211,11 @@
                     <tr>
                         <td colspan="12">&nbsp;</td>
                         <td>
-                            <input class="btn" value="Save" type="button" onclick="javascript:save()"/>
+                            <input class="btn btn-primary" value="Save" type="button" onclick="javascript:save()"/>
                         </td>
                         <td colspan="2">&nbsp;</td>
                         <td>
-                            <input class="btn" value="Clear" type="button" onclick="javascript:clearOut()"/>
+                            <input class="btn btn-primary" value="Clear" type="button" onclick="javascript:clearOut()"/>
                         </td>
                     </tr>
                 </table>

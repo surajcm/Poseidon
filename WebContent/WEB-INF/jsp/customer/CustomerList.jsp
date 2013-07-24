@@ -8,7 +8,6 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Customer List</title>
     <link rel="stylesheet" type="text/css" href="../css/mainStyles.css" />
-    <!--link rel="stylesheet" type="text/css" href="../css/bootstrap.css" /-->
     <link rel="stylesheet" type="text/css" href="../css/ui-lightness/jquery-ui-1.8.21.custom.css"/>
     <script type="text/javascript" src="../js/jquery-1.7.2.min.js" language="javascript" ></script>
     <script type="text/javascript" src="../js/jquery-ui-1.8.21.custom.min.js" language="javascript" ></script>
@@ -231,7 +230,7 @@
                                     </label>
                                 </td>
                                 <td>
-                                    <form:input path="searchCustomerVO.customerId" cssClass="textfieldMyStyle" id="customerId"/>
+                                    <form:input path="searchCustomerVO.customerId" id="customerId"/>
                                 </td>
                                 <td colspan="2">&nbsp;</td>
                                 <td>
@@ -240,7 +239,7 @@
                                     </label>
                                 </td>
                                 <td>
-                                    <form:input path="searchCustomerVO.customerName" cssClass="textfieldMyStyle" id="customerName"/>
+                                    <form:input path="searchCustomerVO.customerName" id="customerName"/>
                                 </td>
                                 <td colspan="2">&nbsp;</td>
                                 <td>
@@ -249,7 +248,7 @@
                                     </label>
                                 </td>
                                 <td>
-                                    <form:input path="searchCustomerVO.mobile" cssClass="textfieldMyStyle" id="mobile"/>
+                                    <form:input path="searchCustomerVO.mobile" id="mobile"/>
                                 </td>
                             </tr>
                             <tr>
@@ -257,15 +256,13 @@
                                 <td>
                                     <label for="includes">
                                         <spring:message code="user.includes" text="Includes"/>
-                                        <form:checkbox path="searchCustomerVO.includes" cssStyle="vertical-align:middle"
-                                                       id="includes" value=""/>
+                                        <form:checkbox path="searchCustomerVO.includes" id="includes" value=""/>
                                     </label>
                                 </td>
                                 <td>
                                     <label for="startsWith">
                                         <spring:message code="user.startsWith" text="Starts with"/>
-                                        <form:checkbox path="searchCustomerVO.startsWith" cssStyle="vertical-align:middle"
-                                                       id="startsWith" value=""/>
+                                        <form:checkbox path="searchCustomerVO.startsWith" id="startsWith" value=""/>
                                     </label>
                                 </td>
                             </tr>
@@ -275,11 +272,13 @@
                             <tr>
                                 <td colspan="8">&nbsp;</td>
                                 <td>
-                                    <input class="btn btn-primary" value="<spring:message code="poseidon.search" text="Search" />"
+                                    <input class="btn btn-primary"
+                                           value="<spring:message code="poseidon.search" text="Search" />"
                                            type="button" onclick="javascript:search()"/>
                                 </td>
                                 <td>
-                                    <input class="btn btn-primary" value="<spring:message code="poseidon.clear" text="Clear" />"
+                                    <input class="btn btn-primary"
+                                           value="<spring:message code="poseidon.clear" text="Clear" />"
                                            type="button" onclick="javascript:clearOut()"/>
                                 </td>
                             </tr>

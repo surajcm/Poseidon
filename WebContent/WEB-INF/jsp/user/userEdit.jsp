@@ -87,7 +87,7 @@
                             </td>
                             <td colspan="2">&nbsp;</td>
                             <td>
-                                <form:input path="user.name" cssClass="textfieldMyStyle" id="name" />
+                                <form:input path="user.name" id="name" />
                             </td>
                         </tr>
                         <tr>
@@ -101,7 +101,7 @@
                             </td>
                             <td colspan="2">&nbsp;</td>
                             <td>
-                                <form:input path="user.loginId" cssClass="textfieldMyStyle" id="loginId"/>
+                                <form:input path="user.loginId" id="loginId"/>
                             </td>
                         </tr>
                         <tr>
@@ -115,7 +115,7 @@
                             </td>
                             <td colspan="2">&nbsp;</td>
                             <td>
-                                <form:input path="user.password" cssClass="textfieldMyStyle" id="psw" />
+                                <form:input path="user.password" id="psw" />
                             </td>
                         </tr>
                         <tr>
@@ -129,8 +129,7 @@
                             </td>
                             <td colspan="2">&nbsp;</td>
                             <td align="left">
-                                <form:select id="role" path="user.role"
-                                             onkeypress="handleEnter(event);" cssClass="textfieldMyStyle">
+                                <form:select id="role" path="user.role" onkeypress="handleEnter(event);" >
                                     <form:option value=""><spring:message code="common.select" text="<-- Select -->"/></form:option>
                                     <form:options items="${userForm.roleList}" />
                                 </form:select>
@@ -141,11 +140,11 @@
                         </tr>
                         <tr>
                             <td>
-                                <input class="btn" value="Update" type="button" onclick="javascript:UpdateMe();" />
+                                <input class="btn btn-primary" value="Update" type="button" onclick="javascript:UpdateMe();" />
                             </td>
                             <td colspan="2">&nbsp;</td>
                             <td>
-                                <input class="btn" value="Cancel" type="button" onclick="javascript:CancelMe();" />
+                                <input class="btn btn-primary" value="Cancel" type="button" onclick="javascript:CancelMe();" />
                             </td>
                         </tr>
                     </table>

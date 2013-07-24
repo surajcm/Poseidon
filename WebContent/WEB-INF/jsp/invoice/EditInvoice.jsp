@@ -8,7 +8,6 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Edit Invoice</title>
     <link rel="stylesheet" type="text/css" href="../css/mainStyles.css"/>
-    <!--link rel="stylesheet" type="text/css" href="../css/bootstrap.css"/-->
     <style type="text/css">
         .textfieldMyStyle {
             border:3px double #CCCCCC;
@@ -73,7 +72,7 @@
                         </td>
                         <td colspan="2">&nbsp;</td>
                         <td style="text-align:left;">
-                            <form:input path="currentInvoiceVO.tagNo" cssClass="textfieldMyStyle" id="tagNo"/>
+                            <form:input path="currentInvoiceVO.tagNo" id="tagNo"/>
                         </td>
                         <td colspan="2">&nbsp;</td>
                         <td style="text-align:right;">
@@ -83,8 +82,7 @@
                         </td>
                         <td colspan="2">&nbsp;</td>
                         <td colspan="7" style="text-align:left;">
-                            <form:textarea path="currentInvoiceVO.description" rows="5" cols="30" cssClass="textfieldMyStyle"
-                                           id="description"/>
+                            <form:textarea path="currentInvoiceVO.description" id="description"/>
                         </td>
                     </tr>
                     <tr>

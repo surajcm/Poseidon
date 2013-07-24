@@ -10,16 +10,6 @@
     <link rel="stylesheet" type="text/css" href="../css/mainStyles.css"/>
     <!--link rel="stylesheet" type="text/css" href="../css/bootstrap.css"/-->
 	<style type="text/css">
-	.textfieldMyStyle {
-		border:3px double #CCCCCC;
-		width: 200px;
-		height:20px;
-	}
-	.foottable {
-		margin:auto;
-		top:50%;
-		left:50%;
-	}
 	fieldset
 	{
 		text-align:right;
@@ -91,7 +81,7 @@
                         </td>
                         <td colspan="2">&nbsp;</td>
                         <td>
-                            <form:input path="user.name" cssClass="textfieldMyStyle" id="name"/>
+                            <form:input path="user.name" id="name"/>
                         </td>
                     </tr>
                     <tr>
@@ -105,7 +95,7 @@
                         </td>
                         <td colspan="2">&nbsp;</td>
                         <td>
-                            <form:input path="user.loginId" cssClass="textfieldMyStyle" id="loginId"/>
+                            <form:input path="user.loginId" id="loginId"/>
                         </td>
                     </tr>
                     <tr>
@@ -119,7 +109,7 @@
                         </td>
                         <td colspan="2">&nbsp;</td>
                         <td>
-                            <form:password path="user.password" cssClass="textfieldMyStyle" id="psw"/>
+                            <form:password path="user.password" id="psw"/>
                         </td>
                     </tr>
                     <tr>
@@ -133,7 +123,7 @@
                         </td>
                         <td colspan="2">&nbsp;</td>
                         <td align="left">
-                            <form:select id="role" path="user.role" onkeypress="handleEnter(event);" cssClass="textfieldMyStyle">
+                            <form:select id="role" path="user.role" onkeypress="handleEnter(event);">
                                 <form:option value=""><spring:message code="common.select" text="<-- Select -->"/></form:option>
                                 <form:options items="${userForm.roleList}" />
                             </form:select>
@@ -144,11 +134,11 @@
                     </tr>
                     <tr>
                         <td>
-                            <input class="btn" value="Save" type="button" onclick="javascript:save();"/>
+                            <input class="btn btn-primary" value="Save" type="button" onclick="javascript:save();"/>
                         </td>
                         <td colspan="2"></td>
                         <td>
-                            <input class="btn" value="Clear" type="button" onclick="javascript:clearOut();"/>
+                            <input class="btn btn-primary" value="Clear" type="button" onclick="javascript:clearOut();"/>
                         </td>
                     </tr>
                 </table>

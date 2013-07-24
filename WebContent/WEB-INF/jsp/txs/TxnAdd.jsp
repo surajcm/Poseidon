@@ -167,8 +167,7 @@
         <label class="mandatory">*</label>
     </td>
     <td style="text-align:left;">
-        <form:input path="currentTransaction.productCategory"  cssClass="textfieldMyStyle"
-                    id="productCategory"/>
+        <form:input path="currentTransaction.productCategory" id="productCategory"/>
     </td>
     <td colspan="2"> &nbsp;</td>
     <td style="text-align:right;">
@@ -176,8 +175,7 @@
         <label class="mandatory">*</label>
     </td>
     <td style="text-align:left;">
-        <form:input path="currentTransaction.serialNo"
-                     cssClass="textfieldMyStyle" id="serialNo"/>
+        <form:input path="currentTransaction.serialNo"  id="serialNo"/>
     </td>
     <td colspan="2"> &nbsp;</td>
     <td style="text-align:right;">
@@ -185,8 +183,7 @@
         <label class="mandatory">*</label>
     </td>
     <td style="text-align:left;">
-        <form:input path="currentTransaction.dateReported"
-                     cssClass="textfieldMyStyle" id="dateReported"/>
+        <form:input path="currentTransaction.dateReported" id="dateReported"/>
     </td>
 </tr>
 <tr>
@@ -198,8 +195,7 @@
         <label class="mandatory">*</label>
     </td>
     <td style="text-align:left;">
-        <form:input path="customerVO.customerId"
-                     cssClass="textfieldMyStyle" id="customerId"/>
+        <form:input path="customerVO.customerId"  id="customerId"/>
     </td>
     <td colspan="8"><label style="font-size: .70em;color:blue;">Enter Customer Details in case of New Customer</label>
     </td>
@@ -211,8 +207,7 @@
         </label>
     </td>
     <td style="text-align:left;">
-        <form:input path="customerVO.customerName"
-                     cssClass="textfieldMyStyle" id="customerName"/>
+        <form:input path="customerVO.customerName" id="customerName"/>
     </td>
     <td colspan="2">&nbsp;</td>
     <td style="text-align:right;">
@@ -221,9 +216,7 @@
         </label>
     </td>
     <td style="text-align:left;">
-        <form:textarea path="customerVO.address1" rows="5" cols="30"
-                        cssClass="textfieldMyStyle"
-                       id="address1"/>
+        <form:textarea path="customerVO.address1" id="address1"/>
     </td>
     <td colspan="2"> &nbsp;</td>
     <td style="text-align:right;">
@@ -232,9 +225,7 @@
         </label>
     </td>
     <td style="text-align:left;">
-        <form:textarea path="customerVO.address2" rows="5" cols="30"
-                        cssClass="textfieldMyStyle"
-                       id="address2"/>
+        <form:textarea path="customerVO.address2" id="address2"/>
     </td>
 </tr>
 <tr>
@@ -244,8 +235,7 @@
         </label>
     </td>
     <td style="text-align:left;">
-        <form:input path="customerVO.phoneNo"
-                     cssClass="textfieldMyStyle" id="phoneNo"/>
+        <form:input path="customerVO.phoneNo"  id="phoneNo"/>
     </td>
     <td colspan="2">&nbsp;</td>
     <td style="text-align:right;">
@@ -254,8 +244,7 @@
         </label>
     </td>
     <td style="text-align:left;">
-        <form:input path="customerVO.mobile"
-                     cssClass="textfieldMyStyle" id="mobile"/>
+        <form:input path="customerVO.mobile" id="mobile"/>
     </td>
     <td colspan="2">&nbsp;</td>
     <td style="text-align:right;">
@@ -264,8 +253,7 @@
         </label>
     </td>
     <td style="text-align:left;">
-        <form:input path="customerVO.email"
-                     cssClass="textfieldMyStyle" id="email"/>
+        <form:input path="customerVO.email" id="email"/>
     </td>
 </tr>
 <tr>
@@ -275,9 +263,7 @@
         </label>
     </td>
     <td style="text-align:left;">
-        <form:input path="customerVO.contactPerson1"
-                     cssClass="textfieldMyStyle"
-                    id="contactPerson1"/>
+        <form:input path="customerVO.contactPerson1" id="contactPerson1"/>
     </td>
     <td colspan="2">&nbsp;</td>
     <td style="text-align:right;">
@@ -287,7 +273,6 @@
     </td>
     <td style="text-align:left;">
         <form:input path="customerVO.contactMobile1"
-                    cssClass="textfieldMyStyle"
                     id="contactMobile1"/>
     </td>
     <td colspan="4">&nbsp;</td>
@@ -300,7 +285,6 @@
     </td>
     <td style="text-align:left;">
         <form:input path="customerVO.contactPerson2"
-                     cssClass="textfieldMyStyle"
                     id="contactPerson2"/>
     </td>
     <td colspan="2">&nbsp;</td>
@@ -311,7 +295,6 @@
     </td>
     <td style="text-align:left;">
         <form:input path="customerVO.contactMobile2"
-                    cssClass="textfieldMyStyle"
                     id="contactMobile2"/>
     </td>
     <td colspan="2">&nbsp;</td>
@@ -321,9 +304,7 @@
         </label>
     </td>
     <td style="text-align:left;">
-        <form:textarea path="customerVO.notes" rows="5" cols="30"
-                       cssClass="textfieldMyStyle"
-                       id="notes"/>
+        <form:textarea path="customerVO.notes" id="notes"/>
     </td>
 </tr>
 <tr>
@@ -336,8 +317,7 @@
     </td>
     <td style="text-align:left;">
         <form:select id="makeId" path="currentTransaction.makeId" tabindex="1"
-                     onkeypress="handleEnter(event);" onchange="changeTheModel();"
-                      cssClass="textfieldMyStyle">
+                     onkeypress="handleEnter(event);" onchange="changeTheModel();">
             <form:option value=""><spring:message code="common.select" text="<-- Select -->"/></form:option>
             <form:options items="${transactionForm.makeVOs}"
                           itemValue="Id" itemLabel="makeName"/>
@@ -349,8 +329,8 @@
         <label class="mandatory">*</label>
     </td>
     <td style="text-align:left;">
-        <form:select id="modelId" path="currentTransaction.modelId" tabindex="1"
-                     onkeypress="handleEnter(event);" cssClass="textfieldMyStyle">
+        <form:select id="modelId" path="currentTransaction.modelId" tabindex="2"
+                     onkeypress="handleEnter(event);">
             <form:option value=""><spring:message code="common.select" text="<-- Select -->"/></form:option>
             <form:options items="${transactionForm.makeAndModelVOs}"
                           itemValue="modelId" itemLabel="modelName"/>
@@ -368,7 +348,7 @@
         <label class="mandatory">*</label>
     </td>
     <td style="text-align:left;">
-        <form:textarea path="currentTransaction.accessories" rows="5" cols="30" cssClass="textfieldMyStyle" id="accessories"/>
+        <form:textarea path="currentTransaction.accessories" id="accessories"/>
     </td>
     <td colspan="2"> &nbsp;</td>
     <td style="text-align:right;">
@@ -376,8 +356,7 @@
         <label class="mandatory">*</label>
     </td>
     <td style="text-align:left;">
-        <form:textarea path="currentTransaction.complaintReported" rows="5" cols="30" cssClass="textfieldMyStyle"
-                       id="complaintReported"/>
+        <form:textarea path="currentTransaction.complaintReported" id="complaintReported"/>
     </td>
     <td colspan="2"> &nbsp;</td>
     <td style="text-align:right;">
@@ -385,8 +364,7 @@
         <label class="mandatory">*</label>
     </td>
     <td style="text-align:left;">
-        <form:textarea path="currentTransaction.complaintDiagonsed" rows="5" cols="30" cssClass="textfieldMyStyle"
-                       id="complaintDiagonsed"/>
+        <form:textarea path="currentTransaction.complaintDiagonsed" id="complaintDiagonsed"/>
     </td>
 </tr>
 <tr>
@@ -395,8 +373,7 @@
         <label class="mandatory">*</label>
     </td>
     <td style="text-align:left;">
-        <form:textarea path="currentTransaction.enggRemark" rows="5" cols="30" cssClass="textfieldMyStyle"
-                       id="enggRemark"/>
+        <form:textarea path="currentTransaction.enggRemark" id="enggRemark"/>
     </td>
     <td colspan="2"> &nbsp;</td>
     <td style="text-align:right;">
@@ -404,8 +381,7 @@
         <label class="mandatory">*</label>
     </td>
     <td style="text-align:left;">
-        <form:textarea path="currentTransaction.repairAction" rows="5" cols="30" cssClass="textfieldMyStyle"
-                       id="repairAction"/>
+        <form:textarea path="currentTransaction.repairAction" id="repairAction"/>
     </td>
     <td colspan="2"> &nbsp;</td>
     <td style="text-align:right;">
@@ -413,8 +389,7 @@
         <label class="mandatory">*</label>
     </td>
     <td style="text-align:left;">
-        <form:textarea path="currentTransaction.notes" rows="5" cols="30" cssClass="textfieldMyStyle"
-                       id="notes"/>
+        <form:textarea path="currentTransaction.notes" id="notes"/>
     </td>
 </tr>
 <tr>
@@ -427,8 +402,8 @@
         &nbsp;
     </td>
     <td colspan="2">
-        <input class="btn" value="Save" type="button" onclick="javascript:save();"/>
-        <input class="btn" value="Clear" type="button" onclick="javascript:clearOut();"/>
+        <input class="btn btn-primary" value="Save" type="button" onclick="javascript:save();"/>
+        <input class="btn btn-primary" value="Clear" type="button" onclick="javascript:clearOut();"/>
     </td>
 </tr>
 </table>

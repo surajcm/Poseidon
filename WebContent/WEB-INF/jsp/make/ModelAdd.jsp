@@ -82,8 +82,7 @@
                                 </td>
                                 <td colspan="2">&nbsp;</td>
                                 <td>
-                                    <form:input path="currentMakeAndModeVO.modelName"
-                                                cssClass="textfieldMyStyle" id="modelName"/>
+                                    <form:input path="currentMakeAndModeVO.modelName" id="modelName"/>
                                 </td>
                             </tr>
                             <tr>

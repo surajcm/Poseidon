@@ -8,7 +8,6 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Add New Invoice</title>
     <link rel="stylesheet" type="text/css" href="../css/mainStyles.css"/>
-    <!--link rel="stylesheet" type="text/css" href="../css/bootstrap.css"/>
     <style type="text/css">
         .textfieldMyStyle {
             border:3px double #CCCCCC;
@@ -87,7 +86,7 @@
                         </td>
                         <td colspan="2">&nbsp;</td>
                         <td style="text-align:left;">
-                            <form:input path="currentInvoiceVO.tagNo" cssClass="textfieldMyStyle" id="tagNo"/>
+                            <form:input path="currentInvoiceVO.tagNo" id="tagNo"/>
                         </td>
                         <td colspan="2">&nbsp;</td>
                         <td style="text-align:right;">
@@ -97,8 +96,7 @@
                         </td>
                         <td colspan="2">&nbsp;</td>
                         <td colspan="7" style="text-align:left;">
-                            <form:textarea path="currentInvoiceVO.description" rows="5" cols="30" cssClass="textfieldMyStyle"
-                                           id="description"/>
+                            <form:textarea path="currentInvoiceVO.description" id="description"/>
                         </td>
                     </tr>
                     <tr>
@@ -109,7 +107,7 @@
                         </td>
                         <td colspan="2">&nbsp;</td>
                         <td style="text-align:left;">
-                            <form:input path="currentInvoiceVO.quantity" cssClass="textfieldMyStyle" id="quantity" onkeyup="javascript:multiplyFromQty()"/>
+                            <form:input path="currentInvoiceVO.quantity" id="quantity" onkeyup="javascript:multiplyFromQty()"/>
                         </td>
                         <td colspan="2">&nbsp;</td>
                         <td style="text-align:right;">
@@ -119,7 +117,7 @@
                         </td>
                         <td colspan="2">&nbsp;</td>
                         <td style="text-align:left;">
-                            <form:input path="currentInvoiceVO.rate" cssClass="textfieldMyStyle" id="rate" onkeyup="javascript:multiplyFromRate()" />
+                            <form:input path="currentInvoiceVO.rate" id="rate" onkeyup="javascript:multiplyFromRate()" />
                         </td>
                         <td colspan="2">&nbsp;</td>
                         <td style="text-align:right;">
@@ -129,7 +127,7 @@
                         </td>
                         <td colspan="2">&nbsp;</td>
                         <td style="text-align:left;">
-                            <form:input path="currentInvoiceVO.amount" cssClass="textfieldMyStyle" id="amount"/>
+                            <form:input path="currentInvoiceVO.amount" id="amount"/>
                         </td>
                     </tr>
                     <tr>
@@ -138,11 +136,11 @@
                     <tr>
                         <td colspan="12">&nbsp;</td>
                         <td>
-                            <input class="btn" value="Save" type="button" onclick="javascript:save()"/>
+                            <input class="btn btn-primary" value="Save" type="button" onclick="javascript:save()"/>
                         </td>
                         <td colspan="2">&nbsp;</td>
                         <td>
-                            <input class="btn" value="Clear" type="button" onclick="javascript:clearOut()"/>
+                            <input class="btn btn-primary" value="Clear" type="button" onclick="javascript:clearOut()"/>
                         </td>
                     </tr>
                 </table>

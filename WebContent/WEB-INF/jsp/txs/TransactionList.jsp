@@ -348,7 +348,7 @@ function hideAlerts(){
                             </label>
                         </td>
                         <td>
-                            <form:input path="searchTransaction.TagNo" cssClass="textfieldMyStyle" id="TagNo"/>
+                            <form:input path="searchTransaction.TagNo" id="TagNo"/>
                         </td>
                         <td colspan="2">&nbsp;</td>
                         <td>
@@ -357,7 +357,7 @@ function hideAlerts(){
                             </label>
                         </td>
                         <td>
-                            <form:input path="searchTransaction.CustomerName" cssClass="textfieldMyStyle" id="CustomerName"/>
+                            <form:input path="searchTransaction.CustomerName" id="CustomerName"/>
                         </td>
                         <td colspan="2">&nbsp;</td>
                         <td>
@@ -366,7 +366,7 @@ function hideAlerts(){
                             </label>
                         </td>
                         <td>
-                            <form:input path="searchTransaction.startDate" cssClass="textfieldMyStyle" id="startDate"/>
+                            <form:input path="searchTransaction.startDate" id="startDate"/>
                         </td>
                         <td colspan="2">&nbsp;</td>
                         <td>
@@ -375,7 +375,7 @@ function hideAlerts(){
                             </label>
                         </td>
                         <td>
-                            <form:input path="searchTransaction.endDate" cssClass="textfieldMyStyle" id="endDate"/>
+                            <form:input path="searchTransaction.endDate" id="endDate"/>
                         </td>
                     </tr>
                     <tr>
@@ -388,7 +388,7 @@ function hideAlerts(){
                             </label>
                         </td>
                         <td>
-                            <form:input path="searchTransaction.SerialNo" cssClass="textfieldMyStyle" id="SerialNo"/>
+                            <form:input path="searchTransaction.SerialNo" id="SerialNo"/>
                         </td>
                         <td colspan="2">&nbsp;</td>
                         <td>
@@ -397,11 +397,9 @@ function hideAlerts(){
                             </label>
                         </td>
                         <td>
-                            <form:select id="makeId" path="searchTransaction.makeId" tabindex="1"
-                                         onchange="changeTheModel();">
+                            <form:select id="makeId" path="searchTransaction.makeId" tabindex="1" onchange="changeTheModel();">
                                 <form:option value=""><spring:message code="common.select" text="<-- Select -->"/></form:option>
-                                <form:options items="${transactionForm.makeVOs}"
-                                              itemValue="Id" itemLabel="makeName"/>
+                                <form:options items="${transactionForm.makeVOs}" itemValue="Id" itemLabel="makeName"/>
                             </form:select>
                         </td>
                         <td colspan="2">&nbsp;</td>
