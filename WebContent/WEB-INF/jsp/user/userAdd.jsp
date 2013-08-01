@@ -7,20 +7,12 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>User Add</title>
-    <link rel="stylesheet" type="text/css" href="../css/mainStyles.css"/>
-    <!--link rel="stylesheet" type="text/css" href="../css/bootstrap.css"/-->
-	<style type="text/css">
-	fieldset
-	{
-		text-align:right;
-	}
-	table
-	{
+    <style type="text/css">
+	table {
 		margin:auto;
 		top:50%;
 		left:50%;
-
-	}
+    }
 	</style>
     <script type="text/javascript">
 

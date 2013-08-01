@@ -7,21 +7,8 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Edit User</title>
-    <link rel="stylesheet" type="text/css" href="../css/mainStyles.css" />
-    <!--link rel="stylesheet" type="text/css" href="../css/bootstrap.css" /-->
-	<style type="text/css">
-	.textfieldMyStyle 
-	{
-		border:3px double #CCCCCC;
-		width: 200px;
-		height:20px;
-	}
-	fieldset
-	{
-		text-align:right;
-	}
-	table
-	{
+    <style type="text/css">
+	table {
 		margin:auto;
 		top:50%;
 		left:50%;

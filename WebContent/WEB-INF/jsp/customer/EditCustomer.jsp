@@ -9,11 +9,7 @@
     <title>Edit Customer</title>
     <link rel="stylesheet" type="text/css" href="../css/mainStyles.css"/>
     <style type="text/css">
-	    fieldset {
-            text-align:right;
-        }
-
-        table {
+	    table {
             margin:auto;
             top:50%;
             left:50%;
@@ -52,7 +48,7 @@
                 <legend>Edit Customer</legend>
                 <table>
                     <tr>
-                        <td style="text-align:right;">
+                        <td>
                             <label for="customerName">
                                 Customer Name :
                             </label>

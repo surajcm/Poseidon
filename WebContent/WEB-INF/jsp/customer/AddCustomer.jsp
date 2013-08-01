@@ -8,24 +8,8 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Add New Customer</title>
     <link rel="stylesheet" type="text/css" href="../css/mainStyles.css"/>
-    <!--link rel="stylesheet" type="text/css" href="../css/bootstrap.css"/-->
     <style type="text/css">
-		.textfieldMyStyle {
-            border:3px double #CCCCCC;
-            width: 200px;
-            height:20px;
-        }
-        .foottable {
-            margin:auto;
-            top:50%;
-            left:50%;
-        }
-        fieldset
-        {
-            text-align:right;
-        }
-
-        table
+		table
         {
             margin:auto;
             top:50%;
@@ -76,33 +60,33 @@
                 <legend>Add Customer</legend>
                 <table>
                     <tr>
-                        <td style="text-align:right;">
+                        <td>
                             <label for="customerName">
                                 Customer Name
                             </label>
                         </td>
                         <td colspan="2">&nbsp;</td>
-                        <td style="text-align:left;">
+                        <td>
                             <form:input path="currentCustomerVO.customerName" id="customerName"/>
                         </td>
                         <td colspan="2">&nbsp;</td>
-                        <td style="text-align:right;">
+                        <td>
                             <label for="address1">
                                 Address Line 1
                             </label>
                         </td>
                         <td colspan="2">&nbsp;</td>
-                        <td style="text-align:left;">
+                        <td>
                             <form:textarea path="currentCustomerVO.address1" id="address1"/>
                         </td>
                         <td colspan="2">&nbsp;</td>
-                        <td style="text-align:right;">
+                        <td>
                             <label for="address2">
                                 Address Line 2
                             </label>
                         </td>
                         <td colspan="2">&nbsp;</td>
-                        <td style="text-align:left;">
+                        <td>
                             <form:textarea path="currentCustomerVO.address2" id="address2"/>
                         </td>
                     </tr>
@@ -110,33 +94,33 @@
                         <td colspan="14">&nbsp;</td>
                     </tr>
                     <tr>
-                        <td style="text-align:right;">
+                        <td>
                             <label for="phoneNo">
                                 Phone
                             </label>
                         </td>
                         <td colspan="2">&nbsp;</td>
-                        <td style="text-align:left;">
+                        <td>
                             <form:input path="currentCustomerVO.phoneNo" id="phoneNo"/>
                         </td>
                         <td colspan="2">&nbsp;</td>
-                        <td style="text-align:right;">
+                        <td>
                             <label for="mobile" >
                                 Mobile
                             </label>
                         </td>
                         <td colspan="2">&nbsp;</td>
-                        <td style="text-align:left;">
+                        <td>
                             <form:input path="currentCustomerVO.mobile" id="mobile"/>
                         </td>
                         <td colspan="2">&nbsp;</td>
-                        <td style="text-align:right;">
+                        <td>
                             <label for="email">
                                 email
                             </label>
                         </td>
                         <td colspan="2">&nbsp;</td>
-                        <td style="text-align:left;">
+                        <td>
                             <form:input path="currentCustomerVO.email" id="email"/>
                         </td>
                     </tr>
@@ -144,23 +128,22 @@
                         <td colspan="14">&nbsp;</td>
                     </tr>
                     <tr>
-                        <td style="text-align:right;">
+                        <td>
                             <label for="contactPerson1">
                                 Contact Person 1
                             </label>
                         </td>
                         <td colspan="2">&nbsp;</td>
-                        <td style="text-align:left;">
+                        <td>
                             <form:input path="currentCustomerVO.contactPerson1" id="contactPerson1"/>
                         </td>
                         <td colspan="2">&nbsp;</td>
-                        <td style="text-align:right;">
+                        <td>
                             <label for="contactMobile1">
                                 Mobile of Contact Person 1
                             </label>
                         </td>
-                        <td colspan="2">&nbsp;</td>
-                        <td style="text-align:left;">
+                        <td colspan="2">&nbsp;</td> style="text-align:left;">
                             <form:input path="currentCustomerVO.contactMobile1" id="contactMobile1"/>
                         </td>
                         <td colspan="6">&nbsp;</td>
@@ -169,23 +152,23 @@
                         <td colspan="14">&nbsp;</td>
                     </tr>
                     <tr>
-                        <td style="text-align:right;">
+                        <td>
                             <label for="contactPerson2">
                                 Contact Person 2
                             </label>
                         </td>
                         <td colspan="2">&nbsp;</td>
-                        <td style="text-align:left;">
+                        <td>
                             <form:input path="currentCustomerVO.contactPerson2" id="contactPerson2"/>
                         </td>
                         <td colspan="2">&nbsp;</td>
-                        <td style="text-align:right;">
+                        <td>
                             <label for="contactMobile2">
                                 Mobile of Contact Person 2
                             </label>
                         </td>
                         <td colspan="2">&nbsp;</td>
-                        <td style="text-align:left;">
+                        <td>
                             <form:input path="currentCustomerVO.contactMobile2" id="contactMobile2"/>
                         </td>
                         <td colspan="6">&nbsp;</td>
@@ -194,13 +177,13 @@
                         <td colspan="14">&nbsp;</td>
                     </tr>
                     <tr>
-                        <td style="text-align:right;">
+                        <td>
                             <label for="notes">
                                 Notes
                             </label>
                         </td>
                         <td colspan="2">&nbsp;</td>
-                        <td style="text-align:left;">
+                        <td>
                             <form:textarea path="currentCustomerVO.notes" id="notes"/>
                         </td>
                         <td colspan="12">&nbsp;</td>
@@ -211,11 +194,11 @@
                     <tr>
                         <td colspan="12">&nbsp;</td>
                         <td>
-                            <input class="btn btn-primary" value="Save" type="button" onclick="javascript:save()"/>
+                            <input class="btn btn-primary" value="Save" type="button" onclick="save()"/>
                         </td>
                         <td colspan="2">&nbsp;</td>
                         <td>
-                            <input class="btn btn-primary" value="Clear" type="button" onclick="javascript:clearOut()"/>
+                            <input class="btn btn-primary" value="Clear" type="button" onclick="clearOut()"/>
                         </td>
                     </tr>
                 </table>

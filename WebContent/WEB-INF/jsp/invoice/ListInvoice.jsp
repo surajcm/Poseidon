@@ -43,15 +43,7 @@
 			width: 200px;
 			height:20px;
 		}
-        .foottable {
-            margin:auto;
-            top:50%;
-            left:50%;
-        }
-		fieldset {
-			text-align:right;
-		}
-		
+
 		table {
 			margin:auto;
 			top:50%;
@@ -240,7 +232,7 @@
                             </label>
                         </td>
                         <td>
-                            <form:input path="searchInvoiceVO.id" cssClass="textfieldMyStyle" id="invoiceId"/>
+                            <form:input path="searchInvoiceVO.id" id="invoiceId"/>
                         </td>
                         <td colspan="2">&nbsp;</td>
                         <td>
@@ -249,7 +241,7 @@
                             </label>
                         </td>
                         <td>
-                            <form:input path="searchInvoiceVO.description" cssClass="textfieldMyStyle" id="description"/>
+                            <form:input path="searchInvoiceVO.description" id="description"/>
                         </td>
                         <td colspan="2">&nbsp;</td>
                         <td>
@@ -258,7 +250,7 @@
                             </label>
                         </td>
                         <td>
-                            <form:input path="searchInvoiceVO.serialNo" cssClass="textfieldMyStyle" id="serialNo"/>
+                            <form:input path="searchInvoiceVO.serialNo" id="serialNo"/>
                         </td>
                         <td colspan="2">&nbsp;</td>
                         <td>
@@ -267,7 +259,7 @@
                             </label>
                         </td>
                         <td>
-                            <form:input path="searchInvoiceVO.tagNo" cssClass="textfieldMyStyle" id="tagNo"/>
+                            <form:input path="searchInvoiceVO.tagNo"  id="tagNo"/>
                         </td>
                     </tr>
                     <tr>
@@ -277,22 +269,20 @@
                             </label>
                         </td>
                         <td>
-                            <form:input path="searchInvoiceVO.amount" cssClass="textfieldMyStyle" id="amount"/>
+                            <form:input path="searchInvoiceVO.amount"  id="amount"/>
                         </td>
                         <td colspan="3">&nbsp;</td>
                         <td>
                             <label for="greater">
                                 Greater than & Equal
-                                <form:checkbox path="searchInvoiceVO.greater" cssStyle="vertical-align:middle"
-                                               id="greater" value=""/>
+                                <form:checkbox path="searchInvoiceVO.greater" id="greater" value=""/>
                             </label>
                         </td>
                         <td colspan="3">&nbsp;</td>
                         <td>
                             <label for="lesser">
                                 Lesser than & Equal
-                                <form:checkbox path="searchInvoiceVO.lesser" cssStyle="vertical-align:middle"
-                                               id="lesser" value=""/>
+                                <form:checkbox path="searchInvoiceVO.lesser" id="lesser" value=""/>
                             </label>
                         </td>
                         <td colspan="4">&nbsp;</td>
@@ -305,27 +295,25 @@
                         <td>
                             <label for="includes">
                                 <spring:message code="user.includes" text="Includes"/>
-                                <form:checkbox path="searchInvoiceVO.includes" cssStyle="vertical-align:middle"
-                                               id="includes" value=""/>
+                                <form:checkbox path="searchInvoiceVO.includes" id="includes" value=""/>
                             </label>
                         </td>
                         <td colspan="3">&nbsp;</td>
                         <td>
                             <label for="startsWith">
                                 <spring:message code="user.startsWith" text="Starts with"/>
-                                <form:checkbox path="searchInvoiceVO.startsWith" cssStyle="vertical-align:middle"
-                                               id="startsWith" value=""/>
+                                <form:checkbox path="searchInvoiceVO.startsWith" id="startsWith" value=""/>
                             </label>
                         </td>
                         <td colspan="3">&nbsp;</td>
                         <td>
                             <input class="btn btn-primary" value="<spring:message code="poseidon.search" text="Search" />"
-                                   type="button" onclick="javascript:search()"/>
+                                   type="button" onclick="search()"/>
                         </td>
                         <td colspan="3">&nbsp;</td>
                         <td>
                             <input class="btn btn-primary" value="<spring:message code="poseidon.clear" text="Clear" />"
-                                   type="button" onclick="javascript:clearOut()"/>
+                                   type="button" onclick="clearOut()"/>
                         </td>
                     </tr>
                 </table>
@@ -352,7 +340,7 @@
                     <tbody>
                     <c:forEach items="${invoiceForm.invoiceVOs}" var="iterationInv">
                         <tr>
-                            <td><input type="checkbox" name="checkField" onclick="javascript:checkCall(this)"
+                            <td><input type="checkbox" name="checkField" onclick="checkCall(this)"
                                        value="<c:out value="${iterationInv.id}" />"/></td>
                             <td><c:out value="${iterationInv.id}"/></td>
                             <td><c:out value="${iterationInv.customerName}"/></td>
@@ -369,9 +357,9 @@
                         <td>
                             <br/>
                             <br/>
-                            <input class="btn btn-primary" value="Add New Invoice" type="button" onclick="javascript:addInvoice()"/>
-                            <input class="btn btn-primary" value="Edit Invoice" type="button" onclick="javascript:editMe()"/>
-                            <input class="btn btn-primary" value="Delete Invoice" type="button" onclick="javascript:deleteInvoice()"/>
+                            <input class="btn btn-primary" value="Add New Invoice" type="button" onclick="addInvoice()"/>
+                            <input class="btn btn-primary" value="Edit Invoice" type="button" onclick="editMe()"/>
+                            <input class="btn btn-primary" value="Delete Invoice" type="button" onclick="deleteInvoice()"/>
                         </td>
                     </tr>
                 </table>

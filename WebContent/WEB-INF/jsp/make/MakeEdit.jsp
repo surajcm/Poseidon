@@ -7,26 +7,8 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Edit Make</title>
-    <link rel="stylesheet" type="text/css" href="../css/mainStyles.css" />
-    <!--link rel="stylesheet" type="text/css" href="../css/bootstrap.css" /-->
-	<style type="text/css">
-        .textfieldMyStyle {
-            border:3px double #CCCCCC;
-            width: 200px;
-            height:20px;
-        }
-        .foottable {
-            margin:auto;
-            top:50%;
-            left:50%;
-        }
-        fieldset
-        {
-            text-align:right;
-        }
-
-        table
-        {
+    <style type="text/css">
+        table {
             margin:auto;
             top:50%;
             left:50%;
@@ -75,7 +57,7 @@
                         </td>
                         <td colspan="2">&nbsp;</td>
                         <td>
-                            <form:input path="currentMakeAndModeVO.makeName" cssClass="textfieldMyStyle" id="makeName"/>
+                            <form:input path="currentMakeAndModeVO.makeName" id="makeName"/>
                             <form:errors path="currentMakeAndModeVO.makeName"/>
                         </td>
                     </tr>
@@ -87,7 +69,7 @@
                         </td>
                         <td colspan="2">&nbsp;</td>
                         <td>
-                            <form:input path="currentMakeAndModeVO.description" cssClass="textfieldMyStyle" id="description"/>
+                            <form:input path="currentMakeAndModeVO.description" id="description"/>
                             <form:errors path="currentMakeAndModeVO.description"/>
                         </td>
                     </tr>

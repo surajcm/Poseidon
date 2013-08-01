@@ -38,24 +38,12 @@
             background-color: #FFBABA;
             background-image: url( '<%=request.getContextPath()%>/images/Error.png' );
         }
-		
-		.textfieldMyStyle {
-			border:3px double #CCCCCC;
-			width: 200px;
-			height:20px;
-		}
-        .foottable {
+		.foottable {
             margin:auto;
             top:50%;
             left:50%;
         }
-		fieldset
-		{
-			text-align:right;
-		}
-		
-		table
-		{
+		table {
 			margin:auto;
 			top:50%;
 			left:50%;
@@ -227,7 +215,7 @@
                             </label>
                         </td>
                         <td>
-                            <form:input path="searchUser.name" cssClass="textfieldMyStyle" id="name" />
+                            <form:input path="searchUser.name" id="name" />
                         </td>
                         <td colspan="2">&nbsp;</td>
                         <td>
@@ -236,7 +224,7 @@
                             </label>
                         </td>
                         <td>
-                            <form:input path="searchUser.loginId" cssClass="textfieldMyStyle" id="loginId" />
+                            <form:input path="searchUser.loginId" id="loginId" />
                         </td>
                         <td colspan="2">&nbsp;</td>
                         <td>

@@ -9,21 +9,6 @@
     <title>Add New Invoice</title>
     <link rel="stylesheet" type="text/css" href="../css/mainStyles.css"/>
     <style type="text/css">
-        .textfieldMyStyle {
-            border:3px double #CCCCCC;
-            width: 200px;
-            height:20px;
-        }
-        .foottable {
-            margin:auto;
-            top:50%;
-            left:50%;
-        }
-        fieldset
-        {
-            text-align:right;
-        }
-
         table
         {
             margin:auto;
@@ -79,54 +64,54 @@
                 <legend>Add Invoice</legend>
                 <table>
                     <tr>
-                        <td style="text-align:right;">
+                        <td>
                             <label for="tagNo">
                                 Tag No
                             </label>
                         </td>
                         <td colspan="2">&nbsp;</td>
-                        <td style="text-align:left;">
+                        <td>
                             <form:input path="currentInvoiceVO.tagNo" id="tagNo"/>
                         </td>
                         <td colspan="2">&nbsp;</td>
-                        <td style="text-align:right;">
+                        <td>
                             <label for="description">
                                 Description
                             </label>
                         </td>
                         <td colspan="2">&nbsp;</td>
-                        <td colspan="7" style="text-align:left;">
+                        <td colspan="7">
                             <form:textarea path="currentInvoiceVO.description" id="description"/>
                         </td>
                     </tr>
                     <tr>
-                        <td style="text-align:right;">
+                        <td>
                             <label for="quantity">
                                 Quantity
                             </label>
                         </td>
                         <td colspan="2">&nbsp;</td>
                         <td style="text-align:left;">
-                            <form:input path="currentInvoiceVO.quantity" id="quantity" onkeyup="javascript:multiplyFromQty()"/>
+                            <form:input path="currentInvoiceVO.quantity" id="quantity" onkeyup="multiplyFromQty()"/>
                         </td>
                         <td colspan="2">&nbsp;</td>
-                        <td style="text-align:right;">
+                        <td>
                             <label for="rate">
                                 Rate
                             </label>
                         </td>
                         <td colspan="2">&nbsp;</td>
-                        <td style="text-align:left;">
-                            <form:input path="currentInvoiceVO.rate" id="rate" onkeyup="javascript:multiplyFromRate()" />
+                        <td>
+                            <form:input path="currentInvoiceVO.rate" id="rate" onkeyup="multiplyFromRate()" />
                         </td>
                         <td colspan="2">&nbsp;</td>
-                        <td style="text-align:right;">
+                        <td>
                             <label for="amount">
                                 Amount
                             </label>
                         </td>
                         <td colspan="2">&nbsp;</td>
-                        <td style="text-align:left;">
+                        <td>
                             <form:input path="currentInvoiceVO.amount" id="amount"/>
                         </td>
                     </tr>

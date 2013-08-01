@@ -7,25 +7,8 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Reports List</title>
-    <link rel="stylesheet" type="text/css" href="../css/mainStyles.css"/>
-    <!--link rel="stylesheet" type="text/css" href="../css/bootstrap.css"/-->
     <link rel="stylesheet" type="text/css" href="../css/ui-lightness/jquery-ui-1.8.21.custom.css"/>
     <style type="text/css">
-        .textfieldMyStyle {
-            border:3px double #CCCCCC;
-            width: 200px;
-            height:20px;
-        }
-        .foottable {
-            margin:auto;
-            top:50%;
-            left:50%;
-        }
-        fieldset
-        {
-            text-align:right;
-        }
-
         table
         {
             margin:auto;
@@ -172,7 +155,7 @@
                     </label>
                 </td>
                 <td>
-                    <input type="text" class="textfieldMyStyle" id="callTagNo" />
+                    <input type="text" id="callTagNo" />
                 </td>
                 <td colspan="2">&nbsp;</td>
                 <td>
@@ -224,8 +207,7 @@
                     </label>
                 </td>
                 <td>
-                    <form:input path="searchMakeAndModelVO.modelName"
-                                cssClass="textfieldMyStyle" id="modelName"/>
+                    <form:input path="searchMakeAndModelVO.modelName" id="modelName"/>
                 </td>
             <tr>
             <tr>
@@ -285,7 +267,7 @@
                     </label>
                 </td>
                 <td>
-                    <form:input path="searchTransaction.TagNo" cssClass="textfieldMyStyle" id="TagNo"/>
+                    <form:input path="searchTransaction.TagNo"  id="TagNo"/>
                 </td>
                 <td colspan="2">&nbsp;</td>
                 <td>
@@ -294,7 +276,7 @@
                     </label>
                 </td>
                 <td>
-                    <form:input path="searchTransaction.CustomerName" cssClass="textfieldMyStyle" id="CustomerName"/>
+                    <form:input path="searchTransaction.CustomerName" id="CustomerName"/>
                 </td>
                 <td colspan="2">&nbsp;</td>
                 <td>
@@ -303,7 +285,7 @@
                     </label>
                 </td>
                 <td>
-                    <form:input path="searchTransaction.startDate" cssClass="textfieldMyStyle" id="startDate"/>
+                    <form:input path="searchTransaction.startDate" id="startDate"/>
                 </td>
                 <td colspan="2">&nbsp;</td>
                 <td>
@@ -312,7 +294,7 @@
                     </label>
                 </td>
                 <td>
-                    <form:input path="searchTransaction.endDate" cssClass="textfieldMyStyle" id="endDate"/>
+                    <form:input path="searchTransaction.endDate" id="endDate"/>
                 </td>
             </tr>
             <tr>
@@ -325,7 +307,7 @@
                     </label>
                 </td>
                 <td>
-                    <form:input path="searchTransaction.SerialNo" cssClass="textfieldMyStyle" id="SerialNo"/>
+                    <form:input path="searchTransaction.SerialNo" id="SerialNo"/>
                 </td>
                 <td colspan="2">&nbsp;</td>
                 <td>
@@ -421,7 +403,7 @@
                     </label>
                 </td>
                 <td>
-                    <input type="text" class="textfieldMyStyle" id="invoiceTagNo" />
+                    <input type="text" id="invoiceTagNo" />
                 </td>
                 <td colspan="2">&nbsp;</td>
                 <td>
@@ -460,7 +442,7 @@
                     </label>
                 </td>
                 <td>
-                    <form:input path="searchTransaction.TagNo" cssClass="textfieldMyStyle" id="TagNo"/>
+                    <form:input path="searchTransaction.TagNo" id="TagNo"/>
                 </td>
                 <td colspan="2">&nbsp;</td>
                 <td>
@@ -469,7 +451,7 @@
                     </label>
                 </td>
                 <td>
-                    <form:input path="searchTransaction.CustomerName" cssClass="textfieldMyStyle" id="CustomerName"/>
+                    <form:input path="searchTransaction.CustomerName" id="CustomerName"/>
                 </td>
                 <td colspan="2">&nbsp;</td>
                 <td>
@@ -478,7 +460,7 @@
                     </label>
                 </td>
                 <td>
-                    <form:input path="searchTransaction.startDate" cssClass="textfieldMyStyle" id="startDate"/>
+                    <form:input path="searchTransaction.startDate" id="startDate"/>
                 </td>
                 <td colspan="2">&nbsp;</td>
                 <td>
@@ -487,7 +469,7 @@
                     </label>
                 </td>
                 <td>
-                    <form:input path="searchTransaction.endDate" cssClass="textfieldMyStyle" id="endDate"/>
+                    <form:input path="searchTransaction.endDate" id="endDate"/>
                 </td>
             </tr>
             <tr>
@@ -500,7 +482,7 @@
                     </label>
                 </td>
                 <td>
-                    <form:input path="searchTransaction.SerialNo" cssClass="textfieldMyStyle" id="SerialNo"/>
+                    <form:input path="searchTransaction.SerialNo" id="SerialNo"/>
                 </td>
                 <td colspan="2">&nbsp;</td>
                 <td>

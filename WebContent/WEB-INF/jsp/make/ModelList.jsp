@@ -38,27 +38,10 @@
             background-color: #FFBABA;
             background-image: url( '<%=request.getContextPath()%>/images/Error.png' );
         }
-		.textfieldMyStyle {
-			border:3px double #CCCCCC;
-			width: 200px;
-			height:20px;
-		}
-        .foottable {
-            margin:auto;
-            top:50%;
-            left:50%;
-        }
-		fieldset
-		{
-			text-align:right;
-		}
-		
-		table
-		{
+		table {
 			margin:auto;
 			top:50%;
 			left:50%;
-			
 		}
     </style>
 
@@ -243,7 +226,7 @@
                             </label>
                         </td>
                         <td>
-                            <form:input path="searchMakeAndModelVO.modelName" cssClass="textfieldMyStyle" id="modelName"/>
+                            <form:input path="searchMakeAndModelVO.modelName" id="modelName"/>
                         </td>
                     <tr>
                     <tr>

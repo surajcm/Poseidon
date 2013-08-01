@@ -9,21 +9,6 @@
     <title>Edit Invoice</title>
     <link rel="stylesheet" type="text/css" href="../css/mainStyles.css"/>
     <style type="text/css">
-        .textfieldMyStyle {
-            border:3px double #CCCCCC;
-            width: 200px;
-            height:20px;
-        }
-        .foottable {
-            margin:auto;
-            top:50%;
-            left:50%;
-        }
-        fieldset
-        {
-            text-align:right;
-        }
-
         table
         {
             margin:auto;
@@ -93,7 +78,7 @@
                         </td>
                         <td colspan="2">&nbsp;</td>
                         <td style="text-align:left;">
-                            <form:input path="currentInvoiceVO.quantity" cssClass="textfieldMyStyle" id="quantity"/>
+                            <form:input path="currentInvoiceVO.quantity" id="quantity"/>
                         </td>
                         <td colspan="2">&nbsp;</td>
                         <td style="text-align:right;">
@@ -103,7 +88,7 @@
                         </td>
                         <td colspan="2">&nbsp;</td>
                         <td style="text-align:left;">
-                            <form:input path="currentInvoiceVO.rate" cssClass="textfieldMyStyle" id="rate"/>
+                            <form:input path="currentInvoiceVO.rate" id="rate"/>
                         </td>
                         <td colspan="2">&nbsp;</td>
                         <td style="text-align:right;">
@@ -113,7 +98,7 @@
                         </td>
                         <td colspan="2">&nbsp;</td>
                         <td style="text-align:left;">
-                            <form:input path="currentInvoiceVO.amount" cssClass="textfieldMyStyle" id="amount"/>
+                            <form:input path="currentInvoiceVO.amount"  id="amount"/>
                         </td>
                     </tr>
                     <tr>
@@ -122,11 +107,11 @@
                     <tr>
                         <td colspan="12">&nbsp;</td>
                         <td>
-                            <input class="btn btn-primary" value="Update" type="button" onclick="javascript:update()"/>
+                            <input class="btn btn-primary" value="Update" type="button" onclick="update()"/>
                         </td>
                         <td colspan="2">&nbsp;</td>
                         <td>
-                            <input class="btn btn-primary" value="Cancel" type="button" onclick="javascript:cancel()"/>
+                            <input class="btn btn-primary" value="Cancel" type="button" onclick="cancel()"/>
                         </td>
                     </tr>
                 </table>

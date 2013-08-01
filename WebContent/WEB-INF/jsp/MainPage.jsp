@@ -6,15 +6,8 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Welcome</title>
-    <link rel="stylesheet" type="text/css" href="../css/mainStyles.css"/>
-    <%--<script type="text/javascript">
-        function hideAlerts(){
-            document.getElementById('hometab').className = "active";
-        }
-    </script>--%>
 </head>
 <body>
-<%--<body onload="javascript:hideAlerts()">--%>
 <form:form method="POST" commandName="userForm" name="userForm" action="listAll.htm" >
     <input type="hidden" name="id" id="id" />
     <form:hidden name="loggedInUser" path="loggedInUser" />
