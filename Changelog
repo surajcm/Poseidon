@@ -5,6 +5,7 @@ Version 1.3
  * Updated Readme
  * Updating few fields with empty/ bootstrap themes
  * Updating all jsp to style text fields with bootstrap
+ * Updating styles to bootstrap 3 and removing some overrides
 
 Version 1.2
  * Added README.md

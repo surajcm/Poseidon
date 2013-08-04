@@ -5,110 +5,165 @@
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>Invoice List</title>
-    <link rel="stylesheet" type="text/css" href="../css/mainStyles.css" />
-    <link rel="stylesheet" type="text/css" href="../css/ui-lightness/jquery-ui-1.8.21.custom.css"/>
-    <script type="text/javascript" src="../js/jquery-1.7.2.min.js" language="javascript" ></script>
-    <script type="text/javascript" src="../js/jquery-ui-1.8.21.custom.min.js" language="javascript" ></script>
-    <style type="text/css">
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Invoice List</title>
+<link rel="stylesheet" type="text/css" href="../css/ui-lightness/jquery-ui-1.8.21.custom.css"/>
+<script type="text/javascript" src="../js/jquery-1.7.2.min.js" language="javascript" ></script>
+<script type="text/javascript" src="../js/jquery-ui-1.8.21.custom.min.js" language="javascript" ></script>
+<style type="text/css">
 
-        .info, .success, .error {
-            border: 1px solid;
-            margin: 10px 0px;
-            padding: 15px 10px 15px 50px;
-            background-repeat: no-repeat;
-            background-position: 10px center;
-        }
+    .info, .success, .error {
+        border: 1px solid;
+        margin: 10px 0px;
+        padding: 15px 10px 15px 50px;
+        background-repeat: no-repeat;
+        background-position: 10px center;
+    }
 
-        .info {
-            color: #00529B;
-            background-color: #BDE5F8;
-            background-image: url( "<%=request.getContextPath()%>/images/Info.png" );
-        }
+    .info {
+        color: #00529B;
+        background-color: #BDE5F8;
+        background-image: url( "<%=request.getContextPath()%>/images/Info.png" );
+    }
 
-        .success {
-            color: #4F8A10;
-            background-color: #DFF2BF;
-            background-image: url( '<%=request.getContextPath()%>/images/Success.png' );
-        }
+    .success {
+        color: #4F8A10;
+        background-color: #DFF2BF;
+        background-image: url( '<%=request.getContextPath()%>/images/Success.png' );
+    }
 
-        .error {
-            color: #D8000C;
-            background-color: #FFBABA;
-            background-image: url( '<%=request.getContextPath()%>/images/Error.png' );
-        }
-		.textfieldMyStyle {
-			border:3px double #CCCCCC;
-			width: 200px;
-			height:20px;
-		}
+    .error {
+        color: #D8000C;
+        background-color: #FFBABA;
+        background-image: url( '<%=request.getContextPath()%>/images/Error.png' );
+    }
 
-		table {
-			margin:auto;
-			top:50%;
-			left:50%;
-		}
-	</style>
-    <script type="text/javascript">
-        function addInvoice(){
-            /*if(document.getElementById('amount').value.length == 0){
-                document.getElementById('amount').value = "0.0";
-            }*/
-            document.forms[0].action = "addInvoice.htm";
-            document.forms[0].submit();
-        }
-        function search() {
-            /*if(document.getElementById('amount').value.length == 0){
-                document.getElementById('amount').value = "0.0";
-            }*/
-            document.forms[0].action = "SearchInvoice.htm";
-            document.forms[0].submit();
-        }
-        function clearOut() {
-            document.getElementById('invoiceId').value = "";
-            document.getElementById('description').value = "";
-            document.getElementById('serialNo').value = "";
-            document.getElementById('tagNo').value = "";
-            document.getElementById('amount').value = "";
-            document.getElementById('greater').checked = false;
-            document.getElementById('greater').checked = false;
-            document.getElementById('lesser').checked = false;
-            document.getElementById('startsWith').checked = false;
-        }
-        //validation before edit
-        function editMe() {
-            var check = 'false';
-            var count = 0;
-            // get all check boxes
-            var checks = document.getElementsByName('checkField');
-            if (checks) {
-                //if total number of rows is one
-                if (checks.checked) {
-                    editRow();
-                } else {
-                    for (var i = 0; i < checks.length; i++) {
-                        if (checks[i].checked) {
-                            check = 'true';
-                            count = count + 1;
-                        }
+    table {
+        margin:auto;
+        top:50%;
+        left:50%;
+    }
+</style>
+<script type="text/javascript">
+    function addInvoice(){
+        /*if(document.getElementById('amount').value.length == 0){
+         document.getElementById('amount').value = "0.0";
+         }*/
+        document.forms[0].action = "addInvoice.htm";
+        document.forms[0].submit();
+    }
+    function search() {
+        /*if(document.getElementById('amount').value.length == 0){
+         document.getElementById('amount').value = "0.0";
+         }*/
+        document.forms[0].action = "SearchInvoice.htm";
+        document.forms[0].submit();
+    }
+    function clearOut() {
+        document.getElementById('invoiceId').value = "";
+        document.getElementById('description').value = "";
+        document.getElementById('serialNo').value = "";
+        document.getElementById('tagNo').value = "";
+        document.getElementById('amount').value = "";
+        document.getElementById('greater').checked = false;
+        document.getElementById('greater').checked = false;
+        document.getElementById('lesser').checked = false;
+        document.getElementById('startsWith').checked = false;
+    }
+    //validation before edit
+    function editMe() {
+        var check = 'false';
+        var count = 0;
+        // get all check boxes
+        var checks = document.getElementsByName('checkField');
+        if (checks) {
+            //if total number of rows is one
+            if (checks.checked) {
+                editRow();
+            } else {
+                for (var i = 0; i < checks.length; i++) {
+                    if (checks[i].checked) {
+                        check = 'true';
+                        count = count + 1;
                     }
-                    //check for validity
-                    if (check = 'true') {
-                        if (count == 1) {
-                            editRow();
-                        } else {
-                            alert(" Only one row can be edited at a time, please select one row ");
-                        }
+                }
+                //check for validity
+                if (check = 'true') {
+                    if (count == 1) {
+                        editRow();
                     } else {
-                        alert(" No rows selected, please select one row ");
+                        alert(" Only one row can be edited at a time, please select one row ");
                     }
+                } else {
+                    alert(" No rows selected, please select one row ");
                 }
             }
         }
+    }
 
-        //real edit
-        function editRow() {
+    //real edit
+    function editRow() {
+        var userRow;
+        var checks = document.getElementsByName('checkField');
+        if (checks.checked) {
+            userRow = document.getElementById("myTable").rows[0];
+            document.getElementById("id").value = userRow.cells[0].childNodes[0].value;
+            if(document.getElementById('amount').value.length == 0){
+                document.getElementById('amount').value = "0.0";
+            }
+            document.forms[0].action = "EditInvoice.htm";
+            document.forms[0].submit();
+        } else {
+            for (var i = 0; i < checks.length; i++) {
+                if (checks[i].checked) {
+                    userRow = document.getElementById("myTable").rows[i + 1];
+                }
+            }
+            document.getElementById("id").value = userRow.cells[0].childNodes[0].value;
+            if(document.getElementById('amount').value.length == 0){
+                document.getElementById('amount').value = "0.0";
+            }
+            document.forms[0].action = "EditInvoice.htm";
+            document.forms[0].submit();
+        }
+    }
+
+    // delete
+    function deleteInvoice() {
+        var check = 'false';
+        var count = 0;
+        // get all check boxes
+        var checks = document.getElementsByName('checkField');
+        if (checks) {
+            //if total number of rows is one
+            if (checks.checked) {
+                deleteRow();
+            } else {
+                for (var i = 0; i < checks.length; i++) {
+                    if (checks[i].checked) {
+                        check = 'true';
+                        count = count + 1;
+                    }
+                }
+                //check for validity
+                if (check = 'true') {
+                    if (count == 1) {
+                        deleteRow();
+                    } else {
+                        alert(" Only one row can be deleted at a time, please select one row ");
+                    }
+                } else {
+                    alert(" No rows selected, please select one row ");
+                }
+            }
+        }
+    }
+
+    //code to delete a user
+    function deleteRow() {
+        var answer = confirm(" Are you sure you wanted to delete the Txn ");
+        if (answer) {
+            //if yes then delete
             var userRow;
             var checks = document.getElementsByName('checkField');
             if (checks.checked) {
@@ -117,7 +172,7 @@
                 if(document.getElementById('amount').value.length == 0){
                     document.getElementById('amount').value = "0.0";
                 }
-                document.forms[0].action = "EditInvoice.htm";
+                document.forms[0].action = "DeleteInvoice.htm";
                 document.forms[0].submit();
             } else {
                 for (var i = 0; i < checks.length; i++) {
@@ -129,90 +184,29 @@
                 if(document.getElementById('amount').value.length == 0){
                     document.getElementById('amount').value = "0.0";
                 }
-                document.forms[0].action = "EditInvoice.htm";
+                document.forms[0].action = "DeleteInvoice.htm";
                 document.forms[0].submit();
             }
         }
 
-        // delete
-        function deleteInvoice() {
-            var check = 'false';
-            var count = 0;
-            // get all check boxes
-            var checks = document.getElementsByName('checkField');
-            if (checks) {
-                //if total number of rows is one
-                if (checks.checked) {
-                    deleteRow();
-                } else {
-                    for (var i = 0; i < checks.length; i++) {
-                        if (checks[i].checked) {
-                            check = 'true';
-                            count = count + 1;
-                        }
-                    }
-                    //check for validity
-                    if (check = 'true') {
-                        if (count == 1) {
-                            deleteRow();
-                        } else {
-                            alert(" Only one row can be deleted at a time, please select one row ");
-                        }
-                    } else {
-                        alert(" No rows selected, please select one row ");
-                    }
-                }
+    }
+    //preventing multiple checks
+    function checkCall(e) {
+        var min = e.value;
+        var checks = document.getElementsByName('checkField');
+        for (var i = 0; i < checks.length; i++) {
+            if (checks[i].value != min) {
+                checks[i].checked = false;
             }
         }
+    }
 
-        //code to delete a user
-        function deleteRow() {
-            var answer = confirm(" Are you sure you wanted to delete the Txn ");
-            if (answer) {
-                //if yes then delete
-                var userRow;
-                var checks = document.getElementsByName('checkField');
-                if (checks.checked) {
-                    userRow = document.getElementById("myTable").rows[0];
-                    document.getElementById("id").value = userRow.cells[0].childNodes[0].value;
-                    if(document.getElementById('amount').value.length == 0){
-                        document.getElementById('amount').value = "0.0";
-                    }
-                    document.forms[0].action = "DeleteInvoice.htm";
-                    document.forms[0].submit();
-                } else {
-                    for (var i = 0; i < checks.length; i++) {
-                        if (checks[i].checked) {
-                            userRow = document.getElementById("myTable").rows[i + 1];
-                        }
-                    }
-                    document.getElementById("id").value = userRow.cells[0].childNodes[0].value;
-                    if(document.getElementById('amount').value.length == 0){
-                        document.getElementById('amount').value = "0.0";
-                    }
-                    document.forms[0].action = "DeleteInvoice.htm";
-                    document.forms[0].submit();
-                }
-            }
+    function hideAlerts(){
+        var options = {};
+        $( "#effect" ).hide( "blind", options, 8000);
+    }
 
-        }
-        //preventing multiple checks
-        function checkCall(e) {
-            var min = e.value;
-            var checks = document.getElementsByName('checkField');
-            for (var i = 0; i < checks.length; i++) {
-                if (checks[i].value != min) {
-                    checks[i].checked = false;
-                }
-            }
-        }
-
-        function hideAlerts(){
-            var options = {};
-            $( "#effect" ).hide( "blind", options, 8000);
-        }
-
-    </script>
+</script>
 </head>
 <body onload="javascript:hideAlerts()">
 <form:form method="POST" commandName="invoiceForm" name="invoiceForm" >
