@@ -13,11 +13,6 @@ html, body {
 #content {position:relative; z-index:1; padding:10px;}
 
 
-div.wrap {
-    height:100%
-    width:100%
-}
-
 #myTable {
     font-family:"Trebuchet MS", Arial, Helvetica, sans-serif;
     width:50%;
@@ -40,22 +35,6 @@ div.wrap {
 #myTable tr.alt td {
     color:#000000;
     background-color:#A24047;
-}
-input {
-    font-family: "Lucida Grande",Verdana,sans-serif;
-    font-size:18px;
-    border: 1px solid #999999;
-}
-
-textboxes {
-    /*background-color:#ffffff;
-    max-height:12px;
-    box-sizing: border-box;
-    -moz-box-sizing:border-box;
-    -webkit-box-sizing:border-box;*/
-    border:3px double #CCCCCC;
-    width: 200px;
-    height:20px;
 }
 
 div.labels {

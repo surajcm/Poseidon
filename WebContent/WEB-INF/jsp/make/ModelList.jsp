@@ -38,11 +38,11 @@
             background-color: #FFBABA;
             background-image: url( '<%=request.getContextPath()%>/images/Error.png' );
         }
-		table {
-			margin:auto;
-			top:50%;
-			left:50%;
-		}
+        table {
+            margin:auto;
+            top:50%;
+            left:50%;
+        }
     </style>
 
     <script type="text/javascript">
@@ -202,8 +202,8 @@
     <%@include file="/WEB-INF/jsp/myHeader.jsp" %>
     <div id="content">
         <div class="wrap">
-            <fieldset>
-                <legend>Search Model</legend>
+            <div class="panel panel-primary">
+                <div class="panel-heading">Search Model</div>
                 <table>
                     <tr>
                         <td>
@@ -212,7 +212,7 @@
                             </label>
                         </td>
                         <td>
-                            <form:select id="makeName" path="searchMakeAndModelVO.makeId" tabindex="1"
+                            <form:select cssClass="form-control" id="makeName" path="searchMakeAndModelVO.makeId" tabindex="1"
                                          onkeypress="handleEnter(event);" >
                                 <form:option value="0" label="-- Select --"/>
                                 <form:options items="${makeForm.makeVOs}"
@@ -226,7 +226,7 @@
                             </label>
                         </td>
                         <td>
-                            <form:input path="searchMakeAndModelVO.modelName" id="modelName"/>
+                            <form:input cssClass="form-control" path="searchMakeAndModelVO.modelName" id="modelName"/>
                         </td>
                     <tr>
                     <tr>
@@ -256,16 +256,16 @@
                         </td>
                     <tr>
                 </table>
-            </fieldset>
+            </div>
             <br/>
             <c:if test="${makeForm.statusMessage!=null}">
                 <div  id="effect"class="<c:out value="${makeForm.statusMessageType}"/>">
                     <c:out value="${makeForm.statusMessage}"/>
                 </div>
             </c:if>
-            <fieldset>
-                <legend>Model Details</legend>
-                <table border="2" id="myTable">
+            <div class="panel panel-primary">
+                <div class="panel-heading">Model Details</div>
+                <table class="table table-bordered table-striped table-hover">
                     <thead>
                     <tr>
                         <th><spring:message code="poseidon.id" text="id"/></th>
@@ -273,7 +273,6 @@
                         <th>Model Name</th>
                     </tr>
                     </thead>
-
                     <tbody>
                     <c:forEach items="${makeForm.makeAndModelVOs}" var="iterationMake">
                         <tr>
@@ -307,7 +306,7 @@
                         </td>
                     </tr>
                 </table>
-            </fieldset>
+            </div>
         </div>
     </div>
 </form:form>

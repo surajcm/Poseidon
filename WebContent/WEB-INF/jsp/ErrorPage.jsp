@@ -20,10 +20,8 @@
     </style>
 </head>
 <body>
-<form:form method="POST" commandName="userForm" name="userForm" action="listAll.htm" >
+<form:form method="POST">
     <input type="hidden" name="id" id="id" />
-    <form:hidden name="loggedInUser" path="loggedInUser" />
-    <form:hidden name="loggedInRole" path="loggedInRole" />
     <%@include file="/WEB-INF/jsp/myHeader.jsp" %>
     <div id="content">
         <div class="error">

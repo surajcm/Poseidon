@@ -7,7 +7,6 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title><spring:message code="poseidon.userListPage" text="User List" /></title>
-    <link rel="stylesheet" type="text/css" href="../css/mainStyles.css" />
     <link rel="stylesheet" type="text/css" href="../css/ui-lightness/jquery-ui-1.8.21.custom.css"/>
     <script type="text/javascript" src="../js/jquery-1.7.2.min.js" language="javascript" ></script>
     <script type="text/javascript" src="../js/jquery-ui-1.8.21.custom.min.js" language="javascript" ></script>
@@ -38,16 +37,16 @@
             background-color: #FFBABA;
             background-image: url( '<%=request.getContextPath()%>/images/Error.png' );
         }
-		.foottable {
+        .foottable {
             margin:auto;
             top:50%;
             left:50%;
         }
-		table {
-			margin:auto;
-			top:50%;
-			left:50%;
-		}
+        table {
+            margin:auto;
+            top:50%;
+            left:50%;
+        }
 
     </style>
     <script type="text/javascript">
@@ -205,8 +204,8 @@
     <%@include file="/WEB-INF/jsp/myHeader.jsp" %>
     <div id="content">
         <div class="wrap">
-            <fieldset>
-                <legend><spring:message code="user.searchUser" text="Search User Details" /></legend>
+            <div class="panel panel-primary">
+                <div class="panel-heading"><spring:message code="user.searchUser" text="Search User Details" /></div>
                 <table>
                     <tr>
                         <td>
@@ -215,7 +214,7 @@
                             </label>
                         </td>
                         <td>
-                            <form:input path="searchUser.name" id="name" />
+                            <form:input cssClass="form-control" path="searchUser.name" id="name" />
                         </td>
                         <td colspan="2">&nbsp;</td>
                         <td>
@@ -224,7 +223,7 @@
                             </label>
                         </td>
                         <td>
-                            <form:input path="searchUser.loginId" id="loginId" />
+                            <form:input cssClass="form-control" path="searchUser.loginId" id="loginId" />
                         </td>
                         <td colspan="2">&nbsp;</td>
                         <td>
@@ -233,8 +232,8 @@
                             </label>
                         </td>
                         <td>
-                            <form:select id="role" path="searchUser.role"
-                                         onkeypress="handleEnter(event);" >
+                            <form:select id="role" path="searchUser.role" cssClass="form-control"
+                                         onkeypress="handleEnter(event);">
                                 <form:option value=""><spring:message code="common.select" text="<-- Select -->"/></form:option>
                                 <form:options items="${userForm.roleList}" />
                             </form:select>
@@ -268,15 +267,15 @@
                         </td>
                     </tr>
                 </table>
-            </fieldset>
+            </div>
             <c:if test="${userForm.statusMessage!=null}">
                 <div  id="effect" class="<c:out value='${userForm.statusMessageType}'/>">
                     <c:out value="${userForm.statusMessage}"/>
                 </div>
             </c:if>
-            <fieldset>
-                <legend><spring:message code="user.userDetails" text="User Details" /></legend>
-                <table border="2" id="myTable">
+            <div class="panel panel-primary">
+                <div class="panel-heading"><spring:message code="user.userDetails" text="User Details" /></div>
+                <table class="table table-bordered table-striped table-hover">
                     <thead>
                     <tr>
                         <th><spring:message code="poseidon.id" text="id" /></th>
@@ -289,12 +288,11 @@
                         <th><spring:message code="poseidon.modifiedBy" text="Modified By" /></th>
                     </tr>
                     </thead>
-
                     <tbody>
                     <c:forEach items="${userForm.userVOs}" var="iterationUser">
                         <tr>
                             <td><input type="checkbox" name="checkField" onclick="javascript:checkCall(this)"
-                                value='<c:out value="${iterationUser.id}" />' /></td>
+                                       value='<c:out value="${iterationUser.id}" />' /></td>
                             <td><c:out value="${iterationUser.name}" /></td>
                             <td><c:out value="${iterationUser.loginId}" /></td>
                             <td><c:out value="${iterationUser.role}" /></td>
@@ -317,7 +315,7 @@
                         </td>
                     </tr>
                 </table>
-            </fieldset>
+            </div>
         </div>
     </div>
 </form:form>

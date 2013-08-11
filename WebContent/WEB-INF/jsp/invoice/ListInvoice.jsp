@@ -216,8 +216,8 @@
     <%@include file="/WEB-INF/jsp/myHeader.jsp" %>
     <div id="content">
         <div class="wrap">
-            <fieldset>
-                <legend>Search Invoice</legend>
+            <div class="panel panel-primary">
+                <div class="panel-heading">Search Invoice</div>
                 <table>
                     <tr>
                         <td>
@@ -226,7 +226,7 @@
                             </label>
                         </td>
                         <td>
-                            <form:input path="searchInvoiceVO.id" id="invoiceId"/>
+                            <form:input cssClass="form-control" path="searchInvoiceVO.id" id="invoiceId"/>
                         </td>
                         <td colspan="2">&nbsp;</td>
                         <td>
@@ -235,7 +235,7 @@
                             </label>
                         </td>
                         <td>
-                            <form:input path="searchInvoiceVO.description" id="description"/>
+                            <form:input cssClass="form-control" path="searchInvoiceVO.description" id="description"/>
                         </td>
                         <td colspan="2">&nbsp;</td>
                         <td>
@@ -244,7 +244,7 @@
                             </label>
                         </td>
                         <td>
-                            <form:input path="searchInvoiceVO.serialNo" id="serialNo"/>
+                            <form:input cssClass="form-control" path="searchInvoiceVO.serialNo" id="serialNo"/>
                         </td>
                         <td colspan="2">&nbsp;</td>
                         <td>
@@ -253,7 +253,7 @@
                             </label>
                         </td>
                         <td>
-                            <form:input path="searchInvoiceVO.tagNo"  id="tagNo"/>
+                            <form:input cssClass="form-control" path="searchInvoiceVO.tagNo"  id="tagNo"/>
                         </td>
                     </tr>
                     <tr>
@@ -263,7 +263,7 @@
                             </label>
                         </td>
                         <td>
-                            <form:input path="searchInvoiceVO.amount"  id="amount"/>
+                            <form:input cssClass="form-control" path="searchInvoiceVO.amount"  id="amount"/>
                         </td>
                         <td colspan="3">&nbsp;</td>
                         <td>
@@ -311,15 +311,15 @@
                         </td>
                     </tr>
                 </table>
-            </fieldset>
+            </div>
             <c:if test="${invoiceForm.statusMessage!=null}">
                 <div  id="effect" class="<c:out value="${invoiceForm.statusMessageType}"/>">
                     <c:out value="${invoiceForm.statusMessage}"/>
                 </div>
             </c:if>
-            <fieldset>
-                <legend>Invoice Details</legend>
-                <table border="2" id="myTable">
+            <div class="panel panel-primary">
+                <div class="panel-heading">Invoice Details</div>
+                <table class="table table-bordered table-striped table-hover">
                     <thead>
                     <tr>
                         <th>&nbsp;</th>
@@ -357,7 +357,7 @@
                         </td>
                     </tr>
                 </table>
-            </fieldset>
+            </div>
         </div>
     </div>
 </form:form>

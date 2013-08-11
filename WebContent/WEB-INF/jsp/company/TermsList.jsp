@@ -8,25 +8,15 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Terms And Company details</title>
     <link rel="stylesheet" type="text/css" href="../css/mainStyles.css"/>
-    <!--link rel="stylesheet" type="text/css" href="../css/bootstrap.css"/-->
     <link rel="stylesheet" type="text/css" href="../css/ui-lightness/jquery-ui-1.8.21.custom.css"/>
     <script type="text/javascript" src="../js/jquery-1.7.2.min.js" language="javascript" ></script>
     <script type="text/javascript" src="../js/jquery-ui-1.8.21.custom.min.js" language="javascript" ></script>
     <style type="text/css">
-		.textfieldMyStyle {
-            border:3px double #CCCCCC;
-            width: 200px;
-            height:20px;
-        }
         .foottable {
             margin:auto;
             top:50%;
             left:50%;
         }
-        fieldset{
-            text-align:right;
-        }
-
         table {
             margin:auto;
             top:50%;
@@ -121,8 +111,8 @@
     <%@include file="/WEB-INF/jsp/myHeader.jsp" %>
     <div id="content">
         <div class="wrap">
-            <fieldset>
-                <legend>Company Details </legend>
+            <div class="panel panel-primary">
+                <div class="panel-heading">Company Details</div>
                 <table>
                     <tr>
                         <td>
@@ -131,7 +121,7 @@
                             </label>
                         </td>
                         <td align="left">
-                            <form:input path="currentCompanyTermsVO.companyName" cssClass="textfieldMyStyle" id="companyName"/>
+                            <form:input path="currentCompanyTermsVO.companyName" cssClass="form-control" id="companyName"/>
                         </td>
                         <td colspan="2">&nbsp;</td>
                         <td>
@@ -140,7 +130,7 @@
                             </label>
                         </td>
                         <td align="left">
-                            <form:input path="currentCompanyTermsVO.companyPhoneNumber" cssClass="textfieldMyStyle" id="companyPhoneNumber"/>
+                            <form:input path="currentCompanyTermsVO.companyPhoneNumber" cssClass="form-control" id="companyPhoneNumber"/>
                         </td>
                     </tr>
                     <tr>
@@ -153,7 +143,7 @@
                             </label>
                         </td>
                         <td align="left">
-                            <form:input path="currentCompanyTermsVO.companyEmail" cssClass="textfieldMyStyle" id="companyEmail"/>
+                            <form:input path="currentCompanyTermsVO.companyEmail" cssClass="form-control" id="companyEmail"/>
                         </td>
                         <td colspan="2">&nbsp;</td>
                         <td>
@@ -162,7 +152,7 @@
                             </label>
                         </td>
                         <td align="left">
-                            <form:input path="currentCompanyTermsVO.companyWebsite" cssClass="textfieldMyStyle" id="companyWebsite"/>
+                            <form:input path="currentCompanyTermsVO.companyWebsite" cssClass="form-control" id="companyWebsite"/>
                         </td>
                     </tr>
                     <tr>
@@ -175,7 +165,7 @@
                             </label>
                         </td>
                         <td colspan="5" align="left">
-                            <form:textarea path="currentCompanyTermsVO.companyAddress" rows="5" cols="30" cssClass="textfieldMyStyle"
+                            <form:textarea path="currentCompanyTermsVO.companyAddress" rows="5" cols="30" cssClass="form-control"
                                            id="companyAddress" />
                         </td>
                     </tr>
@@ -189,7 +179,7 @@
                             </label>
                         </td>
                         <td colspan="5" align="left">
-                            <form:textarea path="currentCompanyTermsVO.companyTerms" rows="5" cols="30" cssClass="textfieldMyStyle"
+                            <form:textarea path="currentCompanyTermsVO.companyTerms" rows="5" cols="30" cssClass="form-control"
                                            id="companyTerms" />
                         </td>
                     </tr>
@@ -203,7 +193,7 @@
                             </label>
                         </td>
                         <td align="left">
-                            <form:input path="currentCompanyTermsVO.companyVATTIN" cssClass="textfieldMyStyle" id="vat_tin"/>
+                            <form:input path="currentCompanyTermsVO.companyVATTIN" cssClass="form-control" id="vat_tin"/>
                         </td>
                         <td colspan="2">&nbsp;</td>
                         <td>
@@ -212,7 +202,7 @@
                             </label>
                         </td>
                         <td align="left">
-                            <form:input path="currentCompanyTermsVO.companyCSTTIN" cssClass="textfieldMyStyle" id="cst_tin"/>
+                            <form:input path="currentCompanyTermsVO.companyCSTTIN" cssClass="form-control" id="cst_tin"/>
                         </td>
                     </tr>
                     <tr>
@@ -244,7 +234,7 @@
                         </td>
                     </tr>
                 </table>
-            </fieldset>
+            </div>
         </div>
     </div>
 </form:form>

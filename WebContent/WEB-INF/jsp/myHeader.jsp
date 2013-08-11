@@ -61,59 +61,57 @@
     </script>
 </head>
 <body>
-<nav class="navbar navbar-inverse">
-    <div class="navbar-inner">
-        <a id="hometab" class="brand" href="#" onclick="javascript:goToHome();" >Poseidon</a>
-        <ul class="nav">
-            <script type="text/javascript">
-                if ( document.forms[0].loggedInRole != null
-                        && document.forms[0].loggedInRole.value != null
-                        && document.forms[0].loggedInRole.value == 'ADMIN'){
-                    document.write("<li id='user'><a href='#' onclick='javascript:listMe();' >User</a></li>");
-                }
-            </script>
-            <li id="makeme"><a href="#" onclick="javascript:MakeMe();" >Make</a></li>
-            <li id="customermgt"><a href="#" onclick="javascript:fetchCustomers();" >Customer</a></li>
-            <li id="companymgt"><a href="#" onclick="javascript:fetchTerms();" >Company</a></li>
-            <li id="txnmgt"><a href="#" onclick="javascript:fetchTransactions();" >Transactions</a></li>
-            <li id="invmgt"><a href="#" onclick="javascript:fetchInvoice();" >Invoice</a></li>
-            <li id="reportmgt"><a href="#" onclick="javascript:fetchReport();" >Report</a></li>
-        </ul>
-        <div class="pull-right">
-            <ul class="nav pull-right">
-                <li class="dropdown">
-                    <a href="#" class="pull-right" onclick="javascript:LogMeOut();" >Log Out</a>
-                </li>
+<div class="navbar">
+    <nav class="navbar navbar-inverse">
+        <div class="navbar-inner">
+            <a id="hometab" class="navbar-brand" href="#" onclick="javascript:goToHome();" >Poseidon</a>
+            <ul class="nav navbar-nav">
+                <script type="text/javascript">
+                    if ( document.forms[0].loggedInRole != null
+                            && document.forms[0].loggedInRole.value != null
+                            && document.forms[0].loggedInRole.value == 'ADMIN'){
+                        document.write("<li id='user'><a href='#' onclick='javascript:listMe();' >User</a></li>");
+                    }
+                </script>
+                <li id="makeme"><a href="#" onclick="javascript:MakeMe();" >Make</a></li>
+                <li id="customermgt"><a href="#" onclick="javascript:fetchCustomers();" >Customer</a></li>
+                <li id="companymgt"><a href="#" onclick="javascript:fetchTerms();" >Company</a></li>
+                <li id="txnmgt"><a href="#" onclick="javascript:fetchTransactions();" >Transactions</a></li>
+                <li id="invmgt"><a href="#" onclick="javascript:fetchInvoice();" >Invoice</a></li>
+                <li id="reportmgt"><a href="#" onclick="javascript:fetchReport();" >Report</a></li>
+            </ul>
+            <ul class="nav navbar-nav pull-right">
+                <li><a href="#" class="pull-right" onclick="javascript:LogMeOut();" >Log Out</a></li>
             </ul>
         </div>
-    </div>
-</nav>
-<table id="menuimg" border="0"  width="100%" >
-    <tr>
-        <td colspan="2">
-            <table width="100%">
-                <tr>
-                    <td width="20%">
-                        <img src="<%=request.getContextPath()%>/images/Poseidon.png" style="margin:0px; width:150px; height:50px"/>
-                    </td>
-                </tr>
-            </table>
-        </td>
-    </tr>
-</table>
-<script src="js/jquery-latest.js"></script>
-<script src="js/bootstrap.js"></script>
-<script src="js/bootstrap.min.js"></script>
-<script src="js/bootstrap-dropdown.js"></script>
+    </nav>
 
-<script>
-    $(document).ready(function()
-    {
-        //Handles menu drop down
-        $('.dropdown-menu').find('form').click(function (e) {
-            e.stopPropagation();
+    <table id="menuimg" border="0"  width="100%" >
+        <tr>
+            <td colspan="2">
+                <table width="100%">
+                    <tr>
+                        <td width="20%">
+                            <img src="<%=request.getContextPath()%>/images/Poseidon.png" style="margin:0px; width:150px; height:50px"/>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+    <script src="js/jquery-latest.js"></script>
+    <script src="js/bootstrap.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/bootstrap-dropdown.js"></script>
+
+    <script>
+        $(document).ready(function()
+        {
+            //Handles menu drop down
+            $('.dropdown-menu').find('form').click(function (e) {
+                e.stopPropagation();
+            });
         });
-    });
-</script>
+    </script>
 </body>
 </html>

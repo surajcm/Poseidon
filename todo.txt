@@ -1,5 +1,12 @@
 Things to do
 -------------
+1.Bootsrap enhancements
+	checkbox replacement
+	better dropdown
+	alignment
+	popup message for adding/ editing/deleting on pages
+	alert using bootstrap popup
+	better icon
 1.replace ajax with jquery based ajax
 
 2. log out .. if user is null / spring security implementation

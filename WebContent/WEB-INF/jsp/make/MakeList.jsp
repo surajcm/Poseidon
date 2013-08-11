@@ -38,11 +38,11 @@
             background-color: #FFBABA;
             background-image: url( '<%=request.getContextPath()%>/images/Error.png' );
         }
-		table {
-			margin:auto;
-			top:50%;
-			left:50%;
-		}
+        table {
+            margin:auto;
+            top:50%;
+            left:50%;
+        }
     </style>
     <script type="text/javascript">
 
@@ -202,123 +202,123 @@
 </head>
 <body onload="javascript:hideAlerts()">
 <form:form method="POST" commandName="makeForm" name="makeForm">
-    <input type="hidden" name="id" id="id"/>
-    <form:hidden name="loggedInUser" path="loggedInUser"/>
-    <form:hidden name="loggedInRole" path="loggedInRole"/>
-    <%@include file="/WEB-INF/jsp/myHeader.jsp" %>
-    <div id="content">
-        <div class="wrap">
-            <fieldset style="text-align:right;">
-                <legend>Search Model</legend>
-                <table>
-                    <tr>
-                        <td>
-                            <label for="makeName">
-                                Make Name :
-                            </label>
-                        </td>
-                        <td>
-                            <form:select id="makeName" path="searchMakeAndModelVO.makeName" tabindex="1">
-                                <form:option value="0" label="-- Select --"/>
-                                <form:options items="${makeForm.makeVOs}"
-                                              itemValue="id" itemLabel="makeName"/>
-                            </form:select>
-                        </td>
-                        <td colspan="2">&nbsp;</td>
-                        <td>
-                            <label for="modelName">
-                                Model Name :
-                            </label>
-                        </td>
-                        <td>
-                            <form:input path="searchMakeAndModelVO.modelName" id="modelName"/>
-                        </td>
-                    <tr>
-                    <tr>
-                        <td colspan="2">
-                            <label for="includes">
-                                <spring:message code="user.includes" text="Includes"/>
-                                <form:checkbox path="searchMakeAndModelVO.includes" cssStyle="vertical-align:middle"
-                                               id="includes" value=""/>
-                            </label>
-                        </td>
-                        <td colspan="2">&nbsp;</td>
-                        <td colspan="2">
-                            <label for="startswith">
-                                <spring:message code="user.startsWith" text="Starts with"/>
-                                <form:checkbox path="searchMakeAndModelVO.startswith" cssStyle="vertical-align:middle"
-                                               id="startswith" value=""/>
-                            </label>
-                        </td>
-                    <tr>
-                    <tr>
-                        <td colspan="2">
-                            <input class="btn btn-primary" value="Search" type="button" onclick="javascript:search()"/>
-                        </td>
-                        <td colspan="2">&nbsp;</td>
-                        <td colspan="2">
-                            <input class="btn btn-primary" value="Clear" type="button" onclick="javascript:clearOut()"/>
-                        </td>
-                    <tr>
-                </table>
-            </fieldset>
-            <br/>
-            <c:if test="${makeForm.statusMessage!=null}">
-                <div  id="effect"class="<c:out value="${makeForm.statusMessageType}"/>">
-                    <c:out value="${makeForm.statusMessage}"/>
-                </div>
-            </c:if>
-            <fieldset>
-                <legend>Make Details</legend>
-                <table class="table table-striped table-condensed">
-                    <thead>
-                    <tr>
-                        <th><spring:message code="poseidon.id" text="id"/></th>
-                        <th>Make Name</th>
-                        <th>Description</th>
-                    </tr>
-                    </thead>
+<input type="hidden" name="id" id="id"/>
+<form:hidden name="loggedInUser" path="loggedInUser"/>
+<form:hidden name="loggedInRole" path="loggedInRole"/>
+<%@include file="/WEB-INF/jsp/myHeader.jsp" %>
+<div id="content">
+    <div class="wrap">
+        <div class="panel panel-primary">
+            <div class="panel-heading">Search Model</div>
+            <table>
+                <tr>
+                    <td>
+                        <label for="makeName">
+                            Make Name :
+                        </label>
+                    </td>
+                    <td>
+                        <form:select id="makeName" path="searchMakeAndModelVO.makeName" cssClass="form-control" tabindex="1">
+                            <form:option value="0" label="-- Select --"/>
+                            <form:options items="${makeForm.makeVOs}"
+                                          itemValue="id" itemLabel="makeName"/>
+                        </form:select>
+                    </td>
+                    <td colspan="2">&nbsp;</td>
+                    <td>
+                        <label for="modelName">
+                            Model Name :
+                        </label>
+                    </td>
+                    <td>
+                        <form:input path="searchMakeAndModelVO.modelName" cssClass="form-control" id="modelName"/>
+                    </td>
+                <tr>
+                <tr>
+                    <td colspan="2">
+                        <label for="includes">
+                            <spring:message code="user.includes" text="Includes"/>
+                            <form:checkbox path="searchMakeAndModelVO.includes" cssStyle="vertical-align:middle"
+                                           id="includes" value=""/>
+                        </label>
+                    </td>
+                    <td colspan="2">&nbsp;</td>
+                    <td colspan="2">
+                        <label for="startswith">
+                            <spring:message code="user.startsWith" text="Starts with"/>
+                            <form:checkbox path="searchMakeAndModelVO.startswith" cssStyle="vertical-align:middle"
+                                           id="startswith" value=""/>
+                        </label>
+                    </td>
+                <tr>
+                <tr>
+                    <td colspan="2">
+                        <input class="btn btn-primary" value="Search" type="button" onclick="javascript:search()"/>
+                    </td>
+                    <td colspan="2">&nbsp;</td>
+                    <td colspan="2">
+                        <input class="btn btn-primary" value="Clear" type="button" onclick="javascript:clearOut()"/>
+                    </td>
+                <tr>
+            </table>
+        </div>
+        <br/>
+        <c:if test="${makeForm.statusMessage!=null}">
+            <div  id="effect"class="<c:out value="${makeForm.statusMessageType}"/>">
+                <c:out value="${makeForm.statusMessage}"/>
+            </div>
+        </c:if>
+        <div class="panel panel-primary">
+            <div class="panel-heading">Make Details</div>
+            <table class="table table-bordered table-striped table-hover">
+                <thead>
+                <tr>
+                    <th><spring:message code="poseidon.id" text="id"/></th>
+                    <th>Make Name</th>
+                    <th>Description</th>
+                </tr>
+                </thead>
 
-                    <tbody>
-                    <c:forEach items="${makeForm.makeAndModelVOs}" var="iterationMake">
-                        <tr>
-                            <td><input type="checkbox" name="checkField" onclick="javascript:checkCall(this)"
-                                       value="<c:out value="${iterationMake.makeId}" />"/></td>
-                            <td><c:out value="${iterationMake.makeName}"/></td>
-                            <td><c:out value="${iterationMake.description}"/></td>
-                        </tr>
-                    </c:forEach>
-                    </tbody>
-                </table>
-                <table>
+                <tbody>
+                <c:forEach items="${makeForm.makeAndModelVOs}" var="iterationMake">
                     <tr>
-                        <td colspan="5">
-                            <br/>
-                            <br/>
-                        <td>
+                        <td><input type="checkbox" name="checkField" onclick="javascript:checkCall(this)"
+                                   value="<c:out value="${iterationMake.makeId}" />"/></td>
+                        <td><c:out value="${iterationMake.makeName}"/></td>
+                        <td><c:out value="${iterationMake.description}"/></td>
                     </tr>
-                    <tr>
-                        <td>
-                            <input class="btn btn-primary" value="Model List" type="button" onclick="javascript:listAllModel()"/>
-                        </td>
-                        <td>
-                            <input class="btn btn-primary" value="Add Make" type="button" onclick="javascript:addNewMake()"/>
-                        </td>
-                        <td>
-                            <input class="btn btn-primary" value="Edit Make" type="button" onclick="javascript:editMake()"/>
-                        </td>
-                        <td>
-                            <input class="btn btn-primary" value="Delete Make" type="button" onclick="javascript:deleteMake()"/>
-                        </td>
-                        <!--td>
-                            <input class="btn" value="Print MakeList" type="button" onclick="javascript:printMe()"/>
-                        </td-->
-                    </tr>
-                </table>
+                </c:forEach>
+                </tbody>
+            </table>
+            <table>
+                <tr>
+                    <td colspan="5">
+                        <br/>
+                        <br/>
+                    <td>
+                </tr>
+                <tr>
+                    <td>
+                        <input class="btn btn-primary" value="Model List" type="button" onclick="javascript:listAllModel()"/>
+                    </td>
+                    <td>
+                        <input class="btn btn-primary" value="Add Make" type="button" onclick="javascript:addNewMake()"/>
+                    </td>
+                    <td>
+                        <input class="btn btn-primary" value="Edit Make" type="button" onclick="javascript:editMake()"/>
+                    </td>
+                    <td>
+                        <input class="btn btn-primary" value="Delete Make" type="button" onclick="javascript:deleteMake()"/>
+                    </td>
+                    <!--td>
+                        <input class="btn" value="Print MakeList" type="button" onclick="javascript:printMe()"/>
+                    </td-->
+                </tr>
+            </table>
             </fieldset>
         </div>
     </div>
-</form:form>
+    </form:form>
 
 </body>
 </html>
