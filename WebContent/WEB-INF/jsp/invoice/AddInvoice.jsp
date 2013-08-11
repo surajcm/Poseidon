@@ -7,7 +7,6 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Add New Invoice</title>
-    <link rel="stylesheet" type="text/css" href="../css/mainStyles.css"/>
     <style type="text/css">
         table
         {
@@ -60,59 +59,59 @@
     <%@include file="/WEB-INF/jsp/myHeader.jsp" %>
     <div id="content">
         <div class="wrap">
-            <fieldset>
-                <legend>Add Invoice</legend>
-                <table>
+            <div class="panel panel-primary">
+                <div class="panel-heading">Add Invoice</div>
+                <table style="margin:auto;top:50%;left:50%;">
                     <tr>
                         <td>
-                            <label for="tagNo">
+                            <label for="tagNo" class="control-label">
                                 Tag No
                             </label>
                         </td>
                         <td colspan="2">&nbsp;</td>
                         <td>
-                            <form:input path="currentInvoiceVO.tagNo" id="tagNo"/>
+                            <form:input path="currentInvoiceVO.tagNo" cssClass="form-control" id="tagNo"/>
                         </td>
                         <td colspan="2">&nbsp;</td>
                         <td>
-                            <label for="description">
+                            <label for="description" class="control-label">
                                 Description
                             </label>
                         </td>
                         <td colspan="2">&nbsp;</td>
                         <td colspan="7">
-                            <form:textarea path="currentInvoiceVO.description" id="description"/>
+                            <form:textarea path="currentInvoiceVO.description" cssClass="form-control" id="description"/>
                         </td>
                     </tr>
                     <tr>
                         <td>
-                            <label for="quantity">
+                            <label for="quantity" class="control-label">
                                 Quantity
                             </label>
                         </td>
                         <td colspan="2">&nbsp;</td>
                         <td style="text-align:left;">
-                            <form:input path="currentInvoiceVO.quantity" id="quantity" onkeyup="multiplyFromQty()"/>
+                            <form:input path="currentInvoiceVO.quantity" id="quantity" cssClass="form-control" onkeyup="multiplyFromQty()"/>
                         </td>
                         <td colspan="2">&nbsp;</td>
                         <td>
-                            <label for="rate">
+                            <label for="rate" class="control-label">
                                 Rate
                             </label>
                         </td>
                         <td colspan="2">&nbsp;</td>
                         <td>
-                            <form:input path="currentInvoiceVO.rate" id="rate" onkeyup="multiplyFromRate()" />
+                            <form:input path="currentInvoiceVO.rate" id="rate" cssClass="form-control" onkeyup="multiplyFromRate()" />
                         </td>
                         <td colspan="2">&nbsp;</td>
                         <td>
-                            <label for="amount">
+                            <label for="amount" class="control-label">
                                 Amount
                             </label>
                         </td>
                         <td colspan="2">&nbsp;</td>
                         <td>
-                            <form:input path="currentInvoiceVO.amount" id="amount"/>
+                            <form:input path="currentInvoiceVO.amount" cssClass="form-control" id="amount"/>
                         </td>
                     </tr>
                     <tr>
@@ -121,7 +120,7 @@
                     <tr>
                         <td colspan="12">&nbsp;</td>
                         <td>
-                            <input class="btn btn-primary" value="Save" type="button" onclick="javascript:save()"/>
+                            <input class="btn btn-primary btn-success" value="Save" type="button" onclick="javascript:save()"/>
                         </td>
                         <td colspan="2">&nbsp;</td>
                         <td>
@@ -129,8 +128,7 @@
                         </td>
                     </tr>
                 </table>
-
-            </fieldset>
+            </div>
         </div>
     </div>
 </form:form>

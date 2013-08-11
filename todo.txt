@@ -1,17 +1,19 @@
 Things to do
 -------------
-1.Bootsrap enhancements
+1. Bootstrap enhancements
 	checkbox replacement
-	better dropdown
+	better drop down
 	alignment
 	popup message for adding/ editing/deleting on pages
 	alert using bootstrap popup
 	better icon
-1.replace ajax with jquery based ajax
+	tab interface with bootstrap
+	dropdown log out
+1. Replace ajax with jquery based ajax
 
 2. log out .. if user is null / spring security implementation
 
-3. dont invoice twice..
+3. don't invoice twice..
 
 4. check all the js buttons work fine
 
@@ -31,9 +33,6 @@ Things to do
 
 9. fix image issue in reports normal view
 
-10.Possibility to add the model / make through a iframe in new transaction page
-
-11. make use of Twitter bootstrap UI
 
 prompt> git tag -a v1.1 -m "Version 1.1 is waiting for review"
 prompt> git push --tags

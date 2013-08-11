@@ -14,7 +14,7 @@
             left:50%;
         }
     </style>
-	<script type="text/javascript">
+    <script type="text/javascript">
         function update(){
             if(document.getElementById('makeName').value.length == 0) {
                 document.getElementById('makeName').style.background = 'Yellow';
@@ -46,36 +46,36 @@
     <%@include file="/WEB-INF/jsp/myHeader.jsp" %>
     <div id="content">
         <div class="wrap">
-            <fieldset>
-                <legend>Edit Make</legend>
-                <table>
+            <div class="panel panel-primary">
+                <div class="panel-heading">Edit Make</div>
+                <table style="margin:auto;top:50%;left:50%;">
                     <tr>
                         <td>
-                            <label for="makeName">
+                            <label for="makeName" class="control-label">
                                 Make Name :
                             </label>
                         </td>
                         <td colspan="2">&nbsp;</td>
                         <td>
-                            <form:input path="currentMakeAndModeVO.makeName" id="makeName"/>
+                            <form:input path="currentMakeAndModeVO.makeName" cssClass="form-control" id="makeName"/>
                             <form:errors path="currentMakeAndModeVO.makeName"/>
                         </td>
                     </tr>
                     <tr>
                         <td>
-                            <label for="makeName">
+                            <label for="makeName" class="control-label">
                                 Description :
                             </label>
                         </td>
                         <td colspan="2">&nbsp;</td>
                         <td>
-                            <form:input path="currentMakeAndModeVO.description" id="description"/>
+                            <form:input path="currentMakeAndModeVO.description" cssClass="form-control" id="description"/>
                             <form:errors path="currentMakeAndModeVO.description"/>
                         </td>
                     </tr>
                     <tr>
                         <td>
-                            <input class="btn btn-primary" value="Update" type="button" onclick="javascript:update()"/>
+                            <input class="btn btn-primary btn-success" value="Update" type="button" onclick="javascript:update()"/>
                         </td>
                         <td colspan="2">&nbsp;</td>
                         <td>
@@ -83,8 +83,7 @@
                         </td>
                     </tr>
                 </table>
-
-            </fieldset>
+            </div>
         </div>
     </div>
 </form:form>

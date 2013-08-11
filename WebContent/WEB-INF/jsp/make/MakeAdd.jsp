@@ -45,36 +45,36 @@
     <%@include file="/WEB-INF/jsp/myHeader.jsp" %>
     <div id="content">
         <div class="wrap">
-            <fieldset>
-                <legend>Add Make</legend>
-                <table>
+            <div class="panel panel-primary">
+                <div class="panel-heading">Add Make</div>
+                <table style="margin:auto;top:50%;left:50%;">
                     <tr>
                         <td>
-                            <label for="makeName">
+                            <label for="makeName" class="control-label">
                                 Make Name :
                             </label>
                         </td>
                         <td colspan="2">&nbsp;</td>
                         <td>
-                            <form:input path="currentMakeAndModeVO.makeName" id="makeName"/>
+                            <form:input cssClass="form-control" path="currentMakeAndModeVO.makeName" id="makeName"/>
                             <form:errors path="currentMakeAndModeVO.makeName"/>
                         </td>
                     </tr>
                     <tr>
                         <td>
-                            <label for="makeName">
+                            <label for="makeName" class="control-label">
                                 Description :
                             </label>
                         </td>
                         <td colspan="2">&nbsp;</td>
                         <td>
-                            <form:input path="currentMakeAndModeVO.description" id="description"/>
+                            <form:input cssClass="form-control" path="currentMakeAndModeVO.description" id="description"/>
                             <form:errors path="currentMakeAndModeVO.description"/>
                         </td>
                     </tr>
                     <tr>
                         <td>
-                            <input class="btn btn-primary" value="Save" type="button" onclick="javascript:save();" />
+                            <input class="btn btn-primary btn-success" value="Save" type="button" onclick="javascript:save();" />
                         </td>
                         <td colspan="2">&nbsp;</td>
                         <td>
@@ -82,8 +82,7 @@
                         </td>
                     </tr>
                 </table>
-
-            </fieldset>
+            </div>
         </div>
     </div>
 </form:form>

@@ -7,7 +7,6 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Make List</title>
-    <link rel="stylesheet" type="text/css" href="../css/mainStyles.css"/>
     <link rel="stylesheet" type="text/css" href="../css/ui-lightness/jquery-ui-1.8.21.custom.css"/>
     <script type="text/javascript" src="../js/jquery-1.7.2.min.js" language="javascript" ></script>
     <script type="text/javascript" src="../js/jquery-ui-1.8.21.custom.min.js" language="javascript" ></script>
@@ -213,7 +212,7 @@
             <table>
                 <tr>
                     <td>
-                        <label for="makeName">
+                        <label for="makeName" class="control-label">
                             Make Name :
                         </label>
                     </td>
@@ -226,7 +225,7 @@
                     </td>
                     <td colspan="2">&nbsp;</td>
                     <td>
-                        <label for="modelName">
+                        <label for="modelName" class="control-label">
                             Model Name :
                         </label>
                     </td>
@@ -236,7 +235,7 @@
                 <tr>
                 <tr>
                     <td colspan="2">
-                        <label for="includes">
+                        <label for="includes" class="control-label">
                             <spring:message code="user.includes" text="Includes"/>
                             <form:checkbox path="searchMakeAndModelVO.includes" cssStyle="vertical-align:middle"
                                            id="includes" value=""/>
@@ -244,7 +243,7 @@
                     </td>
                     <td colspan="2">&nbsp;</td>
                     <td colspan="2">
-                        <label for="startswith">
+                        <label for="startswith" class="control-label">
                             <spring:message code="user.startsWith" text="Starts with"/>
                             <form:checkbox path="searchMakeAndModelVO.startswith" cssStyle="vertical-align:middle"
                                            id="startswith" value=""/>
@@ -270,7 +269,7 @@
         </c:if>
         <div class="panel panel-primary">
             <div class="panel-heading">Make Details</div>
-            <table class="table table-bordered table-striped table-hover">
+            <table id='myTable' class="table table-bordered table-striped table-hover">
                 <thead>
                 <tr>
                     <th><spring:message code="poseidon.id" text="id"/></th>

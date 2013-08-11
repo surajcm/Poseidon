@@ -6,9 +6,11 @@
     <link rel="shortcut icon" href="<%=request.getContextPath()%>/images/Poseidon_Ico.ico" >
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <link href="../css/bootstrap.css" rel="stylesheet" type="text/css">
     <link href="../css/bootstrap-responsive.css" rel="stylesheet" type="text/css">
-
+    <link href="../css/font-awesome.css" rel="stylesheet" type="text/css">
+    <link href="../css/font-awesome-ie7.css" rel="stylesheet" type="text/css">
     <!-- HTML5 shim for IE backwards compatibility -->
     <!--[if lt IE 9]>
     <script src="js/html5.js"></script>
@@ -64,7 +66,8 @@
 <div class="navbar">
     <nav class="navbar navbar-inverse">
         <div class="navbar-inner">
-            <a id="hometab" class="navbar-brand" href="#" onclick="javascript:goToHome();" >Poseidon</a>
+
+            <a id="hometab" class="navbar-brand" href="#" onclick="javascript:goToHome();" ><img src="<%=request.getContextPath()%>/images/Poseidon_Ico_NEW.png" />Poseidon</a>
             <ul class="nav navbar-nav">
                 <script type="text/javascript">
                     if ( document.forms[0].loggedInRole != null
@@ -85,20 +88,6 @@
             </ul>
         </div>
     </nav>
-
-    <table id="menuimg" border="0"  width="100%" >
-        <tr>
-            <td colspan="2">
-                <table width="100%">
-                    <tr>
-                        <td width="20%">
-                            <img src="<%=request.getContextPath()%>/images/Poseidon.png" style="margin:0px; width:150px; height:50px"/>
-                        </td>
-                    </tr>
-                </table>
-            </td>
-        </tr>
-    </table>
     <script src="js/jquery-latest.js"></script>
     <script src="js/bootstrap.js"></script>
     <script src="js/bootstrap.min.js"></script>

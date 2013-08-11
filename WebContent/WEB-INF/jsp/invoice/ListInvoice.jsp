@@ -202,6 +202,7 @@
     }
 
     function hideAlerts(){
+        document.getElementById('invmgt').className = "active";
         var options = {};
         $( "#effect" ).hide( "blind", options, 8000);
     }
@@ -221,7 +222,7 @@
                 <table>
                     <tr>
                         <td>
-                            <label for="id">
+                            <label for="id" class="control-label">
                                 Invoice Id :
                             </label>
                         </td>
@@ -230,7 +231,7 @@
                         </td>
                         <td colspan="2">&nbsp;</td>
                         <td>
-                            <label for="Description">
+                            <label for="Description" class="control-label">
                                 Description :
                             </label>
                         </td>
@@ -239,7 +240,7 @@
                         </td>
                         <td colspan="2">&nbsp;</td>
                         <td>
-                            <label for="serialNo">
+                            <label for="serialNo" class="control-label">
                                 Serial No :
                             </label>
                         </td>
@@ -248,7 +249,7 @@
                         </td>
                         <td colspan="2">&nbsp;</td>
                         <td>
-                            <label for="tagNo">
+                            <label for="tagNo" class="control-label">
                                 Tag No :
                             </label>
                         </td>
@@ -258,7 +259,7 @@
                     </tr>
                     <tr>
                         <td>
-                            <label for="amount">
+                            <label for="amount" class="control-label">
                                 Amount :
                             </label>
                         </td>
@@ -267,14 +268,14 @@
                         </td>
                         <td colspan="3">&nbsp;</td>
                         <td>
-                            <label for="greater">
+                            <label for="greater" class="control-label">
                                 Greater than & Equal
                                 <form:checkbox path="searchInvoiceVO.greater" id="greater" value=""/>
                             </label>
                         </td>
                         <td colspan="3">&nbsp;</td>
                         <td>
-                            <label for="lesser">
+                            <label for="lesser" class="control-label">
                                 Lesser than & Equal
                                 <form:checkbox path="searchInvoiceVO.lesser" id="lesser" value=""/>
                             </label>
@@ -287,14 +288,14 @@
                     <tr>
                         <td>&nbsp;</td>
                         <td>
-                            <label for="includes">
+                            <label for="includes" class="control-label">
                                 <spring:message code="user.includes" text="Includes"/>
                                 <form:checkbox path="searchInvoiceVO.includes" id="includes" value=""/>
                             </label>
                         </td>
                         <td colspan="3">&nbsp;</td>
                         <td>
-                            <label for="startsWith">
+                            <label for="startsWith" class="control-label">
                                 <spring:message code="user.startsWith" text="Starts with"/>
                                 <form:checkbox path="searchInvoiceVO.startsWith" id="startsWith" value=""/>
                             </label>
@@ -319,7 +320,7 @@
             </c:if>
             <div class="panel panel-primary">
                 <div class="panel-heading">Invoice Details</div>
-                <table class="table table-bordered table-striped table-hover">
+                <table id='myTable' class="table table-bordered table-striped table-hover">
                     <thead>
                     <tr>
                         <th>&nbsp;</th>

@@ -190,6 +190,7 @@
         }
 
         function hideAlerts(){
+            document.getElementById('user').className = "active";
             var options = {};
             $( "#effect" ).hide( "blind", options, 8000);
         }
@@ -209,7 +210,7 @@
                 <table>
                     <tr>
                         <td>
-                            <label for="name">
+                            <label for="name" class="control-label">
                                 <spring:message code="poseidon.name" text="Name" /> :
                             </label>
                         </td>
@@ -218,7 +219,7 @@
                         </td>
                         <td colspan="2">&nbsp;</td>
                         <td>
-                            <label for="loginId">
+                            <label for="loginId" class="control-label">
                                 <spring:message code="poseidon.loginId" text="loginId" /> :
                             </label>
                         </td>
@@ -227,7 +228,7 @@
                         </td>
                         <td colspan="2">&nbsp;</td>
                         <td>
-                            <label for="role">
+                            <label for="role" class="control-label">
                                 <spring:message code="poseidon.role" text="Role" /> :
                             </label>
                         </td>
@@ -245,13 +246,13 @@
                     <tr>
                         <td colspan="8">&nbsp;</td>
                         <td>
-                            <label for="includes">
+                            <label for="includes" class="control-label">
                                 <spring:message code="user.includes" text="Includes" />
                                 <form:checkbox path="searchUser.includes" cssStyle="vertical-align:middle" id="includes" value="" />
                             </label>
                         </td>
                         <td>
-                            <label for="startsWith">
+                            <label for="startsWith" class="control-label">
                                 <spring:message code="user.startsWith" text="Starts with" />
                                 <form:checkbox path="searchUser.startsWith" cssStyle="vertical-align:middle" id="startswith" value="" />
                             </label>
@@ -275,7 +276,7 @@
             </c:if>
             <div class="panel panel-primary">
                 <div class="panel-heading"><spring:message code="user.userDetails" text="User Details" /></div>
-                <table class="table table-bordered table-striped table-hover">
+                <table id='myTable' class="table table-bordered table-striped table-hover">
                     <thead>
                     <tr>
                         <th><spring:message code="poseidon.id" text="id" /></th>

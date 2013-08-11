@@ -24,8 +24,10 @@
     <input type="hidden" name="id" id="id" />
     <%@include file="/WEB-INF/jsp/myHeader.jsp" %>
     <div id="content">
-        <div class="error">
-            <label> An error has been occurred while processing the page</label>
+        <div class="jumbotron center">
+            <div class="error">
+                <label> An error has been occurred while processing the page</label>
+            </div>
         </div>
     </div>
 </form:form>

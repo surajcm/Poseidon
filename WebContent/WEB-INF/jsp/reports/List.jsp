@@ -150,7 +150,7 @@
         <table>
             <tr>
                 <td>
-                    <label for="tagNo">
+                    <label for="tagNo" class="control-label">
                         Tag To :
                     </label>
                 </td>
@@ -189,7 +189,7 @@
         <table>
             <tr>
                 <td>
-                    <label>
+                    <label class="control-label">
                         Make Name :
                     </label>
                 </td>
@@ -202,7 +202,7 @@
                 </td>
                 <td colspan="2">&nbsp;</td>
                 <td>
-                    <label >
+                    <label class="control-label" >
                         Model Name :
                     </label>
                 </td>
@@ -212,7 +212,7 @@
             <tr>
             <tr>
                 <td colspan="2">
-                    <label>
+                    <label class="control-label">
                         <spring:message code="user.includes" text="Includes"/>
                         <form:checkbox path="searchMakeAndModelVO.includes" cssStyle="vertical-align:middle"
                                        id="includes" value=""/>
@@ -220,7 +220,7 @@
                 </td>
                 <td colspan="2">&nbsp;</td>
                 <td colspan="2">
-                    <label>
+                    <label class="control-label">
                         <spring:message code="user.startsWith" text="Starts with"/>
                         <form:checkbox path="searchMakeAndModelVO.startswith" cssStyle="vertical-align:middle"
                                        id="startswith" value=""/>
@@ -229,7 +229,7 @@
             <tr>
             <tr>
                 <td>
-                    <label for="exportTo" >
+                    <label for="exportTo" class="control-label" >
                         Export To :
                     </label>
                 </td>
@@ -262,7 +262,7 @@
         <table >
             <tr>
                 <td>
-                    <label for="TagNo"  >
+                    <label for="TagNo"  class="control-label" >
                         Tag No :
                     </label>
                 </td>
@@ -271,7 +271,7 @@
                 </td>
                 <td colspan="2">&nbsp;</td>
                 <td>
-                    <label for="CustomerName"  >
+                    <label for="CustomerName"  class="control-label" >
                         Customer Name :
                     </label>
                 </td>
@@ -280,7 +280,7 @@
                 </td>
                 <td colspan="2">&nbsp;</td>
                 <td>
-                    <label for="startDate"  >
+                    <label for="startDate" class="control-label" >
                         Reported Date (From) :
                     </label>
                 </td>
@@ -289,7 +289,7 @@
                 </td>
                 <td colspan="2">&nbsp;</td>
                 <td>
-                    <label for="endDate"  >
+                    <label for="endDate"  class="control-label">
                         Reported Date (To) :
                     </label>
                 </td>
@@ -302,7 +302,7 @@
             </tr>
             <tr>
                 <td>
-                    <label for="SerialNo"  >
+                    <label for="SerialNo"  class="control-label">
                         Serial No :
                     </label>
                 </td>
@@ -311,7 +311,7 @@
                 </td>
                 <td colspan="2">&nbsp;</td>
                 <td>
-                    <label for="makeId"  >
+                    <label for="makeId" class="control-label">
                         Make :
                     </label>
                 </td>
@@ -325,7 +325,7 @@
                 </td>
                 <td colspan="2">&nbsp;</td>
                 <td>
-                    <label for="modelId"  >
+                    <label for="modelId"  class="control-label">
                         Model Name :
                     </label>
                 </td>
@@ -336,7 +336,7 @@
                 </td>
                 <td colspan="2">&nbsp;</td>
                 <td>
-                    <label for="Status"  >
+                    <label for="Status"  class="control-label">
                         Status :
                     </label>
                 </td>
@@ -353,13 +353,13 @@
             <tr>
                 <td colspan="12">&nbsp;</td>
                 <td>
-                    <label for="includes"  >
+                    <label for="includes" class="control-label" >
                         <spring:message code="user.includes" text="Includes"/>
                         <form:checkbox path="searchTransaction.includes" cssStyle="vertical-align:middle" id="includes" value="" />
                     </label>
                 </td>
                 <td>
-                    <label for="startswith"  >
+                    <label for="startswith" class="control-label">
                         <spring:message code="user.startsWith" text="Starts with"/>
                         <form:checkbox path="searchTransaction.startswith" cssStyle="vertical-align:middle" id="startswith" value="" />
                     </label>
@@ -368,7 +368,7 @@
             <tr>
                 <td colspan="8">&nbsp;</td>
                 <td>
-                    <label for="exportTo" >
+                    <label for="exportTo" class="control-label">
                         Export To :
                     </label>
                 </td>
@@ -398,7 +398,7 @@
         <table>
             <tr>
                 <td>
-                    <label for="tagNo">
+                    <label for="tagNo" class="control-label">
                         Tag To :
                     </label>
                 </td>
@@ -407,7 +407,7 @@
                 </td>
                 <td colspan="2">&nbsp;</td>
                 <td>
-                    <label for="exportTo" >
+                    <label for="exportTo" class="control-label" >
                         Export To :
                     </label>
                 </td>
@@ -437,7 +437,7 @@
         <table>
             <tr>
                 <td>
-                    <label for="TagNo"  >
+                    <label for="TagNo" class="control-label">
                         Tag No :
                     </label>
                 </td>
@@ -446,7 +446,7 @@
                 </td>
                 <td colspan="2">&nbsp;</td>
                 <td>
-                    <label for="CustomerName"  >
+                    <label for="CustomerName" class="control-label">
                         Customer Name :
                     </label>
                 </td>
@@ -455,7 +455,7 @@
                 </td>
                 <td colspan="2">&nbsp;</td>
                 <td>
-                    <label for="startDate"  >
+                    <label for="startDate" class="control-label">
                         Reported Date (From) :
                     </label>
                 </td>
@@ -464,7 +464,7 @@
                 </td>
                 <td colspan="2">&nbsp;</td>
                 <td>
-                    <label for="endDate"  >
+                    <label for="endDate" class="control-label">
                         Reported Date (To) :
                     </label>
                 </td>
@@ -477,7 +477,7 @@
             </tr>
             <tr>
                 <td>
-                    <label for="SerialNo"  >
+                    <label for="SerialNo" class="control-label">
                         Serial No :
                     </label>
                 </td>
@@ -486,7 +486,7 @@
                 </td>
                 <td colspan="2">&nbsp;</td>
                 <td>
-                    <label for="makeId"  >
+                    <label for="makeId" class="control-label">
                         Make :
                     </label>
                 </td>
@@ -500,7 +500,7 @@
                 </td>
                 <td colspan="2">&nbsp;</td>
                 <td>
-                    <label for="modelId"  >
+                    <label for="modelId" class="control-label">
                         Model Name :
                     </label>
                 </td>
@@ -511,7 +511,7 @@
                 </td>
                 <td colspan="2">&nbsp;</td>
                 <td>
-                    <label for="Status"  >
+                    <label for="Status" class="control-label">
                         Status :
                     </label>
                 </td>
@@ -528,13 +528,13 @@
             <tr>
                 <td colspan="12">&nbsp;</td>
                 <td>
-                    <label for="includes"  >
+                    <label for="includes" class="control-label">
                         <spring:message code="user.includes" text="Includes"/>
                         <form:checkbox path="searchTransaction.includes" cssStyle="vertical-align:middle" id="includes" value="" />
                     </label>
                 </td>
                 <td>
-                    <label for="startswith"  >
+                    <label for="startswith" class="control-label">
                         <spring:message code="user.startsWith" text="Starts with"/>
                         <form:checkbox path="searchTransaction.startswith" cssStyle="vertical-align:middle" id="startswith" value="" />
                     </label>
@@ -543,7 +543,7 @@
             <tr>
                 <td colspan="8">&nbsp;</td>
                 <td>
-                    <label for="exportTo" >
+                    <label for="exportTo" class="control-label">
                         Export To :
                     </label>
                 </td>

@@ -302,6 +302,7 @@ function invoiceRow() {
 }
 
 function hideAlerts(){
+    document.getElementById('txnmgt').className = "active";
     var options = {};
     $( "#effect" ).hide( "blind", options, 8000);
 }
@@ -329,7 +330,7 @@ function hideAlerts(){
             <table>
                 <tr>
                     <td>
-                        <label for="TagNo">
+                        <label for="TagNo" class="control-label">
                             Tag No :
                         </label>
                     </td>
@@ -338,7 +339,7 @@ function hideAlerts(){
                     </td>
                     <td colspan="2">&nbsp;</td>
                     <td>
-                        <label for="CustomerName">
+                        <label for="CustomerName" class="control-label">
                             Customer Name :
                         </label>
                     </td>
@@ -347,7 +348,7 @@ function hideAlerts(){
                     </td>
                     <td colspan="2">&nbsp;</td>
                     <td>
-                        <label for="startDate">
+                        <label for="startDate" class="control-label">
                             Reported Date (From) :
                         </label>
                     </td>
@@ -356,7 +357,7 @@ function hideAlerts(){
                     </td>
                     <td colspan="2">&nbsp;</td>
                     <td>
-                        <label for="endDate">
+                        <label for="endDate" class="control-label">
                             Reported Date (To) :
                         </label>
                     </td>
@@ -369,7 +370,7 @@ function hideAlerts(){
                 </tr>
                 <tr>
                     <td>
-                        <label for="SerialNo">
+                        <label for="SerialNo" class="control-label">
                             Serial No :
                         </label>
                     </td>
@@ -378,7 +379,7 @@ function hideAlerts(){
                     </td>
                     <td colspan="2">&nbsp;</td>
                     <td>
-                        <label for="makeId">
+                        <label for="makeId" class="control-label">
                             Make :
                         </label>
                     </td>
@@ -390,7 +391,7 @@ function hideAlerts(){
                     </td>
                     <td colspan="2">&nbsp;</td>
                     <td>
-                        <label for="modelId">
+                        <label for="modelId" class="control-label">
                             Model Name :
                         </label>
                     </td>
@@ -403,7 +404,7 @@ function hideAlerts(){
                     </td>
                     <td colspan="2">&nbsp;</td>
                     <td>
-                        <label for="Status">
+                        <label for="Status" class="control-label">
                             Status :
                         </label>
                     </td>
@@ -420,13 +421,13 @@ function hideAlerts(){
                 <tr>
                     <td colspan="12">&nbsp;</td>
                     <td>
-                        <label for="includes">
+                        <label for="includes" class="control-label">
                             <spring:message code="user.includes" text="Includes"/>
                             <form:checkbox path="searchTransaction.includes" cssStyle="vertical-align:middle" id="includes" value="" />
                         </label>
                     </td>
                     <td>
-                        <label for="startswith">
+                        <label for="startswith" class="control-label">
                             <spring:message code="user.startsWith" text="Starts with"/>
                             <form:checkbox path="searchTransaction.startswith" cssStyle="vertical-align:middle" id="startswith" value="" />
                         </label>
@@ -452,7 +453,7 @@ function hideAlerts(){
         </c:if>
         <div class="panel panel-primary">
             <div class="panel-heading">Transaction Details</div>
-            <table class="table table-bordered table-striped table-hover">
+            <table id='myTable' class="table table-bordered table-striped table-hover">
                 <thead>
                 <tr>
                     <th><spring:message code="poseidon.id" text="id"/></th>

@@ -7,7 +7,6 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Customer List</title>
-    <link rel="stylesheet" type="text/css" href="../css/mainStyles.css" />
     <link rel="stylesheet" type="text/css" href="../css/ui-lightness/jquery-ui-1.8.21.custom.css"/>
     <script type="text/javascript" src="../js/jquery-1.7.2.min.js" language="javascript" ></script>
     <script type="text/javascript" src="../js/jquery-ui-1.8.21.custom.min.js" language="javascript" ></script>
@@ -191,6 +190,7 @@
             }
         }
         function hideAlerts(){
+            document.getElementById('customermgt').className = "active";
             var options = {};
             $( "#effect" ).hide( "blind", options, 8000);
         }
@@ -211,7 +211,7 @@
             <table>
                 <tr>
                     <td>
-                        <label for="customerId">
+                        <label for="customerId" class="control-label">
                             Customer Id :
                         </label>
                     </td>
@@ -220,7 +220,7 @@
                     </td>
                     <td colspan="2">&nbsp;</td>
                     <td>
-                        <label for="customerName">
+                        <label for="customerName" class="control-label">
                             Customer Name :
                         </label>
                     </td>
@@ -229,7 +229,7 @@
                     </td>
                     <td colspan="2">&nbsp;</td>
                     <td>
-                        <label for="mobile">
+                        <label for="mobile" class="control-label">
                             Mobile :
                         </label>
                     </td>
@@ -240,13 +240,13 @@
                 <tr>
                     <td colspan="8">&nbsp;</td>
                     <td>
-                        <label for="includes">
+                        <label for="includes" class="control-label">
                             <spring:message code="user.includes" text="Includes"/>
                             <form:checkbox path="searchCustomerVO.includes" id="includes" value=""/>
                         </label>
                     </td>
                     <td>
-                        <label for="startsWith">
+                        <label for="startsWith" class="control-label">
                             <spring:message code="user.startsWith" text="Starts with"/>
                             <form:checkbox path="searchCustomerVO.startsWith" id="startsWith" value=""/>
                         </label>
@@ -277,7 +277,7 @@
         </c:if>
         <div class="panel panel-primary">
             <div class="panel-heading">Customer Details</div>
-            <table class="table table-bordered table-striped table-hover">
+            <table id='myTable' class="table table-bordered table-striped table-hover">
                 <thead>
                 <tr>
                     <th>&nbsp;</th>

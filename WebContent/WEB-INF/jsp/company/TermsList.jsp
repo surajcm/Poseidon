@@ -7,7 +7,6 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Terms And Company details</title>
-    <link rel="stylesheet" type="text/css" href="../css/mainStyles.css"/>
     <link rel="stylesheet" type="text/css" href="../css/ui-lightness/jquery-ui-1.8.21.custom.css"/>
     <script type="text/javascript" src="../js/jquery-1.7.2.min.js" language="javascript" ></script>
     <script type="text/javascript" src="../js/jquery-ui-1.8.21.custom.min.js" language="javascript" ></script>
@@ -56,6 +55,7 @@
         }
 
         function hideUpdate(){
+            document.getElementById('companymgt').className = "active";
             document.getElementById('update').style.visibility='hidden';
             document.getElementById('clear').style.visibility='hidden';
             document.getElementById('cancel').style.visibility='hidden';
@@ -116,7 +116,7 @@
                 <table>
                     <tr>
                         <td>
-                            <label for="companyName">
+                            <label for="companyName" class="control-label">
                                 Company Name :
                             </label>
                         </td>
@@ -125,7 +125,7 @@
                         </td>
                         <td colspan="2">&nbsp;</td>
                         <td>
-                            <label for="companyPhoneNumber">
+                            <label for="companyPhoneNumber" class="control-label">
                                 Company Phone Number :
                             </label>
                         </td>
@@ -138,7 +138,7 @@
                     </tr>
                     <tr>
                         <td>
-                            <label for="companyEmail">
+                            <label for="companyEmail" class="control-label">
                                 Company email :
                             </label>
                         </td>
@@ -147,7 +147,7 @@
                         </td>
                         <td colspan="2">&nbsp;</td>
                         <td>
-                            <label for="companyWebsite">
+                            <label for="companyWebsite" class="control-label">
                                 Company Website :
                             </label>
                         </td>
@@ -160,7 +160,7 @@
                     </tr>
                     <tr>
                         <td>
-                            <label for="companyAddress">
+                            <label for="companyAddress" class="control-label">
                                 Company Address :
                             </label>
                         </td>
@@ -174,7 +174,7 @@
                     </tr>
                     <tr>
                         <td>
-                            <label for="companyTerms">
+                            <label for="companyTerms" class="control-label">
                                 Company Terms & Conditions :
                             </label>
                         </td>
@@ -188,7 +188,7 @@
                     </tr>
                     <tr>
                         <td>
-                            <label for="vat_tin">
+                            <label for="vat_tin" class="control-label">
                                 Company's VAT TIN :
                             </label>
                         </td>
@@ -197,7 +197,7 @@
                         </td>
                         <td colspan="2">&nbsp;</td>
                         <td>
-                            <label for="cst_tin">
+                            <label for="cst_tin" class="control-label">
                                 Company's CST TIN :
                             </label>
                         </td>
@@ -210,7 +210,7 @@
                     </tr>
                     <!--tr>
                         <td>
-                            <label for="companylogo">
+                            <label for="companylogo" class="control-label">
                                 Company Logo :
                             </label>
                         </td>
@@ -227,8 +227,8 @@
                     <tr>
                         <td colspan="4">&nbsp;</td>
                         <td colspan="2">
-                            <input class="btn btn-primary" id="edit" value="Edit" type="button" onclick="javascript:editMe();"/>
-                            <input class="btn btn-primary" id="update" value="Update" type="button" onclick="javascript:updateCompanyDetails();"/>
+                            <input class="btn btn-primary btn-success" id="edit" value="Edit" type="button" onclick="javascript:editMe();"/>
+                            <input class="btn btn-primary btn-success" id="update" value="Update" type="button" onclick="javascript:updateCompanyDetails();"/>
                             <input class="btn btn-primary" id="clear" value="Clear" type="button" onclick="javascript:clearOut();"/>
                             <input class="btn btn-primary" id="cancel" value="Cancel" type="button" onclick="javascript:cancelMe();"/>
                         </td>
