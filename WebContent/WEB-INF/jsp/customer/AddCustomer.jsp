@@ -53,7 +53,7 @@
     <form:hidden name="loggedInUser" path="loggedInUser"/>
     <form:hidden name="loggedInRole" path="loggedInRole"/>
     <%@include file="/WEB-INF/jsp/myHeader.jsp" %>
-    <div id="content">
+    <div class="container">
         <div class="wrap">
             <div class="panel panel-primary">
                 <div class="panel-heading">Add Customer</div>
@@ -110,7 +110,7 @@
                         </td>
                         <td colspan="2">&nbsp;</td>
                         <td>
-                            <form:input path="currentCustomerVO.mobile" id="mobile"/>
+                            <form:input path="currentCustomerVO.mobile" cssClass="form-control" id="mobile"/>
                         </td>
                         <td colspan="2">&nbsp;</td>
                         <td>

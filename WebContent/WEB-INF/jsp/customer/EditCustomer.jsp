@@ -41,7 +41,7 @@
     <form:hidden name="loggedInRole" path="loggedInRole"/>
     <form:hidden name="currentCustomerVO.customerId" path="currentCustomerVO.customerId" />
     <%@include file="/WEB-INF/jsp/myHeader.jsp" %>
-    <div id="content">
+    <div class="container">
         <div class="wrap">
             <div class="panel panel-primary">
                 <div class="panel-heading">Edit Customer</div>

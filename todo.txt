@@ -4,11 +4,7 @@ Things to do
 	checkbox replacement
 	better drop down
 	alignment
-	popup message for adding/ editing/deleting on pages
 	alert using bootstrap popup
-	better icon
-	tab interface with bootstrap
-	dropdown log out
 1. Replace ajax with jquery based ajax
 
 2. log out .. if user is null / spring security implementation

@@ -7,47 +7,12 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title><spring:message code="poseidon.userListPage" text="User List" /></title>
-    <link rel="stylesheet" type="text/css" href="../css/ui-lightness/jquery-ui-1.8.21.custom.css"/>
-    <script type="text/javascript" src="../js/jquery-1.7.2.min.js" language="javascript" ></script>
-    <script type="text/javascript" src="../js/jquery-ui-1.8.21.custom.min.js" language="javascript" ></script>
     <style type="text/css">
-
-        .info, .success, .error {
-            border: 1px solid;
-            margin: 10px 0px;
-            padding: 15px 10px 15px 50px;
-            background-repeat: no-repeat;
-            background-position: 10px center;
-        }
-
-        .info {
-            color: #00529B;
-            background-color: #BDE5F8;
-            background-image: url( "<%=request.getContextPath()%>/images/Info.png" );
-        }
-
-        .success {
-            color: #4F8A10;
-            background-color: #DFF2BF;
-            background-image: url( '<%=request.getContextPath()%>/images/Success.png' );
-        }
-
-        .error {
-            color: #D8000C;
-            background-color: #FFBABA;
-            background-image: url( '<%=request.getContextPath()%>/images/Error.png' );
-        }
         .foottable {
             margin:auto;
             top:50%;
             left:50%;
         }
-        table {
-            margin:auto;
-            top:50%;
-            left:50%;
-        }
-
     </style>
     <script type="text/javascript">
 
@@ -191,8 +156,6 @@
 
         function hideAlerts(){
             document.getElementById('user').className = "active";
-            var options = {};
-            $( "#effect" ).hide( "blind", options, 8000);
         }
 
     </script>
@@ -203,7 +166,7 @@
     <form:hidden name="loggedInUser" path="loggedInUser" />
     <form:hidden name="loggedInRole" path="loggedInRole" />
     <%@include file="/WEB-INF/jsp/myHeader.jsp" %>
-    <div id="content">
+    <div class="container">
         <div class="wrap">
             <div class="panel panel-primary">
                 <div class="panel-heading"><spring:message code="user.searchUser" text="Search User Details" /></div>
@@ -270,7 +233,8 @@
                 </table>
             </div>
             <c:if test="${userForm.statusMessage!=null}">
-                <div  id="effect" class="<c:out value='${userForm.statusMessageType}'/>">
+                <div class="alert alert-<c:out value='${userForm.statusMessageType}'/>">
+                    <a class="close" data-dismiss="alert" href="#" aria-hidden="true">x</a>
                     <c:out value="${userForm.statusMessage}"/>
                 </div>
             </c:if>

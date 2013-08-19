@@ -10,6 +10,8 @@ Version 1.3
  * Fixed the nav bar issues
  * Fixed the bootstrap 3 text fields in list pages
  * Fixed the bootstrap 3 issues in most of the pages
+ * Fixed the navbar issue, panel to all pages
+ * Issue with jquery UI, calendar is not working
 Version 1.2
  * Added README.md
 

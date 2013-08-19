@@ -174,7 +174,7 @@ public class UserDAOImpl extends JdbcDaoSupport implements UserDAO {
             }
         }
 
-        if (searchUser.getRole() != null) {
+        if (searchUser.getRole() != null && searchUser.getRole().length() > 0) {
             if (!isWhereAppended) {
                 dynamicQuery.append(" where ");
             } else {

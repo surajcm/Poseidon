@@ -7,15 +7,7 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Terms And Company details</title>
-    <link rel="stylesheet" type="text/css" href="../css/ui-lightness/jquery-ui-1.8.21.custom.css"/>
-    <script type="text/javascript" src="../js/jquery-1.7.2.min.js" language="javascript" ></script>
-    <script type="text/javascript" src="../js/jquery-ui-1.8.21.custom.min.js" language="javascript" ></script>
     <style type="text/css">
-        .foottable {
-            margin:auto;
-            top:50%;
-            left:50%;
-        }
         table {
             margin:auto;
             top:50%;
@@ -104,12 +96,12 @@
     </script>
 
 </head>
-<body onload="javascript:hideUpdate()">
+<body onload="hideUpdate()">
 <form:form method="POST" commandName="companyTermsForm" name="companyTermsForm">
     <form:hidden name="loggedInUser" path="loggedInUser"/>
     <form:hidden name="loggedInRole" path="loggedInRole"/>
     <%@include file="/WEB-INF/jsp/myHeader.jsp" %>
-    <div id="content">
+    <div class="container">
         <div class="wrap">
             <div class="panel panel-primary">
                 <div class="panel-heading">Company Details</div>
@@ -227,10 +219,10 @@
                     <tr>
                         <td colspan="4">&nbsp;</td>
                         <td colspan="2">
-                            <input class="btn btn-primary btn-success" id="edit" value="Edit" type="button" onclick="javascript:editMe();"/>
-                            <input class="btn btn-primary btn-success" id="update" value="Update" type="button" onclick="javascript:updateCompanyDetails();"/>
-                            <input class="btn btn-primary" id="clear" value="Clear" type="button" onclick="javascript:clearOut();"/>
-                            <input class="btn btn-primary" id="cancel" value="Cancel" type="button" onclick="javascript:cancelMe();"/>
+                            <input class="btn btn-primary btn-success" id="edit" value="Edit" type="button" onclick="editMe();"/>
+                            <input class="btn btn-primary btn-success" id="update" value="Update" type="button" onclick="updateCompanyDetails();"/>
+                            <input class="btn btn-primary" id="clear" value="Clear" type="button" onclick="clearOut();"/>
+                            <input class="btn btn-primary" id="cancel" value="Cancel" type="button" onclick="cancelMe();"/>
                         </td>
                     </tr>
                 </table>

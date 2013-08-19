@@ -13,7 +13,7 @@
     <link href="../css/font-awesome-ie7.css" rel="stylesheet" type="text/css">
     <!-- HTML5 shim for IE backwards compatibility -->
     <!--[if lt IE 9]>
-    <script src="js/html5.js"></script>
+    <script src="../js/html5.js"></script>
     <![endif]-->
     <script type="text/javascript">
         function listMe(){
@@ -63,11 +63,15 @@
     </script>
 </head>
 <body>
-<div class="navbar">
-    <nav class="navbar navbar-inverse">
-        <div class="navbar-inner">
-
-            <a id="hometab" class="navbar-brand" href="#" onclick="javascript:goToHome();" ><img src="<%=request.getContextPath()%>/images/Poseidon_Ico_NEW.png" />Poseidon</a>
+<div class="navbar-wrapper">
+    <div class="navbar navbar-inverse navbar-static-top">
+        <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="#"onclick="javascript:goToHome();" ><img src="<%=request.getContextPath()%>/images/Poseidon_Ico_NEW.png" />Poseidon</a>
+        <div class="nav-collapse collapse">
             <ul class="nav navbar-nav">
                 <script type="text/javascript">
                     if ( document.forms[0].loggedInRole != null
@@ -84,23 +88,34 @@
                 <li id="reportmgt"><a href="#" onclick="javascript:fetchReport();" >Report</a></li>
             </ul>
             <ul class="nav navbar-nav pull-right">
-                <li><a href="#" class="pull-right" onclick="javascript:LogMeOut();" >Log Out</a></li>
+                <li class="dropdown">
+                    <script type="text/javascript">
+                        if ( document.forms[0].loggedInUser != null
+                                && document.forms[0].loggedInUser.value != null
+                                && document.forms[0].loggedInUser.value.length > 0){
+                            document.write("<a href='#' class='dropdown-toggle' data-toggle='dropdown'>"+document.forms[0].loggedInUser.value+"<b class='caret'></b></a>");
+                        }else {
+                            document.write("<a href='#' class='dropdown-toggle' data-toggle='dropdown'>Unknown User<b class='caret'></b></a>");
+                        }
+                    </script>
+                    <ul class="dropdown-menu">
+                        <li><a href="#" onclick="javascript:LogMeOut();">Log Out</a></li>
+                    </ul>
+                </li>
             </ul>
-        </div>
-    </nav>
-    <script src="js/jquery-latest.js"></script>
-    <script src="js/bootstrap.js"></script>
-    <script src="js/bootstrap.min.js"></script>
-    <script src="js/bootstrap-dropdown.js"></script>
-
-    <script>
-        $(document).ready(function()
-        {
-            //Handles menu drop down
-            $('.dropdown-menu').find('form').click(function (e) {
-                e.stopPropagation();
-            });
+        </div><!--/.nav-collapse -->
+    </div>
+</div>
+<script src="../js/jquery-latest.js"></script>
+<script src="../js/bootstrap.js"></script>
+<script>
+    $(document).ready(function()
+    {
+        //Handles menu drop down
+        $('.dropdown-menu').find('form').click(function (e) {
+            e.stopPropagation();
         });
-    </script>
+    });
+</script>
 </body>
 </html>

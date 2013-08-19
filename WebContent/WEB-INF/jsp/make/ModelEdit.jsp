@@ -39,7 +39,7 @@
     <form:hidden name="loggedInRole" path="loggedInRole" />
     <form:hidden name="currentMakeAndModeVO.modelId" path="currentMakeAndModeVO.modelId" />
     <%@include file="/WEB-INF/jsp/myHeader.jsp" %>
-    <div id="content">
+    <div class="container">
         <div class="wrap">
             <div class="panel panel-primary">
                 <div class="panel-heading">Edit Model</div>
