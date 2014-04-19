@@ -8,10 +8,8 @@ import net.sf.jasperreports.engine.JRAbstractExporter;
 import net.sf.jasperreports.engine.JRExporter;
 import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JasperCompileManager;
-import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
-import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import net.sf.jasperreports.engine.export.JRHtmlExporter;
 import net.sf.jasperreports.engine.export.JRHtmlExporterParameter;
 import net.sf.jasperreports.engine.export.JRXlsExporter;
@@ -31,7 +29,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.ByteArrayOutputStream;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Locale;
 
@@ -120,48 +117,67 @@ public class ReportsController extends MultiActionController {
         return exportToList;
     }
 
+    /**
+     * getMakeDetailsReport
+     *
+     * @param httpServletRequest  HttpServletRequest
+     * @param httpServletResponse HttpServletResponse
+     * @param reportsForm         ReportsForm
+     * @return ModelAndView
+     */
+    @SuppressWarnings("unused")
     public ModelAndView getMakeDetailsReport(HttpServletRequest httpServletRequest,
                                              HttpServletResponse httpServletResponse,
                                              ReportsForm reportsForm) {
         log.info(" Inside getMakeDetailsReport method of ReportsController ");
         log.info(" form details are" + reportsForm);
-        JasperReport jasperReport = null;
-        JasperPrint jasperPrint = null;
+        JasperReport jasperReport;
+        JasperPrint jasperPrint;
         try {
-            if( reportsForm.getCurrentReport() == null){
+            if (reportsForm.getCurrentReport() == null) {
                 reportsForm.setCurrentReport(new ReportsVO());
             }
             logger.info("Locale-->" + httpServletRequest.getLocale());
-            reportsForm.getCurrentReport().setLocale(Locale.US);
+            if (reportsForm.getCurrentReport() != null) {
+                reportsForm.getCurrentReport().setLocale(Locale.US);
+                String reportFileName = "makeListReport";
+                String reportType = reportsForm.getCurrentReport().getExportTo();
+                reportsForm.getCurrentReport().setRptfilename(reportFileName);
+                String path = getServletContext().getRealPath("/reports");
+                log.info(" going to compile report");
+                jasperReport = JasperCompileManager.compileReport(path + '/' + reportFileName + ".jrxml");
 
-            String reportFileName = "makeListReport";
-            String reportType = reportsForm.getCurrentReport().getExportTo();
-            reportsForm.getCurrentReport().setRptfilename(reportFileName);
-            String path = getServletContext().getRealPath("/reports");
-            log.info(" going to compile report");
-            jasperReport = JasperCompileManager.compileReport(path + '/' + reportFileName + ".jrxml");
-
-            jasperPrint = getReportsDelegate().getMakeDetailsChart(jasperReport,
-                    reportsForm.getCurrentReport());
-            logger.info(jasperPrint.toString());
-            getJasperReport(httpServletRequest, httpServletResponse, jasperPrint, reportFileName, reportType);
+                jasperPrint = getReportsDelegate().getMakeDetailsChart(jasperReport,
+                        reportsForm.getCurrentReport());
+                logger.info(jasperPrint.toString());
+                getJasperReport(httpServletRequest, httpServletResponse, jasperPrint, reportFileName, reportType);
+            }
         } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
     }
 
+    /**
+     * getCallReport
+     *
+     * @param httpServletRequest HttpServletRequest
+     * @param httpServletResponse HttpServletResponse
+     * @param reportsForm ReportsForm
+     * @return ModelAndView
+     */
+    @SuppressWarnings("unused")
     public ModelAndView getCallReport(HttpServletRequest httpServletRequest,
                                       HttpServletResponse httpServletResponse,
                                       ReportsForm reportsForm) {
         log.info(" Inside getCallReport method of ReportsController ");
         log.info(" form details are" + reportsForm);
-        JasperReport jasperReport = null;
-        JasperPrint jasperPrint = null;
-        String reportType = null;
+        JasperReport jasperReport;
+        JasperPrint jasperPrint;
+        String reportType;
         String reportFileName;
         try {
-            if( reportsForm.getCurrentReport() == null){
+            if (reportsForm.getCurrentReport() == null) {
                 reportsForm.setCurrentReport(new ReportsVO());
             }
             reportsForm.getCurrentReport().setLocale(Locale.US);
@@ -173,16 +189,25 @@ public class ReportsController extends MultiActionController {
             log.info(" going to compile report, at getCallReport");
             jasperReport = JasperCompileManager.compileReport(path + '/' + reportFileName + ".jrxml");
 
-            jasperPrint =  getReportsDelegate().getCallReport(jasperReport,reportsForm.getCurrentReport());
+            jasperPrint = getReportsDelegate().getCallReport(jasperReport, reportsForm.getCurrentReport());
             logger.info(jasperPrint.toString());
             getJasperReport(httpServletRequest, httpServletResponse, jasperPrint, reportFileName, reportType);
         } catch (Exception e) {
             e.printStackTrace();
-            return getErrorReport(httpServletRequest,httpServletResponse,reportsForm);
+            return getErrorReport(httpServletRequest, httpServletResponse, reportsForm);
         }
         return null;
     }
 
+    /**
+     * getTransactionsListReport
+     *
+     * @param httpServletRequest HttpServletRequest
+     * @param httpServletResponse HttpServletResponse
+     * @param reportsForm ReportsForm
+     * @return ModelAndView
+     */
+    @SuppressWarnings("unused")
     public ModelAndView getTransactionsListReport(HttpServletRequest httpServletRequest,
                                                   HttpServletResponse httpServletResponse,
                                                   ReportsForm reportsForm) {
@@ -193,7 +218,7 @@ public class ReportsController extends MultiActionController {
         String reportType = null;
         String reportFileName;
         try {
-            if( reportsForm.getCurrentReport() == null){
+            if (reportsForm.getCurrentReport() == null) {
                 reportsForm.setCurrentReport(new ReportsVO());
             }
             reportsForm.getCurrentReport().setLocale(Locale.US);
@@ -205,7 +230,7 @@ public class ReportsController extends MultiActionController {
             log.info(" going to compile report");
             jasperReport = JasperCompileManager.compileReport(path + '/' + reportFileName + ".jrxml");
 
-            jasperPrint =  getReportsDelegate().getTransactionsListReport(jasperReport,
+            jasperPrint = getReportsDelegate().getTransactionsListReport(jasperReport,
                     reportsForm.getCurrentReport(),
                     reportsForm.getSearchTransaction());
             logger.info(jasperPrint.toString());
@@ -216,15 +241,24 @@ public class ReportsController extends MultiActionController {
         return null;
     }
 
+    /**
+     * getModelListReport
+     *
+     * @param httpServletRequest HttpServletRequest
+     * @param httpServletResponse HttpServletResponse
+     * @param reportsForm ReportsForm
+     * @return ModelAndView
+     */
+    @SuppressWarnings("unused")
     public ModelAndView getModelListReport(HttpServletRequest httpServletRequest,
-                                                  HttpServletResponse httpServletResponse,
-                                                  ReportsForm reportsForm) {
+                                           HttpServletResponse httpServletResponse,
+                                           ReportsForm reportsForm) {
         log.info(" Inside getModelListReport method of ReportsController ");
         log.info(" form details are" + reportsForm);
-        JasperReport jasperReport = null;
-        JasperPrint jasperPrint = null;
+        JasperReport jasperReport;
+        JasperPrint jasperPrint;
         try {
-            if( reportsForm.getCurrentReport() == null){
+            if (reportsForm.getCurrentReport() == null) {
                 reportsForm.setCurrentReport(new ReportsVO());
             }
             reportsForm.getCurrentReport().setLocale(Locale.US);
@@ -236,7 +270,7 @@ public class ReportsController extends MultiActionController {
             log.info(" going to compile report");
             jasperReport = JasperCompileManager.compileReport(path + '/' + reportFileName + ".jrxml");
 
-            jasperPrint =  getReportsDelegate().getModelListReport(jasperReport,
+            jasperPrint = getReportsDelegate().getModelListReport(jasperReport,
                     reportsForm.getCurrentReport(),
                     reportsForm.getSearchMakeAndModelVO());
             logger.info(jasperPrint.toString());
@@ -247,15 +281,23 @@ public class ReportsController extends MultiActionController {
         return null;
     }
 
+    /**
+     * getErrorReport
+     *
+     * @param httpServletRequest HttpServletRequest
+     * @param httpServletResponse HttpServletResponse
+     * @param reportsForm ReportsForm
+     * @return ModelAndView
+     */
     public ModelAndView getErrorReport(HttpServletRequest httpServletRequest,
-                                                  HttpServletResponse httpServletResponse,
-                                                  ReportsForm reportsForm) {
+                                       HttpServletResponse httpServletResponse,
+                                       ReportsForm reportsForm) {
         log.info(" Inside getErrorReport method of ReportsController ");
         log.info(" form details are" + reportsForm);
-        JasperReport jasperReport = null;
-        JasperPrint jasperPrint = null;
+        JasperReport jasperReport;
+        JasperPrint jasperPrint;
         try {
-            if( reportsForm.getCurrentReport() == null){
+            if (reportsForm.getCurrentReport() == null) {
                 reportsForm.setCurrentReport(new ReportsVO());
             }
             reportsForm.getCurrentReport().setLocale(Locale.US);
@@ -275,15 +317,23 @@ public class ReportsController extends MultiActionController {
         return null;
     }
 
+    /**
+     * getInvoiceReport
+     *
+     * @param httpServletRequest HttpServletRequest
+     * @param httpServletResponse HttpServletResponse
+     * @param reportsForm ReportsForm
+     * @return ModelAndView
+     */
     public ModelAndView getInvoiceReport(HttpServletRequest httpServletRequest,
                                          HttpServletResponse httpServletResponse,
-                                         ReportsForm reportsForm){
+                                         ReportsForm reportsForm) {
         log.info(" Inside getInvoiceReport method of ReportsController ");
         log.info(" form details are" + reportsForm);
-        JasperReport jasperReport = null;
-        JasperPrint jasperPrint = null;
+        JasperReport jasperReport;
+        JasperPrint jasperPrint;
         try {
-            if( reportsForm.getCurrentReport() == null){
+            if (reportsForm.getCurrentReport() == null) {
                 reportsForm.setCurrentReport(new ReportsVO());
             }
             reportsForm.getCurrentReport().setLocale(Locale.US);
@@ -300,15 +350,16 @@ public class ReportsController extends MultiActionController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-        return getErrorReport(httpServletRequest,httpServletResponse,reportsForm);
+        return getErrorReport(httpServletRequest, httpServletResponse, reportsForm);
     }
+
     /**
      * This method is used for generating the jasper report
      *
      * @param httpServletRequest  the current HTTP request
      * @param httpServletResponse the current HTTP response
      * @param jasperPrint         jasperPrint instance
-     * @param reportFileName         reportFileName instance
+     * @param reportFileName      reportFileName instance
      * @param reportType          reportType instance
      */
     protected void getJasperReport(HttpServletRequest httpServletRequest,
