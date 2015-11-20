@@ -1,16 +1,16 @@
 # Poseidon
 
-Poseidon is a service center management software, primarly designed as a solution for keeping the inventory and billing for a laptop service centre.
+Poseidon is a service center management software, primarily designed as a solution for keeping the inventory and billing for a laptop service centre.
 
 ![Poseidon](http://s12.postimg.org/3xei02465/txn_2.png)
 
 
-## Programs needed to download / set up
+## To contribute / try out in dev mode : set up the following apps in your dev environment
 
-* JDK 1.5 or higher(1.7 is preferred)
+* JDK 1.6 or higher(1.8 is preferred)
 * MySQL Community server (Database), MySql workbench latest versions
 * JBoss 4.2.2 GA (higher versions can be used, if the configurations are updated correctly)
-* Intellij IDEA 11.1 Community Edition (Eclipse can also be used, I don't prefer Netbeans)
+* Intellij IDEA 14 Community Edition or your preferred IDE
 * Git (with out this also it will work fine, as Intellij & Eclipse support checkout from the IDE itself)
 
 ## Steps for testing the Application
