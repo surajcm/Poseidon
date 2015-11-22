@@ -7,7 +7,6 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Add Transaction</title>
-        <link rel="stylesheet" type="text/css" href="../css/ui-lightness/jquery-ui-1.8.21.custom.css"/>
         <script type="text/javascript" src="../js/jquery-1.7.2.min.js" language="javascript"></script>
         <script type="text/javascript" src="../js/jquery-ui-1.8.21.custom.min.js" language="javascript"></script>
         <style type="text/css">
