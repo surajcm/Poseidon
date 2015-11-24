@@ -15,7 +15,7 @@
 	</target>
 	
 	<target name="compile" depends="init" >
-		<javac target="1.8" destdir="build/classes" debug="true" srcdir="src/main">
+		<javac target="1.6" destdir="build/classes" debug="true" srcdir="src/main">
 			<classpath refid="compile.classpath"/>
 		</javac>
         <!-- copy the resources bundle too -->

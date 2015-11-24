@@ -3,18 +3,21 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <link rel="shortcut icon" href="<%=request.getContextPath()%>/images/Poseidon_Ico.ico" >
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link rel="shortcut icon" href="<%=request.getContextPath()%>/images/Poseidon_Ico.ico" >
     <link href="../css/bootstrap.css" rel="stylesheet" type="text/css">
     <link href="../css/bootstrap-responsive.css" rel="stylesheet" type="text/css">
     <link href="../css/bootstrap-theme.css" rel="stylesheet" type="text/css">
     <link href="../css/font-awesome.css" rel="stylesheet" type="text/css">
     <link href="../css/font-awesome-ie7.css" rel="stylesheet" type="text/css">
-    <!-- HTML5 shim for IE backwards compatibility -->
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
-    <script src="../js/html5.js"></script>
+      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
+      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
     <![endif]-->
     <script type="text/javascript">
         function listMe(){

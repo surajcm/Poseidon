@@ -94,9 +94,23 @@ public class ReportsController extends MultiActionController {
         reportsForm.setExportList(populateExportToList());
         reportsForm.setStatusList(populateStatus());
         reportsForm.setCurrentReport(new ReportsVO());
-        reportsForm.setSearchMakeAndModelVO(new MakeAndModelVO());
-        reportsForm.setSearchTransaction(new TransactionVO());
+        reportsForm.setSearchMakeAndModelVO(getSearchMakeAndModelVO());
+        reportsForm.setSearchTransaction(getSearchTransaction());
         return new ModelAndView("reports/List", "reportsForm", reportsForm);
+    }
+
+    private TransactionVO getSearchTransaction() {
+        TransactionVO searchVO = new TransactionVO();
+        searchVO.setModelId(0L);
+        searchVO.setMakeId(0L);
+        return searchVO;
+    }
+
+    private MakeAndModelVO getSearchMakeAndModelVO() {
+        MakeAndModelVO searchVO = new MakeAndModelVO();
+        searchVO.setMakeId(0L);
+        searchVO.setModelId(0L);
+        return searchVO;
     }
 
     private List<String> populateStatus() {

@@ -172,7 +172,7 @@ public class UserController extends MultiActionController {
      * @return List of String
      */
     private List<String> populateRoles() {
-        List<String> roleList = new ArrayList<>();
+        List<String> roleList = new ArrayList<String>();;
         roleList.add("ADMIN");
         roleList.add("GUEST");
         return roleList;
