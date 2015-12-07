@@ -12,16 +12,16 @@ import java.util.List;
  * Time: 10:38 PM
  */
 public interface InvoiceService {
-    public void addInvoice(InvoiceVO currentInvoiceVO) throws InvoiceException;
+    void addInvoice(InvoiceVO currentInvoiceVO) throws InvoiceException;
 
-    public List<InvoiceVO> fetchInvoiceForListOfTransactions(List<String> tagNumbers) throws InvoiceException;
+    List<InvoiceVO> fetchInvoiceForListOfTransactions(List<String> tagNumbers) throws InvoiceException;
 
-    public InvoiceVO fetchInvoiceVOFromId(Long id) throws InvoiceException;
+    InvoiceVO fetchInvoiceVOFromId(Long id) throws InvoiceException;
 
-    public void deleteInvoice(Long id) throws InvoiceException;
+    void deleteInvoice(Long id) throws InvoiceException;
 
-    public void updateInvoice(InvoiceVO currentInvoiceVO) throws InvoiceException;
+    void updateInvoice(InvoiceVO currentInvoiceVO) throws InvoiceException;
 
-    public List<InvoiceVO> findInvoices(InvoiceVO searchInvoiceVO) throws InvoiceException;
+    List<InvoiceVO> findInvoices(InvoiceVO searchInvoiceVO) throws InvoiceException;
 
 }

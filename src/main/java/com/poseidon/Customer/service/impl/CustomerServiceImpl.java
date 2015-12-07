@@ -32,7 +32,7 @@ public class CustomerServiceImpl implements CustomerService {
         try {
             customerVOs = getCustomerDAO().listAllCustomerDetails();
         }catch (CustomerException e){
-            e.printStackTrace();
+            log.error(e.getMessage());
         }
         return customerVOs;
     }
@@ -42,7 +42,7 @@ public class CustomerServiceImpl implements CustomerService {
         try {
             customerId = getCustomerDAO().saveCustomer(currentCustomerVO);
         }catch (CustomerException e){
-            e.printStackTrace();
+            log.error(e.getMessage());
         }
         return customerId;
     }
@@ -52,7 +52,7 @@ public class CustomerServiceImpl implements CustomerService {
         try {
             customerVO = getCustomerDAO().getCustomerFromId(id);
         }catch (CustomerException e){
-            e.printStackTrace();
+            log.error(e.getMessage());
         }
         return customerVO;
     }
@@ -61,7 +61,7 @@ public class CustomerServiceImpl implements CustomerService {
         try {
             getCustomerDAO().deleteCustomerFromId(id);
         }catch (CustomerException e){
-            e.printStackTrace();
+            log.error(e.getMessage());
         }
     }
 
@@ -69,7 +69,7 @@ public class CustomerServiceImpl implements CustomerService {
         try {
             getCustomerDAO().updateCustomer(currentCustomerVO);
         }catch (CustomerException e){
-            e.printStackTrace();
+            log.error(e.getMessage());
         }
     }
 
@@ -78,7 +78,7 @@ public class CustomerServiceImpl implements CustomerService {
         try {
             customerVOs = getCustomerDAO().searchCustomer(searchCustomerVO);
         }catch (CustomerException e){
-            e.printStackTrace();
+            log.error(e.getMessage());
         }
         return customerVOs;
     }

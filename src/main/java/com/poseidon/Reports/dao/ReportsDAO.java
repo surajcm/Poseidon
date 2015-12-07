@@ -17,19 +17,19 @@ import java.util.List;
  * Time: 10:38:44 AM
  */
 public interface ReportsDAO {
-    public List<ReportsVO> generateDailyReport() throws ReportsException;
+    List<ReportsVO> generateDailyReport() throws ReportsException;
 
-    public JasperPrint getMakeDetailsChart(JasperReport jasperReport, ReportsVO currentReport) throws  JRException;
+    JasperPrint getMakeDetailsChart(JasperReport jasperReport, ReportsVO currentReport) throws  JRException;
 
-    public JasperPrint getCallReport(JasperReport jasperReport,
+    JasperPrint getCallReport(JasperReport jasperReport,
                                      ReportsVO currentReport,
                                      CompanyTermsVO companyTermsVO) throws JRException;
 
-    public JasperPrint getTransactionsListReport(JasperReport jasperReport, ReportsVO currentReport) throws JRException;
+    JasperPrint getTransactionsListReport(JasperReport jasperReport, ReportsVO currentReport) throws JRException;
 
-    public JasperPrint getModelListReport(JasperReport jasperReport, ReportsVO currentReport) throws  JRException;
+    JasperPrint getModelListReport(JasperReport jasperReport, ReportsVO currentReport) throws  JRException;
 
-    public JasperPrint getErrorReport(JasperReport jasperReport, ReportsVO currentReport)throws  JRException;
+    JasperPrint getErrorReport(JasperReport jasperReport, ReportsVO currentReport)throws  JRException;
 
-    public JasperPrint getInvoiceReport(JasperReport jasperReport, ReportsVO currentReport) throws  JRException;
+    JasperPrint getInvoiceReport(JasperReport jasperReport, ReportsVO currentReport) throws  JRException;
 }

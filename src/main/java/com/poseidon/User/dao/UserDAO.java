@@ -20,7 +20,7 @@ public interface UserDAO {
      * @return User instance from database
      * @throws UserException on error
      */
-    public UserVO logIn(UserVO user) throws UserException;
+    UserVO logIn(UserVO user) throws UserException;
 
     /**
      * getAllUserDetails to list all user details
@@ -28,7 +28,7 @@ public interface UserDAO {
      * @return List of User
      * @throws UserException on error
      */
-    public List<UserVO> getAllUserDetails() throws UserException;
+    List<UserVO> getAllUserDetails() throws UserException;
 
     /**
      * create new user
@@ -36,7 +36,7 @@ public interface UserDAO {
      * @param user user
      * @throws UserException on error
      */
-    public void addNewUser(UserVO user) throws UserException;
+    void addNewUser(UserVO user) throws UserException;
 
     /**
      * getUserDetailsFromID to get the single user details from its id
@@ -45,7 +45,7 @@ public interface UserDAO {
      * @return UserVO
      * @throws UserException on error
      */
-    public UserVO getUserDetailsFromID(Long id) throws UserException;
+    UserVO getUserDetailsFromID(Long id) throws UserException;
 
     /**
      * updates the current user details
@@ -53,7 +53,7 @@ public interface UserDAO {
      * @param user user
      * @throws UserException on error
      */
-    public void updateUser(UserVO user) throws UserException;
+    void updateUser(UserVO user) throws UserException;
 
     /**
      * deletes the selected user
@@ -61,7 +61,7 @@ public interface UserDAO {
      * @param id id of the user
      * @throws UserException on error
      */
-    public void deleteUser(Long id) throws UserException;
+    void deleteUser(Long id) throws UserException;
 
     /**
      * search for a list of users
@@ -70,5 +70,5 @@ public interface UserDAO {
      * @return List of User
      * @throws UserException on error
      */
-    public List<UserVO> searchUserDetails(UserVO searchUser)throws UserException;
+    List<UserVO> searchUserDetails(UserVO searchUser)throws UserException;
 }

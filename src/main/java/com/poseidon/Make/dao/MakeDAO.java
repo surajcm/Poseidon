@@ -12,29 +12,29 @@ import java.util.List;
  * Time: 7:27:17 PM
  */
 public interface MakeDAO {
-    public List<MakeAndModelVO> listAllMakesAndModels() throws MakeException;
+    List<MakeAndModelVO> listAllMakesAndModels() throws MakeException;
 
-    public List<MakeAndModelVO> listAllMakes() throws MakeException;
+    List<MakeAndModelVO> listAllMakes() throws MakeException;
 
-    public void addNewMake(MakeAndModelVO currentMakeVO) throws MakeException;
+    void addNewMake(MakeAndModelVO currentMakeVO) throws MakeException;
 
-    public MakeAndModelVO getMakeFromId(Long makeId) throws MakeException;
+    MakeAndModelVO getMakeFromId(Long makeId) throws MakeException;
 
-    public void deleteMake(Long makeId) throws MakeException;
+    void deleteMake(Long makeId) throws MakeException;
 
-    public MakeAndModelVO getModelFromId(Long modelId) throws MakeException;
+    MakeAndModelVO getModelFromId(Long modelId) throws MakeException;
 
-    public void deleteModel(Long modelId) throws MakeException;
+    void deleteModel(Long modelId) throws MakeException;
 
-    public void updateMake(MakeAndModelVO currentMakeVO) throws MakeException;
+    void updateMake(MakeAndModelVO currentMakeVO) throws MakeException;
 
-    public void addNewModel(MakeAndModelVO currentMakeVO) throws MakeException;
+    void addNewModel(MakeAndModelVO currentMakeVO) throws MakeException;
 
-    public void updateModel(MakeAndModelVO currentMakeVO) throws MakeException;
+    void updateModel(MakeAndModelVO currentMakeVO) throws MakeException;
 
-    public List<MakeAndModelVO> searchMakeVOs(MakeAndModelVO searchMakeVO) throws MakeException;
+    List<MakeAndModelVO> searchMakeVOs(MakeAndModelVO searchMakeVO) throws MakeException;
 
-    public List<MakeVO> fetchMakes() throws MakeException;
+    List<MakeVO> fetchMakes() throws MakeException;
 
-    public List<MakeAndModelVO> getAllModelsFromMakeId(Long id) throws MakeException;
+    List<MakeAndModelVO> getAllModelsFromMakeId(Long id) throws MakeException;
 }

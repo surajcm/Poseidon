@@ -3,8 +3,6 @@ package com.poseidon.CompanyTerms.dao;
 import com.poseidon.CompanyTerms.domain.CompanyTermsVO;
 import com.poseidon.CompanyTerms.exception.CompanyTermsException;
 
-import java.util.List;
-
 /**
  * User: Suraj
  * Date: Jun 2, 2012
@@ -12,7 +10,7 @@ import java.util.List;
  */
 public interface CompanyTermsDAO {
 
-    public CompanyTermsVO listCompanyTerms() throws CompanyTermsException;
+    CompanyTermsVO listCompanyTerms() throws CompanyTermsException;
 
-    public void updateCompanyDetails(CompanyTermsVO companyTermsVO)throws CompanyTermsException;
+    void updateCompanyDetails(CompanyTermsVO companyTermsVO)throws CompanyTermsException;
 }

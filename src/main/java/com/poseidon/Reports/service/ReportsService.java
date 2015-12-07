@@ -14,19 +14,19 @@ import java.util.List;
  * Time: 10:39:48 AM
  */
 public interface ReportsService {
-    public List<ReportsVO> generateDailyReport();
+    List<ReportsVO> generateDailyReport();
 
-    public JasperPrint getMakeDetailsChart(JasperReport jasperReport, ReportsVO currentReport);
+    JasperPrint getMakeDetailsChart(JasperReport jasperReport, ReportsVO currentReport);
 
-    public JasperPrint getCallReport(JasperReport jasperReport,
+    JasperPrint getCallReport(JasperReport jasperReport,
                                      ReportsVO currentReport,
                                      CompanyTermsVO companyTermsVO);
 
-    public JasperPrint getTransactionsListReport(JasperReport jasperReport, ReportsVO currentReport);
+    JasperPrint getTransactionsListReport(JasperReport jasperReport, ReportsVO currentReport);
 
-    public JasperPrint getModelListReport(JasperReport jasperReport, ReportsVO currentReport);
+    JasperPrint getModelListReport(JasperReport jasperReport, ReportsVO currentReport);
 
-    public JasperPrint getErrorReport(JasperReport jasperReport, ReportsVO currentReport);
+    JasperPrint getErrorReport(JasperReport jasperReport, ReportsVO currentReport);
 
-    public JasperPrint getInvoiceReport(JasperReport jasperReport, ReportsVO currentReport);
+    JasperPrint getInvoiceReport(JasperReport jasperReport, ReportsVO currentReport);
 }

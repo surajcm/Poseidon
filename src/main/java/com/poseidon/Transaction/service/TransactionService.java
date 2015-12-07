@@ -13,19 +13,19 @@ import java.util.List;
  */
 public interface TransactionService {
 
-    public List<TransactionVO> listTodaysTransactions() throws TransactionException;
+    List<TransactionVO> listTodaysTransactions() throws TransactionException;
 
-    public String saveTransaction(TransactionVO currentTransaction) throws TransactionException;
+    String saveTransaction(TransactionVO currentTransaction) throws TransactionException;
 
-    public List<TransactionVO> searchTransactions(TransactionVO searchTransaction) throws  TransactionException;
+    List<TransactionVO> searchTransactions(TransactionVO searchTransaction) throws  TransactionException;
 
-    public TransactionVO fetchTransactionFromId(Long id) throws  TransactionException;
+    TransactionVO fetchTransactionFromId(Long id) throws  TransactionException;
 
-    public TransactionReportVO fetchTransactionFromTag(String tagNo) throws  TransactionException;
+    TransactionReportVO fetchTransactionFromTag(String tagNo) throws  TransactionException;
 
-    public void updateTransaction(TransactionVO currentTransaction) throws  TransactionException;
+    void updateTransaction(TransactionVO currentTransaction) throws  TransactionException;
 
-    public void deleteTransaction(Long id)throws  TransactionException;
+    void deleteTransaction(Long id)throws  TransactionException;
 
-    public void updateTransactionStatus(Long id, String status) throws TransactionException;
+    void updateTransactionStatus(Long id, String status) throws TransactionException;
 }

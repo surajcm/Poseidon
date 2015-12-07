@@ -11,15 +11,15 @@ import java.util.List;
  * Time: 10:46:52 PM
  */
 public interface CustomerService {
-    public List<CustomerVO> listAllCustomerDetails() throws CustomerException;
+    List<CustomerVO> listAllCustomerDetails() throws CustomerException;
 
-    public long saveCustomer(CustomerVO currentCustomerVO) throws CustomerException;
+    long saveCustomer(CustomerVO currentCustomerVO) throws CustomerException;
 
-    public CustomerVO getCustomerFromId(Long id) throws CustomerException;
+    CustomerVO getCustomerFromId(Long id) throws CustomerException;
 
-    public void deleteCustomerFromId(Long id)throws CustomerException;
+    void deleteCustomerFromId(Long id)throws CustomerException;
 
-    public void updateCustomer(CustomerVO currentCustomerVO)throws CustomerException;
+    void updateCustomer(CustomerVO currentCustomerVO)throws CustomerException;
 
-    public List<CustomerVO> searchCustomer(CustomerVO searchCustomerVO)throws CustomerException;
+    List<CustomerVO> searchCustomer(CustomerVO searchCustomerVO)throws CustomerException;
 }
