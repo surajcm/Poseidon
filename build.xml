@@ -1,7 +1,7 @@
 <?xml version="1.0" ?> 
 <project name="Poseidon" default="war">
     <property name="reports.tests" location="build/test/reports" />
-    <property name="project.class.path" location="WebContent/WEB-INF/lib" />
+    <property name="project.class.path" location="WebContent/WEB-INF/lib/" />
     <property name="src.test" location="src/test" />
     <property name="build.tests" location="build/classes" />
     <property file="build.properties"/>
@@ -72,6 +72,7 @@
         <!--delete dir="${jboss.log}" /-->
         <delete dir="${jboss.tmp}" />
     </target>
+
     <target name="test" >
         <mkdir dir="${reports.tests}"/>
         <junit printsummary="yes" haltonfailure="yes">
