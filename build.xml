@@ -1,8 +1,8 @@
 <?xml version="1.0" ?> 
-<project name="Poseidon" default="war">
+<project name="Poseidon" default="war" basedir=".">
     <property name="reports.tests" location="build/test/reports" />
     <property name="project.class.path" location="WebContent/WEB-INF/lib/" />
-    <property name="src.test" location="src/test" />
+    <property name="src.test" location="src/test/java" />
     <property name="build.tests" location="build/classes" />
     <property file="build.properties"/>
 
@@ -18,7 +18,7 @@
 	</target>
 	
 	<target name="compile" depends="init" >
-		<javac target="1.6" destdir="build/classes" debug="true" srcdir="src/main">
+		<javac target="1.6" destdir="build/classes" debug="true" srcdir="src">
 			<classpath refid="compile.classpath"/>
 		</javac>
         <!-- copy the resources bundle too -->
@@ -35,7 +35,7 @@
 		</war>
 	</target>
 	
-	<target name="clean">
+	<target name="clean" description="clean up">
 		<delete dir="dist" />
 		<delete dir="build" />
 	</target>
@@ -73,9 +73,9 @@
         <delete dir="${jboss.tmp}" />
     </target>
 
-    <target name="test" >
+    <target name="test" depends="compile">
         <mkdir dir="${reports.tests}"/>
-        <junit printsummary="yes" haltonfailure="yes">
+        <junit printsummary="yes" haltonfailure="no">
             <classpath>
                 <pathelement location="${project.class.path}"/>
                 <pathelement location="${build.tests}"/>
@@ -90,4 +90,5 @@
             </batchtest>
         </junit>
     </target>
+
 </project>
