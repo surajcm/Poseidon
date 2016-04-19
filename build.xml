@@ -73,7 +73,7 @@
         <delete dir="${jboss.tmp}" />
     </target>
 
-    <target name="test" depends="compile">
+    <target name="test1" depends="compile">
         <mkdir dir="${reports.tests}"/>
         <junit printsummary="yes" haltonfailure="no">
             <classpath>
