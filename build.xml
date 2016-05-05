@@ -35,11 +35,6 @@
 		</war>
 	</target>
 	
-	<target name="clean" description="clean up">
-		<delete dir="dist" />
-		<delete dir="build" />
-	</target>
-
     <target name="copy_war_to_jboss">
         <echo message="The directory where jboss installed is  ${jboss.home} "/>
         <copy todir="${jboss.home}/deploy">
@@ -71,24 +66,6 @@
         </java>
         <!--delete dir="${jboss.log}" /-->
         <delete dir="${jboss.tmp}" />
-    </target>
-
-    <target name="test1" depends="compile">
-        <mkdir dir="${reports.tests}"/>
-        <junit printsummary="yes" haltonfailure="no">
-            <classpath>
-                <pathelement location="${project.class.path}"/>
-                <pathelement location="${build.tests}"/>
-                <pathelement path="${java.class.path}"/>
-            </classpath>
-            <formatter type="plain"/>
-            <formatter type="xml"/>
-            <batchtest fork="yes" todir="${reports.tests}">
-                <fileset dir="${src.test}">
-                    <include name="**/*Test*.java"/>
-                </fileset>
-            </batchtest>
-        </junit>
     </target>
 
 </project>
