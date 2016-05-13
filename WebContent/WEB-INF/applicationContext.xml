@@ -4,6 +4,8 @@
        xsi:schemaLocation="http://www.springframework.org/schema/beans
        http://www.springframework.org/schema/beans/spring-beans.xsd">
 
+    <import resource="db-hsqldb-config.xml"/>
+
     <bean id="userDelegate" class="com.poseidon.User.delegate.UserDelegate">
         <property name="userService" ref="userService"/>
     </bean>
@@ -87,11 +89,33 @@
         <property name="dataSource" ref="dataSource" />
     </bean>
 
-    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+    <!--<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <property name="driverClassName" value="com.mysql.jdbc.Driver" />
         <property name="username" value="testuser"></property>
         <property name="password" value="test123"></property>
         <property name="url" value="jdbc:mysql://localhost:3306/poseidon">
+        </property>
+    </bean>-->
+    <!-- embedded db -->
+    <!--<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="org.hsqldb.jdbc.JDBCDriver"/>
+        <property name="url" value="jdbc:hsqldb:mem:poseidon"/>
+        <property name="username" value="sa"/>
+        <property name="password" value=""/>
+    </bean>-->
+    <bean depends-on="dataSource"
+          class="org.springframework.beans.factory.config.MethodInvokingBean">
+        <property name="targetClass" value="org.hsqldb.util.DatabaseManagerSwing" />
+        <property name="targetMethod" value="main" />
+        <property name="arguments">
+            <list>
+                <value>--url</value>
+                <value>jdbc:hsqldb:mem:dataSource</value>
+                <value>--user</value>
+                <value>sa</value>
+                <value>--password</value>
+                <value></value>
+            </list>
         </property>
     </bean>
     <!-- For cloud, use the below data source -->
@@ -102,10 +126,10 @@
         <property name="url" value="jdbc:cloudbees://poseidon">
         </property>
     </bean>-->
-
     <!-- Transaction Manager For a Single JDBC DataSource-->
     <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
-        <property name="dataSource"> <ref local="dataSource" /></property>
+        <property name="dataSource" ref="dataSource" />
     </bean>
+
 
 </beans>

@@ -4,6 +4,7 @@
 
 <beans>
 
+
 	<bean name="handlerMapping" class="org.springframework.web.servlet.handler.BeanNameUrlHandlerMapping">
     </bean>
 

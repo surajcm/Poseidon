@@ -16,9 +16,9 @@
 		<mkdir dir="build/classes"/>
 		<mkdir dir="dist" />
 	</target>
-	
+
 	<target name="compile" depends="init" >
-		<javac target="1.6" destdir="build/classes" debug="true" srcdir="src">
+		<javac target="1.6" source="1.6" destdir="build/classes" debug="true" srcdir="src">
 			<classpath refid="compile.classpath"/>
 		</javac>
         <!-- copy the resources bundle too -->
