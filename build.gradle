@@ -2,7 +2,6 @@ apply plugin: 'java'
 apply plugin: 'eclipse'
 apply plugin: 'idea'
 apply plugin: 'war'
-//ant.importBuild 'build.xml'
 
 sourceCompatibility = 1.6
 targetCompatibility = 1.6
@@ -32,6 +31,7 @@ war {
 }
 
 sourceSets {
+    println main.resources.srcDirs
     main {
         resources {
             srcDir 'src/main/resources'
