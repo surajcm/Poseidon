@@ -6,11 +6,10 @@ import com.poseidon.User.exception.UserException;
 import com.poseidon.User.web.form.UserForm;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.multiaction.MultiActionController;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -20,7 +19,8 @@ import java.util.List;
  *         Date: Nov 27, 2010
  *         Time: 2:38:15 PM
  */
-public class UserController extends MultiActionController {
+@Controller
+public class UserController {
 
     /**
      * user Delegate instance
@@ -55,13 +55,11 @@ public class UserController extends MultiActionController {
     /**
      * Used in automatic redirect to Log in screen
      *
-     * @param request  HttpServletRequest instance
-     * @param response HttpServletResponse instance
      * @return ModelAndView to render
      */
     @SuppressWarnings("unused")
-    public ModelAndView Index(HttpServletRequest request,
-                              HttpServletResponse response) {
+    @RequestMapping(value = "/user/Index.htm", method = RequestMethod.GET)
+    public ModelAndView Index() {
         log.info(" Inside Index method of User Controller ");
         UserForm userForm = new UserForm();
         UserVO userVO = new UserVO();
@@ -72,14 +70,11 @@ public class UserController extends MultiActionController {
     /**
      * controller for first log in action
      *
-     * @param request  HttpServletRequest instance
-     * @param response HttpServletResponse instance
-     * @param userForm user default spring settings
      * @return ModelAndView to render
      */
     @SuppressWarnings("unused")
-    public ModelAndView LogIn(HttpServletRequest request,
-                              HttpServletResponse response, UserForm userForm) {
+    @RequestMapping(value = "/user/LogIn.htm", method = RequestMethod.POST)
+    public ModelAndView LogIn(UserForm userForm) {
         log.info(" Inside LogIn method of User Controller ");
         UserVO realUser;
         try {
@@ -114,7 +109,7 @@ public class UserController extends MultiActionController {
             }*/
              userForm.setLoggedInUser(realUser.getName());
              userForm.setLoggedInRole(realUser.getRole());
-             return ToHome(request, response, userForm);
+             return ToHome(userForm);
             
         } else {
             userForm.setMessage(" An Unknown Error has been occurred !!");
@@ -125,14 +120,12 @@ public class UserController extends MultiActionController {
     /**
      * Used to list all users (can be done only by admin user)
      *
-     * @param request  HttpServletRequest instance
-     * @param response HttpServletResponse instance
      * @param userForm userForm instance
      * @return ModelAndView to render
      */
     @SuppressWarnings("unused")
-    public ModelAndView ListAll(HttpServletRequest request,
-                                HttpServletResponse response, UserForm userForm) {
+    @RequestMapping(value = "user/ListAll.htm", method = RequestMethod.POST)
+    public ModelAndView ListAll(UserForm userForm) {
         log.info(" Inside ListAll method of User Controller ");
         List<UserVO> userList = null;
         try {
@@ -181,14 +174,12 @@ public class UserController extends MultiActionController {
     /**
      * Screen to add a new user
      *
-     * @param request  HttpServletRequest instance
-     * @param response HttpServletResponse instance
      * @param userForm userForm instance
      * @return ModelAndView to render
      */
     @SuppressWarnings("unused")
-    public ModelAndView AddUser(HttpServletRequest request,
-                                HttpServletResponse response, UserForm userForm) {
+    @RequestMapping(value = "user/AddUser.htm", method = RequestMethod.POST)
+    public ModelAndView AddUser(UserForm userForm) {
         log.info(" Inside AddUser method of User Controller ");
         userForm.setLoggedInUser(userForm.getLoggedInUser());
         userForm.setLoggedInRole(userForm.getLoggedInRole());
@@ -200,14 +191,12 @@ public class UserController extends MultiActionController {
     /**
      * add a new user to database
      *
-     * @param request  HttpServletRequest instance
-     * @param response HttpServletResponse instance
      * @param userForm user instance
      * @return ModelAndView to render
      */
     @SuppressWarnings("unused")
-    public ModelAndView SaveUser(HttpServletRequest request,
-                                 HttpServletResponse response, UserForm userForm) {
+    @RequestMapping(value = "user/SaveUser.htm", method = RequestMethod.POST)
+    public ModelAndView SaveUser(UserForm userForm) {
         log.info(" Inside SaveUser method of User Controller ");
         log.info(" User instance to add to database " + userForm.toString());
         try {
@@ -271,14 +260,12 @@ public class UserController extends MultiActionController {
     /**
      * Screen to add a new user
      *
-     * @param request  HttpServletRequest instance
-     * @param response HttpServletResponse instance
      * @param userForm userForm instance
      * @return ModelAndView to render
      */
     @SuppressWarnings("unused")
-    public ModelAndView EditUser(HttpServletRequest request,
-                                 HttpServletResponse response, UserForm userForm) {
+    @RequestMapping(value = "user/EditUser.htm", method = RequestMethod.POST)
+    public ModelAndView EditUser(UserForm userForm) {
         log.info(" Inside EditUser method of User Controller ");
         log.info(" user is " + userForm.toString());
         UserVO userVO = null;
@@ -312,14 +299,12 @@ public class UserController extends MultiActionController {
     /**
      * updates the user
      *
-     * @param request  HttpServletRequest instance
-     * @param response HttpServletResponse instance
      * @param userForm user instance
      * @return ModelAndView to render
      */
     @SuppressWarnings("unused")
-    public ModelAndView UpdateUser(HttpServletRequest request,
-                                   HttpServletResponse response, UserForm userForm) {
+    @RequestMapping(value = "user/UpdateUser.htm", method = RequestMethod.POST)
+    public ModelAndView UpdateUser(UserForm userForm) {
         log.info(" Inside UpdateUser method of User Controller ");
         try {
             userForm.getUser().setLastModifiedBy(userForm.getLoggedInUser());
@@ -346,20 +331,18 @@ public class UserController extends MultiActionController {
             log.info(" An Unknown Error has been occurred !!");
 
         }
-        return ListAll(request, response, userForm);
+        return ListAll(userForm);
     }
 
     /**
      * delete the user
      *
-     * @param request  HttpServletRequest instance
-     * @param response HttpServletResponse instance
      * @param userForm userForm instance
      * @return ModelAndView to render
      */
     @SuppressWarnings("unused")
-    public ModelAndView DeleteUser(HttpServletRequest request,
-                                   HttpServletResponse response, UserForm userForm) {
+    @RequestMapping(value = "user/DeleteUser.htm", method = RequestMethod.POST)
+    public ModelAndView DeleteUser(UserForm userForm) {
         log.info(" Inside DeleteUser method of User Controller ");
         log.info(" user is " + userForm.toString());
         try {
@@ -385,20 +368,17 @@ public class UserController extends MultiActionController {
 
         }
 
-        return ListAll(request, response, userForm);
+        return ListAll(userForm);
     }
 
     /**
      * Screen to home
      *
-     * @param request  HttpServletRequest instance
-     * @param response HttpServletResponse instance
      * @param userForm userForm instance
      * @return ModelAndView to render
      */
     @SuppressWarnings("unused")
-    public ModelAndView ToHome(HttpServletRequest request,
-                               HttpServletResponse response, UserForm userForm) {
+    public ModelAndView ToHome(UserForm userForm) {
         log.info(" Inside ToHome method of User Controller ");
         userForm.setLoggedInUser(userForm.getLoggedInUser());
         userForm.setLoggedInRole(userForm.getLoggedInRole());
@@ -408,32 +388,25 @@ public class UserController extends MultiActionController {
     /**
      * Screen to home
      *
-     * @param request  HttpServletRequest instance
-     * @param response HttpServletResponse instance
      * @param userForm userForm instance
      * @return ModelAndView to render
      */
     @SuppressWarnings("unused")
-    public ModelAndView LogMeOut(HttpServletRequest request,
-                                 HttpServletResponse response,
-                                 UserForm userForm) {
+    @RequestMapping(value = "user/LogMeOut.htm", method = RequestMethod.POST)
+    public ModelAndView LogMeOut(UserForm userForm) {
         log.info(" Inside LogMeOut method of User Controller ");
-
         return new ModelAndView("user/logIn", "userForm", new UserForm());
     }
 
     /**
      * Screen to search for a user
      *
-     * @param request  HttpServletRequest instance
-     * @param response HttpServletResponse instance
      * @param userForm userForm instance
      * @return ModelAndView to render
      */
     @SuppressWarnings("unused")
-    public ModelAndView SearchUser(HttpServletRequest request,
-                                   HttpServletResponse response,
-                                   UserForm userForm) {
+    @RequestMapping(value = "user/SearchUser.htm", method = RequestMethod.POST)
+    public ModelAndView SearchUser(UserForm userForm) {
         log.info(" Inside SearchUser method of User Controller ");
         log.info(" User Details are " + userForm.getSearchUser().toString());
         List<UserVO> userList = null;
