@@ -378,6 +378,7 @@ public class UserController {
      * @return ModelAndView to render
      */
     @SuppressWarnings("unused")
+    @RequestMapping(value = "user/ToHome.htm", method = RequestMethod.POST)
     public ModelAndView ToHome(UserForm userForm) {
         log.info(" Inside ToHome method of User Controller ");
         userForm.setLoggedInUser(userForm.getLoggedInUser());

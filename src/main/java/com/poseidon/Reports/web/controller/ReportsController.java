@@ -151,7 +151,7 @@ public class ReportsController extends MultiActionController {
             if (reportsForm.getCurrentReport() == null) {
                 reportsForm.setCurrentReport(new ReportsVO());
             }
-            logger.info("Locale-->" + httpServletRequest.getLocale());
+            log.info("Locale-->" + httpServletRequest.getLocale());
             if (reportsForm.getCurrentReport() != null) {
                 reportsForm.getCurrentReport().setLocale(Locale.US);
                 String reportFileName = "makeListReport";
@@ -163,7 +163,7 @@ public class ReportsController extends MultiActionController {
 
                 jasperPrint = getReportsDelegate().getMakeDetailsChart(jasperReport,
                         reportsForm.getCurrentReport());
-                logger.info(jasperPrint.toString());
+                log.info(jasperPrint.toString());
                 getJasperReport(httpServletRequest, httpServletResponse, jasperPrint, reportFileName, reportType);
             }
         } catch (Exception e) {
@@ -204,7 +204,7 @@ public class ReportsController extends MultiActionController {
             jasperReport = JasperCompileManager.compileReport(path + '/' + reportFileName + ".jrxml");
 
             jasperPrint = getReportsDelegate().getCallReport(jasperReport, reportsForm.getCurrentReport());
-            logger.info(jasperPrint.toString());
+            log.info(jasperPrint.toString());
             getJasperReport(httpServletRequest, httpServletResponse, jasperPrint, reportFileName, reportType);
         } catch (Exception e) {
             e.printStackTrace();
@@ -247,7 +247,7 @@ public class ReportsController extends MultiActionController {
             jasperPrint = getReportsDelegate().getTransactionsListReport(jasperReport,
                     reportsForm.getCurrentReport(),
                     reportsForm.getSearchTransaction());
-            logger.info(jasperPrint.toString());
+            log.info(jasperPrint.toString());
             getJasperReport(httpServletRequest, httpServletResponse, jasperPrint, reportFileName, reportType);
         } catch (Exception e) {
             e.printStackTrace();
@@ -287,7 +287,7 @@ public class ReportsController extends MultiActionController {
             jasperPrint = getReportsDelegate().getModelListReport(jasperReport,
                     reportsForm.getCurrentReport(),
                     reportsForm.getSearchMakeAndModelVO());
-            logger.info(jasperPrint.toString());
+            log.info(jasperPrint.toString());
             getJasperReport(httpServletRequest, httpServletResponse, jasperPrint, reportFileName, reportType);
         } catch (Exception e) {
             e.printStackTrace();
@@ -323,7 +323,7 @@ public class ReportsController extends MultiActionController {
             log.info(" going to compile report");
             jasperReport = JasperCompileManager.compileReport(path + '/' + reportFileName + ".jrxml");
             jasperPrint = getReportsDelegate().getErrorReport(jasperReport, reportsForm.getCurrentReport());
-            logger.info(jasperPrint.toString());
+            log.info(jasperPrint.toString());
             getJasperReport(httpServletRequest, httpServletResponse, jasperPrint, reportFileName, reportType);
         } catch (Exception e) {
             e.printStackTrace();
@@ -359,7 +359,7 @@ public class ReportsController extends MultiActionController {
             log.info(" going to compile report");
             jasperReport = JasperCompileManager.compileReport(path + '/' + reportFileName + ".jrxml");
             jasperPrint = getReportsDelegate().getInvoiceReport(jasperReport, reportsForm.getCurrentReport());
-            logger.info(jasperPrint.toString());
+            log.info(jasperPrint.toString());
             getJasperReport(httpServletRequest, httpServletResponse, jasperPrint, reportFileName, reportType);
         } catch (Exception e) {
             e.printStackTrace();
@@ -385,10 +385,10 @@ public class ReportsController extends MultiActionController {
         byte[] output;
         ServletOutputStream outputStream;
         try {
-            logger.info("In getJasperReport method");
+            log.info("In getJasperReport method");
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             if ("EXCEL".equalsIgnoreCase(reportType)) {
-                logger.info("ExcelReport -- > reportFileName ---> " + reportFileName + reportType);
+                log.info("ExcelReport -- > reportFileName ---> " + reportFileName + reportType);
                 httpServletResponse.setContentType("application/vnd.ms-excel");
                 httpServletResponse.setHeader("Content-Disposition",
                         "attachment;filename=" + reportFileName + ";");
@@ -416,7 +416,7 @@ public class ReportsController extends MultiActionController {
                 outputStream.flush();
                 outputStream.close();
             } else if ("PDF".equalsIgnoreCase(reportType)) {
-                logger.info("PDF -- > reportFileName ---> " + reportFileName + reportType);
+                log.info("PDF -- > reportFileName ---> " + reportFileName + reportType);
                 ServletOutputStream op = httpServletResponse.getOutputStream();
                 String mimetype = httpServletResponse.getContentType();
                 httpServletResponse.setContentType((mimetype != null) ? mimetype : "application/pdf");
@@ -435,7 +435,7 @@ public class ReportsController extends MultiActionController {
                 outputStream.flush();
                 outputStream.close();
             } else if ("WORD".equalsIgnoreCase(reportType)) {
-                logger.info("WORD -- > reportFileName ---> " + reportFileName + reportType);
+                log.info("WORD -- > reportFileName ---> " + reportFileName + reportType);
                 ByteArrayOutputStream docxReport = new ByteArrayOutputStream();
                 JRDocxExporter exporter = new JRDocxExporter();
                 exporter.setParameter(JRDocxExporterParameter.JASPER_PRINT, jasperPrint);

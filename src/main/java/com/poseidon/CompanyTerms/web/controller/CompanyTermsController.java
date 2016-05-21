@@ -1,6 +1,8 @@
 package com.poseidon.CompanyTerms.web.controller;
 
-import org.springframework.web.servlet.mvc.multiaction.MultiActionController;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -8,8 +10,6 @@ import com.poseidon.CompanyTerms.delegate.CompanyTermsDelegate;
 import com.poseidon.CompanyTerms.web.form.CompanyTermsForm;
 import com.poseidon.CompanyTerms.domain.CompanyTermsVO;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
 
 /**
@@ -17,7 +17,8 @@ import java.util.Date;
  * Date: Jun 2, 2012
  * Time: 10:44:08 PM
  */
-public class CompanyTermsController extends MultiActionController {
+@Controller
+public class CompanyTermsController {
 
     /**
      * CustomerDelegate instance
@@ -37,8 +38,8 @@ public class CompanyTermsController extends MultiActionController {
         this.companyTermsDelegate = companyTermsDelegate;
     }
 
-    public ModelAndView List(HttpServletRequest request,
-                             HttpServletResponse response, CompanyTermsForm companyTermsForm) {
+    @RequestMapping(value = "/company/List.htm", method = RequestMethod.POST)
+    public ModelAndView List(CompanyTermsForm companyTermsForm) {
         log.info(" Inside List method of CompanyTermsController ");
         log.info(" form details are " + companyTermsForm);
 
@@ -59,8 +60,8 @@ public class CompanyTermsController extends MultiActionController {
         return new ModelAndView("company/TermsList", "companyTermsForm", companyTermsForm);
     }
 
-    public ModelAndView updateCompanyDetails(HttpServletRequest request,
-                                  HttpServletResponse response, CompanyTermsForm companyTermsForm) {
+    @RequestMapping(value = "/company/updateCompanyDetails.htm", method = RequestMethod.POST)
+    public ModelAndView updateCompanyDetails(CompanyTermsForm companyTermsForm) {
         log.info(" Inside editTerms method of CompanyTermsController ");
         log.info(" form details are " + companyTermsForm);
 

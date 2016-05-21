@@ -1,13 +1,11 @@
 package com.poseidon.Transaction.web.controller;
 
-import com.poseidon.Customer.web.controller.CustomerController;
-import com.poseidon.Customer.web.form.CustomerForm;
-import com.poseidon.Invoice.domain.InvoiceVO;
-import com.poseidon.Invoice.web.form.InvoiceForm;
 import com.poseidon.Make.domain.MakeVO;
 import com.poseidon.Make.exception.MakeException;
 import com.poseidon.Transaction.exception.TransactionException;
-import org.springframework.web.servlet.mvc.multiaction.MultiActionController;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -33,7 +31,8 @@ import java.util.Date;
  * Date: Jun 2, 2012
  * Time: 3:33:20 PM
  */
-public class TransactionController extends MultiActionController {
+@Controller
+public class TransactionController {
 
     private TransactionDelegate transactionDelegate;
 
@@ -69,8 +68,8 @@ public class TransactionController extends MultiActionController {
         this.customerDelegate = customerDelegate;
     }
 
-    public ModelAndView List(HttpServletRequest request,
-                             HttpServletResponse response, TransactionForm transactionForm) {
+    @RequestMapping(value = "/txs/List.htm", method = RequestMethod.POST)
+    public ModelAndView List(TransactionForm transactionForm) {
         log.info(" Inside List method of TransactionController ");
         log.info(" form details are" + transactionForm);
         //TransactionForm transactionForm = new TransactionForm();
@@ -117,8 +116,8 @@ public class TransactionController extends MultiActionController {
         return statusList;
     }
 
-    public ModelAndView AddTxn(HttpServletRequest request,
-                               HttpServletResponse response, TransactionForm transactionForm) {
+    @RequestMapping(value = "/txs/AddTxn.htm", method = RequestMethod.POST)
+    public ModelAndView AddTxn(TransactionForm transactionForm) {
         log.info(" Inside AddTxn method of TransactionController ");
         transactionForm.setLoggedInUser(transactionForm.getLoggedInUser());
         transactionForm.setLoggedInRole(transactionForm.getLoggedInRole());
@@ -135,7 +134,7 @@ public class TransactionController extends MultiActionController {
             }
             transactionForm.setMakeVOs(makeVOs);
             if (makeVOs.size() > 0) {
-                List<MakeAndModelVO> makeAndModelVOs = null;
+                List<MakeAndModelVO> makeAndModelVOs;
                 try {
                     log.info("The selected make id is " + makeVOs.get(0).getId());
                     makeAndModelVOs = getMakeDelegate().getAllModelsFromMakeId(makeVOs.get(0).getId());
@@ -155,8 +154,8 @@ public class TransactionController extends MultiActionController {
         return new ModelAndView("txs/TxnAdd", "transactionForm", transactionForm);
     }
 
-    public ModelAndView SaveTxn(HttpServletRequest request,
-                                HttpServletResponse response, TransactionForm transactionForm) {
+    @RequestMapping(value = "/txs/SaveTxn.htm", method = RequestMethod.POST)
+    public ModelAndView SaveTxn(TransactionForm transactionForm) {
         log.info(" Inside SaveTxn method of TransactionController ");
         log.info(" form details are " + transactionForm);
         TransactionVO transactionVO = transactionForm.getCurrentTransaction();
@@ -209,9 +208,10 @@ public class TransactionController extends MultiActionController {
         transactionForm.setLoggedInUser(transactionForm.getLoggedInUser());
         transactionForm.setLoggedInRole(transactionForm.getLoggedInRole());
         transactionForm.setCurrentTransaction(new TransactionVO());
-        return List(request, response, transactionForm);
+        return List(transactionForm);
     }
 
+    @RequestMapping(value = "/txs/UpdateModelAjax.htm", method = RequestMethod.GET)
     public void UpdateModelAjax(HttpServletRequest httpServletRequest,
                                 HttpServletResponse httpServletResponse) {
         StringBuffer responseString = new StringBuffer();
@@ -246,8 +246,8 @@ public class TransactionController extends MultiActionController {
         //return abc;
     }
 
-    public ModelAndView SearchTxn(HttpServletRequest request,
-                                  HttpServletResponse response, TransactionForm transactionForm) {
+    @RequestMapping(value = "/txs/SearchTxn.htm", method = RequestMethod.POST)
+    public ModelAndView SearchTxn(TransactionForm transactionForm) {
         log.info(" Inside SearchTxn method of TransactionController ");
         log.info(" form details are " + transactionForm);
         log.info(" form search details are " + transactionForm.getSearchTransaction());
@@ -300,8 +300,8 @@ public class TransactionController extends MultiActionController {
         return new ModelAndView("txs/TransactionList", "transactionForm", transactionForm);
     }
 
-    public ModelAndView EditTxn(HttpServletRequest request,
-                                HttpServletResponse response, TransactionForm transactionForm) {
+    @RequestMapping(value = "/txs/EditTxn.htm", method = RequestMethod.POST)
+    public ModelAndView EditTxn(TransactionForm transactionForm) {
         log.info(" EditTxn method of TransactionController ");
 
         log.info(" transactionForm is " + transactionForm.toString());
@@ -361,8 +361,8 @@ public class TransactionController extends MultiActionController {
         return new ModelAndView("txs/TxnEdit", "transactionForm", transactionForm);
     }
 
-    public ModelAndView updateTxn(HttpServletRequest request,
-                                  HttpServletResponse response, TransactionForm transactionForm) {
+    @RequestMapping(value = "/txs/updateTxn.htm", method = RequestMethod.POST)
+    public ModelAndView updateTxn(TransactionForm transactionForm) {
         log.info(" updateTxn method of TransactionController ");
         log.info("TransactionForm values are " + transactionForm);
         transactionForm.getCurrentTransaction().setModifiedBy(transactionForm.getLoggedInUser());
@@ -420,8 +420,8 @@ public class TransactionController extends MultiActionController {
         return new ModelAndView("txs/TransactionList", "transactionForm", transactionForm);
     }
 
-    public ModelAndView DeleteTxn(HttpServletRequest request,
-                                  HttpServletResponse response, TransactionForm transactionForm) {
+    @RequestMapping(value = "/txs/DeleteTxn.htm", method = RequestMethod.POST)
+    public ModelAndView DeleteTxn(TransactionForm transactionForm) {
         log.info(" DeleteTxn method of TransactionController ");
         log.info("TransactionForm values are " + transactionForm);
         try {

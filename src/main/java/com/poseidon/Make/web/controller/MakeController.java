@@ -1,6 +1,8 @@
 package com.poseidon.Make.web.controller;
 
-import org.springframework.web.servlet.mvc.multiaction.MultiActionController;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -10,8 +12,6 @@ import com.poseidon.Make.domain.MakeAndModelVO;
 import com.poseidon.Make.domain.MakeVO;
 import com.poseidon.Make.exception.MakeException;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.util.List;
 import java.util.Date;
 
@@ -20,7 +20,8 @@ import java.util.Date;
  * Date: Jun 2, 2012
  * Time: 7:24:14 PM
  */
-public class MakeController extends MultiActionController {
+@Controller
+public class MakeController {
     /**
      * MakeDelegate instance
      */
@@ -39,8 +40,8 @@ public class MakeController extends MultiActionController {
         this.makeDelegate = makeDelegate;
     }
 
-    public ModelAndView ModelList(HttpServletRequest request,
-                             HttpServletResponse response, MakeForm makeForm) {
+    @RequestMapping(value = "/make/ModelList.htm", method = RequestMethod.POST)
+    public ModelAndView ModelList(MakeForm makeForm) {
         log.debug(" Inside List method of MakeController ");
         log.debug(" form details are " + makeForm);
 
@@ -76,8 +77,8 @@ public class MakeController extends MultiActionController {
         return new ModelAndView("make/ModelList", "makeForm", makeForm);
     }
 
-    public ModelAndView MakeList(HttpServletRequest request,
-                                 HttpServletResponse response, MakeForm makeForm) {
+    @RequestMapping(value = "/make/MakeList.htm", method = RequestMethod.POST)
+    public ModelAndView MakeList(MakeForm makeForm) {
         log.debug(" listMake List method of MakeController ");
         List<MakeAndModelVO> makeAndModelVOs = null;
         try {
@@ -113,8 +114,8 @@ public class MakeController extends MultiActionController {
 
     }
 
-    public ModelAndView addMake(HttpServletRequest request,
-                                HttpServletResponse response, MakeForm makeForm) {
+    @RequestMapping(value = "/make/addMake.htm", method = RequestMethod.POST)
+    public ModelAndView addMake(MakeForm makeForm) {
         log.debug(" listMake addMake method of MakeController ");
         makeForm.setLoggedInUser(makeForm.getLoggedInUser());
         makeForm.setLoggedInRole(makeForm.getLoggedInRole());
@@ -122,8 +123,8 @@ public class MakeController extends MultiActionController {
         return new ModelAndView("make/MakeAdd", "makeForm", makeForm);
     }
 
-    public ModelAndView editMake(HttpServletRequest request,
-                                 HttpServletResponse response, MakeForm makeForm) {
+    @RequestMapping(value = "/make/editMake.htm", method = RequestMethod.POST)
+    public ModelAndView editMake(MakeForm makeForm) {
         log.debug(" listMake editMake method of MakeController ");
         log.debug(" makeForm is " + makeForm.toString());
         MakeAndModelVO makeVO = null;
@@ -156,8 +157,8 @@ public class MakeController extends MultiActionController {
         return new ModelAndView("make/MakeEdit", "makeForm", makeForm);
     }
 
-    public ModelAndView deleteMake(HttpServletRequest request,
-                                   HttpServletResponse response, MakeForm makeForm) {
+    @RequestMapping(value = "/make/deleteMake.htm", method = RequestMethod.POST)
+    public ModelAndView deleteMake(MakeForm makeForm) {
         log.debug("  deleteMake method of MakeController ");
         log.debug(" makeForm is " + makeForm.toString());
         try {
@@ -180,11 +181,11 @@ public class MakeController extends MultiActionController {
         makeForm.setLoggedInUser(makeForm.getLoggedInUser());
         makeForm.setLoggedInRole(makeForm.getLoggedInRole());
         makeForm.setCurrentMakeAndModeVO(new MakeAndModelVO());
-        return MakeList(request,response,makeForm);
+        return MakeList(makeForm);
     }
 
-    public ModelAndView addModel(HttpServletRequest request,
-                                 HttpServletResponse response, MakeForm makeForm) {
+    @RequestMapping(value = "/make/addModel.htm", method = { RequestMethod.GET, RequestMethod.POST })
+    public ModelAndView addModel( MakeForm makeForm) {
         log.debug("  addModel method of MakeController ");
         makeForm.setLoggedInUser(makeForm.getLoggedInUser());
         makeForm.setLoggedInRole(makeForm.getLoggedInRole());
@@ -204,8 +205,8 @@ public class MakeController extends MultiActionController {
         return new ModelAndView("make/ModelAdd", "makeForm", makeForm);
     }
 
-    public ModelAndView editModel(HttpServletRequest request,
-                                  HttpServletResponse response, MakeForm makeForm) {
+    @RequestMapping(value = "/make/editModel.htm", method = RequestMethod.POST)
+    public ModelAndView editModel(MakeForm makeForm) {
         log.debug(" editModel method of MakeController ");
 
         log.debug(" makeForm is " + makeForm.toString());
@@ -250,8 +251,8 @@ public class MakeController extends MultiActionController {
         return new ModelAndView("make/ModelEdit", "makeForm", makeForm);
     }
 
-    public ModelAndView deleteModel(HttpServletRequest request,
-                                    HttpServletResponse response, MakeForm makeForm) {
+    @RequestMapping(value = "/make/deleteModel.htm", method = RequestMethod.POST)
+    public ModelAndView deleteModel(MakeForm makeForm) {
         log.debug(" listMake deleteModel method of MakeController ");
 
         log.debug(" makeForm is " + makeForm.toString());
@@ -280,11 +281,11 @@ public class MakeController extends MultiActionController {
         makeForm.setLoggedInUser(makeForm.getLoggedInUser());
         makeForm.setLoggedInRole(makeForm.getLoggedInRole());
         makeForm.setCurrentMakeAndModeVO(new MakeAndModelVO());
-        return ModelList(request, response, makeForm);
+        return ModelList(makeForm);
     }
 
-    public ModelAndView saveMake(HttpServletRequest request,
-                                 HttpServletResponse response, MakeForm makeForm) {
+    @RequestMapping(value = "/make/saveMake.htm", method = RequestMethod.POST)
+    public ModelAndView saveMake(MakeForm makeForm) {
         log.debug(" listMake saveMake method of MakeController ");
         log.debug(" makeForm instance to add to database " + makeForm.toString());
         makeForm.getCurrentMakeAndModeVO().setCreatedDate(new Date());
@@ -313,18 +314,18 @@ public class MakeController extends MultiActionController {
             log.info(" An Unknown Error has been occurred !!");
 
         }
-        return MakeList(request, response, makeForm);
+        return MakeList(makeForm);
     }
 
-    public ModelAndView updateMake(HttpServletRequest request,
-                                 HttpServletResponse response, MakeForm makeForm) {
-        log.debug(" listMake saveMake method of MakeController ");
-        log.debug(" makeForm instance to add to database " + makeForm.toString());
+    @RequestMapping(value = "/make/updateMake.htm", method = RequestMethod.POST)
+    public ModelAndView updateMake(MakeForm makeForm) {
+        log.info(" updateMake method of MakeController ");
+        log.info(" makeForm instance to add to database " + makeForm.toString());
         makeForm.getCurrentMakeAndModeVO().setModifiedDate(new Date());
         makeForm.getCurrentMakeAndModeVO().setModifiedBy(makeForm.getLoggedInUser());
         try {
             getMakeDelegate().updateMake(makeForm.getCurrentMakeAndModeVO());
-            makeForm.setStatusMessage("Updated the Make succeessfully");
+            makeForm.setStatusMessage("Updated the Make successfully");
             makeForm.setStatusMessageType("success");
         } catch (MakeException e) {
             makeForm.setStatusMessage("Unable to update the selected Make due to a Data base error");
@@ -344,12 +345,12 @@ public class MakeController extends MultiActionController {
             log.error(" An Unknown Error has been occurred !!");
 
         }
-        return MakeList(request, response, makeForm);
+        return MakeList(makeForm);
 
     }
 
-    public ModelAndView updateModel(HttpServletRequest request,
-                                 HttpServletResponse response, MakeForm makeForm) {
+    @RequestMapping(value = "/make/updateModel.htm", method = RequestMethod.POST)
+    public ModelAndView updateModel(MakeForm makeForm) {
         log.debug(" updateModel method of MakeController ");
         log.debug(" makeForm instance to add to database " + makeForm.toString());
         makeForm.getCurrentMakeAndModeVO().setModifiedDate(new Date());
@@ -376,12 +377,12 @@ public class MakeController extends MultiActionController {
             log.error(" An Unknown Error has been occurred !!");
 
         }
-        return ModelList(request, response, makeForm);
+        return ModelList(makeForm);
 
     }
 
-    public ModelAndView saveModel(HttpServletRequest request,
-                                 HttpServletResponse response, MakeForm makeForm) {
+    @RequestMapping(value = "/make/saveModel.htm", method = RequestMethod.POST)
+    public ModelAndView saveModel(MakeForm makeForm) {
         log.debug(" saveModel method of MakeController ");
         log.debug(" makeForm instance to add to database " + makeForm.toString());
         makeForm.getCurrentMakeAndModeVO().setCreatedDate(new Date());
@@ -410,11 +411,11 @@ public class MakeController extends MultiActionController {
             log.error(" An Unknown Error has been occurred !!");
 
         }
-        return ModelList(request, response, makeForm);
+        return ModelList(makeForm);
     }
 
-    public ModelAndView searchModel(HttpServletRequest request,
-                                 HttpServletResponse response, MakeForm makeForm) {
+    @RequestMapping(value = "/make/searchModel.htm", method = RequestMethod.POST)
+    public ModelAndView searchModel(MakeForm makeForm) {
         log.debug(" searchModel method of MakeController ");
         log.debug(" makeForm instance to search " + makeForm.toString());
         log.debug(" searchVO instance to search " + makeForm.getSearchMakeAndModelVO());
@@ -451,8 +452,9 @@ public class MakeController extends MultiActionController {
         return new ModelAndView("make/ModelList", "makeForm", makeForm);
         
     }
-    public  ModelAndView printMake(HttpServletRequest request,
-                                   HttpServletResponse response, MakeForm makeForm){
+
+    @RequestMapping(value = "/make/printMake.htm", method = RequestMethod.POST)
+    public  ModelAndView printMake(MakeForm makeForm){
         return null;
     }
 }

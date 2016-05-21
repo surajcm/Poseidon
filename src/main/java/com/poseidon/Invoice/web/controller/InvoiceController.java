@@ -15,13 +15,13 @@ import com.poseidon.Transaction.web.form.TransactionForm;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.beans.propertyeditors.CustomNumberEditor;
+import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.mvc.multiaction.MultiActionController;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
 import java.util.List;
 
@@ -30,7 +30,8 @@ import java.util.List;
  * Date: 7/26/12
  * Time: 9:56 PM
  */
-public class InvoiceController extends MultiActionController {
+@Controller
+public class InvoiceController {
     private final Log log = LogFactory.getLog(InvoiceController.class);
 
     private InvoiceDelegate invoiceDelegate;
@@ -63,8 +64,8 @@ public class InvoiceController extends MultiActionController {
         this.makeDelegate = makeDelegate;
     }
 
-    public ModelAndView ListInvoice(HttpServletRequest request,
-                                    HttpServletResponse response,InvoiceForm invoiceForm){
+    @RequestMapping(value = "/invoice/ListInvoice.htm", method = RequestMethod.POST)
+    public ModelAndView ListInvoice(InvoiceForm invoiceForm){
         log.info(" Inside ListInvoice method of InvoiceController ");
         List<InvoiceVO> invoiceVOs;
         try{
@@ -87,8 +88,8 @@ public class InvoiceController extends MultiActionController {
         return new ModelAndView("invoice/ListInvoice", "invoiceForm", invoiceForm);
     }
 
-    public ModelAndView addInvoice(HttpServletRequest request,
-                                    HttpServletResponse response,InvoiceForm invoiceForm){
+    @RequestMapping(value = "/invoice/addInvoice.htm", method = RequestMethod.POST)
+    public ModelAndView addInvoice(InvoiceForm invoiceForm){
         log.info(" Inside addInvoice method of InvoiceController ");
         InvoiceVO vo = new InvoiceVO();
         vo.setQuantity(1);
@@ -96,8 +97,8 @@ public class InvoiceController extends MultiActionController {
         return new ModelAndView("invoice/AddInvoice", "invoiceForm", invoiceForm);
     }
 
-    public ModelAndView saveInvoice(HttpServletRequest request,
-                                    HttpServletResponse response,InvoiceForm invoiceForm){
+    @RequestMapping(value = "/invoice/saveInvoice.htm", method = RequestMethod.POST)
+    public ModelAndView saveInvoice(InvoiceForm invoiceForm){
         log.info(" Inside saveInvoice method of InvoiceController ");
         log.info(" Invoice Form details are " + invoiceForm);
         invoiceForm.getCurrentInvoiceVO().setCreatedBy(invoiceForm.getLoggedInUser());
@@ -157,8 +158,8 @@ public class InvoiceController extends MultiActionController {
         return new ModelAndView("invoice/ListInvoice", "invoiceForm", invoiceForm);
     }
 
-    public ModelAndView EditInvoice(HttpServletRequest request,
-                                      HttpServletResponse response,InvoiceForm invoiceForm){
+    @RequestMapping(value = "/invoice/EditInvoice.htm", method = RequestMethod.POST)
+    public ModelAndView EditInvoice(InvoiceForm invoiceForm){
         log.info(" Inside EditInvoice method of InvoiceController ");
         log.info(" Invoice Form details are " + invoiceForm);
         InvoiceVO invoiceVO;
@@ -171,8 +172,8 @@ public class InvoiceController extends MultiActionController {
         return new ModelAndView("invoice/EditInvoice", "invoiceForm", invoiceForm);
     }
 
-    public ModelAndView DeleteInvoice(HttpServletRequest request,
-                                      HttpServletResponse response,InvoiceForm invoiceForm){
+    @RequestMapping(value = "/invoice/DeleteInvoice.htm", method = RequestMethod.POST)
+    public ModelAndView DeleteInvoice(InvoiceForm invoiceForm){
         log.info(" Inside DeleteInvoice method of InvoiceController ");
         log.info(" Invoice Form details are " + invoiceForm);
         try {
@@ -208,8 +209,8 @@ public class InvoiceController extends MultiActionController {
         return new ModelAndView("invoice/ListInvoice", "invoiceForm", invoiceForm);
     }
 
-    public ModelAndView SearchInvoice(HttpServletRequest request,
-                                      HttpServletResponse response,InvoiceForm invoiceForm){
+    @RequestMapping(value = "/invoice/SearchInvoice.htm", method = RequestMethod.POST)
+    public ModelAndView SearchInvoice(InvoiceForm invoiceForm){
         log.info(" Inside SearchInvoice method of InvoiceController ");
         log.info(" Invoice Form details are " + invoiceForm);
         List<InvoiceVO> invoiceVOs;
@@ -228,8 +229,8 @@ public class InvoiceController extends MultiActionController {
         return new ModelAndView("invoice/ListInvoice", "invoiceForm", invoiceForm);
     }
 
-    public ModelAndView updateInvoice(HttpServletRequest request,
-                                      HttpServletResponse response,InvoiceForm invoiceForm){
+    @RequestMapping(value = "/invoice/updateInvoice.htm", method = RequestMethod.POST)
+    public ModelAndView updateInvoice(InvoiceForm invoiceForm){
         log.info(" Inside updateInvoice method of InvoiceController ");
         log.info(" Invoice Form details are " + invoiceForm);
         invoiceForm.getCurrentInvoiceVO().setModifiedBy(invoiceForm.getLoggedInUser());
@@ -266,8 +267,8 @@ public class InvoiceController extends MultiActionController {
         return new ModelAndView("invoice/ListInvoice", "invoiceForm", invoiceForm);
     }
 
-    public ModelAndView InvoiceTxn(HttpServletRequest request,
-                                   HttpServletResponse response, TransactionForm transactionForm){
+    @RequestMapping(value = "/invoice/InvoiceTxn.htm", method = RequestMethod.POST)
+    public ModelAndView InvoiceTxn(TransactionForm transactionForm){
         //get the id
         TransactionVO transactionVO = null;
         try {
