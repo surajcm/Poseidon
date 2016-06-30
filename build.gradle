@@ -26,7 +26,7 @@ dependencies {
     //include in compile only, exclude in the war
     providedCompile group: 'javax.servlet', name: 'servlet-api', version: '2.5'
     compile group: 'net.sf.jasperreports', name: 'jasperreports', version: '4.6.0'
-    runtime group:'org.hsqldb', name:'hsqldb', version: '2.3.1'
+    runtime group: 'org.hsqldb', name: 'hsqldb', version: '2.3.1'
 
     testCompile group: 'junit', name: 'junit', version: '4.+'
 }
@@ -48,4 +48,8 @@ sourceSets {
 
 processResources {
     into 'build/resources'
+}
+task wrapper(type: Wrapper) {
+    gradleVersion = '2.14'
+    distributionUrl = "http://repository.orbitz.net/gradle/gradle-${gradleVersion}-bin.zip"
 }
