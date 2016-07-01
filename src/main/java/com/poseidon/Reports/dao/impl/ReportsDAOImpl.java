@@ -30,7 +30,7 @@ import org.springframework.jdbc.core.support.JdbcDaoSupport;
 public class ReportsDAOImpl extends JdbcDaoSupport implements ReportsDAO {
 
     public List<ReportsVO> generateDailyReport() throws ReportsException {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        return null;
     }
 
     public JasperPrint getMakeDetailsChart(JasperReport jasperReport, ReportsVO currentReport) throws JRException {

@@ -16,7 +16,11 @@ import net.sf.jasperreports.engine.export.JRXlsExporter;
 import net.sf.jasperreports.engine.export.JRXlsExporterParameter;
 import net.sf.jasperreports.engine.export.ooxml.JRDocxExporter;
 import net.sf.jasperreports.engine.export.ooxml.JRDocxExporterParameter;
-import org.springframework.web.servlet.mvc.multiaction.MultiActionController;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.context.request.RequestContextHolder;
+import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.servlet.ModelAndView;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -37,7 +41,8 @@ import java.util.Locale;
  * Date: Jun 3, 2012
  * Time: 10:40:47 AM
  */
-public class ReportsController extends MultiActionController {
+@Controller
+public class ReportsController {
     private ReportsDelegate reportsDelegate;
     private MakeDelegate makeDelegate;
     private final Log LOG = LogFactory.getLog(ReportsController.class);
@@ -58,6 +63,7 @@ public class ReportsController extends MultiActionController {
         this.makeDelegate = makeDelegate;
     }
 
+    @RequestMapping(value = "/reports/List.htm", method = RequestMethod.POST)
     public ModelAndView List(HttpServletRequest request,
                              HttpServletResponse response, ReportsForm reportsForm) {
         LOG.info(" Inside List method of ReportsController ");
@@ -141,6 +147,7 @@ public class ReportsController extends MultiActionController {
      * @return ModelAndView
      */
     @SuppressWarnings("unused")
+    @RequestMapping(value = "/reports/getMakeDetailsReport.htm", method = { RequestMethod.GET, RequestMethod.POST })
     public ModelAndView getMakeDetailsReport(HttpServletRequest httpServletRequest,
                                              HttpServletResponse httpServletResponse,
                                              ReportsForm reportsForm) {
@@ -152,20 +159,21 @@ public class ReportsController extends MultiActionController {
             if (reportsForm.getCurrentReport() == null) {
                 reportsForm.setCurrentReport(new ReportsVO());
             }
-            LOG.info("Locale-->" + httpServletRequest.getLocale());
             if (reportsForm.getCurrentReport() != null) {
                 reportsForm.getCurrentReport().setLocale(Locale.US);
                 String reportFileName = "makeListReport";
                 String reportType = reportsForm.getCurrentReport().getExportTo();
                 reportsForm.getCurrentReport().setRptfilename(reportFileName);
-                String path = getServletContext().getRealPath("/reports");
+                String path = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest()
+                        .getSession().getServletContext().getRealPath("/reports");
+                //String path = getServletContext().getRealPath("/reports");
                 LOG.info(" going to compile report");
                 jasperReport = JasperCompileManager.compileReport(path + '/' + reportFileName + ".jrxml");
 
                 jasperPrint = getReportsDelegate().getMakeDetailsChart(jasperReport,
                         reportsForm.getCurrentReport());
                 LOG.info(jasperPrint.toString());
-                getJasperReport(httpServletRequest, httpServletResponse, jasperPrint, reportFileName, reportType);
+                getJasperReport(httpServletResponse, jasperPrint, reportFileName, reportType);
             }
         } catch (Exception e) {
             e.printStackTrace();
@@ -182,6 +190,7 @@ public class ReportsController extends MultiActionController {
      * @return ModelAndView
      */
     @SuppressWarnings("unused")
+    @RequestMapping(value = "/reports/getCallReport.htm", method = { RequestMethod.GET, RequestMethod.POST })
     public ModelAndView getCallReport(HttpServletRequest httpServletRequest,
                                       HttpServletResponse httpServletResponse,
                                       ReportsForm reportsForm) {
@@ -200,13 +209,15 @@ public class ReportsController extends MultiActionController {
             reportFileName = "callReport";
             reportType = reportsForm.getCurrentReport().getExportTo();
             reportsForm.getCurrentReport().setRptfilename(reportFileName);
-            String path = getServletContext().getRealPath("/reports");
+            String path = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest()
+                    .getSession().getServletContext().getRealPath("/reports");
+            //String path = getServletContext().getRealPath("/reports");
             LOG.info(" going to compile report, at getCallReport");
             jasperReport = JasperCompileManager.compileReport(path + '/' + reportFileName + ".jrxml");
 
             jasperPrint = getReportsDelegate().getCallReport(jasperReport, reportsForm.getCurrentReport());
             LOG.info(jasperPrint.toString());
-            getJasperReport(httpServletRequest, httpServletResponse, jasperPrint, reportFileName, reportType);
+            getJasperReport(httpServletResponse, jasperPrint, reportFileName, reportType);
         } catch (Exception e) {
             e.printStackTrace();
             return getErrorReport(httpServletRequest, httpServletResponse, reportsForm);
@@ -223,14 +234,15 @@ public class ReportsController extends MultiActionController {
      * @return ModelAndView
      */
     @SuppressWarnings("unused")
+    @RequestMapping(value = "/reports/getTransactionsListReport.htm", method = { RequestMethod.GET, RequestMethod.POST })
     public ModelAndView getTransactionsListReport(HttpServletRequest httpServletRequest,
                                                   HttpServletResponse httpServletResponse,
                                                   ReportsForm reportsForm) {
         LOG.info(" Inside getTransactionsListReport method of ReportsController ");
         LOG.info(" form details are" + reportsForm);
-        JasperReport jasperReport = null;
-        JasperPrint jasperPrint = null;
-        String reportType = null;
+        JasperReport jasperReport;
+        JasperPrint jasperPrint;
+        String reportType;
         String reportFileName;
         try {
             if (reportsForm.getCurrentReport() == null) {
@@ -241,7 +253,9 @@ public class ReportsController extends MultiActionController {
             reportFileName = "transactionsListReport";
             reportType = reportsForm.getCurrentReport().getExportTo();
             reportsForm.getCurrentReport().setRptfilename(reportFileName);
-            String path = getServletContext().getRealPath("/reports");
+            String path = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest()
+                    .getSession().getServletContext().getRealPath("/reports");
+            //String path = getServletContext().getRealPath("/reports");
             LOG.info(" going to compile report");
             jasperReport = JasperCompileManager.compileReport(path + '/' + reportFileName + ".jrxml");
 
@@ -249,7 +263,7 @@ public class ReportsController extends MultiActionController {
                     reportsForm.getCurrentReport(),
                     reportsForm.getTxnReportTransactionVO());
             LOG.info(jasperPrint.toString());
-            getJasperReport(httpServletRequest, httpServletResponse, jasperPrint, reportFileName, reportType);
+            getJasperReport(httpServletResponse, jasperPrint, reportFileName, reportType);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -265,6 +279,7 @@ public class ReportsController extends MultiActionController {
      * @return ModelAndView
      */
     @SuppressWarnings("unused")
+    @RequestMapping(value = "/reports/getModelListReport.htm", method = { RequestMethod.GET, RequestMethod.POST })
     public ModelAndView getModelListReport(HttpServletRequest httpServletRequest,
                                            HttpServletResponse httpServletResponse,
                                            ReportsForm reportsForm) {
@@ -281,7 +296,9 @@ public class ReportsController extends MultiActionController {
             String reportFileName = "modelListReport";
             String reportType = reportsForm.getCurrentReport().getExportTo();
             reportsForm.getCurrentReport().setRptfilename(reportFileName);
-            String path = getServletContext().getRealPath("/reports");
+            String path = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest()
+                    .getSession().getServletContext().getRealPath("/reports");
+            //String path = getServletContext().getRealPath("/reports");
             LOG.info(" going to compile report");
             jasperReport = JasperCompileManager.compileReport(path + '/' + reportFileName + ".jrxml");
 
@@ -289,7 +306,7 @@ public class ReportsController extends MultiActionController {
                     reportsForm.getCurrentReport(),
                     reportsForm.getModelReportMakeAndModelVO());
             LOG.info(jasperPrint.toString());
-            getJasperReport(httpServletRequest, httpServletResponse, jasperPrint, reportFileName, reportType);
+            getJasperReport(httpServletResponse, jasperPrint, reportFileName, reportType);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -304,6 +321,7 @@ public class ReportsController extends MultiActionController {
      * @param reportsForm ReportsForm
      * @return ModelAndView
      */
+    @RequestMapping(value = "/reports/getErrorReport.htm", method = { RequestMethod.GET, RequestMethod.POST })
     public ModelAndView getErrorReport(HttpServletRequest httpServletRequest,
                                        HttpServletResponse httpServletResponse,
                                        ReportsForm reportsForm) {
@@ -320,12 +338,14 @@ public class ReportsController extends MultiActionController {
             String reportFileName = "errorReport";
             String reportType = reportsForm.getCurrentReport().getExportTo();
             reportsForm.getCurrentReport().setRptfilename(reportFileName);
-            String path = getServletContext().getRealPath("/reports");
+            String path = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest()
+                    .getSession().getServletContext().getRealPath("/reports");
+            //String path = getServletContext().getRealPath("/reports");
             LOG.info(" going to compile report");
             jasperReport = JasperCompileManager.compileReport(path + '/' + reportFileName + ".jrxml");
             jasperPrint = getReportsDelegate().getErrorReport(jasperReport, reportsForm.getCurrentReport());
             LOG.info(jasperPrint.toString());
-            getJasperReport(httpServletRequest, httpServletResponse, jasperPrint, reportFileName, reportType);
+            getJasperReport(httpServletResponse, jasperPrint, reportFileName, reportType);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -340,6 +360,7 @@ public class ReportsController extends MultiActionController {
      * @param reportsForm ReportsForm
      * @return ModelAndView
      */
+    @RequestMapping(value = "/reports/getInvoiceReport.htm", method = { RequestMethod.GET, RequestMethod.POST })
     public ModelAndView getInvoiceReport(HttpServletRequest httpServletRequest,
                                          HttpServletResponse httpServletResponse,
                                          ReportsForm reportsForm) {
@@ -356,12 +377,14 @@ public class ReportsController extends MultiActionController {
             String reportFileName = "serviceBillReport";
             String reportType = reportsForm.getCurrentReport().getExportTo();
             reportsForm.getCurrentReport().setRptfilename(reportFileName);
-            String path = getServletContext().getRealPath("/reports");
+            String path = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest()
+                    .getSession().getServletContext().getRealPath("/reports");
+            //String path = getServletContext().getRealPath("/reports");
             LOG.info(" going to compile report");
             jasperReport = JasperCompileManager.compileReport(path + '/' + reportFileName + ".jrxml");
             jasperPrint = getReportsDelegate().getInvoiceReport(jasperReport, reportsForm.getCurrentReport());
             LOG.info(jasperPrint.toString());
-            getJasperReport(httpServletRequest, httpServletResponse, jasperPrint, reportFileName, reportType);
+            getJasperReport(httpServletResponse, jasperPrint, reportFileName, reportType);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -371,14 +394,12 @@ public class ReportsController extends MultiActionController {
     /**
      * This method is used for generating the jasper report
      *
-     * @param httpServletRequest  the current HTTP request
      * @param httpServletResponse the current HTTP response
      * @param jasperPrint         jasperPrint instance
      * @param reportFileName      reportFileName instance
      * @param reportType          reportType instance
      */
-    protected void getJasperReport(HttpServletRequest httpServletRequest,
-                                   HttpServletResponse httpServletResponse,
+    private void getJasperReport(HttpServletResponse httpServletResponse,
                                    JasperPrint jasperPrint,
                                    String reportFileName,
                                    String reportType) {
@@ -407,8 +428,8 @@ public class ReportsController extends MultiActionController {
                 jrExporter.setParameter(JRXlsExporterParameter.IS_REMOVE_EMPTY_SPACE_BETWEEN_COLUMNS, Boolean.TRUE);
                 jrExporter.setParameter(JRXlsExporterParameter.IS_WHITE_PAGE_BACKGROUND,
                         Boolean.TRUE);
-                jrExporter.setParameter(JRXlsExporterParameter.OFFSET_X, new Integer(1));
-                jrExporter.setParameter(JRXlsExporterParameter.OFFSET_Y, new Integer(1));
+                jrExporter.setParameter(JRXlsExporterParameter.OFFSET_X, 1);
+                jrExporter.setParameter(JRXlsExporterParameter.OFFSET_Y, 1);
                 jrExporter.exportReport();
                 output = baos.toByteArray();
                 httpServletResponse.setContentLength(output.length);
@@ -418,7 +439,6 @@ public class ReportsController extends MultiActionController {
                 outputStream.close();
             } else if ("PDF".equalsIgnoreCase(reportType)) {
                 LOG.info("PDF -- > reportFileName ---> " + reportFileName + reportType);
-                ServletOutputStream op = httpServletResponse.getOutputStream();
                 String mimetype = httpServletResponse.getContentType();
                 httpServletResponse.setContentType((mimetype != null) ? mimetype : "application/pdf");
                 httpServletResponse.setHeader("Content-Disposition", "attachment;filename=" + reportFileName + ";");
