@@ -228,7 +228,7 @@
                 </label>
             </td>
             <td>
-                <form:select id="makeName" cssClass="form-control" path="searchMakeAndModelVO.makeId">
+                <form:select id="modelReportMakeName" cssClass="form-control" path="modelReportMakeAndModelVO.makeId">
                     <form:option value="0" label="-- Select --"/>
                     <form:options items="${reportsForm.makeVOs}" itemValue="id" itemLabel="makeName"/>
                 </form:select>
@@ -240,14 +240,14 @@
                 </label>
             </td>
             <td>
-                <form:input path="searchMakeAndModelVO.modelName" cssClass="form-control" id="modelName"/>
+                <form:input path="modelReportMakeAndModelVO.modelName" cssClass="form-control" id="modelReportModelName"/>
             </td>
         </tr>
         <tr>
             <td colspan="2">
                 <label class="control-label">
                     <spring:message code="user.includes" text="Includes"/>
-                    <form:checkbox path="searchMakeAndModelVO.includes" cssStyle="vertical-align:middle"
+                    <form:checkbox path="modelReportMakeAndModelVO.includes" cssStyle="vertical-align:middle"
                                    id="includes" value=""/>
                 </label>
             </td>
@@ -255,7 +255,7 @@
             <td colspan="2">
                 <label class="control-label">
                     <spring:message code="user.startsWith" text="Starts with"/>
-                    <form:checkbox path="searchMakeAndModelVO.startswith" cssStyle="vertical-align:middle"
+                    <form:checkbox path="modelReportMakeAndModelVO.startswith" cssStyle="vertical-align:middle"
                                    id="startswith" value=""/>
                 </label>
             </td>
@@ -298,7 +298,7 @@
                 </label>
             </td>
             <td>
-                <form:input path="searchTransaction.TagNo" cssClass="form-control" id="TagNo"/>
+                <form:input path="txnReportTransactionVO.TagNo" cssClass="form-control" id="txnReportTagNo"/>
             </td>
             <td colspan="2">&nbsp;</td>
             <td>
@@ -307,7 +307,7 @@
                 </label>
             </td>
             <td>
-                <form:input path="searchTransaction.CustomerName" cssClass="form-control" id="CustomerName"/>
+                <form:input path="txnReportTransactionVO.CustomerName" cssClass="form-control" id="txnReportCustomerName"/>
             </td>
             <td colspan="2">&nbsp;</td>
             <td>
@@ -316,7 +316,7 @@
                 </label>
             </td>
             <td>
-                <form:input path="searchTransaction.startDate" cssClass="form-control" id="startDate"/>
+                <form:input path="txnReportTransactionVO.startDate" cssClass="form-control" id="txnReportStartDate"/>
             </td>
             <td colspan="2">&nbsp;</td>
             <td>
@@ -325,7 +325,7 @@
                 </label>
             </td>
             <td>
-                <form:input path="searchTransaction.endDate" cssClass="form-control" id="endDate"/>
+                <form:input path="txnReportTransactionVO.endDate" cssClass="form-control" id="txnReportEndDate"/>
             </td>
         </tr>
         <tr>
@@ -338,7 +338,7 @@
                 </label>
             </td>
             <td>
-                <form:input path="searchTransaction.SerialNo" cssClass="form-control" id="SerialNo"/>
+                <form:input path="txnReportTransactionVO.SerialNo" cssClass="form-control" id="txnReportSerialNo"/>
             </td>
             <td colspan="2">&nbsp;</td>
             <td>
@@ -347,11 +347,11 @@
                 </label>
             </td>
             <td>
-                <form:select id="makeId" path="searchTransaction.makeId" cssClass="form-control" tabindex="1"
+                <form:select id="txnReportMakeId" path="txnReportTransactionVO.makeId" cssClass="form-control" tabindex="1"
                              onchange="javascript:changeTheModel();">
                     <form:option value=""><spring:message code="common.select" text="<-- Select -->"/></form:option>
                     <form:options items="${reportsForm.makeVOs}"
-                                  itemValue="Id" itemLabel="makeName" />
+                                  itemValue="id" itemLabel="makeName" />
                 </form:select>
             </td>
             <td colspan="2">&nbsp;</td>
@@ -361,7 +361,7 @@
                 </label>
             </td>
             <td>
-                <form:select id="modelId" path="searchTransaction.modelId" cssClass="form-control" tabindex="1">
+                <form:select id="txnReportModelId" path="txnReportTransactionVO.modelId" cssClass="form-control" tabindex="1">
                     <form:option value=""><spring:message code="common.select" text="<-- Select -->"/></form:option>
                 </form:select>
             </td>
@@ -372,7 +372,7 @@
                 </label>
             </td>
             <td>
-                <form:select id="Status" path="searchTransaction.Status" cssClass="form-control">
+                <form:select id="txnReportStatus" path="txnReportTransactionVO.Status" cssClass="form-control">
                     <form:option value=""><spring:message code="common.select" text="<-- Select -->"/></form:option>
                     <form:options items="${reportsForm.statusList}" />
                 </form:select>
@@ -386,13 +386,13 @@
             <td>
                 <label for="includes" class="control-label" >
                     <spring:message code="user.includes" text="Includes"/>
-                    <form:checkbox path="searchTransaction.includes" cssStyle="vertical-align:middle" id="includes" value="" />
+                    <form:checkbox path="txnReportTransactionVO.includes" cssStyle="vertical-align:middle" id="txnReportIncludes" value="" />
                 </label>
             </td>
             <td>
                 <label for="startswith" class="control-label">
                     <spring:message code="user.startsWith" text="Starts with"/>
-                    <form:checkbox path="searchTransaction.startswith" cssStyle="vertical-align:middle" id="startswith" value="" />
+                    <form:checkbox path="txnReportTransactionVO.startswith" cssStyle="vertical-align:middle" id="txnReportStartswith" value="" />
                 </label>
             </td>
         </tr>
@@ -469,7 +469,7 @@
                 </label>
             </td>
             <td>
-                <form:input path="searchTransaction.TagNo"  class="form-control" id="TagNo"/>
+                <form:input path="invoiceListReportTransactionVO.TagNo"  class="form-control" id="invoiceListTagNo"/>
             </td>
             <td colspan="2">&nbsp;</td>
             <td>
@@ -478,7 +478,7 @@
                 </label>
             </td>
             <td>
-                <form:input path="searchTransaction.CustomerName" cssClass="form-control" id="CustomerName"/>
+                <form:input path="invoiceListReportTransactionVO.CustomerName" cssClass="form-control" id="invoiceListCustomerName"/>
             </td>
             <td colspan="2">&nbsp;</td>
             <td>
@@ -487,7 +487,7 @@
                 </label>
             </td>
             <td>
-                <form:input path="searchTransaction.startDate" cssClass="form-control" id="startDate"/>
+                <form:input path="invoiceListReportTransactionVO.startDate" cssClass="form-control" id="invoiceListStartDate"/>
             </td>
             <td colspan="2">&nbsp;</td>
             <td>
@@ -496,7 +496,7 @@
                 </label>
             </td>
             <td>
-                <form:input path="searchTransaction.endDate" cssClass="form-control" id="endDate"/>
+                <form:input path="invoiceListReportTransactionVO.endDate" cssClass="form-control" id="invoiceListEndDate"/>
             </td>
         </tr>
         <tr>
@@ -509,7 +509,7 @@
                 </label>
             </td>
             <td>
-                <form:input path="searchTransaction.SerialNo" cssClass="form-control" id="SerialNo"/>
+                <form:input path="invoiceListReportTransactionVO.SerialNo" cssClass="form-control" id="invoiceListSerialNo"/>
             </td>
             <td colspan="2">&nbsp;</td>
             <td>
@@ -518,7 +518,7 @@
                 </label>
             </td>
             <td>
-                <form:select id="makeId" path="searchTransaction.makeId" tabindex="1"  cssClass="form-control"
+                <form:select id="invoiceListMakeId" path="invoiceListReportTransactionVO.makeId" tabindex="1"  cssClass="form-control"
                              onchange="javascript:changeTheTxnModel();">
                     <form:option value=""><spring:message code="common.select" text="<-- Select -->"/></form:option>
                     <form:options items="${reportsForm.makeVOs}"
@@ -532,7 +532,7 @@
                 </label>
             </td>
             <td>
-                <form:select id="modelId" path="searchTransaction.modelId" tabindex="1" cssClass="form-control">
+                <form:select id="invoiceListModelId" path="invoiceListReportTransactionVO.modelId" tabindex="1" cssClass="form-control">
                     <form:option value=""><spring:message code="common.select" text="<-- Select -->"/></form:option>
                 </form:select>
             </td>
@@ -543,7 +543,7 @@
                 </label>
             </td>
             <td>
-                <form:select id="Status" path="searchTransaction.Status" cssClass="form-control">
+                <form:select id="invoiceListStatus" path="invoiceListReportTransactionVO.Status" cssClass="form-control">
                     <form:option value=""><spring:message code="common.select" text="<-- Select -->"/></form:option>
                     <form:options items="${reportsForm.statusList}" />
                 </form:select>
@@ -557,13 +557,13 @@
             <td>
                 <label for="includes" class="control-label">
                     <spring:message code="user.includes" text="Includes"/>
-                    <form:checkbox path="searchTransaction.includes" cssStyle="vertical-align:middle" id="includes" value="" />
+                    <form:checkbox path="invoiceListReportTransactionVO.includes" cssStyle="vertical-align:middle" id="invoiceListIncludes" value="" />
                 </label>
             </td>
             <td>
                 <label for="startswith" class="control-label">
                     <spring:message code="user.startsWith" text="Starts with"/>
-                    <form:checkbox path="searchTransaction.startswith" cssStyle="vertical-align:middle" id="startswith" value="" />
+                    <form:checkbox path="invoiceListReportTransactionVO.startswith" cssStyle="vertical-align:middle" id="invoiceListStartswith" value="" />
                 </label>
             </td>
         </tr>

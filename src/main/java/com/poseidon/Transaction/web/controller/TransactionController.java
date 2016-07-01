@@ -211,13 +211,14 @@ public class TransactionController {
         return List(transactionForm);
     }
 
-    @RequestMapping(value = "/txs/UpdateModelAjax.htm", method = RequestMethod.GET)
+    @RequestMapping(value = "/txs/UpdateModelAjax.htm", method = { RequestMethod.GET, RequestMethod.POST })
     public void UpdateModelAjax(HttpServletRequest httpServletRequest,
                                 HttpServletResponse httpServletResponse) {
-        StringBuffer responseString = new StringBuffer();
+        StringBuilder responseString = new StringBuilder();
 
         String selectMakeId = httpServletRequest.getParameter("selectMakeId");
         //get all the models for this make id
+        log.info(" At UpdateModelAjax, selectMakeId is :"+ selectMakeId);
         List<MakeAndModelVO> makeAndModelVOs = null;
         try {
             makeAndModelVOs = getMakeDelegate().getAllModelsFromMakeId(Long.valueOf(selectMakeId));

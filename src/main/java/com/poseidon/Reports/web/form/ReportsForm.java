@@ -19,10 +19,11 @@ public class ReportsForm {
     private String loggedInUser;
     private String loggedInRole;
     private List<String> exportList;
-    private TransactionVO searchTransaction;
+    private TransactionVO txnReportTransactionVO;
+    private TransactionVO invoiceListReportTransactionVO;
     private List<MakeVO> makeVOs;
     private List<String> statusList;
-    private MakeAndModelVO searchMakeAndModelVO;
+    private MakeAndModelVO modelReportMakeAndModelVO;
 
     public ReportsVO getCurrentReport() {
         return currentReport;
@@ -72,12 +73,12 @@ public class ReportsForm {
         this.exportList = exportList;
     }
 
-    public TransactionVO getSearchTransaction() {
-        return searchTransaction;
+    public TransactionVO getTxnReportTransactionVO() {
+        return txnReportTransactionVO;
     }
 
-    public void setSearchTransaction(TransactionVO searchTransaction) {
-        this.searchTransaction = searchTransaction;
+    public void setTxnReportTransactionVO(TransactionVO txnReportTransactionVO) {
+        this.txnReportTransactionVO = txnReportTransactionVO;
     }
 
     public List<MakeVO> getMakeVOs() {
@@ -96,12 +97,20 @@ public class ReportsForm {
         this.statusList = statusList;
     }
 
-    public MakeAndModelVO getSearchMakeAndModelVO() {
-        return searchMakeAndModelVO;
+    public MakeAndModelVO getModelReportMakeAndModelVO() {
+        return modelReportMakeAndModelVO;
     }
 
-    public void setSearchMakeAndModelVO(MakeAndModelVO searchMakeAndModelVO) {
-        this.searchMakeAndModelVO = searchMakeAndModelVO;
+    public void setModelReportMakeAndModelVO(MakeAndModelVO modelReportMakeAndModelVO) {
+        this.modelReportMakeAndModelVO = modelReportMakeAndModelVO;
+    }
+
+    public TransactionVO getInvoiceListReportTransactionVO() {
+        return invoiceListReportTransactionVO;
+    }
+
+    public void setInvoiceListReportTransactionVO(TransactionVO invoiceListReportTransactionVO) {
+        this.invoiceListReportTransactionVO = invoiceListReportTransactionVO;
     }
 
     @Override

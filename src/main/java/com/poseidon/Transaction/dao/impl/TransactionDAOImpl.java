@@ -339,7 +339,7 @@ public class TransactionDAOImpl extends JdbcDaoSupport implements TransactionDAO
         return new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH).parse(dateVal);
     }
 
-    public List<TransactionVO> getTodaysTransactions() throws DataAccessException {
+    private List<TransactionVO> getTodaysTransactions() throws DataAccessException {
         return (List<TransactionVO>) getJdbcTemplate().query(GET_TODAYS_TRANSACTIONS_SQL, new TransactionListRowMapper());
     }
 
