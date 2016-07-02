@@ -17,7 +17,7 @@ dependencies {
     //compile group: 'org.springframework', name: 'spring-dao', version: '4.2.6.RELEASE'
     compile group: 'org.springframework', name: 'org.springframework.web.servlet', version: '3.0.5.RELEASE'
     compile group: 'org.springframework', name: 'spring-beans', version: '4.2.6.RELEASE'
-    compile group: 'org.springframework', name: 'spring-core', version: '3.0.5.RELEASE'
+    //compile group: 'org.springframework', name: 'spring-core', version: '3.0.5.RELEASE'
     compile group: 'org.springframework', name: 'spring-web', version: '4.2.6.RELEASE'
     compile group: 'org.springframework', name: 'spring-context', version: '4.2.6.RELEASE'
     compile group: 'org.springframework', name: 'spring-aop', version: '4.3.0.RELEASE'
