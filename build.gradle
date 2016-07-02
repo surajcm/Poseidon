@@ -21,9 +21,10 @@ dependencies {
     compile group: 'org.springframework', name: 'spring-web', version: '4.2.6.RELEASE'
     compile group: 'org.springframework', name: 'spring-context', version: '4.2.6.RELEASE'
     compile group: 'org.springframework', name: 'spring-aop', version: '4.3.0.RELEASE'
-    compile 'org.springframework:spring-asm:3.1.4.RELEASE'
-    compile 'org.springframework:spring-aspects:4.3.0.RELEASE'
+    compile group: 'org.springframework', name: 'spring-asm', version: '3.1.4.RELEASE'
+    compile group: 'org.springframework', name: 'spring-aspects', version: '4.3.0.RELEASE'
     //compile 'org.springframework:spring-beans:4.3.0.RELEASE'
+    //compile 'org.springframework:spring-beans:3.0.5.RELEASE'
     //compile 'org.springframework:spring-context:4.3.0.RELEASE'
     //compile 'org.springframework:spring-context:3.2.17.RELEASE'
 
