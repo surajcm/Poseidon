@@ -58,7 +58,7 @@ public class UserController {
      * @return ModelAndView to render
      */
     @SuppressWarnings("unused")
-    @RequestMapping(value = "/user/Index.htm", method = RequestMethod.GET)
+    @RequestMapping(value = {"/user/Index.htm", "/"}, method = RequestMethod.GET)
     public ModelAndView Index() {
         log.info(" Inside Index method of User Controller ");
         UserForm userForm = new UserForm();
