@@ -22,8 +22,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.servlet.ModelAndView;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import com.poseidon.Reports.delegate.ReportsDelegate;
 import com.poseidon.Reports.web.form.ReportsForm;
 import com.poseidon.Reports.domain.ReportsVO;
@@ -45,7 +45,7 @@ import java.util.Locale;
 public class ReportsController {
     private ReportsDelegate reportsDelegate;
     private MakeDelegate makeDelegate;
-    private final Log LOG = LogFactory.getLog(ReportsController.class);
+    private final Logger LOG = LoggerFactory.getLogger(ReportsController.class);
 
     public ReportsDelegate getReportsDelegate() {
         return reportsDelegate;
@@ -64,8 +64,7 @@ public class ReportsController {
     }
 
     @RequestMapping(value = "/reports/List.htm", method = RequestMethod.POST)
-    public ModelAndView List(HttpServletRequest request,
-                             HttpServletResponse response, ReportsForm reportsForm) {
+    public ModelAndView List(ReportsForm reportsForm) {
         LOG.info(" Inside List method of ReportsController ");
         LOG.info(" form details are : " + reportsForm);
 
@@ -73,7 +72,7 @@ public class ReportsController {
         try {
             reportsVOs = getReportsDelegate().generateDailyReport();
         } catch (Exception e) {
-            e.printStackTrace();
+            LOG.error(e.getLocalizedMessage());
         }
         if (reportsVOs != null) {
             for (ReportsVO reportsVO : reportsVOs) {
@@ -165,8 +164,8 @@ public class ReportsController {
                 String reportType = reportsForm.getCurrentReport().getExportTo();
                 reportsForm.getCurrentReport().setRptfilename(reportFileName);
                 String path = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest()
-                        .getSession().getServletContext().getRealPath("/reports");
-                //String path = getServletContext().getRealPath("/reports");
+                        .getSession().getServletContext().getRealPath("/resources/reports");
+
                 LOG.info(" going to compile report");
                 jasperReport = JasperCompileManager.compileReport(path + '/' + reportFileName + ".jrxml");
 
@@ -176,7 +175,7 @@ public class ReportsController {
                 getJasperReport(httpServletResponse, jasperPrint, reportFileName, reportType);
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            LOG.error(e.getLocalizedMessage());
         }
         return null;
     }
@@ -210,8 +209,7 @@ public class ReportsController {
             reportType = reportsForm.getCurrentReport().getExportTo();
             reportsForm.getCurrentReport().setRptfilename(reportFileName);
             String path = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest()
-                    .getSession().getServletContext().getRealPath("/reports");
-            //String path = getServletContext().getRealPath("/reports");
+                    .getSession().getServletContext().getRealPath("/resources/reports");
             LOG.info(" going to compile report, at getCallReport");
             jasperReport = JasperCompileManager.compileReport(path + '/' + reportFileName + ".jrxml");
 
@@ -219,7 +217,7 @@ public class ReportsController {
             LOG.info(jasperPrint.toString());
             getJasperReport(httpServletResponse, jasperPrint, reportFileName, reportType);
         } catch (Exception e) {
-            e.printStackTrace();
+            LOG.error(e.getLocalizedMessage());
             return getErrorReport(httpServletRequest, httpServletResponse, reportsForm);
         }
         return null;
@@ -254,8 +252,7 @@ public class ReportsController {
             reportType = reportsForm.getCurrentReport().getExportTo();
             reportsForm.getCurrentReport().setRptfilename(reportFileName);
             String path = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest()
-                    .getSession().getServletContext().getRealPath("/reports");
-            //String path = getServletContext().getRealPath("/reports");
+                    .getSession().getServletContext().getRealPath("/resources/reports");
             LOG.info(" going to compile report");
             jasperReport = JasperCompileManager.compileReport(path + '/' + reportFileName + ".jrxml");
 
@@ -265,7 +262,7 @@ public class ReportsController {
             LOG.info(jasperPrint.toString());
             getJasperReport(httpServletResponse, jasperPrint, reportFileName, reportType);
         } catch (Exception e) {
-            e.printStackTrace();
+            LOG.error(e.getLocalizedMessage());
         }
         return null;
     }
@@ -297,8 +294,7 @@ public class ReportsController {
             String reportType = reportsForm.getCurrentReport().getExportTo();
             reportsForm.getCurrentReport().setRptfilename(reportFileName);
             String path = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest()
-                    .getSession().getServletContext().getRealPath("/reports");
-            //String path = getServletContext().getRealPath("/reports");
+                    .getSession().getServletContext().getRealPath("/resources/reports");
             LOG.info(" going to compile report");
             jasperReport = JasperCompileManager.compileReport(path + '/' + reportFileName + ".jrxml");
 
@@ -308,7 +304,7 @@ public class ReportsController {
             LOG.info(jasperPrint.toString());
             getJasperReport(httpServletResponse, jasperPrint, reportFileName, reportType);
         } catch (Exception e) {
-            e.printStackTrace();
+            LOG.error(e.getLocalizedMessage());
         }
         return null;
     }
@@ -339,15 +335,14 @@ public class ReportsController {
             String reportType = reportsForm.getCurrentReport().getExportTo();
             reportsForm.getCurrentReport().setRptfilename(reportFileName);
             String path = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest()
-                    .getSession().getServletContext().getRealPath("/reports");
-            //String path = getServletContext().getRealPath("/reports");
+                    .getSession().getServletContext().getRealPath("/resources/reports");
             LOG.info(" going to compile report");
             jasperReport = JasperCompileManager.compileReport(path + '/' + reportFileName + ".jrxml");
             jasperPrint = getReportsDelegate().getErrorReport(jasperReport, reportsForm.getCurrentReport());
             LOG.info(jasperPrint.toString());
             getJasperReport(httpServletResponse, jasperPrint, reportFileName, reportType);
         } catch (Exception e) {
-            e.printStackTrace();
+            LOG.error(e.getLocalizedMessage());
         }
         return null;
     }
@@ -378,15 +373,14 @@ public class ReportsController {
             String reportType = reportsForm.getCurrentReport().getExportTo();
             reportsForm.getCurrentReport().setRptfilename(reportFileName);
             String path = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest()
-                    .getSession().getServletContext().getRealPath("/reports");
-            //String path = getServletContext().getRealPath("/reports");
+                    .getSession().getServletContext().getRealPath("/resources/reports");
             LOG.info(" going to compile report");
             jasperReport = JasperCompileManager.compileReport(path + '/' + reportFileName + ".jrxml");
             jasperPrint = getReportsDelegate().getInvoiceReport(jasperReport, reportsForm.getCurrentReport());
             LOG.info(jasperPrint.toString());
             getJasperReport(httpServletResponse, jasperPrint, reportFileName, reportType);
         } catch (Exception e) {
-            e.printStackTrace();
+            LOG.error(e.getLocalizedMessage());
         }
         return getErrorReport(httpServletRequest, httpServletResponse, reportsForm);
     }
@@ -496,7 +490,7 @@ public class ReportsController {
                 outputStream.close();
             }
         } catch (Exception e) {
-            e.printStackTrace();
+            LOG.error(e.getLocalizedMessage());
         }
     }
 }

@@ -5,8 +5,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import com.poseidon.Customer.delegate.CustomerDelegate;
 import com.poseidon.Customer.web.form.CustomerForm;
 import com.poseidon.Customer.domain.CustomerVO;
@@ -30,7 +30,7 @@ public class CustomerController {
     /**
      * logger for user controller
      */
-    private final Log log = LogFactory.getLog(CustomerController.class);
+    private final Logger LOG = LoggerFactory.getLogger(CustomerController.class);
 
     public CustomerDelegate getCustomerDelegate() {
         return customerDelegate;
@@ -42,18 +42,18 @@ public class CustomerController {
 
     @RequestMapping(value = "/customer/List.htm", method = RequestMethod.POST)
     public ModelAndView List(CustomerForm customerForm) {
-        log.info(" Inside List method of CustomerController ");
-        log.info(" form details are " + customerForm);
+        LOG.info(" Inside List method of CustomerController ");
+        LOG.info(" form details are " + customerForm);
 
         List<CustomerVO> customerVOs = null;
         try {
             customerVOs = getCustomerDelegate().listAllCustomerDetails();
         } catch (Exception e) {
-            e.printStackTrace();
+            LOG.error(e.getLocalizedMessage());
         }
         if (customerVOs != null) {
             for (CustomerVO customerVO : customerVOs) {
-                log.info(" customerVO is " + customerVO);
+                LOG.info(" customerVO is " + customerVO);
             }
             customerForm.setCustomerVOs(customerVOs);
         }
@@ -65,7 +65,7 @@ public class CustomerController {
 
     @RequestMapping(value = "/customer/addCust.htm", method = RequestMethod.POST)
     public ModelAndView addCust(CustomerForm customerForm) {
-        log.info(" addCust method of CustomerController "+customerForm);
+        LOG.info(" addCust method of CustomerController " + customerForm);
         customerForm.setLoggedInUser(customerForm.getLoggedInUser());
         customerForm.setLoggedInRole(customerForm.getLoggedInRole());
         customerForm.setCurrentCustomerVO(new CustomerVO());
@@ -74,30 +74,30 @@ public class CustomerController {
 
     @RequestMapping(value = "/customer/editCust.htm", method = RequestMethod.POST)
     public ModelAndView editCust(CustomerForm customerForm) {
-        log.info(" editCust method of CustomerController ");
-        log.info(" customerForm is " + customerForm.toString());
-        log.info(" customerForm is " + customerForm.getCurrentCustomerVO());
+        LOG.info(" editCust method of CustomerController ");
+        LOG.info(" customerForm is " + customerForm.toString());
+        LOG.info(" customerForm is " + customerForm.getCurrentCustomerVO());
         CustomerVO customerVO = null;
         try {
             customerVO = getCustomerDelegate().getCustomerFromId(customerForm.getId());
         } catch (CustomerException e) {
-            e.printStackTrace();
-            log.error(" Exception type in controller " + e.ExceptionType);
+            LOG.error(e.getLocalizedMessage());
+            LOG.error(" Exception type in controller " + e.ExceptionType);
             if (e.getExceptionType().equalsIgnoreCase(CustomerException.DATABASE_ERROR)) {
-                log.info(" An error occurred while fetching data from database. !! ");
+                LOG.info(" An error occurred while fetching data from database. !! ");
             } else {
-                log.info(" An Unknown Error has been occurred !!");
+                LOG.info(" An Unknown Error has been occurred !!");
             }
 
         } catch (Exception e1) {
-            e1.printStackTrace();
-            log.info(" An Unknown Error has been occurred !!");
+            LOG.error(e1.getLocalizedMessage());
+            LOG.info(" An Unknown Error has been occurred !!");
         }
 
         if (customerVO == null) {
-            log.error(" No details found for current makeVO !!");
+            LOG.error(" No details found for current makeVO !!");
         } else {
-            log.info(" customerVO details are " + customerVO);
+            LOG.info(" customerVO details are " + customerVO);
         }
 
         customerForm.setCurrentCustomerVO(customerVO);
@@ -108,8 +108,8 @@ public class CustomerController {
 
     @RequestMapping(value = "/customer/deleteCust.htm", method = RequestMethod.POST)
     public ModelAndView deleteCust(CustomerForm customerForm) {
-        log.info(" deleteCust method of CustomerController ");
-        log.info(" CustomerForm is " + customerForm);
+        LOG.info(" deleteCust method of CustomerController ");
+        LOG.info(" CustomerForm is " + customerForm);
         try {
             getCustomerDelegate().deleteCustomerFromId(customerForm.getId());
             customerForm.setStatusMessage("Deleted the Customer details successfully");
@@ -117,27 +117,27 @@ public class CustomerController {
         } catch (CustomerException e) {
             customerForm.setStatusMessage("Unable to delete the selected Customer details due to a Data base error");
             customerForm.setStatusMessageType("error");
-            e.printStackTrace();
-            log.error(" Exception type in controller " + e.ExceptionType);
+            LOG.error(e.getLocalizedMessage());
+            LOG.error(" Exception type in controller " + e.ExceptionType);
             if (e.getExceptionType().equalsIgnoreCase(CustomerException.DATABASE_ERROR)) {
-                log.info(" An error occurred while fetching data from database. !! ");
+                LOG.info(" An error occurred while fetching data from database. !! ");
             } else {
-                log.info(" An Unknown Error has been occurred !!");
+                LOG.info(" An Unknown Error has been occurred !!");
             }
 
         } catch (Exception e1) {
             customerForm.setStatusMessage("Unable to delete the selected Customer details");
             customerForm.setStatusMessageType("error");
-            e1.printStackTrace();
-            log.info(" An Unknown Error has been occurred !!");
+            LOG.error(e1.getLocalizedMessage());
+            LOG.info(" An Unknown Error has been occurred !!");
         }
         return List(customerForm);
     }
 
     @RequestMapping(value = "/customer/saveCustomer.htm", method = RequestMethod.POST)
     public ModelAndView saveCustomer(CustomerForm customerForm) {
-        log.info(" saveCustomer method of CustomerController ");
-        log.info(" CustomerForm is " + customerForm);
+        LOG.info(" saveCustomer method of CustomerController ");
+        LOG.info(" CustomerForm is " + customerForm);
         try {
             CustomerVO customerVO = customerForm.getCurrentCustomerVO();
             customerVO.setCreatedOn(new Date());
@@ -150,27 +150,27 @@ public class CustomerController {
         } catch (CustomerException e) {
             customerForm.setStatusMessage("Unable to add the new Customer details due to a Data base error");
             customerForm.setStatusMessageType("error");
-            e.printStackTrace();
-            log.error(" Exception type in controller " + e.ExceptionType);
+            LOG.error(e.getLocalizedMessage());
+            LOG.error(" Exception type in controller " + e.ExceptionType);
             if (e.getExceptionType().equalsIgnoreCase(CustomerException.DATABASE_ERROR)) {
-                log.info(" An error occurred while fetching data from database. !! ");
+                LOG.info(" An error occurred while fetching data from database. !! ");
             } else {
-                log.info(" An Unknown Error has been occurred !!");
+                LOG.info(" An Unknown Error has been occurred !!");
             }
 
         } catch (Exception e1) {
             customerForm.setStatusMessage("Unable to add the new Customer details");
             customerForm.setStatusMessageType("error");
-            e1.printStackTrace();
-            log.info(" An Unknown Error has been occurred !!");
+            LOG.error(e1.getLocalizedMessage());
+            LOG.info(" An Unknown Error has been occurred !!");
         }
         return List(customerForm);
     }
 
     @RequestMapping(value = "/customer/updateCustomer.htm", method = RequestMethod.POST)
     public ModelAndView updateCustomer(CustomerForm customerForm) {
-        log.info(" updateCustomer method of CustomerController ");
-        log.info(" CustomerForm is " + customerForm);
+        LOG.info(" updateCustomer method of CustomerController ");
+        LOG.info(" CustomerForm is " + customerForm);
         try {
             CustomerVO customerVO = customerForm.getCurrentCustomerVO();
             customerVO.setModifiedOn(new Date());
@@ -181,27 +181,27 @@ public class CustomerController {
         } catch (CustomerException e) {
             customerForm.setStatusMessage("Unable to update the selected Customer details due to a Data base error");
             customerForm.setStatusMessageType("error");
-            e.printStackTrace();
-            log.error(" Exception type in controller " + e.ExceptionType);
+            LOG.error(e.getLocalizedMessage());
+            LOG.error(" Exception type in controller " + e.ExceptionType);
             if (e.getExceptionType().equalsIgnoreCase(CustomerException.DATABASE_ERROR)) {
-                log.info(" An error occurred while fetching data from database. !! ");
+                LOG.info(" An error occurred while fetching data from database. !! ");
             } else {
-                log.info(" An Unknown Error has been occurred !!");
+                LOG.info(" An Unknown Error has been occurred !!");
             }
 
         } catch (Exception e1) {
             customerForm.setStatusMessage("Unable to update the selected Customer details");
             customerForm.setStatusMessageType("error");
-            e1.printStackTrace();
-            log.info(" An Unknown Error has been occurred !!");
+            LOG.error(e1.getLocalizedMessage());
+            LOG.info(" An Unknown Error has been occurred !!");
         }
         return List(customerForm);
     }
 
     @RequestMapping(value = "/customer/searchCustomer.htm", method = RequestMethod.POST)
     public ModelAndView searchCustomer(CustomerForm customerForm) {
-        log.info(" searchCustomer method of CustomerController ");
-        log.info(" CustomerForm is " + customerForm);
+        LOG.info(" searchCustomer method of CustomerController ");
+        LOG.info(" CustomerForm is " + customerForm);
         List<CustomerVO> customerVOs = null;
         try {
             customerVOs = getCustomerDelegate().searchCustomer(customerForm.getSearchCustomerVO());
@@ -210,24 +210,24 @@ public class CustomerController {
         } catch (CustomerException e) {
             customerForm.setStatusMessage("Unable to fetch Customer details due to a Data base error");
             customerForm.setStatusMessageType("error");
-            e.printStackTrace();
-            log.error(" Exception type in controller " + e.ExceptionType);
+            LOG.error(e.getLocalizedMessage());
+            LOG.error(" Exception type in controller " + e.ExceptionType);
             if (e.getExceptionType().equalsIgnoreCase(CustomerException.DATABASE_ERROR)) {
-                log.info(" An error occurred while fetching data from database. !! ");
+                LOG.info(" An error occurred while fetching data from database. !! ");
             } else {
-                log.info(" An Unknown Error has been occurred !!");
+                LOG.info(" An Unknown Error has been occurred !!");
             }
 
         } catch (Exception e1) {
             customerForm.setStatusMessage("Unable fetch Customer details");
             customerForm.setStatusMessageType("error");
-            e1.printStackTrace();
-            log.info(" An Unknown Error has been occurred !!");
+            LOG.error(e1.getLocalizedMessage());
+            LOG.info(" An Unknown Error has been occurred !!");
         }
 
         if (customerVOs != null) {
             for (CustomerVO customerVO : customerVOs) {
-                log.info(" customerVO is " + customerVO);
+                LOG.info(" customerVO is " + customerVO);
             }
             customerForm.setCustomerVOs(customerVOs);
         }
@@ -238,14 +238,14 @@ public class CustomerController {
 
     @RequestMapping(value = "/customer/editCustomer.htm", method = RequestMethod.POST)
     public ModelAndView editCustomer(TransactionForm transactionForm) {
-        log.info(" editCustomer method of TransactionController ");
-        log.info("TransactionForm values are " + transactionForm);
+        LOG.info(" editCustomer method of TransactionController ");
+        LOG.info("TransactionForm values are " + transactionForm);
         CustomerForm customerForm = new CustomerForm();
         if (transactionForm.getCustomerVO() != null && transactionForm.getCustomerVO().getCustomerId() > 0) {
             customerForm.setId(transactionForm.getCustomerVO().getCustomerId());
             return editCust(customerForm);
-        }else{
-            return new ModelAndView("ErrorPage","userForm",customerForm);
+        } else {
+            return new ModelAndView("ErrorPage", "userForm", customerForm);
         }
 
     }

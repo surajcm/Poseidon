@@ -3,8 +3,8 @@ package com.poseidon.User.dao.impl;
 import com.poseidon.User.dao.UserDAO;
 import com.poseidon.User.domain.UserVO;
 import com.poseidon.User.exception.UserException;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -26,7 +26,7 @@ public class UserDAOImpl extends JdbcDaoSupport implements UserDAO {
     private SimpleJdbcInsert insertUser;
 
     //logger
-    private final Log log = LogFactory.getLog(UserDAOImpl.class);
+    private final Logger LOG = LoggerFactory.getLogger(UserDAOImpl.class);
 
     //select all from table
     private static final String GET_ALL_USERS_SQL = " select * from user order by modifiedOn";
@@ -46,7 +46,7 @@ public class UserDAOImpl extends JdbcDaoSupport implements UserDAO {
     private static final String DELETE_BY_ID_SQL = " delete from user where id = ? ";
 
     /**
-     * log in
+     * LOG in
      *
      * @param user user
      * @return User instance from database
@@ -57,17 +57,17 @@ public class UserDAOImpl extends JdbcDaoSupport implements UserDAO {
         try {
             currentUser = getUserByLogInId(user.getLoginId());
         } catch (DataAccessException e) {
-            e.printStackTrace();
+            LOG.error(e.getLocalizedMessage());
             throw new UserException(UserException.DATABASE_ERROR);
         }
 
         if (currentUser != null) {
-            log.info(" User details fetched successfully,for user name " + currentUser.getName());
+            LOG.info(" User details fetched successfully,for user name " + currentUser.getName());
             // check whether the password given is correct or not
             if (!user.getPassword().equalsIgnoreCase(currentUser.getPassword())) {
                 throw new UserException(UserException.INCORRECT_PASSWORD);
             }
-            log.info(" Password matched successfully, user details are " + currentUser.toString());
+            LOG.info(" Password matched successfully, user details are " + currentUser.toString());
         } else {
             // invalid user
             throw new UserException(UserException.UNKNOWN_USER);
@@ -101,7 +101,7 @@ public class UserDAOImpl extends JdbcDaoSupport implements UserDAO {
         try {
             saveUser(user);
         } catch (DataAccessException e) {
-            e.printStackTrace();
+            LOG.error(e.getLocalizedMessage());
             throw new UserException(UserException.DATABASE_ERROR);
         }
     }
@@ -118,7 +118,7 @@ public class UserDAOImpl extends JdbcDaoSupport implements UserDAO {
         try {
             userVO = getUserById(id);
         } catch (DataAccessException e) {
-            e.printStackTrace();
+            LOG.error(e.getLocalizedMessage());
             throw new UserException(UserException.DATABASE_ERROR);
         }
         return userVO;
@@ -189,7 +189,7 @@ public class UserDAOImpl extends JdbcDaoSupport implements UserDAO {
             }
         }
 
-        log.info("Query generated is " + dynamicQuery);
+        LOG.info("Query generated is " + dynamicQuery);
         return (List<UserVO>) getJdbcTemplate().query(dynamicQuery.toString(), new UserRowMapper());
     }
 
@@ -235,7 +235,7 @@ public class UserDAOImpl extends JdbcDaoSupport implements UserDAO {
         try {
             getJdbcTemplate().update(UPDATE_USER_SQL, parameters);
         } catch (DataAccessException e) {
-            e.printStackTrace();
+            LOG.error(e.getLocalizedMessage());
             throw new UserException(UserException.DATABASE_ERROR);
         }
     }
@@ -258,7 +258,7 @@ public class UserDAOImpl extends JdbcDaoSupport implements UserDAO {
                 .addValue("createdBy", user.getCreatedBy())
                 .addValue("modifiedBy", user.getLastModifiedBy());
         Number newId = insertUser.executeAndReturnKey(parameters);
-        log.info(" the queryForInt resulted in  " + newId.longValue());
+        LOG.info(" the queryForInt resulted in  " + newId.longValue());
         user.setId(newId.longValue());
 
     }
@@ -274,7 +274,7 @@ public class UserDAOImpl extends JdbcDaoSupport implements UserDAO {
             Object[] parameters = new Object[]{id};
             getJdbcTemplate().update(DELETE_BY_ID_SQL, parameters);
         } catch (DataAccessException e) {
-            e.printStackTrace();
+            LOG.error(e.getLocalizedMessage());
             throw new UserException(UserException.DATABASE_ERROR);
         }
     }

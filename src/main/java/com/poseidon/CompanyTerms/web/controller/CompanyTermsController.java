@@ -4,8 +4,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import com.poseidon.CompanyTerms.delegate.CompanyTermsDelegate;
 import com.poseidon.CompanyTerms.web.form.CompanyTermsForm;
 import com.poseidon.CompanyTerms.domain.CompanyTermsVO;
@@ -28,7 +28,7 @@ public class CompanyTermsController {
     /**
      * logger for user controller
      */
-    private final Log log = LogFactory.getLog(CompanyTermsController.class);
+    private final Logger LOG = LoggerFactory.getLogger(CompanyTermsController.class);
 
     public CompanyTermsDelegate getCompanyTermsDelegate() {
         return companyTermsDelegate;
@@ -40,17 +40,17 @@ public class CompanyTermsController {
 
     @RequestMapping(value = "/company/List.htm", method = RequestMethod.POST)
     public ModelAndView List(CompanyTermsForm companyTermsForm) {
-        log.info(" Inside List method of CompanyTermsController ");
-        log.info(" form details are " + companyTermsForm);
+        LOG.info(" Inside List method of CompanyTermsController ");
+        LOG.info(" form details are " + companyTermsForm);
 
         CompanyTermsVO companyTermsVO = null;
         try {
             companyTermsVO = getCompanyTermsDelegate().listCompanyTerms();
         } catch (Exception e) {
-            e.printStackTrace();
+            LOG.error(e.getLocalizedMessage());
         }
         if (companyTermsVO != null) {
-            log.info(" companyTermsVO is " + companyTermsVO);
+            LOG.info(" companyTermsVO is " + companyTermsVO);
             companyTermsForm.setCurrentCompanyTermsVO(companyTermsVO);
         } else {
             companyTermsForm.setCurrentCompanyTermsVO(new CompanyTermsVO());
@@ -62,25 +62,25 @@ public class CompanyTermsController {
 
     @RequestMapping(value = "/company/updateCompanyDetails.htm", method = RequestMethod.POST)
     public ModelAndView updateCompanyDetails(CompanyTermsForm companyTermsForm) {
-        log.info(" Inside editTerms method of CompanyTermsController ");
-        log.info(" form details are " + companyTermsForm);
+        LOG.info(" Inside editTerms method of CompanyTermsController ");
+        LOG.info(" form details are " + companyTermsForm);
 
         companyTermsForm.getCurrentCompanyTermsVO().setModifiedBy(companyTermsForm.getLoggedInUser());
         companyTermsForm.getCurrentCompanyTermsVO().setModifiedDate(new Date());
         try {
             getCompanyTermsDelegate().updateCompanyDetails(companyTermsForm.getCurrentCompanyTermsVO());
         } catch (Exception e) {
-            e.printStackTrace();
+            LOG.error(e.getLocalizedMessage());
         }
 
         CompanyTermsVO companyTermsVO = null;
         try {
             companyTermsVO = getCompanyTermsDelegate().listCompanyTerms();
         } catch (Exception e) {
-            e.printStackTrace();
+            LOG.error(e.getLocalizedMessage());
         }
         if (companyTermsVO != null) {
-            log.info(" companyTermsVO is " + companyTermsVO);
+            LOG.info(" companyTermsVO is " + companyTermsVO);
             companyTermsForm.setCurrentCompanyTermsVO(companyTermsVO);
         } else {
             companyTermsForm.setCurrentCompanyTermsVO(new CompanyTermsVO());

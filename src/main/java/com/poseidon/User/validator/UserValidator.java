@@ -1,8 +1,8 @@
 package com.poseidon.User.validator;
 
 import com.poseidon.User.domain.UserVO;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
@@ -15,7 +15,7 @@ public class UserValidator implements Validator {
     /**
      * logger for validator
      */
-    private final Log log = LogFactory.getLog(UserValidator.class);
+    private final Logger LOG = LoggerFactory.getLogger(UserValidator.class);
 
     /**
      * default method overridden for matching the POJO
@@ -32,7 +32,7 @@ public class UserValidator implements Validator {
      * @param errors errors
      */
     public void validate(Object o, Errors errors) {
-        log.info(" Inside the validate method");
+        LOG.info(" Inside the validate method");
         UserVO user = (UserVO) o;
 
         if (user.getName().trim().length() == 0) {

@@ -4,8 +4,8 @@ import com.poseidon.User.dao.UserDAO;
 import com.poseidon.User.domain.UserVO;
 import com.poseidon.User.exception.UserException;
 import com.poseidon.User.service.UserService;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
@@ -21,7 +21,7 @@ public class UserServiceImpl implements UserService {
      */
     private UserDAO userDAO;
 
-    private final Log log = LogFactory.getLog(UserServiceImpl.class);
+    private final Logger LOG = LoggerFactory.getLogger(UserServiceImpl.class);
 
     /**
      * spring setter for user dao
@@ -43,10 +43,10 @@ public class UserServiceImpl implements UserService {
     public UserVO logIn(UserVO user) throws UserException {
         UserVO realUser = null;
         try {
-            log.info(" Inside user service impl");
+            LOG.info(" Inside user service impl");
             realUser = userDAO.logIn(user);
         } catch (UserException e) {
-            log.error(" Exception type in service impl " + e.getExceptionType());
+            LOG.error(" Exception type in service impl " + e.getExceptionType());
             throw new UserException(e.getExceptionType());
         } catch (Exception e1) {
             e1.printStackTrace();
@@ -64,7 +64,7 @@ public class UserServiceImpl implements UserService {
         try {
             userList = userDAO.getAllUserDetails();
         } catch (UserException e) {
-            log.error(" Exception type in service impl " + e.getExceptionType());
+            LOG.error(" Exception type in service impl " + e.getExceptionType());
             throw new UserException(e.getExceptionType());
         } catch (Exception e1) {
             e1.printStackTrace();
@@ -82,7 +82,7 @@ public class UserServiceImpl implements UserService {
         try {
             userDAO.addNewUser(user);
         } catch (UserException e) {
-            log.error(" Exception type in service impl " + e.getExceptionType());
+            LOG.error(" Exception type in service impl " + e.getExceptionType());
             throw new UserException(e.getExceptionType());
         } catch (Exception e1) {
             e1.printStackTrace();
@@ -101,7 +101,7 @@ public class UserServiceImpl implements UserService {
         try {
             userVO = userDAO.getUserDetailsFromID(id);
         } catch (UserException e) {
-            log.error(" Exception type in service impl " + e.getExceptionType());
+            LOG.error(" Exception type in service impl " + e.getExceptionType());
             throw new UserException(e.getExceptionType());
         } catch (Exception e1) {
             e1.printStackTrace();
@@ -120,7 +120,7 @@ public class UserServiceImpl implements UserService {
         try {
             userDAO.updateUser(user);
         } catch (UserException e) {
-            log.error(" Exception type in service impl " + e.getExceptionType());
+            LOG.error(" Exception type in service impl " + e.getExceptionType());
             throw new UserException(e.getExceptionType());
         } catch (Exception e1) {
             e1.printStackTrace();
@@ -137,7 +137,7 @@ public class UserServiceImpl implements UserService {
         try {
             userDAO.deleteUser(id);
         } catch (UserException e) {
-            log.error(" Exception type in service impl " + e.getExceptionType());
+            LOG.error(" Exception type in service impl " + e.getExceptionType());
             throw new UserException(e.getExceptionType());
         } catch (Exception e1) {
             e1.printStackTrace();
@@ -156,7 +156,7 @@ public class UserServiceImpl implements UserService {
         try {
             userList = userDAO.searchUserDetails(searchUser);
         } catch (UserException e) {
-            log.error(" Exception type in service impl " + e.getExceptionType());
+            LOG.error(" Exception type in service impl " + e.getExceptionType());
             throw new UserException(e.getExceptionType());
         } catch (Exception e1) {
             e1.printStackTrace();

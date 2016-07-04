@@ -71,7 +71,7 @@
 </head>
 <body>
 <div class="navbar-wrapper">
-    <div class="navbar navbar-inverse navbar-static-top">
+    <nav class="navbar navbar-inverse navbar-static-top">
         <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".nav-collapse">
             <span class="icon-bar"></span>
             <span class="icon-bar"></span>
@@ -112,7 +112,7 @@
                 </li>
             </ul>
         </div><!--/.nav-collapse -->
-    </div>
+    </nav>
 </div>
 <script src="http://cdn.bootcss.com/jquery/1.10.2/jquery.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>

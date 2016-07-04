@@ -5,16 +5,13 @@ import com.poseidon.Reports.service.ReportsService;
 import com.poseidon.Reports.domain.ReportsVO;
 import com.poseidon.Reports.dao.ReportsDAO;
 import com.poseidon.Reports.exception.ReportsException;
-
-import java.sql.SQLException;
 import java.util.List;
 
-import com.poseidon.Transaction.domain.TransactionReportVO;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * User: Suraj
@@ -23,7 +20,7 @@ import org.apache.commons.logging.LogFactory;
  */
 public class ReportsServiceImpl implements ReportsService{
     private ReportsDAO reportsDAO;
-    private final Log log = LogFactory.getLog(ReportsServiceImpl.class);
+    private final Logger LOG = LoggerFactory.getLogger(ReportsServiceImpl.class);
 
     public ReportsDAO getReportsDAO() {
         return reportsDAO;
@@ -38,7 +35,7 @@ public class ReportsServiceImpl implements ReportsService{
         try {
             reportsVOs = getReportsDAO().generateDailyReport();
         }catch (ReportsException e){
-            e.printStackTrace();
+            LOG.error(e.getLocalizedMessage());
         }
         return reportsVOs;
     }
@@ -48,7 +45,7 @@ public class ReportsServiceImpl implements ReportsService{
         try {
             jasperPrint = getReportsDAO().getMakeDetailsChart(jasperReport, currentReport);
         } catch (JRException e) {
-            e.printStackTrace();
+            LOG.error(e.getLocalizedMessage());
         }
         return jasperPrint;
     }
@@ -62,7 +59,7 @@ public class ReportsServiceImpl implements ReportsService{
                     currentReport,
                     companyTermsVO);
         } catch (JRException e) {
-            e.printStackTrace();
+            LOG.error(e.getLocalizedMessage());
         }
         return jasperPrint;
     }
@@ -72,7 +69,7 @@ public class ReportsServiceImpl implements ReportsService{
         try {
             jasperPrint = getReportsDAO().getTransactionsListReport(jasperReport, currentReport);
         } catch (JRException e) {
-            e.printStackTrace();
+            LOG.error(e.getLocalizedMessage());
         }
         return jasperPrint;
     }
@@ -82,7 +79,7 @@ public class ReportsServiceImpl implements ReportsService{
         try {
             jasperPrint = getReportsDAO().getModelListReport(jasperReport, currentReport);
         } catch (JRException e) {
-            e.printStackTrace();
+            LOG.error(e.getLocalizedMessage());
         }
         return jasperPrint;
     }
@@ -92,7 +89,7 @@ public class ReportsServiceImpl implements ReportsService{
         try {
             jasperPrint = getReportsDAO().getErrorReport(jasperReport, currentReport);
         } catch (JRException e) {
-            e.printStackTrace();
+            LOG.error(e.getLocalizedMessage());
         }
         return jasperPrint;
     }
@@ -102,7 +99,7 @@ public class ReportsServiceImpl implements ReportsService{
         try {
             jasperPrint = getReportsDAO().getInvoiceReport(jasperReport, currentReport);
         } catch (JRException e) {
-            e.printStackTrace();
+            LOG.error(e.getLocalizedMessage());
         }
         return jasperPrint;
     }

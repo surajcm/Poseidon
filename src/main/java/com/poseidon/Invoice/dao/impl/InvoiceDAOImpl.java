@@ -3,9 +3,8 @@ package com.poseidon.Invoice.dao.impl;
 import com.poseidon.Invoice.dao.InvoiceDAO;
 import com.poseidon.Invoice.domain.InvoiceVO;
 import com.poseidon.Invoice.exception.InvoiceException;
-import com.poseidon.Transaction.domain.TransactionVO;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
@@ -32,12 +31,12 @@ public class InvoiceDAOImpl  extends JdbcDaoSupport implements InvoiceDAO {
     private final String UPDATE_INVOICE_SQL = " update invoice set tagNo = ? ,description = ? ,serialNo = ? ,amount = ?," +
             " quantity = ?,rate = ?, customerName = ? ,customerId = ?, modifiedOn = ?,modifiedBy = ? where id = ?  ";
 
-    private final Log log = LogFactory.getLog(InvoiceDAOImpl.class);
+    private final Logger LOG = LoggerFactory.getLogger(InvoiceDAOImpl.class);
     public void addInvoice(InvoiceVO currentInvoiceVO) throws InvoiceException {
         try {
             saveInvoice(currentInvoiceVO);
         } catch (DataAccessException e) {
-            e.printStackTrace();
+            LOG.error(e.getLocalizedMessage());
             throw new InvoiceException(InvoiceException.DATABASE_ERROR);
         }
     }
@@ -47,6 +46,7 @@ public class InvoiceDAOImpl  extends JdbcDaoSupport implements InvoiceDAO {
         try {
             invoiceVOs = getTodaysInvoices(tagNumbers);
         } catch (DataAccessException e) {
+            LOG.error(e.getLocalizedMessage());
             throw new InvoiceException(InvoiceException.DATABASE_ERROR);
         }
         return invoiceVOs;
@@ -61,7 +61,7 @@ public class InvoiceDAOImpl  extends JdbcDaoSupport implements InvoiceDAO {
             Object[] parameters = new Object[]{id};
             getJdbcTemplate().update(DELETE_INVOICE_BY_ID_SQL, parameters);
         } catch (DataAccessException e) {
-            e.printStackTrace();
+            LOG.error(e.getLocalizedMessage());
             throw new InvoiceException(InvoiceException.DATABASE_ERROR);
         }
     }
@@ -83,7 +83,7 @@ public class InvoiceDAOImpl  extends JdbcDaoSupport implements InvoiceDAO {
         try {
             getJdbcTemplate().update(UPDATE_INVOICE_SQL, parameters);
         } catch (DataAccessException e) {
-            e.printStackTrace();
+            LOG.error(e.getLocalizedMessage());
             throw new InvoiceException(InvoiceException.DATABASE_ERROR);
         }
     }
@@ -93,7 +93,7 @@ public class InvoiceDAOImpl  extends JdbcDaoSupport implements InvoiceDAO {
         try {
             invoiceVOs = searchInvoice(searchInvoiceVO);
         } catch (DataAccessException e) {
-            e.printStackTrace();
+            LOG.error(e.getLocalizedMessage());
             throw new InvoiceException(InvoiceException.DATABASE_ERROR);
         }
         return invoiceVOs;
@@ -180,13 +180,13 @@ public class InvoiceDAOImpl  extends JdbcDaoSupport implements InvoiceDAO {
             }
         }
 
-        log.info("query created is " + SEARCH_INVOICE_QUERY.toString());
+        LOG.info("query created is " + SEARCH_INVOICE_QUERY.toString());
         return (List<InvoiceVO>) getJdbcTemplate().query(SEARCH_INVOICE_QUERY.toString(), new InvoiceRowMapper());
     }
 
     private List<InvoiceVO> getTodaysInvoices(List<String> tagNumbers) throws DataAccessException {
         String query = GET_TODAYS_INVOICE_SQL + createWhereClause(tagNumbers);
-        log.info("Query generated is "+query);
+        LOG.info("Query generated is "+query);
         return (List<InvoiceVO>) getJdbcTemplate().query(query, new InvoiceRowMapper());
     }
 
@@ -220,7 +220,7 @@ public class InvoiceDAOImpl  extends JdbcDaoSupport implements InvoiceDAO {
                 .addValue("createdBy", currentInvoiceVO.getCreatedBy())
                 .addValue("modifiedBy", currentInvoiceVO.getModifiedBy());
         Number newId = insertInvoice.executeAndReturnKey(parameters);
-        log.info(" the queryForInt resulted in  " + newId.longValue());
+        LOG.info(" the queryForInt resulted in  " + newId.longValue());
         currentInvoiceVO.setId(newId.longValue());
         // update the InvoiceId
         String invoiceId = "INV" + newId.longValue();

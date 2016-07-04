@@ -7,8 +7,8 @@ import com.poseidon.Customer.dao.CustomerDAO;
 
 import java.util.List;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * User: Suraj
@@ -17,7 +17,7 @@ import org.apache.commons.logging.LogFactory;
  */
 public class CustomerServiceImpl implements CustomerService {
     private CustomerDAO customerDAO;
-    private final Log log = LogFactory.getLog(CustomerServiceImpl.class);
+    private final Logger LOG = LoggerFactory.getLogger(CustomerServiceImpl.class);
 
     public CustomerDAO getCustomerDAO() {
         return customerDAO;
@@ -32,7 +32,7 @@ public class CustomerServiceImpl implements CustomerService {
         try {
             customerVOs = getCustomerDAO().listAllCustomerDetails();
         }catch (CustomerException e){
-            log.error(e.getMessage());
+            LOG.error(e.getMessage());
         }
         return customerVOs;
     }
@@ -42,7 +42,7 @@ public class CustomerServiceImpl implements CustomerService {
         try {
             customerId = getCustomerDAO().saveCustomer(currentCustomerVO);
         }catch (CustomerException e){
-            log.error(e.getMessage());
+            LOG.error(e.getMessage());
         }
         return customerId;
     }
@@ -52,7 +52,7 @@ public class CustomerServiceImpl implements CustomerService {
         try {
             customerVO = getCustomerDAO().getCustomerFromId(id);
         }catch (CustomerException e){
-            log.error(e.getMessage());
+            LOG.error(e.getMessage());
         }
         return customerVO;
     }
@@ -61,7 +61,7 @@ public class CustomerServiceImpl implements CustomerService {
         try {
             getCustomerDAO().deleteCustomerFromId(id);
         }catch (CustomerException e){
-            log.error(e.getMessage());
+            LOG.error(e.getMessage());
         }
     }
 
@@ -69,7 +69,7 @@ public class CustomerServiceImpl implements CustomerService {
         try {
             getCustomerDAO().updateCustomer(currentCustomerVO);
         }catch (CustomerException e){
-            log.error(e.getMessage());
+            LOG.error(e.getMessage());
         }
     }
 
@@ -78,7 +78,7 @@ public class CustomerServiceImpl implements CustomerService {
         try {
             customerVOs = getCustomerDAO().searchCustomer(searchCustomerVO);
         }catch (CustomerException e){
-            log.error(e.getMessage());
+            LOG.error(e.getMessage());
         }
         return customerVOs;
     }

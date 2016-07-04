@@ -13,8 +13,8 @@ import java.sql.SQLException;
 import org.springframework.jdbc.core.support.JdbcDaoSupport;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.dao.DataAccessException;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * User: Suraj
@@ -23,7 +23,7 @@ import org.apache.commons.logging.LogFactory;
  */
 public class MakeDAOImpl extends JdbcDaoSupport implements MakeDAO {
     //logger
-    private final Log log = LogFactory.getLog(MakeDAOImpl.class);
+    private final Logger LOG = LoggerFactory.getLogger(MakeDAOImpl.class);
     private final String GET_MAKE_AND_MODEL_SQL = "SELECT m.id, m.modelName,m.makeId,ma.makeName FROM model m inner join make ma on m.makeId=ma.id order by m.modifiedOn;";
     private final String GET_MAKE_SQL = "SELECT id,makeName,description,createdOn,modifiedOn,createdBy,modifiedBy FROM make order by modifiedOn;";
     private final String INSERT_NEW_MAKE_SQL = "insert into make( makeName, description, createdOn, modifiedOn, createdBy, modifiedBy ) values (?, ?, ?, ?, ?, ?); ";
@@ -36,11 +36,11 @@ public class MakeDAOImpl extends JdbcDaoSupport implements MakeDAO {
     private static final String UPDATE_MODEL_SQL = " update model set makeId = ?, modelName = ? , modifiedOn = ? , modifiedBy = ? where id = ?";
 
     public List<MakeAndModelVO> listAllMakesAndModels() throws MakeException {
-        List<MakeAndModelVO> makeVOs = null;
+        List<MakeAndModelVO> makeVOs;
         try {
             makeVOs = getMakeAndModels();
         } catch (DataAccessException e) {
-            e.printStackTrace();
+            LOG.error(e.getLocalizedMessage());
             throw new MakeException(MakeException.DATABASE_ERROR);
         }
         return makeVOs;
@@ -51,7 +51,7 @@ public class MakeDAOImpl extends JdbcDaoSupport implements MakeDAO {
         try {
             makeVOs = getMake();
         } catch (DataAccessException e) {
-            e.printStackTrace();
+            LOG.error(e.getLocalizedMessage());
             throw new MakeException(MakeException.DATABASE_ERROR);
         }
         return makeVOs;
@@ -61,7 +61,7 @@ public class MakeDAOImpl extends JdbcDaoSupport implements MakeDAO {
         try {
             saveNewMake(currentMakeVO);
         } catch (DataAccessException e) {
-            e.printStackTrace();
+            LOG.error(e.getLocalizedMessage());
             throw new MakeException(MakeException.DATABASE_ERROR);
         }
     }
@@ -71,7 +71,7 @@ public class MakeDAOImpl extends JdbcDaoSupport implements MakeDAO {
         try {
             makeVO = getMakeById(makeId);
         } catch (DataAccessException e) {
-            e.printStackTrace();
+            LOG.error(e.getLocalizedMessage());
             throw new MakeException(MakeException.DATABASE_ERROR);
         }
         return makeVO;
@@ -82,7 +82,7 @@ public class MakeDAOImpl extends JdbcDaoSupport implements MakeDAO {
             Object[] parameters = new Object[]{makeId};
             getJdbcTemplate().update(DELETE_MAKE_BY_ID_SQL, parameters);
         } catch (DataAccessException e) {
-            e.printStackTrace();
+            LOG.error(e.getLocalizedMessage());
             throw new MakeException(MakeException.DATABASE_ERROR);
         }
     }
@@ -96,7 +96,7 @@ public class MakeDAOImpl extends JdbcDaoSupport implements MakeDAO {
             Object[] parameters = new Object[]{modelId};
             getJdbcTemplate().update(DELETE_MODEL_BY_ID_SQL, parameters);
         } catch (DataAccessException e) {
-            e.printStackTrace();
+            LOG.error(e.getLocalizedMessage());
             throw new MakeException(MakeException.DATABASE_ERROR);
         }
     }
@@ -112,7 +112,7 @@ public class MakeDAOImpl extends JdbcDaoSupport implements MakeDAO {
         try {
             getJdbcTemplate().update(UPDATE_MAKE_SQL, parameters);
         } catch (DataAccessException e) {
-            e.printStackTrace();
+            LOG.error(e.getLocalizedMessage());
             throw new MakeException(MakeException.DATABASE_ERROR);
         }
     }
@@ -121,7 +121,7 @@ public class MakeDAOImpl extends JdbcDaoSupport implements MakeDAO {
         try {
             saveNewModel(currentMakeVO);
         } catch (DataAccessException e) {
-            e.printStackTrace();
+            LOG.error(e.getLocalizedMessage());
             throw new MakeException(MakeException.DATABASE_ERROR);
         }
     }
@@ -137,35 +137,35 @@ public class MakeDAOImpl extends JdbcDaoSupport implements MakeDAO {
         try {
             getJdbcTemplate().update(UPDATE_MODEL_SQL, parameters);
         } catch (DataAccessException e) {
-            e.printStackTrace();
+            LOG.error(e.getLocalizedMessage());
             throw new MakeException(MakeException.DATABASE_ERROR);
         }
     }
 
     public List<MakeAndModelVO> searchMakeVOs(MakeAndModelVO searchMakeVO) throws MakeException {
-        List<MakeAndModelVO> makeVOs = null;
+        List<MakeAndModelVO> makeVOs;
         try {
             makeVOs = searchModels(searchMakeVO);
         } catch (DataAccessException e) {
-            e.printStackTrace();
+            LOG.error(e.getLocalizedMessage());
             throw new MakeException(MakeException.DATABASE_ERROR);
         }
         return makeVOs;
     }
 
     public List<MakeVO> fetchMakes() throws MakeException {
-        List<MakeVO> makeVOs = null;
+        List<MakeVO> makeVOs;
         try {
             makeVOs = fetchAllMakes();
         } catch (DataAccessException e) {
-            e.printStackTrace();
+            LOG.error(e.getLocalizedMessage());
             throw new MakeException(MakeException.DATABASE_ERROR);
         }
         return makeVOs;
     }
 
     public List<MakeAndModelVO> getAllModelsFromMakeId(Long makeId) throws MakeException {
-        List<MakeAndModelVO> makeVOs = null;
+        List<MakeAndModelVO> makeVOs;
         try {
             makeVOs = fetchModelsForId(makeId);
         } catch (DataAccessException e) {
@@ -178,7 +178,7 @@ public class MakeDAOImpl extends JdbcDaoSupport implements MakeDAO {
     private List<MakeAndModelVO> fetchModelsForId(Long makeId) {
         StringBuffer FETCH_MODEL_QUERY = new StringBuffer("SELECT m.id, m.modelName, m.makeId, ma.makeName ")
                 .append(" FROM model m inner join make ma on m.makeId=ma.id and ma.id = ").append(makeId);
-        log.info("The query generated is " + FETCH_MODEL_QUERY);
+        LOG.info("The query generated is " + FETCH_MODEL_QUERY);
         return (List<MakeAndModelVO>) getJdbcTemplate().query(FETCH_MODEL_QUERY.toString(), new MakeAndModelListRowMapper());
     }
 
@@ -212,7 +212,7 @@ public class MakeDAOImpl extends JdbcDaoSupport implements MakeDAO {
             }
         }
 
-        log.info(" The query generated for search is " + DYNAMIC_MODEL_SEARCH_QUERY.toString());
+        LOG.info(" The query generated for search is " + DYNAMIC_MODEL_SEARCH_QUERY.toString());
         return (List<MakeAndModelVO>) getJdbcTemplate().query(DYNAMIC_MODEL_SEARCH_QUERY.toString(), new MakeAndModelListRowMapper());
     }
 

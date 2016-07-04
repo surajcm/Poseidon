@@ -5,8 +5,8 @@ import com.poseidon.Transaction.service.TransactionService;
 import com.poseidon.Transaction.dao.TransactionDAO;
 import com.poseidon.Transaction.domain.TransactionVO;
 import com.poseidon.Transaction.exception.TransactionException;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
@@ -22,7 +22,7 @@ public class TransactionServiceImpl implements TransactionService {
      */
     private TransactionDAO transactionDAO;
 
-    private final Log log = LogFactory.getLog(TransactionServiceImpl.class);
+    private final Logger LOG = LoggerFactory.getLogger(TransactionServiceImpl.class);
 
     public TransactionDAO getTransactionDAO() {
         return transactionDAO;
@@ -37,10 +37,10 @@ public class TransactionServiceImpl implements TransactionService {
         try {
             transactionVOs = getTransactionDAO().listTodaysTransactions();
         } catch (TransactionException t) {
-            log.error(" Exception type in service impl " + t.getExceptionType());
+            LOG.error(" Exception type in service impl " + t.getExceptionType());
             throw new TransactionException(t.getExceptionType());
         } catch (Exception e1) {
-            e1.printStackTrace();
+            LOG.error(e1.getLocalizedMessage());
         }
         return transactionVOs;
     }
@@ -50,10 +50,10 @@ public class TransactionServiceImpl implements TransactionService {
         try {
             tagNo = getTransactionDAO().saveTransaction(currentTransaction);
         } catch (TransactionException t) {
-            log.error(" Exception type in service impl " + t.getExceptionType());
+            LOG.error(" Exception type in service impl " + t.getExceptionType());
             throw new TransactionException(t.getExceptionType());
         } catch (Exception e1) {
-            e1.printStackTrace();
+            LOG.error(e1.getLocalizedMessage());
         }
         return tagNo;
     }
@@ -63,10 +63,10 @@ public class TransactionServiceImpl implements TransactionService {
         try {
             transactionVOs = getTransactionDAO().searchTransactions(searchTransaction);
         } catch (TransactionException t) {
-            log.error(" Exception type in service impl " + t.getExceptionType());
+            LOG.error(" Exception type in service impl " + t.getExceptionType());
             throw new TransactionException(t.getExceptionType());
         } catch (Exception e1) {
-            e1.printStackTrace();
+            LOG.error(e1.getLocalizedMessage());
         }
         return transactionVOs;
     }
@@ -76,10 +76,10 @@ public class TransactionServiceImpl implements TransactionService {
         try {
             transactionVO = getTransactionDAO().fetchTransactionFromId(id);
         } catch (TransactionException t) {
-            log.error(" Exception type in service impl " + t.getExceptionType());
+            LOG.error(" Exception type in service impl " + t.getExceptionType());
             throw new TransactionException(t.getExceptionType());
         } catch (Exception e1) {
-            e1.printStackTrace();
+            LOG.error(e1.getLocalizedMessage());
         }
         return transactionVO;
     }
@@ -89,10 +89,10 @@ public class TransactionServiceImpl implements TransactionService {
         try {
             transactionVO = getTransactionDAO().fetchTransactionFromTag(tagNo);
         } catch (TransactionException t) {
-            log.error(" Exception type in service impl " + t.getExceptionType());
+            LOG.error(" Exception type in service impl " + t.getExceptionType());
             throw new TransactionException(t.getExceptionType());
         } catch (Exception e1) {
-            e1.printStackTrace();
+            LOG.error(e1.getLocalizedMessage());
         }
         return transactionVO;
     }
@@ -101,10 +101,10 @@ public class TransactionServiceImpl implements TransactionService {
         try {
             getTransactionDAO().updateTransaction(currentTransaction);
         } catch (TransactionException t) {
-            log.error(" Exception type in service impl " + t.getExceptionType());
+            LOG.error(" Exception type in service impl " + t.getExceptionType());
             throw new TransactionException(t.getExceptionType());
         } catch (Exception e1) {
-            e1.printStackTrace();
+            LOG.error(e1.getLocalizedMessage());
         }
     }
 
@@ -112,10 +112,10 @@ public class TransactionServiceImpl implements TransactionService {
         try {
             getTransactionDAO().deleteTransaction(id);
         } catch (TransactionException t) {
-            log.error(" Exception type in service impl " + t.getExceptionType());
+            LOG.error(" Exception type in service impl " + t.getExceptionType());
             throw new TransactionException(t.getExceptionType());
         } catch (Exception e1) {
-            e1.printStackTrace();
+            LOG.error(e1.getLocalizedMessage());
         }
     }
 
@@ -124,10 +124,10 @@ public class TransactionServiceImpl implements TransactionService {
         try {
             getTransactionDAO().updateTransactionStatus(id,status);
         } catch (TransactionException t) {
-            log.error(" Exception type in service impl " + t.getExceptionType());
+            LOG.error(" Exception type in service impl " + t.getExceptionType());
             throw new TransactionException(t.getExceptionType());
         } catch (Exception e1) {
-            e1.printStackTrace();
+            LOG.error(e1.getLocalizedMessage());
         }
     }
 }

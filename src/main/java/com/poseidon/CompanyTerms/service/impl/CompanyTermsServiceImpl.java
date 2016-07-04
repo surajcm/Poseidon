@@ -5,10 +5,8 @@ import com.poseidon.CompanyTerms.domain.CompanyTermsVO;
 import com.poseidon.CompanyTerms.dao.CompanyTermsDAO;
 import com.poseidon.CompanyTerms.exception.CompanyTermsException;
 
-import java.util.List;
-
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * User: Suraj
@@ -17,7 +15,7 @@ import org.apache.commons.logging.LogFactory;
  */
 public class CompanyTermsServiceImpl implements CompanyTermsService {
     private CompanyTermsDAO companyTermsDAO;
-    private final Log log = LogFactory.getLog(CompanyTermsServiceImpl.class);
+    private final Logger LOG = LoggerFactory.getLogger(CompanyTermsServiceImpl.class);
 
     public CompanyTermsDAO getCompanyTermsDAO() {
         return companyTermsDAO;
@@ -32,7 +30,7 @@ public class CompanyTermsServiceImpl implements CompanyTermsService {
         try {
             companyTermsVO = getCompanyTermsDAO().listCompanyTerms();
         } catch (CompanyTermsException e) {
-            e.printStackTrace();
+            LOG.error(e.getLocalizedMessage());
         }
         return companyTermsVO;
     }
@@ -41,7 +39,7 @@ public class CompanyTermsServiceImpl implements CompanyTermsService {
         try {
             getCompanyTermsDAO().updateCompanyDetails(companyTermsVO);
         } catch (CompanyTermsException e) {
-            e.printStackTrace();
+            LOG.error(e.getLocalizedMessage());
         }
     }
 

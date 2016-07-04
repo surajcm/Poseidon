@@ -4,7 +4,8 @@ import com.poseidon.Invoice.dao.InvoiceDAO;
 import com.poseidon.Invoice.domain.InvoiceVO;
 import com.poseidon.Invoice.exception.InvoiceException;
 import com.poseidon.Invoice.service.InvoiceService;
-import com.poseidon.Transaction.domain.TransactionVO;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.util.List;
 
@@ -15,6 +16,7 @@ import java.util.List;
  */
 public class InvoiceServiceImpl implements InvoiceService {
     private InvoiceDAO invoiceDAO;
+    private final Logger LOG = LoggerFactory.getLogger(InvoiceServiceImpl.class);
 
     public InvoiceDAO getInvoiceDAO() {
         return invoiceDAO;
@@ -25,49 +27,49 @@ public class InvoiceServiceImpl implements InvoiceService {
     }
 
     public void addInvoice(InvoiceVO currentInvoiceVO) throws InvoiceException {
-        try{
+        try {
             getInvoiceDAO().addInvoice(currentInvoiceVO);
-        }catch (InvoiceException e){
-            e.printStackTrace();
+        } catch (InvoiceException e) {
+            LOG.error(e.getLocalizedMessage());
             throw new InvoiceException(e.getMessage());
         }
     }
 
     public List<InvoiceVO> fetchInvoiceForListOfTransactions(List<String> tagNumbers) throws InvoiceException {
-        List<InvoiceVO> invoiceVOs = null;
-        try{
+        List<InvoiceVO> invoiceVOs;
+        try {
             invoiceVOs = getInvoiceDAO().fetchInvoiceForListOfTransactions(tagNumbers);
-        }catch (InvoiceException e){
-            e.printStackTrace();
+        } catch (InvoiceException e) {
+            LOG.error(e.getLocalizedMessage());
             throw new InvoiceException(e.getMessage());
         }
         return invoiceVOs;
     }
 
     public InvoiceVO fetchInvoiceVOFromId(Long id) throws InvoiceException {
-        InvoiceVO invoiceVO = null;
-        try{
+        InvoiceVO invoiceVO;
+        try {
             invoiceVO = getInvoiceDAO().fetchInvoiceVOFromId(id);
-        }catch (InvoiceException e){
-            e.printStackTrace();
+        } catch (InvoiceException e) {
+            LOG.error(e.getLocalizedMessage());
             throw new InvoiceException(e.getMessage());
         }
         return invoiceVO;
     }
 
     public void deleteInvoice(Long id) throws InvoiceException {
-        try{
+        try {
             getInvoiceDAO().deleteInvoice(id);
-        }catch (InvoiceException e){
-            e.printStackTrace();
+        } catch (InvoiceException e) {
+            LOG.error(e.getLocalizedMessage());
             throw new InvoiceException(e.getMessage());
         }
     }
 
     public void updateInvoice(InvoiceVO currentInvoiceVO) throws InvoiceException {
-        try{
+        try {
             getInvoiceDAO().updateInvoice(currentInvoiceVO);
-        }catch (InvoiceException e){
+        } catch (InvoiceException e) {
             e.printStackTrace();
             throw new InvoiceException(e.getMessage());
         }
@@ -75,10 +77,10 @@ public class InvoiceServiceImpl implements InvoiceService {
 
     public List<InvoiceVO> findInvoices(InvoiceVO searchInvoiceVO) throws InvoiceException {
         List<InvoiceVO> invoiceVOs = null;
-        try{
+        try {
             invoiceVOs = getInvoiceDAO().findInvoices(searchInvoiceVO);
-        }catch (InvoiceException e){
-            e.printStackTrace();
+        } catch (InvoiceException e) {
+            LOG.error(e.getLocalizedMessage());
             throw new InvoiceException(e.getMessage());
         }
         return invoiceVOs;

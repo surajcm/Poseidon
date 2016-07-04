@@ -14,8 +14,8 @@ import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.jdbc.core.support.JdbcDaoSupport;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.dao.DataAccessException;
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 /**
  * User: Suraj
@@ -24,8 +24,7 @@ import org.apache.commons.logging.LogFactory;
  */
 public class CustomerDAOImpl extends JdbcDaoSupport implements CustomerDAO {
     private SimpleJdbcInsert insertCustomer;
-    //logger
-    private final Log log = LogFactory.getLog(CustomerDAOImpl.class);
+    private final Logger LOG = LoggerFactory.getLogger(CustomerDAOImpl.class);
     private final String GET_CUSTOMERS_SQL = " SELECT id, Name, ifnull(address1,'') as address1,ifnull(address2,'') as address2," +
             " ifnull(phone,'') as phone, ifnull(mobile,'') as mobile, " +
             " ifnull(email,'') as email, ifnull(contactPerson1,'') as contactPerson1," +
@@ -53,7 +52,7 @@ public class CustomerDAOImpl extends JdbcDaoSupport implements CustomerDAO {
         try {
             return saveCustomerDetails(currentCustomerVO);
         } catch (DataAccessException e) {
-            e.printStackTrace();
+            LOG.error(e.getLocalizedMessage());
             throw new CustomerException(CustomerException.DATABASE_ERROR);
         }
     }
@@ -63,7 +62,7 @@ public class CustomerDAOImpl extends JdbcDaoSupport implements CustomerDAO {
         try {
             customerVO = fetchCustomerFromId(id);
         } catch (DataAccessException e) {
-            e.printStackTrace();
+            LOG.error(e.getLocalizedMessage());
             throw new CustomerException(CustomerException.DATABASE_ERROR);
         }
         return customerVO;
@@ -74,7 +73,7 @@ public class CustomerDAOImpl extends JdbcDaoSupport implements CustomerDAO {
             Object[] parameters = new Object[]{id};
             getJdbcTemplate().update(DELETE_CUSTOMER_BY_ID_SQL, parameters);
         } catch (DataAccessException e) {
-            e.printStackTrace();
+            LOG.error(e.getLocalizedMessage());
             throw new CustomerException(CustomerException.DATABASE_ERROR);
         }
     }
@@ -98,7 +97,7 @@ public class CustomerDAOImpl extends JdbcDaoSupport implements CustomerDAO {
         try {
             getJdbcTemplate().update(UPDATE_CUSTOMER_SQL, parameters);
         } catch (DataAccessException e) {
-            e.printStackTrace();
+            LOG.error(e.getLocalizedMessage());
             throw new CustomerException(CustomerException.DATABASE_ERROR);
         }
     }
@@ -108,7 +107,7 @@ public class CustomerDAOImpl extends JdbcDaoSupport implements CustomerDAO {
         try {
             customerVOs = SearchCustomer(searchCustomerVO);
         } catch (DataAccessException e) {
-            e.printStackTrace();
+            LOG.error(e.getLocalizedMessage());
             throw new CustomerException(CustomerException.DATABASE_ERROR);
         }
         return customerVOs;
@@ -138,7 +137,7 @@ public class CustomerDAOImpl extends JdbcDaoSupport implements CustomerDAO {
                 .addValue("modifiedBy", currentCustomerVO.getModifiedBy());
 
         Number newId = insertCustomer.executeAndReturnKey(parameters);
-        log.info(" the query resulted in  " + newId.longValue());
+        LOG.info(" the query resulted in  " + newId.longValue());
         currentCustomerVO.setCustomerId(newId.longValue());
         return newId.longValue();
     }
@@ -187,7 +186,7 @@ public class CustomerDAOImpl extends JdbcDaoSupport implements CustomerDAO {
                 SEARCH_QUERY.append(" mobile like '").append(searchVO.getMobile()).append("'");
             }
         }
-        log.info("Search query is " + SEARCH_QUERY.toString());
+        LOG.info("Search query is " + SEARCH_QUERY.toString());
         return (List<CustomerVO>) getJdbcTemplate().query(SEARCH_QUERY.toString(), new CustomerListRowMapper());
     }
 
