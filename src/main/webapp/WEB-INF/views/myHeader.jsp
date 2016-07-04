@@ -10,17 +10,12 @@
     <meta name="description" content="">
     <meta name="author" content="Suraj">
     <spring:url value="/resources/images/Poseidon_Ico.ico" var="posIcon" />
-    <spring:url value="/resources/css/bootstrap.css" var="bootstrap" />
-    <spring:url value="/resources/css/bootstrap-responsive.css" var="bootstrapResp" />
-    <spring:url value="/resources/css/bootstrap-theme.css" var="bootstrapTheme" />
-    <spring:url value="/resources/css/font-awesome.css" var="fontAwesome" />
-    <spring:url value="/resources/css/font-awesome-ie7.css" var="fontAwesomeIE" />
     <link rel="shortcut icon" href="${posIcon}" >
-    <link href="${bootstrap}" rel="stylesheet" type="text/css">
-    <link href="${bootstrapResp}" rel="stylesheet" type="text/css">
-    <link href="${bootstrapTheme}" rel="stylesheet" type="text/css">
-    <link href="${fontAwesome}" rel="stylesheet" type="text/css">
-    <link href="${fontAwesomeIE}" rel="stylesheet" type="text/css">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-responsive.min.css" rel="stylesheet" type="text/css">
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap-theme.min.css" rel="stylesheet" type="text/css">
+    <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome-ie7.min.css" rel="stylesheet" type="text/css">
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
@@ -107,7 +102,7 @@
                                 && document.forms[0].loggedInUser.value != null
                                 && document.forms[0].loggedInUser.value.length > 0){
                             document.write("<a href='#' class='dropdown-toggle' data-toggle='dropdown'>"+document.forms[0].loggedInUser.value+"<b class='caret'></b></a>");
-                        }else {
+                        } else {
                             document.write("<a href='#' class='dropdown-toggle' data-toggle='dropdown'>Unknown User<b class='caret'></b></a>");
                         }
                     </script>
@@ -119,10 +114,8 @@
         </div><!--/.nav-collapse -->
     </div>
 </div>
-<spring:url value="/resources/js/jquery-latest.js" var="jquery" />
-<spring:url value="/resources/js/jbootstrap.js" var="bootstrapJs" />
-<script src="${jquery}"></script>
-<script src="${bootstrapJs}"></script>
+<script src="http://cdn.bootcss.com/jquery/1.10.2/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
 <script>
     $(document).ready(function()
     {
