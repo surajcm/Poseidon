@@ -78,7 +78,7 @@
             <span class="icon-bar"></span>
         </button>
         <spring:url value="/resources/images/Poseidon_Ico_NEW.png" var="posIcon2" />
-        <a class="navbar-brand" href="#"onclick="javascript:goToHome();" ><img src="${posIcon2}" />Poseidon</a>
+        <a class="navbar-brand" href="#"onclick="javascript:goToHome();" ><img src="${posIcon2}" /><p>Poseidon</p></a>
         <div class="collapse navbar-collapse navbar-ex1-collapse">
             <ul class="nav navbar-nav">
                 <script type="text/javascript">
