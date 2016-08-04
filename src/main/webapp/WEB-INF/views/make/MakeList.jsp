@@ -163,7 +163,7 @@
             }
         }
         function hideAlerts(){
-            document.getElementById('makeme').className = "active";
+            document.getElementById('makeme').text = "Make <span class='sr-only'>Make</span>";
         }
     </script>
 

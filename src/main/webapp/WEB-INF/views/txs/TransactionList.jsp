@@ -272,7 +272,7 @@ function invoiceRow() {
 }
 
 function hideAlerts(){
-    document.getElementById('txnmgt').className = "active";
+    document.getElementById('txnmgt').text = "Transactions <span class='sr-only'>Transactions</span>";
 }
 
 

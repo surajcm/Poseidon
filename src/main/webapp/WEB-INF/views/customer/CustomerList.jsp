@@ -160,7 +160,7 @@
             }
         }
         function hideAlerts(){
-            document.getElementById('customermgt').className = "active";
+            document.getElementById('customermgt').text = "Customer <span class='sr-only'>Customer</span>";
         }
 
     </script>

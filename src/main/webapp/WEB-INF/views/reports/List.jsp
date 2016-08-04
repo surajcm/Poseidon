@@ -153,7 +153,7 @@
             }
         }
         function selectMenu(){
-            document.getElementById('reportmgt').className = "active";
+            document.getElementById('reportmgt').text = "Report <span class='sr-only'>Report</span>";
         }
     </script>
     <script>
@@ -173,11 +173,20 @@
 <%@include file="/WEB-INF/views/myHeader.jsp" %>
 <div class="container">
 <ul class="nav nav-tabs">
-    <li class="active"><a href="#callReport" data-toggle="tab">Generate Call Report :</a></li>
-    <li><a href="#modelReport" data-toggle="tab">Generate Make/Model Report :</a></li>
-    <li><a href="#txnReport" data-toggle="tab">Generate TransactionsList Report :</a></li>
-    <li><a href="#invoiceReport" data-toggle="tab">Generate Invoice Report :</a></li>
-    <li><a href="#invoiceListReport" data-toggle="tab">Generate InvoiceList Report :</a></li>
+    <li class="nav-item">
+        <a class="nav-link active" href="#callReport" data-toggle="tab">Generate Call Report :</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="#modelReport" data-toggle="tab">Generate Make/Model Report :</a></li>
+    <li>
+        <a class="nav-link" href="#txnReport" data-toggle="tab">Generate TransactionsList Report :</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="#invoiceReport" data-toggle="tab">Generate Invoice Report :</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="#invoiceListReport" data-toggle="tab">Generate InvoiceList Report :</a>
+    </li>
 </ul>
 <div class="tabbable">
 <div class="tab-content">

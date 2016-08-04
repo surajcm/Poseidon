@@ -47,7 +47,7 @@
         }
 
         function hideUpdate(){
-            document.getElementById('companymgt').className = "active";
+            document.getElementById('companymgt').text = "Company <span class='sr-only'>Company</span>";
             document.getElementById('update').style.visibility='hidden';
             document.getElementById('clear').style.visibility='hidden';
             document.getElementById('cancel').style.visibility='hidden';

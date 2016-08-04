@@ -7,13 +7,6 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title><spring:message code="poseidon.userListPage" text="User List" /></title>
-    <style type="text/css">
-        .foottable {
-            margin:auto;
-            top:50%;
-            left:50%;
-        }
-    </style>
     <script type="text/javascript">
 
         //code to add New user
@@ -155,7 +148,7 @@
         }
 
         function hideAlerts(){
-            document.getElementById('user').className = "active";
+            document.getElementById('user').text = "User <span class='sr-only'>User</span>";
         }
 
     </script>

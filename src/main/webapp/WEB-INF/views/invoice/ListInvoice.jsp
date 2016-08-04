@@ -172,7 +172,7 @@
     }
 
     function hideAlerts(){
-        document.getElementById('invmgt').className = "active";
+        document.getElementById('invmgt').text = "Invoice <span class='sr-only'>Invoice</span>";
     }
 
 </script>
