@@ -277,12 +277,6 @@ function hideAlerts(){
 
 
 </script>
-<script>
-    $(function() {
-        $( "#startDate" ).datepicker({ dateFormat: "dd/mm/yy" });
-        $( "#endDate" ).datepicker({ dateFormat: "dd/mm/yy" });
-    });
-</script>
 </head>
 <body onload="javascript:hideAlerts()">
 <form:form method="POST" commandName="transactionForm" name="transactionForm" action="List.htm">
@@ -303,7 +297,7 @@ function hideAlerts(){
                         </label>
                     </td>
                     <td>
-                        <form:input cssClass="form-control" path="searchTransaction.TagNo" id="TagNo"/>
+                        <form:input class="form-control" path="searchTransaction.TagNo" id="TagNo"/>
                     </td>
                     <td colspan="2">&nbsp;</td>
                     <td>
@@ -312,25 +306,31 @@ function hideAlerts(){
                         </label>
                     </td>
                     <td>
-                        <form:input cssClass="form-control" path="searchTransaction.CustomerName" id="CustomerName"/>
+                        <form:input class="form-control" path="searchTransaction.CustomerName" id="CustomerName"/>
                     </td>
                     <td colspan="2">&nbsp;</td>
                     <td>
-                        <label for="startDate" class="control-label">
+                        <label for="start" class="control-label">
                             Reported Date (From) :
                         </label>
                     </td>
                     <td>
-                        <form:input cssClass="form-control" path="searchTransaction.startDate" id="startDate"/>
+                        <div class="input-group">
+                            <form:input path="searchTransaction.startDate" class="date-picker form-control" id = "startDate" />
+                            <label for="start" class="input-group-addon btn"><span class="fa fa-calendar"></span>
+                        </div>
                     </td>
                     <td colspan="2">&nbsp;</td>
                     <td>
-                        <label for="endDate" class="control-label">
+                        <label for="end" class="control-label">
                             Reported Date (To) :
                         </label>
                     </td>
                     <td>
-                        <form:input cssClass="form-control" path="searchTransaction.endDate" id="endDate"/>
+                        <div class="input-group">
+                            <form:input path="searchTransaction.endDate" class="date-picker form-control" id = "endDate" />
+                            <label for="end" class="input-group-addon btn"><span class="fa fa-calendar"></span>
+                        </div>
                     </td>
                 </tr>
                 <tr>
@@ -343,7 +343,7 @@ function hideAlerts(){
                         </label>
                     </td>
                     <td>
-                        <form:input cssClass="form-control" path="searchTransaction.SerialNo" id="SerialNo"/>
+                        <form:input class="form-control" path="searchTransaction.SerialNo" id="SerialNo"/>
                     </td>
                     <td colspan="2">&nbsp;</td>
                     <td>
@@ -469,5 +469,14 @@ function hideAlerts(){
     </div>
 
     </form:form>
+    <script>
+        $(document).ready(function() {
+            $(function() {
+                $("#startDate").datepicker();
+                 $("#endDate").datepicker();
+            });
+        });
+    </script>
+
 </body>
 </html>

@@ -7,10 +7,6 @@
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <title>Add Transaction</title>
-        <spring:url value="/resources/js/jquery-1.7.2.min.js" var="jqueryMin" />
-        <spring:url value="/resources/js/jquery-ui-1.8.21.custom.min.js" var="jqueryUIMin" />
-        <script type="text/javascript" src="${jqueryMin}" language="javascript"></script>
-        <script type="text/javascript" src="${jqueryUIMin}" language="javascript"></script>
         <style type="text/css">
             table {
                 margin: auto;
@@ -129,11 +125,6 @@
                 }
             }
         </script>
-        <script>
-            $(function () {
-                $("#dateReported").datepicker({ dateFormat: "dd/mm/yy" });
-            });
-        </script>
     </head>
     <body>
         <form:form method="POST" commandName="transactionForm" name="transactionForm">
@@ -166,7 +157,10 @@
                                 <label class="mandatory">*</label>
                             </td>
                             <td style="text-align:left;">
-                                <form:input cssClass="form-control" path="currentTransaction.dateReported" id="dateReported"/>
+                                <div class="input-group">
+                                    <form:input path="currentTransaction.dateReported" class="date-picker form-control" id = "dateReported" />
+                                    <label for="reported" class="input-group-addon btn"><span class="fa fa-calendar"></span>
+                                </div>
                             </td>
                         </tr>
                         <tr>
@@ -393,5 +387,12 @@
                 </div>
             </div>
         </form:form>
+        <script>
+            $(document).ready(function() {
+                $(function() {
+                    $("#dateReported").datepicker();
+                });
+            });
+        </script>
     </body>
 </html>
