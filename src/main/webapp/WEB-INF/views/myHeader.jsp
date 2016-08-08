@@ -106,7 +106,7 @@
             ☰
         </button>
         <div class="collapse navbar-toggleable-xs" id="collapsingNavbar">
-            <spring:url value="/resources/images/Poseidon_Ico_NEW2.png" var="posIcon2" />
+            <spring:url value="/resources/images/Poseidon_Menu.png" var="posIcon2" />
             <a class="navbar-brand" href="#" onclick="javascript:goToHome();"><span><img src="${posIcon2}"alt="Poseidon"/></span>Poseidon</a>
             <ul class="nav navbar-nav">
                 <script type="text/javascript">
