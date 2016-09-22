@@ -19,13 +19,8 @@
             if(document.getElementById('makeName').value.length == 0) {
                 document.getElementById('makeName').style.background = 'Yellow';
                 alert(" Please enter the Make name");
-            }  else if(document.getElementById('description').value.length == 0) {
-                document.getElementById('makeName').style.background = 'White';
-                document.getElementById('description').style.background = 'Yellow';
-                alert(" Please enter the description");
             } else{
                 document.getElementById('makeName').style.background = 'White';
-                document.getElementById('description').style.background = 'White';
                 document.forms[0].action = "saveMake.htm";
                 document.forms[0].submit();
             }

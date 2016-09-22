@@ -12,6 +12,10 @@ import com.poseidon.Make.domain.MakeAndModelVO;
 import com.poseidon.Make.domain.MakeVO;
 import com.poseidon.Make.exception.MakeException;
 
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.List;
 import java.util.Date;
 
@@ -286,7 +290,7 @@ public class MakeController {
 
     @RequestMapping(value = "/make/saveMake.htm", method = RequestMethod.POST)
     public ModelAndView saveMake(MakeForm makeForm) {
-        LOG.debug(" listMake saveMake method of MakeController ");
+        LOG.debug(" saveMake method of MakeController ");
         LOG.debug(" makeForm instance to add to database " + makeForm.toString());
         makeForm.getCurrentMakeAndModeVO().setCreatedDate(new Date());
         makeForm.getCurrentMakeAndModeVO().setModifiedDate(new Date());
@@ -315,6 +319,65 @@ public class MakeController {
 
         }
         return MakeList(makeForm);
+    }
+
+    @RequestMapping(value = "/make/saveMakeAjax.htm", method = RequestMethod.POST)
+    public void saveMakeAjax(HttpServletRequest httpServletRequest,
+                             HttpServletResponse httpServletResponse) {
+        LOG.debug(" saveMakeAjax method of MakeController ");
+
+        StringBuilder responseString = new StringBuilder();
+
+        String selectMakeName = httpServletRequest.getParameter("selectMakeName");
+        String selectMakeDesc = httpServletRequest.getParameter("selectMakeDesc");
+        //get all the models for this make id
+        LOG.info(" At saveMakeAjax, selectMakeName is :"+ selectMakeName+" selectMakeDesc :"+selectMakeDesc);
+        MakeForm makeForm = new MakeForm();
+        // todo: how to get this ??
+        //makeForm.getCurrentMakeAndModeVO().setCreatedBy(makeForm.getLoggedInUser());
+        //makeForm.getCurrentMakeAndModeVO().setModifiedBy(makeForm.getLoggedInUser());
+        MakeAndModelVO makeAndModelVO = new MakeAndModelVO();
+        makeAndModelVO.setMakeName(selectMakeName);
+        makeAndModelVO.setDescription(selectMakeDesc);
+        makeAndModelVO.setCreatedDate(new Date());
+        makeAndModelVO.setModifiedDate(new Date());
+        makeAndModelVO.setCreatedBy("-ajax-");
+        makeAndModelVO.setModifiedBy("-ajax-");
+
+        makeForm.setCurrentMakeAndModeVO(makeAndModelVO);
+        try {
+            getMakeDelegate().addNewMake(makeForm.getCurrentMakeAndModeVO());
+            makeForm.setStatusMessage("Successfully saved the new Make Detail");
+            makeForm.setStatusMessageType("success");
+        } catch (MakeException e) {
+            makeForm.setStatusMessage("Unable to save the Make Detail due to a data base error");
+            makeForm.setStatusMessageType("error");
+            LOG.error(e.getLocalizedMessage());
+            LOG.error(" Exception type in controller " + e.ExceptionType);
+            if (e.getExceptionType().equalsIgnoreCase(MakeException.DATABASE_ERROR)) {
+                LOG.error(" An error occurred while fetching data from database. !! ");
+            } else {
+                LOG.error(" An Unknown Error has been occurred !!");
+            }
+
+        } catch (Exception e1) {
+            makeForm.setStatusMessage("Unable to save the Make Detail due to an error");
+            makeForm.setStatusMessageType("error");
+            LOG.error(e1.getLocalizedMessage());
+            LOG.info(" An Unknown Error has been occurred !!");
+        }
+
+        responseString.append("-------------");
+        // get a id-name combination, which is splittable by js
+        httpServletResponse.setContentType("text/plain");
+        PrintWriter out;
+        try {
+            out = httpServletResponse.getWriter();
+            out.print(responseString.toString());
+            out.flush();
+        } catch (IOException e) {
+            LOG.error(e.getLocalizedMessage());
+        }
     }
 
     @RequestMapping(value = "/make/updateMake.htm", method = RequestMethod.POST)
