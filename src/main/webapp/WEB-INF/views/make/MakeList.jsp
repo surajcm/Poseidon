@@ -232,14 +232,63 @@
         }
 
         function stateChange() {
-                if (req.readyState == 4 && (req.status == 200 || window.location.href.indexOf("http") == -1)) {
-                    textReturned = req.responseText;
-                    if (textReturned != "") {
-                        alert("Got ajax response");
-                        alert(textReturned);
-                    }
+            if (req.readyState == 4 && (req.status == 200 || window.location.href.indexOf("http") == -1)) {
+                textReturned = req.responseText;
+                if (textReturned != "") {
+                    alert("Got ajax response");
+
+                    rewriteTable(textReturned);
                 }
             }
+        }
+
+        function rewriteTable(textReturned) {
+            //alert(textReturned);
+            alert("need to rewrite the table.....");
+            alert(document.getElementById('myTable').innerHTML);
+            document.getElementById('myTable').innerHTML = "";
+            var myTable = document.getElementById("myTable");
+            var thead = document.createElement("thead");
+            var tr1 = document.createElement("tr");
+            var th1 = document.createElement("th");
+            th1.innerHTML = "#";
+            th1.setAttribute("class","text-center");
+            tr1.appendChild(th1);
+            var th2 = document.createElement("th");
+            th2.innerHTML = "Make Name";
+            th2.setAttribute("class","text-center");
+            tr1.appendChild(th2);
+            var th3 = document.createElement("th");
+            th3.innerHTML = "Description";
+            th3.setAttribute("class","text-center");
+            tr1.appendChild(th3);
+            thead.appendChild(tr1);
+            myTable.appendChild(thead);
+            var makeList = JSON.parse(textReturned);
+            var tbody = document.createElement("tbody");
+            for (var i = 0; i < makeList.length; i++) {
+                var singleMake = makeList[i];
+                var trx = document.createElement("tr");
+                var td1 = document.createElement("td");
+                var inCheck = document.createElement("input");
+                inCheck.setAttribute("type","checkbox");
+                inCheck.setAttribute("name","checkField");
+                inCheck.setAttribute("onclick","javascript:checkCall(this)");
+                inCheck.setAttribute("value","<c:out value='${iterationMake.makeId}' />");
+                td1.appendChild(inCheck);
+                trx.appendChild(td1);
+                var td2 = document.createElement("td");
+                td2.innerHTML = singleMake.makeName;
+                trx.appendChild(td2);
+                var td3 = document.createElement("td");
+                td3.innerHTML = singleMake.description;
+                trx.appendChild(td3);
+                tbody.appendChild(trx);
+            }
+            myTable.appendChild(tbody);
+            alert("rewritten the table.....");
+
+        }
 
     </script>
 </head>
@@ -356,6 +405,12 @@
                         <!--td>
                             <input class="btn" value="Print MakeList" type="button" onclick="javascript:printMe()"/>
                         </td-->
+                    </tr>
+                    <tr>
+                        <td colspan="5">
+                            <br/>
+                            <br/>
+                        <td>
                     </tr>
                     <tr>
                         <td>

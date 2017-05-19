@@ -12,19 +12,17 @@ repositories {
 }
 
 dependencies {
-    compile group: 'org.springframework', name: 'spring-jdbc', version: '4.3.0.RELEASE'
-    compile group: 'org.springframework', name: 'spring-webmvc', version: '4.3.0.RELEASE'
+    compile group: 'org.springframework', name: 'spring-jdbc', version: '4.3.8.RELEASE'
+    compile group: 'org.springframework', name: 'spring-webmvc', version: '4.3.8.RELEASE'
 
-    //compile group: 'org.springframework.security', name: 'spring-security-web', version: '4.0.1.RELEASE'
-    //compile group: 'org.springframework.security', name: 'spring-security-config', version: '4.0.1.RELEASE'
-
+    compile group:'com.fasterxml.jackson.core', name:'jackson-core', version:'2.8.6'
     compile group: 'commons-collections', name: 'commons-collections', version: '3.2'
-
-    compile 'org.slf4j:jcl-over-slf4j:1.7.12'
-    compile 'ch.qos.logback:logback-classic:1.1.3'
+    compile group: 'org.slf4j', name:'jcl-over-slf4j', version: '1.7.12'
+    compile group: 'ch.qos.logback', name: 'logback-classic', version: '1.1.3'
 
     compile group: 'jstl', name: 'jstl', version: '1.2'
     compile group: 'net.sf.jasperreports', name: 'jasperreports', version: '4.6.0'
+
     //include in compile only, exclude in the war
     providedCompile group: 'javax.servlet', name: 'javax.servlet-api', version: '3.1.0'
 
@@ -38,6 +36,6 @@ configurations.all {
 }
 
 task wrapper(type: Wrapper) {
-    gradleVersion = '2.14'
-    distributionUrl = "http://repository.orbitz.net/gradle/gradle-${gradleVersion}-bin.zip"
+    gradleVersion = '3.5'
+    distributionUrl = "https\\://services.gradle.org/distributions/gradle-${gradleVersion}-bin.zip"
 }
