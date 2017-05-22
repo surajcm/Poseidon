@@ -21,11 +21,6 @@
             document.forms[0].submit();
         }
 
-        function addNewMake() {
-            document.forms[0].action = "addMake.htm";
-            document.forms[0].submit();
-        }
-
         function clearOut(){
             document.getElementById("makeName").value = document.getElementById('makeName').options[0].value;
             document.getElementById('modelName').value ="";
@@ -201,7 +196,6 @@
         }
 
         function saveSimpleMake(){
-            alert("You hit simple make save");
             var selectMakeName = document.makeForm.newMakeName.value;
             var selectMakeDesc = document.makeForm.newMakeDesc.value;
             var url = "<%=request.getContextPath()%>" + "/make/saveMakeAjax.htm";
@@ -235,17 +229,12 @@
             if (req.readyState == 4 && (req.status == 200 || window.location.href.indexOf("http") == -1)) {
                 textReturned = req.responseText;
                 if (textReturned != "") {
-                    alert("Got ajax response");
-
                     rewriteTable(textReturned);
                 }
             }
         }
 
         function rewriteTable(textReturned) {
-            //alert(textReturned);
-            alert("need to rewrite the table.....");
-            alert(document.getElementById('myTable').innerHTML);
             document.getElementById('myTable').innerHTML = "";
             var myTable = document.getElementById("myTable");
             var thead = document.createElement("thead");
@@ -274,7 +263,7 @@
                 inCheck.setAttribute("type","checkbox");
                 inCheck.setAttribute("name","checkField");
                 inCheck.setAttribute("onclick","javascript:checkCall(this)");
-                inCheck.setAttribute("value","<c:out value='${iterationMake.makeId}' />");
+                inCheck.setAttribute("value",singleMake.id);
                 td1.appendChild(inCheck);
                 trx.appendChild(td1);
                 var td2 = document.createElement("td");
@@ -286,7 +275,7 @@
                 tbody.appendChild(trx);
             }
             myTable.appendChild(tbody);
-            alert("rewritten the table.....");
+            //todo: optional message saving update is done !!
 
         }
 
@@ -394,7 +383,7 @@
                             <input class="btn btn-primary" value="Model List" type="button" onclick="javascript:listAllModel()"/>
                         </td>
                         <td>
-                            <input class="btn btn-primary" value="Add Make" type="button" onclick="javascript:addNewMake()"/>
+                            <input class="btn btn-primary" value="Add Make" type="button" onclick="javascript:addSimpleMake()"/>
                         </td>
                         <td>
                             <input class="btn btn-primary" value="Edit Make" type="button" onclick="javascript:editMake()"/>
@@ -414,12 +403,9 @@
                     </tr>
                     <tr>
                         <td>
-                            <input class="btn btn-primary btn-block" value="Simple Add" type="button" onclick="javascript:addSimpleMake()"/>
-                        <td>
-                        <td>
                             <input class="btn btn-primary btn-block" value="Simple Save" type="button" onclick="javascript:saveSimpleMake()"/>
                         <td>
-                        <td colspan="3">
+                        <td colspan="4">
                         </td>
                     </tr>
                 </table>

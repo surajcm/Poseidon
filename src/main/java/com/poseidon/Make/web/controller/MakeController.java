@@ -48,7 +48,7 @@ public class MakeController {
     @RequestMapping(value = "/make/ModelList.htm", method = RequestMethod.POST)
     public ModelAndView ModelList(MakeForm makeForm) {
         LOG.debug(" Inside List method of MakeController ");
-        LOG.debug(" form details are %s " , makeForm);
+        LOG.debug(" form details are  " + makeForm);
 
         List<MakeAndModelVO> makeAndModelVOs = null;
         try {
@@ -60,7 +60,7 @@ public class MakeController {
         }
         if (makeAndModelVOs != null) {
             for (MakeAndModelVO makeAndModelVO : makeAndModelVOs) {
-                LOG.debug(" makeAndModelVO is %s" , makeAndModelVO);
+                LOG.debug(" makeAndModelVO is " + makeAndModelVO);
             }
             makeForm.setMakeAndModelVOs(makeAndModelVOs);
         }
@@ -72,7 +72,7 @@ public class MakeController {
         }
         if (makeVOs != null) {
             for (MakeVO makeVO : makeVOs) {
-                LOG.debug(" makeVO is %s" , makeVO);
+                LOG.debug(" makeVO is " + makeVO);
             }
             makeForm.setMakeVOs(makeVOs);
         }
@@ -95,7 +95,7 @@ public class MakeController {
         }
         if (makeAndModelVOs != null) {
             for (MakeAndModelVO makeAndModelVO : makeAndModelVOs) {
-                LOG.debug(" makeAndModelVO is %s" , makeAndModelVO);
+                LOG.debug(" makeAndModelVO is " + makeAndModelVO);
             }
             makeForm.setMakeAndModelVOs(makeAndModelVOs);
         }
@@ -108,7 +108,7 @@ public class MakeController {
         }
         if (makeVOs != null) {
             for (MakeVO makeVO : makeVOs) {
-                LOG.debug(" makeVO is %s" , makeVO);
+                LOG.debug(" makeVO is " + makeVO);
             }
             makeForm.setMakeVOs(makeVOs);
         }
@@ -119,21 +119,11 @@ public class MakeController {
 
     }
 
-    @RequestMapping(value = "/make/addMake.htm", method = RequestMethod.POST)
-    @SuppressWarnings("unused")
-    public ModelAndView addMake(MakeForm makeForm) {
-        LOG.debug(" listMake addMake method of MakeController ");
-        makeForm.setLoggedInUser(makeForm.getLoggedInUser());
-        makeForm.setLoggedInRole(makeForm.getLoggedInRole());
-        makeForm.setCurrentMakeAndModeVO(new MakeAndModelVO());
-        return new ModelAndView("make/MakeAdd", "makeForm", makeForm);
-    }
-
     @RequestMapping(value = "/make/editMake.htm", method = RequestMethod.POST)
     @SuppressWarnings("unused")
     public ModelAndView editMake(MakeForm makeForm) {
-        LOG.debug(" listMake editMake method of MakeController ");
-        LOG.debug(" makeForm is %s" , makeForm.toString());
+        LOG.debug(" editMake method of MakeController ");
+        LOG.debug(" makeForm is " + makeForm.toString());
         MakeAndModelVO makeVO = null;
         try {
             makeVO = getMakeDelegate().getMakeFromId(makeForm.getId());
@@ -154,7 +144,7 @@ public class MakeController {
         if (makeVO == null) {
             LOG.error(" No details found for current makeVO !!");
         } else {
-            LOG.debug(" makeVO details are %s" , makeVO);
+            LOG.debug(" makeVO details are " + makeVO);
         }
 
         makeForm.setCurrentMakeAndModeVO(makeVO);
@@ -168,7 +158,7 @@ public class MakeController {
     @SuppressWarnings("unused")
     public ModelAndView deleteMake(MakeForm makeForm) {
         LOG.debug("  deleteMake method of MakeController ");
-        LOG.debug(" makeForm is %s" , makeForm.toString());
+        LOG.debug(" makeForm is " + makeForm.toString());
         try {
             getMakeDelegate().deleteMake(makeForm.getId());
         } catch (MakeException e) {
@@ -207,7 +197,7 @@ public class MakeController {
         }
         if (makeVOs != null) {
             for (MakeAndModelVO makeVO : makeVOs) {
-                LOG.debug(" makeVO is %s" , makeVO);
+                LOG.debug(" makeVO is " + makeVO);
             }
             makeForm.setMakeAndModelVOs(makeVOs);
         }
@@ -219,7 +209,7 @@ public class MakeController {
     public ModelAndView editModel(MakeForm makeForm) {
         LOG.debug(" editModel method of MakeController ");
 
-        LOG.debug(" makeForm is %s" , makeForm.toString());
+        LOG.debug(" makeForm is " + makeForm.toString());
         MakeAndModelVO makeVO = null;
         try {
             makeVO = getMakeDelegate().getModelFromId(makeForm.getId());
@@ -240,7 +230,7 @@ public class MakeController {
         if (makeVO == null) {
             LOG.error(" No details found for current makeVO !!");
         } else {
-            LOG.info(" makeVO details are %s" , makeVO);
+            LOG.info(" makeVO details are " + makeVO);
         }
 
         makeForm.setCurrentMakeAndModeVO(makeVO);
@@ -252,7 +242,7 @@ public class MakeController {
         }
         if (makeVOs != null) {
             for (MakeAndModelVO makeVONew : makeVOs) {
-                LOG.debug(" makeVO is %s" , makeVONew);
+                LOG.debug(" makeVO is " + makeVONew);
             }
             makeForm.setMakeAndModelVOs(makeVOs);
         }
@@ -266,7 +256,7 @@ public class MakeController {
     public ModelAndView deleteModel(MakeForm makeForm) {
         LOG.debug(" listMake deleteModel method of MakeController ");
 
-        LOG.debug(" makeForm is %s" , makeForm.toString());
+        LOG.debug(" makeForm is " + makeForm.toString());
         try {
             getMakeDelegate().deleteModel(makeForm.getId());
             makeForm.setStatusMessage("Successfully deleted the selected Model");
@@ -295,40 +285,6 @@ public class MakeController {
         return ModelList(makeForm);
     }
 
-    @RequestMapping(value = "/make/saveMake.htm", method = RequestMethod.POST)
-    @SuppressWarnings("unused")
-    public ModelAndView saveMake(MakeForm makeForm) {
-        LOG.debug(" saveMake method of MakeController ");
-        LOG.debug(" makeForm instance to add to database %s" , makeForm.toString());
-        makeForm.getCurrentMakeAndModeVO().setCreatedDate(new Date());
-        makeForm.getCurrentMakeAndModeVO().setModifiedDate(new Date());
-        makeForm.getCurrentMakeAndModeVO().setCreatedBy(makeForm.getLoggedInUser());
-        makeForm.getCurrentMakeAndModeVO().setModifiedBy(makeForm.getLoggedInUser());
-        try {
-            getMakeDelegate().addNewMake(makeForm.getCurrentMakeAndModeVO());
-            makeForm.setStatusMessage("Successfully saved the new Make Detail");
-            makeForm.setStatusMessageType("success");
-        } catch (MakeException e) {
-            makeForm.setStatusMessage("Unable to save the Make Detail due to a data base error");
-            makeForm.setStatusMessageType("error");
-            LOG.error(e.getLocalizedMessage());
-            LOG.error(" Exception type in controller " + e.ExceptionType);
-            if (e.getExceptionType().equalsIgnoreCase(MakeException.DATABASE_ERROR)) {
-                LOG.error(" An error occurred while fetching data from database. !! ");
-            } else {
-                LOG.error(" An Unknown Error has been occurred !!");
-            }
-
-        } catch (Exception e1) {
-            makeForm.setStatusMessage("Unable to save the Make Detail due to an error");
-            makeForm.setStatusMessageType("error");
-            LOG.error(e1.getLocalizedMessage());
-            LOG.info(" An Unknown Error has been occurred !!");
-
-        }
-        return MakeList(makeForm);
-    }
-
     @RequestMapping(value = "/make/saveMakeAjax.htm", method = RequestMethod.POST)
     @SuppressWarnings("unused")
     public void saveMakeAjax(HttpServletRequest httpServletRequest,
@@ -340,7 +296,7 @@ public class MakeController {
         String selectMakeName = httpServletRequest.getParameter("selectMakeName");
         String selectMakeDesc = httpServletRequest.getParameter("selectMakeDesc");
         //get all the models for this make id
-        LOG.info(" At saveMakeAjax, selectMakeName is : %s selectMakeDesc : %s", selectMakeName, selectMakeDesc);
+        LOG.info(" At saveMakeAjax, selectMakeName is : s selectMakeDesc : s"+ selectMakeName+ selectMakeDesc);
         MakeForm makeForm = new MakeForm();
         // todo: how to get this ??
         //makeForm.getCurrentMakeAndModeVO().setCreatedBy(makeForm.getLoggedInUser());
@@ -408,7 +364,7 @@ public class MakeController {
     @SuppressWarnings("unused")
     public ModelAndView updateMake(MakeForm makeForm) {
         LOG.info(" updateMake method of MakeController ");
-        LOG.info(" makeForm instance to add to database %s " , makeForm);
+        LOG.info(" makeForm instance to add to database  " + makeForm);
         makeForm.getCurrentMakeAndModeVO().setModifiedDate(new Date());
         makeForm.getCurrentMakeAndModeVO().setModifiedBy(makeForm.getLoggedInUser());
         try {
