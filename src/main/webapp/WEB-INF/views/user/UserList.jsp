@@ -141,6 +141,62 @@
             document.forms[0].submit();
         }
 
+        function simpleAdd() {
+            //todo: add check for multiple calls
+            var myTable = document.getElementById("myTable");
+
+            var d = document.createElement("tr");
+            var dCheck = document.createElement("td");
+            d.appendChild(dCheck);
+
+            var inCheck = document.createElement("input");
+            inCheck.setAttribute("type","checkbox");
+            inCheck.setAttribute("name","checkField");
+            inCheck.setAttribute("onclick","javascript:checkCall(this)");
+            dCheck.appendChild(inCheck);
+
+            var dUser = document.createElement("td");
+            d.appendChild(dUser);
+
+            var inUser = document.createElement("input");
+            inUser.setAttribute("type","text");
+            inUser.setAttribute("class", "form-control");
+            inUser.setAttribute("id", "newName");
+            dUser.appendChild(inUser);
+
+            var dLogIn = document.createElement("td");
+            d.appendChild(dLogIn);
+
+            var inLogin = document.createElement("input");
+            inLogin.setAttribute("type","text");
+            inLogin.setAttribute("class", "form-control");
+            inLogin.setAttribute("id", "newLogin");
+            dLogIn.appendChild(inLogin);
+
+            var dRole = document.createElement("td");
+            d.appendChild(dRole);
+
+            var inRole = document.createElement("input");
+            inRole.setAttribute("type","text");
+            inRole.setAttribute("class", "form-control");
+            inRole.setAttribute("id", "newRole");
+            dRole.appendChild(inRole);
+
+            var dCreatedOn = document.createElement("td");
+            d.appendChild(dCreatedOn);
+
+            var dCreatedBy = document.createElement("td");
+            d.appendChild(dCreatedBy);
+
+            var dModifiedOn = document.createElement("td");
+            d.appendChild(dModifiedOn);
+
+            var dModifiedBy = document.createElement("td");
+            d.appendChild(dModifiedBy);
+
+            myTable.appendChild(d);
+        }
+
         function clearOut(){
             document.getElementById("name").value = "";
             document.getElementById("loginId").value = "";
@@ -149,6 +205,141 @@
 
         function hideAlerts(){
             document.getElementById('user').text = "User <span class='sr-only'>User</span>";
+        }
+
+        function simpleSave(){
+            var selectName = document.userForm.newName.value;
+            var selectLogin = document.userForm.newLogin.value;
+            var selectRole = document.userForm.newRole.value;
+            var url = "<%=request.getContextPath()%>" + "/user/saveUserAjax.htm";
+            url = url + "?selectName=" + selectName;
+            url = url + "&selectLogin=" + selectLogin;
+            url = url + "&selectRole=" + selectRole;
+            bustcacheparameter = (url.indexOf("?") != -1) ? "&" + new Date().getTime() : "?" + new Date().getTime();
+            createAjaxRequest();
+            if (req) {
+                req.onreadystatechange = stateChange;
+                req.open("POST", url + bustcacheparameter, true);
+                req.send(url + bustcacheparameter);
+            }
+        }
+
+        function createAjaxRequest() {
+            if (window.XMLHttpRequest) {
+                req = new XMLHttpRequest();
+            } else if (window.ActiveXObject) {
+                try {
+                    req = new ActiveXObject("Msxml2.XMLHTTP");
+                } catch (e) {
+                    try {
+                        req = new ActiveXObject("Microsoft.XMLHTTP");
+                    } catch (e) {
+                    }
+                }
+            }
+        }
+
+        function stateChange() {
+            if (req.readyState == 4 && (req.status == 200 || window.location.href.indexOf("http") == -1)) {
+                textReturned = req.responseText;
+                if (textReturned != "") {
+                    rewriteTable(textReturned);
+                }
+            }
+        }
+
+        function rewriteTable(textReturned) {
+            document.getElementById('myTable').innerHTML = "";
+            var myTable = document.getElementById("myTable");
+            var thead = document.createElement("thead");
+            var tr1 = document.createElement("tr");
+            var th1 = document.createElement("th");
+            th1.innerHTML = "#";
+            th1.setAttribute("class","text-center");
+            tr1.appendChild(th1);
+
+            var th2 = document.createElement("th");
+            th2.innerHTML = "Name";
+            th2.setAttribute("class","text-center");
+            tr1.appendChild(th2);
+
+            var th3 = document.createElement("th");
+            th3.innerHTML = "loginId";
+            th3.setAttribute("class","text-center");
+            tr1.appendChild(th3);
+
+
+            var th4 = document.createElement("th");
+            th4.innerHTML = "Role";
+            th4.setAttribute("class","text-center");
+            tr1.appendChild(th4);
+
+            var th5 = document.createElement("th");
+            th5.innerHTML = "Created On";
+            th5.setAttribute("class","text-center");
+            tr1.appendChild(th5);
+
+            var th6 = document.createElement("th");
+            th6.innerHTML = "Created By";
+            th6.setAttribute("class","text-center");
+            tr1.appendChild(th6);
+
+            var th7 = document.createElement("th");
+            th7.innerHTML = "Modified On";
+            th7.setAttribute("class","text-center");
+            tr1.appendChild(th7);
+
+            var th8 = document.createElement("th");
+            th8.innerHTML = "Modified By";
+            th8.setAttribute("class","text-center");
+            tr1.appendChild(th8);
+
+            thead.appendChild(tr1);
+            myTable.appendChild(thead);
+            var userList = JSON.parse(textReturned);
+            var tbody = document.createElement("tbody");
+            for (var i = 0; i < userList.length; i++) {
+                var singleUser = userList[i];
+                var trx = document.createElement("tr");
+                var td1 = document.createElement("td");
+                var inCheck = document.createElement("input");
+                inCheck.setAttribute("type","checkbox");
+                inCheck.setAttribute("name","checkField");
+                inCheck.setAttribute("onclick","javascript:checkCall(this)");
+                inCheck.setAttribute("value",singleUser.id);
+                td1.appendChild(inCheck);
+                trx.appendChild(td1);
+                var td2 = document.createElement("td");
+                td2.innerHTML = singleUser.name;
+                trx.appendChild(td2);
+                var td3 = document.createElement("td");
+                td3.innerHTML = singleUser.loginId;
+                trx.appendChild(td3);
+
+                var td4 = document.createElement("td");
+                td4.innerHTML = singleUser.role;
+                trx.appendChild(td4);
+
+                var td5 = document.createElement("td");
+                td5.innerHTML = singleUser.createdDate;
+                trx.appendChild(td5);
+
+                var td6 = document.createElement("td");
+                td6.innerHTML = singleUser.createdBy;
+                trx.appendChild(td6);
+
+                var td7 = document.createElement("td");
+                td7.innerHTML = singleUser.modifiedDate;
+                trx.appendChild(td7);
+
+                var td8 = document.createElement("td");
+                td8.innerHTML = singleUser.lastModifiedBy;
+                trx.appendChild(td8);
+
+                tbody.appendChild(trx);
+            }
+            myTable.appendChild(tbody);
+            //todo: optional message saving update is done !!
         }
 
     </script>
@@ -270,6 +461,8 @@
                             <input class="btn btn-primary" value="<spring:message code='poseidon.add' text='Add New User' />" type="button" onclick="javascript:addNew()" />
                             <input class="btn btn-primary" value="<spring:message code='poseidon.edit' text='Edit User' />" type="button" onclick="javascript:editMe()" />
                             <input class="btn btn-primary" value="<spring:message code='poseidon.delete' text='Delete User' />" type="button" onclick="javascript:deleteUser()" />
+                            <input class="btn btn-primary" value="<spring:message code='poseidon.simple.add' text='Simple Add' />" type="button" onclick="javascript:simpleAdd()" />
+                            <input class="btn btn-primary" value="<spring:message code='poseidon.simple.save' text='Simple Save' />" type="button" onclick="javascript:simpleSave()" />
                         </td>
                     </tr>
                 </table>

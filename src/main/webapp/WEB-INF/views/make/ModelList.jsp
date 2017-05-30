@@ -156,8 +156,13 @@
                 }
             }
         }
+
         function hideAlerts(){
             document.getElementById('makeme').text = "Make <span class='sr-only'>Make</span>";
+        }
+
+        function simpleAdd() {
+            alert('hi from simple add');
         }
     </script>
 
@@ -273,6 +278,15 @@
                         <td>
                             <input class="btn btn-primary" value="Delete Model" type="button" onclick="javascript:deleteModel()"/>
                         </td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input class="btn btn-primary" value="Simple Add" type="button" onclick="javascript:simpleAdd()"/>
+                        </td>
+                        <td colspan="3">
+                            <br/>
+                            <br/>
+                        <td>
                     </tr>
                 </table>
             </div>
