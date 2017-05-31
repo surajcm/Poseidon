@@ -176,10 +176,18 @@
             var dRole = document.createElement("td");
             d.appendChild(dRole);
 
-            var inRole = document.createElement("input");
-            inRole.setAttribute("type","text");
+            var inRole = document.createElement("select");
             inRole.setAttribute("class", "form-control");
             inRole.setAttribute("id", "newRole");
+            // get these values from somewhere else
+            var op1 = new Option();
+            op1.value = "ADMIN";
+            op1.text = "ADMIN";
+            inRole.options.add(op1);
+            var op2 = new Option();
+            op2.value = "GUEST";
+            op2.text = "GUEST";
+            inRole.options.add(op2);
             dRole.appendChild(inRole);
 
             var dCreatedOn = document.createElement("td");

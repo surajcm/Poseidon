@@ -162,7 +162,36 @@
         }
 
         function simpleAdd() {
-            alert('hi from simple add');
+            var myTable = document.getElementById("myTable");
+            var d = document.createElement("tr");
+            var dCheck = document.createElement("td");
+            d.appendChild(dCheck);
+
+            var inCheck = document.createElement("input");
+            inCheck.setAttribute("type","checkbox");
+            inCheck.setAttribute("name","checkField");
+            inCheck.setAttribute("onclick","javascript:checkCall(this)");
+            dCheck.appendChild(inCheck);
+
+            var dMake = document.createElement("td");
+            d.appendChild(dMake);
+
+            var inMake = document.createElement("input");
+            inMake.setAttribute("type","text");
+            inMake.setAttribute("class", "form-control");
+            inMake.setAttribute("id", "newMakeName");
+            dMake.appendChild(inMake);
+
+            var dModel = document.createElement("td");
+            d.appendChild(dModel);
+
+            var inModel = document.createElement("input");
+            inModel.setAttribute("type","text");
+            inModel.setAttribute("class", "form-control");
+            inModel.setAttribute("id", "newModelName");
+            dModel.appendChild(inModel);
+
+            myTable.appendChild(d);
         }
     </script>
 
