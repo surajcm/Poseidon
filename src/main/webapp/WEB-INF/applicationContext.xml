@@ -5,6 +5,7 @@
        http://www.springframework.org/schema/beans/spring-beans.xsd">
 
     <import resource="db-hsqldb-config.xml"/>
+    <import resource="security.xml"/>
 
     <bean id="userDelegate" class="com.poseidon.User.delegate.UserDelegate">
         <property name="userService" ref="userService"/>
