@@ -61,7 +61,7 @@
         }
 
         function LogMeOut(){
-            document.forms[0].action="<%=request.getContextPath()%>"+"/logout";
+            document.forms[0].action="<%=request.getContextPath()%>"+"/user/LogMeOut.htm";
             document.forms[0].submit();
         }
 
@@ -153,6 +153,5 @@
         });
     });
 </script>
-<input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 </body>
 </html>
