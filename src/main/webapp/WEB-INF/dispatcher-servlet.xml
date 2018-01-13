@@ -8,34 +8,34 @@
 	<bean name="handlerMapping" class="org.springframework.web.servlet.handler.BeanNameUrlHandlerMapping">
     </bean>
 
-    <bean name="/user/*.htm" class="com.poseidon.User.web.controller.UserController" >
+    <bean name="/user/*.htm" class="com.poseidon.user.web.controller.UserController" >
         <property name="userService" ref="userService"/>
     </bean>
 
-    <bean name="/txs/*.htm" class="com.poseidon.Transaction.web.controller.TransactionController" >
+    <bean name="/txs/*.htm" class="com.poseidon.transaction.web.controller.TransactionController" >
         <property name="transactionService" ref="transactionService"/>
         <property name="makeService" ref="makeService"/>
         <property name="customerService" ref="customerService"/>
     </bean>
 
-    <bean name="/make/*.htm" class="com.poseidon.Make.web.controller.MakeController" >
+    <bean name="/make/*.htm" class="com.poseidon.make.web.controller.MakeController" >
         <property name="makeService" ref="makeService"/>
     </bean>
 
-    <bean name="/customer/*.htm" class="com.poseidon.Customer.web.controller.CustomerController" >
+    <bean name="/customer/*.htm" class="com.poseidon.customer.web.controller.CustomerController" >
         <property name="customerService" ref="customerService"/>
     </bean>
 
-    <bean name="/company/*.htm" class="com.poseidon.CompanyTerms.web.controller.CompanyTermsController" >
+    <bean name="/company/*.htm" class="com.poseidon.company.web.controller.CompanyTermsController" >
         <property name="companyTermsService" ref="companyService"/>
     </bean>
 
-    <bean name="/reports/*.htm" class="com.poseidon.Reports.web.controller.ReportsController" >
+    <bean name="/reports/*.htm" class="com.poseidon.reports.web.controller.ReportsController" >
         <property name="reportsService" ref="reportsService"/>
     </bean>
 
-    <bean name="/invoice/*.htm" class="com.poseidon.Invoice.web.controller.InvoiceController" >
-        <property name="invoiceDelegate" ref="invoiceDelegate"/>
+    <bean name="/invoice/*.htm" class="com.poseidon.invoice.web.controller.InvoiceController" >
+        <property name="invoiceService" ref="invoiceService"/>
         <property name="makeService" ref="makeService"/>
         <property name="transactionService" ref="transactionService"/>
     </bean>

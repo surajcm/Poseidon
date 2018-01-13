@@ -6,47 +6,47 @@
 
     <import resource="db-hsqldb-config.xml"/>
 
-    <bean id="userService" class="com.poseidon.User.service.impl.UserServiceImpl">
+    <bean id="userService" class="com.poseidon.user.service.impl.UserServiceImpl">
         <property name="userDAO" ref="userDAO"/>
     </bean>
 
-    <bean id="userDAO" class="com.poseidon.User.dao.impl.UserDAOImpl">
+    <bean id="userDAO" class="com.poseidon.user.dao.impl.UserDAOImpl">
         <property name="dataSource" ref="dataSource" />
     </bean>
 
-    <bean id="transactionService" class="com.poseidon.Transaction.service.impl.TransactionServiceImpl">
+    <bean id="transactionService" class="com.poseidon.transaction.service.impl.TransactionServiceImpl">
         <property name="transactionDAO" ref="transactionDAO"/>
     </bean>
 
-    <bean id="transactionDAO" class="com.poseidon.Transaction.dao.impl.TransactionDAOImpl">
+    <bean id="transactionDAO" class="com.poseidon.transaction.dao.impl.TransactionDAOImpl">
         <property name="dataSource" ref="dataSource" />
     </bean>
 
-    <bean id="makeService" class="com.poseidon.Make.service.impl.MakeServiceImpl">
+    <bean id="makeService" class="com.poseidon.make.service.impl.MakeServiceImpl">
         <property name="makeDAO" ref="makeDAO"/>
     </bean>
 
-    <bean id="makeDAO" class="com.poseidon.Make.dao.impl.MakeDAOImpl">
+    <bean id="makeDAO" class="com.poseidon.make.dao.impl.MakeDAOImpl">
         <property name="dataSource" ref="dataSource" />
     </bean>
 
-    <bean id="customerService" class="com.poseidon.Customer.service.impl.CustomerServiceImpl">
+    <bean id="customerService" class="com.poseidon.customer.service.impl.CustomerServiceImpl">
         <property name="customerDAO" ref="customerDAO"/>
     </bean>
 
-    <bean id="customerDAO" class="com.poseidon.Customer.dao.impl.CustomerDAOImpl">
+    <bean id="customerDAO" class="com.poseidon.customer.dao.impl.CustomerDAOImpl">
         <property name="dataSource" ref="dataSource" />
     </bean>
 
-    <bean id="companyService" class="com.poseidon.CompanyTerms.service.impl.CompanyTermsServiceImpl">
+    <bean id="companyService" class="com.poseidon.company.service.impl.CompanyTermsServiceImpl">
         <property name="companyTermsDAO" ref="companyDAO"/>
     </bean>
 
-    <bean id="companyDAO" class="com.poseidon.CompanyTerms.dao.impl.CompanyTermsDAOImpl">
+    <bean id="companyDAO" class="com.poseidon.company.dao.impl.CompanyTermsDAOImpl">
         <property name="dataSource" ref="dataSource" />
     </bean>
 
-    <bean id="reportsService" class="com.poseidon.Reports.service.impl.ReportsServiceImpl">
+    <bean id="reportsService" class="com.poseidon.reports.service.impl.ReportsServiceImpl">
         <property name="makeService" ref="makeService"/>
         <property name="transactionService" ref="transactionService"/>
         <property name="companyTermsService" ref="companyService"/>
@@ -54,20 +54,16 @@
         <property name="reportsDAO" ref="reportsDAO"/>
     </bean>
 
-    <bean id="reportsDAO" class="com.poseidon.Reports.dao.impl.ReportsDAOImpl">
+    <bean id="reportsDAO" class="com.poseidon.reports.dao.impl.ReportsDAOImpl">
         <property name="dataSource" ref="dataSource" />
     </bean>
 
-    <bean id="invoiceDelegate" class="com.poseidon.Invoice.delegate.InvoiceDelegate">
-        <property name="invoiceService" ref="invoiceService"/>
+    <bean id="invoiceService" class="com.poseidon.invoice.service.impl.InvoiceServiceImpl">
+        <property name="invoiceDAO" ref="invoiceDAO"/>
         <property name="transactionService" ref="transactionService"/>
     </bean>
 
-    <bean id="invoiceService" class="com.poseidon.Invoice.service.impl.InvoiceServiceImpl">
-        <property name="invoiceDAO" ref="invoiceDAO"/>
-    </bean>
-
-    <bean id="invoiceDAO" class="com.poseidon.Invoice.dao.impl.InvoiceDAOImpl">
+    <bean id="invoiceDAO" class="com.poseidon.invoice.dao.impl.InvoiceDAOImpl">
         <property name="dataSource" ref="dataSource" />
     </bean>
 
@@ -108,7 +104,7 @@
         <property name="url" value="jdbc:cloudbees://poseidon">
         </property>
     </bean>-->
-    <!-- Transaction Manager For a Single JDBC DataSource-->
+    <!-- transaction Manager For a Single JDBC DataSource-->
     <bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
         <property name="dataSource" ref="dataSource" />
     </bean>
