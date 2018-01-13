@@ -14,9 +14,6 @@
         <property name="dataSource" ref="dataSource" />
     </bean>
 
-    <bean id="txsDelegate" class="com.poseidon.Transaction.delegate.TransactionDelegate">
-        <property name="transactionService" ref="transactionService"/>
-    </bean>
     <bean id="transactionService" class="com.poseidon.Transaction.service.impl.TransactionServiceImpl">
         <property name="transactionDAO" ref="transactionDAO"/>
     </bean>
@@ -49,14 +46,11 @@
         <property name="dataSource" ref="dataSource" />
     </bean>
 
-    <bean id="reportsDelegate" class="com.poseidon.Reports.delegate.ReportsDelegate">
-        <property name="reportsService" ref="reportsService"/>
-        <property name="companyTermsService" ref="companyService"/>
-        <property name="transactionService" ref="transactionService"/>
-        <property name="makeService" ref="makeService"/>
-        <property name="invoiceService" ref="invoiceService"/>
-    </bean>
     <bean id="reportsService" class="com.poseidon.Reports.service.impl.ReportsServiceImpl">
+        <property name="makeService" ref="makeService"/>
+        <property name="transactionService" ref="transactionService"/>
+        <property name="companyTermsService" ref="companyService"/>
+        <property name="invoiceService" ref="invoiceService"/>
         <property name="reportsDAO" ref="reportsDAO"/>
     </bean>
 

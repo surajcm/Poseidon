@@ -7,10 +7,10 @@ import com.poseidon.Invoice.web.form.InvoiceForm;
 import com.poseidon.Make.domain.MakeAndModelVO;
 import com.poseidon.Make.domain.MakeVO;
 import com.poseidon.Make.service.MakeService;
-import com.poseidon.Transaction.delegate.TransactionDelegate;
 import com.poseidon.Transaction.domain.TransactionReportVO;
 import com.poseidon.Transaction.domain.TransactionVO;
 import com.poseidon.Transaction.exception.TransactionException;
+import com.poseidon.Transaction.service.TransactionService;
 import com.poseidon.Transaction.web.form.TransactionForm;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -36,7 +36,12 @@ public class InvoiceController {
 
     private InvoiceDelegate invoiceDelegate;
 
-    private TransactionDelegate transactionDelegate;
+    private TransactionService transactionService;
+
+    public void setTransactionService(TransactionService transactionService) {
+        this.transactionService = transactionService;
+    }
+
 
     private MakeService makeService;
 
@@ -50,14 +55,6 @@ public class InvoiceController {
 
     public void setInvoiceDelegate(InvoiceDelegate invoiceDelegate) {
         this.invoiceDelegate = invoiceDelegate;
-    }
-
-    public TransactionDelegate getTransactionDelegate() {
-        return transactionDelegate;
-    }
-
-    public void setTransactionDelegate(TransactionDelegate transactionDelegate) {
-        this.transactionDelegate = transactionDelegate;
     }
 
     @RequestMapping(value = "/invoice/ListInvoice.htm", method = RequestMethod.POST)
@@ -104,7 +101,7 @@ public class InvoiceController {
             searchTransactionVO.setIncludes(Boolean.TRUE);
             List<TransactionVO> transactionVOs = null;
             try {
-                transactionVOs = getTransactionDelegate().searchTransactions(searchTransactionVO);
+                transactionVOs = transactionService.searchTransactions(searchTransactionVO);
             } catch (TransactionException e) {
                 LOG.error(e.getLocalizedMessage());
             }
@@ -117,7 +114,7 @@ public class InvoiceController {
                 //update the transaction
                 TransactionVO transactionVO = transactionVOs.get(0);
                 String status = "INVOICED";
-                getTransactionDelegate().updateTransactionStatus(transactionVO.getId(), status);
+                transactionService.updateTransactionStatus(transactionVO.getId(), status);
             } else {
                 invoiceForm.setStatusMessage("Unable to find a transaction with tagNo " + invoiceForm.getCurrentInvoiceVO().getTagNo());
                 invoiceForm.setStatusMessageType("error");
@@ -161,10 +158,10 @@ public class InvoiceController {
         try {
             InvoiceVO invoiceVO = getInvoiceDelegate().fetchInvoiceVOFromId(invoiceForm.getId());
             getInvoiceDelegate().deleteInvoice(invoiceForm.getId());
-            TransactionReportVO reportVO = getTransactionDelegate().fetchTransactionFromTag(invoiceVO.getTagNo());
+            TransactionReportVO reportVO = transactionService.fetchTransactionFromTag(invoiceVO.getTagNo());
             //get the tag no of it
             // update the status to closed
-            getTransactionDelegate().updateTransactionStatus(reportVO.getId(), "CLOSED");
+            transactionService.updateTransactionStatus(reportVO.getId(), "CLOSED");
             invoiceForm.setStatusMessage("Successfully deleted the new Invoice Detail");
             invoiceForm.setStatusMessageType("success");
         } catch (Exception e) {
@@ -238,7 +235,7 @@ public class InvoiceController {
         //get the id
         TransactionVO transactionVO = null;
         try {
-            transactionVO = getTransactionDelegate().fetchTransactionFromId(transactionForm.getId());
+            transactionVO = transactionService.fetchTransactionFromId(transactionForm.getId());
             if (transactionVO != null && transactionVO.getMakeId() != null && transactionVO.getMakeId() > 0) {
                 List<MakeVO> makeVOs = null;
                 try {

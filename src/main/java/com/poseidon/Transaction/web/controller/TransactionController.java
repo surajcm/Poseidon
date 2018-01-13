@@ -6,9 +6,9 @@ import com.poseidon.Customer.service.CustomerService;
 import com.poseidon.Make.domain.MakeAndModelVO;
 import com.poseidon.Make.domain.MakeVO;
 import com.poseidon.Make.service.MakeService;
-import com.poseidon.Transaction.delegate.TransactionDelegate;
 import com.poseidon.Transaction.domain.TransactionVO;
 import com.poseidon.Transaction.exception.TransactionException;
+import com.poseidon.Transaction.service.TransactionService;
 import com.poseidon.Transaction.web.form.TransactionForm;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,7 +34,12 @@ import java.util.List;
 public class TransactionController {
 
     private static final Logger LOG = LoggerFactory.getLogger(TransactionController.class);
-    private TransactionDelegate transactionDelegate;
+
+    private TransactionService transactionService;
+
+    public void setTransactionService(TransactionService transactionService) {
+        this.transactionService = transactionService;
+    }
 
     private MakeService makeService;
 
@@ -48,14 +53,6 @@ public class TransactionController {
         this.customerService = customerService;
     }
 
-    public TransactionDelegate getTransactionDelegate() {
-        return transactionDelegate;
-    }
-
-    public void setTransactionDelegate(TransactionDelegate transactionDelegate) {
-        this.transactionDelegate = transactionDelegate;
-    }
-
     @RequestMapping(value = "/txs/List.htm", method = RequestMethod.POST)
     public ModelAndView List(TransactionForm transactionForm) {
         LOG.info(" Inside List method of TransactionController ");
@@ -63,7 +60,7 @@ public class TransactionController {
         //TransactionForm transactionForm = new TransactionForm();
         List<TransactionVO> transactionVOs = null;
         try {
-            transactionVOs = getTransactionDelegate().listTodaysTransactions();
+            transactionVOs = transactionService.listTodaysTransactions();
         } catch (Exception e) {
             LOG.error(e.getLocalizedMessage());
         }
@@ -170,7 +167,7 @@ public class TransactionController {
                     LOG.error(e.getLocalizedMessage());
                 }
             }
-            String tagNo = getTransactionDelegate().saveTransaction(transactionVO);
+            String tagNo = transactionService.saveTransaction(transactionVO);
             transactionForm.setStatusMessage("Successfully added the Transaction, Tag Number is "+tagNo);
             transactionForm.setStatusMessageType("success");
         } catch (TransactionException e) {
@@ -239,7 +236,7 @@ public class TransactionController {
         LOG.info(" form search details are " + transactionForm.getSearchTransaction());
         List<TransactionVO> transactionVOs = null;
         try {
-            transactionVOs = getTransactionDelegate().searchTransactions(transactionForm.getSearchTransaction());
+            transactionVOs = transactionService.searchTransactions(transactionForm.getSearchTransaction());
             transactionForm.setStatusMessage("Found " + transactionVOs.size() + " Transactions ");
             transactionForm.setStatusMessageType("info");
         } catch (TransactionException e) {
@@ -294,7 +291,7 @@ public class TransactionController {
         TransactionVO transactionVO = null;
         CustomerVO customerVO = null;
         try {
-            transactionVO = getTransactionDelegate().fetchTransactionFromId(transactionForm.getId());
+            transactionVO = transactionService.fetchTransactionFromId(transactionForm.getId());
             if (transactionVO != null && transactionVO.getCustomerId() != null && transactionVO.getCustomerId() > 0) {
                 customerVO = customerService.getCustomerFromId(transactionVO.getCustomerId());
             }
@@ -355,7 +352,7 @@ public class TransactionController {
         transactionForm.getCurrentTransaction().setModifiedOn(new Date());
         LOG.info("TransactionForm, current transactions are values are " + transactionForm.getCurrentTransaction());
         try {
-            getTransactionDelegate().updateTransaction(transactionForm.getCurrentTransaction());
+            transactionService.updateTransaction(transactionForm.getCurrentTransaction());
             transactionForm.setStatusMessage("Successfully updated the Transaction");
             transactionForm.setStatusMessageType("success");
         } catch (TransactionException e) {
@@ -376,7 +373,7 @@ public class TransactionController {
         }
         List<TransactionVO> transactionVOs = null;
         try {
-            transactionVOs = getTransactionDelegate().listTodaysTransactions();
+            transactionVOs = transactionService.listTodaysTransactions();
         } catch (Exception e) {
             LOG.error(e.getLocalizedMessage());
         }
@@ -411,7 +408,7 @@ public class TransactionController {
         LOG.info(" DeleteTxn method of TransactionController ");
         LOG.info("TransactionForm values are " + transactionForm);
         try {
-            getTransactionDelegate().deleteTransaction(transactionForm.getId());
+            transactionService.deleteTransaction(transactionForm.getId());
             transactionForm.setStatusMessage("Successfully deleted the Transaction");
             transactionForm.setStatusMessageType("success");
         } catch (TransactionException e) {
@@ -432,7 +429,7 @@ public class TransactionController {
         }
         List<TransactionVO> transactionVOs = null;
         try {
-            transactionVOs = getTransactionDelegate().listTodaysTransactions();
+            transactionVOs = transactionService.listTodaysTransactions();
         } catch (Exception e) {
             LOG.error(e.getLocalizedMessage());
         }

@@ -3,8 +3,8 @@ package com.poseidon.Reports.web.controller;
 import com.poseidon.Make.domain.MakeAndModelVO;
 import com.poseidon.Make.domain.MakeVO;
 import com.poseidon.Make.service.MakeService;
-import com.poseidon.Reports.delegate.ReportsDelegate;
 import com.poseidon.Reports.domain.ReportsVO;
+import com.poseidon.Reports.service.ReportsService;
 import com.poseidon.Reports.web.form.ReportsForm;
 import com.poseidon.Transaction.domain.TransactionVO;
 import net.sf.jasperreports.engine.JRAbstractExporter;
@@ -43,14 +43,11 @@ import java.util.Locale;
  */
 @Controller
 public class ReportsController {
-    private ReportsDelegate reportsDelegate;
     private static final Logger LOG = LoggerFactory.getLogger(ReportsController.class);
-    public ReportsDelegate getReportsDelegate() {
-        return reportsDelegate;
-    }
+    private ReportsService reportsService;
 
-    public void setReportsDelegate(ReportsDelegate reportsDelegate) {
-        this.reportsDelegate = reportsDelegate;
+    public void setReportsService(ReportsService reportsService) {
+        this.reportsService = reportsService;
     }
 
     private MakeService makeService;
@@ -66,7 +63,7 @@ public class ReportsController {
 
         List<ReportsVO> reportsVOs = null;
         try {
-            reportsVOs = getReportsDelegate().generateDailyReport();
+            reportsVOs = reportsService.generateDailyReport();
         } catch (Exception e) {
             LOG.error(e.getLocalizedMessage());
         }
@@ -142,7 +139,7 @@ public class ReportsController {
      * @return ModelAndView
      */
     @SuppressWarnings("unused")
-    @RequestMapping(value = "/reports/getMakeDetailsReport.htm", method = { RequestMethod.GET, RequestMethod.POST })
+    @RequestMapping(value = "/reports/getMakeDetailsReport.htm", method = {RequestMethod.GET, RequestMethod.POST})
     public ModelAndView getMakeDetailsReport(HttpServletRequest httpServletRequest,
                                              HttpServletResponse httpServletResponse,
                                              ReportsForm reportsForm) {
@@ -165,7 +162,7 @@ public class ReportsController {
                 LOG.info(" going to compile report");
                 jasperReport = JasperCompileManager.compileReport(path + '/' + reportFileName + ".jrxml");
 
-                jasperPrint = getReportsDelegate().getMakeDetailsChart(jasperReport,
+                jasperPrint = reportsService.getMakeDetailsChart(jasperReport,
                         reportsForm.getCurrentReport());
                 LOG.info(jasperPrint.toString());
                 getJasperReport(httpServletResponse, jasperPrint, reportFileName, reportType);
@@ -179,13 +176,13 @@ public class ReportsController {
     /**
      * getCallReport
      *
-     * @param httpServletRequest HttpServletRequest
+     * @param httpServletRequest  HttpServletRequest
      * @param httpServletResponse HttpServletResponse
-     * @param reportsForm ReportsForm
+     * @param reportsForm         ReportsForm
      * @return ModelAndView
      */
     @SuppressWarnings("unused")
-    @RequestMapping(value = "/reports/getCallReport.htm", method = { RequestMethod.GET, RequestMethod.POST })
+    @RequestMapping(value = "/reports/getCallReport.htm", method = {RequestMethod.GET, RequestMethod.POST})
     public ModelAndView getCallReport(HttpServletRequest httpServletRequest,
                                       HttpServletResponse httpServletResponse,
                                       ReportsForm reportsForm) {
@@ -209,7 +206,7 @@ public class ReportsController {
             LOG.info(" going to compile report, at getCallReport");
             jasperReport = JasperCompileManager.compileReport(path + '/' + reportFileName + ".jrxml");
 
-            jasperPrint = getReportsDelegate().getCallReport(jasperReport, reportsForm.getCurrentReport());
+            jasperPrint = reportsService.getCallReport(jasperReport, reportsForm.getCurrentReport());
             LOG.info(jasperPrint.toString());
             getJasperReport(httpServletResponse, jasperPrint, reportFileName, reportType);
         } catch (Exception e) {
@@ -222,13 +219,13 @@ public class ReportsController {
     /**
      * getTransactionsListReport
      *
-     * @param httpServletRequest HttpServletRequest
+     * @param httpServletRequest  HttpServletRequest
      * @param httpServletResponse HttpServletResponse
-     * @param reportsForm ReportsForm
+     * @param reportsForm         ReportsForm
      * @return ModelAndView
      */
     @SuppressWarnings("unused")
-    @RequestMapping(value = "/reports/getTransactionsListReport.htm", method = { RequestMethod.GET, RequestMethod.POST })
+    @RequestMapping(value = "/reports/getTransactionsListReport.htm", method = {RequestMethod.GET, RequestMethod.POST})
     public ModelAndView getTransactionsListReport(HttpServletRequest httpServletRequest,
                                                   HttpServletResponse httpServletResponse,
                                                   ReportsForm reportsForm) {
@@ -252,7 +249,7 @@ public class ReportsController {
             LOG.info(" going to compile report");
             jasperReport = JasperCompileManager.compileReport(path + '/' + reportFileName + ".jrxml");
 
-            jasperPrint = getReportsDelegate().getTransactionsListReport(jasperReport,
+            jasperPrint = reportsService.getTransactionsListReport(jasperReport,
                     reportsForm.getCurrentReport(),
                     reportsForm.getTxnReportTransactionVO());
             LOG.info(jasperPrint.toString());
@@ -266,13 +263,13 @@ public class ReportsController {
     /**
      * getModelListReport
      *
-     * @param httpServletRequest HttpServletRequest
+     * @param httpServletRequest  HttpServletRequest
      * @param httpServletResponse HttpServletResponse
-     * @param reportsForm ReportsForm
+     * @param reportsForm         ReportsForm
      * @return ModelAndView
      */
     @SuppressWarnings("unused")
-    @RequestMapping(value = "/reports/getModelListReport.htm", method = { RequestMethod.GET, RequestMethod.POST })
+    @RequestMapping(value = "/reports/getModelListReport.htm", method = {RequestMethod.GET, RequestMethod.POST})
     public ModelAndView getModelListReport(HttpServletRequest httpServletRequest,
                                            HttpServletResponse httpServletResponse,
                                            ReportsForm reportsForm) {
@@ -294,7 +291,7 @@ public class ReportsController {
             LOG.info(" going to compile report");
             jasperReport = JasperCompileManager.compileReport(path + '/' + reportFileName + ".jrxml");
 
-            jasperPrint = getReportsDelegate().getModelListReport(jasperReport,
+            jasperPrint = reportsService.getModelListReport(jasperReport,
                     reportsForm.getCurrentReport(),
                     reportsForm.getModelReportMakeAndModelVO());
             LOG.info(jasperPrint.toString());
@@ -308,12 +305,12 @@ public class ReportsController {
     /**
      * getErrorReport
      *
-     * @param httpServletRequest HttpServletRequest
+     * @param httpServletRequest  HttpServletRequest
      * @param httpServletResponse HttpServletResponse
-     * @param reportsForm ReportsForm
+     * @param reportsForm         ReportsForm
      * @return ModelAndView
      */
-    @RequestMapping(value = "/reports/getErrorReport.htm", method = { RequestMethod.GET, RequestMethod.POST })
+    @RequestMapping(value = "/reports/getErrorReport.htm", method = {RequestMethod.GET, RequestMethod.POST})
     public ModelAndView getErrorReport(HttpServletRequest httpServletRequest,
                                        HttpServletResponse httpServletResponse,
                                        ReportsForm reportsForm) {
@@ -334,7 +331,7 @@ public class ReportsController {
                     .getSession().getServletContext().getRealPath("/resources/reports");
             LOG.info(" going to compile report");
             jasperReport = JasperCompileManager.compileReport(path + '/' + reportFileName + ".jrxml");
-            jasperPrint = getReportsDelegate().getErrorReport(jasperReport, reportsForm.getCurrentReport());
+            jasperPrint = reportsService.getErrorReport(jasperReport, reportsForm.getCurrentReport());
             LOG.info(jasperPrint.toString());
             getJasperReport(httpServletResponse, jasperPrint, reportFileName, reportType);
         } catch (Exception e) {
@@ -346,12 +343,12 @@ public class ReportsController {
     /**
      * getInvoiceReport
      *
-     * @param httpServletRequest HttpServletRequest
+     * @param httpServletRequest  HttpServletRequest
      * @param httpServletResponse HttpServletResponse
-     * @param reportsForm ReportsForm
+     * @param reportsForm         ReportsForm
      * @return ModelAndView
      */
-    @RequestMapping(value = "/reports/getInvoiceReport.htm", method = { RequestMethod.GET, RequestMethod.POST })
+    @RequestMapping(value = "/reports/getInvoiceReport.htm", method = {RequestMethod.GET, RequestMethod.POST})
     public ModelAndView getInvoiceReport(HttpServletRequest httpServletRequest,
                                          HttpServletResponse httpServletResponse,
                                          ReportsForm reportsForm) {
@@ -372,7 +369,7 @@ public class ReportsController {
                     .getSession().getServletContext().getRealPath("/resources/reports");
             LOG.info(" going to compile report");
             jasperReport = JasperCompileManager.compileReport(path + '/' + reportFileName + ".jrxml");
-            jasperPrint = getReportsDelegate().getInvoiceReport(jasperReport, reportsForm.getCurrentReport());
+            jasperPrint = reportsService.getInvoiceReport(jasperReport, reportsForm.getCurrentReport());
             LOG.info(jasperPrint.toString());
             getJasperReport(httpServletResponse, jasperPrint, reportFileName, reportType);
         } catch (Exception e) {
@@ -390,9 +387,9 @@ public class ReportsController {
      * @param reportType          reportType instance
      */
     private void getJasperReport(HttpServletResponse httpServletResponse,
-                                   JasperPrint jasperPrint,
-                                   String reportFileName,
-                                   String reportType) {
+                                 JasperPrint jasperPrint,
+                                 String reportFileName,
+                                 String reportType) {
         JRAbstractExporter jrExporter;
         byte[] output;
         ServletOutputStream outputStream;

@@ -13,7 +13,7 @@
     </bean>
 
     <bean name="/txs/*.htm" class="com.poseidon.Transaction.web.controller.TransactionController" >
-        <property name="transactionDelegate" ref="txsDelegate"/>
+        <property name="transactionService" ref="transactionService"/>
         <property name="makeService" ref="makeService"/>
         <property name="customerService" ref="customerService"/>
     </bean>
@@ -31,14 +31,13 @@
     </bean>
 
     <bean name="/reports/*.htm" class="com.poseidon.Reports.web.controller.ReportsController" >
-        <property name="makeService" ref="makeService"/>
-        <property name="reportsDelegate" ref="reportsDelegate"/>
+        <property name="reportsService" ref="reportsService"/>
     </bean>
 
     <bean name="/invoice/*.htm" class="com.poseidon.Invoice.web.controller.InvoiceController" >
         <property name="invoiceDelegate" ref="invoiceDelegate"/>
         <property name="makeService" ref="makeService"/>
-        <property name="transactionDelegate" ref="txsDelegate"/>
+        <property name="transactionService" ref="transactionService"/>
     </bean>
 
     <!-- View Resolution -->

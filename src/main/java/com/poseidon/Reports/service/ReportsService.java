@@ -1,8 +1,8 @@
 package com.poseidon.Reports.service;
 
-import com.poseidon.CompanyTerms.domain.CompanyTermsVO;
+import com.poseidon.Make.domain.MakeAndModelVO;
 import com.poseidon.Reports.domain.ReportsVO;
-import com.poseidon.Transaction.domain.TransactionReportVO;
+import com.poseidon.Transaction.domain.TransactionVO;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
 
@@ -19,12 +19,12 @@ public interface ReportsService {
     JasperPrint getMakeDetailsChart(JasperReport jasperReport, ReportsVO currentReport);
 
     JasperPrint getCallReport(JasperReport jasperReport,
-                                     ReportsVO currentReport,
-                                     CompanyTermsVO companyTermsVO);
+                                     ReportsVO currentReport);
 
-    JasperPrint getTransactionsListReport(JasperReport jasperReport, ReportsVO currentReport);
+    JasperPrint getTransactionsListReport(JasperReport jasperReport, ReportsVO currentReport,TransactionVO searchTransaction);
 
-    JasperPrint getModelListReport(JasperReport jasperReport, ReportsVO currentReport);
+    JasperPrint getModelListReport(JasperReport jasperReport, ReportsVO currentReport,
+                                   MakeAndModelVO searchMakeAndModelVO);
 
     JasperPrint getErrorReport(JasperReport jasperReport, ReportsVO currentReport);
 
