@@ -6,9 +6,6 @@
 
     <import resource="db-hsqldb-config.xml"/>
 
-    <bean id="userDelegate" class="com.poseidon.User.delegate.UserDelegate">
-        <property name="userService" ref="userService"/>
-    </bean>
     <bean id="userService" class="com.poseidon.User.service.impl.UserServiceImpl">
         <property name="userDAO" ref="userDAO"/>
     </bean>
@@ -28,9 +25,6 @@
         <property name="dataSource" ref="dataSource" />
     </bean>
 
-    <bean id="makeDelegate" class="com.poseidon.Make.delegate.MakeDelegate">
-        <property name="makeService" ref="makeService"/>
-    </bean>
     <bean id="makeService" class="com.poseidon.Make.service.impl.MakeServiceImpl">
         <property name="makeDAO" ref="makeDAO"/>
     </bean>
@@ -39,9 +33,6 @@
         <property name="dataSource" ref="dataSource" />
     </bean>
 
-    <bean id="customerDelegate" class="com.poseidon.Customer.delegate.CustomerDelegate">
-        <property name="customerService" ref="customerService"/>
-    </bean>
     <bean id="customerService" class="com.poseidon.Customer.service.impl.CustomerServiceImpl">
         <property name="customerDAO" ref="customerDAO"/>
     </bean>

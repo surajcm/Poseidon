@@ -1,24 +1,23 @@
 package com.poseidon.Make.web.controller;
 
+import com.poseidon.Make.domain.MakeAndModelVO;
+import com.poseidon.Make.domain.MakeVO;
+import com.poseidon.Make.service.MakeService;
+import com.poseidon.Make.web.form.MakeForm;
 import org.codehaus.jackson.map.ObjectMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import com.poseidon.Make.delegate.MakeDelegate;
-import com.poseidon.Make.web.form.MakeForm;
-import com.poseidon.Make.domain.MakeAndModelVO;
-import com.poseidon.Make.domain.MakeVO;
-import com.poseidon.Make.exception.MakeException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.List;
 import java.util.Date;
+import java.util.List;
 
 /**
  * User: Suraj
@@ -27,23 +26,18 @@ import java.util.Date;
  */
 @Controller
 public class MakeController {
-    /**
-     * MakeDelegate instance
-     */
-    private MakeDelegate makeDelegate;
+    private static final Logger LOG = LoggerFactory.getLogger(MakeController.class);
 
-    /**
-     * logger for MakeController
-     */
-    private final Logger LOG = LoggerFactory.getLogger(MakeController.class);
+    private MakeService makeService;
 
-    public MakeDelegate getMakeDelegate() {
-        return makeDelegate;
+    public MakeService getMakeService() {
+        return makeService;
     }
 
-    public void setMakeDelegate(MakeDelegate makeDelegate) {
-        this.makeDelegate = makeDelegate;
+    public void setMakeService(MakeService makeService) {
+        this.makeService = makeService;
     }
+
 
     @RequestMapping(value = "/make/ModelList.htm", method = RequestMethod.POST)
     public ModelAndView ModelList(MakeForm makeForm) {
@@ -52,7 +46,7 @@ public class MakeController {
 
         List<MakeAndModelVO> makeAndModelVOs = null;
         try {
-            makeAndModelVOs = getMakeDelegate().listAllMakesAndModels();
+            makeAndModelVOs = getMakeService().listAllMakesAndModels();
         } catch (Exception e) {
             makeForm.setStatusMessage("Unable to list the Models due to an error");
             makeForm.setStatusMessageType("error");
@@ -66,7 +60,7 @@ public class MakeController {
         }
         List<MakeVO> makeVOs = null;
         try {
-            makeVOs = getMakeDelegate().fetchMakes();
+            makeVOs = getMakeService().fetchMakes();
         } catch (Exception e) {
             LOG.error(e.getLocalizedMessage());
         }
@@ -87,7 +81,7 @@ public class MakeController {
         LOG.debug(" listMake List method of MakeController ");
         List<MakeAndModelVO> makeAndModelVOs = null;
         try {
-            makeAndModelVOs = getMakeDelegate().listAllMakes();
+            makeAndModelVOs = getMakeService().listAllMakes();
         } catch (Exception e) {
             makeForm.setStatusMessage("Unable to list the Makes due to an error");
             makeForm.setStatusMessageType("error");
@@ -102,7 +96,7 @@ public class MakeController {
 
         List<MakeVO> makeVOs = null;
         try {
-            makeVOs = getMakeDelegate().fetchMakes();
+            makeVOs = getMakeService().fetchMakes();
         } catch (Exception e) {
             LOG.error(e.getLocalizedMessage());
         }
@@ -126,16 +120,7 @@ public class MakeController {
         LOG.debug(" makeForm is " + makeForm.toString());
         MakeAndModelVO makeVO = null;
         try {
-            makeVO = getMakeDelegate().getMakeFromId(makeForm.getId());
-        } catch (MakeException e) {
-            LOG.error(e.getLocalizedMessage());
-            LOG.error(" Exception type in controller " + e.ExceptionType);
-            if (e.getExceptionType().equalsIgnoreCase(MakeException.DATABASE_ERROR)) {
-                LOG.error(" An error occurred while fetching data from database. !! ");
-            } else {
-                LOG.error(" An Unknown Error has been occurred !!");
-            }
-
+            makeVO = getMakeService().getMakeFromId(makeForm.getId());
         } catch (Exception e1) {
             LOG.error(e1.getLocalizedMessage());
             LOG.error(" An Unknown Error has been occurred !!");
@@ -160,16 +145,7 @@ public class MakeController {
         LOG.debug("  deleteMake method of MakeController ");
         LOG.debug(" makeForm is " + makeForm.toString());
         try {
-            getMakeDelegate().deleteMake(makeForm.getId());
-        } catch (MakeException e) {
-            LOG.error(e.getLocalizedMessage());
-            LOG.error(" Exception type in controller " + e.ExceptionType);
-            if (e.getExceptionType().equalsIgnoreCase(MakeException.DATABASE_ERROR)) {
-                LOG.error(" An error occurred while fetching data from database. !! ");
-            } else {
-                LOG.error(" An Unknown Error has been occurred !!");
-            }
-
+            getMakeService().deleteMake(makeForm.getId());
         } catch (Exception e1) {
             LOG.error(e1.getLocalizedMessage());
             LOG.error(" An Unknown Error has been occurred !!");
@@ -191,7 +167,7 @@ public class MakeController {
         makeForm.setCurrentMakeAndModeVO(new MakeAndModelVO());
         List<MakeAndModelVO> makeVOs = null;
         try {
-            makeVOs = getMakeDelegate().listAllMakes();
+            makeVOs = getMakeService().listAllMakes();
         } catch (Exception e) {
             LOG.error(e.getLocalizedMessage());
         }
@@ -212,15 +188,7 @@ public class MakeController {
         LOG.debug(" makeForm is " + makeForm.toString());
         MakeAndModelVO makeVO = null;
         try {
-            makeVO = getMakeDelegate().getModelFromId(makeForm.getId());
-        } catch (MakeException e) {
-            LOG.error(e.getLocalizedMessage());
-            LOG.error(" Exception type in controller " + e.ExceptionType);
-            if (e.getExceptionType().equalsIgnoreCase(MakeException.DATABASE_ERROR)) {
-                LOG.error(" An error occurred while fetching data from database. !! ");
-            } else {
-                LOG.error(" An Unknown Error has been occurred !!");
-            }
+            makeVO = getMakeService().getModelFromId(makeForm.getId());
 
         } catch (Exception e1) {
             LOG.error(e1.getLocalizedMessage());
@@ -236,7 +204,7 @@ public class MakeController {
         makeForm.setCurrentMakeAndModeVO(makeVO);
         List<MakeAndModelVO> makeVOs = null;
         try {
-            makeVOs = getMakeDelegate().listAllMakes();
+            makeVOs = getMakeService().listAllMakes();
         } catch (Exception e) {
             LOG.error(e.getLocalizedMessage());
         }
@@ -258,19 +226,9 @@ public class MakeController {
 
         LOG.debug(" makeForm is " + makeForm.toString());
         try {
-            getMakeDelegate().deleteModel(makeForm.getId());
+            getMakeService().deleteModel(makeForm.getId());
             makeForm.setStatusMessage("Successfully deleted the selected Model");
             makeForm.setStatusMessageType("success");
-        } catch (MakeException e) {
-            makeForm.setStatusMessage("Unable to delete the selected Model due to a Data base error");
-            makeForm.setStatusMessageType("error");
-            LOG.error(e.getLocalizedMessage());
-            LOG.error(" Exception type in controller " + e.ExceptionType);
-            if (e.getExceptionType().equalsIgnoreCase(MakeException.DATABASE_ERROR)) {
-                LOG.error(" An error occurred while fetching data from database. !! ");
-            } else {
-                LOG.error(" An Unknown Error has been occurred !!");
-            }
         } catch (Exception e1) {
             makeForm.setStatusMessage("Unable to delete the selected Model");
             makeForm.setStatusMessageType("error");
@@ -311,20 +269,9 @@ public class MakeController {
 
         makeForm.setCurrentMakeAndModeVO(makeAndModelVO);
         try {
-            getMakeDelegate().addNewMake(makeForm.getCurrentMakeAndModeVO());
+            getMakeService().addNewMake(makeForm.getCurrentMakeAndModeVO());
             makeForm.setStatusMessage("Successfully saved the new Make Detail");
             makeForm.setStatusMessageType("success");
-        } catch (MakeException e) {
-            makeForm.setStatusMessage("Unable to save the Make Detail due to a data base error");
-            makeForm.setStatusMessageType("error");
-            LOG.error(e.getLocalizedMessage());
-            LOG.error(" Exception type in controller " + e.ExceptionType);
-            if (e.getExceptionType().equalsIgnoreCase(MakeException.DATABASE_ERROR)) {
-                LOG.error(" An error occurred while fetching data from database. !! ");
-            } else {
-                LOG.error(" An Unknown Error has been occurred !!");
-            }
-
         } catch (Exception e1) {
             makeForm.setStatusMessage("Unable to save the Make Detail due to an error");
             makeForm.setStatusMessageType("error");
@@ -333,7 +280,7 @@ public class MakeController {
         }
 
         //get all the make and pass it as a json object
-        List<MakeVO> makes = getMakeDelegate().fetchMakes();
+        List<MakeVO> makes = getMakeService().fetchMakes();
         responseString.append(fetchJSONMakeList(makes));
         // get a id-name combination, which is splittable by js
         httpServletResponse.setContentType("text/plain");
@@ -368,20 +315,9 @@ public class MakeController {
         makeForm.getCurrentMakeAndModeVO().setModifiedDate(new Date());
         makeForm.getCurrentMakeAndModeVO().setModifiedBy(makeForm.getLoggedInUser());
         try {
-            getMakeDelegate().updateMake(makeForm.getCurrentMakeAndModeVO());
+            getMakeService().updateMake(makeForm.getCurrentMakeAndModeVO());
             makeForm.setStatusMessage("Updated the Make successfully");
             makeForm.setStatusMessageType("success");
-        } catch (MakeException e) {
-            makeForm.setStatusMessage("Unable to update the selected Make due to a Data base error");
-            makeForm.setStatusMessageType("error");
-            LOG.error(e.getLocalizedMessage());
-            LOG.error(" Exception type in controller " + e.ExceptionType);
-            if (e.getExceptionType().equalsIgnoreCase(MakeException.DATABASE_ERROR)) {
-                LOG.error(" An error occurred while fetching data from database. !! ");
-            } else {
-                LOG.error(" An Unknown Error has been occurred !!");
-            }
-
         } catch (Exception e1) {
             makeForm.setStatusMessage("Unable to update the selected Make");
             makeForm.setStatusMessageType("error");
@@ -400,20 +336,9 @@ public class MakeController {
         makeForm.getCurrentMakeAndModeVO().setModifiedDate(new Date());
         makeForm.getCurrentMakeAndModeVO().setModifiedBy(makeForm.getLoggedInUser());
         try {
-            getMakeDelegate().updateModel(makeForm.getCurrentMakeAndModeVO());
+            getMakeService().updateModel(makeForm.getCurrentMakeAndModeVO());
             makeForm.setStatusMessage("Updated the Model successfully");
             makeForm.setStatusMessageType("success");
-        } catch (MakeException e) {
-            makeForm.setStatusMessage("Unable to update the selected Model due to a Data base error");
-            makeForm.setStatusMessageType("error");
-            LOG.error(e.getLocalizedMessage());
-            LOG.error(" Exception type in controller " + e.ExceptionType);
-            if (e.getExceptionType().equalsIgnoreCase(MakeException.DATABASE_ERROR)) {
-                LOG.error(" An error occurred while fetching data from database. !! ");
-            } else {
-                LOG.error(" An Unknown Error has been occurred !!");
-            }
-
         } catch (Exception e1) {
             makeForm.setStatusMessage("Unable to update the selected Model");
             makeForm.setStatusMessageType("error");
@@ -434,20 +359,9 @@ public class MakeController {
         makeForm.getCurrentMakeAndModeVO().setCreatedBy(makeForm.getLoggedInUser());
         makeForm.getCurrentMakeAndModeVO().setModifiedBy(makeForm.getLoggedInUser());
         try {
-            getMakeDelegate().addNewModel(makeForm.getCurrentMakeAndModeVO());
+            getMakeService().addNewModel(makeForm.getCurrentMakeAndModeVO());
             makeForm.setStatusMessage("Saved the new Model successfully");
             makeForm.setStatusMessageType("success");
-        } catch (MakeException e) {
-            makeForm.setStatusMessage("Unable to save the new Model due to a data base error");
-            makeForm.setStatusMessageType("error");
-            LOG.error(e.getLocalizedMessage());
-            LOG.error(" Exception type in controller " + e.ExceptionType);
-            if (e.getExceptionType().equalsIgnoreCase(MakeException.DATABASE_ERROR)) {
-                LOG.error(" An error occurred while fetching data from database. !! ");
-            } else {
-                LOG.error(" An Unknown Error has been occurred !!");
-            }
-
         } catch (Exception e1) {
             makeForm.setStatusMessage("Unable to save the new Model");
             makeForm.setStatusMessageType("error");
@@ -465,7 +379,7 @@ public class MakeController {
         LOG.debug(" searchVO instance to search " + makeForm.getSearchMakeAndModelVO());
         List<MakeAndModelVO> makeVOs = null;
         try {
-            makeVOs = getMakeDelegate().searchMakeVOs(makeForm.getSearchMakeAndModelVO());
+            makeVOs = getMakeService().searchMakeVOs(makeForm.getSearchMakeAndModelVO());
             makeForm.setStatusMessage("Found "+ makeVOs.size() +" Models");
             makeForm.setStatusMessageType("info");
         } catch (Exception e) {
@@ -481,7 +395,7 @@ public class MakeController {
         }
         List<MakeVO> searchMakeVOs = null;
         try {
-            searchMakeVOs = getMakeDelegate().fetchMakes();
+            searchMakeVOs = getMakeService().fetchMakes();
         } catch (Exception e) {
             LOG.error(e.getLocalizedMessage());
         }

@@ -1,8 +1,11 @@
 package com.poseidon.Reports.web.controller;
 
-import com.poseidon.Make.delegate.MakeDelegate;
 import com.poseidon.Make.domain.MakeAndModelVO;
 import com.poseidon.Make.domain.MakeVO;
+import com.poseidon.Make.service.MakeService;
+import com.poseidon.Reports.delegate.ReportsDelegate;
+import com.poseidon.Reports.domain.ReportsVO;
+import com.poseidon.Reports.web.form.ReportsForm;
 import com.poseidon.Transaction.domain.TransactionVO;
 import net.sf.jasperreports.engine.JRAbstractExporter;
 import net.sf.jasperreports.engine.JRExporter;
@@ -16,17 +19,14 @@ import net.sf.jasperreports.engine.export.JRXlsExporter;
 import net.sf.jasperreports.engine.export.JRXlsExporterParameter;
 import net.sf.jasperreports.engine.export.ooxml.JRDocxExporter;
 import net.sf.jasperreports.engine.export.ooxml.JRDocxExporterParameter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.servlet.ModelAndView;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import com.poseidon.Reports.delegate.ReportsDelegate;
-import com.poseidon.Reports.web.form.ReportsForm;
-import com.poseidon.Reports.domain.ReportsVO;
 
 import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
@@ -44,9 +44,7 @@ import java.util.Locale;
 @Controller
 public class ReportsController {
     private ReportsDelegate reportsDelegate;
-    private MakeDelegate makeDelegate;
-    private final Logger LOG = LoggerFactory.getLogger(ReportsController.class);
-
+    private static final Logger LOG = LoggerFactory.getLogger(ReportsController.class);
     public ReportsDelegate getReportsDelegate() {
         return reportsDelegate;
     }
@@ -55,12 +53,10 @@ public class ReportsController {
         this.reportsDelegate = reportsDelegate;
     }
 
-    public MakeDelegate getMakeDelegate() {
-        return makeDelegate;
-    }
+    private MakeService makeService;
 
-    public void setMakeDelegate(MakeDelegate makeDelegate) {
-        this.makeDelegate = makeDelegate;
+    public void setMakeService(MakeService makeService) {
+        this.makeService = makeService;
     }
 
     @RequestMapping(value = "/reports/List.htm", method = RequestMethod.POST)
@@ -83,7 +79,7 @@ public class ReportsController {
         //get all the make list for displaying in search
         List<MakeVO> makeVOs = null;
         try {
-            makeVOs = getMakeDelegate().fetchMakes();
+            makeVOs = makeService.fetchMakes();
         } catch (Exception e) {
             LOG.error(e.getLocalizedMessage());
         }

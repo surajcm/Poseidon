@@ -4,9 +4,9 @@ import com.poseidon.Invoice.delegate.InvoiceDelegate;
 import com.poseidon.Invoice.domain.InvoiceVO;
 import com.poseidon.Invoice.exception.InvoiceException;
 import com.poseidon.Invoice.web.form.InvoiceForm;
-import com.poseidon.Make.delegate.MakeDelegate;
 import com.poseidon.Make.domain.MakeAndModelVO;
 import com.poseidon.Make.domain.MakeVO;
+import com.poseidon.Make.service.MakeService;
 import com.poseidon.Transaction.delegate.TransactionDelegate;
 import com.poseidon.Transaction.domain.TransactionReportVO;
 import com.poseidon.Transaction.domain.TransactionVO;
@@ -38,7 +38,11 @@ public class InvoiceController {
 
     private TransactionDelegate transactionDelegate;
 
-    private MakeDelegate makeDelegate;
+    private MakeService makeService;
+
+    public void setMakeService(MakeService makeService) {
+        this.makeService = makeService;
+    }
 
     public InvoiceDelegate getInvoiceDelegate() {
         return invoiceDelegate;
@@ -54,14 +58,6 @@ public class InvoiceController {
 
     public void setTransactionDelegate(TransactionDelegate transactionDelegate) {
         this.transactionDelegate = transactionDelegate;
-    }
-
-    public MakeDelegate getMakeDelegate() {
-        return makeDelegate;
-    }
-
-    public void setMakeDelegate(MakeDelegate makeDelegate) {
-        this.makeDelegate = makeDelegate;
     }
 
     @RequestMapping(value = "/invoice/ListInvoice.htm", method = RequestMethod.POST)
@@ -246,7 +242,7 @@ public class InvoiceController {
             if (transactionVO != null && transactionVO.getMakeId() != null && transactionVO.getMakeId() > 0) {
                 List<MakeVO> makeVOs = null;
                 try {
-                    makeVOs = getMakeDelegate().fetchMakes();
+                    makeVOs = makeService.fetchMakes();
                 } catch (Exception e) {
                     LOG.error(e.getLocalizedMessage());
                 }
@@ -256,8 +252,8 @@ public class InvoiceController {
                     }
                     transactionForm.setMakeVOs(makeVOs);
                 }
-                List<MakeAndModelVO> makeAndModelVOs = null;
-                makeAndModelVOs = getMakeDelegate().getAllModelsFromMakeId(transactionVO.getMakeId());
+                List<MakeAndModelVO> makeAndModelVOs;
+                makeAndModelVOs = makeService.getAllModelsFromMakeId(transactionVO.getMakeId());
                 if (makeAndModelVOs != null) {
                     transactionForm.setMakeAndModelVOs(makeAndModelVOs);
                     for (MakeAndModelVO makeAndModelVO : makeAndModelVOs) {

@@ -51,8 +51,8 @@ public class InvoiceDelegate {
         return getInvoiceService().fetchInvoiceForListOfTransactions(tagNumbers);
     }
 
-    private List<String> fetchTagNoFromListOfTransactionVOs(List<TransactionVO> transactionVOs) throws InvoiceException {
-        List<String> tagNumbers = new ArrayList<String>();
+    private List<String> fetchTagNoFromListOfTransactionVOs(List<TransactionVO> transactionVOs) {
+        List<String> tagNumbers = new ArrayList<>();
         for(TransactionVO transactionVO:transactionVOs){
             tagNumbers.add(transactionVO.getTagNo());
         }

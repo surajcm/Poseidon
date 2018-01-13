@@ -9,21 +9,21 @@
     </bean>
 
     <bean name="/user/*.htm" class="com.poseidon.User.web.controller.UserController" >
-        <property name="userDelegate" ref="userDelegate"/>
+        <property name="userService" ref="userService"/>
     </bean>
 
     <bean name="/txs/*.htm" class="com.poseidon.Transaction.web.controller.TransactionController" >
         <property name="transactionDelegate" ref="txsDelegate"/>
-        <property name="makeDelegate" ref="makeDelegate"/>
-        <property name="customerDelegate" ref="customerDelegate"/>
+        <property name="makeService" ref="makeService"/>
+        <property name="customerService" ref="customerService"/>
     </bean>
 
     <bean name="/make/*.htm" class="com.poseidon.Make.web.controller.MakeController" >
-        <property name="makeDelegate" ref="makeDelegate"/>
+        <property name="makeService" ref="makeService"/>
     </bean>
 
     <bean name="/customer/*.htm" class="com.poseidon.Customer.web.controller.CustomerController" >
-        <property name="customerDelegate" ref="customerDelegate"/>
+        <property name="customerService" ref="customerService"/>
     </bean>
 
     <bean name="/company/*.htm" class="com.poseidon.CompanyTerms.web.controller.CompanyTermsController" >
@@ -31,13 +31,13 @@
     </bean>
 
     <bean name="/reports/*.htm" class="com.poseidon.Reports.web.controller.ReportsController" >
-        <property name="makeDelegate" ref="makeDelegate"/>
+        <property name="makeService" ref="makeService"/>
         <property name="reportsDelegate" ref="reportsDelegate"/>
     </bean>
 
     <bean name="/invoice/*.htm" class="com.poseidon.Invoice.web.controller.InvoiceController" >
         <property name="invoiceDelegate" ref="invoiceDelegate"/>
-        <property name="makeDelegate" ref="makeDelegate"/>
+        <property name="makeService" ref="makeService"/>
         <property name="transactionDelegate" ref="txsDelegate"/>
     </bean>
 

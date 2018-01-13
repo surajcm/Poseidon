@@ -1,16 +1,16 @@
 package com.poseidon.Customer.web.controller;
 
+import com.poseidon.Customer.domain.CustomerVO;
+import com.poseidon.Customer.exception.CustomerException;
+import com.poseidon.Customer.service.CustomerService;
+import com.poseidon.Customer.web.form.CustomerForm;
 import com.poseidon.Transaction.web.form.TransactionForm;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import com.poseidon.Customer.delegate.CustomerDelegate;
-import com.poseidon.Customer.web.form.CustomerForm;
-import com.poseidon.Customer.domain.CustomerVO;
-import com.poseidon.Customer.exception.CustomerException;
 
 import java.util.Date;
 import java.util.List;
@@ -22,23 +22,14 @@ import java.util.List;
  */
 @Controller
 public class CustomerController {
-    /**
-     * CustomerDelegate instance
-     */
-    private CustomerDelegate customerDelegate;
+    private static final Logger LOG = LoggerFactory.getLogger(CustomerController.class);
 
-    /**
-     * logger for user controller
-     */
-    private final Logger LOG = LoggerFactory.getLogger(CustomerController.class);
+    private CustomerService customerService;
 
-    public CustomerDelegate getCustomerDelegate() {
-        return customerDelegate;
+    public void setCustomerService(CustomerService customerService) {
+        this.customerService = customerService;
     }
 
-    public void setCustomerDelegate(CustomerDelegate customerDelegate) {
-        this.customerDelegate = customerDelegate;
-    }
 
     @RequestMapping(value = "/customer/List.htm", method = RequestMethod.POST)
     public ModelAndView List(CustomerForm customerForm) {
@@ -47,7 +38,7 @@ public class CustomerController {
 
         List<CustomerVO> customerVOs = null;
         try {
-            customerVOs = getCustomerDelegate().listAllCustomerDetails();
+            customerVOs = customerService.listAllCustomerDetails();
         } catch (Exception e) {
             LOG.error(e.getLocalizedMessage());
         }
@@ -79,7 +70,7 @@ public class CustomerController {
         LOG.info(" customerForm is " + customerForm.getCurrentCustomerVO());
         CustomerVO customerVO = null;
         try {
-            customerVO = getCustomerDelegate().getCustomerFromId(customerForm.getId());
+            customerVO = customerService.getCustomerFromId(customerForm.getId());
         } catch (CustomerException e) {
             LOG.error(e.getLocalizedMessage());
             LOG.error(" Exception type in controller " + e.ExceptionType);
@@ -111,7 +102,7 @@ public class CustomerController {
         LOG.info(" deleteCust method of CustomerController ");
         LOG.info(" CustomerForm is " + customerForm);
         try {
-            getCustomerDelegate().deleteCustomerFromId(customerForm.getId());
+            customerService.deleteCustomerFromId(customerForm.getId());
             customerForm.setStatusMessage("Deleted the Customer details successfully");
             customerForm.setStatusMessageType("success");
         } catch (CustomerException e) {
@@ -144,7 +135,7 @@ public class CustomerController {
             customerVO.setModifiedOn(new Date());
             customerVO.setCreatedBy(customerForm.getLoggedInUser());
             customerVO.setModifiedBy(customerForm.getLoggedInUser());
-            getCustomerDelegate().saveCustomer(customerVO);
+            customerService.saveCustomer(customerVO);
             customerForm.setStatusMessage("Added the new Customer details successfully");
             customerForm.setStatusMessageType("success");
         } catch (CustomerException e) {
@@ -175,7 +166,7 @@ public class CustomerController {
             CustomerVO customerVO = customerForm.getCurrentCustomerVO();
             customerVO.setModifiedOn(new Date());
             customerVO.setModifiedBy(customerForm.getLoggedInUser());
-            getCustomerDelegate().updateCustomer(customerVO);
+            customerService.updateCustomer(customerVO);
             customerForm.setStatusMessage("Updated the selected Customer details successfully");
             customerForm.setStatusMessageType("success");
         } catch (CustomerException e) {
@@ -204,7 +195,7 @@ public class CustomerController {
         LOG.info(" CustomerForm is " + customerForm);
         List<CustomerVO> customerVOs = null;
         try {
-            customerVOs = getCustomerDelegate().searchCustomer(customerForm.getSearchCustomerVO());
+            customerVOs = customerService.searchCustomer(customerForm.getSearchCustomerVO());
             customerForm.setStatusMessage("Found " + customerVOs.size() + " Customer details");
             customerForm.setStatusMessageType("info");
         } catch (CustomerException e) {

@@ -1,30 +1,29 @@
 package com.poseidon.Transaction.web.controller;
 
+import com.poseidon.Customer.domain.CustomerVO;
+import com.poseidon.Customer.exception.CustomerException;
+import com.poseidon.Customer.service.CustomerService;
+import com.poseidon.Make.domain.MakeAndModelVO;
 import com.poseidon.Make.domain.MakeVO;
-import com.poseidon.Make.exception.MakeException;
+import com.poseidon.Make.service.MakeService;
+import com.poseidon.Transaction.delegate.TransactionDelegate;
+import com.poseidon.Transaction.domain.TransactionVO;
 import com.poseidon.Transaction.exception.TransactionException;
+import com.poseidon.Transaction.web.form.TransactionForm;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import com.poseidon.Transaction.delegate.TransactionDelegate;
-import com.poseidon.Transaction.web.form.TransactionForm;
-import com.poseidon.Transaction.domain.TransactionVO;
-import com.poseidon.Make.delegate.MakeDelegate;
-import com.poseidon.Make.domain.MakeAndModelVO;
-import com.poseidon.Customer.domain.CustomerVO;
-import com.poseidon.Customer.delegate.CustomerDelegate;
-import com.poseidon.Customer.exception.CustomerException;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.util.List;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 /**
  * User: Suraj
@@ -34,15 +33,20 @@ import java.util.Date;
 @Controller
 public class TransactionController {
 
+    private static final Logger LOG = LoggerFactory.getLogger(TransactionController.class);
     private TransactionDelegate transactionDelegate;
 
-    private MakeDelegate makeDelegate;
+    private MakeService makeService;
 
-    private CustomerDelegate customerDelegate;
-    /**
-     * logger for user controller
-     */
-    private final Logger LOG = LoggerFactory.getLogger(TransactionController.class);
+    public void setMakeService(MakeService makeService) {
+        this.makeService = makeService;
+    }
+    private CustomerService customerService;
+
+
+    public void setCustomerService(CustomerService customerService) {
+        this.customerService = customerService;
+    }
 
     public TransactionDelegate getTransactionDelegate() {
         return transactionDelegate;
@@ -50,22 +54,6 @@ public class TransactionController {
 
     public void setTransactionDelegate(TransactionDelegate transactionDelegate) {
         this.transactionDelegate = transactionDelegate;
-    }
-
-    public MakeDelegate getMakeDelegate() {
-        return makeDelegate;
-    }
-
-    public void setMakeDelegate(MakeDelegate makeDelegate) {
-        this.makeDelegate = makeDelegate;
-    }
-
-    public CustomerDelegate getCustomerDelegate() {
-        return customerDelegate;
-    }
-
-    public void setCustomerDelegate(CustomerDelegate customerDelegate) {
-        this.customerDelegate = customerDelegate;
     }
 
     @RequestMapping(value = "/txs/List.htm", method = RequestMethod.POST)
@@ -88,7 +76,7 @@ public class TransactionController {
         //get all the make list for displaying in search
         List<MakeVO> makeVOs = null;
         try {
-            makeVOs = getMakeDelegate().fetchMakes();
+            makeVOs = makeService.fetchMakes();
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -124,7 +112,7 @@ public class TransactionController {
         //get all the make list for displaying in search
         List<MakeVO> makeVOs = null;
         try {
-            makeVOs = getMakeDelegate().fetchMakes();
+            makeVOs = makeService.fetchMakes();
         } catch (Exception e) {
             LOG.error(e.getLocalizedMessage());
         }
@@ -135,18 +123,15 @@ public class TransactionController {
             transactionForm.setMakeVOs(makeVOs);
             if (makeVOs.size() > 0) {
                 List<MakeAndModelVO> makeAndModelVOs;
-                try {
                     LOG.info("The selected make id is " + makeVOs.get(0).getId());
-                    makeAndModelVOs = getMakeDelegate().getAllModelsFromMakeId(makeVOs.get(0).getId());
+                    makeAndModelVOs = makeService.getAllModelsFromMakeId(makeVOs.get(0).getId());
                     if (makeAndModelVOs != null) {
                         transactionForm.setMakeAndModelVOs(makeAndModelVOs);
                         for (MakeAndModelVO makeAndModelVO : makeAndModelVOs) {
                             LOG.info("makeAndModel vo is" + makeAndModelVO);
                         }
                     }
-                } catch (MakeException e) {
-                    LOG.error(e.getLocalizedMessage());
-                }
+
             }
         }
         transactionForm.setCurrentTransaction(new TransactionVO());
@@ -176,7 +161,7 @@ public class TransactionController {
                     transactionForm.getCustomerVO().setModifiedOn(new Date());
                     transactionForm.getCustomerVO().setCreatedBy(transactionForm.getLoggedInUser());
                     transactionForm.getCustomerVO().setModifiedBy(transactionForm.getLoggedInUser());
-                    long customerId = getCustomerDelegate().saveCustomer(transactionForm.getCustomerVO());
+                    long customerId = customerService.saveCustomer(transactionForm.getCustomerVO());
                     transactionForm.getCustomerVO().setCustomerId(customerId);
                     transactionVO.setCustomerId(customerId);
                     LOG.info("the customer id from db is " + customerId);
@@ -219,9 +204,9 @@ public class TransactionController {
         String selectMakeId = httpServletRequest.getParameter("selectMakeId");
         //get all the models for this make id
         LOG.info(" At UpdateModelAjax, selectMakeId is :"+ selectMakeId);
-        List<MakeAndModelVO> makeAndModelVOs = null;
+        List<MakeAndModelVO> makeAndModelVOs;
         try {
-            makeAndModelVOs = getMakeDelegate().getAllModelsFromMakeId(Long.valueOf(selectMakeId));
+            makeAndModelVOs = makeService.getAllModelsFromMakeId(Long.valueOf(selectMakeId));
             if (makeAndModelVOs != null && makeAndModelVOs.size() > 0) {
                 for (MakeAndModelVO makeAndModelVO : makeAndModelVOs) {
                     responseString.append("#start#");
@@ -284,7 +269,7 @@ public class TransactionController {
         //get all the make list for displaying in search
         List<MakeVO> makeVOs = null;
         try {
-            makeVOs = getMakeDelegate().fetchMakes();
+            makeVOs = makeService.fetchMakes();
         } catch (Exception e) {
             LOG.error(e.getLocalizedMessage());
         }
@@ -311,12 +296,12 @@ public class TransactionController {
         try {
             transactionVO = getTransactionDelegate().fetchTransactionFromId(transactionForm.getId());
             if (transactionVO != null && transactionVO.getCustomerId() != null && transactionVO.getCustomerId() > 0) {
-                customerVO = getCustomerDelegate().getCustomerFromId(transactionVO.getCustomerId());
+                customerVO = customerService.getCustomerFromId(transactionVO.getCustomerId());
             }
             if (transactionVO != null && transactionVO.getMakeId() != null && transactionVO.getMakeId() > 0) {
                 List<MakeVO> makeVOs = null;
                 try {
-                    makeVOs = getMakeDelegate().fetchMakes();
+                    makeVOs = makeService.fetchMakes();
                 } catch (Exception e) {
                     LOG.error(e.getLocalizedMessage());
                 }
@@ -326,8 +311,8 @@ public class TransactionController {
                     }
                     transactionForm.setMakeVOs(makeVOs);
                 }
-                List<MakeAndModelVO> makeAndModelVOs = null;
-                makeAndModelVOs = getMakeDelegate().getAllModelsFromMakeId(transactionVO.getMakeId());
+                List<MakeAndModelVO> makeAndModelVOs;
+                makeAndModelVOs = makeService.getAllModelsFromMakeId(transactionVO.getMakeId());
                 if (makeAndModelVOs != null) {
                     transactionForm.setMakeAndModelVOs(makeAndModelVOs);
                     for (MakeAndModelVO makeAndModelVO : makeAndModelVOs) {
@@ -404,7 +389,7 @@ public class TransactionController {
         //get all the make list for displaying in search
         List<MakeVO> makeVOs = null;
         try {
-            makeVOs = getMakeDelegate().fetchMakes();
+            makeVOs = makeService.fetchMakes();
         } catch (Exception e) {
             LOG.error(e.getLocalizedMessage());
         }
@@ -460,7 +445,7 @@ public class TransactionController {
         //get all the make list for displaying in search
         List<MakeVO> makeVOs = null;
         try {
-            makeVOs = getMakeDelegate().fetchMakes();
+            makeVOs = makeService.fetchMakes();
         } catch (Exception e) {
             LOG.error(e.getLocalizedMessage());
         }

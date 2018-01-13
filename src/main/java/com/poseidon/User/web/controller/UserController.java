@@ -1,8 +1,8 @@
 package com.poseidon.User.web.controller;
 
-import com.poseidon.User.delegate.UserDelegate;
 import com.poseidon.User.domain.UserVO;
 import com.poseidon.User.exception.UserException;
+import com.poseidon.User.service.UserService;
 import com.poseidon.User.web.form.UserForm;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.slf4j.Logger;
@@ -27,35 +27,11 @@ import java.util.List;
  */
 @Controller
 public class UserController {
+    private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
-    /**
-     * user Delegate instance
-     */
-    private UserDelegate userDelegate;
-
-    /**
-     * logger for user controller
-     */
-    private final Logger logger = LoggerFactory.getLogger(UserController.class);
-
-    /**
-     * getUserDelegate
-     *
-     * @return UserDelegate
-     */
-    @SuppressWarnings("unused")
-    public UserDelegate getUserDelegate() {
-        return userDelegate;
-    }
-
-    /**
-     * spring setter for user delegate
-     *
-     * @param userDelegate userDelegate instance
-     */
-    @SuppressWarnings("unused")
-    public void setUserDelegate(UserDelegate userDelegate) {
-        this.userDelegate = userDelegate;
+    private UserService userService;
+    public void setUserService(UserService userService) {
+        this.userService = userService;
     }
 
     /**
@@ -84,10 +60,10 @@ public class UserController {
         logger.info(" Inside LogIn method of User Controller ");
         UserVO realUser;
         try {
-            if (getUserDelegate() == null) {
+            if (userService == null) {
                 throw new Exception("A configuration error has been occurred ");
             }
-            realUser = getUserDelegate().logIn(userForm.getCurrentUser());
+            realUser = userService.logIn(userForm.getCurrentUser());
         } catch (UserException e) {
             logger.error(e.getLocalizedMessage());
             logger.error(" Exception type in controller " + e.ExceptionType);
@@ -135,7 +111,7 @@ public class UserController {
         logger.info(" Inside ListAll method of User Controller ");
         List<UserVO> userList = null;
         try {
-            userList = getUserDelegate().getAllUserDetails();
+            userList = userService.getAllUserDetails();
         } catch (UserException e) {
             userForm.setStatusMessage("Unable to list the Users due to an error");
             userForm.setStatusMessageType("error");
@@ -210,7 +186,7 @@ public class UserController {
             userForm.getUser().setModifiedDate(new Date());
             userForm.getUser().setCreatedBy(userForm.getLoggedInUser());
             userForm.getUser().setLastModifiedBy(userForm.getLoggedInUser());
-            getUserDelegate().addNewUser(userForm.getUser());
+            userService.addNewUser(userForm.getUser());
             userForm.setStatusMessage("Successfully saved the new User");
             userForm.setStatusMessageType("success");
         } catch (UserException e) {
@@ -233,7 +209,7 @@ public class UserController {
         }
         List<UserVO> userList = null;
         try {
-            userList = getUserDelegate().getAllUserDetails();
+            userList = userService.getAllUserDetails();
         } catch (UserException e) {
             userForm.setStatusMessage("Unable to list the Users due to an error");
             userForm.setStatusMessageType("error");
@@ -288,7 +264,7 @@ public class UserController {
 
 
         try {
-            getUserDelegate().addNewUser(ajaxUserVO);
+            userService.addNewUser(ajaxUserVO);
         } catch (UserException e) {
             logger.error(e.getLocalizedMessage());
             logger.error(" Exception type in controller " + e.ExceptionType);
@@ -303,7 +279,7 @@ public class UserController {
         }
         List<UserVO> userList = null;
         try {
-            userList = getUserDelegate().getAllUserDetails();
+            userList = userService.getAllUserDetails();
         } catch (UserException e) {
             logger.error(e.getLocalizedMessage());
             logger.error(" Exception type in controller " + e.ExceptionType);
@@ -357,7 +333,7 @@ public class UserController {
         logger.info(" user is " + userForm.toString());
         UserVO userVO = null;
         try {
-            userVO = getUserDelegate().getUserDetailsFromID(userForm.getId());
+            userVO = userService.getUserDetailsFromID(userForm.getId());
         } catch (UserException e) {
             logger.error(e.getLocalizedMessage());
             logger.error(" Exception type in controller " + e.ExceptionType);
@@ -397,7 +373,7 @@ public class UserController {
             userForm.getUser().setLastModifiedBy(userForm.getLoggedInUser());
             userForm.getUser().setModifiedDate(new Date());
             logger.info(" User instance to update " + userForm.getUser().toString());
-            getUserDelegate().UpdateUser(userForm.getUser());
+            userService.UpdateUser(userForm.getUser());
             userForm.setStatusMessage("Successfully updated the User");
             userForm.setStatusMessageType("success");
         } catch (UserException e) {
@@ -433,7 +409,7 @@ public class UserController {
         logger.info(" Inside DeleteUser method of User Controller ");
         logger.info(" user is " + userForm.toString());
         try {
-            getUserDelegate().deleteUser(userForm.getId());
+            userService.deleteUser(userForm.getId());
             userForm.setStatusMessage("Successfully deleted the User");
             userForm.setStatusMessageType("success");
         } catch (UserException e) {
@@ -499,7 +475,7 @@ public class UserController {
         logger.info(" User Details are " + userForm.getSearchUser().toString());
         List<UserVO> userList = null;
         try {
-            userList = getUserDelegate().searchUser(userForm.getSearchUser());
+            userList = userService.searchUserDetails(userForm.getSearchUser());
             if(userList != null && userList.size()> 0){
                 userForm.setStatusMessage("Successfully fetched "+userList.size()+ " Users");
                 userForm.setStatusMessageType("info");
