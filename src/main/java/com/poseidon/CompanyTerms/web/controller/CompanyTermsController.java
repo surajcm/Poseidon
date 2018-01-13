@@ -1,14 +1,14 @@
 package com.poseidon.CompanyTerms.web.controller;
 
+import com.poseidon.CompanyTerms.domain.CompanyTermsVO;
+import com.poseidon.CompanyTerms.service.CompanyTermsService;
+import com.poseidon.CompanyTerms.web.form.CompanyTermsForm;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import com.poseidon.CompanyTerms.delegate.CompanyTermsDelegate;
-import com.poseidon.CompanyTerms.web.form.CompanyTermsForm;
-import com.poseidon.CompanyTerms.domain.CompanyTermsVO;
 
 import java.util.Date;
 
@@ -19,24 +19,20 @@ import java.util.Date;
  */
 @Controller
 public class CompanyTermsController {
+    private static final Logger LOG = LoggerFactory.getLogger(CompanyTermsController.class);
 
-    /**
-     * CustomerDelegate instance
-     */
-    private CompanyTermsDelegate companyTermsDelegate;
+    private CompanyTermsService companyTermsService;
 
-    /**
-     * logger for user controller
-     */
-    private final Logger LOG = LoggerFactory.getLogger(CompanyTermsController.class);
 
-    public CompanyTermsDelegate getCompanyTermsDelegate() {
-        return companyTermsDelegate;
+    public CompanyTermsService getCompanyTermsService() {
+        return companyTermsService;
     }
 
-    public void setCompanyTermsDelegate(CompanyTermsDelegate companyTermsDelegate) {
-        this.companyTermsDelegate = companyTermsDelegate;
+    public void setCompanyTermsService(CompanyTermsService companyTermsService) {
+        this.companyTermsService = companyTermsService;
     }
+
+
 
     @RequestMapping(value = "/company/List.htm", method = RequestMethod.POST)
     public ModelAndView List(CompanyTermsForm companyTermsForm) {
@@ -45,7 +41,7 @@ public class CompanyTermsController {
 
         CompanyTermsVO companyTermsVO = null;
         try {
-            companyTermsVO = getCompanyTermsDelegate().listCompanyTerms();
+            companyTermsVO = getCompanyTermsService().listCompanyTerms();
         } catch (Exception e) {
             LOG.error(e.getLocalizedMessage());
         }
@@ -68,14 +64,14 @@ public class CompanyTermsController {
         companyTermsForm.getCurrentCompanyTermsVO().setModifiedBy(companyTermsForm.getLoggedInUser());
         companyTermsForm.getCurrentCompanyTermsVO().setModifiedDate(new Date());
         try {
-            getCompanyTermsDelegate().updateCompanyDetails(companyTermsForm.getCurrentCompanyTermsVO());
+            getCompanyTermsService().updateCompanyDetails(companyTermsForm.getCurrentCompanyTermsVO());
         } catch (Exception e) {
             LOG.error(e.getLocalizedMessage());
         }
 
         CompanyTermsVO companyTermsVO = null;
         try {
-            companyTermsVO = getCompanyTermsDelegate().listCompanyTerms();
+            companyTermsVO = getCompanyTermsService().listCompanyTerms();
         } catch (Exception e) {
             LOG.error(e.getLocalizedMessage());
         }

@@ -27,7 +27,7 @@
     </bean>
 
     <bean name="/company/*.htm" class="com.poseidon.CompanyTerms.web.controller.CompanyTermsController" >
-        <property name="companyTermsDelegate" ref="companyDelegate"/>
+        <property name="companyTermsService" ref="companyService"/>
     </bean>
 
     <bean name="/reports/*.htm" class="com.poseidon.Reports.web.controller.ReportsController" >

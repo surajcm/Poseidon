@@ -50,9 +50,6 @@
         <property name="dataSource" ref="dataSource" />
     </bean>
 
-    <bean id="companyDelegate" class="com.poseidon.CompanyTerms.delegate.CompanyTermsDelegate">
-        <property name="companyTermsService" ref="companyService"/>
-    </bean>
     <bean id="companyService" class="com.poseidon.CompanyTerms.service.impl.CompanyTermsServiceImpl">
         <property name="companyTermsDAO" ref="companyDAO"/>
     </bean>
