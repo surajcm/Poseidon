@@ -6,11 +6,12 @@ import com.poseidon.user.exception.UserException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataAccessException;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
-import org.springframework.jdbc.core.support.JdbcDaoSupport;
+import org.springframework.stereotype.Repository;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
@@ -22,8 +23,18 @@ import java.util.List;
  *         Date: Nov 27, 2010
  *         Time: 12:43:13 PM
  */
-public class UserDAOImpl extends JdbcDaoSupport implements UserDAO {
+@Repository
+public class UserDAOImpl implements UserDAO {
     private SimpleJdbcInsert insertUser;
+    private JdbcTemplate jdbcTemplate;
+
+    public JdbcTemplate getJdbcTemplate() {
+        return jdbcTemplate;
+    }
+
+    public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
+    }
 
     //logger
     private final Logger LOG = LoggerFactory.getLogger(UserDAOImpl.class);
@@ -247,7 +258,7 @@ public class UserDAOImpl extends JdbcDaoSupport implements UserDAO {
      * @throws DataAccessException on error
      */
     public void saveUser(final UserVO user) throws DataAccessException {
-        insertUser = new SimpleJdbcInsert(getDataSource()).withTableName("user").usingGeneratedKeyColumns("id");
+        insertUser = new SimpleJdbcInsert(getJdbcTemplate()).withTableName("user").usingGeneratedKeyColumns("id");
         SqlParameterSource parameters = new MapSqlParameterSource()
                 .addValue("name", user.getName())
                 .addValue("logInId", user.getLoginId())

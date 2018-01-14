@@ -12,6 +12,7 @@ import com.poseidon.transaction.service.TransactionService;
 import com.poseidon.transaction.web.form.TransactionForm;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -31,22 +32,26 @@ import java.util.List;
  * Time: 3:33:20 PM
  */
 @Controller
+//@RequestMapping("/txs")
 public class TransactionController {
 
     private static final Logger LOG = LoggerFactory.getLogger(TransactionController.class);
 
+    @Autowired
     private TransactionService transactionService;
+
+    @Autowired
+    private MakeService makeService;
+
+    @Autowired
+    private CustomerService customerService;
 
     public void setTransactionService(TransactionService transactionService) {
         this.transactionService = transactionService;
     }
-
-    private MakeService makeService;
-
     public void setMakeService(MakeService makeService) {
         this.makeService = makeService;
     }
-    private CustomerService customerService;
 
 
     public void setCustomerService(CustomerService customerService) {

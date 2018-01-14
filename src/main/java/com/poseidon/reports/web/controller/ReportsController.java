@@ -21,6 +21,7 @@ import net.sf.jasperreports.engine.export.ooxml.JRDocxExporter;
 import net.sf.jasperreports.engine.export.ooxml.JRDocxExporterParameter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -42,15 +43,18 @@ import java.util.Locale;
  * Time: 10:40:47 AM
  */
 @Controller
+//@RequestMapping("/reports")
 public class ReportsController {
     private static final Logger LOG = LoggerFactory.getLogger(ReportsController.class);
+    @Autowired
     private ReportsService reportsService;
+
+    @Autowired
+    private MakeService makeService;
 
     public void setReportsService(ReportsService reportsService) {
         this.reportsService = reportsService;
     }
-
-    private MakeService makeService;
 
     public void setMakeService(MakeService makeService) {
         this.makeService = makeService;

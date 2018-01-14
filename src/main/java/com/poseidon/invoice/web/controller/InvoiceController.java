@@ -14,6 +14,7 @@ import com.poseidon.transaction.service.TransactionService;
 import com.poseidon.transaction.web.form.TransactionForm;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomNumberEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.WebDataBinder;
@@ -31,19 +32,23 @@ import java.util.List;
  * Time: 9:56 PM
  */
 @Controller
+//@RequestMapping("/invoice")
 public class InvoiceController {
     private static final Log LOG = LogFactory.getLog(InvoiceController.class);
 
+    @Autowired
     private InvoiceService invoiceService;
 
+    @Autowired
     private TransactionService transactionService;
+
+    @Autowired
+    private MakeService makeService;
 
     public void setTransactionService(TransactionService transactionService) {
         this.transactionService = transactionService;
     }
 
-
-    private MakeService makeService;
 
     public void setMakeService(MakeService makeService) {
         this.makeService = makeService;

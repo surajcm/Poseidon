@@ -6,6 +6,7 @@ import com.poseidon.user.exception.UserException;
 import com.poseidon.user.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
@@ -16,9 +17,7 @@ import java.util.List;
  */
 public class UserServiceImpl implements UserService {
 
-    /**
-     * user service instance
-     */
+    @Autowired
     private UserDAO userDAO;
 
     private final Logger LOG = LoggerFactory.getLogger(UserServiceImpl.class);

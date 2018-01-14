@@ -5,6 +5,7 @@ import com.poseidon.company.service.CompanyTermsService;
 import com.poseidon.company.web.form.CompanyTermsForm;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -18,9 +19,11 @@ import java.util.Date;
  * Time: 10:44:08 PM
  */
 @Controller
+//@RequestMapping("/company")
 public class CompanyTermsController {
     private static final Logger LOG = LoggerFactory.getLogger(CompanyTermsController.class);
 
+    @Autowired
     private CompanyTermsService companyTermsService;
 
 

@@ -7,6 +7,7 @@ import com.poseidon.make.web.form.MakeForm;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -25,10 +26,12 @@ import java.util.List;
  * Time: 7:24:14 PM
  */
 @Controller
+//@RequestMapping("/make")
 public class MakeController {
     private static final Logger LOG = LoggerFactory.getLogger(MakeController.class);
 
-    private MakeService makeService;
+    @Autowired
+        private MakeService makeService;
 
     public MakeService getMakeService() {
         return makeService;
@@ -39,7 +42,7 @@ public class MakeController {
     }
 
 
-    @RequestMapping(value = "/make/ModelList.htm", method = RequestMethod.POST)
+    @RequestMapping(value = "/make/ModelList.htm", method = {RequestMethod.POST, RequestMethod.GET})
     public ModelAndView ModelList(MakeForm makeForm) {
         LOG.debug(" Inside List method of MakeController ");
         LOG.debug(" form details are  " + makeForm);
@@ -280,7 +283,7 @@ public class MakeController {
         }
 
         //get all the make and pass it as a json object
-        List<MakeVO> makes = getMakeService().fetchMakes();
+        List<MakeVO> makes = makeService.fetchMakes();
         responseString.append(fetchJSONMakeList(makes));
         // get a id-name combination, which is splittable by js
         httpServletResponse.setContentType("text/plain");

@@ -11,7 +11,7 @@
     </bean>
 
     <bean id="userDAO" class="com.poseidon.user.dao.impl.UserDAOImpl">
-        <property name="dataSource" ref="dataSource" />
+        <property name="jdbcTemplate" ref="jdbcTemplate" />
     </bean>
 
     <bean id="transactionService" class="com.poseidon.transaction.service.impl.TransactionServiceImpl">
@@ -109,5 +109,8 @@
         <property name="dataSource" ref="dataSource" />
     </bean>
 
+    <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate" >
+        <property name="dataSource" ref="dataSource" />
+    </bean>
 
 </beans>

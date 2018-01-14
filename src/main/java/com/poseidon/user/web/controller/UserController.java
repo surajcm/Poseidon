@@ -7,6 +7,7 @@ import com.poseidon.user.web.form.UserForm;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -26,9 +27,11 @@ import java.util.List;
  *         Time: 2:38:15 PM
  */
 @Controller
+//@RequestMapping("/user")
 public class UserController {
     private static final Logger logger = LoggerFactory.getLogger(UserController.class);
 
+    @Autowired
     private UserService userService;
     public void setUserService(UserService userService) {
         this.userService = userService;

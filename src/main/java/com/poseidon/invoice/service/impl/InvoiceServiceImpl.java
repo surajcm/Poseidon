@@ -57,18 +57,20 @@ public class InvoiceServiceImpl implements InvoiceService {
 
     public List<InvoiceVO> fetchInvoiceForListOfTransactions() throws InvoiceException {
         List<TransactionVO> transactionVOs = null;
+        List<InvoiceVO> invoiceVOs = null;
         try {
             transactionVOs = transactionService.listTodaysTransactions();
         } catch (TransactionException e) {
             e.printStackTrace();
         }
-        List<String> tagNumbers = fetchTagNoFromListOfTransactionVOs(transactionVOs);
-        List<InvoiceVO> invoiceVOs;
-        try {
-            invoiceVOs = invoiceDAO.fetchInvoiceForListOfTransactions(tagNumbers);
-        } catch (InvoiceException e) {
-            LOG.error(e.getLocalizedMessage());
-            throw new InvoiceException(e.getMessage());
+        if(transactionVOs != null) {
+            List<String> tagNumbers = fetchTagNoFromListOfTransactionVOs(transactionVOs);
+            try {
+                invoiceVOs = invoiceDAO.fetchInvoiceForListOfTransactions(tagNumbers);
+            } catch (InvoiceException e) {
+                LOG.error(e.getLocalizedMessage());
+                throw new InvoiceException(e.getMessage());
+            }
         }
         return invoiceVOs;
     }
