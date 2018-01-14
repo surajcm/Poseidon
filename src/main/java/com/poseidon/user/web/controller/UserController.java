@@ -27,29 +27,28 @@ import java.util.List;
  *         Time: 2:38:15 PM
  */
 @Controller
-//@RequestMapping("/user")
+@RequestMapping("/user")
+@SuppressWarnings("unused")
 public class UserController {
     private static final Logger logger = LoggerFactory.getLogger(UserController.class);
+    private static final String USER_FORM = "userForm";
+    private static final String USER_LOG_IN = "user/logIn";
 
     @Autowired
     private UserService userService;
-    public void setUserService(UserService userService) {
-        this.userService = userService;
-    }
 
     /**
      * Used in automatic redirect to Log in screen
      *
      * @return ModelAndView to render
      */
-    @SuppressWarnings("unused")
-    @RequestMapping(value = {"/user/Index.htm", "/"}, method = RequestMethod.GET)
-    public ModelAndView Index() {
+    @RequestMapping(value = {"Index.htm", "/"}, method = RequestMethod.GET)
+    public ModelAndView index() {
         logger.info(" Inside Index method of user Controller ");
         UserForm userForm = new UserForm();
         UserVO userVO = new UserVO();
         userForm.setUser(userVO);
-        return new ModelAndView("user/logIn", "userForm", userForm);
+        return new ModelAndView(USER_LOG_IN, USER_FORM, userForm);
     }
 
     /**
@@ -57,9 +56,8 @@ public class UserController {
      *
      * @return ModelAndView to render
      */
-    @SuppressWarnings("unused")
-    @RequestMapping(value = "/user/LogIn.htm", method = RequestMethod.POST)
-    public ModelAndView LogIn(UserForm userForm) {
+    @RequestMapping(value = "LogIn.htm", method = RequestMethod.POST)
+    public ModelAndView logIn(UserForm userForm) {
         logger.info(" Inside LogIn method of user Controller ");
         UserVO realUser;
         try {
@@ -79,11 +77,11 @@ public class UserController {
             } else {
                 userForm.setMessage(" An Unknown Error has been occurred !!");
             }
-            return new ModelAndView("user/logIn", "userForm", userForm);
+            return new ModelAndView(USER_LOG_IN, USER_FORM, userForm);
         } catch (Exception e1) {
             logger.error(e1.getLocalizedMessage());
             userForm.setMessage(" An Unknown Error has been occurred !!");
-            return new ModelAndView("user/logIn", "userForm", userForm);
+            return new ModelAndView(USER_LOG_IN, USER_FORM, userForm);
         }
         if (realUser != null && realUser.getRole() != null) {
             /*if(realUser.getRole().equalsIgnoreCase("ADMIN")){
@@ -94,11 +92,11 @@ public class UserController {
             }*/
              userForm.setLoggedInUser(realUser.getName());
              userForm.setLoggedInRole(realUser.getRole());
-             return ToHome(userForm);
+             return toHome(userForm);
             
         } else {
             userForm.setMessage(" An Unknown Error has been occurred !!");
-            return new ModelAndView("user/logIn", "userForm", userForm);
+            return new ModelAndView(USER_LOG_IN, USER_FORM, userForm);
         }
     }
 
@@ -108,9 +106,8 @@ public class UserController {
      * @param userForm userForm instance
      * @return ModelAndView to render
      */
-    @SuppressWarnings("unused")
-    @RequestMapping(value = "user/ListAll.htm", method = RequestMethod.POST)
-    public ModelAndView ListAll(UserForm userForm) {
+    @RequestMapping(value = "ListAll.htm", method = RequestMethod.POST)
+    public ModelAndView listAll(UserForm userForm) {
         logger.info(" Inside ListAll method of user Controller ");
         List<UserVO> userList = null;
         try {
@@ -141,7 +138,7 @@ public class UserController {
         userForm.setLoggedInRole(userForm.getLoggedInRole());
         userForm.setSearchUser(new UserVO());
         userForm.setRoleList(populateRoles());
-        return new ModelAndView("user/UserList", "userForm", userForm);
+        return new ModelAndView("user/UserList", USER_FORM, userForm);
     }
 
     /**
@@ -162,15 +159,14 @@ public class UserController {
      * @param userForm userForm instance
      * @return ModelAndView to render
      */
-    @SuppressWarnings("unused")
-    @RequestMapping(value = "user/AddUser.htm", method = RequestMethod.POST)
-    public ModelAndView AddUser(UserForm userForm) {
+    @RequestMapping(value = "AddUser.htm", method = RequestMethod.POST)
+    public ModelAndView addUser(UserForm userForm) {
         logger.info(" Inside AddUser method of user Controller ");
         userForm.setLoggedInUser(userForm.getLoggedInUser());
         userForm.setLoggedInRole(userForm.getLoggedInRole());
         userForm.setUser(new UserVO());
         userForm.setRoleList(populateRoles());
-        return new ModelAndView("user/userAdd", "userForm", userForm);
+        return new ModelAndView("user/userAdd", USER_FORM, userForm);
     }
 
     /**
@@ -179,9 +175,8 @@ public class UserController {
      * @param userForm user instance
      * @return ModelAndView to render
      */
-    @SuppressWarnings("unused")
-    @RequestMapping(value = "user/SaveUser.htm", method = RequestMethod.POST)
-    public ModelAndView SaveUser(UserForm userForm) {
+    @RequestMapping(value = "SaveUser.htm", method = RequestMethod.POST)
+    public ModelAndView saveUser(UserForm userForm) {
         logger.info(" Inside SaveUser method of user Controller ");
         logger.info(" user instance to add to database " + userForm.toString());
         try {
@@ -239,11 +234,10 @@ public class UserController {
         userForm.setLoggedInRole(userForm.getLoggedInRole());
         userForm.setSearchUser(new UserVO());
         userForm.setRoleList(populateRoles());
-        return new ModelAndView("user/UserList", "userForm", userForm);
+        return new ModelAndView("user/UserList", USER_FORM, userForm);
     }
 
-    @RequestMapping(value = "/user/saveUserAjax.htm", method = RequestMethod.POST)
-    @SuppressWarnings("unused")
+    @RequestMapping(value = "saveUserAjax.htm", method = RequestMethod.POST)
     public void saveUserAjax(HttpServletRequest httpServletRequest,
                              HttpServletResponse httpServletResponse) {
         logger.debug("saveUserAjax method of user Controller ");
@@ -329,9 +323,8 @@ public class UserController {
      * @param userForm userForm instance
      * @return ModelAndView to render
      */
-    @SuppressWarnings("unused")
-    @RequestMapping(value = "user/EditUser.htm", method = RequestMethod.POST)
-    public ModelAndView EditUser(UserForm userForm) {
+    @RequestMapping(value = "EditUser.htm", method = RequestMethod.POST)
+    public ModelAndView editUser(UserForm userForm) {
         logger.info(" Inside EditUser method of user Controller ");
         logger.info(" user is " + userForm.toString());
         UserVO userVO = null;
@@ -359,7 +352,7 @@ public class UserController {
         userForm.setLoggedInUser(userForm.getLoggedInUser());
         userForm.setLoggedInRole(userForm.getLoggedInRole());
         userForm.setRoleList(populateRoles());
-        return new ModelAndView("user/userEdit", "userForm", userForm);
+        return new ModelAndView("user/userEdit", USER_FORM, userForm);
     }
 
     /**
@@ -368,9 +361,8 @@ public class UserController {
      * @param userForm user instance
      * @return ModelAndView to render
      */
-    @SuppressWarnings("unused")
-    @RequestMapping(value = "user/UpdateUser.htm", method = RequestMethod.POST)
-    public ModelAndView UpdateUser(UserForm userForm) {
+    @RequestMapping(value = "UpdateUser.htm", method = RequestMethod.POST)
+    public ModelAndView updateUser(UserForm userForm) {
         logger.info(" Inside UpdateUser method of user Controller ");
         try {
             userForm.getUser().setLastModifiedBy(userForm.getLoggedInUser());
@@ -397,7 +389,7 @@ public class UserController {
             logger.info(" An Unknown Error has been occurred !!");
 
         }
-        return ListAll(userForm);
+        return listAll(userForm);
     }
 
     /**
@@ -406,9 +398,8 @@ public class UserController {
      * @param userForm userForm instance
      * @return ModelAndView to render
      */
-    @SuppressWarnings("unused")
-    @RequestMapping(value = "user/DeleteUser.htm", method = RequestMethod.POST)
-    public ModelAndView DeleteUser(UserForm userForm) {
+    @RequestMapping(value = "DeleteUser.htm", method = RequestMethod.POST)
+    public ModelAndView deleteUser(UserForm userForm) {
         logger.info(" Inside DeleteUser method of user Controller ");
         logger.info(" user is " + userForm.toString());
         try {
@@ -434,7 +425,7 @@ public class UserController {
 
         }
 
-        return ListAll(userForm);
+        return listAll(userForm);
     }
 
     /**
@@ -443,13 +434,12 @@ public class UserController {
      * @param userForm userForm instance
      * @return ModelAndView to render
      */
-    @SuppressWarnings("unused")
-    @RequestMapping(value = "user/ToHome.htm", method = RequestMethod.POST)
-    public ModelAndView ToHome(UserForm userForm) {
+    @RequestMapping(value = "ToHome.htm", method = RequestMethod.POST)
+    public ModelAndView toHome(UserForm userForm) {
         logger.info(" Inside ToHome method of user Controller ");
         userForm.setLoggedInUser(userForm.getLoggedInUser());
         userForm.setLoggedInRole(userForm.getLoggedInRole());
-        return new ModelAndView("MainPage", "userForm", userForm);
+        return new ModelAndView("MainPage", USER_FORM, userForm);
     }
 
     /**
@@ -458,11 +448,10 @@ public class UserController {
      * @param userForm userForm instance
      * @return ModelAndView to render
      */
-    @SuppressWarnings("unused")
-    @RequestMapping(value = "user/LogMeOut.htm", method = RequestMethod.POST)
-    public ModelAndView LogMeOut(UserForm userForm) {
+    @RequestMapping(value = "LogMeOut.htm", method = RequestMethod.POST)
+    public ModelAndView logMeOut(UserForm userForm) {
         logger.info(" Inside LogMeOut method of user Controller ");
-        return new ModelAndView("user/logIn", "userForm", new UserForm());
+        return new ModelAndView(USER_LOG_IN, USER_FORM, new UserForm());
     }
 
     /**
@@ -471,9 +460,8 @@ public class UserController {
      * @param userForm userForm instance
      * @return ModelAndView to render
      */
-    @SuppressWarnings("unused")
-    @RequestMapping(value = "user/SearchUser.htm", method = RequestMethod.POST)
-    public ModelAndView SearchUser(UserForm userForm) {
+    @RequestMapping(value = "SearchUser.htm", method = RequestMethod.POST)
+    public ModelAndView searchUser(UserForm userForm) {
         logger.info(" Inside SearchUser method of user Controller ");
         logger.info(" user Details are " + userForm.getSearchUser().toString());
         List<UserVO> userList = null;
@@ -508,7 +496,7 @@ public class UserController {
         }
         userForm.setUserVOs(userList);
         userForm.setRoleList(populateRoles());
-        return new ModelAndView("user/UserList", "userForm", userForm);
+        return new ModelAndView("user/UserList", USER_FORM, userForm);
     }
 
 }

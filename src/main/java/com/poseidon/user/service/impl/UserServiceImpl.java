@@ -16,18 +16,12 @@ import java.util.List;
  *         Time: 2:38:15 PM
  */
 public class UserServiceImpl implements UserService {
+    private static final Logger LOG = LoggerFactory.getLogger(UserServiceImpl.class);
+    private static final String EXCEPTION_TYPE_IN_SERVICE_IMPL = "Exception type in service impl ";
 
     @Autowired
     private UserDAO userDAO;
 
-    private final Logger LOG = LoggerFactory.getLogger(UserServiceImpl.class);
-
-    /**
-     * spring setter for user dao
-     *
-     * @param userDAO userDAO instance
-     */
-    @SuppressWarnings("unused")
     public void setUserDAO(UserDAO userDAO) {
         this.userDAO = userDAO;
     }
@@ -45,10 +39,10 @@ public class UserServiceImpl implements UserService {
             LOG.info(" Inside user service impl");
             realUser = userDAO.logIn(user);
         } catch (UserException e) {
-            LOG.error(" Exception type in service impl " + e.getExceptionType());
+            LOG.error(EXCEPTION_TYPE_IN_SERVICE_IMPL + e.getExceptionType());
             throw new UserException(e.getExceptionType());
         } catch (Exception e1) {
-            e1.printStackTrace();
+            LOG.error(e1.getMessage());
         }
         return realUser;
     }
@@ -63,10 +57,10 @@ public class UserServiceImpl implements UserService {
         try {
             userList = userDAO.getAllUserDetails();
         } catch (UserException e) {
-            LOG.error(" Exception type in service impl " + e.getExceptionType());
+            LOG.error(EXCEPTION_TYPE_IN_SERVICE_IMPL + e.getExceptionType());
             throw new UserException(e.getExceptionType());
         } catch (Exception e1) {
-            e1.printStackTrace();
+            LOG.error(e1.getMessage());
         }
         return userList;
     }
@@ -81,10 +75,10 @@ public class UserServiceImpl implements UserService {
         try {
             userDAO.addNewUser(user);
         } catch (UserException e) {
-            LOG.error(" Exception type in service impl " + e.getExceptionType());
+            LOG.error(EXCEPTION_TYPE_IN_SERVICE_IMPL + e.getExceptionType());
             throw new UserException(e.getExceptionType());
         } catch (Exception e1) {
-            e1.printStackTrace();
+            LOG.error(e1.getMessage());
         }
     }
 
@@ -100,10 +94,10 @@ public class UserServiceImpl implements UserService {
         try {
             userVO = userDAO.getUserDetailsFromID(id);
         } catch (UserException e) {
-            LOG.error(" Exception type in service impl " + e.getExceptionType());
+            LOG.error(EXCEPTION_TYPE_IN_SERVICE_IMPL + e.getExceptionType());
             throw new UserException(e.getExceptionType());
         } catch (Exception e1) {
-            e1.printStackTrace();
+            LOG.error(e1.getMessage());
         }
         return userVO;
     }
@@ -119,10 +113,10 @@ public class UserServiceImpl implements UserService {
         try {
             userDAO.updateUser(user);
         } catch (UserException e) {
-            LOG.error(" Exception type in service impl " + e.getExceptionType());
+            LOG.error(EXCEPTION_TYPE_IN_SERVICE_IMPL + e.getExceptionType());
             throw new UserException(e.getExceptionType());
         } catch (Exception e1) {
-            e1.printStackTrace();
+            LOG.error(e1.getMessage());
         }
     }
 
@@ -136,10 +130,10 @@ public class UserServiceImpl implements UserService {
         try {
             userDAO.deleteUser(id);
         } catch (UserException e) {
-            LOG.error(" Exception type in service impl " + e.getExceptionType());
+            LOG.error(EXCEPTION_TYPE_IN_SERVICE_IMPL + e.getExceptionType());
             throw new UserException(e.getExceptionType());
         } catch (Exception e1) {
-            e1.printStackTrace();
+            LOG.error(e1.getMessage());
         }
     }
 
@@ -155,10 +149,10 @@ public class UserServiceImpl implements UserService {
         try {
             userList = userDAO.searchUserDetails(searchUser);
         } catch (UserException e) {
-            LOG.error(" Exception type in service impl " + e.getExceptionType());
+            LOG.error(EXCEPTION_TYPE_IN_SERVICE_IMPL + e.getExceptionType());
             throw new UserException(e.getExceptionType());
         } catch (Exception e1) {
-            e1.printStackTrace();
+            LOG.error(e1.getMessage());
         }
         return userList;
     }

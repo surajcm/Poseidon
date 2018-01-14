@@ -3,57 +3,20 @@
 <beans xmlns="http://www.springframework.org/schema/beans"
        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
        xmlns:context="http://www.springframework.org/schema/context"
-       xmlns:mvc="http://www.springframework.org/schema/mvc"
        xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
-			http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
-			http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd">
+			http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd">
 
 
 
 	<bean name="handlerMapping" class="org.springframework.web.servlet.handler.BeanNameUrlHandlerMapping">
     </bean>
 
-    <!--<bean name="/user/*.htm" class="com.poseidon.user.web.controller.UserController" >-->
-        <!--<property name="userService" ref="userService"/>-->
-    <!--</bean>-->
     <context:component-scan base-package="com.poseidon" />
-    <!--<mvc:annotation-driven />-->
 
     <bean class="org.springframework.web.servlet.mvc.annotation.DefaultAnnotationHandlerMapping">
         <property name="order" value="0" />
     </bean>
     <bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter" />
-<!--
-    <bean id="jacksonObjectMapper" class="com.silverchalice.contracts.json.mappers.JacksonObjectMapper" />-->
-
-
-    <!--<bean name="/txs/*.htm" class="com.poseidon.transaction.web.controller.TransactionController" >
-        <property name="transactionService" ref="transactionService"/>
-        <property name="makeService" ref="makeService"/>
-        <property name="customerService" ref="customerService"/>
-    </bean>-->
-
-    <!--<bean name="/make/*.htm" class="com.poseidon.make.web.controller.MakeController" >
-        <property name="makeService" ref="makeService"/>
-    </bean>-->
-
-    <!--<bean name="/customer/*.htm" class="com.poseidon.customer.web.controller.CustomerController" >
-        <property name="customerService" ref="customerService"/>
-    </bean>-->
-
-    <!--<bean name="/company/*.htm" class="com.poseidon.company.web.controller.CompanyTermsController" >
-        <property name="companyTermsService" ref="companyService"/>
-    </bean>-->
-
-    <!--<bean name="/reports/*.htm" class="com.poseidon.reports.web.controller.ReportsController" >
-        <property name="reportsService" ref="reportsService"/>
-    </bean>-->
-
-    <!--<bean name="/invoice/*.htm" class="com.poseidon.invoice.web.controller.InvoiceController" >
-        <property name="invoiceService" ref="invoiceService"/>
-        <property name="makeService" ref="makeService"/>
-        <property name="transactionService" ref="transactionService"/>
-    </bean>-->
 
     <!-- View Resolution -->
     <bean id="beanNameViewResolver" class="org.springframework.web.servlet.view.BeanNameViewResolver">
