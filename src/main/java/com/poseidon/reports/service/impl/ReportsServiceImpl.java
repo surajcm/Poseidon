@@ -21,6 +21,8 @@ import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
@@ -29,33 +31,19 @@ import java.util.List;
  * Date: Jun 3, 2012
  * Time: 10:40:26 AM
  */
+@Service
 public class ReportsServiceImpl implements ReportsService{
     private static final Logger LOG = LoggerFactory.getLogger(ReportsServiceImpl.class);
+    @Autowired
     private ReportsDAO reportsDAO;
+    @Autowired
     private MakeService makeService;
+    @Autowired
     private TransactionService transactionService;
+    @Autowired
     private CompanyTermsService companyTermsService;
+    @Autowired
     private InvoiceService invoiceService;
-
-
-    public void setReportsDAO(ReportsDAO reportsDAO) {
-        this.reportsDAO = reportsDAO;
-    }
-
-    public void setMakeService(MakeService makeService) {
-        this.makeService = makeService;
-    }
-    public void setTransactionService(TransactionService transactionService) {
-        this.transactionService = transactionService;
-    }
-    public void setCompanyTermsService(CompanyTermsService companyTermsService) {
-        this.companyTermsService = companyTermsService;
-    }
-
-
-    public void setInvoiceService(InvoiceService invoiceService) {
-        this.invoiceService = invoiceService;
-    }
 
     public List<ReportsVO> generateDailyReport() {
         List<ReportsVO> reportsVOs = null;

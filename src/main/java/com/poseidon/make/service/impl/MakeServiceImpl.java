@@ -1,38 +1,33 @@
 package com.poseidon.make.service.impl;
 
-import com.poseidon.make.service.MakeService;
+import com.poseidon.make.dao.MakeDAO;
 import com.poseidon.make.domain.MakeAndModelVO;
 import com.poseidon.make.domain.MakeVO;
-import com.poseidon.make.dao.MakeDAO;
 import com.poseidon.make.exception.MakeException;
-
-import java.util.List;
-
+import com.poseidon.make.service.MakeService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 /**
  * user: Suraj
  * Date: Jun 2, 2012
  * Time: 7:27:42 PM
  */
+@Service
 public class MakeServiceImpl implements MakeService {
+    @Autowired
     private MakeDAO makeDAO;
 
-    private final Logger LOG = LoggerFactory.getLogger(MakeServiceImpl.class);
-
-    public MakeDAO getMakeDAO() {
-        return makeDAO;
-    }
-
-    public void setMakeDAO(MakeDAO makeDAO) {
-        this.makeDAO = makeDAO;
-    }
-
+    private static final Logger LOG = LoggerFactory.getLogger(MakeServiceImpl.class);
+    
     public List<MakeAndModelVO> listAllMakesAndModels() {
         List<MakeAndModelVO> makeVOs = null;
         try {
-            makeVOs = getMakeDAO().listAllMakesAndModels();
+            makeVOs = makeDAO.listAllMakesAndModels();
         } catch (MakeException makeException) {
             LOG.info("make Exception occurred" + makeException.getMessage());
         }
@@ -42,7 +37,7 @@ public class MakeServiceImpl implements MakeService {
     public List<MakeAndModelVO> listAllMakes() {
         List<MakeAndModelVO> makeVOs = null;
         try {
-            makeVOs = getMakeDAO().listAllMakes();
+            makeVOs = makeDAO.listAllMakes();
         } catch (MakeException makeException) {
             LOG.info("make Exception occurred" + makeException.getMessage());
         }
@@ -51,7 +46,7 @@ public class MakeServiceImpl implements MakeService {
 
     public void addNewMake(MakeAndModelVO currentMakeVO) {
         try {
-            getMakeDAO().addNewMake(currentMakeVO);
+            makeDAO.addNewMake(currentMakeVO);
         } catch (MakeException makeException) {
             LOG.info("make Exception occurred" + makeException.getMessage());
         }
@@ -60,7 +55,7 @@ public class MakeServiceImpl implements MakeService {
     public MakeAndModelVO getMakeFromId(Long makeId) {
         MakeAndModelVO makeVO= null;
         try {
-            makeVO = getMakeDAO().getMakeFromId(makeId);
+            makeVO = makeDAO.getMakeFromId(makeId);
         } catch (MakeException makeException) {
             LOG.info("make Exception occurred" + makeException.getMessage());
         }
@@ -69,7 +64,7 @@ public class MakeServiceImpl implements MakeService {
 
     public void deleteMake(Long makeId) {
         try {
-            getMakeDAO().deleteMake(makeId);
+            makeDAO.deleteMake(makeId);
         } catch (MakeException makeException) {
             LOG.info("make Exception occurred" + makeException.getMessage());
         }
@@ -78,7 +73,7 @@ public class MakeServiceImpl implements MakeService {
     public MakeAndModelVO getModelFromId(Long modelId) {
         MakeAndModelVO makeVO= null;
         try {
-            makeVO = getMakeDAO().getModelFromId(modelId);
+            makeVO = makeDAO.getModelFromId(modelId);
         } catch (MakeException makeException) {
             LOG.info("make Exception occurred" + makeException.getMessage());
         }
@@ -87,7 +82,7 @@ public class MakeServiceImpl implements MakeService {
 
     public void deleteModel(Long modelId) {
         try {
-            getMakeDAO().deleteModel(modelId);
+            makeDAO.deleteModel(modelId);
         } catch (MakeException makeException) {
             LOG.info("make Exception occurred" + makeException.getMessage());
         }
@@ -95,7 +90,7 @@ public class MakeServiceImpl implements MakeService {
 
     public void updateMake(MakeAndModelVO currentMakeVO) {
         try {
-            getMakeDAO().updateMake(currentMakeVO);
+            makeDAO.updateMake(currentMakeVO);
         } catch (MakeException makeException) {
             LOG.info("make Exception occurred" + makeException.getMessage());
         }
@@ -103,7 +98,7 @@ public class MakeServiceImpl implements MakeService {
 
     public void addNewModel(MakeAndModelVO currentMakeVO) {
         try {
-            getMakeDAO().addNewModel(currentMakeVO);
+            makeDAO.addNewModel(currentMakeVO);
         } catch (MakeException makeException) {
             LOG.info("make Exception occurred" + makeException.getMessage());
         }
@@ -111,7 +106,7 @@ public class MakeServiceImpl implements MakeService {
 
     public void updateModel(MakeAndModelVO currentMakeVO) {
         try {
-            getMakeDAO().updateModel(currentMakeVO);
+            makeDAO.updateModel(currentMakeVO);
         } catch (MakeException makeException) {
             LOG.info("make Exception occurred" + makeException.getMessage());
         }
@@ -120,7 +115,7 @@ public class MakeServiceImpl implements MakeService {
     public List<MakeAndModelVO> searchMakeVOs(MakeAndModelVO searchMakeVO) {
         List<MakeAndModelVO> makeVOs = null;
         try {
-            makeVOs = getMakeDAO().searchMakeVOs(searchMakeVO);
+            makeVOs = makeDAO.searchMakeVOs(searchMakeVO);
         } catch (MakeException makeException) {
             LOG.info("make Exception occurred" + makeException.getMessage());
         }
@@ -130,7 +125,7 @@ public class MakeServiceImpl implements MakeService {
     public List<MakeVO> fetchMakes() {
         List<MakeVO> makeVOs = null;
         try {
-            makeVOs = getMakeDAO().fetchMakes();
+            makeVOs = makeDAO.fetchMakes();
         } catch (MakeException makeException) {
             LOG.info("make Exception occurred" + makeException.getMessage());
         }
@@ -140,7 +135,7 @@ public class MakeServiceImpl implements MakeService {
     public List<MakeAndModelVO> getAllModelsFromMakeId(Long id) {
         List<MakeAndModelVO> makeVOs = null;
         try {
-            makeVOs = getMakeDAO().getAllModelsFromMakeId(id);
+            makeVOs = makeDAO.getAllModelsFromMakeId(id);
         } catch (MakeException makeException) {
             LOG.info("make Exception occurred" + makeException.getMessage());
         }

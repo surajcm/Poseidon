@@ -3,21 +3,26 @@ package com.poseidon.company.dao.impl;
 import com.poseidon.company.dao.CompanyTermsDAO;
 import com.poseidon.company.domain.CompanyTermsVO;
 import com.poseidon.company.exception.CompanyTermsException;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
+import org.springframework.stereotype.Repository;
 
-import java.util.List;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-
-import org.springframework.jdbc.core.support.JdbcDaoSupport;
-import org.springframework.jdbc.core.RowMapper;
-import org.springframework.dao.DataAccessException;
+import java.util.List;
 
 /**
  * user: Suraj
  * Date: Jun 2, 2012
  * Time: 10:00:05 PM
  */
-public class CompanyTermsDAOImpl extends JdbcDaoSupport implements CompanyTermsDAO {
+@Repository
+public class CompanyTermsDAOImpl implements CompanyTermsDAO {
+
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
 
     private final String GET_COMPANY_TERMS_SQL = "SELECT id, terms, companyName, companyAddress, companyPhone, " +
             " companyEmail, companyWebsite, vat_tin, cst_tin FROM companyterms ;";
@@ -52,7 +57,7 @@ public class CompanyTermsDAOImpl extends JdbcDaoSupport implements CompanyTermsD
                 companyTermsVO.getModifiedBy()};
 
         try {
-            getJdbcTemplate().update(UPDATE_TERMS_SQL, parameters);
+            jdbcTemplate.update(UPDATE_TERMS_SQL, parameters);
         } catch (DataAccessException e) {
             e.printStackTrace();
             throw new CompanyTermsException(CompanyTermsException.DATABASE_ERROR);
@@ -60,7 +65,7 @@ public class CompanyTermsDAOImpl extends JdbcDaoSupport implements CompanyTermsD
     }
 
     private List<CompanyTermsVO> fetchCompanyTerms() {
-        return (List<CompanyTermsVO>) getJdbcTemplate().query(GET_COMPANY_TERMS_SQL, new CompanyTermsRowMapper());
+        return (List<CompanyTermsVO>) jdbcTemplate.query(GET_COMPANY_TERMS_SQL, new CompanyTermsRowMapper());
     }
 
     private class CompanyTermsRowMapper implements RowMapper {

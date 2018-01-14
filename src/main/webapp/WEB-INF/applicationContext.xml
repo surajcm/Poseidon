@@ -6,67 +6,6 @@
 
     <import resource="db-hsqldb-config.xml"/>
 
-    <bean id="userService" class="com.poseidon.user.service.impl.UserServiceImpl">
-        <property name="userDAO" ref="userDAO"/>
-    </bean>
-
-    <bean id="userDAO" class="com.poseidon.user.dao.impl.UserDAOImpl">
-        <property name="jdbcTemplate" ref="jdbcTemplate" />
-    </bean>
-
-    <bean id="transactionService" class="com.poseidon.transaction.service.impl.TransactionServiceImpl">
-        <property name="transactionDAO" ref="transactionDAO"/>
-    </bean>
-
-    <bean id="transactionDAO" class="com.poseidon.transaction.dao.impl.TransactionDAOImpl">
-        <property name="dataSource" ref="dataSource" />
-    </bean>
-
-    <bean id="makeService" class="com.poseidon.make.service.impl.MakeServiceImpl">
-        <property name="makeDAO" ref="makeDAO"/>
-    </bean>
-
-    <bean id="makeDAO" class="com.poseidon.make.dao.impl.MakeDAOImpl">
-        <property name="dataSource" ref="dataSource" />
-    </bean>
-
-    <bean id="customerService" class="com.poseidon.customer.service.impl.CustomerServiceImpl">
-        <property name="customerDAO" ref="customerDAO"/>
-    </bean>
-
-    <bean id="customerDAO" class="com.poseidon.customer.dao.impl.CustomerDAOImpl">
-        <property name="dataSource" ref="dataSource" />
-    </bean>
-
-    <bean id="companyService" class="com.poseidon.company.service.impl.CompanyTermsServiceImpl">
-        <property name="companyTermsDAO" ref="companyDAO"/>
-    </bean>
-
-    <bean id="companyDAO" class="com.poseidon.company.dao.impl.CompanyTermsDAOImpl">
-        <property name="dataSource" ref="dataSource" />
-    </bean>
-
-    <bean id="reportsService" class="com.poseidon.reports.service.impl.ReportsServiceImpl">
-        <property name="makeService" ref="makeService"/>
-        <property name="transactionService" ref="transactionService"/>
-        <property name="companyTermsService" ref="companyService"/>
-        <property name="invoiceService" ref="invoiceService"/>
-        <property name="reportsDAO" ref="reportsDAO"/>
-    </bean>
-
-    <bean id="reportsDAO" class="com.poseidon.reports.dao.impl.ReportsDAOImpl">
-        <property name="dataSource" ref="dataSource" />
-    </bean>
-
-    <bean id="invoiceService" class="com.poseidon.invoice.service.impl.InvoiceServiceImpl">
-        <property name="invoiceDAO" ref="invoiceDAO"/>
-        <property name="transactionService" ref="transactionService"/>
-    </bean>
-
-    <bean id="invoiceDAO" class="com.poseidon.invoice.dao.impl.InvoiceDAOImpl">
-        <property name="dataSource" ref="dataSource" />
-    </bean>
-
     <!--<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
         <property name="driverClassName" value="com.mysql.jdbc.Driver" />
         <property name="username" value="testuser"></property>

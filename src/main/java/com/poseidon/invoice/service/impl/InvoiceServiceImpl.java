@@ -10,6 +10,8 @@ import com.poseidon.transaction.exception.TransactionException;
 import com.poseidon.transaction.service.TransactionService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -19,23 +21,15 @@ import java.util.List;
  * Date: 7/26/12
  * Time: 10:38 PM
  */
+@Service
 public class InvoiceServiceImpl implements InvoiceService {
     private static final Logger LOG = LoggerFactory.getLogger(InvoiceServiceImpl.class);
+
+    @Autowired
     private InvoiceDAO invoiceDAO;
-    private InvoiceService invoiceService;
+
+    @Autowired
     private TransactionService transactionService;
-
-    public void setInvoiceService(InvoiceService invoiceService) {
-        this.invoiceService = invoiceService;
-    }
-
-    public void setTransactionService(TransactionService transactionService) {
-        this.transactionService = transactionService;
-    }
-
-    public void setInvoiceDAO(InvoiceDAO invoiceDAO) {
-        this.invoiceDAO = invoiceDAO;
-    }
 
     public void addInvoice(InvoiceVO currentInvoiceVO) throws InvoiceException {
         TransactionReportVO transactionReportVO = null;

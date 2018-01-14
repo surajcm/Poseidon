@@ -7,6 +7,8 @@ import com.poseidon.transaction.domain.TransactionVO;
 import com.poseidon.transaction.exception.TransactionException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
@@ -15,27 +17,17 @@ import java.util.List;
  * Date: Jun 2, 2012
  * Time: 3:45:31 PM
  */
+@Service
 public class TransactionServiceImpl implements TransactionService {
+    private static final Logger LOG = LoggerFactory.getLogger(TransactionServiceImpl.class);
 
-    /**
-     * user service instance
-     */
+    @Autowired
     private TransactionDAO transactionDAO;
-
-    private final Logger LOG = LoggerFactory.getLogger(TransactionServiceImpl.class);
-
-    public TransactionDAO getTransactionDAO() {
-        return transactionDAO;
-    }
-
-    public void setTransactionDAO(TransactionDAO transactionDAO) {
-        this.transactionDAO = transactionDAO;
-    }
-
+    
     public List<TransactionVO> listTodaysTransactions() throws TransactionException {
         List<TransactionVO> transactionVOs = null;
         try {
-            transactionVOs = getTransactionDAO().listTodaysTransactions();
+            transactionVOs = transactionDAO.listTodaysTransactions();
         } catch (TransactionException t) {
             LOG.error(" Exception type in service impl " + t.getExceptionType());
             throw new TransactionException(t.getExceptionType());
@@ -48,7 +40,7 @@ public class TransactionServiceImpl implements TransactionService {
     public String saveTransaction(TransactionVO currentTransaction) throws TransactionException {
         String tagNo = null;
         try {
-            tagNo = getTransactionDAO().saveTransaction(currentTransaction);
+            tagNo = transactionDAO.saveTransaction(currentTransaction);
         } catch (TransactionException t) {
             LOG.error(" Exception type in service impl " + t.getExceptionType());
             throw new TransactionException(t.getExceptionType());
@@ -61,7 +53,7 @@ public class TransactionServiceImpl implements TransactionService {
     public List<TransactionVO> searchTransactions(TransactionVO searchTransaction) throws TransactionException {
         List<TransactionVO> transactionVOs = null;
         try {
-            transactionVOs = getTransactionDAO().searchTransactions(searchTransaction);
+            transactionVOs = transactionDAO.searchTransactions(searchTransaction);
         } catch (TransactionException t) {
             LOG.error(" Exception type in service impl " + t.getExceptionType());
             throw new TransactionException(t.getExceptionType());
@@ -74,7 +66,7 @@ public class TransactionServiceImpl implements TransactionService {
     public TransactionVO fetchTransactionFromId(Long id) throws TransactionException {
         TransactionVO transactionVO= null;
         try {
-            transactionVO = getTransactionDAO().fetchTransactionFromId(id);
+            transactionVO = transactionDAO.fetchTransactionFromId(id);
         } catch (TransactionException t) {
             LOG.error(" Exception type in service impl " + t.getExceptionType());
             throw new TransactionException(t.getExceptionType());
@@ -87,7 +79,7 @@ public class TransactionServiceImpl implements TransactionService {
     public TransactionReportVO fetchTransactionFromTag(String tagNo) throws TransactionException {
         TransactionReportVO transactionVO= null;
         try {
-            transactionVO = getTransactionDAO().fetchTransactionFromTag(tagNo);
+            transactionVO = transactionDAO.fetchTransactionFromTag(tagNo);
         } catch (TransactionException t) {
             LOG.error(" Exception type in service impl " + t.getExceptionType());
             throw new TransactionException(t.getExceptionType());
@@ -99,7 +91,7 @@ public class TransactionServiceImpl implements TransactionService {
 
     public void updateTransaction(TransactionVO currentTransaction) throws TransactionException {
         try {
-            getTransactionDAO().updateTransaction(currentTransaction);
+            transactionDAO.updateTransaction(currentTransaction);
         } catch (TransactionException t) {
             LOG.error(" Exception type in service impl " + t.getExceptionType());
             throw new TransactionException(t.getExceptionType());
@@ -110,7 +102,7 @@ public class TransactionServiceImpl implements TransactionService {
 
     public void deleteTransaction(Long id) throws TransactionException {
         try {
-            getTransactionDAO().deleteTransaction(id);
+            transactionDAO.deleteTransaction(id);
         } catch (TransactionException t) {
             LOG.error(" Exception type in service impl " + t.getExceptionType());
             throw new TransactionException(t.getExceptionType());
@@ -122,7 +114,7 @@ public class TransactionServiceImpl implements TransactionService {
     @Override
     public void updateTransactionStatus(Long id, String status) throws TransactionException {
         try {
-            getTransactionDAO().updateTransactionStatus(id,status);
+            transactionDAO.updateTransactionStatus(id,status);
         } catch (TransactionException t) {
             LOG.error(" Exception type in service impl " + t.getExceptionType());
             throw new TransactionException(t.getExceptionType());

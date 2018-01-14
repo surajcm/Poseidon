@@ -5,6 +5,7 @@ import com.poseidon.user.domain.UserVO;
 import com.poseidon.user.exception.UserException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
@@ -25,19 +26,12 @@ import java.util.List;
  */
 @Repository
 public class UserDAOImpl implements UserDAO {
+    private static final Logger LOG = LoggerFactory.getLogger(UserDAOImpl.class);
     private SimpleJdbcInsert insertUser;
+
+    @Autowired
     private JdbcTemplate jdbcTemplate;
 
-    public JdbcTemplate getJdbcTemplate() {
-        return jdbcTemplate;
-    }
-
-    public void setJdbcTemplate(JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
-    }
-
-    //logger
-    private final Logger LOG = LoggerFactory.getLogger(UserDAOImpl.class);
 
     //select all from table
     private static final String GET_ALL_USERS_SQL = " select * from user order by modifiedOn";
@@ -144,7 +138,7 @@ public class UserDAOImpl implements UserDAO {
      */
     @SuppressWarnings("unchecked")
     public List<UserVO> getAllUsers() throws DataAccessException {
-        return getJdbcTemplate().query(GET_ALL_USERS_SQL, new UserRowMapper());
+        return jdbcTemplate.query(GET_ALL_USERS_SQL, new UserRowMapper());
     }
 
     /**
@@ -201,7 +195,7 @@ public class UserDAOImpl implements UserDAO {
         }
 
         LOG.info("Query generated is " + dynamicQuery);
-        return (List<UserVO>) getJdbcTemplate().query(dynamicQuery.toString(), new UserRowMapper());
+        return (List<UserVO>) jdbcTemplate.query(dynamicQuery.toString(), new UserRowMapper());
     }
 
     /**
@@ -212,7 +206,7 @@ public class UserDAOImpl implements UserDAO {
      */
     @SuppressWarnings("unchecked")
     public UserVO getUserById(Long id) {
-        return (UserVO) getJdbcTemplate().queryForObject(GET_SINGLE_USER_SQL, new Object[]{id}, new UserRowMapper());
+        return (UserVO) jdbcTemplate.queryForObject(GET_SINGLE_USER_SQL, new Object[]{id}, new UserRowMapper());
 
     }
 
@@ -225,7 +219,7 @@ public class UserDAOImpl implements UserDAO {
      */
     @SuppressWarnings("unchecked")
     public UserVO getUserByLogInId(String loginId) throws DataAccessException {
-        return (UserVO) getJdbcTemplate().queryForObject(GET_USER_BY_LOGINID_SQL, new Object[]{loginId}, new UserRowMapper());
+        return (UserVO) jdbcTemplate.queryForObject(GET_USER_BY_LOGINID_SQL, new Object[]{loginId}, new UserRowMapper());
     }
 
     /**
@@ -244,7 +238,7 @@ public class UserDAOImpl implements UserDAO {
                 user.getId()};
 
         try {
-            getJdbcTemplate().update(UPDATE_USER_SQL, parameters);
+            jdbcTemplate.update(UPDATE_USER_SQL, parameters);
         } catch (DataAccessException e) {
             LOG.error(e.getLocalizedMessage());
             throw new UserException(UserException.DATABASE_ERROR);
@@ -258,7 +252,7 @@ public class UserDAOImpl implements UserDAO {
      * @throws DataAccessException on error
      */
     public void saveUser(final UserVO user) throws DataAccessException {
-        insertUser = new SimpleJdbcInsert(getJdbcTemplate()).withTableName("user").usingGeneratedKeyColumns("id");
+        insertUser = new SimpleJdbcInsert(jdbcTemplate).withTableName("user").usingGeneratedKeyColumns("id");
         SqlParameterSource parameters = new MapSqlParameterSource()
                 .addValue("name", user.getName())
                 .addValue("logInId", user.getLoginId())
@@ -283,7 +277,7 @@ public class UserDAOImpl implements UserDAO {
     public void deleteUser(Long id) throws UserException {
         try {
             Object[] parameters = new Object[]{id};
-            getJdbcTemplate().update(DELETE_BY_ID_SQL, parameters);
+            jdbcTemplate.update(DELETE_BY_ID_SQL, parameters);
         } catch (DataAccessException e) {
             LOG.error(e.getLocalizedMessage());
             throw new UserException(UserException.DATABASE_ERROR);

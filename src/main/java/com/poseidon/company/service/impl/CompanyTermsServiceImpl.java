@@ -7,28 +7,25 @@ import com.poseidon.company.exception.CompanyTermsException;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 /**
  * user: Suraj
  * Date: Jun 2, 2012
  * Time: 10:43:48 PM
  */
+@Service
 public class CompanyTermsServiceImpl implements CompanyTermsService {
+    private static final Logger LOG = LoggerFactory.getLogger(CompanyTermsServiceImpl.class);
+
+    @Autowired
     private CompanyTermsDAO companyTermsDAO;
-    private final Logger LOG = LoggerFactory.getLogger(CompanyTermsServiceImpl.class);
-
-    public CompanyTermsDAO getCompanyTermsDAO() {
-        return companyTermsDAO;
-    }
-
-    public void setCompanyTermsDAO(CompanyTermsDAO companyTermsDAO) {
-        this.companyTermsDAO = companyTermsDAO;
-    }
 
     public CompanyTermsVO listCompanyTerms() {
         CompanyTermsVO companyTermsVO= null;
         try {
-            companyTermsVO = getCompanyTermsDAO().listCompanyTerms();
+            companyTermsVO = companyTermsDAO.listCompanyTerms();
         } catch (CompanyTermsException e) {
             LOG.error(e.getLocalizedMessage());
         }
@@ -37,7 +34,7 @@ public class CompanyTermsServiceImpl implements CompanyTermsService {
 
     public void updateCompanyDetails(CompanyTermsVO companyTermsVO) {
         try {
-            getCompanyTermsDAO().updateCompanyDetails(companyTermsVO);
+            companyTermsDAO.updateCompanyDetails(companyTermsVO);
         } catch (CompanyTermsException e) {
             LOG.error(e.getLocalizedMessage());
         }

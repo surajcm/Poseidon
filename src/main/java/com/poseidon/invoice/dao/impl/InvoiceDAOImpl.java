@@ -5,12 +5,14 @@ import com.poseidon.invoice.domain.InvoiceVO;
 import com.poseidon.invoice.exception.InvoiceException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
-import org.springframework.jdbc.core.support.JdbcDaoSupport;
+import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
 import java.sql.ResultSet;
@@ -23,8 +25,13 @@ import java.util.List;
  * Date: 7/26/12
  * Time: 10:39 PM
  */
-public class InvoiceDAOImpl  extends JdbcDaoSupport implements InvoiceDAO {
+@Repository
+public class InvoiceDAOImpl  implements InvoiceDAO {
     private SimpleJdbcInsert insertInvoice;
+
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
+    
     private final String GET_TODAYS_INVOICE_SQL = "SELECT id,customerName,tagNo,description,serialNo,amount from invoice ";
     private final String GET_SINGLE_INVOICE_SQL = "SELECT id,customerName,tagNo,description,serialNo,amount,quantity,rate from invoice where id = ?";
     private final String DELETE_INVOICE_BY_ID_SQL = " delete from invoice where id = ?  ";
@@ -52,14 +59,14 @@ public class InvoiceDAOImpl  extends JdbcDaoSupport implements InvoiceDAO {
         return invoiceVOs;
     }
 
-    public InvoiceVO fetchInvoiceVOFromId(Long id)  throws InvoiceException {
-        return (InvoiceVO) getJdbcTemplate().queryForObject(GET_SINGLE_INVOICE_SQL, new Object[]{id}, new InvoiceFullRowMapper());
+    public InvoiceVO fetchInvoiceVOFromId(Long id) {
+        return (InvoiceVO) jdbcTemplate.queryForObject(GET_SINGLE_INVOICE_SQL, new Object[]{id}, new InvoiceFullRowMapper());
     }
 
     public void deleteInvoice(Long id) throws InvoiceException {
         try {
             Object[] parameters = new Object[]{id};
-            getJdbcTemplate().update(DELETE_INVOICE_BY_ID_SQL, parameters);
+            jdbcTemplate.update(DELETE_INVOICE_BY_ID_SQL, parameters);
         } catch (DataAccessException e) {
             LOG.error(e.getLocalizedMessage());
             throw new InvoiceException(InvoiceException.DATABASE_ERROR);
@@ -81,7 +88,7 @@ public class InvoiceDAOImpl  extends JdbcDaoSupport implements InvoiceDAO {
                 currentInvoiceVO.getId()};
 
         try {
-            getJdbcTemplate().update(UPDATE_INVOICE_SQL, parameters);
+            jdbcTemplate.update(UPDATE_INVOICE_SQL, parameters);
         } catch (DataAccessException e) {
             LOG.error(e.getLocalizedMessage());
             throw new InvoiceException(InvoiceException.DATABASE_ERROR);
@@ -181,13 +188,13 @@ public class InvoiceDAOImpl  extends JdbcDaoSupport implements InvoiceDAO {
         }
 
         LOG.info("query created is " + SEARCH_INVOICE_QUERY.toString());
-        return (List<InvoiceVO>) getJdbcTemplate().query(SEARCH_INVOICE_QUERY.toString(), new InvoiceRowMapper());
+        return (List<InvoiceVO>) jdbcTemplate.query(SEARCH_INVOICE_QUERY.toString(), new InvoiceRowMapper());
     }
 
     private List<InvoiceVO> getTodaysInvoices(List<String> tagNumbers) throws DataAccessException {
         String query = GET_TODAYS_INVOICE_SQL + createWhereClause(tagNumbers);
         LOG.info("Query generated is "+query);
-        return (List<InvoiceVO>) getJdbcTemplate().query(query, new InvoiceRowMapper());
+        return (List<InvoiceVO>) jdbcTemplate.query(query, new InvoiceRowMapper());
     }
 
     private String createWhereClause(List<String> tagNumbers) {
@@ -205,7 +212,7 @@ public class InvoiceDAOImpl  extends JdbcDaoSupport implements InvoiceDAO {
     }
 
     private void saveInvoice(InvoiceVO currentInvoiceVO) throws DataAccessException{
-        insertInvoice = new SimpleJdbcInsert(getDataSource()).withTableName("invoice").usingGeneratedKeyColumns("id");
+        insertInvoice = new SimpleJdbcInsert(jdbcTemplate).withTableName("invoice").usingGeneratedKeyColumns("id");
         SqlParameterSource parameters = new MapSqlParameterSource()
                 .addValue("tagNo", currentInvoiceVO.getTagNo())
                 .addValue("description", currentInvoiceVO.getDescription())
@@ -225,7 +232,7 @@ public class InvoiceDAOImpl  extends JdbcDaoSupport implements InvoiceDAO {
         // update the InvoiceId
         String invoiceId = "INV" + newId.longValue();
         String query = "update invoice set transactionId = '" + invoiceId + "' where id =" + newId.longValue();
-        getJdbcTemplate().update(query);
+        jdbcTemplate.update(query);
     }
 
     /**

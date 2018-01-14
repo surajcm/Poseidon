@@ -3,28 +3,35 @@ package com.poseidon.customer.dao.impl;
 import com.poseidon.customer.dao.CustomerDAO;
 import com.poseidon.customer.domain.CustomerVO;
 import com.poseidon.customer.exception.CustomerException;
-
-import java.util.List;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
 import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
 import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
-import org.springframework.jdbc.core.support.JdbcDaoSupport;
-import org.springframework.jdbc.core.RowMapper;
-import org.springframework.dao.DataAccessException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.springframework.stereotype.Repository;
+
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.List;
 
 /**
  * user: Suraj
  * Date: Jun 2, 2012
  * Time: 10:45:56 PM
  */
-public class CustomerDAOImpl extends JdbcDaoSupport implements CustomerDAO {
+@Repository
+public class CustomerDAOImpl implements CustomerDAO {
+
+    private static final Logger LOG = LoggerFactory.getLogger(CustomerDAOImpl.class);
+
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
+    
     private SimpleJdbcInsert insertCustomer;
-    private final Logger LOG = LoggerFactory.getLogger(CustomerDAOImpl.class);
     private final String GET_CUSTOMERS_SQL = " SELECT id, Name, ifnull(address1,'') as address1,ifnull(address2,'') as address2," +
             " ifnull(phone,'') as phone, ifnull(mobile,'') as mobile, " +
             " ifnull(email,'') as email, ifnull(contactPerson1,'') as contactPerson1," +
@@ -38,7 +45,7 @@ public class CustomerDAOImpl extends JdbcDaoSupport implements CustomerDAO {
             " note = ?, modifiedOn = ?, modifiedBy = ?  where id = ? ";
 
     public List<CustomerVO> listAllCustomerDetails() throws CustomerException {
-        List<CustomerVO> customerVOs = null;
+        List<CustomerVO> customerVOs;
         try {
             customerVOs = fetchAllCustomers();
         } catch (DataAccessException e) {
@@ -71,7 +78,7 @@ public class CustomerDAOImpl extends JdbcDaoSupport implements CustomerDAO {
     public void deleteCustomerFromId(Long id) throws CustomerException {
         try {
             Object[] parameters = new Object[]{id};
-            getJdbcTemplate().update(DELETE_CUSTOMER_BY_ID_SQL, parameters);
+            jdbcTemplate.update(DELETE_CUSTOMER_BY_ID_SQL, parameters);
         } catch (DataAccessException e) {
             LOG.error(e.getLocalizedMessage());
             throw new CustomerException(CustomerException.DATABASE_ERROR);
@@ -95,7 +102,7 @@ public class CustomerDAOImpl extends JdbcDaoSupport implements CustomerDAO {
                 currentCustomerVO.getCustomerId()};
 
         try {
-            getJdbcTemplate().update(UPDATE_CUSTOMER_SQL, parameters);
+            jdbcTemplate.update(UPDATE_CUSTOMER_SQL, parameters);
         } catch (DataAccessException e) {
             LOG.error(e.getLocalizedMessage());
             throw new CustomerException(CustomerException.DATABASE_ERROR);
@@ -103,9 +110,9 @@ public class CustomerDAOImpl extends JdbcDaoSupport implements CustomerDAO {
     }
 
     public List<CustomerVO> searchCustomer(CustomerVO searchCustomerVO) throws CustomerException {
-        List<CustomerVO> customerVOs = null;
+        List<CustomerVO> customerVOs;
         try {
-            customerVOs = SearchCustomer(searchCustomerVO);
+            customerVOs = searchCustomerInDetail(searchCustomerVO);
         } catch (DataAccessException e) {
             LOG.error(e.getLocalizedMessage());
             throw new CustomerException(CustomerException.DATABASE_ERROR);
@@ -114,11 +121,11 @@ public class CustomerDAOImpl extends JdbcDaoSupport implements CustomerDAO {
     }
 
     private CustomerVO fetchCustomerFromId(Long id) {
-        return (CustomerVO) getJdbcTemplate().queryForObject(GET_SINGLE_CUSTOMER_SQL, new Object[]{id}, new CustomerListRowMapper());
+        return (CustomerVO) jdbcTemplate.queryForObject(GET_SINGLE_CUSTOMER_SQL, new Object[]{id}, new CustomerListRowMapper());
     }
 
     private long saveCustomerDetails(CustomerVO currentCustomerVO) {
-        insertCustomer = new SimpleJdbcInsert(getDataSource()).withTableName("customer").usingGeneratedKeyColumns("id");
+        insertCustomer = new SimpleJdbcInsert(jdbcTemplate).withTableName("customer").usingGeneratedKeyColumns("id");
         SqlParameterSource parameters = new MapSqlParameterSource()
                 .addValue("name", currentCustomerVO.getCustomerName())
                 .addValue("address1", currentCustomerVO.getAddress1())
@@ -143,11 +150,11 @@ public class CustomerDAOImpl extends JdbcDaoSupport implements CustomerDAO {
     }
 
     private List<CustomerVO> fetchAllCustomers() {
-        return (List<CustomerVO>) getJdbcTemplate().query(GET_CUSTOMERS_SQL, new CustomerListRowMapper());
+        return (List<CustomerVO>) jdbcTemplate.query(GET_CUSTOMERS_SQL, new CustomerListRowMapper());
     }
 
-    private List<CustomerVO> SearchCustomer(CustomerVO searchVO) {
-        StringBuffer SEARCH_QUERY = new StringBuffer();
+    private List<CustomerVO> searchCustomerInDetail(CustomerVO searchVO) {
+        StringBuilder SEARCH_QUERY = new StringBuilder();
         SEARCH_QUERY.append(" SELECT id, name, address1, address2, phone, mobile, email, contactPerson1,")
                 .append(" contactPhone1, contactPerson2, ContactPhone2, note FROM customer ");
         Boolean isWhereAdded = Boolean.FALSE;
@@ -187,7 +194,7 @@ public class CustomerDAOImpl extends JdbcDaoSupport implements CustomerDAO {
             }
         }
         LOG.info("Search query is " + SEARCH_QUERY.toString());
-        return (List<CustomerVO>) getJdbcTemplate().query(SEARCH_QUERY.toString(), new CustomerListRowMapper());
+        return (List<CustomerVO>) jdbcTemplate.query(SEARCH_QUERY.toString(), new CustomerListRowMapper());
     }
 
     private class CustomerListRowMapper implements RowMapper {

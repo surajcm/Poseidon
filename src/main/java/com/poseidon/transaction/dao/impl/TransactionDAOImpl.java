@@ -4,34 +4,40 @@ import com.poseidon.transaction.dao.TransactionDAO;
 import com.poseidon.transaction.domain.TransactionReportVO;
 import com.poseidon.transaction.domain.TransactionVO;
 import com.poseidon.transaction.exception.TransactionException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataAccessException;
+import org.springframework.jdbc.core.JdbcTemplate;
+import org.springframework.jdbc.core.RowMapper;
+import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
+import org.springframework.jdbc.core.namedparam.SqlParameterSource;
+import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
+import org.springframework.stereotype.Repository;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.text.Format;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.Locale;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.dao.DataAccessException;
-import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
-import org.springframework.jdbc.core.namedparam.SqlParameterSource;
-import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
-import org.springframework.jdbc.core.support.JdbcDaoSupport;
-import org.springframework.jdbc.core.RowMapper;
 
 /**
  * user: Suraj
  * Date: Jun 2, 2012
  * Time: 3:46:15 PM
  */
-public class TransactionDAOImpl extends JdbcDaoSupport implements TransactionDAO {
+@Repository
+public class TransactionDAOImpl implements TransactionDAO {
+
+    @Autowired
+    private JdbcTemplate jdbcTemplate;
+    
     private SimpleJdbcInsert insertTransaction;
-    //logger
-    private final Logger LOG = LoggerFactory.getLogger(TransactionDAOImpl.class);
+    private static final Logger LOG = LoggerFactory.getLogger(TransactionDAOImpl.class);
+
     private final String GET_TODAYS_TRANSACTIONS_SQL = "SELECT t.Id, t.tagNo,c.name, t.dateReported, mk.makeName, " +
             " mdl.modelName, t.serialNo, t.status " +
             " FROM transaction t inner join customer c on t.customerId=c.Id " +
@@ -85,7 +91,7 @@ public class TransactionDAOImpl extends JdbcDaoSupport implements TransactionDAO
     }
 
     private String saveTxn(TransactionVO currentTransaction) throws ParseException {
-        insertTransaction = new SimpleJdbcInsert(getDataSource()).withTableName("transaction").usingGeneratedKeyColumns("id");
+        insertTransaction = new SimpleJdbcInsert(jdbcTemplate).withTableName("transaction").usingGeneratedKeyColumns("id");
 
         SqlParameterSource parameters = new MapSqlParameterSource()
                 .addValue("dateReported", getMySQLSaveDate(currentTransaction.getDateReported()))
@@ -111,7 +117,7 @@ public class TransactionDAOImpl extends JdbcDaoSupport implements TransactionDAO
         // update the tag No
         String tagNo = "WON2N" + newId.longValue();
         String query = "update transaction set TagNo = '" + tagNo + "' where id =" + newId.longValue();
-        getJdbcTemplate().update(query);
+        jdbcTemplate.update(query);
         return tagNo;
     }
 
@@ -157,7 +163,7 @@ public class TransactionDAOImpl extends JdbcDaoSupport implements TransactionDAO
                     currentTransaction.getId()};
 
 
-            getJdbcTemplate().update(UPDATE_TRANSACTION_SQL, parameters);
+            jdbcTemplate.update(UPDATE_TRANSACTION_SQL, parameters);
         } catch (DataAccessException | ParseException e) {
             LOG.error(e.getLocalizedMessage());
             throw new TransactionException(TransactionException.DATABASE_ERROR);
@@ -167,7 +173,7 @@ public class TransactionDAOImpl extends JdbcDaoSupport implements TransactionDAO
     public void deleteTransaction(Long id) throws TransactionException {
         try {
             Object[] parameters = new Object[]{id};
-            getJdbcTemplate().update(DELETE_TRANSACTION_BY_ID, parameters);
+            jdbcTemplate.update(DELETE_TRANSACTION_BY_ID, parameters);
         } catch (DataAccessException e) {
             LOG.error(e.getLocalizedMessage());
             throw new TransactionException(TransactionException.DATABASE_ERROR);
@@ -191,7 +197,7 @@ public class TransactionDAOImpl extends JdbcDaoSupport implements TransactionDAO
             Object[] parameters = new Object[]{status,id};
 
 
-            getJdbcTemplate().update(UPDATE_TRANSACTION_STATUS_SQL, parameters);
+            jdbcTemplate.update(UPDATE_TRANSACTION_STATUS_SQL, parameters);
         } catch (DataAccessException e) {
             LOG.error(e.getLocalizedMessage());
             throw new TransactionException(TransactionException.DATABASE_ERROR);
@@ -199,11 +205,11 @@ public class TransactionDAOImpl extends JdbcDaoSupport implements TransactionDAO
     }
 
     private TransactionVO fetchTxn(Long id) {
-        return (TransactionVO) getJdbcTemplate().queryForObject(GET_SINGLE_TRANSACTION_SQL, new Object[]{id}, new TransactionFullRowMapper());
+        return (TransactionVO) jdbcTemplate.queryForObject(GET_SINGLE_TRANSACTION_SQL, new Object[]{id}, new TransactionFullRowMapper());
     }
 
     private TransactionReportVO fetchTxnFromTag(String tag) {
-        return (TransactionReportVO) getJdbcTemplate().queryForObject(GET_SINGLE_TRANSACTION_FROM_TAG_SQL, new Object[]{tag}, new TransactionReportRowMapper());
+        return (TransactionReportVO) jdbcTemplate.queryForObject(GET_SINGLE_TRANSACTION_FROM_TAG_SQL, new Object[]{tag}, new TransactionReportRowMapper());
     }
 
     private List<TransactionVO> searchTxs(TransactionVO searchTransaction) throws ParseException {
@@ -310,7 +316,7 @@ public class TransactionDAOImpl extends JdbcDaoSupport implements TransactionDAO
                     .append("' and '").append(getMySQLFriendlyDate(searchTransaction.getEndDate())).append("'");
         }
         LOG.info("query created is " + SEARCH_TRANSACTION_QUERY.toString());
-        return (List<TransactionVO>) getJdbcTemplate().query(SEARCH_TRANSACTION_QUERY.toString(), new TransactionListRowMapper());
+        return (List<TransactionVO>) jdbcTemplate.query(SEARCH_TRANSACTION_QUERY.toString(), new TransactionListRowMapper());
     }
 
     private String getMySQLFriendlyDate(String startDate) throws ParseException {
@@ -324,7 +330,7 @@ public class TransactionDAOImpl extends JdbcDaoSupport implements TransactionDAO
     }
 
     private List<TransactionVO> getTodaysTransactions() throws DataAccessException {
-        return (List<TransactionVO>) getJdbcTemplate().query(GET_TODAYS_TRANSACTIONS_SQL, new TransactionListRowMapper());
+        return (List<TransactionVO>) jdbcTemplate.query(GET_TODAYS_TRANSACTIONS_SQL, new TransactionListRowMapper());
     }
 
     /**
