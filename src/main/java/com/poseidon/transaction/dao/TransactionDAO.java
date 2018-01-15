@@ -27,4 +27,6 @@ public interface TransactionDAO {
     TransactionReportVO fetchTransactionFromTag(String tagNo) throws TransactionException;
 
     void updateTransactionStatus(Long id, String status)throws TransactionException;
+
+    List<TransactionVO> listAllTransactions() throws TransactionException;
 }

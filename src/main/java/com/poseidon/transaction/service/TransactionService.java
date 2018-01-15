@@ -28,4 +28,6 @@ public interface TransactionService {
     void deleteTransaction(Long id)throws  TransactionException;
 
     void updateTransactionStatus(Long id, String status) throws TransactionException;
+
+    List<TransactionVO> listAllTransactions() throws TransactionException;
 }

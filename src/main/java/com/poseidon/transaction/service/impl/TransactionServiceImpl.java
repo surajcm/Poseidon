@@ -122,4 +122,18 @@ public class TransactionServiceImpl implements TransactionService {
             LOG.error(e1.getLocalizedMessage());
         }
     }
+
+    @Override
+    public List<TransactionVO> listAllTransactions() throws TransactionException {
+        List<TransactionVO> transactionVOs = null;
+        try {
+            transactionVOs = transactionDAO.listAllTransactions();
+        } catch (TransactionException t) {
+            LOG.error(" Exception type in service impl " + t.getExceptionType());
+            throw new TransactionException(t.getExceptionType());
+        } catch (Exception e1) {
+            LOG.error(e1.getLocalizedMessage());
+        }
+        return transactionVOs;
+    }
 }

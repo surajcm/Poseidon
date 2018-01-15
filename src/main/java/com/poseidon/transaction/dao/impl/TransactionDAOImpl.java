@@ -45,6 +45,13 @@ public class TransactionDAOImpl implements TransactionDAO {
             " inner join model mdl on mdl.id=t.modelId " +
             " WHERE CAST(t.dateReported AS DATE) = current_date() order by t.modifiedOn;";
 
+    private final String GET_ALL_TRANSACTIONS_SQL = "SELECT t.Id, t.tagNo,c.name, t.dateReported, mk.makeName, " +
+            " mdl.modelName, t.serialNo, t.status " +
+            " FROM transaction t inner join customer c on t.customerId=c.Id " +
+            " inner join make mk on mk.id=t.makeId " +
+            " inner join model mdl on mdl.id=t.modelId " +
+            " order by t.modifiedOn;";
+
     private static final String GET_SINGLE_TRANSACTION_SQL = "SELECT t.Id, t.tagNo, t.dateReported, t.customerId, " +
             " t.productCategory, t.makeId, " +
             " t.modelId, t.serialNo, t.status, t.accessories, t.complaintReported, " +
@@ -204,6 +211,17 @@ public class TransactionDAOImpl implements TransactionDAO {
         }
     }
 
+    @Override
+    public List<TransactionVO> listAllTransactions() throws TransactionException {
+        List<TransactionVO> transactionVOList;
+        try {
+            transactionVOList = getAllTransactions();
+        } catch (DataAccessException e) {
+            throw new TransactionException(TransactionException.DATABASE_ERROR);
+        }
+        return transactionVOList;
+    }
+
     private TransactionVO fetchTxn(Long id) {
         return (TransactionVO) jdbcTemplate.queryForObject(GET_SINGLE_TRANSACTION_SQL, new Object[]{id}, new TransactionFullRowMapper());
     }
@@ -331,6 +349,10 @@ public class TransactionDAOImpl implements TransactionDAO {
 
     private List<TransactionVO> getTodaysTransactions() throws DataAccessException {
         return (List<TransactionVO>) jdbcTemplate.query(GET_TODAYS_TRANSACTIONS_SQL, new TransactionListRowMapper());
+    }
+
+    private List<TransactionVO> getAllTransactions() throws DataAccessException {
+        return (List<TransactionVO>) jdbcTemplate.query(GET_ALL_TRANSACTIONS_SQL, new TransactionListRowMapper());
     }
 
     /**

@@ -46,26 +46,13 @@ public class TransactionController {
     @Autowired
     private CustomerService customerService;
 
-    public void setTransactionService(TransactionService transactionService) {
-        this.transactionService = transactionService;
-    }
-    public void setMakeService(MakeService makeService) {
-        this.makeService = makeService;
-    }
-
-
-    public void setCustomerService(CustomerService customerService) {
-        this.customerService = customerService;
-    }
-
     @RequestMapping(value = "/txs/List.htm", method = RequestMethod.POST)
-    public ModelAndView List(TransactionForm transactionForm) {
+    public ModelAndView list(TransactionForm transactionForm) {
         LOG.info(" Inside List method of TransactionController ");
         LOG.info(" form details are" + transactionForm);
-        //TransactionForm transactionForm = new TransactionForm();
         List<TransactionVO> transactionVOs = null;
         try {
-            transactionVOs = transactionService.listTodaysTransactions();
+            transactionVOs = transactionService.listAllTransactions();
         } catch (Exception e) {
             LOG.error(e.getLocalizedMessage());
         }
@@ -195,7 +182,7 @@ public class TransactionController {
         transactionForm.setLoggedInUser(transactionForm.getLoggedInUser());
         transactionForm.setLoggedInRole(transactionForm.getLoggedInRole());
         transactionForm.setCurrentTransaction(new TransactionVO());
-        return List(transactionForm);
+        return list(transactionForm);
     }
 
     @RequestMapping(value = "/txs/UpdateModelAjax.htm", method = { RequestMethod.GET, RequestMethod.POST })
