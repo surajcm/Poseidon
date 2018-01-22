@@ -1,7 +1,27 @@
+buildscript {
+    ext {
+        springBootVersion = '1.5.8.RELEASE'
+        applicationDefaultJvmArgs = ['-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005']
+    }
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${springBootVersion}")
+    }
+}
+
 apply plugin: 'java'
-apply plugin: 'eclipse'
 apply plugin: 'idea'
-apply plugin: 'war'
+
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+
+
+jar {
+    baseName = 'poseidon'
+    version = '0.0.1-SNAPSHOT'
+}
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
@@ -12,30 +32,22 @@ repositories {
 }
 
 dependencies {
+    compile('org.springframework.boot:spring-boot-starter-web')
+    compile('org.springframework.boot:spring-boot-starter-data-jpa')
     compile group: 'org.springframework', name: 'spring-jdbc', version: '4.3.8.RELEASE'
-    compile group: 'org.springframework', name: 'spring-webmvc', version: '4.3.8.RELEASE'
+    compile('org.springframework.boot:spring-boot-starter-security')
+    compile("org.springframework.boot:spring-boot-devtools")
+    compile("org.springframework.boot:spring-boot-starter-actuator")
 
-    compile group:'com.fasterxml.jackson.core', name:'jackson-core', version:'2.8.6'
     compile group: 'commons-collections', name: 'commons-collections', version: '3.2'
     compile group: 'org.slf4j', name:'jcl-over-slf4j', version: '1.7.12'
-    compile group: 'ch.qos.logback', name: 'logback-classic', version: '1.1.3'
+    //compile group: 'ch.qos.logback', name: 'logback-classic', version: '1.1.3'
 
-    compile group: 'jstl', name: 'jstl', version: '1.2'
+    compile('org.hsqldb:hsqldb:2.4.0')
+    compile('org.apache.tomcat.embed:tomcat-embed-jasper')
+    compile('jstl:jstl:+')
     compile group: 'net.sf.jasperreports', name: 'jasperreports', version: '4.6.0'
 
-    //include in compile only, exclude in the war
-    providedCompile group: 'javax.servlet', name: 'javax.servlet-api', version: '3.1.0'
-
-    runtime group: 'org.hsqldb', name: 'hsqldb', version: '2.3.1'
-
-    testCompile group: 'junit', name: 'junit', version: '4.+'
-}
-
-configurations.all {
-    exclude group: "commons-logging", module: "commons-logging"
-}
-
-task wrapper(type: Wrapper) {
-    gradleVersion = '4.4.1'
-    distributionUrl = "https\\://services.gradle.org/distributions/gradle-${gradleVersion}-bin.zip"
+    testCompile('org.springframework.boot:spring-boot-starter-test')
+    testCompile("junit:junit")
 }

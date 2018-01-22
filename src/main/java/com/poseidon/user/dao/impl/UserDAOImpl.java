@@ -32,22 +32,18 @@ public class UserDAOImpl implements UserDAO {
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
-
-    //select all from table
     private static final String GET_ALL_USERS_SQL = " select * from user order by modifiedOn";
 
     private static final String SEARCH_USERS_SQL = " select * from user ";
 
-    // select single user information from database
     private static final String GET_SINGLE_USER_SQL = " select * from user where id = ? ";
 
-    // get user details by name
+    private static final String GET_SINGLE_USER = " select * from user where name = ? ";
+
     private static final String GET_USER_BY_LOGINID_SQL = " select * from user where logInId = ? ";
 
-    // update user details
     private static final String UPDATE_USER_SQL = " update user set name = ?, logInId = ? ,password = ?, Role = ?, modifiedOn = ? , modifiedBy = ? where id = ?";
 
-    // delete user details by id
     private static final String DELETE_BY_ID_SQL = " delete from user where id = ? ";
 
     /**
@@ -97,12 +93,12 @@ public class UserDAOImpl implements UserDAO {
     }
 
     /**
-     * addNewUser to add a new user
+     * save to add a new user
      *
      * @param user user
      * @throws UserException on error
      */
-    public void addNewUser(UserVO user) throws UserException {
+    public void save(UserVO user) throws UserException {
         try {
             saveUser(user);
         } catch (DataAccessException e) {
@@ -299,6 +295,11 @@ public class UserDAOImpl implements UserDAO {
             throw new UserException(UserException.DATABASE_ERROR);
         }
         return userList;
+    }
+
+    @Override
+    public UserVO findByUsername(String username) {
+        return (UserVO) jdbcTemplate.queryForObject(GET_SINGLE_USER, new Object[]{username}, new UserRowMapper());
     }
 
     /**

@@ -36,7 +36,7 @@ public interface UserDAO {
      * @param user user
      * @throws UserException on error
      */
-    void addNewUser(UserVO user) throws UserException;
+    void save(UserVO user) throws UserException;
 
     /**
      * getUserDetailsFromID to get the single user details from its id
@@ -71,4 +71,6 @@ public interface UserDAO {
      * @throws UserException on error
      */
     List<UserVO> searchUserDetails(UserVO searchUser)throws UserException;
+
+    UserVO findByUsername(String username);
 }

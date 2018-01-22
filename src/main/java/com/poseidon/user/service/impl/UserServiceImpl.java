@@ -7,6 +7,7 @@ import com.poseidon.user.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,6 +24,9 @@ public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserDAO userDAO;
+
+    @Autowired
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
 
     /**
      * to dao layer
@@ -69,9 +73,10 @@ public class UserServiceImpl implements UserService {
      * @param user user
      * @throws UserException on error
      */
-    public void addNewUser(UserVO user) throws UserException {
+    public void save(UserVO user) throws UserException {
         try {
-            userDAO.addNewUser(user);
+            user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+            userDAO.save(user);
         } catch (UserException e) {
             LOG.error(EXCEPTION_TYPE_IN_SERVICE_IMPL + e.getExceptionType());
             throw new UserException(e.getExceptionType());

@@ -3,12 +3,14 @@ package com.poseidon.user.web.controller;
 import com.poseidon.user.domain.UserVO;
 import com.poseidon.user.exception.UserException;
 import com.poseidon.user.service.UserService;
+import com.poseidon.user.service.impl.SecurityService;
 import com.poseidon.user.web.form.UserForm;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
@@ -27,78 +29,47 @@ import java.util.List;
  *         Time: 2:38:15 PM
  */
 @Controller
-@RequestMapping("/user")
+//@RequestMapping("/user")
 @SuppressWarnings("unused")
 public class UserController {
     private static final Logger logger = LoggerFactory.getLogger(UserController.class);
     private static final String USER_FORM = "userForm";
-    private static final String USER_LOG_IN = "user/logIn";
+    private static final String USER_LOG_IN = "login";
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private SecurityService securityService;
+
 
     /**
      * Used in automatic redirect to Log in screen
      *
      * @return ModelAndView to render
      */
-    @RequestMapping(value = {"Index.htm", "/"}, method = RequestMethod.GET)
+    @RequestMapping(value = {"/"}, method = RequestMethod.GET)
     public ModelAndView index() {
         logger.info(" Inside Index method of user Controller ");
         UserForm userForm = new UserForm();
         UserVO userVO = new UserVO();
         userForm.setUser(userVO);
-        return new ModelAndView(USER_LOG_IN, USER_FORM, userForm);
+        return new ModelAndView("MainPage", USER_FORM, userForm);
     }
 
-    /**
-     * controller for first log in action
-     *
-     * @return ModelAndView to render
-     */
-    @RequestMapping(value = "LogIn.htm", method = RequestMethod.POST)
-    public ModelAndView logIn(UserForm userForm) {
-        logger.info(" Inside LogIn method of user Controller ");
-        UserVO realUser;
-        try {
-            if (userService == null) {
-                throw new Exception("A configuration error has been occurred ");
-            }
-            realUser = userService.logIn(userForm.getCurrentUser());
-        } catch (UserException e) {
-            logger.error(e.getLocalizedMessage());
-            logger.error(" Exception type in controller " + e.ExceptionType);
-            if (e.getExceptionType().equalsIgnoreCase(UserException.UNKNOWN_USER)) {
-                userForm.setMessage(" Invalid user Credentials, No user Found !!");
-            } else if (e.getExceptionType().equalsIgnoreCase(UserException.INCORRECT_PASSWORD)) {
-                userForm.setMessage(" Incorrect Password. !! ");
-            } else if (e.getExceptionType().equalsIgnoreCase(UserException.DATABASE_ERROR)) {
-                userForm.setMessage(" An error occurred while fetching data from database. !! ");
-            } else {
-                userForm.setMessage(" An Unknown Error has been occurred !!");
-            }
-            return new ModelAndView(USER_LOG_IN, USER_FORM, userForm);
-        } catch (Exception e1) {
-            logger.error(e1.getLocalizedMessage());
-            userForm.setMessage(" An Unknown Error has been occurred !!");
-            return new ModelAndView(USER_LOG_IN, USER_FORM, userForm);
+    @RequestMapping(value = "/login", method = RequestMethod.GET)
+    public String login(Model model, String error, String logout) {
+        if (error != null) {
+            model.addAttribute("error", "Your username and password is invalid.");
         }
-        if (realUser != null && realUser.getRole() != null) {
-            /*if(realUser.getRole().equalsIgnoreCase("ADMIN")){
-                userForm.setLoggedInUser(realUser.getName());
-                userForm.setLoggedInRole(realUser.getRole());
-                log.info("Logged in successfully");
-                return ListAll(request, response, userForm);
-            }*/
-             userForm.setLoggedInUser(realUser.getName());
-             userForm.setLoggedInRole(realUser.getRole());
-             return toHome(userForm);
-            
-        } else {
-            userForm.setMessage(" An Unknown Error has been occurred !!");
-            return new ModelAndView(USER_LOG_IN, USER_FORM, userForm);
+
+        if (logout != null) {
+            model.addAttribute("message", "You have been logged out successfully.");
         }
+
+        return "login";
     }
+
 
     /**
      * Used to list all users (can be done only by admin user)
@@ -106,7 +77,7 @@ public class UserController {
      * @param userForm userForm instance
      * @return ModelAndView to render
      */
-    @RequestMapping(value = "ListAll.htm", method = RequestMethod.POST)
+    @RequestMapping(value = "/user/ListAll.htm", method = RequestMethod.POST)
     public ModelAndView listAll(UserForm userForm) {
         logger.info(" Inside ListAll method of user Controller ");
         List<UserVO> userList = null;
@@ -159,7 +130,7 @@ public class UserController {
      * @param userForm userForm instance
      * @return ModelAndView to render
      */
-    @RequestMapping(value = "AddUser.htm", method = RequestMethod.POST)
+    @RequestMapping(value = "/user/AddUser.htm", method = RequestMethod.POST)
     public ModelAndView addUser(UserForm userForm) {
         logger.info(" Inside AddUser method of user Controller ");
         userForm.setLoggedInUser(userForm.getLoggedInUser());
@@ -175,7 +146,7 @@ public class UserController {
      * @param userForm user instance
      * @return ModelAndView to render
      */
-    @RequestMapping(value = "SaveUser.htm", method = RequestMethod.POST)
+    @RequestMapping(value = "/user/SaveUser.htm", method = RequestMethod.POST)
     public ModelAndView saveUser(UserForm userForm) {
         logger.info(" Inside SaveUser method of user Controller ");
         logger.info(" user instance to add to database " + userForm.toString());
@@ -184,7 +155,7 @@ public class UserController {
             userForm.getUser().setModifiedDate(new Date());
             userForm.getUser().setCreatedBy(userForm.getLoggedInUser());
             userForm.getUser().setLastModifiedBy(userForm.getLoggedInUser());
-            userService.addNewUser(userForm.getUser());
+            userService.save(userForm.getUser());
             userForm.setStatusMessage("Successfully saved the new user");
             userForm.setStatusMessageType("success");
         } catch (UserException e) {
@@ -237,7 +208,7 @@ public class UserController {
         return new ModelAndView("user/UserList", USER_FORM, userForm);
     }
 
-    @RequestMapping(value = "saveUserAjax.htm", method = RequestMethod.POST)
+    @RequestMapping(value = "/user/saveUserAjax.htm", method = RequestMethod.POST)
     public void saveUserAjax(HttpServletRequest httpServletRequest,
                              HttpServletResponse httpServletResponse) {
         logger.debug("saveUserAjax method of user Controller ");
@@ -261,7 +232,7 @@ public class UserController {
 
 
         try {
-            userService.addNewUser(ajaxUserVO);
+            userService.save(ajaxUserVO);
         } catch (UserException e) {
             logger.error(e.getLocalizedMessage());
             logger.error(" Exception type in controller " + e.ExceptionType);
@@ -323,7 +294,7 @@ public class UserController {
      * @param userForm userForm instance
      * @return ModelAndView to render
      */
-    @RequestMapping(value = "EditUser.htm", method = RequestMethod.POST)
+    @RequestMapping(value = "/user/EditUser.htm", method = RequestMethod.POST)
     public ModelAndView editUser(UserForm userForm) {
         logger.info(" Inside EditUser method of user Controller ");
         logger.info(" user is " + userForm.toString());
@@ -361,7 +332,7 @@ public class UserController {
      * @param userForm user instance
      * @return ModelAndView to render
      */
-    @RequestMapping(value = "UpdateUser.htm", method = RequestMethod.POST)
+    @RequestMapping(value = "/user/UpdateUser.htm", method = RequestMethod.POST)
     public ModelAndView updateUser(UserForm userForm) {
         logger.info(" Inside UpdateUser method of user Controller ");
         try {
@@ -398,7 +369,7 @@ public class UserController {
      * @param userForm userForm instance
      * @return ModelAndView to render
      */
-    @RequestMapping(value = "DeleteUser.htm", method = RequestMethod.POST)
+    @RequestMapping(value = "/user/DeleteUser.htm", method = RequestMethod.POST)
     public ModelAndView deleteUser(UserForm userForm) {
         logger.info(" Inside DeleteUser method of user Controller ");
         logger.info(" user is " + userForm.toString());
@@ -434,7 +405,7 @@ public class UserController {
      * @param userForm userForm instance
      * @return ModelAndView to render
      */
-    @RequestMapping(value = "ToHome.htm", method = RequestMethod.POST)
+    @RequestMapping(value = "/user/ToHome.htm", method = RequestMethod.POST)
     public ModelAndView toHome(UserForm userForm) {
         logger.info(" Inside ToHome method of user Controller ");
         userForm.setLoggedInUser(userForm.getLoggedInUser());
@@ -448,7 +419,7 @@ public class UserController {
      * @param userForm userForm instance
      * @return ModelAndView to render
      */
-    @RequestMapping(value = "LogMeOut.htm", method = RequestMethod.POST)
+    @RequestMapping(value = "/user/LogMeOut.htm", method = RequestMethod.POST)
     public ModelAndView logMeOut(UserForm userForm) {
         logger.info(" Inside LogMeOut method of user Controller ");
         return new ModelAndView(USER_LOG_IN, USER_FORM, new UserForm());
@@ -460,7 +431,7 @@ public class UserController {
      * @param userForm userForm instance
      * @return ModelAndView to render
      */
-    @RequestMapping(value = "SearchUser.htm", method = RequestMethod.POST)
+    @RequestMapping(value = "/user/SearchUser.htm", method = RequestMethod.POST)
     public ModelAndView searchUser(UserForm userForm) {
         logger.info(" Inside SearchUser method of user Controller ");
         logger.info(" user Details are " + userForm.getSearchUser().toString());

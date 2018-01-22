@@ -34,7 +34,7 @@ public interface UserService {
      * @param user user
      * @throws UserException on error
      */
-    void addNewUser(UserVO user) throws UserException;
+    void save(UserVO user) throws UserException;
 
     /**
      * getUserDetailsFromID to get the single user details from its id
