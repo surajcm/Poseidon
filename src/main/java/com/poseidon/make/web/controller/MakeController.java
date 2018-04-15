@@ -9,8 +9,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
@@ -31,7 +34,7 @@ public class MakeController {
     private static final Logger LOG = LoggerFactory.getLogger(MakeController.class);
 
     @Autowired
-        private MakeService makeService;
+    private MakeService makeService;
 
     public MakeService getMakeService() {
         return makeService;
@@ -44,8 +47,8 @@ public class MakeController {
 
     @RequestMapping(value = "/make/ModelList.htm", method = {RequestMethod.POST, RequestMethod.GET})
     public ModelAndView ModelList(MakeForm makeForm) {
-        LOG.debug(" Inside List method of MakeController ");
-        LOG.debug(" form details are  " + makeForm);
+        LOG.info(" Inside List method of MakeController ");
+        LOG.info(" form details are  " + makeForm);
 
         List<MakeAndModelVO> makeAndModelVOs = null;
         try {
@@ -81,7 +84,7 @@ public class MakeController {
 
     @RequestMapping(value = "/make/MakeList.htm", method = RequestMethod.POST)
     public ModelAndView MakeList(MakeForm makeForm) {
-        LOG.debug(" listMake List method of MakeController ");
+        LOG.info(" listMake List method of MakeController ");
         List<MakeAndModelVO> makeAndModelVOs = null;
         try {
             makeAndModelVOs = getMakeService().listAllMakes();
@@ -161,9 +164,9 @@ public class MakeController {
         return MakeList(makeForm);
     }
 
-    @RequestMapping(value = "/make/addModel.htm", method = { RequestMethod.GET, RequestMethod.POST })
+    @RequestMapping(value = "/make/addModel.htm", method = {RequestMethod.GET, RequestMethod.POST})
     @SuppressWarnings("unused")
-    public ModelAndView addModel( MakeForm makeForm) {
+    public ModelAndView addModel(MakeForm makeForm) {
         LOG.debug("  addModel method of MakeController ");
         makeForm.setLoggedInUser(makeForm.getLoggedInUser());
         makeForm.setLoggedInRole(makeForm.getLoggedInRole());
@@ -246,18 +249,61 @@ public class MakeController {
         return ModelList(makeForm);
     }
 
+    @RequestMapping(value = "/make/saveMakeAjax1.htm", method = RequestMethod.POST)
+    public @ResponseBody
+    String saveMakeAjax1(@ModelAttribute(value = "selectMakeName") String  selectMakeName,
+                         @ModelAttribute(value = "selectMakeDesc") String  selectMakeDesc,
+                         BindingResult result) {
+        LOG.info("saveMakeAjax1 method of MakeController ");
+        StringBuilder responseString = new StringBuilder();
+        if (!result.hasErrors()) {
+            LOG.info("selectMakeName : " + selectMakeName);
+            LOG.info("selectMakeDesc : " + selectMakeDesc);
+            MakeForm makeForm = new MakeForm();
+            // todo: how to get this ??
+            //makeForm.getCurrentMakeAndModeVO().setCreatedBy(makeForm.getLoggedInUser());
+            //makeForm.getCurrentMakeAndModeVO().setModifiedBy(makeForm.getLoggedInUser());
+            MakeAndModelVO makeAndModelVO = new MakeAndModelVO();
+            makeAndModelVO.setMakeName(selectMakeName);
+            makeAndModelVO.setDescription(selectMakeDesc);
+            makeAndModelVO.setCreatedDate(new Date());
+            makeAndModelVO.setModifiedDate(new Date());
+            makeAndModelVO.setCreatedBy("-ajax-");
+            makeAndModelVO.setModifiedBy("-ajax-");
+
+            makeForm.setCurrentMakeAndModeVO(makeAndModelVO);
+            try {
+                getMakeService().addNewMake(makeForm.getCurrentMakeAndModeVO());
+                makeForm.setStatusMessage("Successfully saved the new make Detail");
+                makeForm.setStatusMessageType("success");
+            } catch (Exception e1) {
+                makeForm.setStatusMessage("Unable to save the make Detail due to an error");
+                makeForm.setStatusMessageType("error");
+                LOG.error(e1.getLocalizedMessage());
+                LOG.info(" An Unknown Error has been occurred !!");
+            }
+            //get all the make and pass it as a json object
+            List<MakeVO> makes = makeService.fetchMakes();
+            responseString.append(fetchJSONMakeList(makes));
+
+        } else {
+            LOG.info("errors " + result.toString());
+        }
+        return responseString.toString();
+    }
+
     @RequestMapping(value = "/make/saveMakeAjax.htm", method = RequestMethod.POST)
     @SuppressWarnings("unused")
     public void saveMakeAjax(HttpServletRequest httpServletRequest,
                              HttpServletResponse httpServletResponse) {
-        LOG.debug("saveMakeAjax method of MakeController ");
+        LOG.info("saveMakeAjax method of MakeController ");
 
         StringBuilder responseString = new StringBuilder();
 
         String selectMakeName = httpServletRequest.getParameter("selectMakeName");
         String selectMakeDesc = httpServletRequest.getParameter("selectMakeDesc");
         //get all the models for this make id
-        LOG.info(" At saveMakeAjax, selectMakeName is : s selectMakeDesc : s"+ selectMakeName+ selectMakeDesc);
+        LOG.info(" At saveMakeAjax, selectMakeName is : s selectMakeDesc : s" + selectMakeName + selectMakeDesc);
         MakeForm makeForm = new MakeForm();
         // todo: how to get this ??
         //makeForm.getCurrentMakeAndModeVO().setCreatedBy(makeForm.getLoggedInUser());
@@ -383,7 +429,7 @@ public class MakeController {
         List<MakeAndModelVO> makeVOs = null;
         try {
             makeVOs = getMakeService().searchMakeVOs(makeForm.getSearchMakeAndModelVO());
-            makeForm.setStatusMessage("Found "+ makeVOs.size() +" Models");
+            makeForm.setStatusMessage("Found " + makeVOs.size() + " Models");
             makeForm.setStatusMessageType("info");
         } catch (Exception e) {
             makeForm.setStatusMessage("Unable get the Model");
@@ -411,11 +457,11 @@ public class MakeController {
         makeForm.setLoggedInRole(makeForm.getLoggedInRole());
         makeForm.setLoggedInUser(makeForm.getLoggedInUser());
         return new ModelAndView("make/ModelList", "makeForm", makeForm);
-        
+
     }
 
     @RequestMapping(value = "/make/printMake.htm", method = RequestMethod.POST)
-    public  ModelAndView printMake(MakeForm makeForm){
+    public ModelAndView printMake(MakeForm makeForm) {
         return null;
     }
 }

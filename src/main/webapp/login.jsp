@@ -35,30 +35,32 @@
                 </td>
                 <td>
                     <form class="form" role="form" method="post" action="${contextPath}/login" accept-charset="UTF-8" id="login-nav">
-                        <div class="form-group ${error != null ? 'has-error' : ''}">
-                             <span>${message}</span>
-                             <span>${error}</span>
-                             <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-                         </div>
-                        <div class="form-group">
-                             <label class="sr-only" for="exampleInputEmail2">loginId</label>
-                             <input name="username" type="text" class="form-control" placeholder="Username"
-                                                autofocus="true" required/>
-                        </div>
-                        <div class="form-group">
-                             <label class="sr-only" for="exampleInputPassword2">Password</label>
-                             <input name="password" type="password" class="form-control" placeholder="Password" required/>
+                        <fieldset>
+                            <p>
+                                 <span>${message}</span>
+                                 <span>${error}</span>
+                                 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+                             </p>
+                            <p>
+                                 <label class="sr-only" for="exampleInputEmail2">loginId</label>
+                                 <input name="username" type="text" class="textboxes" placeholder="Username"
+                                                    autofocus="true" required/>
+                            </p>
+                            <p>
+                                 <label class="sr-only" for="exampleInputPassword2">Password</label>
+                                 <input name="password" type="password" class="textboxes" placeholder="Password" required/>
 
-                             <div class="help-block text-right"><a href="">Forget the password ?</a></div>
-                        </div>
-                        <div class="form-group">
-                             <button type="submit" class="btn btn-primary btn-block">Sign in</button>
-                        </div>
-                        <div class="checkbox">
-                             <label>
-                             <input type="checkbox"> keep me logged-in
-                             </label>
-                        </div>
+                                 <div class="help-block text-right"><a href="">Forget the password ?</a></div>
+                            </p>
+                            <p class="button">
+                                 <button type="submit" class="btn">Sign in</button>
+                            </p>
+                            <p class="checkbox">
+                                 <label>
+                                 <input type="checkbox"> keep me logged-in
+                                 </label>
+                            </p>
+                        </fieldset>
                     </form>
                 </td>
             </tr>

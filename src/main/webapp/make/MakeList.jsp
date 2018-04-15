@@ -8,6 +8,7 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <sec:csrfMetaTags/>
     <title>Make List</title>
     <style type="text/css">
         table {
@@ -197,17 +198,40 @@
             myTable.appendChild(d);
         }
 
+        function saveSimpleMake1() {
+            var selectMakeName = document.makeForm.newMakeName.value;
+            var selectMakeDesc = document.makeForm.newMakeDesc.value;
+            $.ajax({
+                type: "POST",
+                url: "${contextPath}/make/saveMakeAjax1.htm",
+                data: "selectMakeName=" + selectMakeName + "&selectMakeDesc=" + selectMakeDesc + "&${_csrf.parameterName}=${_csrf.token}",
+                success: function(response) {
+                    alert(response);
+                    if (response != "") {
+                        rewriteTable(response);
+                    }
+                },error: function(e){
+           	        alert('Error: ' + e);
+       	        }
+            });
+        }
+
         function saveSimpleMake(){
             var selectMakeName = document.makeForm.newMakeName.value;
             var selectMakeDesc = document.makeForm.newMakeDesc.value;
             var url = "${contextPath}/make/saveMakeAjax.htm";
             url = url + "?selectMakeName=" + selectMakeName;
             url = url + "&selectMakeDesc=" + selectMakeDesc;
+            url = url + "&${_csrf.parameterName}=${_csrf.token}";
             bustcacheparameter = (url.indexOf("?") != -1) ? "&" + new Date().getTime() : "?" + new Date().getTime();
             createAjaxRequest();
+            alert(url);
+            alert(bustcacheparameter);
             if (req) {
                 req.onreadystatechange = stateChange;
-                req.open("POST", url + bustcacheparameter, true);
+                //req.open("POST", url + bustcacheparameter, true);
+                req.open("POST", "/make/saveMakeAjax.htm", true);
+                req.setRequestHeader(header, token);
                 req.send(url + bustcacheparameter);
             }
         }
@@ -405,7 +429,7 @@
                     </tr>
                     <tr>
                         <td>
-                            <input class="btn btn-primary btn-block" value="Simple Save" type="button" onclick="javascript:saveSimpleMake()"/>
+                            <input class="btn btn-primary btn-block" value="Simple Save" type="button" onclick="javascript:saveSimpleMake1()"/>
                         <td>
                         <td colspan="4">
                         </td>

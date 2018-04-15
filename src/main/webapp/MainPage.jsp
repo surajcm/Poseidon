@@ -13,6 +13,11 @@
     <form:hidden name="loggedInUser" path="loggedInUser" />
     <form:hidden name="loggedInRole" path="loggedInRole" />
     <%@include file="/myHeader.jsp" %>
+    <c:if test="${pageContext.request.userPrincipal.name != null}">
+        <form id="logoutForm" method="POST" action="${contextPath}/logout">
+            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+        </form>
+    </c:if>
     <table width="100%" height="100%">
         <tr>
             <td>&nbsp;
