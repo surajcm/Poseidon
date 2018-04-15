@@ -16,10 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.Date;
 import java.util.List;
 
@@ -249,9 +246,9 @@ public class MakeController {
         return ModelList(makeForm);
     }
 
-    @RequestMapping(value = "/make/saveMakeAjax1.htm", method = RequestMethod.POST)
+    @RequestMapping(value = "/make/saveMakeAjax.htm", method = RequestMethod.POST)
     public @ResponseBody
-    String saveMakeAjax1(@ModelAttribute(value = "selectMakeName") String  selectMakeName,
+    String saveMakeAjax(@ModelAttribute(value = "selectMakeName") String  selectMakeName,
                          @ModelAttribute(value = "selectMakeDesc") String  selectMakeDesc,
                          BindingResult result) {
         LOG.info("saveMakeAjax1 method of MakeController ");
@@ -290,57 +287,6 @@ public class MakeController {
             LOG.info("errors " + result.toString());
         }
         return responseString.toString();
-    }
-
-    @RequestMapping(value = "/make/saveMakeAjax.htm", method = RequestMethod.POST)
-    @SuppressWarnings("unused")
-    public void saveMakeAjax(HttpServletRequest httpServletRequest,
-                             HttpServletResponse httpServletResponse) {
-        LOG.info("saveMakeAjax method of MakeController ");
-
-        StringBuilder responseString = new StringBuilder();
-
-        String selectMakeName = httpServletRequest.getParameter("selectMakeName");
-        String selectMakeDesc = httpServletRequest.getParameter("selectMakeDesc");
-        //get all the models for this make id
-        LOG.info(" At saveMakeAjax, selectMakeName is : s selectMakeDesc : s" + selectMakeName + selectMakeDesc);
-        MakeForm makeForm = new MakeForm();
-        // todo: how to get this ??
-        //makeForm.getCurrentMakeAndModeVO().setCreatedBy(makeForm.getLoggedInUser());
-        //makeForm.getCurrentMakeAndModeVO().setModifiedBy(makeForm.getLoggedInUser());
-        MakeAndModelVO makeAndModelVO = new MakeAndModelVO();
-        makeAndModelVO.setMakeName(selectMakeName);
-        makeAndModelVO.setDescription(selectMakeDesc);
-        makeAndModelVO.setCreatedDate(new Date());
-        makeAndModelVO.setModifiedDate(new Date());
-        makeAndModelVO.setCreatedBy("-ajax-");
-        makeAndModelVO.setModifiedBy("-ajax-");
-
-        makeForm.setCurrentMakeAndModeVO(makeAndModelVO);
-        try {
-            getMakeService().addNewMake(makeForm.getCurrentMakeAndModeVO());
-            makeForm.setStatusMessage("Successfully saved the new make Detail");
-            makeForm.setStatusMessageType("success");
-        } catch (Exception e1) {
-            makeForm.setStatusMessage("Unable to save the make Detail due to an error");
-            makeForm.setStatusMessageType("error");
-            LOG.error(e1.getLocalizedMessage());
-            LOG.info(" An Unknown Error has been occurred !!");
-        }
-
-        //get all the make and pass it as a json object
-        List<MakeVO> makes = makeService.fetchMakes();
-        responseString.append(fetchJSONMakeList(makes));
-        // get a id-name combination, which is splittable by js
-        httpServletResponse.setContentType("text/plain");
-        PrintWriter out;
-        try {
-            out = httpServletResponse.getWriter();
-            out.print(responseString.toString());
-            out.flush();
-        } catch (IOException e) {
-            LOG.error(e.getLocalizedMessage());
-        }
     }
 
     private String fetchJSONMakeList(List<MakeVO> makeVOS) {

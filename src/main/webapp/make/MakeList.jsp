@@ -198,15 +198,15 @@
             myTable.appendChild(d);
         }
 
-        function saveSimpleMake1() {
+        function saveSimpleMake() {
             var selectMakeName = document.makeForm.newMakeName.value;
             var selectMakeDesc = document.makeForm.newMakeDesc.value;
             $.ajax({
                 type: "POST",
-                url: "${contextPath}/make/saveMakeAjax1.htm",
+                url: "${contextPath}/make/saveMakeAjax.htm",
                 data: "selectMakeName=" + selectMakeName + "&selectMakeDesc=" + selectMakeDesc + "&${_csrf.parameterName}=${_csrf.token}",
                 success: function(response) {
-                    alert(response);
+                    //alert(response);
                     if (response != "") {
                         rewriteTable(response);
                     }
@@ -214,50 +214,6 @@
            	        alert('Error: ' + e);
        	        }
             });
-        }
-
-        function saveSimpleMake(){
-            var selectMakeName = document.makeForm.newMakeName.value;
-            var selectMakeDesc = document.makeForm.newMakeDesc.value;
-            var url = "${contextPath}/make/saveMakeAjax.htm";
-            url = url + "?selectMakeName=" + selectMakeName;
-            url = url + "&selectMakeDesc=" + selectMakeDesc;
-            url = url + "&${_csrf.parameterName}=${_csrf.token}";
-            bustcacheparameter = (url.indexOf("?") != -1) ? "&" + new Date().getTime() : "?" + new Date().getTime();
-            createAjaxRequest();
-            alert(url);
-            alert(bustcacheparameter);
-            if (req) {
-                req.onreadystatechange = stateChange;
-                //req.open("POST", url + bustcacheparameter, true);
-                req.open("POST", "/make/saveMakeAjax.htm", true);
-                req.setRequestHeader(header, token);
-                req.send(url + bustcacheparameter);
-            }
-        }
-
-        function createAjaxRequest() {
-            if (window.XMLHttpRequest) {
-                req = new XMLHttpRequest();
-            } else if (window.ActiveXObject) {
-                try {
-                    req = new ActiveXObject("Msxml2.XMLHTTP");
-                } catch (e) {
-                    try {
-                        req = new ActiveXObject("Microsoft.XMLHTTP");
-                    } catch (e) {
-                    }
-                }
-            }
-        }
-
-        function stateChange() {
-            if (req.readyState == 4 && (req.status == 200 || window.location.href.indexOf("http") == -1)) {
-                textReturned = req.responseText;
-                if (textReturned != "") {
-                    rewriteTable(textReturned);
-                }
-            }
         }
 
         function rewriteTable(textReturned) {
@@ -429,7 +385,7 @@
                     </tr>
                     <tr>
                         <td>
-                            <input class="btn btn-primary btn-block" value="Simple Save" type="button" onclick="javascript:saveSimpleMake1()"/>
+                            <input class="btn btn-primary btn-block" value="Simple Save" type="button" onclick="javascript:saveSimpleMake()"/>
                         <td>
                         <td colspan="4">
                         </td>
