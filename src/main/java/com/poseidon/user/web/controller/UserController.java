@@ -119,8 +119,8 @@ public class UserController {
      */
     private List<String> populateRoles() {
         List<String> roleList = new ArrayList<>();
-        roleList.add("ADMIN");
-        roleList.add("GUEST");
+        roleList.add("ROLE_ADMIN");
+        roleList.add("ROLE_GUEST");
         return roleList;
     }
 
