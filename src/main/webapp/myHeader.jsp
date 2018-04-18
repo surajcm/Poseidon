@@ -13,7 +13,10 @@
     <meta name="author" content="Suraj">
     <spring:url value="/resources/images/Poseidon_Ico.ico" var="posIcon" />
     <link rel="shortcut icon" href="${posIcon}" >
-    <link href="/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <!--link href="/css/bootstrap.min.css" rel="stylesheet" type="text/css"-->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" crossorigin="anonymous" type="text/css">
+
+
     <!--link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.5.8/css/bootstrap-material-design.min.css"-->
     <link href="/css/font-awesome.min.css" rel="stylesheet" type="text/css">
 
@@ -29,7 +32,7 @@
             left:50%;
         }
         body {
-            padding-top: 90px;
+            padding-top: 9px;
             font-family: 'Lato',sans-serif;
         }
         /* responsive nav stacked liked 3.x */
@@ -99,50 +102,49 @@
     </script>
 </head>
 <body>
-<nav class="navbar navbar-fixed-top navbar-dark bg-primary">
-    <div class="container">
-        <button class="navbar-toggler hidden-sm-up" type="button" data-toggle="collapse" data-target="#collapsingNavbar">
-            ☰
-        </button>
-        <div class="collapse navbar-toggleable-xs" id="collapsingNavbar">
-            <spring:url value="/resources/images/Poseidon_Menu.png" var="posIcon2" />
-            <a class="navbar-brand" href="#" onclick="javascript:goToHome();"><span><img src="${posIcon2}"alt="Poseidon"/></span>Poseidon</a>
-            <ul class="nav navbar-nav">
+<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+    <spring:url value="/resources/images/Poseidon_Menu.png" var="posIcon2" />
+    <a class="navbar-brand" href="#" onclick="javascript:goToHome();"><span><img src="${posIcon2}" width="30" height="30" class="d-inline-block align-top" alt="Poseidon"/></span>Poseidon</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+            <c:choose>
+                <c:when test="${pageContext.request.userPrincipal.name != null}">
+                    <li class='nav-item' id='user'><a href='#' class='nav-link' onclick='javascript:listMe();' >User<span class="sr-only">(current)</span></a></li>
+                </c:when>
+            </c:choose>
+            <li class="nav-item" id="makeme"><a class="nav-link" href="#" onclick="javascript:MakeMe();" >Make</a></li>
+            <li class="nav-item" id="customermgt"><a class="nav-link" href="#" onclick="javascript:fetchCustomers();" >Customer</a></li>
+            <li class="nav-item" id="companymgt"><a class="nav-link" href="#" onclick="javascript:fetchTerms();" >Company</a></li>
+            <li class="nav-item" id="txnmgt"><a class="nav-link" href="#" onclick="javascript:fetchTransactions();" >Transactions</a></li>
+            <li class="nav-item" id="invmgt"><a class="nav-link" href="#" onclick="javascript:fetchInvoice();" >Invoice</a></li>
+            <li class="nav-item" id="reportmgt"><a class="nav-link" href="#" onclick="javascript:fetchReport();" >Report</a></li>
+        </ul>
+        <ul class="navbar-nav my-2 my-lg-0">
+            <li class="nav-item dropdown">
                 <c:choose>
                     <c:when test="${pageContext.request.userPrincipal.name != null}">
-                        <li class='nav-item' id='user'><a href='#' class='nav-link' onclick='javascript:listMe();' >User</a></li>
+                        <a href='#' id='dropdownMenu1' class='nav-link dropdown-toggle' role="button" data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'>${pageContext.request.userPrincipal.name} </a>
                     </c:when>
+                    <c:otherwise>
+                        <a href='#' id='dropdownMenu1' class='nav-link dropdown-toggle' role="button" data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'>Unknown User</a>
+                    </c:otherwise>
                 </c:choose>
-                <li class="nav-item" id="makeme"><a class="nav-link" href="#" onclick="javascript:MakeMe();" >Make</a></li>
-                <li class="nav-item" id="customermgt"><a class="nav-link" href="#" onclick="javascript:fetchCustomers();" >Customer</a></li>
-                <li class="nav-item" id="companymgt"><a class="nav-link" href="#" onclick="javascript:fetchTerms();" >Company</a></li>
-                <li class="nav-item" id="txnmgt"><a class="nav-link" href="#" onclick="javascript:fetchTransactions();" >Transactions</a></li>
-                <li class="nav-item" id="invmgt"><a class="nav-link" href="#" onclick="javascript:fetchInvoice();" >Invoice</a></li>
-                <li class="nav-item" id="reportmgt"><a class="nav-link" href="#" onclick="javascript:fetchReport();" >Report</a></li>
-            </ul>
-            <ul class="nav navbar-nav pull-xs-right">
-                <li class="nav-item">
-                    <div class="dropdown">
-                        <c:choose>
-                            <c:when test="${pageContext.request.userPrincipal.name != null}">
-                                <a href='#' id='dropdownMenu1' class='nav-link dropdown-toggle' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'>${pageContext.request.userPrincipal.name} </a>
-                            </c:when>
-                            <c:otherwise>
-                                <a href='#' id='dropdownMenu1' class='nav-link dropdown-toggle' data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'>Unknown User</a>
-                            </c:otherwise>
-                        </c:choose>
-                        <div class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                            <a href="#" class="dropdown-item" onclick="javascript:LogMeOut();">Log Out</a>
-                        </div>
-                    </div>
-                </li>
-            </ul>
-        </div><!--/.nav-collapse -->
-    </div>
+                <div class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                    <a href="#" class="dropdown-item" onclick="javascript:LogMeOut();">Log Out</a>
+                </div>
+            </li>
+        </ul>
+    </div><!--/.nav-collapse -->
     <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 </nav>
-<script src="/js/jquery.min.js"></script>
-<script src="/js/bootstrap.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" crossorigin="anonymous"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" crossorigin="anonymous"></script>
+<!--script src="/js/jquery.min.js"></script-->
+<!--script src="/js/bootstrap.min.js"></script-->
 <script src="/js/jquery-ui.js"></script>
 <script>
     $(document).ready(function()
