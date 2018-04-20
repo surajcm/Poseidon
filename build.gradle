@@ -23,8 +23,8 @@ jar {
     version = '0.0.1-SNAPSHOT'
 }
 
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
+sourceCompatibility = 1.9
+targetCompatibility = 1.9
 
 repositories {
     mavenLocal()
@@ -38,6 +38,10 @@ dependencies {
     compile('org.springframework.boot:spring-boot-starter-security')
     compile("org.springframework.boot:spring-boot-devtools")
     compile("org.springframework.boot:spring-boot-starter-actuator")
+
+    compile group: 'javax.xml.bind', name: 'jaxb-api', version: '2.2.11'
+    compile group: 'com.sun.xml.bind', name: 'jaxb-core', version: '2.2.11'
+    compile group: 'com.sun.xml.bind', name: 'jaxb-impl', version: '2.2.11'
 
     compile group: 'commons-collections', name: 'commons-collections', version: '3.2'
     compile group: 'org.slf4j', name:'jcl-over-slf4j', version: '1.7.12'
