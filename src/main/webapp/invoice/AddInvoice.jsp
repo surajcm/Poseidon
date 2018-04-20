@@ -53,7 +53,7 @@
     </script>
 </head>
 <body>
-<form:form method="POST" commandName="invoiceForm" name="invoiceForm">
+<form:form method="POST" modelAttribute="invoiceForm">
     <form:hidden name="loggedInUser" path="loggedInUser"/>
     <form:hidden name="loggedInRole" path="loggedInRole"/>
     <%@include file="../myHeader.jsp" %>

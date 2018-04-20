@@ -93,16 +93,12 @@ public class UserController {
             } else {
                 logger.info(" An Unknown Error has been occurred !!");
             }
-
         } catch (Exception e1) {
             logger.error(e1.getLocalizedMessage());
             logger.info(" An Unknown Error has been occurred !!");
-
         }
         if (userList != null) {
-            for (UserVO userIteration : userList) {
-                logger.info(" user detail " + userIteration.toString());
-            }
+            userList.stream().map(userIteration -> " user detail " + userIteration.toString()).forEach(logger::info);
         }
         userForm.setUserVOs(userList);
         userForm.setLoggedInUser(userForm.getLoggedInUser());

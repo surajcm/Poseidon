@@ -49,7 +49,7 @@
 
 </head>
 <body>
-<form:form method="POST" commandName="customerForm" name="customerForm">
+<form:form method="POST" modelAttribute="customerForm">
     <form:hidden name="loggedInUser" path="loggedInUser"/>
     <form:hidden name="loggedInRole" path="loggedInRole"/>
     <%@include file="../myHeader.jsp" %>

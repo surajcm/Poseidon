@@ -281,7 +281,7 @@ function hideAlerts(){
 </script>
 </head>
 <body onload="javascript:hideAlerts()">
-<form:form method="POST" commandName="transactionForm" name="transactionForm" action="List.htm">
+<form:form method="POST" action="List.htm" modelAttribute="transactionForm" >
 <form:hidden name="loggedInUser" path="loggedInUser"/>
 <form:hidden name="loggedInRole" path="loggedInRole"/>
 <input type="hidden" name="id" id="id"/>

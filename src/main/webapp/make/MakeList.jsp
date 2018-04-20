@@ -160,6 +160,7 @@
                 }
             }
         }
+
         function hideAlerts(){
             document.getElementById('makeme').text = "Make <span class='sr-only'>Make</span>";
         }
@@ -199,8 +200,8 @@
         }
 
         function saveSimpleMake() {
-            var selectMakeName = document.makeForm.newMakeName.value;
-            var selectMakeDesc = document.makeForm.newMakeDesc.value;
+            var selectMakeName = document.forms[0].newMakeName.value;
+            var selectMakeDesc = document.forms[0].newMakeDesc.value;
             $.ajax({
                 type: "POST",
                 url: "${contextPath}/make/saveMakeAjax.htm",
@@ -264,15 +265,15 @@
     </script>
 </head>
 <body onload="javascript:hideAlerts()">
-    <form:form method="POST" commandName="makeForm" name="makeForm">
+    <form:form method="POST" modelAttribute="makeForm" >
     <input type="hidden" name="id" id="id"/>
     <form:hidden name="loggedInUser" path="loggedInUser"/>
     <form:hidden name="loggedInRole" path="loggedInRole"/>
     <%@include file="../myHeader.jsp" %>
-    <div class="container">
-        <div class="row clearfix">
-            <div class="card card-primary">
-                <div class="card-heading">Search Model</div>
+    <div  class="container">
+        <div class="wrap">
+            <div class="panel panel-primary">
+                <div class="panel-heading">Search Model</div>
                 <table>
                     <tr>
                         <td>

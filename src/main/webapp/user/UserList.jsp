@@ -355,7 +355,7 @@
     </script>
 </head>
 <body onload="javascript:hideAlerts()">
-<form:form method="POST" commandName="userForm" name="userForm" action="listAll.htm" >
+<form:form method="POST" action="listAll.htm" modelAttribute="userForm">
     <input type="hidden" name="id" id="id" />
     <form:hidden name="loggedInUser" path="loggedInUser" />
     <form:hidden name="loggedInRole" path="loggedInRole" />

@@ -129,7 +129,7 @@
         </script>
     </head>
     <body>
-        <form:form method="POST" commandName="transactionForm" name="transactionForm">
+        <form:form method="POST" modelAttribute="transactionForm" >
             <form:hidden name="loggedInUser" path="loggedInUser"/>
             <form:hidden name="loggedInRole" path="loggedInRole"/>
             <%@include file="../myHeader.jsp" %>

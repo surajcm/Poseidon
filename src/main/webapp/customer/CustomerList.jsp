@@ -167,7 +167,7 @@
 
 </head>
 <body onload="javascript:hideAlerts()">
-<form:form method="POST" commandName="customerForm" name="customerForm" >
+<form:form method="POST" modelAttribute="customerForm">
 <input type="hidden" name="id" id="id" />
 <form:hidden name="loggedInUser" path="loggedInUser" />
 <form:hidden name="loggedInRole" path="loggedInRole" />

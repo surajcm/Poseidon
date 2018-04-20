@@ -167,7 +167,7 @@
     </script>
 </head>
 <body onload="javascript:selectMenu()">
-<form:form method="POST" commandName="reportsForm" name="reportsForm">
+<form:form method="POST" modelAttribute="reportsForm" >
 <form:hidden name="loggedInUser" path="loggedInUser"/>
 <form:hidden name="loggedInRole" path="loggedInRole"/>
 <form:hidden name="exportTo" path="currentReport.exportTo" id="exportTo"/>

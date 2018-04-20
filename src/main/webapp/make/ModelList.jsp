@@ -197,7 +197,7 @@
 
 </head>
 <body onload="javascript:hideAlerts()">
-<form:form method="POST" commandName="makeForm" name="makeForm">
+<form:form method="POST" modelAttribute="makeForm" >
     <input type="hidden" name="id" id="id"/>
     <form:hidden name="loggedInUser" path="loggedInUser"/>
     <form:hidden name="loggedInRole" path="loggedInRole"/>

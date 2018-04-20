@@ -39,7 +39,7 @@
 
 </head>
 <body>
-<form:form method="POST" commandName="makeForm" name="makeForm" >
+<form:form method="POST" modelAttribute="makeForm" >
     <form:hidden name="loggedInUser" path="loggedInUser" />
     <form:hidden name="loggedInRole" path="loggedInRole" />
     <form:hidden name="currentMakeAndModeVO.makeId" path="currentMakeAndModeVO.makeId" />

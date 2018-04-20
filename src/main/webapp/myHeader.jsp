@@ -141,7 +141,7 @@
     <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
 </nav>
 
-<script src="/js/jquery-3.2.1.slim.min.js"></script>
+<script src="/js/jquery-3.2.1.min.js"></script>
 <script src="/js/popper.min.js"></script>
 <script src="/js/bootstrap.min.js"></script>
 <script src="/js/jquery-ui.min.js"></script>

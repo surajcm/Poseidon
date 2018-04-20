@@ -97,7 +97,7 @@
 
 </head>
 <body onload="hideUpdate()">
-<form:form method="POST" commandName="companyTermsForm" name="companyTermsForm">
+<form:form method="POST" modelAttribute="companyTermsForm">
     <form:hidden name="loggedInUser" path="loggedInUser"/>
     <form:hidden name="loggedInRole" path="loggedInRole"/>
     <%@include file="../myHeader.jsp" %>
