@@ -26,21 +26,12 @@ import java.util.List;
  * Time: 7:24:14 PM
  */
 @Controller
-//@RequestMapping("/make")
+@SuppressWarnings("unused")
 public class MakeController {
     private static final Logger LOG = LoggerFactory.getLogger(MakeController.class);
 
     @Autowired
     private MakeService makeService;
-
-    public MakeService getMakeService() {
-        return makeService;
-    }
-
-    public void setMakeService(MakeService makeService) {
-        this.makeService = makeService;
-    }
-
 
     @RequestMapping(value = "/make/ModelList.htm", method = {RequestMethod.POST, RequestMethod.GET})
     public ModelAndView ModelList(MakeForm makeForm) {
@@ -49,7 +40,7 @@ public class MakeController {
 
         List<MakeAndModelVO> makeAndModelVOs = null;
         try {
-            makeAndModelVOs = getMakeService().listAllMakesAndModels();
+            makeAndModelVOs = makeService.listAllMakesAndModels();
         } catch (Exception e) {
             makeForm.setStatusMessage("Unable to list the Models due to an error");
             makeForm.setStatusMessageType("error");
@@ -63,7 +54,7 @@ public class MakeController {
         }
         List<MakeVO> makeVOs = null;
         try {
-            makeVOs = getMakeService().fetchMakes();
+            makeVOs = makeService.fetchMakes();
         } catch (Exception e) {
             LOG.error(e.getLocalizedMessage());
         }
@@ -84,7 +75,7 @@ public class MakeController {
         LOG.info(" listMake List method of MakeController ");
         List<MakeAndModelVO> makeAndModelVOs = null;
         try {
-            makeAndModelVOs = getMakeService().listAllMakes();
+            makeAndModelVOs = makeService.listAllMakes();
         } catch (Exception e) {
             makeForm.setStatusMessage("Unable to list the Makes due to an error");
             makeForm.setStatusMessageType("error");
@@ -99,7 +90,7 @@ public class MakeController {
 
         List<MakeVO> makeVOs = null;
         try {
-            makeVOs = getMakeService().fetchMakes();
+            makeVOs = makeService.fetchMakes();
         } catch (Exception e) {
             LOG.error(e.getLocalizedMessage());
         }
@@ -123,7 +114,7 @@ public class MakeController {
         LOG.debug(" makeForm is " + makeForm.toString());
         MakeAndModelVO makeVO = null;
         try {
-            makeVO = getMakeService().getMakeFromId(makeForm.getId());
+            makeVO = makeService.getMakeFromId(makeForm.getId());
         } catch (Exception e1) {
             LOG.error(e1.getLocalizedMessage());
             LOG.error(" An Unknown Error has been occurred !!");
@@ -148,7 +139,7 @@ public class MakeController {
         LOG.debug("  deleteMake method of MakeController ");
         LOG.debug(" makeForm is " + makeForm.toString());
         try {
-            getMakeService().deleteMake(makeForm.getId());
+            makeService.deleteMake(makeForm.getId());
         } catch (Exception e1) {
             LOG.error(e1.getLocalizedMessage());
             LOG.error(" An Unknown Error has been occurred !!");
@@ -170,7 +161,7 @@ public class MakeController {
         makeForm.setCurrentMakeAndModeVO(new MakeAndModelVO());
         List<MakeAndModelVO> makeVOs = null;
         try {
-            makeVOs = getMakeService().listAllMakes();
+            makeVOs = makeService.listAllMakes();
         } catch (Exception e) {
             LOG.error(e.getLocalizedMessage());
         }
@@ -191,7 +182,7 @@ public class MakeController {
         LOG.debug(" makeForm is " + makeForm.toString());
         MakeAndModelVO makeVO = null;
         try {
-            makeVO = getMakeService().getModelFromId(makeForm.getId());
+            makeVO = makeService.getModelFromId(makeForm.getId());
 
         } catch (Exception e1) {
             LOG.error(e1.getLocalizedMessage());
@@ -207,7 +198,7 @@ public class MakeController {
         makeForm.setCurrentMakeAndModeVO(makeVO);
         List<MakeAndModelVO> makeVOs = null;
         try {
-            makeVOs = getMakeService().listAllMakes();
+            makeVOs = makeService.listAllMakes();
         } catch (Exception e) {
             LOG.error(e.getLocalizedMessage());
         }
@@ -229,7 +220,7 @@ public class MakeController {
 
         LOG.debug(" makeForm is " + makeForm.toString());
         try {
-            getMakeService().deleteModel(makeForm.getId());
+            makeService.deleteModel(makeForm.getId());
             makeForm.setStatusMessage("Successfully deleted the selected Model");
             makeForm.setStatusMessageType("success");
         } catch (Exception e1) {
@@ -270,7 +261,7 @@ public class MakeController {
 
             makeForm.setCurrentMakeAndModeVO(makeAndModelVO);
             try {
-                getMakeService().addNewMake(makeForm.getCurrentMakeAndModeVO());
+                makeService.addNewMake(makeForm.getCurrentMakeAndModeVO());
                 makeForm.setStatusMessage("Successfully saved the new make Detail");
                 makeForm.setStatusMessageType("success");
             } catch (Exception e1) {
@@ -310,7 +301,7 @@ public class MakeController {
         makeForm.getCurrentMakeAndModeVO().setModifiedDate(new Date());
         makeForm.getCurrentMakeAndModeVO().setModifiedBy(makeForm.getLoggedInUser());
         try {
-            getMakeService().updateMake(makeForm.getCurrentMakeAndModeVO());
+            makeService.updateMake(makeForm.getCurrentMakeAndModeVO());
             makeForm.setStatusMessage("Updated the make successfully");
             makeForm.setStatusMessageType("success");
         } catch (Exception e1) {
@@ -331,7 +322,7 @@ public class MakeController {
         makeForm.getCurrentMakeAndModeVO().setModifiedDate(new Date());
         makeForm.getCurrentMakeAndModeVO().setModifiedBy(makeForm.getLoggedInUser());
         try {
-            getMakeService().updateModel(makeForm.getCurrentMakeAndModeVO());
+            makeService.updateModel(makeForm.getCurrentMakeAndModeVO());
             makeForm.setStatusMessage("Updated the Model successfully");
             makeForm.setStatusMessageType("success");
         } catch (Exception e1) {
@@ -354,7 +345,7 @@ public class MakeController {
         makeForm.getCurrentMakeAndModeVO().setCreatedBy(makeForm.getLoggedInUser());
         makeForm.getCurrentMakeAndModeVO().setModifiedBy(makeForm.getLoggedInUser());
         try {
-            getMakeService().addNewModel(makeForm.getCurrentMakeAndModeVO());
+            makeService.addNewModel(makeForm.getCurrentMakeAndModeVO());
             makeForm.setStatusMessage("Saved the new Model successfully");
             makeForm.setStatusMessageType("success");
         } catch (Exception e1) {
@@ -374,7 +365,7 @@ public class MakeController {
         LOG.debug(" searchVO instance to search " + makeForm.getSearchMakeAndModelVO());
         List<MakeAndModelVO> makeVOs = null;
         try {
-            makeVOs = getMakeService().searchMakeVOs(makeForm.getSearchMakeAndModelVO());
+            makeVOs = makeService.searchMakeVOs(makeForm.getSearchMakeAndModelVO());
             makeForm.setStatusMessage("Found " + makeVOs.size() + " Models");
             makeForm.setStatusMessageType("info");
         } catch (Exception e) {
@@ -390,7 +381,7 @@ public class MakeController {
         }
         List<MakeVO> searchMakeVOs = null;
         try {
-            searchMakeVOs = getMakeService().fetchMakes();
+            searchMakeVOs = makeService.fetchMakes();
         } catch (Exception e) {
             LOG.error(e.getLocalizedMessage());
         }
