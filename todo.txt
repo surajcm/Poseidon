@@ -7,7 +7,7 @@ Things to do
 	alert using bootstrap popup
 1. Replace ajax with jquery based ajax
 
-2. log out .. if user is null / spring security implementation
+2. Better login page with customer registration.
 
 3. don't invoice twice..
 
