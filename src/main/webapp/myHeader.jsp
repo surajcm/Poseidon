@@ -14,11 +14,13 @@
     <spring:url value="/resources/images/Poseidon_Ico.ico" var="posIcon" />
     <link rel="shortcut icon" href="${posIcon}" >
     <link href="/css/bootstrap.min.css" rel="stylesheet" type="text/css">
-    <!--link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" crossorigin="anonymous" type="text/css"-->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.css" crossorigin="anonymous" type="text/css">
+    <!--link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.theme.min.css" crossorigin="anonymous" type="text/css"-->
 
 
     <!--link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.5.8/css/bootstrap-material-design.min.css"-->
-    <link href="/css/font-awesome.min.css" rel="stylesheet" type="text/css">
+    <!--link href="/css/font-awesome.min.css" rel="stylesheet" type="text/css"-->
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.0.10/css/all.css" crossorigin="anonymous">
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!--[if lt IE 9]>
