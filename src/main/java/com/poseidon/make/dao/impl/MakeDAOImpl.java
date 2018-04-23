@@ -18,6 +18,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * user: Suraj
@@ -27,22 +28,23 @@ import java.util.List;
 @Repository
 public class MakeDAOImpl implements MakeDAO {
     private static final Logger LOG = LoggerFactory.getLogger(MakeDAOImpl.class);
-    private final String GET_MAKE_AND_MODEL_SQL = "SELECT m.id, m.modelName,m.makeId,ma.makeName FROM model m inner join make ma on m.makeId=ma.id order by m.modifiedOn;";
-    private final String INSERT_NEW_MAKE_SQL = "insert into make( makeName, description, createdOn, modifiedOn, createdBy, modifiedBy ) values (?, ?, ?, ?, ?, ?); ";
-    private final String INSERT_NEW_MODEL_SQL = "insert into model( modelName, makeId, createdOn, modifiedOn, createdBy, modifiedBy ) values (?, ?, ?, ?, ?, ?); ";
+    private final String GET_MAKE_AND_MODEL_SQL = "SELECT m.id, m.modelName,m.makeId,ma.makeName FROM model m inner " +
+            "join make ma on m.makeId=ma.id order by m.modifiedOn;";
+    private final String INSERT_NEW_MODEL_SQL = "insert into model( modelName, makeId, createdOn, modifiedOn, " +
+            "createdBy, modifiedBy ) values (?, ?, ?, ?, ?, ?); ";
     private final String GET_SINGLE_MAKE_SQL = "select * from make where id = ?";
-    private final String GET_SINGLE_MODEL_SQL = "SELECT m.id, m.modelName,m.makeId,ma.makeName FROM model m inner join make ma on m.makeId=ma.id and m.id = ?; ";
-    private static final String DELETE_MAKE_BY_ID_SQL = " delete from make where id = ? ";
+    private final String GET_SINGLE_MODEL_SQL = "SELECT m.id, m.modelName,m.makeId,ma.makeName FROM model m inner " +
+            "join make ma on m.makeId=ma.id and m.id = ?; ";
     private static final String DELETE_MODEL_BY_ID_SQL = " delete from model where id = ? ";
-    private static final String UPDATE_MAKE_SQL = " update make set makeName = ?, description = ? , modifiedOn = ? , modifiedBy = ? where id = ?";
-    private static final String UPDATE_MODEL_SQL = " update model set makeId = ?, modelName = ? , modifiedOn = ? , modifiedBy = ? where id = ?";
+    private static final String UPDATE_MODEL_SQL = " update model set makeId = ?, modelName = ? , modifiedOn = ? , " +
+            "modifiedBy = ? where id = ?";
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
 
     @Autowired
     private MakeRepository makeRepository;
-    
+
     public List<MakeAndModelVO> listAllMakesAndModels() throws MakeException {
         List<MakeAndModelVO> makeVOs;
         try {
@@ -57,7 +59,8 @@ public class MakeDAOImpl implements MakeDAO {
     public List<MakeAndModelVO> listAllMakes() throws MakeException {
         List<MakeAndModelVO> makeVOs;
         try {
-            makeVOs = getMake();
+            List<Make> makes = makeRepository.findAll();
+            makeVOs = convertMakeToMakeAndModelVOs(makes);
         } catch (DataAccessException e) {
             LOG.error(e.getLocalizedMessage());
             throw new MakeException(MakeException.DATABASE_ERROR);
@@ -86,10 +89,31 @@ public class MakeDAOImpl implements MakeDAO {
         return make;
     }
 
-    public MakeAndModelVO getMakeFromId(Long makeId) throws MakeException {
-        MakeAndModelVO makeVO;
+    public void updateMake(MakeAndModelVO currentMakeVO) throws MakeException {
         try {
-            makeVO = getMakeById(makeId);
+            Make make = convertToMake(currentMakeVO);
+            Optional<Make> optionalMake = makeRepository.findById(currentMakeVO.getMakeId().intValue());
+            if (optionalMake.isPresent()) {
+                Make newMake = optionalMake.get();
+                newMake.setMakeName(make.getMakeName());
+                newMake.setDescription(make.getDescription());
+                newMake.setModifiedOn(new Date());
+                newMake.setModifiedBy("app");
+                makeRepository.save(newMake);
+            }
+        } catch (DataAccessException e) {
+            LOG.error(e.getLocalizedMessage());
+            throw new MakeException(MakeException.DATABASE_ERROR);
+        }
+    }
+
+    public MakeAndModelVO getMakeFromId(Long makeId) throws MakeException {
+        MakeAndModelVO makeVO = null;
+        try {
+            Optional<Make> optionalMake = makeRepository.findById(makeId.intValue());
+            if (optionalMake.isPresent()) {
+                makeVO = getMakeVOFromMake(optionalMake.get());
+            }
         } catch (DataAccessException e) {
             LOG.error(e.getLocalizedMessage());
             throw new MakeException(MakeException.DATABASE_ERROR);
@@ -97,10 +121,17 @@ public class MakeDAOImpl implements MakeDAO {
         return makeVO;
     }
 
+    private MakeAndModelVO getMakeVOFromMake(Make make) {
+        MakeAndModelVO makeAndModelVO = new MakeAndModelVO();
+        makeAndModelVO.setMakeId(Long.valueOf(make.getId()));
+        makeAndModelVO.setMakeName(make.getMakeName());
+        makeAndModelVO.setDescription(make.getDescription());
+        return makeAndModelVO;
+    }
+
     public void deleteMake(Long makeId) throws MakeException {
         try {
-            Object[] parameters = new Object[]{makeId};
-            jdbcTemplate.update(DELETE_MAKE_BY_ID_SQL, parameters);
+            makeRepository.deleteById(makeId.intValue());
         } catch (DataAccessException e) {
             LOG.error(e.getLocalizedMessage());
             throw new MakeException(MakeException.DATABASE_ERROR);
@@ -108,29 +139,14 @@ public class MakeDAOImpl implements MakeDAO {
     }
 
     public MakeAndModelVO getModelFromId(Long modelId) {
-        return (MakeAndModelVO) jdbcTemplate.queryForObject(GET_SINGLE_MODEL_SQL, new Object[]{modelId}, new MakeAndModelListRowMapper());
+        return (MakeAndModelVO) jdbcTemplate.queryForObject(GET_SINGLE_MODEL_SQL, new Object[]{modelId}, new
+                MakeAndModelListRowMapper());
     }
 
     public void deleteModel(Long modelId) throws MakeException {
         try {
             Object[] parameters = new Object[]{modelId};
             jdbcTemplate.update(DELETE_MODEL_BY_ID_SQL, parameters);
-        } catch (DataAccessException e) {
-            LOG.error(e.getLocalizedMessage());
-            throw new MakeException(MakeException.DATABASE_ERROR);
-        }
-    }
-
-    public void updateMake(MakeAndModelVO currentMakeVO) throws MakeException {
-        Object[] parameters = new Object[]{
-                currentMakeVO.getMakeName(),
-                currentMakeVO.getDescription(),
-                new Date(),
-                currentMakeVO.getModifiedBy(),
-                currentMakeVO.getMakeId()};
-
-        try {
-            jdbcTemplate.update(UPDATE_MAKE_SQL, parameters);
         } catch (DataAccessException e) {
             LOG.error(e.getLocalizedMessage());
             throw new MakeException(MakeException.DATABASE_ERROR);
@@ -176,7 +192,8 @@ public class MakeDAOImpl implements MakeDAO {
     public List<MakeVO> fetchMakes() throws MakeException {
         List<MakeVO> makeVOs;
         try {
-            makeVOs = fetchAllMakes();
+            List<Make> makes = makeRepository.findAll();
+            makeVOs = convertMakeToMakeVO(makes);
         } catch (DataAccessException e) {
             LOG.error(e.getLocalizedMessage());
             throw new MakeException(MakeException.DATABASE_ERROR);
@@ -202,15 +219,9 @@ public class MakeDAOImpl implements MakeDAO {
         return (List<MakeAndModelVO>) jdbcTemplate.query(FETCH_MODEL_QUERY.toString(), new MakeAndModelListRowMapper());
     }
 
-    private List<MakeVO> fetchAllMakes() {
-        List<Make> makes = makeRepository.findAll();
-        List<MakeVO> makeVOS = convertMakeToMakeVO(makes);
-        return makeVOS;
-    }
-
     private List<MakeVO> convertMakeToMakeVO(List<Make> makes) {
         List<MakeVO> makeVOS = new ArrayList<>();
-        for (Make make:makes) {
+        for (Make make : makes) {
             MakeVO makeVO = new MakeVO();
             makeVO.setId(Long.valueOf(make.getId()));
             makeVO.setMakeName(make.getMakeName());
@@ -234,24 +245,28 @@ public class MakeDAOImpl implements MakeDAO {
             isWhereAdded = Boolean.TRUE;
             DYNAMIC_MODEL_SEARCH_QUERY.append(" ma.id = ").append(searchMakeVO.getMakeId());
         }
-        if(searchMakeVO.getModelName() != null && searchMakeVO.getModelName().trim().length() > 0){
+        if (searchMakeVO.getModelName() != null && searchMakeVO.getModelName().trim().length() > 0) {
             if (!isWhereAdded) {
                 DYNAMIC_MODEL_SEARCH_QUERY.append(" where ");
                 isWhereAdded = Boolean.TRUE;
             } else {
                 DYNAMIC_MODEL_SEARCH_QUERY.append(" and ");
             }
-            if(searchMakeVO.getIncludes()){
-                DYNAMIC_MODEL_SEARCH_QUERY.append(" m.modelName like '%").append(searchMakeVO.getModelName()).append("%'");
-            }else if (searchMakeVO.getStartswith()){
-                DYNAMIC_MODEL_SEARCH_QUERY.append(" m.modelName like '").append(searchMakeVO.getModelName()).append("%'");
-            }else {
-                DYNAMIC_MODEL_SEARCH_QUERY.append(" m.modelName like '").append(searchMakeVO.getModelName()).append("'");
+            if (searchMakeVO.getIncludes()) {
+                DYNAMIC_MODEL_SEARCH_QUERY.append(" m.modelName like '%").append(searchMakeVO.getModelName()).append
+                        ("%'");
+            } else if (searchMakeVO.getStartswith()) {
+                DYNAMIC_MODEL_SEARCH_QUERY.append(" m.modelName like '").append(searchMakeVO.getModelName()).append
+                        ("%'");
+            } else {
+                DYNAMIC_MODEL_SEARCH_QUERY.append(" m.modelName like '").append(searchMakeVO.getModelName()).append
+                        ("'");
             }
         }
 
         LOG.info(" The query generated for search is " + DYNAMIC_MODEL_SEARCH_QUERY.toString());
-        return (List<MakeAndModelVO>) jdbcTemplate.query(DYNAMIC_MODEL_SEARCH_QUERY.toString(), new MakeAndModelListRowMapper());
+        return (List<MakeAndModelVO>) jdbcTemplate.query(DYNAMIC_MODEL_SEARCH_QUERY.toString(), new
+                MakeAndModelListRowMapper());
     }
 
 
@@ -264,15 +279,6 @@ public class MakeDAOImpl implements MakeDAO {
                         currentMakeVO.getCreatedBy(),
                         currentMakeVO.getModifiedBy()};
         jdbcTemplate.update(INSERT_NEW_MODEL_SQL, parameters);
-    }
-
-    private MakeAndModelVO getMakeById(Long makeId) {
-        return (MakeAndModelVO) jdbcTemplate.queryForObject(GET_SINGLE_MAKE_SQL, new Object[]{makeId}, new MakeRowMapper());
-    }
-
-    private List<MakeAndModelVO> getMake() {
-        List<Make> makes = makeRepository.findAll();
-        return convertMakeToMakeAndModelVOs(makes);
     }
 
     private List<MakeAndModelVO> convertMakeToMakeAndModelVOs(List<Make> makes) {
@@ -310,24 +316,6 @@ public class MakeDAOImpl implements MakeDAO {
             makeVO.setModelName(resultSet.getString("modelName"));
             makeVO.setMakeId(resultSet.getLong("makeId"));
             makeVO.setMakeName(resultSet.getString("makeName"));
-            return makeVO;
-        }
-    }
-
-    private class MakeRowMapper implements RowMapper {
-        /**
-         * method to map the result to vo
-         *
-         * @param resultSet resultSet instance
-         * @param i         i instance
-         * @return UserVO as Object
-         * @throws java.sql.SQLException on error
-         */
-        public Object mapRow(ResultSet resultSet, int i) throws SQLException {
-            MakeAndModelVO makeVO = new MakeAndModelVO();
-            makeVO.setMakeId(resultSet.getLong("id"));
-            makeVO.setMakeName(resultSet.getString("makeName"));
-            makeVO.setDescription(resultSet.getString("description"));
             return makeVO;
         }
     }
