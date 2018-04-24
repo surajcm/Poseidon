@@ -32,12 +32,14 @@ public class CompanyTermsServiceImpl implements CompanyTermsService {
         return companyTermsVO;
     }
 
-    public void updateCompanyDetails(CompanyTermsVO companyTermsVO) {
+    public CompanyTermsVO updateCompanyDetails(CompanyTermsVO companyTermsVO) {
+        CompanyTermsVO termsVO = null;
         try {
-            companyTermsDAO.updateCompanyDetails(companyTermsVO);
+            termsVO = companyTermsDAO.updateCompanyDetails(companyTermsVO);
         } catch (CompanyTermsException e) {
             LOG.error(e.getLocalizedMessage());
         }
+        return termsVO;
     }
 
 }

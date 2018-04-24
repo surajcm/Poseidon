@@ -19,23 +19,12 @@ import java.util.Date;
  * Time: 10:44:08 PM
  */
 @Controller
-//@RequestMapping("/company")
+@SuppressWarnings("unused")
 public class CompanyTermsController {
     private static final Logger LOG = LoggerFactory.getLogger(CompanyTermsController.class);
 
     @Autowired
     private CompanyTermsService companyTermsService;
-
-
-    public CompanyTermsService getCompanyTermsService() {
-        return companyTermsService;
-    }
-
-    public void setCompanyTermsService(CompanyTermsService companyTermsService) {
-        this.companyTermsService = companyTermsService;
-    }
-
-
 
     @RequestMapping(value = "/company/List.htm", method = RequestMethod.POST)
     public ModelAndView List(CompanyTermsForm companyTermsForm) {
@@ -44,7 +33,7 @@ public class CompanyTermsController {
 
         CompanyTermsVO companyTermsVO = null;
         try {
-            companyTermsVO = getCompanyTermsService().listCompanyTerms();
+            companyTermsVO = companyTermsService.listCompanyTerms();
         } catch (Exception e) {
             LOG.error(e.getLocalizedMessage());
         }
@@ -66,15 +55,9 @@ public class CompanyTermsController {
 
         companyTermsForm.getCurrentCompanyTermsVO().setModifiedBy(companyTermsForm.getLoggedInUser());
         companyTermsForm.getCurrentCompanyTermsVO().setModifiedDate(new Date());
-        try {
-            getCompanyTermsService().updateCompanyDetails(companyTermsForm.getCurrentCompanyTermsVO());
-        } catch (Exception e) {
-            LOG.error(e.getLocalizedMessage());
-        }
-
         CompanyTermsVO companyTermsVO = null;
         try {
-            companyTermsVO = getCompanyTermsService().listCompanyTerms();
+            companyTermsVO = companyTermsService.updateCompanyDetails(companyTermsForm.getCurrentCompanyTermsVO());
         } catch (Exception e) {
             LOG.error(e.getLocalizedMessage());
         }

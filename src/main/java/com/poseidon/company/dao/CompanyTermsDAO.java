@@ -12,5 +12,5 @@ public interface CompanyTermsDAO {
 
     CompanyTermsVO listCompanyTerms() throws CompanyTermsException;
 
-    void updateCompanyDetails(CompanyTermsVO companyTermsVO)throws CompanyTermsException;
+    CompanyTermsVO updateCompanyDetails(CompanyTermsVO companyTermsVO)throws CompanyTermsException;
 }

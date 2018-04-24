@@ -10,6 +10,6 @@ import com.poseidon.company.domain.CompanyTermsVO;
 public interface CompanyTermsService {
     CompanyTermsVO listCompanyTerms();
 
-    void updateCompanyDetails(CompanyTermsVO companyTermsVO);
+    CompanyTermsVO updateCompanyDetails(CompanyTermsVO companyTermsVO);
 
 }
