@@ -16,6 +16,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * user: Suraj
@@ -23,6 +24,7 @@ import java.util.List;
  * Time: 10:45:56 PM
  */
 @Repository
+@SuppressWarnings("unused")
 public class CustomerDAOImpl implements CustomerDAO {
 
     private static final Logger LOG = LoggerFactory.getLogger(CustomerDAOImpl.class);
@@ -32,13 +34,6 @@ public class CustomerDAOImpl implements CustomerDAO {
 
     @Autowired
     private CustomerRepository customerRepository;
-
-    private final String GET_SINGLE_CUSTOMER_SQL = " select * from customer where id = ? ";
-    private final String DELETE_CUSTOMER_BY_ID_SQL = " delete from customer where id = ? ";
-    private final String UPDATE_CUSTOMER_SQL = " update customer set name = ? , address1 = ? , address2 = ? , phone =" +
-            " ?," +
-            " mobile = ? , email = ?, contactPerson1 = ?, contactPhone1 = ?, contactPerson2 = ?, contactPhone2 = ?," +
-            " note = ?, modifiedOn = ?, modifiedBy = ?  where id = ? ";
 
     public List<CustomerVO> listAllCustomerDetails() throws CustomerException {
         List<CustomerVO> customerVOs;
@@ -51,19 +46,23 @@ public class CustomerDAOImpl implements CustomerDAO {
     }
 
     public long saveCustomer(CustomerVO currentCustomerVO) throws CustomerException {
-
+        Long id;
+        Customer customer = convertToSingleCustomer(currentCustomerVO);
         try {
-            return saveCustomerDetails(currentCustomerVO);
+            Customer newCustomer = customerRepository.save(customer);
+            id = newCustomer.getId().longValue();
         } catch (DataAccessException e) {
             LOG.error(e.getLocalizedMessage());
             throw new CustomerException(CustomerException.DATABASE_ERROR);
         }
+        return id;
     }
 
     public CustomerVO getCustomerFromId(Long id) throws CustomerException {
         CustomerVO customerVO;
         try {
-            customerVO = fetchCustomerFromId(id);
+            Customer customer = customerRepository.getOne(id.intValue());
+            customerVO = convertToSingleCustomerVO(customer);
         } catch (DataAccessException e) {
             LOG.error(e.getLocalizedMessage());
             throw new CustomerException(CustomerException.DATABASE_ERROR);
@@ -71,10 +70,30 @@ public class CustomerDAOImpl implements CustomerDAO {
         return customerVO;
     }
 
+    private CustomerVO convertToSingleCustomerVO(Customer customer) {
+        CustomerVO customerVO = new CustomerVO();
+        customerVO.setCustomerId(Long.valueOf(customer.getId()));
+        customerVO.setCustomerName(customer.getName());
+        customerVO.setAddress1(customer.getAddress1());
+        customerVO.setAddress2(customer.getAddress2());
+        customerVO.setPhoneNo(customer.getPhone());
+        customerVO.setMobile(customer.getMobile());
+        customerVO.setEmail(customer.getEmail());
+        customerVO.setContactPerson1(customer.getContactPerson1());
+        customerVO.setContactMobile1(customer.getContactPhone1());
+        customerVO.setContactPerson2(customer.getContactPerson2());
+        customerVO.setContactMobile2(customer.getContactPhone2());
+        customerVO.setNotes(customer.getNote());
+        customerVO.setCreatedBy(customer.getCreatedBy());
+        customerVO.setCreatedOn(customer.getCreatedOn());
+        customerVO.setModifiedBy(customer.getModifiedBy());
+        customerVO.setModifiedOn(customer.getModifiedOn());
+        return customerVO;
+    }
+
     public void deleteCustomerFromId(Long id) throws CustomerException {
         try {
-            Object[] parameters = new Object[]{id};
-            jdbcTemplate.update(DELETE_CUSTOMER_BY_ID_SQL, parameters);
+            customerRepository.deleteById(id.intValue());
         } catch (DataAccessException e) {
             LOG.error(e.getLocalizedMessage());
             throw new CustomerException(CustomerException.DATABASE_ERROR);
@@ -82,23 +101,27 @@ public class CustomerDAOImpl implements CustomerDAO {
     }
 
     public void updateCustomer(CustomerVO currentCustomerVO) throws CustomerException {
-        Object[] parameters = new Object[]{currentCustomerVO.getCustomerName(),
-                currentCustomerVO.getAddress1(),
-                currentCustomerVO.getAddress2(),
-                currentCustomerVO.getPhoneNo(),
-                currentCustomerVO.getMobile(),
-                currentCustomerVO.getEmail(),
-                currentCustomerVO.getContactPerson1(),
-                currentCustomerVO.getContactMobile1(),
-                currentCustomerVO.getContactPerson2(),
-                currentCustomerVO.getContactMobile2(),
-                currentCustomerVO.getNotes(),
-                currentCustomerVO.getModifiedOn(),
-                currentCustomerVO.getModifiedBy(),
-                currentCustomerVO.getCustomerId()};
-
         try {
-            jdbcTemplate.update(UPDATE_CUSTOMER_SQL, parameters);
+            Optional<Customer> optionalCustomer = customerRepository.findById(
+                    currentCustomerVO.getCustomerId().intValue());
+
+            if (optionalCustomer.isPresent()) {
+                Customer customer = optionalCustomer.get();
+                customer.setName(currentCustomerVO.getCustomerName());
+                customer.setAddress1(currentCustomerVO.getAddress1());
+                customer.setAddress2(currentCustomerVO.getAddress2());
+                customer.setPhone(currentCustomerVO.getPhoneNo());
+                customer.setMobile(currentCustomerVO.getMobile());
+                customer.setEmail(currentCustomerVO.getEmail());
+                customer.setContactPerson1(currentCustomerVO.getContactPerson1());
+                customer.setContactPhone1(currentCustomerVO.getContactMobile1());
+                customer.setContactPerson2(currentCustomerVO.getContactPerson2());
+                customer.setContactPhone2(currentCustomerVO.getContactMobile2());
+                customer.setNote(currentCustomerVO.getNotes());
+                customer.setModifiedOn(currentCustomerVO.getModifiedOn());
+                customer.setModifiedBy(currentCustomerVO.getModifiedBy());
+                customerRepository.save(customer);
+            }
         } catch (DataAccessException e) {
             LOG.error(e.getLocalizedMessage());
             throw new CustomerException(CustomerException.DATABASE_ERROR);
@@ -114,17 +137,6 @@ public class CustomerDAOImpl implements CustomerDAO {
             throw new CustomerException(CustomerException.DATABASE_ERROR);
         }
         return customerVOs;
-    }
-
-    private CustomerVO fetchCustomerFromId(Long id) {
-        return (CustomerVO) jdbcTemplate.queryForObject(GET_SINGLE_CUSTOMER_SQL, new Object[]{id}, new
-                CustomerListRowMapper());
-    }
-
-    private long saveCustomerDetails(CustomerVO currentCustomerVO) {
-        Customer customer = convertToSingleCustomer(currentCustomerVO);
-        Customer newCustomer = customerRepository.save(customer);
-        return newCustomer.getId().longValue();
     }
 
     private Customer convertToSingleCustomer(CustomerVO currentCustomerVO) {
