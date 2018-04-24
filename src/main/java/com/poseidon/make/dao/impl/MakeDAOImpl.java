@@ -28,13 +28,6 @@ import java.util.Optional;
 @Repository
 public class MakeDAOImpl implements MakeDAO {
     private static final Logger LOG = LoggerFactory.getLogger(MakeDAOImpl.class);
-    private final String GET_MAKE_AND_MODEL_SQL = "SELECT m.id, m.modelName,m.makeId,ma.makeName FROM model m inner " +
-            "join make ma on m.makeId=ma.id order by m.modifiedOn;";
-    private final String INSERT_NEW_MODEL_SQL = "insert into model( modelName, makeId, createdOn, modifiedOn, " +
-            "createdBy, modifiedBy ) values (?, ?, ?, ?, ?, ?); ";
-    private final String GET_SINGLE_MAKE_SQL = "select * from make where id = ?";
-    private final String GET_SINGLE_MODEL_SQL = "SELECT m.id, m.modelName,m.makeId,ma.makeName FROM model m inner " +
-            "join make ma on m.makeId=ma.id and m.id = ?; ";
     private static final String DELETE_MODEL_BY_ID_SQL = " delete from model where id = ? ";
     private static final String UPDATE_MODEL_SQL = " update model set makeId = ?, modelName = ? , modifiedOn = ? , " +
             "modifiedBy = ? where id = ?";
@@ -139,6 +132,8 @@ public class MakeDAOImpl implements MakeDAO {
     }
 
     public MakeAndModelVO getModelFromId(Long modelId) {
+        String GET_SINGLE_MODEL_SQL = "SELECT m.id, m.modelName,m.makeId,ma.makeName FROM model m inner " +
+                "join make ma on m.makeId=ma.id and m.id = ?; ";
         return (MakeAndModelVO) jdbcTemplate.queryForObject(GET_SINGLE_MODEL_SQL, new Object[]{modelId}, new
                 MakeAndModelListRowMapper());
     }
@@ -278,6 +273,8 @@ public class MakeDAOImpl implements MakeDAO {
                         currentMakeVO.getModifiedDate(),
                         currentMakeVO.getCreatedBy(),
                         currentMakeVO.getModifiedBy()};
+        String INSERT_NEW_MODEL_SQL = "insert into model( modelName, makeId, createdOn, modifiedOn, " +
+                "createdBy, modifiedBy ) values (?, ?, ?, ?, ?, ?); ";
         jdbcTemplate.update(INSERT_NEW_MODEL_SQL, parameters);
     }
 
@@ -298,6 +295,8 @@ public class MakeDAOImpl implements MakeDAO {
     }
 
     private List<MakeAndModelVO> getMakeAndModels() {
+        String GET_MAKE_AND_MODEL_SQL = "SELECT m.id, m.modelName,m.makeId,ma.makeName FROM model m inner " +
+                "join make ma on m.makeId=ma.id order by m.modifiedOn;";
         return (List<MakeAndModelVO>) jdbcTemplate.query(GET_MAKE_AND_MODEL_SQL, new MakeAndModelListRowMapper());
     }
 

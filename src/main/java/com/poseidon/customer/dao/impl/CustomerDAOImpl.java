@@ -1,6 +1,7 @@
 package com.poseidon.customer.dao.impl;
 
 import com.poseidon.customer.dao.CustomerDAO;
+import com.poseidon.customer.dao.entities.Customer;
 import com.poseidon.customer.domain.CustomerVO;
 import com.poseidon.customer.exception.CustomerException;
 import org.slf4j.Logger;
@@ -9,13 +10,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
-import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
-import org.springframework.jdbc.core.namedparam.SqlParameterSource;
-import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -30,24 +29,21 @@ public class CustomerDAOImpl implements CustomerDAO {
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
-    
-    private SimpleJdbcInsert insertCustomer;
-    private final String GET_CUSTOMERS_SQL = " SELECT id, Name, ifnull(address1,'') as address1,ifnull(address2,'') as address2," +
-            " ifnull(phone,'') as phone, ifnull(mobile,'') as mobile, " +
-            " ifnull(email,'') as email, ifnull(contactPerson1,'') as contactPerson1," +
-            " ifnull(contactPhone1,'') as contactPhone1, ifnull(contactPerson2,'') as contactPerson2, " +
-            " ifnull(contactPhone2,'') as contactPhone2, ifnull(note,'') as note FROM customer order by modifiedOn;";
+
+    @Autowired
+    private CustomerRepository customerRepository;
 
     private final String GET_SINGLE_CUSTOMER_SQL = " select * from customer where id = ? ";
     private final String DELETE_CUSTOMER_BY_ID_SQL = " delete from customer where id = ? ";
-    private final String UPDATE_CUSTOMER_SQL = " update customer set name = ? , address1 = ? , address2 = ? , phone = ?," +
+    private final String UPDATE_CUSTOMER_SQL = " update customer set name = ? , address1 = ? , address2 = ? , phone =" +
+            " ?," +
             " mobile = ? , email = ?, contactPerson1 = ?, contactPhone1 = ?, contactPerson2 = ?, contactPhone2 = ?," +
             " note = ?, modifiedOn = ?, modifiedBy = ?  where id = ? ";
 
     public List<CustomerVO> listAllCustomerDetails() throws CustomerException {
         List<CustomerVO> customerVOs;
         try {
-            customerVOs = fetchAllCustomers();
+            customerVOs = convertToCustomerVO(customerRepository.findAll());
         } catch (DataAccessException e) {
             throw new CustomerException(CustomerException.DATABASE_ERROR);
         }
@@ -121,36 +117,59 @@ public class CustomerDAOImpl implements CustomerDAO {
     }
 
     private CustomerVO fetchCustomerFromId(Long id) {
-        return (CustomerVO) jdbcTemplate.queryForObject(GET_SINGLE_CUSTOMER_SQL, new Object[]{id}, new CustomerListRowMapper());
+        return (CustomerVO) jdbcTemplate.queryForObject(GET_SINGLE_CUSTOMER_SQL, new Object[]{id}, new
+                CustomerListRowMapper());
     }
 
     private long saveCustomerDetails(CustomerVO currentCustomerVO) {
-        insertCustomer = new SimpleJdbcInsert(jdbcTemplate).withTableName("customer").usingGeneratedKeyColumns("id");
-        SqlParameterSource parameters = new MapSqlParameterSource()
-                .addValue("name", currentCustomerVO.getCustomerName())
-                .addValue("address1", currentCustomerVO.getAddress1())
-                .addValue("address2", currentCustomerVO.getAddress2())
-                .addValue("phone", currentCustomerVO.getPhoneNo())
-                .addValue("mobile", currentCustomerVO.getMobile())
-                .addValue("email", currentCustomerVO.getEmail())
-                .addValue("contactPerson1", currentCustomerVO.getContactPerson1())
-                .addValue("contactPhone1", currentCustomerVO.getContactMobile1())
-                .addValue("contactPerson2", currentCustomerVO.getContactPerson2())
-                .addValue("contactPhone2", currentCustomerVO.getContactMobile2())
-                .addValue("note", currentCustomerVO.getNotes())
-                .addValue("createdOn", currentCustomerVO.getCreatedOn())
-                .addValue("modifiedOn", currentCustomerVO.getModifiedOn())
-                .addValue("createdBy", currentCustomerVO.getCreatedBy())
-                .addValue("modifiedBy", currentCustomerVO.getModifiedBy());
-
-        Number newId = insertCustomer.executeAndReturnKey(parameters);
-        LOG.info(" the query resulted in  " + newId.longValue());
-        currentCustomerVO.setCustomerId(newId.longValue());
-        return newId.longValue();
+        Customer customer = convertToSingleCustomer(currentCustomerVO);
+        Customer newCustomer = customerRepository.save(customer);
+        return newCustomer.getId().longValue();
     }
 
-    private List<CustomerVO> fetchAllCustomers() {
-        return (List<CustomerVO>) jdbcTemplate.query(GET_CUSTOMERS_SQL, new CustomerListRowMapper());
+    private Customer convertToSingleCustomer(CustomerVO currentCustomerVO) {
+        Customer customer = new Customer();
+        customer.setName(currentCustomerVO.getCustomerName());
+        customer.setAddress1(currentCustomerVO.getAddress1());
+        customer.setAddress2(currentCustomerVO.getAddress2());
+        customer.setPhone(currentCustomerVO.getPhoneNo());
+        customer.setMobile(currentCustomerVO.getMobile());
+        customer.setEmail(currentCustomerVO.getEmail());
+        customer.setContactPerson1(currentCustomerVO.getContactPerson1());
+        customer.setContactPhone1(currentCustomerVO.getContactMobile1());
+        customer.setContactPerson2(currentCustomerVO.getContactPerson2());
+        customer.setContactPhone2(currentCustomerVO.getContactMobile2());
+        customer.setNote(currentCustomerVO.getNotes());
+        customer.setCreatedOn(currentCustomerVO.getCreatedOn());
+        customer.setCreatedBy(currentCustomerVO.getCreatedBy());
+        customer.setModifiedOn(currentCustomerVO.getModifiedOn());
+        customer.setModifiedBy(currentCustomerVO.getModifiedBy());
+        return customer;
+    }
+
+    private List<CustomerVO> convertToCustomerVO(List<Customer> customers) {
+        List<CustomerVO> customerVOS = new ArrayList<>();
+        for (Customer customer : customers) {
+            CustomerVO customerVO = new CustomerVO();
+            customerVO.setCustomerId(Long.valueOf(customer.getId()));
+            customerVO.setCustomerName(customer.getName());
+            customerVO.setAddress1(customer.getAddress1());
+            customerVO.setAddress2(customer.getAddress2());
+            customerVO.setPhoneNo(customer.getPhone());
+            customerVO.setMobile(customer.getMobile());
+            customerVO.setEmail(customer.getEmail());
+            customerVO.setContactPerson1(customer.getContactPerson1());
+            customerVO.setContactMobile1(customer.getContactPhone1());
+            customerVO.setContactPerson2(customer.getContactPerson2());
+            customerVO.setContactMobile2(customer.getContactPhone2());
+            customerVO.setNotes(customer.getNote());
+            customerVO.setCreatedBy(customer.getCreatedBy());
+            customerVO.setCreatedOn(customer.getCreatedOn());
+            customerVO.setModifiedBy(customer.getModifiedBy());
+            customerVO.setModifiedOn(customer.getModifiedOn());
+            customerVOS.add(customerVO);
+        }
+        return customerVOS;
     }
 
     private List<CustomerVO> searchCustomerInDetail(CustomerVO searchVO) {
