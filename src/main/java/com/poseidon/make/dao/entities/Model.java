@@ -5,26 +5,29 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.OneToMany;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 import java.util.Date;
-import java.util.Set;
 
 @Entity
 //todo : add schema
-@Table(name = "make")
-public class Make {
+@Table(name = "model")
+public class Model {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
     //todo : long
     private Integer id;
 
-    @Column(name = "makeName")
-    private String makeName;
+    @Column(name = "modelName")
+    private String modelName;
 
-    @Column(name = "description")
-    private String description;
+    //todo : link these tables
+    @Column(name = "makeId")
+    private Integer makeId;
 
     @Column(name = "createdOn")
     private Date createdOn;
@@ -38,8 +41,10 @@ public class Make {
     @Column(name = "modifiedBy")
     private String modifiedBy;
 
-    @OneToMany(mappedBy="make")
-    private Set<Model> models;
+    @ManyToOne
+    //@JoinColumn(name="id", nullable=false)
+    @JoinColumn(name = "id", referencedColumnName = "id", insertable = false, updatable = false)
+    private Make make;
 
     public Integer getId() {
         return id;
@@ -49,20 +54,20 @@ public class Make {
         this.id = id;
     }
 
-    public String getMakeName() {
-        return makeName;
+    public String getModelName() {
+        return modelName;
     }
 
-    public void setMakeName(String makeName) {
-        this.makeName = makeName;
+    public void setModelName(String modelName) {
+        this.modelName = modelName;
     }
 
-    public String getDescription() {
-        return description;
+    public Integer getMakeId() {
+        return makeId;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setMakeId(Integer makeId) {
+        this.makeId = makeId;
     }
 
     public Date getCreatedOn() {
@@ -97,11 +102,20 @@ public class Make {
         this.modifiedBy = modifiedBy;
     }
 
-    public Set<Model> getModels() {
-        return models;
+    public Make getMake() {
+        return make;
     }
 
-    public void setModels(Set<Model> models) {
-        this.models = models;
+    public void setMake(Make make) {
+        this.make = make;
+    }
+
+    @PrePersist
+    @PreUpdate
+    public void initializeDate() {
+        if (this.getId() == null) {
+            createdOn = new Date();
+        }
+        modifiedOn = new Date();
     }
 }

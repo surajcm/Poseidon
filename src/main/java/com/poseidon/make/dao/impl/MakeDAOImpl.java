@@ -2,6 +2,8 @@ package com.poseidon.make.dao.impl;
 
 import com.poseidon.make.dao.MakeDAO;
 import com.poseidon.make.dao.entities.Make;
+import com.poseidon.make.dao.entities.Model;
+import com.poseidon.make.dao.mapper.MakeAndModelEntityConverter;
 import com.poseidon.make.domain.MakeAndModelVO;
 import com.poseidon.make.domain.MakeVO;
 import com.poseidon.make.exception.MakeException;
@@ -26,6 +28,7 @@ import java.util.Optional;
  * Time: 7:28:10 PM
  */
 @Repository
+@SuppressWarnings("unused")
 public class MakeDAOImpl implements MakeDAO {
     private static final Logger LOG = LoggerFactory.getLogger(MakeDAOImpl.class);
     private static final String DELETE_MODEL_BY_ID_SQL = " delete from model where id = ? ";
@@ -38,22 +41,30 @@ public class MakeDAOImpl implements MakeDAO {
     @Autowired
     private MakeRepository makeRepository;
 
+    @Autowired
+    private ModelRepository modelRepository;
+
+    @Autowired
+    private MakeAndModelEntityConverter makeAndModelEntityConverter;
+
     public List<MakeAndModelVO> listAllMakesAndModels() throws MakeException {
-        List<MakeAndModelVO> makeVOs;
+        List<MakeAndModelVO> makeAndModelVOS;
         try {
-            makeVOs = getMakeAndModels();
+            List<Model> models = modelRepository.findAll();
+            //todo: better MakeAndModelVO to render things in a better way
+            makeAndModelVOS = makeAndModelEntityConverter.convertModelsToMakeAndModelVOs(models);
         } catch (DataAccessException e) {
             LOG.error(e.getLocalizedMessage());
             throw new MakeException(MakeException.DATABASE_ERROR);
         }
-        return makeVOs;
+        return makeAndModelVOS;
     }
 
     public List<MakeAndModelVO> listAllMakes() throws MakeException {
         List<MakeAndModelVO> makeVOs;
         try {
             List<Make> makes = makeRepository.findAll();
-            makeVOs = convertMakeToMakeAndModelVOs(makes);
+            makeVOs = makeAndModelEntityConverter.convertMakeToMakeAndModelVOs(makes);
         } catch (DataAccessException e) {
             LOG.error(e.getLocalizedMessage());
             throw new MakeException(MakeException.DATABASE_ERROR);
@@ -63,7 +74,7 @@ public class MakeDAOImpl implements MakeDAO {
 
     public void addNewMake(MakeAndModelVO currentMakeVO) throws MakeException {
         try {
-            Make make = convertToMake(currentMakeVO);
+            Make make = makeAndModelEntityConverter.convertToMake(currentMakeVO);
             makeRepository.save(make);
         } catch (DataAccessException e) {
             LOG.error(e.getLocalizedMessage());
@@ -71,27 +82,18 @@ public class MakeDAOImpl implements MakeDAO {
         }
     }
 
-    private Make convertToMake(MakeAndModelVO currentMakeVO) {
-        Make make = new Make();
-        make.setMakeName(currentMakeVO.getMakeName());
-        make.setDescription(currentMakeVO.getDescription());
-        make.setCreatedBy(currentMakeVO.getCreatedBy());
-        make.setCreatedOn(currentMakeVO.getCreatedDate());
-        make.setModifiedBy(currentMakeVO.getModifiedBy());
-        make.setModifiedOn(currentMakeVO.getModifiedDate());
-        return make;
-    }
+
 
     public void updateMake(MakeAndModelVO currentMakeVO) throws MakeException {
         try {
-            Make make = convertToMake(currentMakeVO);
+            Make make = makeAndModelEntityConverter.convertToMake(currentMakeVO);
             Optional<Make> optionalMake = makeRepository.findById(currentMakeVO.getMakeId().intValue());
             if (optionalMake.isPresent()) {
                 Make newMake = optionalMake.get();
                 newMake.setMakeName(make.getMakeName());
                 newMake.setDescription(make.getDescription());
                 newMake.setModifiedOn(new Date());
-                newMake.setModifiedBy("app");
+                newMake.setModifiedBy(make.getModifiedBy());
                 makeRepository.save(newMake);
             }
         } catch (DataAccessException e) {
@@ -105,21 +107,13 @@ public class MakeDAOImpl implements MakeDAO {
         try {
             Optional<Make> optionalMake = makeRepository.findById(makeId.intValue());
             if (optionalMake.isPresent()) {
-                makeVO = getMakeVOFromMake(optionalMake.get());
+                makeVO = makeAndModelEntityConverter.getMakeVOFromMake(optionalMake.get());
             }
         } catch (DataAccessException e) {
             LOG.error(e.getLocalizedMessage());
             throw new MakeException(MakeException.DATABASE_ERROR);
         }
         return makeVO;
-    }
-
-    private MakeAndModelVO getMakeVOFromMake(Make make) {
-        MakeAndModelVO makeAndModelVO = new MakeAndModelVO();
-        makeAndModelVO.setMakeId(Long.valueOf(make.getId()));
-        makeAndModelVO.setMakeName(make.getMakeName());
-        makeAndModelVO.setDescription(make.getDescription());
-        return makeAndModelVO;
     }
 
     public void deleteMake(Long makeId) throws MakeException {
@@ -132,41 +126,62 @@ public class MakeDAOImpl implements MakeDAO {
     }
 
     public MakeAndModelVO getModelFromId(Long modelId) {
-        String GET_SINGLE_MODEL_SQL = "SELECT m.id, m.modelName,m.makeId,ma.makeName FROM model m inner " +
-                "join make ma on m.makeId=ma.id and m.id = ?; ";
-        return (MakeAndModelVO) jdbcTemplate.queryForObject(GET_SINGLE_MODEL_SQL, new Object[]{modelId}, new
-                MakeAndModelListRowMapper());
+        MakeAndModelVO makeAndModelVO = null;
+        Optional<Model> optionalModel = modelRepository.findById(modelId.intValue());
+        if (optionalModel.isPresent()) {
+            makeAndModelVO = convertModelToMakeAndModelVO(optionalModel.get());
+        }
+        return makeAndModelVO;
+    }
+
+    private MakeAndModelVO convertModelToMakeAndModelVO(Model model) {
+        MakeAndModelVO makeAndModelVO = new MakeAndModelVO();
+        makeAndModelVO.setModelId(model.getId().longValue());
+        makeAndModelVO.setModelName(model.getModelName());
+        makeAndModelVO.setMakeId(model.getMake().getId().longValue());
+        makeAndModelVO.setMakeName(model.getMake().getMakeName());
+        return makeAndModelVO;
     }
 
     public void deleteModel(Long modelId) throws MakeException {
         try {
-            Object[] parameters = new Object[]{modelId};
-            jdbcTemplate.update(DELETE_MODEL_BY_ID_SQL, parameters);
+            modelRepository.deleteById(modelId.intValue());
         } catch (DataAccessException e) {
             LOG.error(e.getLocalizedMessage());
             throw new MakeException(MakeException.DATABASE_ERROR);
         }
     }
 
-    public void addNewModel(MakeAndModelVO currentMakeVO) throws MakeException {
+    public void addNewModel(MakeAndModelVO makeAndModelVO) throws MakeException {
         try {
-            saveNewModel(currentMakeVO);
+            Model model = convertMakeAndModelVOToModel(makeAndModelVO);
+            modelRepository.save(model);
         } catch (DataAccessException e) {
             LOG.error(e.getLocalizedMessage());
             throw new MakeException(MakeException.DATABASE_ERROR);
         }
+    }
+
+    private Model convertMakeAndModelVOToModel(MakeAndModelVO makeAndModelVO) {
+        Model model = new Model();
+        model.setModelName(makeAndModelVO.getModelName());
+        model.setMakeId(makeAndModelVO.getMakeId().intValue());
+        model.setCreatedBy(makeAndModelVO.getCreatedBy());
+        model.setModifiedBy(makeAndModelVO.getModifiedBy());
+        Optional<Make> optionalMake = makeRepository.findById(makeAndModelVO.getMakeId().intValue());
+        optionalMake.ifPresent(model::setMake);
+        return model;
     }
 
     public void updateModel(MakeAndModelVO currentMakeVO) throws MakeException {
-        Object[] parameters = new Object[]{
-                currentMakeVO.getMakeId(),
-                currentMakeVO.getModelName(),
-                new Date(),
-                currentMakeVO.getModifiedBy(),
-                currentMakeVO.getModelId()};
-
         try {
-            jdbcTemplate.update(UPDATE_MODEL_SQL, parameters);
+            Optional<Model> optionalModel = modelRepository.findById(currentMakeVO.getId().intValue());
+            if(optionalModel.isPresent()) {
+                Model model = optionalModel.get();
+                model.setModelName(currentMakeVO.getModelName());
+                Optional<Make> optionalMake = makeRepository.findById(currentMakeVO.getMakeId().intValue());
+                optionalMake.ifPresent(model::setMake);
+            }
         } catch (DataAccessException e) {
             LOG.error(e.getLocalizedMessage());
             throw new MakeException(MakeException.DATABASE_ERROR);
@@ -199,19 +214,15 @@ public class MakeDAOImpl implements MakeDAO {
     public List<MakeAndModelVO> getAllModelsFromMakeId(Long makeId) throws MakeException {
         List<MakeAndModelVO> makeVOs;
         try {
-            makeVOs = fetchModelsForId(makeId);
+            StringBuffer FETCH_MODEL_QUERY = new StringBuffer("SELECT m.id, m.modelName, m.makeId, ma.makeName ")
+                    .append(" FROM model m inner join make ma on m.makeId=ma.id and ma.id = ").append(makeId);
+            LOG.info("The query generated is " + FETCH_MODEL_QUERY);
+            makeVOs =  (List<MakeAndModelVO>) jdbcTemplate.query(FETCH_MODEL_QUERY.toString(), new MakeAndModelListRowMapper());
         } catch (DataAccessException e) {
             e.printStackTrace();
             throw new MakeException(MakeException.DATABASE_ERROR);
         }
         return makeVOs;
-    }
-
-    private List<MakeAndModelVO> fetchModelsForId(Long makeId) {
-        StringBuffer FETCH_MODEL_QUERY = new StringBuffer("SELECT m.id, m.modelName, m.makeId, ma.makeName ")
-                .append(" FROM model m inner join make ma on m.makeId=ma.id and ma.id = ").append(makeId);
-        LOG.info("The query generated is " + FETCH_MODEL_QUERY);
-        return (List<MakeAndModelVO>) jdbcTemplate.query(FETCH_MODEL_QUERY.toString(), new MakeAndModelListRowMapper());
     }
 
     private List<MakeVO> convertMakeToMakeVO(List<Make> makes) {
@@ -262,42 +273,6 @@ public class MakeDAOImpl implements MakeDAO {
         LOG.info(" The query generated for search is " + DYNAMIC_MODEL_SEARCH_QUERY.toString());
         return (List<MakeAndModelVO>) jdbcTemplate.query(DYNAMIC_MODEL_SEARCH_QUERY.toString(), new
                 MakeAndModelListRowMapper());
-    }
-
-
-    private void saveNewModel(MakeAndModelVO currentMakeVO) {
-        Object[] parameters =
-                new Object[]{currentMakeVO.getModelName(),
-                        currentMakeVO.getMakeId(),
-                        currentMakeVO.getCreatedDate(),
-                        currentMakeVO.getModifiedDate(),
-                        currentMakeVO.getCreatedBy(),
-                        currentMakeVO.getModifiedBy()};
-        String INSERT_NEW_MODEL_SQL = "insert into model( modelName, makeId, createdOn, modifiedOn, " +
-                "createdBy, modifiedBy ) values (?, ?, ?, ?, ?, ?); ";
-        jdbcTemplate.update(INSERT_NEW_MODEL_SQL, parameters);
-    }
-
-    private List<MakeAndModelVO> convertMakeToMakeAndModelVOs(List<Make> makes) {
-        List<MakeAndModelVO> makeAndModelVOS = new ArrayList<>();
-        makes.forEach(make -> {
-            MakeAndModelVO makeAndModelVO = new MakeAndModelVO();
-            makeAndModelVO.setMakeId(Long.valueOf(make.getId()));
-            makeAndModelVO.setMakeName(make.getMakeName());
-            makeAndModelVO.setDescription(make.getDescription());
-            makeAndModelVO.setCreatedBy(make.getCreatedBy());
-            makeAndModelVO.setCreatedDate(make.getCreatedOn());
-            makeAndModelVO.setModifiedBy(make.getModifiedBy());
-            makeAndModelVO.setModifiedDate(make.getModifiedOn());
-            makeAndModelVOS.add(makeAndModelVO);
-        });
-        return makeAndModelVOS;
-    }
-
-    private List<MakeAndModelVO> getMakeAndModels() {
-        String GET_MAKE_AND_MODEL_SQL = "SELECT m.id, m.modelName,m.makeId,ma.makeName FROM model m inner " +
-                "join make ma on m.makeId=ma.id order by m.modifiedOn;";
-        return (List<MakeAndModelVO>) jdbcTemplate.query(GET_MAKE_AND_MODEL_SQL, new MakeAndModelListRowMapper());
     }
 
     private class MakeAndModelListRowMapper implements RowMapper {

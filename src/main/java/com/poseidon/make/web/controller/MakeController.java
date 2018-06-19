@@ -338,8 +338,8 @@ public class MakeController {
 
     @RequestMapping(value = "/make/saveModel.htm", method = RequestMethod.POST)
     public ModelAndView saveModel(MakeForm makeForm) {
-        LOG.debug(" saveModel method of MakeController ");
-        LOG.debug(" makeForm instance to add to database " + makeForm.toString());
+        LOG.info(" saveModel method of MakeController ");
+        LOG.info(" makeForm instance to add to database " + makeForm.toString());
         makeForm.getCurrentMakeAndModeVO().setCreatedDate(new Date());
         makeForm.getCurrentMakeAndModeVO().setModifiedDate(new Date());
         makeForm.getCurrentMakeAndModeVO().setCreatedBy(makeForm.getLoggedInUser());

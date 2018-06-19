@@ -25,6 +25,7 @@ import java.util.Optional;
  *         Time: 12:43:13 PM
  */
 @Repository
+@SuppressWarnings("unused")
 public class UserDAOImpl implements UserDAO {
     private static final Logger LOG = LoggerFactory.getLogger(UserDAOImpl.class);
 
@@ -34,19 +35,7 @@ public class UserDAOImpl implements UserDAO {
     @Autowired
     private UserRepository userRepository;
 
-    private static final String GET_ALL_USERS_SQL = " select * from user order by modifiedOn";
-
     private static final String SEARCH_USERS_SQL = " select * from user ";
-
-    private static final String GET_SINGLE_USER_SQL = " select * from user where id = ? ";
-
-    private static final String GET_SINGLE_USER = " select * from user where name = ? ";
-
-    private static final String GET_USER_BY_LOGINID_SQL = " select * from user where logInId = ? ";
-
-    private static final String UPDATE_USER_SQL = " update user set name = ?, logInId = ? ,password = ?, Role = ?, modifiedOn = ? , modifiedBy = ? where id = ?";
-
-    private static final String DELETE_BY_ID_SQL = " delete from user where id = ? ";
 
     /**
      * LOG in
@@ -56,27 +45,40 @@ public class UserDAOImpl implements UserDAO {
      * @throws UserException on error
      */
     public UserVO logIn(UserVO userVO) throws UserException {
-        UserVO currentUser;
+        User user;
         try {
-            //User user = userRepository.findByLogInId(userVO.getLoginId());
-            currentUser = getUserByLogInId(userVO.getLoginId());
+            user = userRepository.findByLogInId(userVO.getLoginId());
         } catch (DataAccessException e) {
             LOG.error(e.getLocalizedMessage());
             throw new UserException(UserException.DATABASE_ERROR);
         }
 
-        if (currentUser != null) {
-            LOG.info(" user details fetched successfully,for user name " + currentUser.getName());
+        if (user != null) {
+            LOG.info(" user details fetched successfully,for user name " + user.getName());
             // check whether the password given is correct or not
-            if (!userVO.getPassword().equalsIgnoreCase(currentUser.getPassword())) {
+            if (!userVO.getPassword().equalsIgnoreCase(user.getPassword())) {
                 throw new UserException(UserException.INCORRECT_PASSWORD);
             }
-            LOG.info(" Password matched successfully, user details are " + currentUser.toString());
+            LOG.info(" Password matched successfully, user details are " + user.toString());
         } else {
             // invalid user
             throw new UserException(UserException.UNKNOWN_USER);
         }
-        return currentUser;
+        return convertTOUserVO(user);
+    }
+
+    private UserVO convertTOUserVO(User user) {
+        UserVO userVO = new UserVO();
+        userVO.setId(user.getId().longValue());
+        userVO.setName(user.getName());
+        userVO.setLoginId(user.getLogInId());
+        userVO.setPassword(user.getPassword());
+        userVO.setRole(user.getRole());
+        userVO.setCreatedBy(user.getCreatedBy());
+        userVO.setCreatedDate(user.getCreatedOn());
+        userVO.setModifiedDate(user.getModifiedOn());
+        userVO.setLastModifiedBy(user.getModifiedBy());
+        return userVO;
     }
 
     /**
@@ -151,9 +153,13 @@ public class UserDAOImpl implements UserDAO {
      * @throws UserException on error
      */
     public UserVO getUserDetailsFromID(Long id) throws UserException {
-        UserVO userVO;
+        UserVO userVO = null;
         try {
-            userVO = getUserById(id);
+            Optional<User> optionalUser = userRepository.findById(id.intValue());
+            if (optionalUser.isPresent()) {
+                User user = optionalUser.get();
+                userVO = convertTOUserVO(user);
+            }
         } catch (DataAccessException e) {
             LOG.error(e.getLocalizedMessage());
             throw new UserException(UserException.DATABASE_ERROR);
@@ -169,7 +175,7 @@ public class UserDAOImpl implements UserDAO {
      * @throws DataAccessException on error
      */
     @SuppressWarnings("unchecked")
-    public List<UserVO> searchAllUsers(UserVO searchUser) throws DataAccessException {
+    private List<UserVO> searchAllUsers(UserVO searchUser) throws DataAccessException {
         StringBuilder dynamicQuery = new StringBuilder(SEARCH_USERS_SQL);
         Boolean isWhereAppended = Boolean.FALSE;
         if (searchUser.getName() != null && searchUser.getName().trim().length() > 0) {
@@ -221,25 +227,13 @@ public class UserDAOImpl implements UserDAO {
     /**
      * getUserById
      *
-     * @param id id
-     * @return user
-     */
-    @SuppressWarnings("unchecked")
-    public UserVO getUserById(Long id) {
-        return (UserVO) jdbcTemplate.queryForObject(GET_SINGLE_USER_SQL, new Object[]{id}, new UserRowMapper());
-
-    }
-
-    /**
-     * getUserById
-     *
      * @param loginId loginId
      * @return user
      * @throws DataAccessException on error
      */
-    @SuppressWarnings("unchecked")
-    public UserVO getUserByLogInId(String loginId) throws DataAccessException {
-        return (UserVO) jdbcTemplate.queryForObject(GET_USER_BY_LOGINID_SQL, new Object[]{loginId}, new UserRowMapper());
+    private UserVO getUserByLogInId(String loginId) throws DataAccessException {
+        User user = userRepository.findByLogInId(loginId);
+        return convertTOUserVO(user);
     }
 
     /**
@@ -270,7 +264,6 @@ public class UserDAOImpl implements UserDAO {
      *
      * @param id id
      */
-    @SuppressWarnings("unused")
     public void deleteUser(Long id) throws UserException {
         try {
             userRepository.deleteById(id.intValue());
@@ -299,7 +292,8 @@ public class UserDAOImpl implements UserDAO {
 
     @Override
     public UserVO findByUsername(String username) {
-        return (UserVO) jdbcTemplate.queryForObject(GET_SINGLE_USER, new Object[]{username}, new UserRowMapper());
+        User user = userRepository.findByName(username);
+        return convertTOUserVO(user);
     }
 
     /**
@@ -326,9 +320,7 @@ public class UserDAOImpl implements UserDAO {
             user.setCreatedDate(resultSet.getDate("createdOn"));
             user.setLastModifiedBy(resultSet.getString("modifiedBy"));
             user.setModifiedDate(resultSet.getDate("modifiedOn"));
-
             return user;
         }
-
     }
 }
