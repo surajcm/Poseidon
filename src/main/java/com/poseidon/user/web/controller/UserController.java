@@ -11,14 +11,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -29,12 +28,13 @@ import java.util.List;
  *         Time: 2:38:15 PM
  */
 @Controller
-//@RequestMapping("/user")
 @SuppressWarnings("unused")
 public class UserController {
     private static final Logger logger = LoggerFactory.getLogger(UserController.class);
     private static final String USER_FORM = "userForm";
     private static final String USER_LOG_IN = "login";
+    private static final String ERROR = "error";
+    private static final String SUCCESS = "success";
 
     @Autowired
     private UserService userService;
@@ -60,14 +60,14 @@ public class UserController {
     @RequestMapping(value = "/login", method = RequestMethod.GET)
     public String login(Model model, String error, String logout) {
         if (error != null) {
-            model.addAttribute("error", "Your username and password is invalid.");
+            model.addAttribute(ERROR, "Your username and password is invalid.");
         }
 
         if (logout != null) {
             model.addAttribute("message", "You have been logged out successfully.");
         }
 
-        return "login";
+        return USER_LOG_IN;
     }
 
 
@@ -85,7 +85,7 @@ public class UserController {
             userList = userService.getAllUserDetails();
         } catch (UserException e) {
             userForm.setStatusMessage("Unable to list the Users due to an error");
-            userForm.setStatusMessageType("error");
+            userForm.setStatusMessageType(ERROR);
             logger.error(e.getLocalizedMessage());
             logger.error(" Exception type in controller " + e.ExceptionType);
             if (e.getExceptionType().equalsIgnoreCase(UserException.DATABASE_ERROR)) {
@@ -153,10 +153,10 @@ public class UserController {
             userForm.getUser().setLastModifiedBy(userForm.getLoggedInUser());
             userService.save(userForm.getUser());
             userForm.setStatusMessage("Successfully saved the new user");
-            userForm.setStatusMessageType("success");
+            userForm.setStatusMessageType(SUCCESS);
         } catch (UserException e) {
             userForm.setStatusMessage("Unable to save the user due to a database error");
-            userForm.setStatusMessageType("error");
+            userForm.setStatusMessageType(ERROR);
             logger.error(e.getLocalizedMessage());
             logger.error(" Exception type in controller " + e.ExceptionType);
             if (e.getExceptionType().equalsIgnoreCase(UserException.DATABASE_ERROR)) {
@@ -167,7 +167,7 @@ public class UserController {
 
         } catch (Exception e1) {
             userForm.setStatusMessage("Unable to save the user due to an error");
-            userForm.setStatusMessageType("error");
+            userForm.setStatusMessageType(ERROR);
             logger.error(e1.getLocalizedMessage());
             logger.info(" An Unknown Error has been occurred !!");
 
@@ -177,7 +177,7 @@ public class UserController {
             userList = userService.getAllUserDetails();
         } catch (UserException e) {
             userForm.setStatusMessage("Unable to list the Users due to an error");
-            userForm.setStatusMessageType("error");
+            userForm.setStatusMessageType(ERROR);
             logger.error(e.getLocalizedMessage());
             logger.error(" Exception type in controller " + e.ExceptionType);
             if (e.getExceptionType().equalsIgnoreCase(UserException.DATABASE_ERROR)) {
@@ -205,27 +205,26 @@ public class UserController {
     }
 
     @RequestMapping(value = "/user/saveUserAjax.htm", method = RequestMethod.POST)
-    public void saveUserAjax(HttpServletRequest httpServletRequest,
-                             HttpServletResponse httpServletResponse) {
-        logger.debug("saveUserAjax method of user Controller ");
+    public String saveUserAjax(@ModelAttribute(value = "selectName") String  selectName,
+                             @ModelAttribute(value = "selectLogin") String  selectLogin,
+                             @ModelAttribute(value = "selectRole") String  selectRole,
+                             BindingResult result) {
+        logger.info("saveUserAjax method of user Controller ");
 
         StringBuilder responseString = new StringBuilder();
-
-        String selectName = httpServletRequest.getParameter("selectName");
-        String selectLogin = httpServletRequest.getParameter("selectLogin");
-        String selectRole = httpServletRequest.getParameter("selectRole");
-
-        logger.info(" At saveUserAjax, selectName is : s selectLogin : s : selectRole"+ selectName+ selectLogin+selectRole);
+        logger.info(" At saveUserAjax, selectName is : "+ selectName);
+        logger.info(" At saveUserAjax, selectLogin : "+ selectLogin);
+        logger.info(" At saveUserAjax, selectRole : "+ selectRole);
         UserVO ajaxUserVO = new UserVO();
         ajaxUserVO.setName(selectName);
         ajaxUserVO.setLoginId(selectName);
         ajaxUserVO.setRole(selectRole);
+        //todo : find out a way to get current user
         ajaxUserVO.setPassword("password");
         ajaxUserVO.setCreatedDate(new Date());
         ajaxUserVO.setModifiedDate(new Date());
         ajaxUserVO.setCreatedBy("-ajax-");
         ajaxUserVO.setLastModifiedBy("-ajax-");
-
 
         try {
             userService.save(ajaxUserVO);
@@ -259,16 +258,7 @@ public class UserController {
 
         }
         responseString.append(fetchJSONUserList(userList));
-        // get a id-name combination, which is splittable by js
-        httpServletResponse.setContentType("text/plain");
-        PrintWriter out;
-        try {
-            out = httpServletResponse.getWriter();
-            out.print(responseString.toString());
-            out.flush();
-        } catch (IOException e) {
-            logger.error(e.getLocalizedMessage());
-        }
+        return responseString.toString();
     }
 
     private String fetchJSONUserList(List<UserVO> userList) {
@@ -277,7 +267,7 @@ public class UserController {
         try {
             response = mapper.writeValueAsString(userList);
         } catch (IOException e) {
-            response = "error";
+            response = ERROR;
             logger.error(e.getMessage());
         }
         logger.info(response);
@@ -337,10 +327,10 @@ public class UserController {
             logger.info(" user instance to update " + userForm.getUser().toString());
             userService.UpdateUser(userForm.getUser());
             userForm.setStatusMessage("Successfully updated the user");
-            userForm.setStatusMessageType("success");
+            userForm.setStatusMessageType(SUCCESS);
         } catch (UserException e) {
             userForm.setStatusMessage("Unable to update the user due to a database error");
-            userForm.setStatusMessageType("error");
+            userForm.setStatusMessageType(ERROR);
             logger.error(e.getLocalizedMessage());
             logger.error(" Exception type in controller " + e.ExceptionType);
             if (e.getExceptionType().equalsIgnoreCase(UserException.DATABASE_ERROR)) {
@@ -351,7 +341,7 @@ public class UserController {
 
         } catch (Exception e1) {
             userForm.setStatusMessage("Unable to update the user due to an error");
-            userForm.setStatusMessageType("error");
+            userForm.setStatusMessageType(ERROR);
             logger.error(e1.getLocalizedMessage());
             logger.info(" An Unknown Error has been occurred !!");
 
@@ -372,10 +362,10 @@ public class UserController {
         try {
             userService.deleteUser(userForm.getId());
             userForm.setStatusMessage("Successfully deleted the user");
-            userForm.setStatusMessageType("success");
+            userForm.setStatusMessageType(SUCCESS);
         } catch (UserException e) {
             userForm.setStatusMessage("Unable to delete the user due to a database error");
-            userForm.setStatusMessageType("error");
+            userForm.setStatusMessageType(ERROR);
             logger.error(e.getLocalizedMessage());
             logger.error(" Exception type in controller " + e.ExceptionType);
             if (e.getExceptionType().equalsIgnoreCase(UserException.DATABASE_ERROR)) {
@@ -386,7 +376,7 @@ public class UserController {
 
         } catch (Exception e1) {
             userForm.setStatusMessage("Unable to delete the user due to an error");
-            userForm.setStatusMessageType("error");
+            userForm.setStatusMessageType(ERROR);
             logger.error(e1.getLocalizedMessage());
             logger.info(" An Unknown Error has been occurred !!");
 
@@ -440,7 +430,7 @@ public class UserController {
             }
         } catch (UserException e) {
             userForm.setStatusMessage("Unable to search due to a database error");
-            userForm.setStatusMessageType("error");
+            userForm.setStatusMessageType(ERROR);
             logger.error(e.getLocalizedMessage());
             logger.error(" Exception type in controller " + e.ExceptionType);
             if (e.getExceptionType().equalsIgnoreCase(UserException.DATABASE_ERROR)) {
@@ -451,15 +441,13 @@ public class UserController {
 
         } catch (Exception e1) {
             userForm.setStatusMessage("Unable to search due to an error");
-            userForm.setStatusMessageType("error");
+            userForm.setStatusMessageType(ERROR);
             logger.error(e1.getLocalizedMessage());
             logger.info(" An Unknown Error has been occurred !!");
 
         }
         if (userList != null) {
-            for (UserVO userIteration : userList) {
-                logger.info(" user detail " + userIteration.toString());
-            }
+            userList.stream().map(userIteration -> " user detail " + userIteration.toString()).forEach(logger::info);
         }
         userForm.setUserVOs(userList);
         userForm.setRoleList(populateRoles());

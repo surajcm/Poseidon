@@ -191,19 +191,6 @@
             op2.text = "GUEST";
             inRole.options.add(op2);
             dRole.appendChild(inRole);
-
-            var dCreatedOn = document.createElement("td");
-            d.appendChild(dCreatedOn);
-
-            var dCreatedBy = document.createElement("td");
-            d.appendChild(dCreatedBy);
-
-            var dModifiedOn = document.createElement("td");
-            d.appendChild(dModifiedOn);
-
-            var dModifiedBy = document.createElement("td");
-            d.appendChild(dModifiedBy);
-
             myTable.appendChild(d);
         }
 
@@ -218,44 +205,23 @@
         }
 
         function simpleSave(){
-            var selectName = document.userForm.newName.value;
-            var selectLogin = document.userForm.newLogin.value;
-            var selectRole = document.userForm.newRole.value;
-            var url = "${contextPath}/user/saveUserAjax.htm";
-            url = url + "?selectName=" + selectName;
-            url = url + "&selectLogin=" + selectLogin;
-            url = url + "&selectRole=" + selectRole;
-            bustcacheparameter = (url.indexOf("?") != -1) ? "&" + new Date().getTime() : "?" + new Date().getTime();
-            createAjaxRequest();
-            if (req) {
-                req.onreadystatechange = stateChange;
-                req.open("POST", url + bustcacheparameter, true);
-                req.send(url + bustcacheparameter);
-            }
-        }
-
-        function createAjaxRequest() {
-            if (window.XMLHttpRequest) {
-                req = new XMLHttpRequest();
-            } else if (window.ActiveXObject) {
-                try {
-                    req = new ActiveXObject("Msxml2.XMLHTTP");
-                } catch (e) {
-                    try {
-                        req = new ActiveXObject("Microsoft.XMLHTTP");
-                    } catch (e) {
+            var selectName = document.forms[0].newName.value;
+            var selectLogin = document.forms[0].newLogin.value;
+            var selectRole = document.forms[0].newRole.value;
+            $.ajax({
+                type: "POST",
+                url: "${contextPath}/user/saveUserAjax.htm",
+                data: "selectName=" + selectName + "&selectLogin=" + selectLogin + "&selectRole=" + selectRole + "&${_csrf.parameterName}=${_csrf.token}",
+                success: function(response) {
+                    //alert(response);
+                    if (response != "") {
+                        rewriteTable(response);
                     }
+                },error: function(e){
+                    alert('Error: ' + e);
+                    alert(data.responseText);
                 }
-            }
-        }
-
-        function stateChange() {
-            if (req.readyState == 4 && (req.status == 200 || window.location.href.indexOf("http") == -1)) {
-                textReturned = req.responseText;
-                if (textReturned != "") {
-                    rewriteTable(textReturned);
-                }
-            }
+            });
         }
 
         function rewriteTable(textReturned) {
@@ -284,26 +250,6 @@
             th4.setAttribute("class","text-center");
             tr1.appendChild(th4);
 
-            var th5 = document.createElement("th");
-            th5.innerHTML = "Created On";
-            th5.setAttribute("class","text-center");
-            tr1.appendChild(th5);
-
-            var th6 = document.createElement("th");
-            th6.innerHTML = "Created By";
-            th6.setAttribute("class","text-center");
-            tr1.appendChild(th6);
-
-            var th7 = document.createElement("th");
-            th7.innerHTML = "Modified On";
-            th7.setAttribute("class","text-center");
-            tr1.appendChild(th7);
-
-            var th8 = document.createElement("th");
-            th8.innerHTML = "Modified By";
-            th8.setAttribute("class","text-center");
-            tr1.appendChild(th8);
-
             thead.appendChild(tr1);
             myTable.appendChild(thead);
             var userList = JSON.parse(textReturned);
@@ -329,22 +275,6 @@
                 var td4 = document.createElement("td");
                 td4.innerHTML = singleUser.role;
                 trx.appendChild(td4);
-
-                var td5 = document.createElement("td");
-                td5.innerHTML = singleUser.createdDate;
-                trx.appendChild(td5);
-
-                var td6 = document.createElement("td");
-                td6.innerHTML = singleUser.createdBy;
-                trx.appendChild(td6);
-
-                var td7 = document.createElement("td");
-                td7.innerHTML = singleUser.modifiedDate;
-                trx.appendChild(td7);
-
-                var td8 = document.createElement("td");
-                td8.innerHTML = singleUser.lastModifiedBy;
-                trx.appendChild(td8);
 
                 tbody.appendChild(trx);
             }
@@ -441,10 +371,6 @@
                         <th><spring:message code="poseidon.name" text="Name" /></th>
                         <th><spring:message code="poseidon.loginId" text="loginId" /></th>
                         <th><spring:message code="poseidon.role" text="Role" /></th>
-                        <th><spring:message code="poseidon.createdOn" text="Created On" /></th>
-                        <th><spring:message code="poseidon.createdBy" text="Created By" /></th>
-                        <th><spring:message code="poseidon.modifiedOn" text="Modified On" /></th>
-                        <th><spring:message code="poseidon.modifiedBy" text="Modified By" /></th>
                     </tr>
                     </thead>
                     <tbody>
@@ -455,10 +381,6 @@
                             <td><c:out value="${iterationUser.name}" /></td>
                             <td><c:out value="${iterationUser.loginId}" /></td>
                             <td><c:out value="${iterationUser.role}" /></td>
-                            <td><c:out value="${iterationUser.createdDate}" /></td>
-                            <td><c:out value="${iterationUser.createdBy}" /></td>
-                            <td><c:out value="${iterationUser.modifiedDate}" /></td>
-                            <td><c:out value="${iterationUser.lastModifiedBy}" /></td>
                         </tr>
                     </c:forEach>
                     </tbody>

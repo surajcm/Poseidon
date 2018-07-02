@@ -1,6 +1,6 @@
 buildscript {
     ext {
-        springBootVersion = '2.0.1.RELEASE'
+        springBootVersion = '2.0.3.RELEASE'
         applicationDefaultJvmArgs = ['-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005']
     }
     repositories {
@@ -40,9 +40,7 @@ dependencies {
     compile("org.springframework.boot:spring-boot-devtools")
     compile("org.springframework.boot:spring-boot-starter-actuator")
 
-    compile group: 'javax.xml.bind', name: 'jaxb-api', version: '2.2.11'
-    compile group: 'com.sun.xml.bind', name: 'jaxb-core', version: '2.2.11'
-    compile group: 'com.sun.xml.bind', name: 'jaxb-impl', version: '2.2.11'
+    compile group: 'javax.xml.bind', name: 'jaxb-api', version: '2.3.0'
 
     compile group: 'commons-collections', name: 'commons-collections', version: '3.2'
     compile group: 'org.slf4j', name:'jcl-over-slf4j', version: '1.7.12'
