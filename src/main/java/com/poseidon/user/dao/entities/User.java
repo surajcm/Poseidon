@@ -6,8 +6,10 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
 import javax.persistence.Table;
-import java.util.Date;
+import java.time.OffsetDateTime;
 
 @Entity
 //todo : add schema
@@ -16,8 +18,7 @@ public class User {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    //todo : long
-    private Integer id;
+    private Long userId;
 
     @Column(name = "name")
     private String name;
@@ -32,10 +33,10 @@ public class User {
     private String role;
 
     @Column(name = "createdOn")
-    private Date createdOn;
+    private OffsetDateTime createdOn;
 
     @Column(name = "modifiedOn")
-    private Date modifiedOn;
+    private OffsetDateTime modifiedOn;
 
     @Column(name = "createdBy")
     private String createdBy;
@@ -43,12 +44,12 @@ public class User {
     @Column(name = "modifiedBy")
     private String modifiedBy;
 
-    public Integer getId() {
-        return id;
+    public Long getUserId() {
+        return userId;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 
     public String getName() {
@@ -83,19 +84,11 @@ public class User {
         this.role = role;
     }
 
-    public Date getCreatedOn() {
-        return createdOn;
-    }
-
-    public void setCreatedOn(Date createdOn) {
+    public void setCreatedOn(OffsetDateTime createdOn) {
         this.createdOn = createdOn;
     }
 
-    public Date getModifiedOn() {
-        return modifiedOn;
-    }
-
-    public void setModifiedOn(Date modifiedOn) {
+    public void setModifiedOn(OffsetDateTime modifiedOn) {
         this.modifiedOn = modifiedOn;
     }
 
@@ -113,5 +106,14 @@ public class User {
 
     public void setModifiedBy(String modifiedBy) {
         this.modifiedBy = modifiedBy;
+    }
+
+    @PrePersist
+    @PreUpdate
+    public void initializeDate() {
+        if (this.getUserId() == null) {
+            createdOn = OffsetDateTime.now();
+        }
+        modifiedOn = OffsetDateTime.now();
     }
 }

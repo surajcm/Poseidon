@@ -18,7 +18,6 @@ import org.springframework.stereotype.Repository;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -31,9 +30,6 @@ import java.util.Optional;
 @SuppressWarnings("unused")
 public class MakeDAOImpl implements MakeDAO {
     private static final Logger LOG = LoggerFactory.getLogger(MakeDAOImpl.class);
-    private static final String DELETE_MODEL_BY_ID_SQL = " delete from model where id = ? ";
-    private static final String UPDATE_MODEL_SQL = " update model set makeId = ?, modelName = ? , modifiedOn = ? , " +
-            "modifiedBy = ? where id = ?";
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
@@ -82,17 +78,14 @@ public class MakeDAOImpl implements MakeDAO {
         }
     }
 
-
-
     public void updateMake(MakeAndModelVO currentMakeVO) throws MakeException {
         try {
             Make make = makeAndModelEntityConverter.convertToMake(currentMakeVO);
-            Optional<Make> optionalMake = makeRepository.findById(currentMakeVO.getMakeId().intValue());
+            Optional<Make> optionalMake = makeRepository.findById(currentMakeVO.getMakeId());
             if (optionalMake.isPresent()) {
                 Make newMake = optionalMake.get();
                 newMake.setMakeName(make.getMakeName());
                 newMake.setDescription(make.getDescription());
-                newMake.setModifiedOn(new Date());
                 newMake.setModifiedBy(make.getModifiedBy());
                 makeRepository.save(newMake);
             }
@@ -105,7 +98,7 @@ public class MakeDAOImpl implements MakeDAO {
     public MakeAndModelVO getMakeFromId(Long makeId) throws MakeException {
         MakeAndModelVO makeVO = null;
         try {
-            Optional<Make> optionalMake = makeRepository.findById(makeId.intValue());
+            Optional<Make> optionalMake = makeRepository.findById(makeId);
             if (optionalMake.isPresent()) {
                 makeVO = makeAndModelEntityConverter.getMakeVOFromMake(optionalMake.get());
             }
@@ -118,7 +111,7 @@ public class MakeDAOImpl implements MakeDAO {
 
     public void deleteMake(Long makeId) throws MakeException {
         try {
-            makeRepository.deleteById(makeId.intValue());
+            makeRepository.deleteById(makeId);
         } catch (DataAccessException e) {
             LOG.error(e.getLocalizedMessage());
             throw new MakeException(MakeException.DATABASE_ERROR);
@@ -127,7 +120,7 @@ public class MakeDAOImpl implements MakeDAO {
 
     public MakeAndModelVO getModelFromId(Long modelId) {
         MakeAndModelVO makeAndModelVO = null;
-        Optional<Model> optionalModel = modelRepository.findById(modelId.intValue());
+        Optional<Model> optionalModel = modelRepository.findById(modelId);
         if (optionalModel.isPresent()) {
             makeAndModelVO = convertModelToMakeAndModelVO(optionalModel.get());
         }
@@ -136,16 +129,16 @@ public class MakeDAOImpl implements MakeDAO {
 
     private MakeAndModelVO convertModelToMakeAndModelVO(Model model) {
         MakeAndModelVO makeAndModelVO = new MakeAndModelVO();
-        makeAndModelVO.setModelId(model.getId().longValue());
+        makeAndModelVO.setModelId(model.getModelId());
         makeAndModelVO.setModelName(model.getModelName());
-        makeAndModelVO.setMakeId(model.getMake().getId().longValue());
+        makeAndModelVO.setMakeId(model.getMake().getMakeId());
         makeAndModelVO.setMakeName(model.getMake().getMakeName());
         return makeAndModelVO;
     }
 
     public void deleteModel(Long modelId) throws MakeException {
         try {
-            modelRepository.deleteById(modelId.intValue());
+            modelRepository.deleteById(modelId);
         } catch (DataAccessException e) {
             LOG.error(e.getLocalizedMessage());
             throw new MakeException(MakeException.DATABASE_ERROR);
@@ -165,21 +158,21 @@ public class MakeDAOImpl implements MakeDAO {
     private Model convertMakeAndModelVOToModel(MakeAndModelVO makeAndModelVO) {
         Model model = new Model();
         model.setModelName(makeAndModelVO.getModelName());
-        model.setMakeId(makeAndModelVO.getMakeId().intValue());
+        model.setMakeId(makeAndModelVO.getMakeId());
         model.setCreatedBy(makeAndModelVO.getCreatedBy());
         model.setModifiedBy(makeAndModelVO.getModifiedBy());
-        Optional<Make> optionalMake = makeRepository.findById(makeAndModelVO.getMakeId().intValue());
+        Optional<Make> optionalMake = makeRepository.findById(makeAndModelVO.getMakeId());
         optionalMake.ifPresent(model::setMake);
         return model;
     }
 
     public void updateModel(MakeAndModelVO currentMakeVO) throws MakeException {
         try {
-            Optional<Model> optionalModel = modelRepository.findById(currentMakeVO.getId().intValue());
+            Optional<Model> optionalModel = modelRepository.findById(currentMakeVO.getId());
             if(optionalModel.isPresent()) {
                 Model model = optionalModel.get();
                 model.setModelName(currentMakeVO.getModelName());
-                Optional<Make> optionalMake = makeRepository.findById(currentMakeVO.getMakeId().intValue());
+                Optional<Make> optionalMake = makeRepository.findById(currentMakeVO.getMakeId());
                 optionalMake.ifPresent(model::setMake);
             }
         } catch (DataAccessException e) {
@@ -229,13 +222,11 @@ public class MakeDAOImpl implements MakeDAO {
         List<MakeVO> makeVOS = new ArrayList<>();
         for (Make make : makes) {
             MakeVO makeVO = new MakeVO();
-            makeVO.setId(Long.valueOf(make.getId()));
+            makeVO.setId(make.getMakeId());
             makeVO.setMakeName(make.getMakeName());
             makeVO.setDescription(make.getDescription());
             makeVO.setCreatedBy(make.getCreatedBy());
-            makeVO.setCreatedOn(make.getCreatedOn());
             makeVO.setModifiedBy(make.getModifiedBy());
-            makeVO.setModifiedOn(make.getModifiedOn());
             makeVOS.add(makeVO);
         }
         return makeVOS;

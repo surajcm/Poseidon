@@ -1,6 +1,7 @@
 package com.poseidon.invoice.dao.impl;
 
 import com.poseidon.invoice.dao.InvoiceDAO;
+import com.poseidon.invoice.dao.entities.Invoice;
 import com.poseidon.invoice.domain.InvoiceVO;
 import com.poseidon.invoice.exception.InvoiceException;
 import org.slf4j.Logger;
@@ -19,6 +20,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * user: Suraj
@@ -26,24 +28,24 @@ import java.util.List;
  * Time: 10:39 PM
  */
 @Repository
-public class InvoiceDAOImpl  implements InvoiceDAO {
+public class InvoiceDAOImpl implements InvoiceDAO {
     private SimpleJdbcInsert insertInvoice;
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
-    
-    private final String GET_TODAYS_INVOICE_SQL = "SELECT id,customerName,tagNo,description,serialNo,amount from invoice ";
-    private final String GET_SINGLE_INVOICE_SQL = "SELECT id,customerName,tagNo,description,serialNo,amount,quantity,rate from invoice where id = ?";
-    private final String DELETE_INVOICE_BY_ID_SQL = " delete from invoice where id = ?  ";
-    private final String UPDATE_INVOICE_SQL = " update invoice set tagNo = ? ,description = ? ,serialNo = ? ,amount = ?," +
-            " quantity = ?,rate = ?, customerName = ? ,customerId = ?, modifiedOn = ?,modifiedBy = ? where id = ?  ";
 
-    private final Logger LOG = LoggerFactory.getLogger(InvoiceDAOImpl.class);
+    @Autowired
+    private InvoiceRepository invoiceRepository;
+
+    private final String GET_TODAYS_INVOICE_SQL = "SELECT id,customerName,tagNo,description,serialNo,amount from invoice ";
+
+    private static final Logger log = LoggerFactory.getLogger(InvoiceDAOImpl.class);
+
     public void addInvoice(InvoiceVO currentInvoiceVO) throws InvoiceException {
         try {
             saveInvoice(currentInvoiceVO);
         } catch (DataAccessException e) {
-            LOG.error(e.getLocalizedMessage());
+            log.error(e.getLocalizedMessage());
             throw new InvoiceException(InvoiceException.DATABASE_ERROR);
         }
     }
@@ -53,44 +55,58 @@ public class InvoiceDAOImpl  implements InvoiceDAO {
         try {
             invoiceVOs = getTodaysInvoices(tagNumbers);
         } catch (DataAccessException e) {
-            LOG.error(e.getLocalizedMessage());
+            log.error(e.getLocalizedMessage());
             throw new InvoiceException(InvoiceException.DATABASE_ERROR);
         }
         return invoiceVOs;
     }
 
     public InvoiceVO fetchInvoiceVOFromId(Long id) {
-        return (InvoiceVO) jdbcTemplate.queryForObject(GET_SINGLE_INVOICE_SQL, new Object[]{id}, new InvoiceFullRowMapper());
+        Optional<Invoice> optionalInvoice = invoiceRepository.findById(id.intValue());
+        InvoiceVO invoiceVO = null;
+        if (optionalInvoice.isPresent()) {
+            Invoice invoice = optionalInvoice.get();
+            invoiceVO = new InvoiceVO();
+            invoiceVO.setId(Long.valueOf(invoice.getId()));
+            invoiceVO.setCustomerName(invoice.getCustomername());
+            invoiceVO.setTagNo(invoice.getTagno());
+            invoiceVO.setDescription(invoice.getDescription());
+            invoiceVO.setSerialNo(invoice.getSerialno());
+            invoiceVO.setAmount(Double.valueOf(invoice.getAmount()));
+            invoiceVO.setQuantity(Integer.valueOf(invoice.getQuantity()));
+            invoiceVO.setRate(Double.valueOf(invoice.getRate()));
+        }
+        return invoiceVO;
     }
 
     public void deleteInvoice(Long id) throws InvoiceException {
         try {
-            Object[] parameters = new Object[]{id};
-            jdbcTemplate.update(DELETE_INVOICE_BY_ID_SQL, parameters);
+            invoiceRepository.deleteById(id.intValue());
         } catch (DataAccessException e) {
-            LOG.error(e.getLocalizedMessage());
+            log.error(e.getLocalizedMessage());
             throw new InvoiceException(InvoiceException.DATABASE_ERROR);
         }
     }
 
     public void updateInvoice(InvoiceVO currentInvoiceVO) throws InvoiceException {
-        Object[] parameters = new Object[]{
-                currentInvoiceVO.getTagNo(),
-                currentInvoiceVO.getDescription(),
-                currentInvoiceVO.getSerialNo(),
-                currentInvoiceVO.getAmount(),
-                currentInvoiceVO.getQuantity(),
-                currentInvoiceVO.getRate(),
-                currentInvoiceVO.getCustomerName(),
-                currentInvoiceVO.getCustomerId(),
-                currentInvoiceVO.getModifiedDate(),
-                currentInvoiceVO.getModifiedBy(),
-                currentInvoiceVO.getId()};
-
         try {
-            jdbcTemplate.update(UPDATE_INVOICE_SQL, parameters);
+            Optional<Invoice> optionalInvoice = invoiceRepository.findById(currentInvoiceVO.getId().intValue());
+            if (optionalInvoice.isPresent()) {
+                Invoice invoice = optionalInvoice.get();
+                invoice.setTagno(currentInvoiceVO.getTagNo());
+                invoice.setDescription(currentInvoiceVO.getDescription());
+                invoice.setSerialno(currentInvoiceVO.getSerialNo());
+                invoice.setAmount(currentInvoiceVO.getAmount().toString());
+                invoice.setQuantity(String.valueOf(currentInvoiceVO.getQuantity()));
+                invoice.setRate(currentInvoiceVO.getRate().toString());
+                invoice.setCustomername(currentInvoiceVO.getCustomerName());
+                invoice.setCustomerId(currentInvoiceVO.getCustomerId().intValue());
+                invoice.setModifiedOn(currentInvoiceVO.getModifiedDate());
+                invoice.setModifiedBy(currentInvoiceVO.getModifiedBy());
+                invoiceRepository.save(invoice);
+            }
         } catch (DataAccessException e) {
-            LOG.error(e.getLocalizedMessage());
+            log.error(e.getLocalizedMessage());
             throw new InvoiceException(InvoiceException.DATABASE_ERROR);
         }
     }
@@ -100,7 +116,7 @@ public class InvoiceDAOImpl  implements InvoiceDAO {
         try {
             invoiceVOs = searchInvoice(searchInvoiceVO);
         } catch (DataAccessException e) {
-            LOG.error(e.getLocalizedMessage());
+            log.error(e.getLocalizedMessage());
             throw new InvoiceException(InvoiceException.DATABASE_ERROR);
         }
         return invoiceVOs;
@@ -170,7 +186,7 @@ public class InvoiceDAOImpl  implements InvoiceDAO {
             SEARCH_INVOICE_QUERY.append(" id = ").append(searchInvoiceVO.getId());
         }
 
-        if (searchInvoiceVO.getAmount()!= null && searchInvoiceVO.getAmount() > 0) {
+        if (searchInvoiceVO.getAmount() != null && searchInvoiceVO.getAmount() > 0) {
             if (!isWhereAdded) {
                 SEARCH_INVOICE_QUERY.append(" where ");
                 isWhereAdded = Boolean.TRUE;
@@ -182,27 +198,27 @@ public class InvoiceDAOImpl  implements InvoiceDAO {
 
             } else if (searchInvoiceVO.getLesser() && !searchInvoiceVO.getGreater()) {
                 SEARCH_INVOICE_QUERY.append(" amount <= ").append(searchInvoiceVO.getAmount());
-            } else if(!searchInvoiceVO.getLesser() && !searchInvoiceVO.getGreater()) {
+            } else if (!searchInvoiceVO.getLesser() && !searchInvoiceVO.getGreater()) {
                 SEARCH_INVOICE_QUERY.append(" amount = ").append(searchInvoiceVO.getAmount());
             }
         }
 
-        LOG.info("query created is " + SEARCH_INVOICE_QUERY.toString());
+        log.info("query created is " + SEARCH_INVOICE_QUERY.toString());
         return (List<InvoiceVO>) jdbcTemplate.query(SEARCH_INVOICE_QUERY.toString(), new InvoiceRowMapper());
     }
 
     private List<InvoiceVO> getTodaysInvoices(List<String> tagNumbers) throws DataAccessException {
         String query = GET_TODAYS_INVOICE_SQL + createWhereClause(tagNumbers);
-        LOG.info("Query generated is "+query);
+        log.info("Query generated is " + query);
         return (List<InvoiceVO>) jdbcTemplate.query(query, new InvoiceRowMapper());
     }
 
     private String createWhereClause(List<String> tagNumbers) {
-        if(tagNumbers.size() > 0){
+        if (tagNumbers.size() > 0) {
             String query = " Where tagNo in (";
             List<String> quotedTagNo = new ArrayList<String>();
-            for(String tagNo :tagNumbers){
-                quotedTagNo.add("'"+tagNo+"'");
+            for (String tagNo: tagNumbers) {
+                quotedTagNo.add("'" + tagNo + "'");
             }
             query += StringUtils.collectionToCommaDelimitedString(quotedTagNo);
             query = query + ") ";
@@ -211,7 +227,7 @@ public class InvoiceDAOImpl  implements InvoiceDAO {
         return "";
     }
 
-    private void saveInvoice(InvoiceVO currentInvoiceVO) throws DataAccessException{
+    private void saveInvoice(InvoiceVO currentInvoiceVO) throws DataAccessException {
         insertInvoice = new SimpleJdbcInsert(jdbcTemplate).withTableName("invoice").usingGeneratedKeyColumns("id");
         SqlParameterSource parameters = new MapSqlParameterSource()
                 .addValue("tagNo", currentInvoiceVO.getTagNo())
@@ -227,7 +243,7 @@ public class InvoiceDAOImpl  implements InvoiceDAO {
                 .addValue("createdBy", currentInvoiceVO.getCreatedBy())
                 .addValue("modifiedBy", currentInvoiceVO.getModifiedBy());
         Number newId = insertInvoice.executeAndReturnKey(parameters);
-        LOG.info(" the queryForInt resulted in  " + newId.longValue());
+        log.info(" the queryForInt resulted in  " + newId.longValue());
         currentInvoiceVO.setId(newId.longValue());
         // update the InvoiceId
         String invoiceId = "INV" + newId.longValue();
@@ -249,41 +265,13 @@ public class InvoiceDAOImpl  implements InvoiceDAO {
          * @throws java.sql.SQLException on error
          */
         public Object mapRow(ResultSet resultSet, int i) throws SQLException {
-            InvoiceVO  invoiceVO = new InvoiceVO();
+            InvoiceVO invoiceVO = new InvoiceVO();
             invoiceVO.setId(resultSet.getLong("id"));
             invoiceVO.setCustomerName(resultSet.getString("customerName"));
             invoiceVO.setTagNo(resultSet.getString("tagNo"));
             invoiceVO.setDescription(resultSet.getString("description"));
             invoiceVO.setSerialNo(resultSet.getString("serialNo"));
             invoiceVO.setAmount(resultSet.getDouble("amount"));
-            return invoiceVO;
-        }
-
-    }
-
-    /**
-     * Row mapper as inner class
-     */
-    private class InvoiceFullRowMapper implements RowMapper {
-
-        /**
-         * method to map the result to vo
-         *
-         * @param resultSet resultSet instance
-         * @param i         i instance
-         * @return UserVO as Object
-         * @throws java.sql.SQLException on error
-         */
-        public Object mapRow(ResultSet resultSet, int i) throws SQLException {
-            InvoiceVO  invoiceVO = new InvoiceVO();
-            invoiceVO.setId(resultSet.getLong("id"));
-            invoiceVO.setCustomerName(resultSet.getString("customerName"));
-            invoiceVO.setTagNo(resultSet.getString("tagNo"));
-            invoiceVO.setDescription(resultSet.getString("description"));
-            invoiceVO.setSerialNo(resultSet.getString("serialNo"));
-            invoiceVO.setAmount(resultSet.getDouble("amount"));
-            invoiceVO.setQuantity(resultSet.getInt("quantity"));
-            invoiceVO.setRate(resultSet.getDouble("rate"));
             return invoiceVO;
         }
 

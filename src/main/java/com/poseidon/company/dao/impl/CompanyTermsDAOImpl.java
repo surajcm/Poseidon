@@ -54,7 +54,7 @@ public class CompanyTermsDAOImpl implements CompanyTermsDAO {
     public CompanyTermsVO updateCompanyDetails(CompanyTermsVO companyTermsVO) throws CompanyTermsException {
         CompanyTermsVO termsVO = null;
         try {
-            Optional<CompanyTerms> optionalCompanyTerms = companyTermsRepository.findById(1);
+            Optional<CompanyTerms> optionalCompanyTerms = companyTermsRepository.findById(1L);
             if (optionalCompanyTerms.isPresent()) {
                 CompanyTerms companyTerms = optionalCompanyTerms.get();
                 companyTerms.setCompanyName(companyTermsVO.getCompanyName());
@@ -66,7 +66,6 @@ public class CompanyTermsDAOImpl implements CompanyTermsDAO {
                 companyTerms.setVat_tin(companyTermsVO.getCompanyVATTIN());
                 companyTerms.setCst_tin(companyTermsVO.getCompanyCSTTIN());
                 companyTerms.setModifiedBy(companyTermsVO.getModifiedBy());
-                companyTerms.setModifiedOn(companyTermsVO.getModifiedDate());
                 CompanyTerms updatedCompanyTerms = companyTermsRepository.save(companyTerms);
                 termsVO = convertToCompanyTermsVO(updatedCompanyTerms);
             }

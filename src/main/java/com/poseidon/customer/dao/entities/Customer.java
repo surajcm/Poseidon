@@ -5,8 +5,10 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
 import javax.persistence.Table;
-import java.util.Date;
+import java.time.OffsetDateTime;
 
 @Entity
 //todo : add schema
@@ -15,8 +17,7 @@ public class Customer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    //todo : long
-    private Integer id;
+    private Long customerId;
 
     @Column(name = "name")
     private String name;
@@ -52,10 +53,10 @@ public class Customer {
     private String note;
 
     @Column(name = "createdOn")
-    private Date createdOn;
+    private OffsetDateTime createdOn;
 
     @Column(name = "modifiedOn")
-    private Date modifiedOn;
+    private OffsetDateTime modifiedOn;
 
     @Column(name = "createdBy")
     private String createdBy;
@@ -63,12 +64,12 @@ public class Customer {
     @Column(name = "modifiedBy")
     private String modifiedBy;
 
-    public Integer getId() {
-        return id;
+    public Long getCustomerId() {
+        return customerId;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setCustomerId(Long customerId) {
+        this.customerId = customerId;
     }
 
     public String getName() {
@@ -159,19 +160,19 @@ public class Customer {
         this.note = note;
     }
 
-    public Date getCreatedOn() {
+    public OffsetDateTime getCreatedOn() {
         return createdOn;
     }
 
-    public void setCreatedOn(Date createdOn) {
+    public void setCreatedOn(OffsetDateTime createdOn) {
         this.createdOn = createdOn;
     }
 
-    public Date getModifiedOn() {
+    public OffsetDateTime getModifiedOn() {
         return modifiedOn;
     }
 
-    public void setModifiedOn(Date modifiedOn) {
+    public void setModifiedOn(OffsetDateTime modifiedOn) {
         this.modifiedOn = modifiedOn;
     }
 
@@ -189,5 +190,15 @@ public class Customer {
 
     public void setModifiedBy(String modifiedBy) {
         this.modifiedBy = modifiedBy;
+    }
+
+
+    @PrePersist
+    @PreUpdate
+    public void initializeDate() {
+        if (this.getCustomerId() == null) {
+            createdOn = OffsetDateTime.now();
+        }
+        modifiedOn = OffsetDateTime.now();
     }
 }

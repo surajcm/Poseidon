@@ -6,8 +6,10 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
 import javax.persistence.Table;
-import java.util.Date;
+import java.time.OffsetDateTime;
 import java.util.Set;
 
 @Entity
@@ -17,8 +19,7 @@ public class Make {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    //todo : long
-    private Integer id;
+    private Long makeId;
 
     @Column(name = "makeName")
     private String makeName;
@@ -27,10 +28,10 @@ public class Make {
     private String description;
 
     @Column(name = "createdOn")
-    private Date createdOn;
+    private OffsetDateTime createdOn;
 
     @Column(name = "modifiedOn")
-    private Date modifiedOn;
+    private OffsetDateTime modifiedOn;
 
     @Column(name = "createdBy")
     private String createdBy;
@@ -41,12 +42,12 @@ public class Make {
     @OneToMany(mappedBy="make")
     private Set<Model> models;
 
-    public Integer getId() {
-        return id;
+    public Long getMakeId() {
+        return makeId;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setMakeId(Long makeId) {
+        this.makeId = makeId;
     }
 
     public String getMakeName() {
@@ -65,19 +66,19 @@ public class Make {
         this.description = description;
     }
 
-    public Date getCreatedOn() {
+    public OffsetDateTime getCreatedOn() {
         return createdOn;
     }
 
-    public void setCreatedOn(Date createdOn) {
+    public void setCreatedOn(OffsetDateTime createdOn) {
         this.createdOn = createdOn;
     }
 
-    public Date getModifiedOn() {
+    public OffsetDateTime getModifiedOn() {
         return modifiedOn;
     }
 
-    public void setModifiedOn(Date modifiedOn) {
+    public void setModifiedOn(OffsetDateTime modifiedOn) {
         this.modifiedOn = modifiedOn;
     }
 
@@ -103,5 +104,14 @@ public class Make {
 
     public void setModels(Set<Model> models) {
         this.models = models;
+    }
+
+    @PrePersist
+    @PreUpdate
+    public void initializeDate() {
+        if (this.makeId == null) {
+            createdOn = OffsetDateTime.now();
+        }
+        modifiedOn = OffsetDateTime.now();
     }
 }

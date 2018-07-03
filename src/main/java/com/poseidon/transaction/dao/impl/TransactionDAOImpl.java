@@ -34,6 +34,9 @@ public class TransactionDAOImpl implements TransactionDAO {
 
     @Autowired
     private JdbcTemplate jdbcTemplate;
+
+    @Autowired
+    private TransactionRepository transactionRepository;
     
     private SimpleJdbcInsert insertTransaction;
     private static final Logger LOG = LoggerFactory.getLogger(TransactionDAOImpl.class);

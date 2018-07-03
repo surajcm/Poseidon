@@ -15,7 +15,6 @@ import org.springframework.stereotype.Repository;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -55,7 +54,6 @@ public class UserDAOImpl implements UserDAO {
 
         if (user != null) {
             LOG.info(" user details fetched successfully,for user name " + user.getName());
-            // check whether the password given is correct or not
             if (!userVO.getPassword().equalsIgnoreCase(user.getPassword())) {
                 throw new UserException(UserException.INCORRECT_PASSWORD);
             }
@@ -69,14 +67,12 @@ public class UserDAOImpl implements UserDAO {
 
     private UserVO convertTOUserVO(User user) {
         UserVO userVO = new UserVO();
-        userVO.setId(user.getId().longValue());
+        userVO.setId(user.getUserId());
         userVO.setName(user.getName());
         userVO.setLoginId(user.getLogInId());
         userVO.setPassword(user.getPassword());
         userVO.setRole(user.getRole());
         userVO.setCreatedBy(user.getCreatedBy());
-        userVO.setCreatedDate(user.getCreatedOn());
-        userVO.setModifiedDate(user.getModifiedOn());
         userVO.setLastModifiedBy(user.getModifiedBy());
         return userVO;
     }
@@ -102,14 +98,12 @@ public class UserDAOImpl implements UserDAO {
         List<UserVO> userVOS = new ArrayList<>();
         for (User user: users) {
             UserVO userVO = new UserVO();
-            userVO.setId(Long.valueOf(user.getId()));
+            userVO.setId(user.getUserId());
             userVO.setName(user.getName());
             userVO.setLoginId(user.getLogInId());
             userVO.setPassword(user.getPassword());
             userVO.setRole(user.getRole());
-            userVO.setCreatedDate(user.getCreatedOn());
             userVO.setCreatedBy(user.getCreatedBy());
-            userVO.setModifiedDate(user.getModifiedOn());
             userVO.setLastModifiedBy(user.getModifiedBy());
             userVOS.add(userVO);
         }
@@ -139,9 +133,7 @@ public class UserDAOImpl implements UserDAO {
         user.setPassword(userVO.getPassword());
         user.setRole(userVO.getRole());
         user.setCreatedBy(userVO.getCreatedBy());
-        user.setCreatedOn(userVO.getCreatedDate());
         user.setModifiedBy(userVO.getLastModifiedBy());
-        user.setModifiedOn(userVO.getModifiedDate());
         return user;
     }
 
@@ -155,7 +147,7 @@ public class UserDAOImpl implements UserDAO {
     public UserVO getUserDetailsFromID(Long id) throws UserException {
         UserVO userVO = null;
         try {
-            Optional<User> optionalUser = userRepository.findById(id.intValue());
+            Optional<User> optionalUser = userRepository.findById(id);
             if (optionalUser.isPresent()) {
                 User user = optionalUser.get();
                 userVO = convertTOUserVO(user);
@@ -225,32 +217,19 @@ public class UserDAOImpl implements UserDAO {
     }
 
     /**
-     * getUserById
-     *
-     * @param loginId loginId
-     * @return user
-     * @throws DataAccessException on error
-     */
-    private UserVO getUserByLogInId(String loginId) throws DataAccessException {
-        User user = userRepository.findByLogInId(loginId);
-        return convertTOUserVO(user);
-    }
-
-    /**
      * updateUser
      *
      * @param userVO user
      */
     public void updateUser(UserVO userVO) throws UserException {
         try {
-            Optional<User> optionalUser = userRepository.findById(userVO.getId().intValue());
+            Optional<User> optionalUser = userRepository.findById(userVO.getId());
             if (optionalUser.isPresent()) {
                 User user = optionalUser.get();
                 user.setName(userVO.getName());
                 user.setLogInId(userVO.getLoginId());
                 user.setPassword(userVO.getPassword());
                 user.setRole(userVO.getRole());
-                user.setModifiedOn(new Date());
                 user.setModifiedBy(userVO.getLastModifiedBy());
             }
         } catch (DataAccessException e) {
@@ -266,7 +245,7 @@ public class UserDAOImpl implements UserDAO {
      */
     public void deleteUser(Long id) throws UserException {
         try {
-            userRepository.deleteById(id.intValue());
+            userRepository.deleteById(id);
         } catch (DataAccessException e) {
             LOG.error(e.getLocalizedMessage());
             throw new UserException(UserException.DATABASE_ERROR);

@@ -5,8 +5,10 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
 import javax.persistence.Table;
-import java.util.Date;
+import java.time.OffsetDateTime;
 
 @Entity
 //todo : add schema
@@ -15,8 +17,7 @@ public class CompanyTerms {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    //todo : long
-    private Integer id;
+    private Long companyId;
 
     @Column(name = "terms")
     private String terms;
@@ -43,10 +44,10 @@ public class CompanyTerms {
     private String cst_tin;
 
     @Column(name = "createdOn")
-    private Date createdOn;
+    private OffsetDateTime createdOn;
 
     @Column(name = "modifiedOn")
-    private Date modifiedOn;
+    private OffsetDateTime modifiedOn;
 
     @Column(name = "createdBy")
     private String createdBy;
@@ -54,12 +55,12 @@ public class CompanyTerms {
     @Column(name = "modifiedBy")
     private String modifiedBy;
 
-    public Integer getId() {
-        return id;
+    public Long getCompanyId() {
+        return companyId;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setCompanyId(Long companyId) {
+        this.companyId = companyId;
     }
 
     public String getTerms() {
@@ -126,19 +127,19 @@ public class CompanyTerms {
         this.cst_tin = cst_tin;
     }
 
-    public Date getCreatedOn() {
+    public OffsetDateTime getCreatedOn() {
         return createdOn;
     }
 
-    public void setCreatedOn(Date createdOn) {
+    public void setCreatedOn(OffsetDateTime createdOn) {
         this.createdOn = createdOn;
     }
 
-    public Date getModifiedOn() {
+    public OffsetDateTime getModifiedOn() {
         return modifiedOn;
     }
 
-    public void setModifiedOn(Date modifiedOn) {
+    public void setModifiedOn(OffsetDateTime modifiedOn) {
         this.modifiedOn = modifiedOn;
     }
 
@@ -156,5 +157,14 @@ public class CompanyTerms {
 
     public void setModifiedBy(String modifiedBy) {
         this.modifiedBy = modifiedBy;
+    }
+
+    @PrePersist
+    @PreUpdate
+    public void initializeDate() {
+        if (this.getCompanyId() == null) {
+            createdOn = OffsetDateTime.now();
+        }
+        modifiedOn = OffsetDateTime.now();
     }
 }

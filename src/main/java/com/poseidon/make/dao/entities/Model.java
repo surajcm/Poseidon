@@ -10,7 +10,7 @@ import javax.persistence.ManyToOne;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
-import java.util.Date;
+import java.time.OffsetDateTime;
 
 @Entity
 //todo : add schema
@@ -19,21 +19,19 @@ public class Model {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    //todo : long
-    private Integer id;
+    private Long modelId;
 
     @Column(name = "modelName")
     private String modelName;
 
-    //todo : link these tables
     @Column(name = "makeId")
-    private Integer makeId;
+    private Long makeId;
 
     @Column(name = "createdOn")
-    private Date createdOn;
+    private OffsetDateTime createdOn;
 
     @Column(name = "modifiedOn")
-    private Date modifiedOn;
+    private OffsetDateTime modifiedOn;
 
     @Column(name = "createdBy")
     private String createdBy;
@@ -42,16 +40,15 @@ public class Model {
     private String modifiedBy;
 
     @ManyToOne
-    //@JoinColumn(name="id", nullable=false)
     @JoinColumn(name = "id", referencedColumnName = "id", insertable = false, updatable = false)
     private Make make;
 
-    public Integer getId() {
-        return id;
+    public Long getModelId() {
+        return modelId;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setModelId(Long modelId) {
+        this.modelId = modelId;
     }
 
     public String getModelName() {
@@ -62,27 +59,27 @@ public class Model {
         this.modelName = modelName;
     }
 
-    public Integer getMakeId() {
+    public Long getMakeId() {
         return makeId;
     }
 
-    public void setMakeId(Integer makeId) {
+    public void setMakeId(Long makeId) {
         this.makeId = makeId;
     }
 
-    public Date getCreatedOn() {
+    public OffsetDateTime getCreatedOn() {
         return createdOn;
     }
 
-    public void setCreatedOn(Date createdOn) {
+    public void setCreatedOn(OffsetDateTime createdOn) {
         this.createdOn = createdOn;
     }
 
-    public Date getModifiedOn() {
+    public OffsetDateTime getModifiedOn() {
         return modifiedOn;
     }
 
-    public void setModifiedOn(Date modifiedOn) {
+    public void setModifiedOn(OffsetDateTime modifiedOn) {
         this.modifiedOn = modifiedOn;
     }
 
@@ -113,9 +110,9 @@ public class Model {
     @PrePersist
     @PreUpdate
     public void initializeDate() {
-        if (this.getId() == null) {
-            createdOn = new Date();
+        if (this.getModelId() == null) {
+            createdOn = OffsetDateTime.now();
         }
-        modifiedOn = new Date();
+        modifiedOn = OffsetDateTime.now();
     }
 }

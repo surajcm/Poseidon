@@ -50,7 +50,7 @@ public class CustomerDAOImpl implements CustomerDAO {
         Customer customer = convertToSingleCustomer(currentCustomerVO);
         try {
             Customer newCustomer = customerRepository.save(customer);
-            id = newCustomer.getId().longValue();
+            id = newCustomer.getCustomerId();
         } catch (DataAccessException e) {
             LOG.error(e.getLocalizedMessage());
             throw new CustomerException(CustomerException.DATABASE_ERROR);
@@ -61,7 +61,7 @@ public class CustomerDAOImpl implements CustomerDAO {
     public CustomerVO getCustomerFromId(Long id) throws CustomerException {
         CustomerVO customerVO;
         try {
-            Customer customer = customerRepository.getOne(id.intValue());
+            Customer customer = customerRepository.getOne(id);
             customerVO = convertToSingleCustomerVO(customer);
         } catch (DataAccessException e) {
             LOG.error(e.getLocalizedMessage());
@@ -72,7 +72,7 @@ public class CustomerDAOImpl implements CustomerDAO {
 
     private CustomerVO convertToSingleCustomerVO(Customer customer) {
         CustomerVO customerVO = new CustomerVO();
-        customerVO.setCustomerId(Long.valueOf(customer.getId()));
+        customerVO.setCustomerId(customer.getCustomerId());
         customerVO.setCustomerName(customer.getName());
         customerVO.setAddress1(customer.getAddress1());
         customerVO.setAddress2(customer.getAddress2());
@@ -85,15 +85,13 @@ public class CustomerDAOImpl implements CustomerDAO {
         customerVO.setContactMobile2(customer.getContactPhone2());
         customerVO.setNotes(customer.getNote());
         customerVO.setCreatedBy(customer.getCreatedBy());
-        customerVO.setCreatedOn(customer.getCreatedOn());
         customerVO.setModifiedBy(customer.getModifiedBy());
-        customerVO.setModifiedOn(customer.getModifiedOn());
         return customerVO;
     }
 
     public void deleteCustomerFromId(Long id) throws CustomerException {
         try {
-            customerRepository.deleteById(id.intValue());
+            customerRepository.deleteById(id);
         } catch (DataAccessException e) {
             LOG.error(e.getLocalizedMessage());
             throw new CustomerException(CustomerException.DATABASE_ERROR);
@@ -103,7 +101,7 @@ public class CustomerDAOImpl implements CustomerDAO {
     public void updateCustomer(CustomerVO currentCustomerVO) throws CustomerException {
         try {
             Optional<Customer> optionalCustomer = customerRepository.findById(
-                    currentCustomerVO.getCustomerId().intValue());
+                    currentCustomerVO.getCustomerId());
 
             if (optionalCustomer.isPresent()) {
                 Customer customer = optionalCustomer.get();
@@ -118,7 +116,6 @@ public class CustomerDAOImpl implements CustomerDAO {
                 customer.setContactPerson2(currentCustomerVO.getContactPerson2());
                 customer.setContactPhone2(currentCustomerVO.getContactMobile2());
                 customer.setNote(currentCustomerVO.getNotes());
-                customer.setModifiedOn(currentCustomerVO.getModifiedOn());
                 customer.setModifiedBy(currentCustomerVO.getModifiedBy());
                 customerRepository.save(customer);
             }
@@ -152,9 +149,7 @@ public class CustomerDAOImpl implements CustomerDAO {
         customer.setContactPerson2(currentCustomerVO.getContactPerson2());
         customer.setContactPhone2(currentCustomerVO.getContactMobile2());
         customer.setNote(currentCustomerVO.getNotes());
-        customer.setCreatedOn(currentCustomerVO.getCreatedOn());
         customer.setCreatedBy(currentCustomerVO.getCreatedBy());
-        customer.setModifiedOn(currentCustomerVO.getModifiedOn());
         customer.setModifiedBy(currentCustomerVO.getModifiedBy());
         return customer;
     }
@@ -163,7 +158,7 @@ public class CustomerDAOImpl implements CustomerDAO {
         List<CustomerVO> customerVOS = new ArrayList<>();
         for (Customer customer : customers) {
             CustomerVO customerVO = new CustomerVO();
-            customerVO.setCustomerId(Long.valueOf(customer.getId()));
+            customerVO.setCustomerId(customer.getCustomerId());
             customerVO.setCustomerName(customer.getName());
             customerVO.setAddress1(customer.getAddress1());
             customerVO.setAddress2(customer.getAddress2());
@@ -176,9 +171,7 @@ public class CustomerDAOImpl implements CustomerDAO {
             customerVO.setContactMobile2(customer.getContactPhone2());
             customerVO.setNotes(customer.getNote());
             customerVO.setCreatedBy(customer.getCreatedBy());
-            customerVO.setCreatedOn(customer.getCreatedOn());
             customerVO.setModifiedBy(customer.getModifiedBy());
-            customerVO.setModifiedOn(customer.getModifiedOn());
             customerVOS.add(customerVO);
         }
         return customerVOS;
