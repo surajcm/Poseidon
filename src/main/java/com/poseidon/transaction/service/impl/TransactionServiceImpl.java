@@ -89,12 +89,9 @@ public class TransactionServiceImpl implements TransactionService {
         return transactionVO;
     }
 
-    public void updateTransaction(TransactionVO currentTransaction) throws TransactionException {
+    public void updateTransaction(TransactionVO currentTransaction) {
         try {
             transactionDAO.updateTransaction(currentTransaction);
-        } catch (TransactionException t) {
-            LOG.error(" Exception type in service impl " + t.getExceptionType());
-            throw new TransactionException(t.getExceptionType());
         } catch (Exception e1) {
             LOG.error(e1.getLocalizedMessage());
         }

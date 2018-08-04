@@ -26,19 +26,19 @@ public class Transaction {
     private OffsetDateTime dateReported;
 
     @Column(name = "customerid")
-    private Integer customerId;
+    private Long customerId;
 
     @Column(name = "productcategory")
     private String productCategory;
 
     @Column(name = "makeid")
-    private Integer makeId;
+    private Long makeId;
 
     @Column(name = "modelid")
-    private Integer modelId;
+    private Long modelId;
 
     @Column(name = "serialno")
-    private String serialno;
+    private String serialNumber;
 
     @Column(name = "accessories")
     private String accessories;
@@ -97,11 +97,11 @@ public class Transaction {
         this.dateReported = dateReported;
     }
 
-    public Integer getCustomerId() {
+    public Long getCustomerId() {
         return customerId;
     }
 
-    public void setCustomerId(Integer customerId) {
+    public void setCustomerId(Long customerId) {
         this.customerId = customerId;
     }
 
@@ -113,28 +113,28 @@ public class Transaction {
         this.productCategory = productCategory;
     }
 
-    public Integer getMakeId() {
+    public Long getMakeId() {
         return makeId;
     }
 
-    public void setMakeId(Integer makeId) {
+    public void setMakeId(Long makeId) {
         this.makeId = makeId;
     }
 
-    public Integer getModelId() {
+    public Long getModelId() {
         return modelId;
     }
 
-    public void setModelId(Integer modelId) {
+    public void setModelId(Long modelId) {
         this.modelId = modelId;
     }
 
-    public String getSerialno() {
-        return serialno;
+    public String getSerialNumber() {
+        return serialNumber;
     }
 
-    public void setSerialno(String serialno) {
-        this.serialno = serialno;
+    public void setSerialNumber(String serialNumber) {
+        this.serialNumber = serialNumber;
     }
 
     public String getAccessories() {

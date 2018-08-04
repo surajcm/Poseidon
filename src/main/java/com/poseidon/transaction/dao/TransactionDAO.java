@@ -20,7 +20,7 @@ public interface TransactionDAO {
 
     TransactionVO fetchTransactionFromId(Long id) throws TransactionException;
 
-    void updateTransaction(TransactionVO currentTransaction) throws TransactionException;
+    void updateTransaction(TransactionVO currentTransaction);
 
     void deleteTransaction(Long id)throws TransactionException;
 

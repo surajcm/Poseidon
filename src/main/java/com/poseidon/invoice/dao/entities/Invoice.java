@@ -15,8 +15,7 @@ public class Invoice {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    //todo : long
-    private Integer id;
+    private Long invoiceId;
 
     @Column(name = "transactionId")
     private String transactionId;
@@ -25,7 +24,7 @@ public class Invoice {
     private String description;
 
     @Column(name = "serialno")
-    private String serialno;
+    private String serialNumber;
 
     @Column(name = "amount")
     private String amount;
@@ -37,13 +36,13 @@ public class Invoice {
     private String rate;
 
     @Column(name = "customerId")
-    private Integer customerId;
+    private Long customerId;
 
     @Column(name = "customername")
-    private String customername;
+    private String customerName;
 
     @Column(name = "tagno")
-    private String tagno;
+    private String tagNumber;
 
     @Column(name = "createdOn")
     private Date createdOn;
@@ -57,12 +56,12 @@ public class Invoice {
     @Column(name = "modifiedBy")
     private String modifiedBy;
 
-    public Integer getId() {
-        return id;
+    public Long getInvoiceId() {
+        return invoiceId;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setInvoiceId(Long invoiceId) {
+        this.invoiceId = invoiceId;
     }
 
     public String getTransactionId() {
@@ -81,12 +80,12 @@ public class Invoice {
         this.description = description;
     }
 
-    public String getSerialno() {
-        return serialno;
+    public String getTagNumber() {
+        return tagNumber;
     }
 
-    public void setSerialno(String serialno) {
-        this.serialno = serialno;
+    public void setTagNumber(String tagNumber) {
+        this.tagNumber = tagNumber;
     }
 
     public String getAmount() {
@@ -113,28 +112,28 @@ public class Invoice {
         this.rate = rate;
     }
 
-    public Integer getCustomerId() {
+    public String getSerialNumber() {
+        return serialNumber;
+    }
+
+    public void setSerialNumber(String serialNumber) {
+        this.serialNumber = serialNumber;
+    }
+
+    public Long getCustomerId() {
         return customerId;
     }
 
-    public void setCustomerId(Integer customerId) {
+    public void setCustomerId(Long customerId) {
         this.customerId = customerId;
     }
 
-    public String getCustomername() {
-        return customername;
+    public String getCustomerName() {
+        return customerName;
     }
 
-    public void setCustomername(String customername) {
-        this.customername = customername;
-    }
-
-    public String getTagno() {
-        return tagno;
-    }
-
-    public void setTagno(String tagno) {
-        this.tagno = tagno;
+    public void setCustomerName(String customerName) {
+        this.customerName = customerName;
     }
 
     public Date getCreatedOn() {

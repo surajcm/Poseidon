@@ -347,16 +347,6 @@ public class TransactionController {
             transactionService.updateTransaction(transactionForm.getCurrentTransaction());
             transactionForm.setStatusMessage("Successfully updated the transaction");
             transactionForm.setStatusMessageType("success");
-        } catch (TransactionException e) {
-            transactionForm.setStatusMessage("Unable to update the selected transaction due to a Data base error");
-            transactionForm.setStatusMessageType("error");
-            LOG.error(e.getLocalizedMessage());
-            LOG.error(" Exception type in controller " + e.ExceptionType);
-            if (e.getExceptionType().equalsIgnoreCase(TransactionException.DATABASE_ERROR)) {
-                LOG.info(" An error occurred while fetching data from database. !! ");
-            } else {
-                LOG.info(" An Unknown Error has been occurred !!");
-            }
         } catch (Exception e) {
             transactionForm.setStatusMessage("Unable to update the selected transaction");
             transactionForm.setStatusMessageType("error");

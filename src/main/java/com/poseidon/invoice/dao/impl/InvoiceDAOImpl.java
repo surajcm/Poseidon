@@ -67,11 +67,11 @@ public class InvoiceDAOImpl implements InvoiceDAO {
         if (optionalInvoice.isPresent()) {
             Invoice invoice = optionalInvoice.get();
             invoiceVO = new InvoiceVO();
-            invoiceVO.setId(Long.valueOf(invoice.getId()));
-            invoiceVO.setCustomerName(invoice.getCustomername());
-            invoiceVO.setTagNo(invoice.getTagno());
+            invoiceVO.setId(invoice.getInvoiceId());
+            invoiceVO.setCustomerName(invoice.getCustomerName());
+            invoiceVO.setTagNo(invoice.getTagNumber());
             invoiceVO.setDescription(invoice.getDescription());
-            invoiceVO.setSerialNo(invoice.getSerialno());
+            invoiceVO.setSerialNo(invoice.getSerialNumber());
             invoiceVO.setAmount(Double.valueOf(invoice.getAmount()));
             invoiceVO.setQuantity(Integer.valueOf(invoice.getQuantity()));
             invoiceVO.setRate(Double.valueOf(invoice.getRate()));
@@ -93,14 +93,14 @@ public class InvoiceDAOImpl implements InvoiceDAO {
             Optional<Invoice> optionalInvoice = invoiceRepository.findById(currentInvoiceVO.getId().intValue());
             if (optionalInvoice.isPresent()) {
                 Invoice invoice = optionalInvoice.get();
-                invoice.setTagno(currentInvoiceVO.getTagNo());
+                invoice.setTagNumber(currentInvoiceVO.getTagNo());
                 invoice.setDescription(currentInvoiceVO.getDescription());
-                invoice.setSerialno(currentInvoiceVO.getSerialNo());
+                invoice.setSerialNumber(currentInvoiceVO.getSerialNo());
                 invoice.setAmount(currentInvoiceVO.getAmount().toString());
                 invoice.setQuantity(String.valueOf(currentInvoiceVO.getQuantity()));
                 invoice.setRate(currentInvoiceVO.getRate().toString());
-                invoice.setCustomername(currentInvoiceVO.getCustomerName());
-                invoice.setCustomerId(currentInvoiceVO.getCustomerId().intValue());
+                invoice.setCustomerName(currentInvoiceVO.getCustomerName());
+                invoice.setCustomerId(currentInvoiceVO.getCustomerId());
                 invoice.setModifiedOn(currentInvoiceVO.getModifiedDate());
                 invoice.setModifiedBy(currentInvoiceVO.getModifiedBy());
                 invoiceRepository.save(invoice);
@@ -216,7 +216,7 @@ public class InvoiceDAOImpl implements InvoiceDAO {
     private String createWhereClause(List<String> tagNumbers) {
         if (tagNumbers.size() > 0) {
             String query = " Where tagNo in (";
-            List<String> quotedTagNo = new ArrayList<String>();
+            List<String> quotedTagNo = new ArrayList<>();
             for (String tagNo: tagNumbers) {
                 quotedTagNo.add("'" + tagNo + "'");
             }

@@ -23,7 +23,7 @@ public interface TransactionService {
 
     TransactionReportVO fetchTransactionFromTag(String tagNo) throws  TransactionException;
 
-    void updateTransaction(TransactionVO currentTransaction) throws  TransactionException;
+    void updateTransaction(TransactionVO currentTransaction);
 
     void deleteTransaction(Long id)throws  TransactionException;
 
