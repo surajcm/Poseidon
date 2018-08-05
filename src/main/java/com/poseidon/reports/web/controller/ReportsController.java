@@ -23,6 +23,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -44,6 +45,7 @@ import java.util.Locale;
  */
 @Controller
 //@RequestMapping("/reports")
+@SuppressWarnings("unused")
 public class ReportsController {
     private static final Logger LOG = LoggerFactory.getLogger(ReportsController.class);
     @Autowired
@@ -60,10 +62,10 @@ public class ReportsController {
         this.makeService = makeService;
     }
 
-    @RequestMapping(value = "/reports/List.htm", method = RequestMethod.POST)
+    @PostMapping(value = "/reports/List.htm")
     public ModelAndView List(ReportsForm reportsForm) {
         LOG.info(" Inside List method of ReportsController ");
-        LOG.info(" form details are : " + reportsForm);
+        LOG.info(" form details are : {}" , reportsForm);
 
         List<ReportsVO> reportsVOs = null;
         try {
@@ -72,9 +74,7 @@ public class ReportsController {
             LOG.error(e.getLocalizedMessage());
         }
         if (reportsVOs != null) {
-            for (ReportsVO reportsVO : reportsVOs) {
-                LOG.info(" reportsVO is " + reportsVO);
-            }
+            reportsVOs.forEach(reportsVO -> LOG.info(" reportsVO is {}", reportsVO));
             reportsForm.setReportsVOs(reportsVOs);
         }
         //get all the make list for displaying in search
@@ -85,9 +85,7 @@ public class ReportsController {
             LOG.error(e.getLocalizedMessage());
         }
         if (makeVOs != null) {
-            for (MakeVO makeVO : makeVOs) {
-                LOG.info("make vo is" + makeVO);
-            }
+            makeVOs.forEach(makeVO -> LOG.info("make vo is {}", makeVO));
             reportsForm.setMakeVOs(makeVOs);
         }
         reportsForm.setSearchReports(new ReportsVO());
@@ -117,7 +115,7 @@ public class ReportsController {
     }
 
     private List<String> populateStatus() {
-        List<String> statusList = new ArrayList<String>();
+        List<String> statusList = new ArrayList<>();
         statusList.add("NEW");
         statusList.add("ACCEPTED");
         statusList.add("VERIFIED");
@@ -127,7 +125,7 @@ public class ReportsController {
     }
 
     private List<String> populateExportToList() {
-        List<String> exportToList = new ArrayList<String>();
+        List<String> exportToList = new ArrayList<>();
         exportToList.add("EXCEL");
         exportToList.add("WORD");
         exportToList.add("PDF");
@@ -142,13 +140,12 @@ public class ReportsController {
      * @param reportsForm         ReportsForm
      * @return ModelAndView
      */
-    @SuppressWarnings("unused")
     @RequestMapping(value = "/reports/getMakeDetailsReport.htm", method = {RequestMethod.GET, RequestMethod.POST})
     public ModelAndView getMakeDetailsReport(HttpServletRequest httpServletRequest,
                                              HttpServletResponse httpServletResponse,
                                              ReportsForm reportsForm) {
         LOG.info(" Inside getMakeDetailsReport method of ReportsController ");
-        LOG.info(" form details are" + reportsForm);
+        LOG.info(" form details are {}" , reportsForm);
         JasperReport jasperReport;
         JasperPrint jasperPrint;
         try {
@@ -185,13 +182,12 @@ public class ReportsController {
      * @param reportsForm         ReportsForm
      * @return ModelAndView
      */
-    @SuppressWarnings("unused")
     @RequestMapping(value = "/reports/getCallReport.htm", method = {RequestMethod.GET, RequestMethod.POST})
     public ModelAndView getCallReport(HttpServletRequest httpServletRequest,
                                       HttpServletResponse httpServletResponse,
                                       ReportsForm reportsForm) {
         LOG.info(" Inside getCallReport method of ReportsController ");
-        LOG.info(" form details are" + reportsForm);
+        LOG.info(" form details are {}" , reportsForm);
         JasperReport jasperReport;
         JasperPrint jasperPrint;
         String reportType;
@@ -228,13 +224,12 @@ public class ReportsController {
      * @param reportsForm         ReportsForm
      * @return ModelAndView
      */
-    @SuppressWarnings("unused")
     @RequestMapping(value = "/reports/getTransactionsListReport.htm", method = {RequestMethod.GET, RequestMethod.POST})
     public ModelAndView getTransactionsListReport(HttpServletRequest httpServletRequest,
                                                   HttpServletResponse httpServletResponse,
                                                   ReportsForm reportsForm) {
         LOG.info(" Inside getTransactionsListReport method of ReportsController ");
-        LOG.info(" form details are" + reportsForm);
+        LOG.info(" form details are {}" , reportsForm);
         JasperReport jasperReport;
         JasperPrint jasperPrint;
         String reportType;
@@ -272,13 +267,12 @@ public class ReportsController {
      * @param reportsForm         ReportsForm
      * @return ModelAndView
      */
-    @SuppressWarnings("unused")
     @RequestMapping(value = "/reports/getModelListReport.htm", method = {RequestMethod.GET, RequestMethod.POST})
     public ModelAndView getModelListReport(HttpServletRequest httpServletRequest,
                                            HttpServletResponse httpServletResponse,
                                            ReportsForm reportsForm) {
         LOG.info(" Inside getModelListReport method of ReportsController ");
-        LOG.info(" form details are" + reportsForm);
+        LOG.info(" form details are {}" , reportsForm);
         JasperReport jasperReport;
         JasperPrint jasperPrint;
         try {
@@ -319,7 +313,7 @@ public class ReportsController {
                                        HttpServletResponse httpServletResponse,
                                        ReportsForm reportsForm) {
         LOG.info(" Inside getErrorReport method of ReportsController ");
-        LOG.info(" form details are" + reportsForm);
+        LOG.info(" form details are {}" , reportsForm);
         JasperReport jasperReport;
         JasperPrint jasperPrint;
         try {
@@ -357,7 +351,7 @@ public class ReportsController {
                                          HttpServletResponse httpServletResponse,
                                          ReportsForm reportsForm) {
         LOG.info(" Inside getInvoiceReport method of ReportsController ");
-        LOG.info(" form details are" + reportsForm);
+        LOG.info(" form details are {}" , reportsForm);
         JasperReport jasperReport;
         JasperPrint jasperPrint;
         try {

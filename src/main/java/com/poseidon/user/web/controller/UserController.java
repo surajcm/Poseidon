@@ -12,9 +12,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.io.IOException;
@@ -48,7 +48,7 @@ public class UserController {
      *
      * @return ModelAndView to render
      */
-    @RequestMapping(value = {"/"}, method = RequestMethod.GET)
+    @GetMapping(value = {"/"})
     public ModelAndView index() {
         logger.info(" Inside Index method of user Controller ");
         UserForm userForm = new UserForm();
@@ -57,7 +57,7 @@ public class UserController {
         return new ModelAndView("MainPage", USER_FORM, userForm);
     }
 
-    @RequestMapping(value = "/login", method = RequestMethod.GET)
+    @GetMapping(value = "/login")
     public String login(Model model, String error, String logout) {
         if (error != null) {
             model.addAttribute(ERROR, "Your username and password is invalid.");
@@ -77,7 +77,7 @@ public class UserController {
      * @param userForm userForm instance
      * @return ModelAndView to render
      */
-    @RequestMapping(value = "/user/ListAll.htm", method = RequestMethod.POST)
+    @PostMapping(value = "/user/ListAll.htm")
     public ModelAndView listAll(UserForm userForm) {
         logger.info(" Inside ListAll method of user Controller ");
         List<UserVO> userList = null;
@@ -126,7 +126,7 @@ public class UserController {
      * @param userForm userForm instance
      * @return ModelAndView to render
      */
-    @RequestMapping(value = "/user/AddUser.htm", method = RequestMethod.POST)
+    @PostMapping(value = "/user/AddUser.htm")
     public ModelAndView addUser(UserForm userForm) {
         logger.info(" Inside AddUser method of user Controller ");
         userForm.setLoggedInUser(userForm.getLoggedInUser());
@@ -142,7 +142,7 @@ public class UserController {
      * @param userForm user instance
      * @return ModelAndView to render
      */
-    @RequestMapping(value = "/user/SaveUser.htm", method = RequestMethod.POST)
+    @PostMapping(value = "/user/SaveUser.htm")
     public ModelAndView saveUser(UserForm userForm) {
         logger.info(" Inside SaveUser method of user Controller ");
         logger.info(" user instance to add to database " + userForm.toString());
@@ -204,7 +204,7 @@ public class UserController {
         return new ModelAndView("user/UserList", USER_FORM, userForm);
     }
 
-    @RequestMapping(value = "/user/saveUserAjax.htm", method = RequestMethod.POST)
+    @PostMapping(value = "/user/saveUserAjax.htm")
     public String saveUserAjax(@ModelAttribute(value = "selectName") String  selectName,
                              @ModelAttribute(value = "selectLogin") String  selectLogin,
                              @ModelAttribute(value = "selectRole") String  selectRole,
@@ -280,7 +280,7 @@ public class UserController {
      * @param userForm userForm instance
      * @return ModelAndView to render
      */
-    @RequestMapping(value = "/user/EditUser.htm", method = RequestMethod.POST)
+    @PostMapping(value = "/user/EditUser.htm")
     public ModelAndView editUser(UserForm userForm) {
         logger.info(" Inside EditUser method of user Controller ");
         logger.info(" user is " + userForm.toString());
@@ -318,7 +318,7 @@ public class UserController {
      * @param userForm user instance
      * @return ModelAndView to render
      */
-    @RequestMapping(value = "/user/UpdateUser.htm", method = RequestMethod.POST)
+    @PostMapping(value = "/user/UpdateUser.htm")
     public ModelAndView updateUser(UserForm userForm) {
         logger.info(" Inside UpdateUser method of user Controller ");
         try {
@@ -355,7 +355,7 @@ public class UserController {
      * @param userForm userForm instance
      * @return ModelAndView to render
      */
-    @RequestMapping(value = "/user/DeleteUser.htm", method = RequestMethod.POST)
+    @PostMapping(value = "/user/DeleteUser.htm")
     public ModelAndView deleteUser(UserForm userForm) {
         logger.info(" Inside DeleteUser method of user Controller ");
         logger.info(" user is " + userForm.toString());
@@ -391,7 +391,7 @@ public class UserController {
      * @param userForm userForm instance
      * @return ModelAndView to render
      */
-    @RequestMapping(value = "/user/ToHome.htm", method = RequestMethod.POST)
+    @PostMapping(value = "/user/ToHome.htm")
     public ModelAndView toHome(UserForm userForm) {
         logger.info(" Inside ToHome method of user Controller ");
         userForm.setLoggedInUser(userForm.getLoggedInUser());
@@ -405,7 +405,7 @@ public class UserController {
      * @param userForm userForm instance
      * @return ModelAndView to render
      */
-    @RequestMapping(value = "/user/LogMeOut.htm", method = RequestMethod.POST)
+    @PostMapping(value = "/user/LogMeOut.htm")
     public ModelAndView logMeOut(UserForm userForm) {
         logger.info(" Inside LogMeOut method of user Controller ");
         return new ModelAndView(USER_LOG_IN, USER_FORM, new UserForm());
@@ -417,14 +417,14 @@ public class UserController {
      * @param userForm userForm instance
      * @return ModelAndView to render
      */
-    @RequestMapping(value = "/user/SearchUser.htm", method = RequestMethod.POST)
+    @PostMapping(value = "/user/SearchUser.htm")
     public ModelAndView searchUser(UserForm userForm) {
         logger.info(" Inside SearchUser method of user Controller ");
         logger.info(" user Details are " + userForm.getSearchUser().toString());
         List<UserVO> userList = null;
         try {
             userList = userService.searchUserDetails(userForm.getSearchUser());
-            if(userList != null && userList.size()> 0){
+            if(userList != null && !userList.isEmpty()){
                 userForm.setStatusMessage("Successfully fetched "+userList.size()+ " Users");
                 userForm.setStatusMessageType("info");
             }
@@ -432,7 +432,7 @@ public class UserController {
             userForm.setStatusMessage("Unable to search due to a database error");
             userForm.setStatusMessageType(ERROR);
             logger.error(e.getLocalizedMessage());
-            logger.error(" Exception type in controller " + e.ExceptionType);
+            logger.error(" Exception type in controller {}" , e.ExceptionType);
             if (e.getExceptionType().equalsIgnoreCase(UserException.DATABASE_ERROR)) {
                 logger.info(" An error occurred while fetching data from database. !! ");
             } else {
