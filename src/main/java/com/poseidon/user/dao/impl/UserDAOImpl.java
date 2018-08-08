@@ -53,11 +53,11 @@ public class UserDAOImpl implements UserDAO {
         }
 
         if (user != null) {
-            LOG.info(" user details fetched successfully,for user name " + user.getName());
+            LOG.info(" user details fetched successfully,for user name {}" , user.getName());
             if (!userVO.getPassword().equalsIgnoreCase(user.getPassword())) {
                 throw new UserException(UserException.INCORRECT_PASSWORD);
             }
-            LOG.info(" Password matched successfully, user details are " + user.toString());
+            LOG.info(" Password matched successfully, user details are {}" , user.toString());
         } else {
             // invalid user
             throw new UserException(UserException.UNKNOWN_USER);
@@ -96,7 +96,7 @@ public class UserDAOImpl implements UserDAO {
 
     private List<UserVO> convertUsersToUserVOs(List<User> users) {
         List<UserVO> userVOS = new ArrayList<>();
-        for (User user: users) {
+        users.forEach(user -> {
             UserVO userVO = new UserVO();
             userVO.setId(user.getUserId());
             userVO.setName(user.getName());
@@ -106,7 +106,7 @@ public class UserDAOImpl implements UserDAO {
             userVO.setCreatedBy(user.getCreatedBy());
             userVO.setLastModifiedBy(user.getModifiedBy());
             userVOS.add(userVO);
-        }
+        });
         return userVOS;
     }
 

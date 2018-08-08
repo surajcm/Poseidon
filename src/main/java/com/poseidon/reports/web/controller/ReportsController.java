@@ -48,6 +48,10 @@ import java.util.Locale;
 @SuppressWarnings("unused")
 public class ReportsController {
     private static final Logger LOG = LoggerFactory.getLogger(ReportsController.class);
+    public static final String FORM_DETAILS = " form details are {}";
+    public static final String REPORTS = "/resources/reports";
+    public static final String COMPILE_REPORT = " going to compile report";
+    public static final String JRXML = ".jrxml";
     @Autowired
     private ReportsService reportsService;
 
@@ -63,7 +67,7 @@ public class ReportsController {
     }
 
     @PostMapping(value = "/reports/List.htm")
-    public ModelAndView List(ReportsForm reportsForm) {
+    public ModelAndView list(ReportsForm reportsForm) {
         LOG.info(" Inside List method of ReportsController ");
         LOG.info(" form details are : {}" , reportsForm);
 
@@ -145,7 +149,7 @@ public class ReportsController {
                                              HttpServletResponse httpServletResponse,
                                              ReportsForm reportsForm) {
         LOG.info(" Inside getMakeDetailsReport method of ReportsController ");
-        LOG.info(" form details are {}" , reportsForm);
+        LOG.info(FORM_DETAILS, reportsForm);
         JasperReport jasperReport;
         JasperPrint jasperPrint;
         try {
@@ -158,10 +162,10 @@ public class ReportsController {
                 String reportType = reportsForm.getCurrentReport().getExportTo();
                 reportsForm.getCurrentReport().setRptfilename(reportFileName);
                 String path = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest()
-                        .getSession().getServletContext().getRealPath("/resources/reports");
+                        .getSession().getServletContext().getRealPath(REPORTS);
 
-                LOG.info(" going to compile report");
-                jasperReport = JasperCompileManager.compileReport(path + '/' + reportFileName + ".jrxml");
+                LOG.info(COMPILE_REPORT);
+                jasperReport = JasperCompileManager.compileReport(path + '/' + reportFileName + JRXML);
 
                 jasperPrint = reportsService.getMakeDetailsChart(jasperReport,
                         reportsForm.getCurrentReport());
@@ -187,7 +191,7 @@ public class ReportsController {
                                       HttpServletResponse httpServletResponse,
                                       ReportsForm reportsForm) {
         LOG.info(" Inside getCallReport method of ReportsController ");
-        LOG.info(" form details are {}" , reportsForm);
+        LOG.info(FORM_DETAILS, reportsForm);
         JasperReport jasperReport;
         JasperPrint jasperPrint;
         String reportType;
@@ -202,9 +206,9 @@ public class ReportsController {
             reportType = reportsForm.getCurrentReport().getExportTo();
             reportsForm.getCurrentReport().setRptfilename(reportFileName);
             String path = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest()
-                    .getSession().getServletContext().getRealPath("/resources/reports");
+                    .getSession().getServletContext().getRealPath(REPORTS);
             LOG.info(" going to compile report, at getCallReport");
-            jasperReport = JasperCompileManager.compileReport(path + '/' + reportFileName + ".jrxml");
+            jasperReport = JasperCompileManager.compileReport(path + '/' + reportFileName + JRXML);
 
             jasperPrint = reportsService.getCallReport(jasperReport, reportsForm.getCurrentReport());
             LOG.info(jasperPrint.toString());
@@ -229,7 +233,7 @@ public class ReportsController {
                                                   HttpServletResponse httpServletResponse,
                                                   ReportsForm reportsForm) {
         LOG.info(" Inside getTransactionsListReport method of ReportsController ");
-        LOG.info(" form details are {}" , reportsForm);
+        LOG.info(FORM_DETAILS, reportsForm);
         JasperReport jasperReport;
         JasperPrint jasperPrint;
         String reportType;
@@ -244,9 +248,9 @@ public class ReportsController {
             reportType = reportsForm.getCurrentReport().getExportTo();
             reportsForm.getCurrentReport().setRptfilename(reportFileName);
             String path = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest()
-                    .getSession().getServletContext().getRealPath("/resources/reports");
-            LOG.info(" going to compile report");
-            jasperReport = JasperCompileManager.compileReport(path + '/' + reportFileName + ".jrxml");
+                    .getSession().getServletContext().getRealPath(REPORTS);
+            LOG.info(COMPILE_REPORT);
+            jasperReport = JasperCompileManager.compileReport(path + '/' + reportFileName + JRXML);
 
             jasperPrint = reportsService.getTransactionsListReport(jasperReport,
                     reportsForm.getCurrentReport(),
@@ -272,7 +276,7 @@ public class ReportsController {
                                            HttpServletResponse httpServletResponse,
                                            ReportsForm reportsForm) {
         LOG.info(" Inside getModelListReport method of ReportsController ");
-        LOG.info(" form details are {}" , reportsForm);
+        LOG.info(FORM_DETAILS, reportsForm);
         JasperReport jasperReport;
         JasperPrint jasperPrint;
         try {
@@ -285,9 +289,9 @@ public class ReportsController {
             String reportType = reportsForm.getCurrentReport().getExportTo();
             reportsForm.getCurrentReport().setRptfilename(reportFileName);
             String path = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest()
-                    .getSession().getServletContext().getRealPath("/resources/reports");
-            LOG.info(" going to compile report");
-            jasperReport = JasperCompileManager.compileReport(path + '/' + reportFileName + ".jrxml");
+                    .getSession().getServletContext().getRealPath(REPORTS);
+            LOG.info(COMPILE_REPORT);
+            jasperReport = JasperCompileManager.compileReport(path + '/' + reportFileName + JRXML);
 
             jasperPrint = reportsService.getModelListReport(jasperReport,
                     reportsForm.getCurrentReport(),
@@ -313,7 +317,7 @@ public class ReportsController {
                                        HttpServletResponse httpServletResponse,
                                        ReportsForm reportsForm) {
         LOG.info(" Inside getErrorReport method of ReportsController ");
-        LOG.info(" form details are {}" , reportsForm);
+        LOG.info(FORM_DETAILS, reportsForm);
         JasperReport jasperReport;
         JasperPrint jasperPrint;
         try {
@@ -326,9 +330,9 @@ public class ReportsController {
             String reportType = reportsForm.getCurrentReport().getExportTo();
             reportsForm.getCurrentReport().setRptfilename(reportFileName);
             String path = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest()
-                    .getSession().getServletContext().getRealPath("/resources/reports");
-            LOG.info(" going to compile report");
-            jasperReport = JasperCompileManager.compileReport(path + '/' + reportFileName + ".jrxml");
+                    .getSession().getServletContext().getRealPath(REPORTS);
+            LOG.info(COMPILE_REPORT);
+            jasperReport = JasperCompileManager.compileReport(path + '/' + reportFileName + JRXML);
             jasperPrint = reportsService.getErrorReport(jasperReport, reportsForm.getCurrentReport());
             LOG.info(jasperPrint.toString());
             getJasperReport(httpServletResponse, jasperPrint, reportFileName, reportType);
@@ -351,7 +355,7 @@ public class ReportsController {
                                          HttpServletResponse httpServletResponse,
                                          ReportsForm reportsForm) {
         LOG.info(" Inside getInvoiceReport method of ReportsController ");
-        LOG.info(" form details are {}" , reportsForm);
+        LOG.info(FORM_DETAILS, reportsForm);
         JasperReport jasperReport;
         JasperPrint jasperPrint;
         try {
@@ -364,9 +368,9 @@ public class ReportsController {
             String reportType = reportsForm.getCurrentReport().getExportTo();
             reportsForm.getCurrentReport().setRptfilename(reportFileName);
             String path = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest()
-                    .getSession().getServletContext().getRealPath("/resources/reports");
-            LOG.info(" going to compile report");
-            jasperReport = JasperCompileManager.compileReport(path + '/' + reportFileName + ".jrxml");
+                    .getSession().getServletContext().getRealPath(REPORTS);
+            LOG.info(COMPILE_REPORT);
+            jasperReport = JasperCompileManager.compileReport(path + '/' + reportFileName + JRXML);
             jasperPrint = reportsService.getInvoiceReport(jasperReport, reportsForm.getCurrentReport());
             LOG.info(jasperPrint.toString());
             getJasperReport(httpServletResponse, jasperPrint, reportFileName, reportType);

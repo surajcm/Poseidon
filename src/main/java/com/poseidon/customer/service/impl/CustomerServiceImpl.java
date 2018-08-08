@@ -19,6 +19,7 @@ import java.util.List;
 @Service
 public class CustomerServiceImpl implements CustomerService {
     private static final Logger LOG = LoggerFactory.getLogger(CustomerServiceImpl.class);
+
     @Autowired
     private CustomerDAO customerDAO;
 
@@ -26,7 +27,7 @@ public class CustomerServiceImpl implements CustomerService {
         List<CustomerVO> customerVOs = null;
         try {
             customerVOs = customerDAO.listAllCustomerDetails();
-        }catch (CustomerException e){
+        } catch (CustomerException e) {
             LOG.error(e.getMessage());
         }
         return customerVOs;
@@ -36,17 +37,17 @@ public class CustomerServiceImpl implements CustomerService {
         long customerId = 0L;
         try {
             customerId = customerDAO.saveCustomer(currentCustomerVO);
-        }catch (CustomerException e){
+        } catch (CustomerException e) {
             LOG.error(e.getMessage());
         }
         return customerId;
     }
 
     public CustomerVO getCustomerFromId(Long id) {
-        CustomerVO customerVO= null;
+        CustomerVO customerVO = null;
         try {
             customerVO = customerDAO.getCustomerFromId(id);
-        }catch (CustomerException e){
+        } catch (CustomerException e) {
             LOG.error(e.getMessage());
         }
         return customerVO;
@@ -55,7 +56,7 @@ public class CustomerServiceImpl implements CustomerService {
     public void deleteCustomerFromId(Long id) {
         try {
             customerDAO.deleteCustomerFromId(id);
-        }catch (CustomerException e){
+        } catch (CustomerException e) {
             LOG.error(e.getMessage());
         }
     }
@@ -63,7 +64,7 @@ public class CustomerServiceImpl implements CustomerService {
     public void updateCustomer(CustomerVO currentCustomerVO) {
         try {
             customerDAO.updateCustomer(currentCustomerVO);
-        }catch (CustomerException e){
+        } catch (CustomerException e) {
             LOG.error(e.getMessage());
         }
     }
@@ -72,7 +73,7 @@ public class CustomerServiceImpl implements CustomerService {
         List<CustomerVO> customerVOs = null;
         try {
             customerVOs = customerDAO.searchCustomer(searchCustomerVO);
-        }catch (CustomerException e){
+        } catch (CustomerException e) {
             LOG.error(e.getMessage());
         }
         return customerVOs;

@@ -35,6 +35,10 @@ public class UserController {
     private static final String USER_LOG_IN = "login";
     private static final String ERROR = "error";
     private static final String SUCCESS = "success";
+    private static final String USER_LIST = "user/UserList";
+    private static final String AN_UNKNOWN_ERROR_HAS_BEEN_OCCURRED = " An Unknown Error has been occurred !!";
+    private static final String DB_ERROR = " An error occurred while fetching data from database. !! ";
+    private static final String EXCEPTION_IN_CONTROLLER = " Exception type in controller {}";
 
     @Autowired
     private UserService userService;
@@ -87,25 +91,25 @@ public class UserController {
             userForm.setStatusMessage("Unable to list the Users due to an error");
             userForm.setStatusMessageType(ERROR);
             logger.error(e.getLocalizedMessage());
-            logger.error(" Exception type in controller " + e.ExceptionType);
+            logger.error(EXCEPTION_IN_CONTROLLER, e.ExceptionType);
             if (e.getExceptionType().equalsIgnoreCase(UserException.DATABASE_ERROR)) {
-                logger.info(" An error occurred while fetching data from database. !! ");
+                logger.info(DB_ERROR);
             } else {
-                logger.info(" An Unknown Error has been occurred !!");
+                logger.error(AN_UNKNOWN_ERROR_HAS_BEEN_OCCURRED);
             }
         } catch (Exception e1) {
             logger.error(e1.getLocalizedMessage());
-            logger.info(" An Unknown Error has been occurred !!");
+            logger.info(AN_UNKNOWN_ERROR_HAS_BEEN_OCCURRED);
         }
         if (userList != null) {
-            userList.stream().map(userIteration -> " user detail " + userIteration.toString()).forEach(logger::info);
+            userList.forEach(userIteration -> logger.info(" user detail {}", userIteration));
         }
         userForm.setUserVOs(userList);
         userForm.setLoggedInUser(userForm.getLoggedInUser());
         userForm.setLoggedInRole(userForm.getLoggedInRole());
         userForm.setSearchUser(new UserVO());
         userForm.setRoleList(populateRoles());
-        return new ModelAndView("user/UserList", USER_FORM, userForm);
+        return new ModelAndView(USER_LIST, USER_FORM, userForm);
     }
 
     /**
@@ -145,7 +149,7 @@ public class UserController {
     @PostMapping(value = "/user/SaveUser.htm")
     public ModelAndView saveUser(UserForm userForm) {
         logger.info(" Inside SaveUser method of user Controller ");
-        logger.info(" user instance to add to database " + userForm.toString());
+        logger.info(" user instance to add to database {}" , userForm);
         try {
             userForm.getUser().setCreatedDate(new Date());
             userForm.getUser().setModifiedDate(new Date());
@@ -158,18 +162,18 @@ public class UserController {
             userForm.setStatusMessage("Unable to save the user due to a database error");
             userForm.setStatusMessageType(ERROR);
             logger.error(e.getLocalizedMessage());
-            logger.error(" Exception type in controller " + e.ExceptionType);
+            logger.error(EXCEPTION_IN_CONTROLLER, e.ExceptionType);
             if (e.getExceptionType().equalsIgnoreCase(UserException.DATABASE_ERROR)) {
-                logger.info(" An error occurred while fetching data from database. !! ");
+                logger.info(DB_ERROR);
             } else {
-                logger.info(" An Unknown Error has been occurred !!");
+                logger.info(AN_UNKNOWN_ERROR_HAS_BEEN_OCCURRED);
             }
 
         } catch (Exception e1) {
             userForm.setStatusMessage("Unable to save the user due to an error");
             userForm.setStatusMessageType(ERROR);
             logger.error(e1.getLocalizedMessage());
-            logger.info(" An Unknown Error has been occurred !!");
+            logger.info(AN_UNKNOWN_ERROR_HAS_BEEN_OCCURRED);
 
         }
         List<UserVO> userList = null;
@@ -179,29 +183,27 @@ public class UserController {
             userForm.setStatusMessage("Unable to list the Users due to an error");
             userForm.setStatusMessageType(ERROR);
             logger.error(e.getLocalizedMessage());
-            logger.error(" Exception type in controller " + e.ExceptionType);
+            logger.error(EXCEPTION_IN_CONTROLLER, e.ExceptionType);
             if (e.getExceptionType().equalsIgnoreCase(UserException.DATABASE_ERROR)) {
-                logger.info(" An error occurred while fetching data from database. !! ");
+                logger.info(DB_ERROR);
             } else {
-                logger.info(" An Unknown Error has been occurred !!");
+                logger.info(AN_UNKNOWN_ERROR_HAS_BEEN_OCCURRED);
             }
 
         } catch (Exception e1) {
             logger.error(e1.getLocalizedMessage());
-            logger.info(" An Unknown Error has been occurred !!");
+            logger.info(AN_UNKNOWN_ERROR_HAS_BEEN_OCCURRED);
 
         }
         if (userList != null) {
-            for (UserVO userIteration : userList) {
-                logger.info(" user detail " + userIteration.toString());
-            }
+            userList.forEach(userIteration -> logger.info(" user detail : {}", userIteration));
         }
         userForm.setUserVOs(userList);
         userForm.setLoggedInUser(userForm.getLoggedInUser());
         userForm.setLoggedInRole(userForm.getLoggedInRole());
         userForm.setSearchUser(new UserVO());
         userForm.setRoleList(populateRoles());
-        return new ModelAndView("user/UserList", USER_FORM, userForm);
+        return new ModelAndView(USER_LIST, USER_FORM, userForm);
     }
 
     @PostMapping(value = "/user/saveUserAjax.htm")
@@ -212,9 +214,9 @@ public class UserController {
         logger.info("saveUserAjax method of user Controller ");
 
         StringBuilder responseString = new StringBuilder();
-        logger.info(" At saveUserAjax, selectName is : "+ selectName);
-        logger.info(" At saveUserAjax, selectLogin : "+ selectLogin);
-        logger.info(" At saveUserAjax, selectRole : "+ selectRole);
+        logger.info(" At saveUserAjax, selectName is : {}", selectName);
+        logger.info(" At saveUserAjax, selectLogin : {}", selectLogin);
+        logger.info(" At saveUserAjax, selectRole : {}", selectRole);
         UserVO ajaxUserVO = new UserVO();
         ajaxUserVO.setName(selectName);
         ajaxUserVO.setLoginId(selectName);
@@ -230,31 +232,31 @@ public class UserController {
             userService.save(ajaxUserVO);
         } catch (UserException e) {
             logger.error(e.getLocalizedMessage());
-            logger.error(" Exception type in controller " + e.ExceptionType);
+            logger.error(EXCEPTION_IN_CONTROLLER, e.ExceptionType);
             if (e.getExceptionType().equalsIgnoreCase(UserException.DATABASE_ERROR)) {
-                logger.info(" An error occurred while fetching data from database. !! ");
+                logger.info(DB_ERROR);
             } else {
-                logger.info(" An Unknown Error has been occurred !!");
+                logger.info(AN_UNKNOWN_ERROR_HAS_BEEN_OCCURRED);
             }
         } catch (Exception e1) {
             logger.error(e1.getLocalizedMessage());
-            logger.info(" An Unknown Error has been occurred !!");
+            logger.info(AN_UNKNOWN_ERROR_HAS_BEEN_OCCURRED);
         }
         List<UserVO> userList = null;
         try {
             userList = userService.getAllUserDetails();
         } catch (UserException e) {
             logger.error(e.getLocalizedMessage());
-            logger.error(" Exception type in controller " + e.ExceptionType);
+            logger.error(EXCEPTION_IN_CONTROLLER, e.ExceptionType);
             if (e.getExceptionType().equalsIgnoreCase(UserException.DATABASE_ERROR)) {
-                logger.info(" An error occurred while fetching data from database. !! ");
+                logger.info(DB_ERROR);
             } else {
-                logger.info(" An Unknown Error has been occurred !!");
+                logger.info(AN_UNKNOWN_ERROR_HAS_BEEN_OCCURRED);
             }
 
         } catch (Exception e1) {
             logger.error(e1.getLocalizedMessage());
-            logger.info(" An Unknown Error has been occurred !!");
+            logger.info(AN_UNKNOWN_ERROR_HAS_BEEN_OCCURRED);
 
         }
         responseString.append(fetchJSONUserList(userList));
@@ -283,27 +285,27 @@ public class UserController {
     @PostMapping(value = "/user/EditUser.htm")
     public ModelAndView editUser(UserForm userForm) {
         logger.info(" Inside EditUser method of user Controller ");
-        logger.info(" user is " + userForm.toString());
+        logger.info(" user is {}" , userForm);
         UserVO userVO = null;
         try {
             userVO = userService.getUserDetailsFromID(userForm.getId());
         } catch (UserException e) {
             logger.error(e.getLocalizedMessage());
-            logger.error(" Exception type in controller " + e.ExceptionType);
+            logger.error(EXCEPTION_IN_CONTROLLER, e.ExceptionType);
             if (e.getExceptionType().equalsIgnoreCase(UserException.DATABASE_ERROR)) {
-                logger.info(" An error occurred while fetching data from database. !! ");
+                logger.info(DB_ERROR);
             } else {
-                logger.info(" An Unknown Error has been occurred !!");
+                logger.info(AN_UNKNOWN_ERROR_HAS_BEEN_OCCURRED);
             }
 
         } catch (Exception e1) {
             logger.error(e1.getLocalizedMessage());
-            logger.info(" An Unknown Error has been occurred !!");
+            logger.info(AN_UNKNOWN_ERROR_HAS_BEEN_OCCURRED);
         }
         if (userVO == null) {
             logger.error(" No details found for current user !!");
         } else {
-            logger.info(" user details are " + userVO);
+            logger.info(" user details are {}" , userVO);
         }
         userForm.setUser(userVO);
         userForm.setLoggedInUser(userForm.getLoggedInUser());
@@ -324,7 +326,7 @@ public class UserController {
         try {
             userForm.getUser().setLastModifiedBy(userForm.getLoggedInUser());
             userForm.getUser().setModifiedDate(new Date());
-            logger.info(" user instance to update " + userForm.getUser().toString());
+            logger.info(" user instance to update {}", userForm.getUser());
             userService.UpdateUser(userForm.getUser());
             userForm.setStatusMessage("Successfully updated the user");
             userForm.setStatusMessageType(SUCCESS);
@@ -332,18 +334,18 @@ public class UserController {
             userForm.setStatusMessage("Unable to update the user due to a database error");
             userForm.setStatusMessageType(ERROR);
             logger.error(e.getLocalizedMessage());
-            logger.error(" Exception type in controller " + e.ExceptionType);
+            logger.error(EXCEPTION_IN_CONTROLLER, e.ExceptionType);
             if (e.getExceptionType().equalsIgnoreCase(UserException.DATABASE_ERROR)) {
-                logger.info(" An error occurred while fetching data from database. !! ");
+                logger.info(DB_ERROR);
             } else {
-                logger.info(" An Unknown Error has been occurred !!");
+                logger.info(AN_UNKNOWN_ERROR_HAS_BEEN_OCCURRED);
             }
 
         } catch (Exception e1) {
             userForm.setStatusMessage("Unable to update the user due to an error");
             userForm.setStatusMessageType(ERROR);
             logger.error(e1.getLocalizedMessage());
-            logger.info(" An Unknown Error has been occurred !!");
+            logger.info(AN_UNKNOWN_ERROR_HAS_BEEN_OCCURRED);
 
         }
         return listAll(userForm);
@@ -358,7 +360,7 @@ public class UserController {
     @PostMapping(value = "/user/DeleteUser.htm")
     public ModelAndView deleteUser(UserForm userForm) {
         logger.info(" Inside DeleteUser method of user Controller ");
-        logger.info(" user is " + userForm.toString());
+        logger.info(" user is {}" , userForm);
         try {
             userService.deleteUser(userForm.getId());
             userForm.setStatusMessage("Successfully deleted the user");
@@ -367,18 +369,18 @@ public class UserController {
             userForm.setStatusMessage("Unable to delete the user due to a database error");
             userForm.setStatusMessageType(ERROR);
             logger.error(e.getLocalizedMessage());
-            logger.error(" Exception type in controller " + e.ExceptionType);
+            logger.error(EXCEPTION_IN_CONTROLLER, e.ExceptionType);
             if (e.getExceptionType().equalsIgnoreCase(UserException.DATABASE_ERROR)) {
-                logger.info(" An error occurred while fetching data from database. !! ");
+                logger.info(DB_ERROR);
             } else {
-                logger.info(" An Unknown Error has been occurred !!");
+                logger.info(AN_UNKNOWN_ERROR_HAS_BEEN_OCCURRED);
             }
 
         } catch (Exception e1) {
             userForm.setStatusMessage("Unable to delete the user due to an error");
             userForm.setStatusMessageType(ERROR);
             logger.error(e1.getLocalizedMessage());
-            logger.info(" An Unknown Error has been occurred !!");
+            logger.info(AN_UNKNOWN_ERROR_HAS_BEEN_OCCURRED);
 
         }
 
@@ -420,7 +422,7 @@ public class UserController {
     @PostMapping(value = "/user/SearchUser.htm")
     public ModelAndView searchUser(UserForm userForm) {
         logger.info(" Inside SearchUser method of user Controller ");
-        logger.info(" user Details are " + userForm.getSearchUser().toString());
+        logger.info(" user Details are {}" , userForm.getSearchUser());
         List<UserVO> userList = null;
         try {
             userList = userService.searchUserDetails(userForm.getSearchUser());
@@ -432,18 +434,18 @@ public class UserController {
             userForm.setStatusMessage("Unable to search due to a database error");
             userForm.setStatusMessageType(ERROR);
             logger.error(e.getLocalizedMessage());
-            logger.error(" Exception type in controller {}" , e.ExceptionType);
+            logger.error(EXCEPTION_IN_CONTROLLER, e.ExceptionType);
             if (e.getExceptionType().equalsIgnoreCase(UserException.DATABASE_ERROR)) {
-                logger.info(" An error occurred while fetching data from database. !! ");
+                logger.info(DB_ERROR);
             } else {
-                logger.info(" An Unknown Error has been occurred !!");
+                logger.info(AN_UNKNOWN_ERROR_HAS_BEEN_OCCURRED);
             }
 
         } catch (Exception e1) {
             userForm.setStatusMessage("Unable to search due to an error");
             userForm.setStatusMessageType(ERROR);
             logger.error(e1.getLocalizedMessage());
-            logger.info(" An Unknown Error has been occurred !!");
+            logger.info(AN_UNKNOWN_ERROR_HAS_BEEN_OCCURRED);
 
         }
         if (userList != null) {
@@ -451,7 +453,7 @@ public class UserController {
         }
         userForm.setUserVOs(userList);
         userForm.setRoleList(populateRoles());
-        return new ModelAndView("user/UserList", USER_FORM, userForm);
+        return new ModelAndView(USER_LIST, USER_FORM, userForm);
     }
 
 }

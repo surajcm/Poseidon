@@ -11,6 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -29,26 +30,32 @@ import java.util.List;
 @SuppressWarnings("unused")
 public class MakeController {
     private static final Logger LOG = LoggerFactory.getLogger(MakeController.class);
+    private static final String ERROR = "error";
+    private static final String MAKE_FORM = "makeForm";
+    private static final String SUCCESS = "success";
+    private static final String UNKNOWN_ERROR_HAS_BEEN_OCCURRED = " An Unknown Error has been occurred !!";
+    private static final String MAKE_FORM_IS = " makeForm is {}";
+    private static final String MAKE_VO_IS = " makeVO is {}";
 
     @Autowired
     private MakeService makeService;
 
     @RequestMapping(value = "/make/ModelList.htm", method = {RequestMethod.POST, RequestMethod.GET})
-    public ModelAndView ModelList(MakeForm makeForm) {
+    public ModelAndView modelList(MakeForm makeForm) {
         LOG.info(" Inside List method of MakeController ");
-        LOG.info(" form details are  " + makeForm);
+        LOG.info(" form details are  {}" , makeForm);
 
         List<MakeAndModelVO> makeAndModelVOs = null;
         try {
             makeAndModelVOs = makeService.listAllMakesAndModels();
         } catch (Exception e) {
             makeForm.setStatusMessage("Unable to list the Models due to an error");
-            makeForm.setStatusMessageType("error");
+            makeForm.setStatusMessageType(ERROR);
             LOG.error(e.getLocalizedMessage());
         }
         if (makeAndModelVOs != null) {
             for (MakeAndModelVO makeAndModelVO : makeAndModelVOs) {
-                LOG.debug(" makeAndModelVO is " + makeAndModelVO);
+                LOG.debug(" makeAndModelVO is {}" , makeAndModelVO);
             }
             makeForm.setMakeAndModelVOs(makeAndModelVOs);
         }
@@ -60,31 +67,29 @@ public class MakeController {
         }
         if (makeVOs != null) {
             for (MakeVO makeVO : makeVOs) {
-                LOG.debug(" makeVO is " + makeVO);
+                LOG.debug(MAKE_VO_IS, makeVO);
             }
             makeForm.setMakeVOs(makeVOs);
         }
         makeForm.setSearchMakeAndModelVO(new MakeAndModelVO());
         makeForm.setLoggedInRole(makeForm.getLoggedInRole());
         makeForm.setLoggedInUser(makeForm.getLoggedInUser());
-        return new ModelAndView("make/ModelList", "makeForm", makeForm);
+        return new ModelAndView("make/ModelList", MAKE_FORM, makeForm);
     }
 
-    @RequestMapping(value = "/make/MakeList.htm", method = RequestMethod.POST)
-    public ModelAndView MakeList(MakeForm makeForm) {
+    @PostMapping(value = "/make/MakeList.htm")
+    public ModelAndView makeList(MakeForm makeForm) {
         LOG.info(" listMake List method of MakeController ");
         List<MakeAndModelVO> makeAndModelVOs = null;
         try {
             makeAndModelVOs = makeService.listAllMakes();
         } catch (Exception e) {
             makeForm.setStatusMessage("Unable to list the Makes due to an error");
-            makeForm.setStatusMessageType("error");
+            makeForm.setStatusMessageType(ERROR);
             LOG.error(e.getLocalizedMessage());
         }
         if (makeAndModelVOs != null) {
-            for (MakeAndModelVO makeAndModelVO : makeAndModelVOs) {
-                LOG.debug(" makeAndModelVO is " + makeAndModelVO);
-            }
+            makeAndModelVOs.forEach(makeAndModelVO -> LOG.debug(" makeAndModelVO is {}", makeAndModelVO));
             makeForm.setMakeAndModelVOs(makeAndModelVOs);
         }
 
@@ -95,61 +100,57 @@ public class MakeController {
             LOG.error(e.getLocalizedMessage());
         }
         if (makeVOs != null) {
-            for (MakeVO makeVO : makeVOs) {
-                LOG.debug(" makeVO is " + makeVO);
-            }
+            makeVOs.forEach(makeVO -> LOG.debug(MAKE_VO_IS, makeVO));
             makeForm.setMakeVOs(makeVOs);
         }
         makeForm.setSearchMakeAndModelVO(new MakeAndModelVO());
         makeForm.setLoggedInRole(makeForm.getLoggedInRole());
         makeForm.setLoggedInUser(makeForm.getLoggedInUser());
-        return new ModelAndView("make/MakeList", "makeForm", makeForm);
+        return new ModelAndView("make/MakeList", MAKE_FORM, makeForm);
 
     }
 
-    @RequestMapping(value = "/make/editMake.htm", method = RequestMethod.POST)
-    @SuppressWarnings("unused")
+    @PostMapping(value = "/make/editMake.htm")
     public ModelAndView editMake(MakeForm makeForm) {
         LOG.debug(" editMake method of MakeController ");
-        LOG.debug(" makeForm is " + makeForm.toString());
+        LOG.debug(MAKE_FORM_IS, makeForm);
         MakeAndModelVO makeVO = null;
         try {
             makeVO = makeService.getMakeFromId(makeForm.getId());
         } catch (Exception e1) {
             LOG.error(e1.getLocalizedMessage());
-            LOG.error(" An Unknown Error has been occurred !!");
+            LOG.error(UNKNOWN_ERROR_HAS_BEEN_OCCURRED);
         }
 
         if (makeVO == null) {
             LOG.error(" No details found for current makeVO !!");
         } else {
-            LOG.debug(" makeVO details are " + makeVO);
+            LOG.debug(" makeVO details are {}" , makeVO);
         }
 
         makeForm.setCurrentMakeAndModeVO(makeVO);
 
         makeForm.setLoggedInUser(makeForm.getLoggedInUser());
         makeForm.setLoggedInRole(makeForm.getLoggedInRole());
-        return new ModelAndView("make/MakeEdit", "makeForm", makeForm);
+        return new ModelAndView("make/MakeEdit", MAKE_FORM, makeForm);
     }
 
-    @RequestMapping(value = "/make/deleteMake.htm", method = RequestMethod.POST)
+    @PostMapping(value = "/make/deleteMake.htm")
     @SuppressWarnings("unused")
     public ModelAndView deleteMake(MakeForm makeForm) {
         LOG.debug("  deleteMake method of MakeController ");
-        LOG.debug(" makeForm is " + makeForm.toString());
+        LOG.debug(MAKE_FORM_IS , makeForm);
         try {
             makeService.deleteMake(makeForm.getId());
         } catch (Exception e1) {
             LOG.error(e1.getLocalizedMessage());
-            LOG.error(" An Unknown Error has been occurred !!");
+            LOG.error(UNKNOWN_ERROR_HAS_BEEN_OCCURRED);
 
         }
-
         makeForm.setLoggedInUser(makeForm.getLoggedInUser());
         makeForm.setLoggedInRole(makeForm.getLoggedInRole());
         makeForm.setCurrentMakeAndModeVO(new MakeAndModelVO());
-        return MakeList(makeForm);
+        return makeList(makeForm);
     }
 
     @RequestMapping(value = "/make/addModel.htm", method = {RequestMethod.GET, RequestMethod.POST})
@@ -166,33 +167,31 @@ public class MakeController {
             LOG.error(e.getLocalizedMessage());
         }
         if (makeVOs != null) {
-            for (MakeAndModelVO makeVO : makeVOs) {
-                LOG.debug(" makeVO is " + makeVO);
-            }
+            makeVOs.forEach(makeVO -> LOG.debug(MAKE_VO_IS, makeVO));
             makeForm.setMakeAndModelVOs(makeVOs);
         }
-        return new ModelAndView("make/ModelAdd", "makeForm", makeForm);
+        return new ModelAndView("make/ModelAdd", MAKE_FORM, makeForm);
     }
 
-    @RequestMapping(value = "/make/editModel.htm", method = RequestMethod.POST)
+    @PostMapping(value = "/make/editModel.htm")
     @SuppressWarnings("unused")
     public ModelAndView editModel(MakeForm makeForm) {
         LOG.debug(" editModel method of MakeController ");
 
-        LOG.debug(" makeForm is " + makeForm.toString());
+        LOG.debug(MAKE_FORM_IS , makeForm);
         MakeAndModelVO makeVO = null;
         try {
             makeVO = makeService.getModelFromId(makeForm.getId());
 
         } catch (Exception e1) {
             LOG.error(e1.getLocalizedMessage());
-            LOG.error(" An Unknown Error has been occurred !!");
+            LOG.error(UNKNOWN_ERROR_HAS_BEEN_OCCURRED);
         }
 
         if (makeVO == null) {
             LOG.error(" No details found for current makeVO !!");
         } else {
-            LOG.info(" makeVO details are " + makeVO);
+            LOG.info(" makeVO details are {}" , makeVO);
         }
 
         makeForm.setCurrentMakeAndModeVO(makeVO);
@@ -203,41 +202,37 @@ public class MakeController {
             LOG.error(e.getLocalizedMessage());
         }
         if (makeVOs != null) {
-            for (MakeAndModelVO makeVONew : makeVOs) {
-                LOG.debug(" makeVO is " + makeVONew);
-            }
+            makeVOs.forEach(makeVONew -> LOG.debug(MAKE_VO_IS, makeVONew));
             makeForm.setMakeAndModelVOs(makeVOs);
         }
         makeForm.setLoggedInUser(makeForm.getLoggedInUser());
         makeForm.setLoggedInRole(makeForm.getLoggedInRole());
-        return new ModelAndView("make/ModelEdit", "makeForm", makeForm);
+        return new ModelAndView("make/ModelEdit", MAKE_FORM, makeForm);
     }
 
-    @RequestMapping(value = "/make/deleteModel.htm", method = RequestMethod.POST)
+    @PostMapping(value = "/make/deleteModel.htm")
     @SuppressWarnings("unused")
     public ModelAndView deleteModel(MakeForm makeForm) {
         LOG.debug(" listMake deleteModel method of MakeController ");
-
-        LOG.debug(" makeForm is " + makeForm.toString());
+        LOG.debug(MAKE_FORM_IS , makeForm);
         try {
             makeService.deleteModel(makeForm.getId());
             makeForm.setStatusMessage("Successfully deleted the selected Model");
-            makeForm.setStatusMessageType("success");
+            makeForm.setStatusMessageType(SUCCESS);
         } catch (Exception e1) {
             makeForm.setStatusMessage("Unable to delete the selected Model");
-            makeForm.setStatusMessageType("error");
+            makeForm.setStatusMessageType(ERROR);
             LOG.error(e1.getLocalizedMessage());
-            LOG.debug(" An Unknown Error has been occurred !!");
-
+            LOG.debug(UNKNOWN_ERROR_HAS_BEEN_OCCURRED);
         }
 
         makeForm.setLoggedInUser(makeForm.getLoggedInUser());
         makeForm.setLoggedInRole(makeForm.getLoggedInRole());
         makeForm.setCurrentMakeAndModeVO(new MakeAndModelVO());
-        return ModelList(makeForm);
+        return modelList(makeForm);
     }
 
-    @RequestMapping(value = "/make/saveMakeAjax.htm", method = RequestMethod.POST)
+    @PostMapping(value = "/make/saveMakeAjax.htm")
     public @ResponseBody
     String saveMakeAjax(@ModelAttribute(value = "selectMakeName") String  selectMakeName,
                          @ModelAttribute(value = "selectMakeDesc") String  selectMakeDesc,
@@ -245,8 +240,8 @@ public class MakeController {
         LOG.info("saveMakeAjax1 method of MakeController ");
         StringBuilder responseString = new StringBuilder();
         if (!result.hasErrors()) {
-            LOG.info("selectMakeName : " + selectMakeName);
-            LOG.info("selectMakeDesc : " + selectMakeDesc);
+            LOG.info("selectMakeName : {}" , selectMakeName);
+            LOG.info("selectMakeDesc : {}" , selectMakeDesc);
             MakeForm makeForm = new MakeForm();
             // todo: how to get this ??
             //makeForm.getCurrentMakeAndModeVO().setCreatedBy(makeForm.getLoggedInUser());
@@ -263,19 +258,19 @@ public class MakeController {
             try {
                 makeService.addNewMake(makeForm.getCurrentMakeAndModeVO());
                 makeForm.setStatusMessage("Successfully saved the new make Detail");
-                makeForm.setStatusMessageType("success");
+                makeForm.setStatusMessageType(SUCCESS);
             } catch (Exception e1) {
                 makeForm.setStatusMessage("Unable to save the make Detail due to an error");
-                makeForm.setStatusMessageType("error");
+                makeForm.setStatusMessageType(ERROR);
                 LOG.error(e1.getLocalizedMessage());
-                LOG.info(" An Unknown Error has been occurred !!");
+                LOG.info(UNKNOWN_ERROR_HAS_BEEN_OCCURRED);
             }
             //get all the make and pass it as a json object
             List<MakeVO> makes = makeService.fetchMakes();
             responseString.append(fetchJSONMakeList(makes));
 
         } else {
-            LOG.info("errors " + result.toString());
+            LOG.info("errors {}" , result);
         }
         return responseString.toString();
     }
@@ -286,60 +281,59 @@ public class MakeController {
         try {
             response = mapper.writeValueAsString(makeVOS);
         } catch (IOException e) {
-            response = "error";
+            response = ERROR;
             LOG.error(e.getMessage());
         }
         LOG.info(response);
         return response;
     }
 
-    @RequestMapping(value = "/make/updateMake.htm", method = RequestMethod.POST)
-    @SuppressWarnings("unused")
+    @PostMapping(value = "/make/updateMake.htm")
     public ModelAndView updateMake(MakeForm makeForm) {
         LOG.info(" updateMake method of MakeController ");
-        LOG.info(" makeForm instance to add to database  " + makeForm);
+        LOG.info(" makeForm instance to add to database  {}" , makeForm);
         makeForm.getCurrentMakeAndModeVO().setModifiedDate(new Date());
         makeForm.getCurrentMakeAndModeVO().setModifiedBy(makeForm.getLoggedInUser());
         try {
             makeService.updateMake(makeForm.getCurrentMakeAndModeVO());
             makeForm.setStatusMessage("Updated the make successfully");
-            makeForm.setStatusMessageType("success");
+            makeForm.setStatusMessageType(SUCCESS);
         } catch (Exception e1) {
             makeForm.setStatusMessage("Unable to update the selected make");
-            makeForm.setStatusMessageType("error");
+            makeForm.setStatusMessageType(ERROR);
             LOG.error(e1.getLocalizedMessage());
-            LOG.error(" An Unknown Error has been occurred !!");
+            LOG.error(UNKNOWN_ERROR_HAS_BEEN_OCCURRED);
 
         }
-        return MakeList(makeForm);
+        return makeList(makeForm);
 
     }
 
-    @RequestMapping(value = "/make/updateModel.htm", method = RequestMethod.POST)
+    @PostMapping(value = "/make/updateModel.htm")
     public ModelAndView updateModel(MakeForm makeForm) {
         LOG.debug(" updateModel method of MakeController ");
-        LOG.debug(" makeForm instance to add to database " + makeForm.toString());
+        LOG.debug(" makeForm instance to add to database {}" , makeForm);
         makeForm.getCurrentMakeAndModeVO().setModifiedDate(new Date());
         makeForm.getCurrentMakeAndModeVO().setModifiedBy(makeForm.getLoggedInUser());
         try {
             makeService.updateModel(makeForm.getCurrentMakeAndModeVO());
             makeForm.setStatusMessage("Updated the Model successfully");
-            makeForm.setStatusMessageType("success");
+            makeForm.setStatusMessageType(SUCCESS);
         } catch (Exception e1) {
             makeForm.setStatusMessage("Unable to update the selected Model");
-            makeForm.setStatusMessageType("error");
+            makeForm.setStatusMessageType(ERROR);
             LOG.error(e1.getLocalizedMessage());
-            LOG.error(" An Unknown Error has been occurred !!");
+            LOG.error(UNKNOWN_ERROR_HAS_BEEN_OCCURRED);
 
         }
-        return ModelList(makeForm);
+        return modelList(makeForm);
 
     }
 
-    @RequestMapping(value = "/make/saveModel.htm", method = RequestMethod.POST)
+    @PostMapping(value = "/make/saveModel.htm")
     public ModelAndView saveModel(MakeForm makeForm) {
         LOG.info(" saveModel method of MakeController ");
-        LOG.info(" makeForm instance to add to database " + makeForm.toString());
+        LOG.info(" makeForm instance to add to database {}" , makeForm);
         makeForm.getCurrentMakeAndModeVO().setCreatedDate(new Date());
         makeForm.getCurrentMakeAndModeVO().setModifiedDate(new Date());
         makeForm.getCurrentMakeAndModeVO().setCreatedBy(makeForm.getLoggedInUser());
@@ -347,22 +341,22 @@ public class MakeController {
         try {
             makeService.addNewModel(makeForm.getCurrentMakeAndModeVO());
             makeForm.setStatusMessage("Saved the new Model successfully");
-            makeForm.setStatusMessageType("success");
+            makeForm.setStatusMessageType(SUCCESS);
         } catch (Exception e1) {
             makeForm.setStatusMessage("Unable to save the new Model");
-            makeForm.setStatusMessageType("error");
+            makeForm.setStatusMessageType(ERROR);
             LOG.error(e1.getLocalizedMessage());
-            LOG.error(" An Unknown Error has been occurred !!");
+            LOG.error(UNKNOWN_ERROR_HAS_BEEN_OCCURRED);
 
         }
-        return ModelList(makeForm);
+        return modelList(makeForm);
     }
 
-    @RequestMapping(value = "/make/searchModel.htm", method = RequestMethod.POST)
+    @PostMapping(value = "/make/searchModel.htm")
     public ModelAndView searchModel(MakeForm makeForm) {
         LOG.debug(" searchModel method of MakeController ");
-        LOG.debug(" makeForm instance to search " + makeForm.toString());
-        LOG.debug(" searchVO instance to search " + makeForm.getSearchMakeAndModelVO());
+        LOG.debug(" makeForm instance to search {}" , makeForm);
+        LOG.debug(" searchVO instance to search {}" , makeForm.getSearchMakeAndModelVO());
         List<MakeAndModelVO> makeVOs = null;
         try {
             makeVOs = makeService.searchMakeVOs(makeForm.getSearchMakeAndModelVO());
@@ -370,13 +364,11 @@ public class MakeController {
             makeForm.setStatusMessageType("info");
         } catch (Exception e) {
             makeForm.setStatusMessage("Unable get the Model");
-            makeForm.setStatusMessageType("error");
+            makeForm.setStatusMessageType(ERROR);
             LOG.error(e.getLocalizedMessage());
         }
         if (makeVOs != null) {
-            for (MakeAndModelVO makeVO : makeVOs) {
-                LOG.debug(" makeVO is " + makeVO);
-            }
+            makeVOs.forEach(makeVO -> LOG.debug(MAKE_VO_IS, makeVO));
             makeForm.setMakeAndModelVOs(makeVOs);
         }
         List<MakeVO> searchMakeVOs = null;
@@ -385,19 +377,17 @@ public class MakeController {
         } catch (Exception e) {
             LOG.error(e.getLocalizedMessage());
         }
-        if (makeVOs != null) {
-            for (MakeVO searchMakeVO : searchMakeVOs) {
-                LOG.debug(" searchMakeVO is " + searchMakeVO);
-            }
+        if (searchMakeVOs != null) {
+            searchMakeVOs.forEach(searchMakeVO -> LOG.debug(" searchMakeVO is {}", searchMakeVO));
             makeForm.setMakeVOs(searchMakeVOs);
         }
         makeForm.setLoggedInRole(makeForm.getLoggedInRole());
         makeForm.setLoggedInUser(makeForm.getLoggedInUser());
-        return new ModelAndView("make/ModelList", "makeForm", makeForm);
+        return new ModelAndView("make/ModelList", MAKE_FORM, makeForm);
 
     }
 
-    @RequestMapping(value = "/make/printMake.htm", method = RequestMethod.POST)
+    @PostMapping(value = "/make/printMake.htm")
     public ModelAndView printMake(MakeForm makeForm) {
         return null;
     }

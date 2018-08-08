@@ -7,8 +7,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.util.Date;
@@ -26,10 +25,10 @@ public class CompanyTermsController {
     @Autowired
     private CompanyTermsService companyTermsService;
 
-    @RequestMapping(value = "/company/List.htm", method = RequestMethod.POST)
-    public ModelAndView List(CompanyTermsForm companyTermsForm) {
+    @PostMapping(value = "/company/List.htm")
+    public ModelAndView list(CompanyTermsForm companyTermsForm) {
         LOG.info(" Inside List method of CompanyTermsController ");
-        LOG.info(" form details are " + companyTermsForm);
+        LOG.info(" form details are {}" , companyTermsForm);
 
         CompanyTermsVO companyTermsVO = null;
         try {
@@ -38,7 +37,7 @@ public class CompanyTermsController {
             LOG.error(e.getLocalizedMessage());
         }
         if (companyTermsVO != null) {
-            LOG.info(" companyTermsVO is " + companyTermsVO);
+            LOG.info(" companyTermsVO is {}" , companyTermsVO);
             companyTermsForm.setCurrentCompanyTermsVO(companyTermsVO);
         } else {
             companyTermsForm.setCurrentCompanyTermsVO(new CompanyTermsVO());
@@ -48,10 +47,10 @@ public class CompanyTermsController {
         return new ModelAndView("company/TermsList", "companyTermsForm", companyTermsForm);
     }
 
-    @RequestMapping(value = "/company/updateCompanyDetails.htm", method = RequestMethod.POST)
+    @PostMapping(value = "/company/updateCompanyDetails.htm")
     public ModelAndView updateCompanyDetails(CompanyTermsForm companyTermsForm) {
         LOG.info(" Inside editTerms method of CompanyTermsController ");
-        LOG.info(" form details are " + companyTermsForm);
+        LOG.info(" form details are {}" , companyTermsForm);
 
         companyTermsForm.getCurrentCompanyTermsVO().setModifiedBy(companyTermsForm.getLoggedInUser());
         companyTermsForm.getCurrentCompanyTermsVO().setModifiedDate(new Date());
@@ -62,7 +61,7 @@ public class CompanyTermsController {
             LOG.error(e.getLocalizedMessage());
         }
         if (companyTermsVO != null) {
-            LOG.info(" companyTermsVO is " + companyTermsVO);
+            LOG.info(" companyTermsVO is {}" , companyTermsVO);
             companyTermsForm.setCurrentCompanyTermsVO(companyTermsVO);
         } else {
             companyTermsForm.setCurrentCompanyTermsVO(new CompanyTermsVO());

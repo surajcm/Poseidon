@@ -5,6 +5,8 @@ import com.poseidon.company.dao.entities.CompanyTerms;
 import com.poseidon.company.domain.CompanyTermsVO;
 import com.poseidon.company.exception.CompanyTermsException;
 import org.apache.commons.collections.CollectionUtils;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Repository;
@@ -21,8 +23,11 @@ import java.util.Optional;
 @SuppressWarnings("unused")
 public class CompanyTermsDAOImpl implements CompanyTermsDAO {
 
+    private static final Logger logger = LoggerFactory.getLogger(CompanyTermsDAOImpl.class);
+
     @Autowired
     private CompanyTermsRepository companyTermsRepository;
+
 
     public CompanyTermsVO listCompanyTerms() throws CompanyTermsException {
         CompanyTermsVO companyTermsVO = null;
@@ -70,7 +75,7 @@ public class CompanyTermsDAOImpl implements CompanyTermsDAO {
                 termsVO = convertToCompanyTermsVO(updatedCompanyTerms);
             }
         } catch (DataAccessException e) {
-            e.printStackTrace();
+            logger.error(e.getMessage());
             throw new CompanyTermsException(CompanyTermsException.DATABASE_ERROR);
         }
         return termsVO;
