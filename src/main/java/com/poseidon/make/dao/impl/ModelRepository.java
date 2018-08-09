@@ -11,9 +11,6 @@ import java.util.List;
 public interface ModelRepository extends JpaRepository<Model, Long> {
     List<Model> findByModelName(String modelName);
 
-    @Query("Select m from Model m where m.modelName like %:modelName%")
-    List<Model> findByModelNameIncldue(String modelName);
-
-    @Query("Select m from Model m where m.modelName like :modelName%")
-    List<Model> findByModelNameStartsWith(String modelName);
+    @Query("Select m from Model m where m.modelName like :modelName")
+    List<Model> findByModelNameWildCard(String modelName);
 }

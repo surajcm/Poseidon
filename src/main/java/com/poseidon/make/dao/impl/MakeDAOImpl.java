@@ -11,16 +11,12 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
-import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * user: Suraj
@@ -31,9 +27,6 @@ import java.util.Set;
 @SuppressWarnings("unused")
 public class MakeDAOImpl implements MakeDAO {
     private static final Logger LOG = LoggerFactory.getLogger(MakeDAOImpl.class);
-
-    @Autowired
-    private JdbcTemplate jdbcTemplate;
 
     @Autowired
     private MakeRepository makeRepository;
@@ -212,20 +205,16 @@ public class MakeDAOImpl implements MakeDAO {
             Optional<Make> optionalMake = makeRepository.findById(makeId);
             if(optionalMake.isPresent()) {
                 Make make = optionalMake.get();
-                Set<Model> models = make.getModels();
+                List<Model> models = make.getModels();
                 if(!models.isEmpty()) {
                     for(Model model:models) {
-                        MakeAndModelVO makeAndModelVO = new MakeAndModelVO();
-                        makeAndModelVO.setModelId(model.getModelId());
-                        makeAndModelVO.setModelName(model.getModelName());
-                        makeAndModelVO.setMakeId(model.getMakeId());
-                        makeAndModelVO.setMakeName(make.getMakeName());
+                        MakeAndModelVO makeAndModelVO = getMakeAndModelVO(make, model);
                         makeVOs.add(makeAndModelVO);
                     }
                 }
             }
         } catch (DataAccessException e) {
-            e.printStackTrace();
+            LOG.error(e.getMessage());
             throw new MakeException(MakeException.DATABASE_ERROR);
         }
         return makeVOs;
@@ -246,95 +235,43 @@ public class MakeDAOImpl implements MakeDAO {
     }
 
     private List<MakeAndModelVO> searchModels(MakeAndModelVO searchMakeVO) {
-        /*StringBuffer DYNAMIC_MODEL_SEARCH_QUERY = new StringBuffer();
-        DYNAMIC_MODEL_SEARCH_QUERY.append(" SELECT m.id, m.modelName,m.makeId,ma.makeName ")
-                .append(" FROM model m inner join make ma on m.makeId = ma.id ");
-        Boolean isWhereAdded = Boolean.FALSE;
-        if (searchMakeVO.getMakeId() != null && searchMakeVO.getMakeId() > 0) {
-            DYNAMIC_MODEL_SEARCH_QUERY.append(" where ");
-            isWhereAdded = Boolean.TRUE;
-            DYNAMIC_MODEL_SEARCH_QUERY.append(" ma.id = ").append(searchMakeVO.getMakeId());
-        }
-        if (searchMakeVO.getModelName() != null && searchMakeVO.getModelName().trim().length() > 0) {
-            if (!isWhereAdded) {
-                DYNAMIC_MODEL_SEARCH_QUERY.append(" where ");
-                isWhereAdded = Boolean.TRUE;
-            } else {
-                DYNAMIC_MODEL_SEARCH_QUERY.append(" and ");
-            }
-            if (searchMakeVO.getIncludes()) {
-                DYNAMIC_MODEL_SEARCH_QUERY.append(" m.modelName like '%").append(searchMakeVO.getModelName()).append
-                        ("%'");
-            } else if (searchMakeVO.getStartswith()) {
-                DYNAMIC_MODEL_SEARCH_QUERY.append(" m.modelName like '").append(searchMakeVO.getModelName()).append
-                        ("%'");
-            } else {
-                DYNAMIC_MODEL_SEARCH_QUERY.append(" m.modelName like '").append(searchMakeVO.getModelName()).append
-                        ("'");
-            }
-        }*/
-
         List<MakeAndModelVO> makeAndModelVOS = new ArrayList<>();
         if (searchMakeVO.getMakeId() != null && searchMakeVO.getMakeId() > 0) {
             Optional<Make> optionalMake = makeRepository.findById(searchMakeVO.getMakeId());
             if (optionalMake.isPresent()) {
                 Make make = optionalMake.get();
-                Set<Model> models = make.getModels();
-                for(Model model:models) {
-                    MakeAndModelVO makeAndModelVO = new MakeAndModelVO();
-                    makeAndModelVO.setModelId(model.getModelId());
-                    makeAndModelVO.setModelName(model.getModelName());
-                    makeAndModelVO.setMakeId(model.getMakeId());
-                    makeAndModelVO.setMakeName(make.getMakeName());
-                    makeAndModelVOS.add(makeAndModelVO);
-                }
+                List<Model> models = make.getModels();
+                makeAndModelVOS = models.stream().map(model -> getMakeAndModelVO(make, model))
+                        .collect(Collectors.toList());
             }
         }
-
         if (searchMakeVO.getModelName() != null && searchMakeVO.getModelName().trim().length() > 0) {
             String modelName = searchMakeVO.getModelName();
             List<Model> models;
             if(searchMakeVO.getIncludes()) {
-                models = modelRepository.findByModelNameIncldue(modelName);
+                models = modelRepository.findByModelNameWildCard("%"+modelName+"%");
             } else if (searchMakeVO.getStartswith()) {
-                models = modelRepository.findByModelNameStartsWith(modelName);
+                models = modelRepository.findByModelNameWildCard(modelName+"%");
             } else {
                 models = modelRepository.findByModelName(modelName);
             }
             for(Model model:models) {
-                MakeAndModelVO makeAndModelVO = new MakeAndModelVO();
-                makeAndModelVO.setModelId(model.getModelId());
-                makeAndModelVO.setModelName(model.getModelName());
-                makeAndModelVO.setMakeId(model.getMakeId());
-                makeAndModelVO.setMakeName(model.getMake().getMakeName());
+                MakeAndModelVO makeAndModelVO = getMakeAndModelVO(model.getMake(), model);
                 if (!makeAndModelVOS.contains(makeAndModelVO)) {
                     makeAndModelVOS.add(makeAndModelVO);
                 }
             }
         }
 
-
-
-        //LOG.info(" The query generated for search is " + DYNAMIC_MODEL_SEARCH_QUERY.toString());
         return makeAndModelVOS;
     }
 
-    private class MakeAndModelListRowMapper implements RowMapper {
-        /**
-         * method to map the result to vo
-         *
-         * @param resultSet resultSet instance
-         * @param i         i instance
-         * @return UserVO as Object
-         * @throws java.sql.SQLException on error
-         */
-        public Object mapRow(ResultSet resultSet, int i) throws SQLException {
-            MakeAndModelVO makeVO = new MakeAndModelVO();
-            makeVO.setModelId(resultSet.getLong("id"));
-            makeVO.setModelName(resultSet.getString("modelName"));
-            makeVO.setMakeId(resultSet.getLong("makeId"));
-            makeVO.setMakeName(resultSet.getString("makeName"));
-            return makeVO;
-        }
+    private MakeAndModelVO getMakeAndModelVO(Make make, Model model) {
+        MakeAndModelVO makeAndModelVO = new MakeAndModelVO();
+        makeAndModelVO.setModelId(model.getModelId());
+        makeAndModelVO.setModelName(model.getModelName());
+        makeAndModelVO.setMakeId(model.getMakeId());
+        makeAndModelVO.setMakeName(make.getMakeName());
+        return makeAndModelVO;
     }
 }

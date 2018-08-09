@@ -57,7 +57,7 @@ public class UserDAOImpl implements UserDAO {
             if (!userVO.getPassword().equalsIgnoreCase(user.getPassword())) {
                 throw new UserException(UserException.INCORRECT_PASSWORD);
             }
-            LOG.info(" Password matched successfully, user details are {}" , user.toString());
+            LOG.info(" Password matched successfully, user details are {}" , user);
         } else {
             // invalid user
             throw new UserException(UserException.UNKNOWN_USER);

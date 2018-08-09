@@ -10,7 +10,7 @@ import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 import java.time.OffsetDateTime;
-import java.util.Set;
+import java.util.List;
 
 @Entity
 //todo : add schema
@@ -40,7 +40,7 @@ public class Make {
     private String modifiedBy;
 
     @OneToMany(mappedBy="make")
-    private Set<Model> models;
+    private List<Model> models;
 
     public Long getMakeId() {
         return makeId;
@@ -98,11 +98,11 @@ public class Make {
         this.modifiedBy = modifiedBy;
     }
 
-    public Set<Model> getModels() {
+    public List<Model> getModels() {
         return models;
     }
 
-    public void setModels(Set<Model> models) {
+    public void setModels(List<Model> models) {
         this.models = models;
     }
 
