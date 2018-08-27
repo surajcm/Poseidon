@@ -4,16 +4,20 @@ import com.poseidon.customer.dao.CustomerDAO;
 import com.poseidon.customer.dao.entities.Customer;
 import com.poseidon.customer.domain.CustomerVO;
 import com.poseidon.customer.exception.CustomerException;
+import org.hibernate.Session;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
+import org.springframework.util.StringUtils;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -34,6 +38,9 @@ public class CustomerDAOImpl implements CustomerDAO {
 
     @Autowired
     private CustomerRepository customerRepository;
+
+    @PersistenceContext
+    private EntityManager em;
 
     public List<CustomerVO> listAllCustomerDetails() throws CustomerException {
         List<CustomerVO> customerVOs;
@@ -178,73 +185,46 @@ public class CustomerDAOImpl implements CustomerDAO {
     }
 
     private List<CustomerVO> searchCustomerInDetail(CustomerVO searchVO) {
-        StringBuilder SEARCH_QUERY = new StringBuilder();
-        SEARCH_QUERY.append(" SELECT id, name, address1, address2, phone, mobile, email, contactPerson1,")
-                .append(" contactPhone1, contactPerson2, ContactPhone2, note FROM customer ");
-        Boolean isWhereAdded = Boolean.FALSE;
-        if (searchVO.getCustomerId() != null && searchVO.getCustomerId() > 0) {
-            SEARCH_QUERY.append(" where ");
-            isWhereAdded = Boolean.TRUE;
-            SEARCH_QUERY.append(" id = ").append(searchVO.getCustomerId());
-        }
-        if (searchVO.getCustomerName() != null && searchVO.getCustomerName().trim().length() > 0) {
-            if (!isWhereAdded) {
-                SEARCH_QUERY.append(" where ");
-                isWhereAdded = Boolean.TRUE;
-            } else {
-                SEARCH_QUERY.append(" and ");
-            }
-            if (searchVO.getIncludes()) {
-                SEARCH_QUERY.append(" name like '%").append(searchVO.getCustomerName()).append("%'");
-            } else if (searchVO.getStartsWith()) {
-                SEARCH_QUERY.append(" name like '").append(searchVO.getCustomerName()).append("%'");
-            } else {
-                SEARCH_QUERY.append(" name like '").append(searchVO.getCustomerName()).append("'");
-            }
-        }
-        if (searchVO.getMobile() != null && searchVO.getMobile().trim().length() > 0) {
-            if (!isWhereAdded) {
-                SEARCH_QUERY.append(" where ");
-                isWhereAdded = Boolean.TRUE;
-            } else {
-                SEARCH_QUERY.append(" and ");
-            }
-            if (searchVO.getIncludes()) {
-                SEARCH_QUERY.append(" mobile like '%").append(searchVO.getMobile()).append("%'");
-            } else if (searchVO.getStartsWith()) {
-                SEARCH_QUERY.append(" mobile like '").append(searchVO.getMobile()).append("%'");
-            } else {
-                SEARCH_QUERY.append(" mobile like '").append(searchVO.getMobile()).append("'");
-            }
-        }
-        LOG.info("Search query is " + SEARCH_QUERY.toString());
-        return (List<CustomerVO>) jdbcTemplate.query(SEARCH_QUERY.toString(), new CustomerListRowMapper());
-    }
+        CriteriaBuilder builder = em.unwrap(Session.class).getCriteriaBuilder();
+        CriteriaQuery<Customer> criteria = builder.createQuery(Customer.class);
+        Root<Customer> customerRoot = criteria.from(Customer.class);
+        criteria.select(customerRoot);
 
-    private class CustomerListRowMapper implements RowMapper {
-        /**
-         * method to map the result to vo
-         *
-         * @param resultSet resultSet instance
-         * @param i         i instance
-         * @return UserVO as Object
-         * @throws java.sql.SQLException on error
-         */
-        public Object mapRow(ResultSet resultSet, int i) throws SQLException {
-            CustomerVO customerVO = new CustomerVO();
-            customerVO.setCustomerId(resultSet.getLong("id"));
-            customerVO.setCustomerName(resultSet.getString("name"));
-            customerVO.setAddress1(resultSet.getString("address1"));
-            customerVO.setAddress2(resultSet.getString("address2"));
-            customerVO.setPhoneNo(resultSet.getString("phone"));
-            customerVO.setMobile(resultSet.getString("mobile"));
-            customerVO.setEmail(resultSet.getString("email"));
-            customerVO.setContactPerson1(resultSet.getString("contactPerson1"));
-            customerVO.setContactMobile1(resultSet.getString("contactPhone1"));
-            customerVO.setContactPerson2(resultSet.getString("contactPerson2"));
-            customerVO.setContactMobile2(resultSet.getString("contactPhone2"));
-            customerVO.setNotes(resultSet.getString("note"));
-            return customerVO;
+        if(searchVO.getIncludes()) {
+            if(searchVO.getCustomerId() != null && searchVO.getCustomerId() > 0) {
+                criteria.where(builder.like(customerRoot.get("id"), "%"+searchVO.getCustomerId()+"%"));
+            }
+            if(!StringUtils.isEmpty(searchVO.getCustomerName())) {
+                criteria.where(builder.like(customerRoot.get("name"), "%"+searchVO.getCustomerName()+"%"));
+            }
+            if(!StringUtils.isEmpty(searchVO.getMobile())) {
+                criteria.where(builder.like(customerRoot.get("mobile"), "%"+searchVO.getMobile()+"%"));
+            }
+        } else if (searchVO.getStartsWith()) {
+            if(searchVO.getCustomerId() != null && searchVO.getCustomerId() > 0) {
+                criteria.where(builder.like(customerRoot.get("id"), searchVO.getCustomerId()+"%"));
+            }
+            if(!StringUtils.isEmpty(searchVO.getCustomerName())) {
+                criteria.where(builder.like(customerRoot.get("name"), searchVO.getCustomerName()+"%"));
+            }
+            if(!StringUtils.isEmpty(searchVO.getMobile())) {
+                criteria.where(builder.like(customerRoot.get("mobile"), searchVO.getMobile()+"%"));
+            }
+        } else {
+            if(searchVO.getCustomerId() != null && searchVO.getCustomerId() > 0) {
+                criteria.where(builder.equal(customerRoot.get("id"), searchVO.getCustomerId()));
+            }
+            if(!StringUtils.isEmpty(searchVO.getCustomerName())) {
+                criteria.where(builder.equal(customerRoot.get("name"), searchVO.getCustomerName()));
+            }
+            if(!StringUtils.isEmpty(searchVO.getMobile())) {
+                criteria.where(builder.equal(customerRoot.get("mobile"), searchVO.getMobile()));
+            }
         }
+
+        List<Customer> resultList = em.unwrap(Session.class).createQuery(criteria).getResultList();
+
+        List<CustomerVO> customerVOS = convertToCustomerVO(resultList);
+        return customerVOS;
     }
 }

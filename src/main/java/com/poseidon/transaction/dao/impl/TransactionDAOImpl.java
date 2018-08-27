@@ -64,16 +64,12 @@ public class TransactionDAOImpl implements TransactionDAO {
     public List<TransactionVO> listTodaysTransactions() throws TransactionException {
         List<TransactionVO> transactionVOList;
         try {
-            transactionVOList = getTodaysTransactions();
+            transactionVOList = (List<TransactionVO>)
+                    jdbcTemplate.query(GET_TODAYS_TRANSACTIONS_SQL, new TransactionListRowMapper());
         } catch (DataAccessException e) {
             throw new TransactionException(TransactionException.DATABASE_ERROR);
         }
         return transactionVOList;
-    }
-
-    private List<TransactionVO> getTodaysTransactions() throws DataAccessException {
-
-        return (List<TransactionVO>) jdbcTemplate.query(GET_TODAYS_TRANSACTIONS_SQL, new TransactionListRowMapper());
     }
 
     public String saveTransaction(TransactionVO currentTransaction) throws TransactionException {
@@ -222,15 +218,12 @@ public class TransactionDAOImpl implements TransactionDAO {
     public List<TransactionVO> listAllTransactions() throws TransactionException {
         List<TransactionVO> transactionVOList;
         try {
-            transactionVOList = getAllTransactions();
+            transactionVOList = (List<TransactionVO>)
+                    jdbcTemplate.query(GET_ALL_TRANSACTIONS_SQL, new TransactionListRowMapper());;
         } catch (DataAccessException e) {
             throw new TransactionException(TransactionException.DATABASE_ERROR);
         }
         return transactionVOList;
-    }
-
-    private List<TransactionVO> getAllTransactions() throws DataAccessException {
-        return (List<TransactionVO>) jdbcTemplate.query(GET_ALL_TRANSACTIONS_SQL, new TransactionListRowMapper());
     }
 
     private TransactionReportVO fetchTxnFromTag(String tag) {
