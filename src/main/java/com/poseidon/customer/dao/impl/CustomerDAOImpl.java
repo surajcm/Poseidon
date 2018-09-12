@@ -9,7 +9,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
@@ -32,9 +31,6 @@ import java.util.Optional;
 public class CustomerDAOImpl implements CustomerDAO {
 
     private static final Logger LOG = LoggerFactory.getLogger(CustomerDAOImpl.class);
-
-    @Autowired
-    private JdbcTemplate jdbcTemplate;
 
     @Autowired
     private CustomerRepository customerRepository;
@@ -224,7 +220,6 @@ public class CustomerDAOImpl implements CustomerDAO {
 
         List<Customer> resultList = em.unwrap(Session.class).createQuery(criteria).getResultList();
 
-        List<CustomerVO> customerVOS = convertToCustomerVO(resultList);
-        return customerVOS;
+        return convertToCustomerVO(resultList);
     }
 }
