@@ -4,31 +4,34 @@ import com.poseidon.invoice.dao.InvoiceDAO;
 import com.poseidon.invoice.dao.entities.Invoice;
 import com.poseidon.invoice.domain.InvoiceVO;
 import com.poseidon.invoice.exception.InvoiceException;
+import org.hibernate.Session;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
-import org.springframework.jdbc.core.namedparam.MapSqlParameterSource;
-import org.springframework.jdbc.core.namedparam.SqlParameterSource;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.ArrayList;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * user: Suraj
  * Date: 7/26/12
  * Time: 10:39 PM
  */
+@SuppressWarnings("unused")
 @Repository
 public class InvoiceDAOImpl implements InvoiceDAO {
+
     private SimpleJdbcInsert insertInvoice;
 
     @Autowired
@@ -37,7 +40,8 @@ public class InvoiceDAOImpl implements InvoiceDAO {
     @Autowired
     private InvoiceRepository invoiceRepository;
 
-    private final String GET_TODAYS_INVOICE_SQL = "SELECT id,customerName,tagNo,description,serialNo,amount from invoice ";
+    @PersistenceContext
+    private EntityManager em;
 
     private static final Logger log = LoggerFactory.getLogger(InvoiceDAOImpl.class);
 
@@ -53,7 +57,8 @@ public class InvoiceDAOImpl implements InvoiceDAO {
     public List<InvoiceVO> fetchInvoiceForListOfTransactions(List<String> tagNumbers) throws InvoiceException {
         List<InvoiceVO> invoiceVOs;
         try {
-            invoiceVOs = getTodaysInvoices(tagNumbers);
+            List<Invoice> invoices = invoiceRepository.fetchTodaysInvoices(tagNumbers);
+            invoiceVOs = invoices.stream().map(this::getInvoiceVOFromInvoice).collect(Collectors.toList());
         } catch (DataAccessException e) {
             log.error(e.getLocalizedMessage());
             throw new InvoiceException(InvoiceException.DATABASE_ERROR);
@@ -66,16 +71,22 @@ public class InvoiceDAOImpl implements InvoiceDAO {
         InvoiceVO invoiceVO = null;
         if (optionalInvoice.isPresent()) {
             Invoice invoice = optionalInvoice.get();
-            invoiceVO = new InvoiceVO();
-            invoiceVO.setId(invoice.getInvoiceId());
-            invoiceVO.setCustomerName(invoice.getCustomerName());
-            invoiceVO.setTagNo(invoice.getTagNumber());
-            invoiceVO.setDescription(invoice.getDescription());
-            invoiceVO.setSerialNo(invoice.getSerialNumber());
-            invoiceVO.setAmount(Double.valueOf(invoice.getAmount()));
-            invoiceVO.setQuantity(Integer.valueOf(invoice.getQuantity()));
-            invoiceVO.setRate(Double.valueOf(invoice.getRate()));
+            invoiceVO = getInvoiceVOFromInvoice(invoice);
         }
+        return invoiceVO;
+    }
+
+    private InvoiceVO getInvoiceVOFromInvoice(Invoice invoice) {
+        InvoiceVO invoiceVO;
+        invoiceVO = new InvoiceVO();
+        invoiceVO.setId(invoice.getInvoiceId());
+        invoiceVO.setCustomerName(invoice.getCustomerName());
+        invoiceVO.setTagNo(invoice.getTagNumber());
+        invoiceVO.setDescription(invoice.getDescription());
+        invoiceVO.setSerialNo(invoice.getSerialNumber());
+        invoiceVO.setAmount(Double.valueOf(invoice.getAmount()));
+        invoiceVO.setQuantity(Integer.valueOf(invoice.getQuantity()));
+        invoiceVO.setRate(Double.valueOf(invoice.getRate()));
         return invoiceVO;
     }
 
@@ -123,157 +134,101 @@ public class InvoiceDAOImpl implements InvoiceDAO {
     }
 
     private List<InvoiceVO> searchInvoice(InvoiceVO searchInvoiceVO) {
-        StringBuffer SEARCH_INVOICE_QUERY = new StringBuffer();
-        SEARCH_INVOICE_QUERY.append("SELECT id,")
-                .append(" customerName,")
-                .append(" tagNo,")
-                .append(" description,")
-                .append(" serialNo,")
-                .append(" amount ")
-                .append(" FROM invoice ");
-        Boolean isWhereAdded = Boolean.FALSE;
-        if (searchInvoiceVO.getTagNo() != null && searchInvoiceVO.getTagNo().trim().length() > 0) {
-            SEARCH_INVOICE_QUERY.append(" where ");
-            isWhereAdded = Boolean.TRUE;
-            if (searchInvoiceVO.getIncludes()) {
-                SEARCH_INVOICE_QUERY.append(" tagNo like '%").append(searchInvoiceVO.getTagNo()).append("%'");
-            } else if (searchInvoiceVO.getStartsWith()) {
-                SEARCH_INVOICE_QUERY.append(" tagNo like '").append(searchInvoiceVO.getTagNo()).append("%'");
-            } else {
-                SEARCH_INVOICE_QUERY.append(" tagNo like '").append(searchInvoiceVO.getTagNo()).append("'");
+        CriteriaBuilder builder = em.unwrap(Session.class).getCriteriaBuilder();
+        CriteriaQuery<Invoice> criteria = builder.createQuery(Invoice.class);
+        Root<Invoice> invoiceRoot = criteria.from(Invoice.class);
+        criteria.select(invoiceRoot);
+
+        if (searchInvoiceVO.getIncludes()) {
+            if(!StringUtils.isEmpty(searchInvoiceVO.getTagNo())) {
+                criteria.where(builder.like(invoiceRoot.get("tagno"), "%"+searchInvoiceVO.getTagNo()+"%"));
+            }
+            if(!StringUtils.isEmpty(searchInvoiceVO.getSerialNo())) {
+                criteria.where(builder.like(invoiceRoot.get("serialno"), "%"+searchInvoiceVO.getSerialNo()+"%"));
+            }
+            if(!StringUtils.isEmpty(searchInvoiceVO.getDescription())) {
+                criteria.where(builder.like(invoiceRoot.get("description"), "%"+searchInvoiceVO.getDescription()+"%"));
+            }
+            if(searchInvoiceVO.getId() != null && searchInvoiceVO.getId() > 0) {
+                criteria.where(builder.like(invoiceRoot.get("id"), "%"+searchInvoiceVO.getId()+"%"));
+            }
+
+        } else if (searchInvoiceVO.getStartsWith()) {
+            if(!StringUtils.isEmpty(searchInvoiceVO.getTagNo())) {
+                criteria.where(builder.like(invoiceRoot.get("tagno"), searchInvoiceVO.getTagNo()+"%"));
+            }
+            if(!StringUtils.isEmpty(searchInvoiceVO.getSerialNo())) {
+                criteria.where(builder.like(invoiceRoot.get("serialno"), searchInvoiceVO.getSerialNo()+"%"));
+            }
+            if(!StringUtils.isEmpty(searchInvoiceVO.getDescription())) {
+                criteria.where(builder.like(invoiceRoot.get("description"), searchInvoiceVO.getDescription()+"%"));
+            }
+            if(searchInvoiceVO.getId() != null && searchInvoiceVO.getId() > 0) {
+                criteria.where(builder.like(invoiceRoot.get("id"), searchInvoiceVO.getId()+"%"));
+            }
+        } else {
+            if(!StringUtils.isEmpty(searchInvoiceVO.getTagNo())) {
+                criteria.where(builder.like(invoiceRoot.get("tagno"), searchInvoiceVO.getTagNo()));
+            }
+            if(!StringUtils.isEmpty(searchInvoiceVO.getSerialNo())) {
+                criteria.where(builder.like(invoiceRoot.get("serialno"), searchInvoiceVO.getSerialNo()));
+            }
+            if(!StringUtils.isEmpty(searchInvoiceVO.getDescription())) {
+                criteria.where(builder.like(invoiceRoot.get("description"), searchInvoiceVO.getDescription()));
+            }
+            if(searchInvoiceVO.getId() != null && searchInvoiceVO.getId() > 0) {
+                criteria.where(builder.equal(invoiceRoot.get("id"), searchInvoiceVO.getId()));
             }
         }
-
-        if (searchInvoiceVO.getSerialNo() != null && searchInvoiceVO.getSerialNo().trim().length() > 0) {
-            if (!isWhereAdded) {
-                SEARCH_INVOICE_QUERY.append(" where ");
-                isWhereAdded = Boolean.TRUE;
-            } else {
-                SEARCH_INVOICE_QUERY.append(" and ");
-            }
-            if (searchInvoiceVO.getIncludes()) {
-                SEARCH_INVOICE_QUERY.append(" serialNo like '%").append(searchInvoiceVO.getSerialNo()).append("%'");
-            } else if (searchInvoiceVO.getStartsWith()) {
-                SEARCH_INVOICE_QUERY.append(" serialNo like '").append(searchInvoiceVO.getSerialNo()).append("%'");
-            } else {
-                SEARCH_INVOICE_QUERY.append(" serialNo like '").append(searchInvoiceVO.getSerialNo()).append("'");
-            }
-        }
-
-        if (searchInvoiceVO.getDescription() != null && searchInvoiceVO.getDescription().trim().length() > 0) {
-            if (!isWhereAdded) {
-                SEARCH_INVOICE_QUERY.append(" where ");
-                isWhereAdded = Boolean.TRUE;
-            } else {
-                SEARCH_INVOICE_QUERY.append(" and ");
-            }
-            if (searchInvoiceVO.getIncludes()) {
-                SEARCH_INVOICE_QUERY.append(" description like '%").append(searchInvoiceVO.getDescription()).append("%'");
-            } else if (searchInvoiceVO.getStartsWith()) {
-                SEARCH_INVOICE_QUERY.append(" description like '").append(searchInvoiceVO.getDescription()).append("%'");
-            } else {
-                SEARCH_INVOICE_QUERY.append(" description like '").append(searchInvoiceVO.getDescription()).append("'");
-            }
-        }
-
-        if (searchInvoiceVO.getId() != null && searchInvoiceVO.getId() > 0) {
-            if (!isWhereAdded) {
-                SEARCH_INVOICE_QUERY.append(" where ");
-                isWhereAdded = Boolean.TRUE;
-            } else {
-                SEARCH_INVOICE_QUERY.append(" and ");
-            }
-            SEARCH_INVOICE_QUERY.append(" id = ").append(searchInvoiceVO.getId());
-        }
-
-        if (searchInvoiceVO.getAmount() != null && searchInvoiceVO.getAmount() > 0) {
-            if (!isWhereAdded) {
-                SEARCH_INVOICE_QUERY.append(" where ");
-                isWhereAdded = Boolean.TRUE;
-            } else {
-                SEARCH_INVOICE_QUERY.append(" and ");
-            }
+        if(searchInvoiceVO.getAmount() != null && searchInvoiceVO.getAmount() > 0) {
             if (searchInvoiceVO.getGreater() && !searchInvoiceVO.getLesser()) {
-                SEARCH_INVOICE_QUERY.append(" amount >= ").append(searchInvoiceVO.getAmount());
-
+                criteria.where(builder.greaterThanOrEqualTo(invoiceRoot.get("amount"), searchInvoiceVO.getAmount()));
             } else if (searchInvoiceVO.getLesser() && !searchInvoiceVO.getGreater()) {
-                SEARCH_INVOICE_QUERY.append(" amount <= ").append(searchInvoiceVO.getAmount());
+                criteria.where(builder.lessThanOrEqualTo(invoiceRoot.get("amount"), searchInvoiceVO.getAmount()));
             } else if (!searchInvoiceVO.getLesser() && !searchInvoiceVO.getGreater()) {
-                SEARCH_INVOICE_QUERY.append(" amount = ").append(searchInvoiceVO.getAmount());
+                criteria.where(builder.equal(invoiceRoot.get("amount"), searchInvoiceVO.getAmount()));
             }
         }
 
-        log.info("query created is " + SEARCH_INVOICE_QUERY.toString());
-        return (List<InvoiceVO>) jdbcTemplate.query(SEARCH_INVOICE_QUERY.toString(), new InvoiceRowMapper());
+        List<Invoice> resultList = em.unwrap(Session.class).createQuery(criteria).getResultList();
+        return resultList.stream().map(this::convertInvoiceToInvoiceVO).collect(Collectors.toList());
     }
 
-    private List<InvoiceVO> getTodaysInvoices(List<String> tagNumbers) throws DataAccessException {
-        String query = GET_TODAYS_INVOICE_SQL + createWhereClause(tagNumbers);
-        log.info("Query generated is " + query);
-        return (List<InvoiceVO>) jdbcTemplate.query(query, new InvoiceRowMapper());
+    private InvoiceVO convertInvoiceToInvoiceVO(Invoice invoice) {
+        InvoiceVO invoiceVO = new InvoiceVO();
+        invoiceVO.setId(invoice.getInvoiceId());
+        invoiceVO.setCustomerName(invoice.getCustomerName());
+        invoiceVO.setTagNo(invoice.getTagNumber());
+        invoiceVO.setDescription(invoice.getDescription());
+        invoiceVO.setSerialNo(invoice.getSerialNumber());
+        invoiceVO.setAmount(Double.valueOf(invoice.getAmount()));
+        return invoiceVO;
     }
 
-    private String createWhereClause(List<String> tagNumbers) {
-        if (tagNumbers.size() > 0) {
-            String query = " Where tagNo in (";
-            List<String> quotedTagNo = new ArrayList<>();
-            for (String tagNo: tagNumbers) {
-                quotedTagNo.add("'" + tagNo + "'");
-            }
-            query += StringUtils.collectionToCommaDelimitedString(quotedTagNo);
-            query = query + ") ";
-            return query;
-        }
-        return "";
-    }
-
-    private void saveInvoice(InvoiceVO currentInvoiceVO) throws DataAccessException {
-        insertInvoice = new SimpleJdbcInsert(jdbcTemplate).withTableName("invoice").usingGeneratedKeyColumns("id");
-        SqlParameterSource parameters = new MapSqlParameterSource()
-                .addValue("tagNo", currentInvoiceVO.getTagNo())
-                .addValue("description", currentInvoiceVO.getDescription())
-                .addValue("serialNo", currentInvoiceVO.getSerialNo())
-                .addValue("amount", currentInvoiceVO.getAmount())
-                .addValue("quantity", currentInvoiceVO.getQuantity())
-                .addValue("rate", currentInvoiceVO.getRate())
-                .addValue("customerId", currentInvoiceVO.getCustomerId())
-                .addValue("customerName", currentInvoiceVO.getCustomerName())
-                .addValue("createdOn", currentInvoiceVO.getCreatedDate())
-                .addValue("modifiedOn", currentInvoiceVO.getModifiedDate())
-                .addValue("createdBy", currentInvoiceVO.getCreatedBy())
-                .addValue("modifiedBy", currentInvoiceVO.getModifiedBy());
-        Number newId = insertInvoice.executeAndReturnKey(parameters);
-        log.info(" the queryForInt resulted in  " + newId.longValue());
-        currentInvoiceVO.setId(newId.longValue());
+    private void saveInvoice(InvoiceVO currentInvoiceVO) {
+        Invoice invoice = convertInvoiceVOToInvoice(currentInvoiceVO);
+        Invoice newInvoice = invoiceRepository.save(invoice);
+        log.info(" the queryForInt resulted in  " + newInvoice.getInvoiceId());
+        currentInvoiceVO.setId(newInvoice.getInvoiceId());
         // update the InvoiceId
-        String invoiceId = "INV" + newId.longValue();
-        String query = "update invoice set transactionId = '" + invoiceId + "' where id =" + newId.longValue();
-        jdbcTemplate.update(query);
+        String invoiceId = "INV" + newInvoice.getInvoiceId();
+        newInvoice.setTransactionId(invoiceId);
+        invoiceRepository.save(newInvoice);
     }
 
-    /**
-     * Row mapper as inner class
-     */
-    private class InvoiceRowMapper implements RowMapper {
-
-        /**
-         * method to map the result to vo
-         *
-         * @param resultSet resultSet instance
-         * @param i         i instance
-         * @return UserVO as Object
-         * @throws java.sql.SQLException on error
-         */
-        public Object mapRow(ResultSet resultSet, int i) throws SQLException {
-            InvoiceVO invoiceVO = new InvoiceVO();
-            invoiceVO.setId(resultSet.getLong("id"));
-            invoiceVO.setCustomerName(resultSet.getString("customerName"));
-            invoiceVO.setTagNo(resultSet.getString("tagNo"));
-            invoiceVO.setDescription(resultSet.getString("description"));
-            invoiceVO.setSerialNo(resultSet.getString("serialNo"));
-            invoiceVO.setAmount(resultSet.getDouble("amount"));
-            return invoiceVO;
-        }
-
+    private Invoice convertInvoiceVOToInvoice(InvoiceVO currentInvoiceVO) {
+        Invoice invoice = new Invoice();
+        invoice.setTagNumber(currentInvoiceVO.getTagNo());
+        invoice.setDescription(currentInvoiceVO.getDescription());
+        invoice.setSerialNumber(currentInvoiceVO.getSerialNo());
+        //todo: clean up
+        invoice.setAmount(currentInvoiceVO.getAmount().toString());
+        //todo: clean up
+        invoice.setQuantity(String.valueOf(currentInvoiceVO.getQuantity()));
+        //todo: clean up
+        invoice.setRate(currentInvoiceVO.getRate().toString());
+        invoice.setCustomerId(currentInvoiceVO.getCustomerId());
+        invoice.setCustomerName(currentInvoiceVO.getCustomerName());
+        return invoice;
     }
 }

@@ -11,8 +11,6 @@ import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
@@ -27,9 +25,6 @@ import java.util.Map;
  */
 @Repository
 public class ReportsDAOImpl implements ReportsDAO {
-
-    @Autowired
-    private JdbcTemplate jdbcTemplate;
 
     public List<ReportsVO> generateDailyReport() throws ReportsException {
         return null;

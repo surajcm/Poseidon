@@ -1,5 +1,11 @@
 package com.poseidon.transaction.dao.impl;
 
+import com.poseidon.customer.dao.entities.Customer;
+import com.poseidon.customer.dao.impl.CustomerRepository;
+import com.poseidon.make.dao.entities.Make;
+import com.poseidon.make.dao.entities.Model;
+import com.poseidon.make.dao.impl.MakeRepository;
+import com.poseidon.make.dao.impl.ModelRepository;
 import com.poseidon.transaction.dao.TransactionDAO;
 import com.poseidon.transaction.dao.entities.Transaction;
 import com.poseidon.transaction.domain.TransactionReportVO;
@@ -13,6 +19,8 @@ import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.Format;
@@ -23,12 +31,14 @@ import java.util.Date;
 import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 /**
  * user: Suraj
  * Date: Jun 2, 2012
  * Time: 3:46:15 PM
  */
+@SuppressWarnings("unused")
 @Repository
 public class TransactionDAOImpl implements TransactionDAO {
 
@@ -38,52 +48,31 @@ public class TransactionDAOImpl implements TransactionDAO {
     @Autowired
     private TransactionRepository transactionRepository;
 
+    @Autowired
+    private CustomerRepository customerRepository;
+
+    @Autowired
+    private MakeRepository makeRepository;
+
+    @Autowired
+    private ModelRepository modelRepository;
+
+    @PersistenceContext
+    private EntityManager em;
+
     private static final Logger LOG = LoggerFactory.getLogger(TransactionDAOImpl.class);
 
-    private final String GET_TODAYS_TRANSACTIONS_SQL = "SELECT t.Id, t.tagNo,c.name, t.dateReported, mk.makeName, " +
-            " mdl.modelName, t.serialNo, t.status " +
-            " FROM transaction t inner join customer c on t.customerId=c.Id " +
-            " inner join make mk on mk.id=t.makeId " +
-            " inner join model mdl on mdl.id=t.modelId " +
-            " WHERE CAST(t.dateReported AS DATE) = current_date() order by t.modifiedOn;";
-
-    private final String GET_ALL_TRANSACTIONS_SQL = "SELECT t.Id, t.tagNo,c.name, t.dateReported, mk.makeName, " +
-            " mdl.modelName, t.serialNo, t.status " +
-            " FROM transaction t inner join customer c on t.customerId=c.Id " +
-            " inner join make mk on mk.id=t.makeId " +
-            " inner join model mdl on mdl.id=t.modelId " +
-            " order by t.modifiedOn;";
-
-    private static final String GET_SINGLE_TRANSACTION_FROM_TAG_SQL = "SELECT t.id, t.tagNo, t.dateReported, " +
-            " t.customerId, c.name, c.address1, c.address2, c.phone, c.mobile, c.email, c.contactPerson1, c.contactPhone1, c.contactPerson2, " +
-            " c.contactPhone2, t.productCategory, mk.makeName, mdl.modelName, t.serialNo, t.accessories, t.complaintReported, " +
-            " t.complaintDiagnosed, t.engineerRemarks, t.repairAction, t.note, t.status FROM transaction t inner join customer c " +
-            " on t.customerId=c.id inner join make mk on t.makeId=mk.id inner join model mdl " +
-            " on t.modelId=mdl.id and mdl.makeId=mk.id where t.tagNo = ?";
-
-    public List<TransactionVO> listTodaysTransactions() throws TransactionException {
-        List<TransactionVO> transactionVOList;
-        try {
-            transactionVOList = (List<TransactionVO>)
-                    jdbcTemplate.query(GET_TODAYS_TRANSACTIONS_SQL, new TransactionListRowMapper());
-        } catch (DataAccessException e) {
-            throw new TransactionException(TransactionException.DATABASE_ERROR);
-        }
-        return transactionVOList;
+    public List<TransactionVO> listTodaysTransactions() {
+        List<Transaction> transactions = transactionRepository.todaysTransaction();
+        return transactions.stream().map(this::convertToVO).collect(Collectors.toList());
     }
 
-    public String saveTransaction(TransactionVO currentTransaction) throws TransactionException {
-        String tagNo;
-        try {
-            Transaction txn = getTransaction(currentTransaction);
-            Transaction newTxn = transactionRepository.save(txn);
-            tagNo = "WON2N" + newTxn.getTransactionId();
-            newTxn.setTagno(tagNo);
-            transactionRepository.save(newTxn);
-        } catch (DataAccessException e) {
-            LOG.error(e.getLocalizedMessage());
-            throw new TransactionException(TransactionException.DATABASE_ERROR);
-        }
+    public String saveTransaction(TransactionVO currentTransaction) {
+        Transaction txn = getTransaction(currentTransaction);
+        Transaction newTxn = transactionRepository.save(txn);
+        String tagNo = "WON2N" + newTxn.getTransactionId();
+        newTxn.setTagno(tagNo);
+        transactionRepository.save(newTxn);
         return tagNo;
     }
 
@@ -118,17 +107,12 @@ public class TransactionDAOImpl implements TransactionDAO {
         return transactionVOList;
     }
 
-    public TransactionVO fetchTransactionFromId(Long id) throws TransactionException {
+    public TransactionVO fetchTransactionFromId(Long id) {
         TransactionVO transactionVO = null;
-        try {
-            Optional<Transaction> optionalTransaction = transactionRepository.findById(id);
-            if(optionalTransaction.isPresent()) {
-                Transaction txn = optionalTransaction.get();
-                transactionVO = convertToVO(txn);
-            }
-        } catch (DataAccessException e) {
-            LOG.error(e.getLocalizedMessage());
-            throw new TransactionException(TransactionException.DATABASE_ERROR);
+        Optional<Transaction> optionalTransaction = transactionRepository.findById(id);
+        if(optionalTransaction.isPresent()) {
+            Transaction txn = optionalTransaction.get();
+            transactionVO = convertToVO(txn);
         }
         return transactionVO;
     }
@@ -179,55 +163,62 @@ public class TransactionDAOImpl implements TransactionDAO {
         return txn;
     }
 
-    public void deleteTransaction(Long id) throws TransactionException {
-        try {
-            transactionRepository.deleteById(id);
-        } catch (DataAccessException e) {
-            LOG.error(e.getLocalizedMessage());
-            throw new TransactionException(TransactionException.DATABASE_ERROR);
-        }
+    public void deleteTransaction(Long id) {
+        transactionRepository.deleteById(id);
     }
 
-    public TransactionReportVO fetchTransactionFromTag(String tagNo) throws TransactionException {
-        TransactionReportVO transactionVO;
-        try {
-            transactionVO = fetchTxnFromTag(tagNo);
-        } catch (Exception e){
-            LOG.error(e.getLocalizedMessage());
-            throw new TransactionException(TransactionException.DATABASE_ERROR);
-        }
-        return transactionVO;
+    public TransactionReportVO fetchTransactionFromTag(String tagNo) {
+        Transaction transaction = transactionRepository.findBytagno(tagNo);
+        return convertToTransactionReportVO(transaction);
     }
 
     @Override
-    public void updateTransactionStatus(Long id, String status) throws TransactionException {
-        try {
-            Optional<Transaction> optionalTransaction = transactionRepository.findById(id);
-            if (optionalTransaction.isPresent()) {
-                Transaction txn = optionalTransaction.get();
-                txn.setStatus(status);
-                transactionRepository.save(txn);
-            }
-        } catch (DataAccessException e) {
-            LOG.error(e.getLocalizedMessage());
-            throw new TransactionException(TransactionException.DATABASE_ERROR);
+    public void updateTransactionStatus(Long id, String status) {
+        Optional<Transaction> optionalTransaction = transactionRepository.findById(id);
+        if (optionalTransaction.isPresent()) {
+            Transaction txn = optionalTransaction.get();
+            txn.setStatus(status);
+            transactionRepository.save(txn);
         }
     }
 
     @Override
-    public List<TransactionVO> listAllTransactions() throws TransactionException {
-        List<TransactionVO> transactionVOList;
-        try {
-            transactionVOList = (List<TransactionVO>)
-                    jdbcTemplate.query(GET_ALL_TRANSACTIONS_SQL, new TransactionListRowMapper());;
-        } catch (DataAccessException e) {
-            throw new TransactionException(TransactionException.DATABASE_ERROR);
-        }
-        return transactionVOList;
+    public List<TransactionVO> listAllTransactions() {
+        List<Transaction> transactions = transactionRepository.findAll();
+        return transactions.stream().map(this::convertToVO).collect(Collectors.toList());
     }
 
-    private TransactionReportVO fetchTxnFromTag(String tag) {
-        return (TransactionReportVO) jdbcTemplate.queryForObject(GET_SINGLE_TRANSACTION_FROM_TAG_SQL, new Object[]{tag}, new TransactionReportRowMapper());
+    private TransactionReportVO convertToTransactionReportVO(Transaction transaction) {
+        Customer customer = customerRepository.getOne(transaction.getCustomerId());
+        Make make = makeRepository.getOne(transaction.getMakeId());
+        Model model = modelRepository.getOne(transaction.getModelId());
+        TransactionReportVO txs = new TransactionReportVO();
+        txs.setId(transaction.getTransactionId());
+        txs.setTagNo(transaction.getTagno());
+        txs.setDateReported(new Date(transaction.getDateReported().toInstant().toEpochMilli()));
+        txs.setCustomerName(customer.getName());
+        txs.setCustomerId(transaction.getCustomerId());
+        txs.setAddress1(customer.getAddress1());
+        txs.setAddress2(customer.getAddress2());
+        txs.setPhone(customer.getPhone());
+        txs.setMobile(customer.getMobile());
+        txs.setEmail(customer.getEmail());
+        txs.setContactPerson1(customer.getContactPerson1());
+        txs.setContactPh1(customer.getContactPhone1());
+        txs.setContactPerson2(customer.getContactPerson2());
+        txs.setContactPh2(customer.getContactPhone2());
+        txs.setProductCategory(transaction.getProductCategory());
+        txs.setMakeName(make.getMakeName());
+        txs.setModelName(model.getModelName());
+        txs.setSerialNo(transaction.getSerialNumber());
+        txs.setAccessories(transaction.getAccessories());
+        txs.setComplaintReported(transaction.getComplaintReported());
+        txs.setComplaintDiagonsed(transaction.getComplaintDiagnosed());
+        txs.setEnggRemark(transaction.getEngineerRemarks());
+        txs.setRepairAction(transaction.getRepairAction());
+        txs.setNotes(transaction.getNote());
+        txs.setStatus(transaction.getStatus());
+        return txs;
     }
 
     private List<TransactionVO> searchTxs(TransactionVO searchTransaction) throws ParseException {
@@ -334,7 +325,24 @@ public class TransactionDAOImpl implements TransactionDAO {
                     .append("' and '").append(getMySQLFriendlyDate(searchTransaction.getEndDate())).append("'");
         }
         LOG.info("query created is " + SEARCH_TRANSACTION_QUERY.toString());
-        return (List<TransactionVO>) jdbcTemplate.query(SEARCH_TRANSACTION_QUERY.toString(), new TransactionListRowMapper());
+        List<TransactionVO> query = jdbcTemplate.query(SEARCH_TRANSACTION_QUERY.toString(), new TransactionListRowMapper());
+
+        /*CriteriaBuilder builder = em.unwrap(Session.class).getCriteriaBuilder();
+        CriteriaQuery<Transaction> criteria = builder.createQuery(Transaction.class);
+        Root<Transaction> transactionRoot = criteria.from(Transaction.class);
+        criteria.select(transactionRoot);
+        //todo : complete this
+        if (searchTransaction.getIncludes()) {
+            if(!StringUtils.isEmpty(searchTransaction.getTagNo())) {
+                criteria.where(builder.like(transactionRoot.get("tagno"), "%"+searchTransaction.getTagNo()+"%"));
+            }
+        } else if (searchTransaction.getStartswith()) {
+            SEARCH_TRANSACTION_QUERY.append(" Tr.tagNo like '").append(searchTransaction.getTagNo()).append("%'");
+        } else {
+            SEARCH_TRANSACTION_QUERY.append(" Tr.tagNo like '").append(searchTransaction.getTagNo()).append("'");
+        }*/
+
+        return query;
     }
 
     private String getMySQLFriendlyDate(String startDate) throws ParseException {
@@ -365,51 +373,6 @@ public class TransactionDAOImpl implements TransactionDAO {
             txs.setMakeName(resultSet.getString("makeName"));
             txs.setModelName(resultSet.getString("modelName"));
             txs.setSerialNo(resultSet.getString("serialNo"));
-            txs.setStatus(resultSet.getString("status"));
-            return txs;
-        }
-
-    }
-
-    /**
-     * Row mapper as inner class
-     */
-    private class TransactionReportRowMapper implements RowMapper {
-
-        /**
-         * method to map the result to vo
-         *
-         * @param resultSet resultSet instance
-         * @param i         i instance
-         * @return UserVO as Object
-         * @throws java.sql.SQLException on error
-         */
-        public Object mapRow(ResultSet resultSet, int i) throws SQLException {
-            TransactionReportVO txs = new TransactionReportVO();
-            txs.setId(resultSet.getLong("id"));
-            txs.setTagNo(resultSet.getString("tagNo"));
-            txs.setDateReported(resultSet.getDate("dateReported"));
-            txs.setCustomerName(resultSet.getString("name"));
-            txs.setCustomerId(resultSet.getLong("customerId"));
-            txs.setAddress1(resultSet.getString("address1"));
-            txs.setAddress2(resultSet.getString("address2"));
-            txs.setPhone(resultSet.getString("phone"));
-            txs.setMobile(resultSet.getString("mobile"));
-            txs.setEmail(resultSet.getString("email"));
-            txs.setContactPerson1(resultSet.getString("contactPerson1"));
-            txs.setContactPh1(resultSet.getString("contactPhone1"));
-            txs.setContactPerson2(resultSet.getString("contactPerson2"));
-            txs.setContactPh2(resultSet.getString("contactPhone2"));
-            txs.setProductCategory(resultSet.getString("productCategory"));
-            txs.setMakeName(resultSet.getString("makeName"));
-            txs.setModelName(resultSet.getString("modelName"));
-            txs.setSerialNo(resultSet.getString("serialNo"));
-            txs.setAccessories(resultSet.getString("accessories"));
-            txs.setComplaintReported(resultSet.getString("complaintReported"));
-            txs.setComplaintDiagonsed(resultSet.getString("complaintDiagnosed"));
-            txs.setEnggRemark(resultSet.getString("engineerRemarks"));
-            txs.setRepairAction(resultSet.getString("repairAction"));
-            txs.setNotes(resultSet.getString("note"));
             txs.setStatus(resultSet.getString("status"));
             return txs;
         }

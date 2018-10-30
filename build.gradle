@@ -2,6 +2,7 @@ buildscript {
     ext {
         springBootVersion = '2.0.4.RELEASE'
         applicationDefaultJvmArgs = ['-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005']
+        rootGradleDir = "${rootProject.rootDir}/gradle"
     }
     repositories {
         mavenCentral()
@@ -16,6 +17,7 @@ apply plugin: 'idea'
 
 apply plugin: 'org.springframework.boot'
 apply plugin: 'io.spring.dependency-management'
+apply from: "${rootGradleDir}/staticCodeAnalysis.gradle"
 
 //println org.gradle.internal.jvm.Jvm.current()
 
