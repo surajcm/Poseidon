@@ -54,7 +54,7 @@ public class UserController {
      */
     @GetMapping(value = {"/"})
     public ModelAndView index() {
-        logger.info(" Inside Index method of user Controller ");
+        logger.info(" Inside Index method of user controller ");
         UserForm userForm = new UserForm();
         UserVO userVO = new UserVO();
         userForm.setUser(userVO);
@@ -83,7 +83,7 @@ public class UserController {
      */
     @PostMapping(value = "/user/ListAll.htm")
     public ModelAndView listAll(UserForm userForm) {
-        logger.info(" Inside ListAll method of user Controller ");
+        logger.info(" Inside ListAll method of user controller ");
         List<UserVO> userList = null;
         try {
             userList = userService.getAllUserDetails();
@@ -132,7 +132,7 @@ public class UserController {
      */
     @PostMapping(value = "/user/AddUser.htm")
     public ModelAndView addUser(UserForm userForm) {
-        logger.info(" Inside AddUser method of user Controller ");
+        logger.info(" Inside AddUser method of user controller ");
         userForm.setLoggedInUser(userForm.getLoggedInUser());
         userForm.setLoggedInRole(userForm.getLoggedInRole());
         userForm.setUser(new UserVO());
@@ -148,7 +148,7 @@ public class UserController {
      */
     @PostMapping(value = "/user/SaveUser.htm")
     public ModelAndView saveUser(UserForm userForm) {
-        logger.info(" Inside SaveUser method of user Controller ");
+        logger.info(" Inside SaveUser method of user controller ");
         logger.info(" user instance to add to database {}" , userForm);
         try {
             userForm.getUser().setCreatedDate(new Date());
@@ -211,7 +211,7 @@ public class UserController {
                              @ModelAttribute(value = "selectLogin") String  selectLogin,
                              @ModelAttribute(value = "selectRole") String  selectRole,
                              BindingResult result) {
-        logger.info("saveUserAjax method of user Controller ");
+        logger.info("saveUserAjax method of user controller ");
 
         StringBuilder responseString = new StringBuilder();
         logger.info(" At saveUserAjax, selectName is : {}", selectName);
@@ -284,7 +284,7 @@ public class UserController {
      */
     @PostMapping(value = "/user/EditUser.htm")
     public ModelAndView editUser(UserForm userForm) {
-        logger.info(" Inside EditUser method of user Controller ");
+        logger.info(" Inside EditUser method of user controller ");
         logger.info(" user is {}" , userForm);
         UserVO userVO = null;
         try {
@@ -322,7 +322,7 @@ public class UserController {
      */
     @PostMapping(value = "/user/UpdateUser.htm")
     public ModelAndView updateUser(UserForm userForm) {
-        logger.info(" Inside UpdateUser method of user Controller ");
+        logger.info(" Inside UpdateUser method of user controller ");
         try {
             userForm.getUser().setLastModifiedBy(userForm.getLoggedInUser());
             userForm.getUser().setModifiedDate(new Date());
@@ -359,7 +359,7 @@ public class UserController {
      */
     @PostMapping(value = "/user/DeleteUser.htm")
     public ModelAndView deleteUser(UserForm userForm) {
-        logger.info(" Inside DeleteUser method of user Controller ");
+        logger.info(" Inside DeleteUser method of user controller ");
         logger.info(" user is {}" , userForm);
         try {
             userService.deleteUser(userForm.getId());
@@ -395,7 +395,7 @@ public class UserController {
      */
     @PostMapping(value = "/user/ToHome.htm")
     public ModelAndView toHome(UserForm userForm) {
-        logger.info(" Inside ToHome method of user Controller ");
+        logger.info(" Inside ToHome method of user controller ");
         userForm.setLoggedInUser(userForm.getLoggedInUser());
         userForm.setLoggedInRole(userForm.getLoggedInRole());
         return new ModelAndView("MainPage", USER_FORM, userForm);
@@ -409,7 +409,7 @@ public class UserController {
      */
     @PostMapping(value = "/user/LogMeOut.htm")
     public ModelAndView logMeOut(UserForm userForm) {
-        logger.info(" Inside LogMeOut method of user Controller ");
+        logger.info(" Inside LogMeOut method of user controller ");
         return new ModelAndView(USER_LOG_IN, USER_FORM, new UserForm());
     }
 
@@ -421,7 +421,7 @@ public class UserController {
      */
     @PostMapping(value = "/user/SearchUser.htm")
     public ModelAndView searchUser(UserForm userForm) {
-        logger.info(" Inside SearchUser method of user Controller ");
+        logger.info(" Inside SearchUser method of user controller ");
         logger.info(" user Details are {}" , userForm.getSearchUser());
         List<UserVO> userList = null;
         try {

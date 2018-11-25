@@ -386,7 +386,7 @@
                     </tr>
                     <tr>
                         <td>
-                            <input class="btn btn-primary btn-block" value="Simple Save" type="button" onclick="javascript:saveSimpleMake()"/>
+                            <input class="btn btn-primary btn-block" value="Save Make" type="button" onclick="javascript:saveSimpleMake()"/>
                         <td>
                         <td colspan="4">
                         </td>

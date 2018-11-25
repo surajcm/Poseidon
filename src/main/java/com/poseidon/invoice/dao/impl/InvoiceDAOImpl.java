@@ -9,7 +9,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.jdbc.core.simple.SimpleJdbcInsert;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
@@ -33,9 +32,6 @@ import java.util.stream.Collectors;
 public class InvoiceDAOImpl implements InvoiceDAO {
 
     private SimpleJdbcInsert insertInvoice;
-
-    @Autowired
-    private JdbcTemplate jdbcTemplate;
 
     @Autowired
     private InvoiceRepository invoiceRepository;

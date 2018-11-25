@@ -310,7 +310,7 @@
                     </tr>
                     <tr>
                         <td>
-                            <input class="btn btn-primary" value="Simple Add" type="button" onclick="javascript:simpleAdd()"/>
+                            <input class="btn btn-primary" value="Add New Model" type="button" onclick="javascript:simpleAdd()"/>
                         </td>
                         <td colspan="3">
                             <br/>
