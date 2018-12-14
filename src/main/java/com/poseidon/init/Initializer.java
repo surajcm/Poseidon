@@ -1,4 +1,4 @@
-package com.poseidon.user.web;
+package com.poseidon.init;
 
 import org.hsqldb.util.DatabaseManagerSwing;
 import org.springframework.stereotype.Component;
