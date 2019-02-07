@@ -5,7 +5,7 @@ import com.poseidon.invoice.domain.InvoiceVO;
 import java.util.List;
 
 /**
- * user: Suraj
+ * user: Suraj.
  * Date: 7/26/12
  * Time: 10:39 PM
  */
@@ -24,9 +24,9 @@ public class InvoiceForm {
     private double rate;
     private double amount;
     private double totalAmount;
-    private InvoiceVO searchInvoiceVO;
-    private InvoiceVO currentInvoiceVO;
-    private List<InvoiceVO> invoiceVOs;
+    private InvoiceVO searchInvoiceVo;
+    private InvoiceVO currentInvoiceVo;
+    private List<InvoiceVO> invoiceVos;
 
     public String getLoggedInUser() {
         return loggedInUser;
@@ -140,50 +140,75 @@ public class InvoiceForm {
         this.totalAmount = totalAmount;
     }
 
-    public InvoiceVO getSearchInvoiceVO() {
-        return searchInvoiceVO;
+    public InvoiceVO getSearchInvoiceVo() {
+        return searchInvoiceVo;
     }
 
-    public void setSearchInvoiceVO(InvoiceVO searchInvoiceVO) {
-        this.searchInvoiceVO = searchInvoiceVO;
+    public void setSearchInvoiceVo(InvoiceVO searchInvoiceVo) {
+        this.searchInvoiceVo = searchInvoiceVo;
     }
 
-    public List<InvoiceVO> getInvoiceVOs() {
-        return invoiceVOs;
+    public List<InvoiceVO> getInvoiceVos() {
+        return invoiceVos;
     }
 
-    public void setInvoiceVOs(List<InvoiceVO> invoiceVOs) {
-        this.invoiceVOs = invoiceVOs;
+    public void setInvoiceVos(List<InvoiceVO> invoiceVos) {
+        this.invoiceVos = invoiceVos;
     }
 
-    public InvoiceVO getCurrentInvoiceVO() {
-        return currentInvoiceVO;
+    public InvoiceVO getCurrentInvoiceVo() {
+        return currentInvoiceVo;
     }
 
-    public void setCurrentInvoiceVO(InvoiceVO currentInvoiceVO) {
-        this.currentInvoiceVO = currentInvoiceVO;
+    public void setCurrentInvoiceVo(InvoiceVO currentInvoiceVo) {
+        this.currentInvoiceVo = currentInvoiceVo;
     }
 
     @Override
     public String toString() {
-        return "InvoiceForm{" +
-                "id=" + id +
-                ", loggedInUser='" + loggedInUser + '\'' +
-                ", loggedInRole='" + loggedInRole + '\'' +
-                ", statusMessage='" + statusMessage + '\'' +
-                ", statusMessageType='" + statusMessageType + '\'' +
-                ", tagNo='" + tagNo + '\'' +
-                ", customerId=" + customerId +
-                ", customerName='" + customerName + '\'' +
-                ", description='" + description + '\'' +
-                ", serialNo='" + serialNo + '\'' +
-                ", quantity=" + quantity +
-                ", rate=" + rate +
-                ", amount=" + amount +
-                ", totalAmount=" + totalAmount +
-                ", searchInvoiceVO=" + searchInvoiceVO +
-                ", currentInvoiceVO=" + currentInvoiceVO +
-                ", invoiceVOs=" + invoiceVOs +
-                '}';
+        return "InvoiceForm{"
+                + "id="
+                + id
+                + ", loggedInUser='"
+                + loggedInUser
+                + '\''
+                + ", loggedInRole='"
+                + loggedInRole
+                + '\''
+                + ", statusMessage='"
+                + statusMessage
+                + '\''
+                + ", statusMessageType='"
+                + statusMessageType
+                + '\''
+                + ", tagNo='"
+                + tagNo
+                + '\''
+                + ", customerId="
+                + customerId
+                + ", customerName='"
+                + customerName
+                + '\''
+                + ", description='"
+                + description
+                + '\''
+                + ", serialNo='"
+                + serialNo
+                + '\''
+                + ", quantity="
+                + quantity
+                + ", rate="
+                + rate
+                + ", amount="
+                + amount
+                + ", totalAmount="
+                + totalAmount
+                + ", searchInvoiceVo="
+                + searchInvoiceVo
+                + ", currentInvoiceVo="
+                + currentInvoiceVo
+                + ", invoiceVos="
+                + invoiceVos
+                + '}';
     }
 }

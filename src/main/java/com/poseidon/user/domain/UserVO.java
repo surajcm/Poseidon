@@ -10,10 +10,10 @@ import java.util.Date;
 @SuppressWarnings("unused")
 public class UserVO {
     private Long id;
-	private String name;
-	private String loginId;
-	private String password;
-	private String role;
+    private String name;
+    private String loginId;
+    private String password;
+    private String role;
     private Date createdDate;
     private Date modifiedDate;
     private String createdBy;
@@ -30,17 +30,20 @@ public class UserVO {
     }
 
     public String getName() {
-		return name;
-	}
-	public void setName(String name) {
-		this.name = name;
-	}
-	public String getPassword() {
-		return password;
-	}
-	public void setPassword(String password) {
-		this.password = password;
-	}
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
 
     public String getRole() {
         return role;
@@ -100,17 +103,32 @@ public class UserVO {
 
     @Override
     public String toString() {
-        return "UserVO{" +
-                "id=" + id +
-                ", name='" + name + '\'' +
-                ", loginId='" + loginId + '\'' +
-                ", password='" + password + '\'' +
-                ", role='" + role + '\'' +
-                ", createdDate=" + createdDate +
-                ", modifiedDate=" + modifiedDate +
-                ", createdBy='" + createdBy + '\'' +
-                ", lastModifiedBy='" + lastModifiedBy + '\'' +
-                '}';
+        return "UserVO{"
+                + "id="
+                + id
+                + ", name='"
+                + name
+                + '\''
+                + ", loginId='"
+                + loginId
+                + '\''
+                + ", password='"
+                + password
+                + '\''
+                + ", role='"
+                + role
+                + '\''
+                + ", createdDate="
+                + createdDate
+                + ", modifiedDate="
+                + modifiedDate
+                + ", createdBy='"
+                + createdBy
+                + '\''
+                + ", lastModifiedBy='"
+                + lastModifiedBy
+                + '\''
+                + '}';
     }
 
     public String getLoginId() {

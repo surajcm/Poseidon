@@ -1,6 +1,6 @@
 package com.poseidon.make.service.impl;
 
-import com.poseidon.make.dao.MakeDAO;
+import com.poseidon.make.dao.MakeDao;
 import com.poseidon.make.domain.MakeAndModelVO;
 import com.poseidon.make.domain.MakeVO;
 import com.poseidon.make.exception.MakeException;
@@ -21,7 +21,7 @@ import java.util.List;
 @SuppressWarnings("unused")
 public class MakeServiceImpl implements MakeService {
     @Autowired
-    private MakeDAO makeDAO;
+    private MakeDao makeDAO;
 
     private static final Logger LOG = LoggerFactory.getLogger(MakeServiceImpl.class);
     

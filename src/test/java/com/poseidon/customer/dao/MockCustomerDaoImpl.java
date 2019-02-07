@@ -10,17 +10,17 @@ import java.util.List;
  * Created by smuraleedharan
  * on 12/7/15.
  */
-public class MockCustomerDAOImpl implements CustomerDAO {
+public class MockCustomerDaoImpl implements CustomerDAO {
     @Override
     public List<CustomerVO> listAllCustomerDetails() throws CustomerException {
-        List<CustomerVO> customerVOs = new ArrayList<CustomerVO>();
-        CustomerVO customerVO = new CustomerVO();
-        customerVO.setCustomerName("Tester");
+        List<CustomerVO> customerVOs = new ArrayList<>();
+        CustomerVO customerVo = new CustomerVO();
+        customerVo.setCustomerName("Tester");
         return customerVOs;
     }
 
     @Override
-    public long saveCustomer(CustomerVO currentCustomerVO) throws CustomerException {
+    public long saveCustomer(CustomerVO currentCustomerVo) throws CustomerException {
         return 0;
     }
 
@@ -35,12 +35,12 @@ public class MockCustomerDAOImpl implements CustomerDAO {
     }
 
     @Override
-    public void updateCustomer(CustomerVO currentCustomerVO) throws CustomerException {
+    public void updateCustomer(CustomerVO currentCustomerVo) throws CustomerException {
 
     }
 
     @Override
-    public List<CustomerVO> searchCustomer(CustomerVO searchCustomerVO) throws CustomerException {
+    public List<CustomerVO> searchCustomer(CustomerVO searchCustomerVo) throws CustomerException {
         return null;
     }
 }

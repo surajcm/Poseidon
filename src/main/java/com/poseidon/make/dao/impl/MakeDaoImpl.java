@@ -1,6 +1,6 @@
 package com.poseidon.make.dao.impl;
 
-import com.poseidon.make.dao.MakeDAO;
+import com.poseidon.make.dao.MakeDao;
 import com.poseidon.make.dao.entities.Make;
 import com.poseidon.make.dao.entities.Model;
 import com.poseidon.make.dao.mapper.MakeAndModelEntityConverter;
@@ -25,8 +25,8 @@ import java.util.stream.Collectors;
  */
 @Repository
 @SuppressWarnings("unused")
-public class MakeDAOImpl implements MakeDAO {
-    private static final Logger LOG = LoggerFactory.getLogger(MakeDAOImpl.class);
+public class MakeDaoImpl implements MakeDao {
+    private static final Logger LOG = LoggerFactory.getLogger(MakeDaoImpl.class);
 
     @Autowired
     private MakeRepository makeRepository;
@@ -62,9 +62,9 @@ public class MakeDAOImpl implements MakeDAO {
         return makeVOs;
     }
 
-    public void addNewMake(MakeAndModelVO currentMakeVO) throws MakeException {
+    public void addNewMake(MakeAndModelVO currentMakeVo) throws MakeException {
         try {
-            Make make = makeAndModelEntityConverter.convertToMake(currentMakeVO);
+            Make make = makeAndModelEntityConverter.convertToMake(currentMakeVo);
             makeRepository.save(make);
         } catch (DataAccessException e) {
             LOG.error(e.getLocalizedMessage());
@@ -72,10 +72,10 @@ public class MakeDAOImpl implements MakeDAO {
         }
     }
 
-    public void updateMake(MakeAndModelVO currentMakeVO) throws MakeException {
+    public void updateMake(MakeAndModelVO currentMakeVo) throws MakeException {
         try {
-            Make make = makeAndModelEntityConverter.convertToMake(currentMakeVO);
-            Optional<Make> optionalMake = makeRepository.findById(currentMakeVO.getMakeId());
+            Make make = makeAndModelEntityConverter.convertToMake(currentMakeVo);
+            Optional<Make> optionalMake = makeRepository.findById(currentMakeVo.getMakeId());
             if (optionalMake.isPresent()) {
                 Make newMake = optionalMake.get();
                 newMake.setMakeName(make.getMakeName());
@@ -139,9 +139,9 @@ public class MakeDAOImpl implements MakeDAO {
         }
     }
 
-    public void addNewModel(MakeAndModelVO makeAndModelVO) throws MakeException {
+    public void addNewModel(MakeAndModelVO currentMakeVo) throws MakeException {
         try {
-            Model model = convertMakeAndModelVOToModel(makeAndModelVO);
+            Model model = convertMakeAndModelVOToModel(currentMakeVo);
             modelRepository.save(model);
         } catch (DataAccessException e) {
             LOG.error(e.getLocalizedMessage());
@@ -176,10 +176,10 @@ public class MakeDAOImpl implements MakeDAO {
         }
     }
 
-    public List<MakeAndModelVO> searchMakeVOs(MakeAndModelVO searchMakeVO) throws MakeException {
+    public List<MakeAndModelVO> searchMakeVOs(MakeAndModelVO searchMakeVo) throws MakeException {
         List<MakeAndModelVO> makeVOs;
         try {
-            makeVOs = searchModels(searchMakeVO);
+            makeVOs = searchModels(searchMakeVo);
         } catch (DataAccessException e) {
             LOG.error(e.getLocalizedMessage());
             throw new MakeException(MakeException.DATABASE_ERROR);

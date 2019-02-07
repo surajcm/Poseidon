@@ -1,6 +1,6 @@
 package com.poseidon.customer.service.impl;
 
-import com.poseidon.customer.dao.MockCustomerDAOImpl;
+import com.poseidon.customer.dao.MockCustomerDaoImpl;
 import com.poseidon.customer.domain.CustomerVO;
 import org.junit.Before;
 import org.junit.Test;
@@ -8,28 +8,30 @@ import org.junit.Test;
 import java.util.List;
 
 /**
- * Created by Suraj
- *
+ * Created by Suraj.
  * on 11/25/15.
  */
 public class CustomerServiceImplTest {
     private CustomerServiceImpl customerService;
-    private MockCustomerDAOImpl mockCustomerDAO;
+    private MockCustomerDaoImpl mockCustomerDao;
 
+    /**
+     * initial set up.
+     */
     @Before
-    public void setup(){
-        mockCustomerDAO = new MockCustomerDAOImpl();
+    public void setup() {
+        mockCustomerDao = new MockCustomerDaoImpl();
         customerService = new CustomerServiceImpl();
-        //customerService.setCustomerDAO(mockCustomerDAO);
+        //customerService.setCustomerDAO(mockCustomerDao);
     }
 
     @Test
     public void verifyListAllCustomerDetails() {
         //try {
-            List<CustomerVO> customerVOs = customerService.listAllCustomerDetails();
-            //assertEquals("Verifying customer name",customerVOs.get(0).getCustomerName(),"Tester");
+        List<CustomerVO> customerVOs = customerService.listAllCustomerDetails();
+        //assertEquals("Verifying customer name",customerVOs.get(0).getCustomerName(),"Tester");
         //} catch (CustomerException e) {
-            //fail(e.getMessage());
+        //fail(e.getMessage());
         //}
     }
 

@@ -39,7 +39,7 @@ public class Make {
     @Column(name = "modifiedBy")
     private String modifiedBy;
 
-    @OneToMany(mappedBy="make")
+    @OneToMany(mappedBy = "make")
     private List<Model> models;
 
     public Long getMakeId() {
@@ -106,6 +106,9 @@ public class Make {
         this.models = models;
     }
 
+    /**
+     * initializing / updating the date fields.
+     */
     @PrePersist
     @PreUpdate
     public void initializeDate() {

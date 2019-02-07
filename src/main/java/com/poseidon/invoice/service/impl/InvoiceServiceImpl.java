@@ -99,15 +99,15 @@ public class InvoiceServiceImpl implements InvoiceService {
     }
 
     public void updateInvoice(InvoiceVO currentInvoiceVO) throws InvoiceException {
-        TransactionReportVO transactionReportVO = null;
+        TransactionReportVO transactionReportVo = null;
         try {
-            transactionReportVO = transactionService.fetchTransactionFromTag(currentInvoiceVO.getTagNo());
+            transactionReportVo = transactionService.fetchTransactionFromTag(currentInvoiceVO.getTagNo());
         } catch (TransactionException e) {
             e.printStackTrace();
         }
-        currentInvoiceVO.setCustomerId(transactionReportVO.getCustomerId());
-        currentInvoiceVO.setCustomerName(transactionReportVO.getCustomerName());
-        currentInvoiceVO.setSerialNo(transactionReportVO.getSerialNo());
+        currentInvoiceVO.setCustomerId(transactionReportVo.getCustomerId());
+        currentInvoiceVO.setCustomerName(transactionReportVo.getCustomerName());
+        currentInvoiceVO.setSerialNo(transactionReportVo.getSerialNo());
         try {
             invoiceDAO.updateInvoice(currentInvoiceVO);
         } catch (InvoiceException e) {
@@ -116,10 +116,17 @@ public class InvoiceServiceImpl implements InvoiceService {
         }
     }
 
-    public List<InvoiceVO> findInvoices(InvoiceVO searchInvoiceVO) throws InvoiceException {
+    /**
+     * findInvoices
+     *
+     * @param searchInvoiceVo InvoiceVO
+     * @return List of InvoiceVO
+     * @throws InvoiceException on error
+     */
+    public List<InvoiceVO> findInvoices(InvoiceVO searchInvoiceVo) throws InvoiceException {
         List<InvoiceVO> invoiceVOs;
         try {
-            invoiceVOs = invoiceDAO.findInvoices(searchInvoiceVO);
+            invoiceVOs = invoiceDAO.findInvoices(searchInvoiceVo);
         } catch (InvoiceException e) {
             LOG.error(e.getLocalizedMessage());
             throw new InvoiceException(e.getMessage());

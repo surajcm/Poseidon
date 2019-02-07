@@ -23,9 +23,9 @@ import java.util.Date;
 import java.util.List;
 
 /**
- * @author : Suraj Muraleedharan
- *         Date: Nov 27, 2010
- *         Time: 2:38:15 PM
+ * @author : Suraj Muraleedharan.
+ * Date: Nov 27, 2010
+ * Time: 2:38:15 PM
  */
 @Controller
 @SuppressWarnings("unused")
@@ -46,9 +46,8 @@ public class UserController {
     @Autowired
     private SecurityService securityService;
 
-
     /**
-     * Used in automatic redirect to Log in screen
+     * Used in automatic redirect to Log in screen.
      *
      * @return ModelAndView to render
      */
@@ -56,27 +55,33 @@ public class UserController {
     public ModelAndView index() {
         logger.info(" Inside Index method of user controller ");
         UserForm userForm = new UserForm();
-        UserVO userVO = new UserVO();
-        userForm.setUser(userVO);
+        UserVO userVo = new UserVO();
+        userForm.setUser(userVo);
         return new ModelAndView("MainPage", USER_FORM, userForm);
     }
 
+    /**
+     * log in.
+     *
+     * @param model  Model
+     * @param error  String
+     * @param logout String
+     * @return String
+     */
     @GetMapping(value = "/login")
     public String login(Model model, String error, String logout) {
         if (error != null) {
             model.addAttribute(ERROR, "Your username and password is invalid.");
         }
-
         if (logout != null) {
             model.addAttribute("message", "You have been logged out successfully.");
         }
-
         return USER_LOG_IN;
     }
 
 
     /**
-     * Used to list all users (can be done only by admin user)
+     * Used to list all users (can be done only by admin user).
      *
      * @param userForm userForm instance
      * @return ModelAndView to render
@@ -113,7 +118,7 @@ public class UserController {
     }
 
     /**
-     * populateRoles
+     * populateRoles.
      *
      * @return List of String
      */
@@ -125,7 +130,7 @@ public class UserController {
     }
 
     /**
-     * Screen to add a new user
+     * Screen to add a new user.
      *
      * @param userForm userForm instance
      * @return ModelAndView to render
@@ -141,7 +146,7 @@ public class UserController {
     }
 
     /**
-     * add a new user to database
+     * add a new user to database.
      *
      * @param userForm user instance
      * @return ModelAndView to render
@@ -149,7 +154,7 @@ public class UserController {
     @PostMapping(value = "/user/SaveUser.htm")
     public ModelAndView saveUser(UserForm userForm) {
         logger.info(" Inside SaveUser method of user controller ");
-        logger.info(" user instance to add to database {}" , userForm);
+        logger.info(" user instance to add to database {}", userForm);
         try {
             userForm.getUser().setCreatedDate(new Date());
             userForm.getUser().setModifiedDate(new Date());
@@ -206,30 +211,38 @@ public class UserController {
         return new ModelAndView(USER_LIST, USER_FORM, userForm);
     }
 
+    /**
+     * save user using ajax call.
+     *
+     * @param selectName  String
+     * @param selectLogin String
+     * @param selectRole  String
+     * @param result      BindingResult
+     * @return String
+     */
     @PostMapping(value = "/user/saveUserAjax.htm")
-    public String saveUserAjax(@ModelAttribute(value = "selectName") String  selectName,
-                             @ModelAttribute(value = "selectLogin") String  selectLogin,
-                             @ModelAttribute(value = "selectRole") String  selectRole,
-                             BindingResult result) {
+    public String saveUserAjax(@ModelAttribute(value = "selectName") String selectName,
+                               @ModelAttribute(value = "selectLogin") String selectLogin,
+                               @ModelAttribute(value = "selectRole") String selectRole,
+                               BindingResult result) {
         logger.info("saveUserAjax method of user controller ");
 
-        StringBuilder responseString = new StringBuilder();
         logger.info(" At saveUserAjax, selectName is : {}", selectName);
         logger.info(" At saveUserAjax, selectLogin : {}", selectLogin);
         logger.info(" At saveUserAjax, selectRole : {}", selectRole);
-        UserVO ajaxUserVO = new UserVO();
-        ajaxUserVO.setName(selectName);
-        ajaxUserVO.setLoginId(selectName);
-        ajaxUserVO.setRole(selectRole);
+        UserVO ajaxUserVo = new UserVO();
+        ajaxUserVo.setName(selectName);
+        ajaxUserVo.setLoginId(selectName);
+        ajaxUserVo.setRole(selectRole);
         //todo : find out a way to get current user
-        ajaxUserVO.setPassword("password");
-        ajaxUserVO.setCreatedDate(new Date());
-        ajaxUserVO.setModifiedDate(new Date());
-        ajaxUserVO.setCreatedBy("-ajax-");
-        ajaxUserVO.setLastModifiedBy("-ajax-");
+        ajaxUserVo.setPassword("password");
+        ajaxUserVo.setCreatedDate(new Date());
+        ajaxUserVo.setModifiedDate(new Date());
+        ajaxUserVo.setCreatedBy("-ajax-");
+        ajaxUserVo.setLastModifiedBy("-ajax-");
 
         try {
-            userService.save(ajaxUserVO);
+            userService.save(ajaxUserVo);
         } catch (UserException e) {
             logger.error(e.getLocalizedMessage());
             logger.error(EXCEPTION_IN_CONTROLLER, e.ExceptionType);
@@ -259,11 +272,16 @@ public class UserController {
             logger.info(AN_UNKNOWN_ERROR_HAS_BEEN_OCCURRED);
 
         }
-        responseString.append(fetchJSONUserList(userList));
-        return responseString.toString();
+        return fetchJsonUserList(userList);
     }
 
-    private String fetchJSONUserList(List<UserVO> userList) {
+    /**
+     * fetch user list as json.
+     *
+     * @param userList List of UserVO
+     * @return String
+     */
+    private String fetchJsonUserList(List<UserVO> userList) {
         String response;
         ObjectMapper mapper = new ObjectMapper();
         try {
@@ -277,7 +295,7 @@ public class UserController {
     }
 
     /**
-     * Screen to add a new user
+     * Screen to add a new user.
      *
      * @param userForm userForm instance
      * @return ModelAndView to render
@@ -285,10 +303,10 @@ public class UserController {
     @PostMapping(value = "/user/EditUser.htm")
     public ModelAndView editUser(UserForm userForm) {
         logger.info(" Inside EditUser method of user controller ");
-        logger.info(" user is {}" , userForm);
-        UserVO userVO = null;
+        logger.info(" user is {}", userForm);
+        UserVO userVo = null;
         try {
-            userVO = userService.getUserDetailsFromID(userForm.getId());
+            userVo = userService.getUserDetailsFromID(userForm.getId());
         } catch (UserException e) {
             logger.error(e.getLocalizedMessage());
             logger.error(EXCEPTION_IN_CONTROLLER, e.ExceptionType);
@@ -302,12 +320,12 @@ public class UserController {
             logger.error(e1.getLocalizedMessage());
             logger.info(AN_UNKNOWN_ERROR_HAS_BEEN_OCCURRED);
         }
-        if (userVO == null) {
+        if (userVo == null) {
             logger.error(" No details found for current user !!");
         } else {
-            logger.info(" user details are {}" , userVO);
+            logger.info(" user details are {}", userVo);
         }
-        userForm.setUser(userVO);
+        userForm.setUser(userVo);
         userForm.setLoggedInUser(userForm.getLoggedInUser());
         userForm.setLoggedInRole(userForm.getLoggedInRole());
         userForm.setRoleList(populateRoles());
@@ -315,7 +333,7 @@ public class UserController {
     }
 
     /**
-     * updates the user
+     * updates the user.
      *
      * @param userForm user instance
      * @return ModelAndView to render
@@ -352,7 +370,7 @@ public class UserController {
     }
 
     /**
-     * delete the user
+     * delete the user.
      *
      * @param userForm userForm instance
      * @return ModelAndView to render
@@ -360,7 +378,7 @@ public class UserController {
     @PostMapping(value = "/user/DeleteUser.htm")
     public ModelAndView deleteUser(UserForm userForm) {
         logger.info(" Inside DeleteUser method of user controller ");
-        logger.info(" user is {}" , userForm);
+        logger.info(" user is {}", userForm);
         try {
             userService.deleteUser(userForm.getId());
             userForm.setStatusMessage("Successfully deleted the user");
@@ -388,7 +406,7 @@ public class UserController {
     }
 
     /**
-     * Screen to home
+     * Screen to home.
      *
      * @param userForm userForm instance
      * @return ModelAndView to render
@@ -402,7 +420,7 @@ public class UserController {
     }
 
     /**
-     * Screen to home
+     * Screen to log out.
      *
      * @param userForm userForm instance
      * @return ModelAndView to render
@@ -414,7 +432,7 @@ public class UserController {
     }
 
     /**
-     * Screen to search for a user
+     * Screen to search for a user.
      *
      * @param userForm userForm instance
      * @return ModelAndView to render
@@ -422,12 +440,12 @@ public class UserController {
     @PostMapping(value = "/user/SearchUser.htm")
     public ModelAndView searchUser(UserForm userForm) {
         logger.info(" Inside SearchUser method of user controller ");
-        logger.info(" user Details are {}" , userForm.getSearchUser());
+        logger.info(" user Details are {}", userForm.getSearchUser());
         List<UserVO> userList = null;
         try {
             userList = userService.searchUserDetails(userForm.getSearchUser());
-            if(userList != null && !userList.isEmpty()){
-                userForm.setStatusMessage("Successfully fetched "+userList.size()+ " Users");
+            if (userList != null && !userList.isEmpty()) {
+                userForm.setStatusMessage("Successfully fetched " + userList.size() + " Users");
                 userForm.setStatusMessageType("info");
             }
         } catch (UserException e) {
