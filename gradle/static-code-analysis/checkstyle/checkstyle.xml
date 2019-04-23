@@ -44,10 +44,19 @@
             <property name="allowNonPrintableEscapes" value="true"/>
         </module>
         <module name="LineLength">
-            <property name="max" value="120"/>
-            <property name="ignorePattern" value="^package.*|^import.*|a href|href|http://|https://|ftp://"/>
+            <property name="max" value="119"/>
         </module>
         <module name="AvoidStarImport"/>
+        <module name="LocalFinalVariableName"/>
+        <module name="StaticVariableName"/>
+        <module name="IllegalImport"> <!-- defaults to sun.* packages -->
+            <property name="illegalPkgs" value="sun"/>
+        </module>
+        <module name="RedundantImport"/>
+        <module name="UnusedImports"/>
+        <module name="NoWhitespaceAfter">
+            <property name="tokens" value="BNOT,DEC,INC,LNOT,UNARY_MINUS,UNARY_PLUS"/>
+        </module>
         <module name="OneTopLevelClass"/>
         <module name="NoLineWrap"/>
         <module name="EmptyBlock">

@@ -6,7 +6,9 @@ import java.util.Collection;
 import java.util.List;
 
 /**
- * @author : Suraj Muraleedharan.
+ * UserForm form for user.
+ *
+ * @author : Suraj Muraleedharan
  * Date: Feb 1, 2011
  * Time: 10:21:09 PM
  */

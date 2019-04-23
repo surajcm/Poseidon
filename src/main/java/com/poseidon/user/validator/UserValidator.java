@@ -13,26 +13,28 @@ import org.springframework.validation.Validator;
  */
 public class UserValidator implements Validator {
     /**
-     * logger for validator
+     * logger for validator.
      */
-    private final Logger LOG = LoggerFactory.getLogger(UserValidator.class);
+    private final Logger logger = LoggerFactory.getLogger(UserValidator.class);
 
     /**
-     * default method overridden for matching the POJO
-     * @param aClass aClass instance
+     * default method overridden for matching the POJO.
+     *
+     * @param classInstance classInstance instance
      * @return boolean
      */
-    public boolean supports(Class<?> aClass) {
-        return aClass.equals(UserVO.class);
+    public boolean supports(Class<?> classInstance) {
+        return classInstance.equals(UserVO.class);
     }
 
     /**
-     * validate method overridden from validator
-     * @param o o the user instance
+     * validate method overridden from validator.
+     *
+     * @param o      o the user instance
      * @param errors errors
      */
     public void validate(Object o, Errors errors) {
-        LOG.info(" Inside the validate method");
+        logger.info(" Inside the validate method");
         UserVO user = (UserVO) o;
 
         if (user.getName().trim().length() == 0) {
