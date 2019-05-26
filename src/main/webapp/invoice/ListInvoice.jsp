@@ -195,7 +195,7 @@
                             </label>
                         </td>
                         <td>
-                            <form:input cssClass="form-control" path="searchInvoiceVO.id" id="invoiceId"/>
+                            <form:input cssClass="form-control" path="searchInvoiceVo.id" id="invoiceId"/>
                         </td>
                         <td colspan="2">&nbsp;</td>
                         <td>
@@ -204,7 +204,7 @@
                             </label>
                         </td>
                         <td>
-                            <form:input cssClass="form-control" path="searchInvoiceVO.description" id="description"/>
+                            <form:input cssClass="form-control" path="searchInvoiceVo.description" id="description"/>
                         </td>
                         <td colspan="2">&nbsp;</td>
                         <td>
@@ -213,7 +213,7 @@
                             </label>
                         </td>
                         <td>
-                            <form:input cssClass="form-control" path="searchInvoiceVO.serialNo" id="serialNo"/>
+                            <form:input cssClass="form-control" path="searchInvoiceVo.serialNo" id="serialNo"/>
                         </td>
                         <td colspan="2">&nbsp;</td>
                         <td>
@@ -222,7 +222,7 @@
                             </label>
                         </td>
                         <td>
-                            <form:input cssClass="form-control" path="searchInvoiceVO.tagNo"  id="tagNo"/>
+                            <form:input cssClass="form-control" path="searchInvoiceVo.tagNo"  id="tagNo"/>
                         </td>
                     </tr>
                     <tr>
@@ -232,20 +232,20 @@
                             </label>
                         </td>
                         <td>
-                            <form:input cssClass="form-control" path="searchInvoiceVO.amount"  id="amount"/>
+                            <form:input cssClass="form-control" path="searchInvoiceVo.amount"  id="amount"/>
                         </td>
                         <td colspan="3">&nbsp;</td>
                         <td>
                             <label for="greater" class="control-label">
                                 Greater than & Equal
-                                <form:checkbox path="searchInvoiceVO.greater" id="greater" value=""/>
+                                <form:checkbox path="searchInvoiceVo.greater" id="greater" value=""/>
                             </label>
                         </td>
                         <td colspan="3">&nbsp;</td>
                         <td>
                             <label for="lesser" class="control-label">
                                 Lesser than & Equal
-                                <form:checkbox path="searchInvoiceVO.lesser" id="lesser" value=""/>
+                                <form:checkbox path="searchInvoiceVo.lesser" id="lesser" value=""/>
                             </label>
                         </td>
                         <td colspan="4">&nbsp;</td>
@@ -258,14 +258,14 @@
                         <td>
                             <label for="includes" class="control-label">
                                 <spring:message code="user.includes" text="Includes"/>
-                                <form:checkbox path="searchInvoiceVO.includes" id="includes" value=""/>
+                                <form:checkbox path="searchInvoiceVo.includes" id="includes" value=""/>
                             </label>
                         </td>
                         <td colspan="3">&nbsp;</td>
                         <td>
                             <label for="startsWith" class="control-label">
                                 <spring:message code="user.startsWith" text="Starts with"/>
-                                <form:checkbox path="searchInvoiceVO.startsWith" id="startsWith" value=""/>
+                                <form:checkbox path="searchInvoiceVo.startsWith" id="startsWith" value=""/>
                             </label>
                         </td>
                         <td colspan="3">&nbsp;</td>
@@ -302,7 +302,7 @@
                     </tr>
                     </thead>
                     <tbody>
-                    <c:forEach items="${invoiceForm.invoiceVOs}" var="iterationInv">
+                    <c:forEach items="${invoiceForm.invoiceVos}" var="iterationInv">
                         <tr>
                             <td><input type="checkbox" name="checkField" onclick="checkCall(this)"
                                        value="<c:out value="${iterationInv.id}" />"/></td>
