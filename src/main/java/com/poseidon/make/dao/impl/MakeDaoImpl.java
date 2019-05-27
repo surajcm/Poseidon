@@ -155,7 +155,9 @@ public class MakeDaoImpl implements MakeDao {
         model.setMakeId(makeAndModelVO.getMakeId());
         model.setCreatedBy(makeAndModelVO.getCreatedBy());
         model.setModifiedBy(makeAndModelVO.getModifiedBy());
+        LOG.info("in convertMakeAndModelVOToModel -> make id is : %s" , makeAndModelVO.getMakeId());
         Optional<Make> optionalMake = makeRepository.findById(makeAndModelVO.getMakeId());
+        optionalMake.ifPresent(m1 -> LOG.info(m1.toString()));
         optionalMake.ifPresent(model::setMake);
         return model;
     }
@@ -163,7 +165,7 @@ public class MakeDaoImpl implements MakeDao {
     public void updateModel(MakeAndModelVO currentMakeVO) throws MakeException {
         try {
             Optional<Model> optionalModel = modelRepository.findById(currentMakeVO.getId());
-            if(optionalModel.isPresent()) {
+            if (optionalModel.isPresent()) {
                 Model model = optionalModel.get();
                 model.setModelName(currentMakeVO.getModelName());
                 Optional<Make> optionalMake = makeRepository.findById(currentMakeVO.getMakeId());
@@ -203,11 +205,11 @@ public class MakeDaoImpl implements MakeDao {
         List<MakeAndModelVO> makeVOs = new ArrayList<>();
         try {
             Optional<Make> optionalMake = makeRepository.findById(makeId);
-            if(optionalMake.isPresent()) {
+            if (optionalMake.isPresent()) {
                 Make make = optionalMake.get();
                 List<Model> models = make.getModels();
-                if(!models.isEmpty()) {
-                    for(Model model:models) {
+                if (!models.isEmpty()) {
+                    for (Model model : models) {
                         MakeAndModelVO makeAndModelVO = getMakeAndModelVO(make, model);
                         makeVOs.add(makeAndModelVO);
                     }
@@ -248,14 +250,14 @@ public class MakeDaoImpl implements MakeDao {
         if (searchMakeVO.getModelName() != null && searchMakeVO.getModelName().trim().length() > 0) {
             String modelName = searchMakeVO.getModelName();
             List<Model> models;
-            if(searchMakeVO.getIncludes()) {
-                models = modelRepository.findByModelNameWildCard("%"+modelName+"%");
+            if (searchMakeVO.getIncludes()) {
+                models = modelRepository.findByModelNameWildCard("%" + modelName + "%");
             } else if (searchMakeVO.getStartswith()) {
-                models = modelRepository.findByModelNameWildCard(modelName+"%");
+                models = modelRepository.findByModelNameWildCard(modelName + "%");
             } else {
                 models = modelRepository.findByModelName(modelName);
             }
-            for(Model model:models) {
+            for (Model model : models) {
                 MakeAndModelVO makeAndModelVO = getMakeAndModelVO(model.getMake(), model);
                 if (!makeAndModelVOS.contains(makeAndModelVO)) {
                     makeAndModelVOS.add(makeAndModelVO);

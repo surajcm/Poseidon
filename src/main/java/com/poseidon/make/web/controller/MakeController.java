@@ -332,8 +332,7 @@ public class MakeController {
 
     @PostMapping(value = "/make/saveModel.htm")
     public ModelAndView saveModel(MakeForm makeForm) {
-        LOG.info(" saveModel method of MakeController ");
-        LOG.info(" makeForm instance to add to database {}" , makeForm);
+        LOG.info(" at saveModel makeForm instance to add to database {}" , makeForm);
         makeForm.getCurrentMakeAndModeVO().setCreatedDate(new Date());
         makeForm.getCurrentMakeAndModeVO().setModifiedDate(new Date());
         makeForm.getCurrentMakeAndModeVO().setCreatedBy(makeForm.getLoggedInUser());
