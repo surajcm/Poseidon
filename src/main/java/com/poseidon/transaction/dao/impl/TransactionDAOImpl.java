@@ -14,22 +14,19 @@ import com.poseidon.transaction.exception.TransactionException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.dao.DataAccessException;
 import org.springframework.jdbc.core.JdbcTemplate;
-import org.springframework.jdbc.core.RowMapper;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.text.Format;
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
+import javax.persistence.Query;
+import java.time.LocalDate;
 import java.time.OffsetDateTime;
+import java.time.OffsetTime;
+import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
-import java.util.Locale;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -78,7 +75,9 @@ public class TransactionDAOImpl implements TransactionDAO {
 
     private Transaction getTransaction(TransactionVO currentTransaction) {
         Transaction txn = new Transaction();
-        txn.setDateReported(OffsetDateTime.parse(currentTransaction.getDateReported()));
+        txn.setDateReported(LocalDate.parse(currentTransaction.getDateReported(),
+                DateTimeFormatter.ofPattern("MM/dd/yyyy"))
+                .atTime(OffsetTime.MIN));
         txn.setProductCategory(currentTransaction.getProductCategory());
         txn.setCustomerId(currentTransaction.getCustomerId());
         txn.setMakeId(currentTransaction.getMakeId());
@@ -100,7 +99,7 @@ public class TransactionDAOImpl implements TransactionDAO {
         List<TransactionVO> transactionVOList;
         try {
             transactionVOList = searchTxs(searchTransaction);
-        } catch (DataAccessException | ParseException e) {
+        } catch (Exception e) {
             LOG.error(e.getLocalizedMessage());
             throw new TransactionException(TransactionException.DATABASE_ERROR);
         }
@@ -110,7 +109,7 @@ public class TransactionDAOImpl implements TransactionDAO {
     public TransactionVO fetchTransactionFromId(Long id) {
         TransactionVO transactionVO = null;
         Optional<Transaction> optionalTransaction = transactionRepository.findById(id);
-        if(optionalTransaction.isPresent()) {
+        if (optionalTransaction.isPresent()) {
             Transaction txn = optionalTransaction.get();
             transactionVO = convertToVO(txn);
         }
@@ -118,14 +117,20 @@ public class TransactionDAOImpl implements TransactionDAO {
     }
 
     private TransactionVO convertToVO(Transaction txn) {
+        Customer customer = customerRepository.getOne(txn.getCustomerId());
+        Make make = makeRepository.getOne(txn.getMakeId());
+        Model model = modelRepository.getOne(txn.getModelId());
         TransactionVO transactionVO = new TransactionVO();
         transactionVO.setId(txn.getTransactionId());
         transactionVO.setTagNo(txn.getTagno());
         transactionVO.setDateReported(txn.getDateReported().toString());
         transactionVO.setProductCategory(txn.getProductCategory());
         transactionVO.setCustomerId(txn.getCustomerId());
+        transactionVO.setCustomerName(customer.getName());
         transactionVO.setMakeId(txn.getMakeId());
+        transactionVO.setMakeName(make.getMakeName());
         transactionVO.setModelId(txn.getModelId());
+        transactionVO.setModelName(model.getModelName());
         transactionVO.setSerialNo(txn.getSerialNumber());
         transactionVO.setStatus(txn.getStatus());
         transactionVO.setAccessories(txn.getAccessories());
@@ -139,7 +144,7 @@ public class TransactionDAOImpl implements TransactionDAO {
 
     public void updateTransaction(TransactionVO currentTransaction) {
         Optional<Transaction> optionalTransaction = transactionRepository.findById(currentTransaction.getId());
-        if(optionalTransaction.isPresent()) {
+        if (optionalTransaction.isPresent()) {
             Transaction txn = convertToTXN(optionalTransaction.get(), currentTransaction);
             transactionRepository.save(txn);
         }
@@ -221,161 +226,145 @@ public class TransactionDAOImpl implements TransactionDAO {
         return txs;
     }
 
-    private List<TransactionVO> searchTxs(TransactionVO searchTransaction) throws ParseException {
-        StringBuffer SEARCH_TRANSACTION_QUERY = new StringBuffer();
-        SEARCH_TRANSACTION_QUERY.append("SELECT Tr.id,")
-                .append(" Tr.tagNo, ")
-                .append(" Cust.name ,")
-                .append(" Tr.dateReported ,")
-                .append(" Mk.makeName ,")
-                .append(" Mdl.modelName ,")
-                .append(" Tr.serialNo,")
-                .append(" Tr.status ")
-                .append(" FROM transaction Tr inner join make Mk on Tr.makeId=Mk.id ")
-                .append(" inner join model Mdl on Tr.modelId=Mdl.id and Mdl.makeId=Mk.id ")
-                .append(" inner join customer Cust on Cust.id=Tr.customerId ");
-        Boolean isWhereAdded = Boolean.FALSE;
-
-        if (searchTransaction.getTagNo() != null && searchTransaction.getTagNo().trim().length() > 0) {
-            SEARCH_TRANSACTION_QUERY.append(" where ");
-            isWhereAdded = Boolean.TRUE;
-            if (searchTransaction.getIncludes()) {
-                SEARCH_TRANSACTION_QUERY.append(" Tr.tagNo like '%").append(searchTransaction.getTagNo()).append("%'");
-            } else if (searchTransaction.getStartswith()) {
-                SEARCH_TRANSACTION_QUERY.append(" Tr.tagNo like '").append(searchTransaction.getTagNo()).append("%'");
-            } else {
-                SEARCH_TRANSACTION_QUERY.append(" Tr.tagNo like '").append(searchTransaction.getTagNo()).append("'");
-            }
-        }
-
-        if (searchTransaction.getCustomerName() != null && searchTransaction.getCustomerName().trim().length() > 0) {
-            if (!isWhereAdded) {
-                SEARCH_TRANSACTION_QUERY.append(" where ");
-                isWhereAdded = Boolean.TRUE;
-            } else {
-                SEARCH_TRANSACTION_QUERY.append(" and ");
-            }
-            if (searchTransaction.getIncludes()) {
-                SEARCH_TRANSACTION_QUERY.append(" Cust.name like '%").append(searchTransaction.getCustomerName()).append("%'");
-            } else if (searchTransaction.getStartswith()) {
-                SEARCH_TRANSACTION_QUERY.append(" Cust.name like '").append(searchTransaction.getCustomerName()).append("%'");
-            } else {
-                SEARCH_TRANSACTION_QUERY.append(" Cust.name like '").append(searchTransaction.getCustomerName()).append("'");
-            }
-        }
-
-        // need to implement  and Tr.DateReported like '%%'
-        if (searchTransaction.getSerialNo() != null && searchTransaction.getSerialNo().trim().length() > 0) {
-            if (!isWhereAdded) {
-                SEARCH_TRANSACTION_QUERY.append(" where ");
-                isWhereAdded = Boolean.TRUE;
-            } else {
-                SEARCH_TRANSACTION_QUERY.append(" and ");
-            }
-            if (searchTransaction.getIncludes()) {
-                SEARCH_TRANSACTION_QUERY.append(" Tr.serialNo like '%").append(searchTransaction.getSerialNo()).append("%'");
-            } else if (searchTransaction.getStartswith()) {
-                SEARCH_TRANSACTION_QUERY.append(" Tr.serialNo like '").append(searchTransaction.getSerialNo()).append("%'");
-            } else {
-                SEARCH_TRANSACTION_QUERY.append(" Tr.serialNo like '").append(searchTransaction.getSerialNo()).append("'");
-            }
-        }
-
-        if (searchTransaction.getMakeId() != null && searchTransaction.getMakeId() > 0) {
-            if (!isWhereAdded) {
-                SEARCH_TRANSACTION_QUERY.append(" where ");
-                isWhereAdded = Boolean.TRUE;
-            } else {
-                SEARCH_TRANSACTION_QUERY.append(" and ");
-            }
-            SEARCH_TRANSACTION_QUERY.append(" Tr.makeId = ").append(searchTransaction.getMakeId());
-        }
-
-        if (searchTransaction.getModelId() != null && searchTransaction.getModelId() > 0) {
-            if (!isWhereAdded) {
-                SEARCH_TRANSACTION_QUERY.append(" where ");
-                isWhereAdded = Boolean.TRUE;
-            } else {
-                SEARCH_TRANSACTION_QUERY.append(" and ");
-            }
-            SEARCH_TRANSACTION_QUERY.append(" Tr.modelId = ").append(searchTransaction.getModelId());
-        }
-
-        if (searchTransaction.getStatus() != null && searchTransaction.getStatus().trim().length() > 0) {
-            if (!isWhereAdded) {
-                SEARCH_TRANSACTION_QUERY.append(" where ");
-                isWhereAdded = Boolean.TRUE;
-            } else {
-                SEARCH_TRANSACTION_QUERY.append(" and ");
-            }
-            SEARCH_TRANSACTION_QUERY.append(" Tr.status like '").append(searchTransaction.getStatus()).append("'");
-        }
-        if (searchTransaction.getStartDate() != null
+    private List<TransactionVO> searchTxs(TransactionVO searchTransaction) {
+        StringBuilder hqlQuery = new StringBuilder("SELECT tr FROM Transaction tr ")
+                .append("inner join Make mk on tr.makeId=mk.id ")
+                .append("inner join Model mdl on tr.modelId=mdl.id ")
+                .append("inner join Customer cust on cust.id=tr.customerId ");
+        boolean hasTagNo = searchTransaction.getTagNo() != null && searchTransaction.getTagNo().trim().length() > 0;
+        boolean hasCustomerName = searchTransaction.getCustomerName() != null
+                && searchTransaction.getCustomerName().trim().length() > 0;
+        boolean hasSerialNo = searchTransaction.getSerialNo() != null
+                && searchTransaction.getSerialNo().trim().length() > 0;
+        boolean hasMake = searchTransaction.getMakeId() != null && searchTransaction.getMakeId() > 0;
+        boolean hasModel = searchTransaction.getModelId() != null && searchTransaction.getModelId() > 0;
+        boolean hasStatus = searchTransaction.getStatus() != null && searchTransaction.getStatus().trim().length() > 0;
+        boolean hasStartDateAndEndDate = searchTransaction.getStartDate() != null
                 && searchTransaction.getStartDate().trim().length() > 0
                 && searchTransaction.getEndDate() != null
-                && searchTransaction.getEndDate().trim().length() > 0) {
-            if (!isWhereAdded) {
-                SEARCH_TRANSACTION_QUERY.append(" where ");
-                isWhereAdded = Boolean.TRUE;
-            } else {
-                SEARCH_TRANSACTION_QUERY.append(" and ");
+                && searchTransaction.getEndDate().trim().length() > 0;
+
+        if (hasTagNo || hasCustomerName || hasSerialNo || hasMake || hasModel || hasStatus || hasStartDateAndEndDate) {
+            hqlQuery.append(" where");
+        }
+        List<TransactionVO> hTransactionVoList = new ArrayList<>();
+        try {
+            boolean first = false;
+            String tag = "";
+            if (hasTagNo) {
+                first = true;
+                hqlQuery.append(" tr.tagno like :tag ");
+                if (searchTransaction.getIncludes() != null && searchTransaction.getIncludes()) {
+                    tag = "%" + searchTransaction.getTagNo() + "%";
+                } else if (searchTransaction.getStartswith() != null && searchTransaction.getStartswith()) {
+                    tag = searchTransaction.getTagNo() + "%";
+                } else {
+                    tag = searchTransaction.getTagNo();
+                }
+            }
+            String customer = "";
+            if (hasCustomerName) {
+                if (first) {
+                    hqlQuery.append(" and ");
+                }
+                hqlQuery.append(" cust.name like :customer ");
+                if (searchTransaction.getIncludes() != null && searchTransaction.getIncludes()) {
+                    customer = "%" + searchTransaction.getCustomerName() + "%";
+                } else if (searchTransaction.getStartswith() != null && searchTransaction.getStartswith()) {
+                    customer = searchTransaction.getCustomerName() + "%";
+                } else {
+                    customer = searchTransaction.getCustomerName();
+                }
+            }
+            String serial = "";
+            if (hasSerialNo) {
+                if (first) {
+                    hqlQuery.append(" and ");
+                }
+                hqlQuery.append(" tr.serialno like :serial ");
+                if (searchTransaction.getIncludes() != null && searchTransaction.getIncludes()) {
+                    serial = "%" + searchTransaction.getSerialNo() + "%";
+                } else if (searchTransaction.getStartswith() != null && searchTransaction.getStartswith()) {
+                    serial = searchTransaction.getSerialNo() + "%";
+                } else {
+                    serial = searchTransaction.getSerialNo();
+                }
+            }
+            Long make = 0L;
+            if (hasMake) {
+                if (first) {
+                    hqlQuery.append(" and ");
+                }
+                hqlQuery.append(" mk.id like :make ");
+                make = searchTransaction.getMakeId();
+            }
+            Long model = 0L;
+            if (hasModel) {
+                if (first) {
+                    hqlQuery.append(" and ");
+                }
+                hqlQuery.append(" mdl.id like :model ");
+                model = searchTransaction.getModelId();
+            }
+            String status = "";
+            if (hasStatus) {
+                if (first) {
+                    hqlQuery.append(" and ");
+                }
+                hqlQuery.append(" tr.status like :status ");
+                if (searchTransaction.getIncludes() != null && searchTransaction.getIncludes()) {
+                    status = "%" + searchTransaction.getStatus() + "%";
+                } else if (searchTransaction.getStartswith() != null && searchTransaction.getStartswith()) {
+                    status = searchTransaction.getStatus() + "%";
+                } else {
+                    status = searchTransaction.getStatus();
+                }
+            }
+            OffsetDateTime start = OffsetDateTime.now();
+            OffsetDateTime end = OffsetDateTime.now();
+            if (hasStartDateAndEndDate) {
+                if (first) {
+                    hqlQuery.append(" and ");
+                }
+                start = getParsedDate(searchTransaction.getStartDate());
+                end = getParsedDate(searchTransaction.getEndDate());
+                hqlQuery.append(" tr.dateReported between :start and :end ");
+            }
+            Query query1 = em.createQuery(hqlQuery.toString());
+            if (hasTagNo) {
+                query1.setParameter("tag", tag);
+            }
+            if (hasCustomerName) {
+                query1.setParameter("customer", customer);
+            }
+            if (hasSerialNo) {
+                query1.setParameter("serial", serial);
+            }
+            if (hasMake) {
+                query1.setParameter("make", make);
+            }
+            if (hasModel) {
+                query1.setParameter("model", model);
+            }
+            if (hasStatus) {
+                query1.setParameter("status", status);
+            }
+            if (hasStartDateAndEndDate) {
+                query1.setParameter("start", start);
+                query1.setParameter("end", end);
             }
 
-            SEARCH_TRANSACTION_QUERY.append(" Tr.dateReported between '").append(getMySQLFriendlyDate(searchTransaction.getStartDate()))
-                    .append("' and '").append(getMySQLFriendlyDate(searchTransaction.getEndDate())).append("'");
+            List<Transaction> transactions = query1.getResultList();
+            hTransactionVoList = transactions.stream().map(this::convertToVO).collect(Collectors.toList());
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-        LOG.info("query created is " + SEARCH_TRANSACTION_QUERY.toString());
-        List<TransactionVO> query = jdbcTemplate.query(SEARCH_TRANSACTION_QUERY.toString(), new TransactionListRowMapper());
-
-        /*CriteriaBuilder builder = em.unwrap(Session.class).getCriteriaBuilder();
-        CriteriaQuery<Transaction> criteria = builder.createQuery(Transaction.class);
-        Root<Transaction> transactionRoot = criteria.from(Transaction.class);
-        criteria.select(transactionRoot);
-        //todo : complete this
-        if (searchTransaction.getIncludes()) {
-            if(!StringUtils.isEmpty(searchTransaction.getTagNo())) {
-                criteria.where(builder.like(transactionRoot.get("tagno"), "%"+searchTransaction.getTagNo()+"%"));
-            }
-        } else if (searchTransaction.getStartswith()) {
-            SEARCH_TRANSACTION_QUERY.append(" Tr.tagNo like '").append(searchTransaction.getTagNo()).append("%'");
-        } else {
-            SEARCH_TRANSACTION_QUERY.append(" Tr.tagNo like '").append(searchTransaction.getTagNo()).append("'");
-        }*/
-
-        return query;
+        return hTransactionVoList;
     }
 
-    private String getMySQLFriendlyDate(String startDate) throws ParseException {
-        Date startReportDate = new SimpleDateFormat("dd/MM/yyyy", Locale.ENGLISH).parse(startDate);
-        Format formatter = new SimpleDateFormat("yyyy-MM-dd");
-        return formatter.format(startReportDate);
-    }
-
-    /**
-     * Row mapper as inner class
-     */
-    private class TransactionListRowMapper implements RowMapper {
-
-        /**
-         * method to map the result to vo
-         *
-         * @param resultSet resultSet instance
-         * @param i         i instance
-         * @return UserVO as Object
-         * @throws java.sql.SQLException on error
-         */
-        public Object mapRow(ResultSet resultSet, int i) throws SQLException {
-            TransactionVO txs = new TransactionVO();
-            txs.setId(resultSet.getLong("id"));
-            txs.setTagNo(resultSet.getString("tagNo"));
-            txs.setDateReported(resultSet.getDate("dateReported").toString());
-            txs.setCustomerName(resultSet.getString("name"));
-            txs.setMakeName(resultSet.getString("makeName"));
-            txs.setModelName(resultSet.getString("modelName"));
-            txs.setSerialNo(resultSet.getString("serialNo"));
-            txs.setStatus(resultSet.getString("status"));
-            return txs;
-        }
-
+    private OffsetDateTime getParsedDate(String dateField) {
+        return LocalDate.parse(dateField,
+                DateTimeFormatter.ofPattern("MM/dd/yyyy"))
+                .atTime(OffsetTime.MIN);
     }
 }
