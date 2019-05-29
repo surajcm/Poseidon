@@ -14,7 +14,6 @@ import com.poseidon.transaction.exception.TransactionException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -38,9 +37,6 @@ import java.util.stream.Collectors;
 @SuppressWarnings("unused")
 @Repository
 public class TransactionDAOImpl implements TransactionDAO {
-
-    @Autowired
-    private JdbcTemplate jdbcTemplate;
 
     @Autowired
     private TransactionRepository transactionRepository;

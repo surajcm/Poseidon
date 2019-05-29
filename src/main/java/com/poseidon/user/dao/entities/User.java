@@ -108,6 +108,9 @@ public class User {
         this.modifiedBy = modifiedBy;
     }
 
+    /**
+     * initialize/update dates
+     */
     @PrePersist
     @PreUpdate
     public void initializeDate() {

@@ -37,29 +37,27 @@ public interface UserService {
     void save(UserVO user) throws UserException;
 
     /**
-     * getUserDetailsFromID to get the single user details from its id
+     * getUserDetailsFromId to get the single user details from its id
      *
      * @param id id
      * @return UserVO
      * @throws UserException on error
      */
-    UserVO getUserDetailsFromID(Long id) throws UserException;
+    UserVO getUserDetailsFromId(Long id) throws UserException;
 
     /**
      * updates the current user
      *
      * @param user user
-     * @throws UserException on error
      */
-    void UpdateUser(UserVO user) throws UserException;
+    void updateUser(UserVO user);
 
     /**
      * deletes the selected user
      *
      * @param id id of the user
-     * @throws UserException on error
      */
-    void deleteUser(Long id) throws UserException;
+    void deleteUser(Long id);
 
     /**
      * search for a list of users
@@ -68,5 +66,5 @@ public interface UserService {
      * @return List of user
      * @throws UserException on error
      */
-    List<UserVO> searchUserDetails(UserVO searchUser)throws UserException;
+    List<UserVO> searchUserDetails(UserVO searchUser) throws UserException;
 }

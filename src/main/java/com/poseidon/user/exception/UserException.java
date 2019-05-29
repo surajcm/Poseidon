@@ -11,29 +11,29 @@ public class UserException extends Exception {
     /**
      * Exception type for Unknown user
      */
-    public static String UNKNOWN_USER = "UNKNOWN_USER";
+    public static final String UNKNOWN_USER = "UNKNOWN_USER";
 
     /**
      * exception type for Invalid user
      */
-    public static String INCORRECT_PASSWORD = "INCORRECT_PASSWORD";
+    public static final String INCORRECT_PASSWORD = "INCORRECT_PASSWORD";
 
     /**
      * exception type for all database related errors
      */
-    public static String DATABASE_ERROR = "DATABASE_ERROR";
+    public static final String DATABASE_ERROR = "DATABASE_ERROR";
 
-    public String ExceptionType;
+    public String exceptionType;
 
     public UserException(String exceptionType) {
-        this.ExceptionType = exceptionType;
+        this.exceptionType = exceptionType;
     }
 
     public String getExceptionType() {
-        return ExceptionType;
+        return exceptionType;
     }
 
     public void setExceptionType(String exceptionType) {
-        ExceptionType = exceptionType;
+        this.exceptionType = exceptionType;
     }
 }

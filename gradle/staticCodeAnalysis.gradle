@@ -16,6 +16,7 @@ checkstyle {
     toolVersion = '8.12'
     ignoreFailures = false
     configFile = file("${rootGradleDir}/static-code-analysis/checkstyle/checkstyle.xml")
+    maxWarnings = 0
 }
 
 findbugs {
@@ -24,7 +25,7 @@ findbugs {
 }
 
 pmd {
-    toolVersion = '6.7.0'
+    toolVersion = '6.12.0'
     ignoreFailures = false
     ruleSetFiles = files("${rootGradleDir}/static-code-analysis/pmd/ruleset.xml")
     ruleSets = []

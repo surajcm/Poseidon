@@ -6,6 +6,7 @@ import com.poseidon.make.domain.MakeAndModelVO;
 import com.poseidon.customer.domain.CustomerVO;
 
 import java.util.List;
+import java.util.StringJoiner;
 
 /**
  * user: Suraj
@@ -124,15 +125,19 @@ public class TransactionForm {
 
     @Override
     public String toString() {
-        return "TransactionForm{" +
-                "currentTransaction=" + currentTransaction +
-                ", searchTransaction=" + searchTransaction +
-                ", transactionsList=" + transactionsList +
-                ", loggedInUser='" + loggedInUser + '\'' +
-                ", loggedInRole='" + loggedInRole + '\'' +
-                ", makeVOs=" + makeVOs +
-                ", statusList=" + statusList +
-                ", customerVO=" + customerVO +
-                '}';
+        return new StringJoiner(", ", TransactionForm.class.getSimpleName() + "[", "]")
+                .add("currentTransaction=" + currentTransaction)
+                .add("searchTransaction=" + searchTransaction)
+                .add("transactionsList=" + transactionsList)
+                .add("loggedInUser='" + loggedInUser + "'")
+                .add("loggedInRole='" + loggedInRole + "'")
+                .add("makeVOs=" + makeVOs)
+                .add("makeAndModelVOs=" + makeAndModelVOs)
+                .add("statusList=" + statusList)
+                .add("customerVO=" + customerVO)
+                .add("statusMessage='" + statusMessage + "'")
+                .add("statusMessageType='" + statusMessageType + "'")
+                .add("Id=" + Id)
+                .toString();
     }
 }

@@ -139,13 +139,13 @@ public class UserDAOImpl implements UserDAO {
     }
 
     /**
-     * getUserDetailsFromID to get the single user details from its id
+     * getUserDetailsFromId to get the single user details from its id
      *
      * @param id id
      * @return UserVO
      * @throws UserException on error
      */
-    public UserVO getUserDetailsFromID(Long id) throws UserException {
+    public UserVO getUserDetailsFromId(Long id) throws UserException {
         UserVO userVO = null;
         try {
             Optional<User> optionalUser = userRepository.findById(id);
@@ -214,20 +214,15 @@ public class UserDAOImpl implements UserDAO {
      *
      * @param userVO user
      */
-    public void updateUser(UserVO userVO) throws UserException {
-        try {
-            Optional<User> optionalUser = userRepository.findById(userVO.getId());
-            if (optionalUser.isPresent()) {
-                User user = optionalUser.get();
-                user.setName(userVO.getName());
-                user.setLogInId(userVO.getLoginId());
-                user.setPassword(userVO.getPassword());
-                user.setRole(userVO.getRole());
-                user.setModifiedBy(userVO.getLastModifiedBy());
-            }
-        } catch (DataAccessException e) {
-            LOG.error(e.getLocalizedMessage());
-            throw new UserException(UserException.DATABASE_ERROR);
+    public void updateUser(UserVO userVO) {
+        Optional<User> optionalUser = userRepository.findById(userVO.getId());
+        if (optionalUser.isPresent()) {
+            User user = optionalUser.get();
+            user.setName(userVO.getName());
+            user.setLogInId(userVO.getLoginId());
+            user.setPassword(userVO.getPassword());
+            user.setRole(userVO.getRole());
+            user.setModifiedBy(userVO.getLastModifiedBy());
         }
     }
 
@@ -236,13 +231,8 @@ public class UserDAOImpl implements UserDAO {
      *
      * @param id id
      */
-    public void deleteUser(Long id) throws UserException {
-        try {
-            userRepository.deleteById(id);
-        } catch (DataAccessException e) {
-            LOG.error(e.getLocalizedMessage());
-            throw new UserException(UserException.DATABASE_ERROR);
-        }
+    public void deleteUser(Long id) {
+        userRepository.deleteById(id);
     }
 
     /**

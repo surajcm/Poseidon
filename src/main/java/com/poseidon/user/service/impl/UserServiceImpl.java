@@ -14,10 +14,11 @@ import java.util.List;
 
 /**
  * @author : Suraj Muraleedharan
- *         Date: Nov 27, 2010
- *         Time: 2:38:15 PM
+ * Date: Nov 27, 2010
+ * Time: 2:38:15 PM
  */
 @Service
+@SuppressWarnings("unused")
 public class UserServiceImpl implements UserService {
     private static final Logger LOG = LoggerFactory.getLogger(UserServiceImpl.class);
     private static final String EXCEPTION_TYPE_IN_SERVICE_IMPL = "Exception type in service impl ";
@@ -26,7 +27,7 @@ public class UserServiceImpl implements UserService {
     private UserDAO userDAO;
 
     @Autowired
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
+    private BCryptPasswordEncoder bcryptPasswordEncoder;
 
     /**
      * to dao layer
@@ -75,7 +76,7 @@ public class UserServiceImpl implements UserService {
      */
     public void save(UserVO user) throws UserException {
         try {
-            user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+            user.setPassword(bcryptPasswordEncoder.encode(user.getPassword()));
             userDAO.save(user);
         } catch (UserException e) {
             LOG.error(EXCEPTION_TYPE_IN_SERVICE_IMPL + e.getExceptionType());
@@ -86,16 +87,16 @@ public class UserServiceImpl implements UserService {
     }
 
     /**
-     * getUserDetailsFromID to get the single user details from its id
+     * getUserDetailsFromId to get the single user details from its id
      *
      * @param id id
      * @return UserVO
      * @throws UserException on error
      */
-    public UserVO getUserDetailsFromID(Long id) throws UserException {
+    public UserVO getUserDetailsFromId(Long id) throws UserException {
         UserVO userVO = null;
         try {
-            userVO = userDAO.getUserDetailsFromID(id);
+            userVO = userDAO.getUserDetailsFromId(id);
         } catch (UserException e) {
             LOG.error(EXCEPTION_TYPE_IN_SERVICE_IMPL + e.getExceptionType());
             throw new UserException(e.getExceptionType());
@@ -110,16 +111,12 @@ public class UserServiceImpl implements UserService {
      * updates the current user details
      *
      * @param user user
-     * @throws UserException on error
      */
-    public void UpdateUser(UserVO user) throws UserException {
+    public void updateUser(UserVO user) {
         try {
             userDAO.updateUser(user);
-        } catch (UserException e) {
-            LOG.error(EXCEPTION_TYPE_IN_SERVICE_IMPL + e.getExceptionType());
-            throw new UserException(e.getExceptionType());
-        } catch (Exception e1) {
-            LOG.error(e1.getMessage());
+        } catch (Exception e) {
+            LOG.error(e.getMessage());
         }
     }
 
@@ -127,16 +124,12 @@ public class UserServiceImpl implements UserService {
      * deletes the selected user
      *
      * @param id id of the user
-     * @throws UserException on error
      */
-    public void deleteUser(Long id) throws UserException {
+    public void deleteUser(Long id) {
         try {
             userDAO.deleteUser(id);
-        } catch (UserException e) {
-            LOG.error(EXCEPTION_TYPE_IN_SERVICE_IMPL + e.getExceptionType());
-            throw new UserException(e.getExceptionType());
-        } catch (Exception e1) {
-            LOG.error(e1.getMessage());
+        } catch (Exception e) {
+            LOG.error(e.getMessage());
         }
     }
 

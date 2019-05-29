@@ -96,7 +96,7 @@ public class UserController {
             userForm.setStatusMessage("Unable to list the Users due to an error");
             userForm.setStatusMessageType(ERROR);
             logger.error(e.getLocalizedMessage());
-            logger.error(EXCEPTION_IN_CONTROLLER, e.ExceptionType);
+            logger.error(EXCEPTION_IN_CONTROLLER, e.exceptionType);
             if (e.getExceptionType().equalsIgnoreCase(UserException.DATABASE_ERROR)) {
                 logger.info(DB_ERROR);
             } else {
@@ -167,7 +167,7 @@ public class UserController {
             userForm.setStatusMessage("Unable to save the user due to a database error");
             userForm.setStatusMessageType(ERROR);
             logger.error(e.getLocalizedMessage());
-            logger.error(EXCEPTION_IN_CONTROLLER, e.ExceptionType);
+            logger.error(EXCEPTION_IN_CONTROLLER, e.exceptionType);
             if (e.getExceptionType().equalsIgnoreCase(UserException.DATABASE_ERROR)) {
                 logger.info(DB_ERROR);
             } else {
@@ -188,7 +188,7 @@ public class UserController {
             userForm.setStatusMessage("Unable to list the Users due to an error");
             userForm.setStatusMessageType(ERROR);
             logger.error(e.getLocalizedMessage());
-            logger.error(EXCEPTION_IN_CONTROLLER, e.ExceptionType);
+            logger.error(EXCEPTION_IN_CONTROLLER, e.exceptionType);
             if (e.getExceptionType().equalsIgnoreCase(UserException.DATABASE_ERROR)) {
                 logger.info(DB_ERROR);
             } else {
@@ -245,7 +245,7 @@ public class UserController {
             userService.save(ajaxUserVo);
         } catch (UserException e) {
             logger.error(e.getLocalizedMessage());
-            logger.error(EXCEPTION_IN_CONTROLLER, e.ExceptionType);
+            logger.error(EXCEPTION_IN_CONTROLLER, e.exceptionType);
             if (e.getExceptionType().equalsIgnoreCase(UserException.DATABASE_ERROR)) {
                 logger.info(DB_ERROR);
             } else {
@@ -260,7 +260,7 @@ public class UserController {
             userList = userService.getAllUserDetails();
         } catch (UserException e) {
             logger.error(e.getLocalizedMessage());
-            logger.error(EXCEPTION_IN_CONTROLLER, e.ExceptionType);
+            logger.error(EXCEPTION_IN_CONTROLLER, e.exceptionType);
             if (e.getExceptionType().equalsIgnoreCase(UserException.DATABASE_ERROR)) {
                 logger.info(DB_ERROR);
             } else {
@@ -306,10 +306,10 @@ public class UserController {
         logger.info(" user is {}", userForm);
         UserVO userVo = null;
         try {
-            userVo = userService.getUserDetailsFromID(userForm.getId());
+            userVo = userService.getUserDetailsFromId(userForm.getId());
         } catch (UserException e) {
             logger.error(e.getLocalizedMessage());
-            logger.error(EXCEPTION_IN_CONTROLLER, e.ExceptionType);
+            logger.error(EXCEPTION_IN_CONTROLLER, e.exceptionType);
             if (e.getExceptionType().equalsIgnoreCase(UserException.DATABASE_ERROR)) {
                 logger.info(DB_ERROR);
             } else {
@@ -338,33 +338,21 @@ public class UserController {
      * @param userForm user instance
      * @return ModelAndView to render
      */
-    @PostMapping(value = "/user/UpdateUser.htm")
+    @PostMapping(value = "/user/updateUser.htm")
     public ModelAndView updateUser(UserForm userForm) {
-        logger.info(" Inside UpdateUser method of user controller ");
+        logger.info(" Inside updateUser method of user controller ");
         try {
             userForm.getUser().setLastModifiedBy(userForm.getLoggedInUser());
             userForm.getUser().setModifiedDate(new Date());
             logger.info(" user instance to update {}", userForm.getUser());
-            userService.UpdateUser(userForm.getUser());
+            userService.updateUser(userForm.getUser());
             userForm.setStatusMessage("Successfully updated the user");
             userForm.setStatusMessageType(SUCCESS);
-        } catch (UserException e) {
-            userForm.setStatusMessage("Unable to update the user due to a database error");
-            userForm.setStatusMessageType(ERROR);
-            logger.error(e.getLocalizedMessage());
-            logger.error(EXCEPTION_IN_CONTROLLER, e.ExceptionType);
-            if (e.getExceptionType().equalsIgnoreCase(UserException.DATABASE_ERROR)) {
-                logger.info(DB_ERROR);
-            } else {
-                logger.info(AN_UNKNOWN_ERROR_HAS_BEEN_OCCURRED);
-            }
-
         } catch (Exception e1) {
             userForm.setStatusMessage("Unable to update the user due to an error");
             userForm.setStatusMessageType(ERROR);
             logger.error(e1.getLocalizedMessage());
             logger.info(AN_UNKNOWN_ERROR_HAS_BEEN_OCCURRED);
-
         }
         return listAll(userForm);
     }
@@ -383,25 +371,12 @@ public class UserController {
             userService.deleteUser(userForm.getId());
             userForm.setStatusMessage("Successfully deleted the user");
             userForm.setStatusMessageType(SUCCESS);
-        } catch (UserException e) {
-            userForm.setStatusMessage("Unable to delete the user due to a database error");
-            userForm.setStatusMessageType(ERROR);
-            logger.error(e.getLocalizedMessage());
-            logger.error(EXCEPTION_IN_CONTROLLER, e.ExceptionType);
-            if (e.getExceptionType().equalsIgnoreCase(UserException.DATABASE_ERROR)) {
-                logger.info(DB_ERROR);
-            } else {
-                logger.info(AN_UNKNOWN_ERROR_HAS_BEEN_OCCURRED);
-            }
-
         } catch (Exception e1) {
             userForm.setStatusMessage("Unable to delete the user due to an error");
             userForm.setStatusMessageType(ERROR);
             logger.error(e1.getLocalizedMessage());
             logger.info(AN_UNKNOWN_ERROR_HAS_BEEN_OCCURRED);
-
         }
-
         return listAll(userForm);
     }
 
@@ -452,7 +427,7 @@ public class UserController {
             userForm.setStatusMessage("Unable to search due to a database error");
             userForm.setStatusMessageType(ERROR);
             logger.error(e.getLocalizedMessage());
-            logger.error(EXCEPTION_IN_CONTROLLER, e.ExceptionType);
+            logger.error(EXCEPTION_IN_CONTROLLER, e.exceptionType);
             if (e.getExceptionType().equalsIgnoreCase(UserException.DATABASE_ERROR)) {
                 logger.info(DB_ERROR);
             } else {
