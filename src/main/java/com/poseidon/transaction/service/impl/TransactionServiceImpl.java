@@ -18,12 +18,19 @@ import java.util.List;
  * Time: 3:45:31 PM
  */
 @Service
+@SuppressWarnings("unused")
 public class TransactionServiceImpl implements TransactionService {
     private static final Logger LOG = LoggerFactory.getLogger(TransactionServiceImpl.class);
 
     @Autowired
     private TransactionDAO transactionDAO;
-    
+
+    /**
+     * list today's transactions
+     *
+     * @return list of transactions
+     * @throws TransactionException on error
+     */
     public List<TransactionVO> listTodaysTransactions() throws TransactionException {
         List<TransactionVO> transactionVOs = null;
         try {
@@ -37,6 +44,13 @@ public class TransactionServiceImpl implements TransactionService {
         return transactionVOs;
     }
 
+    /**
+     * save the current transaction
+     *
+     * @param currentTransaction transaction instance
+     * @return tag number of the transaction
+     * @throws TransactionException on error
+     */
     public String saveTransaction(TransactionVO currentTransaction) throws TransactionException {
         String tagNo = null;
         try {
@@ -50,6 +64,13 @@ public class TransactionServiceImpl implements TransactionService {
         return tagNo;
     }
 
+    /**
+     * search transaction based on given conditions
+     *
+     * @param searchTransaction transaction instance
+     * @return list of transactions
+     * @throws TransactionException on error
+     */
     public List<TransactionVO> searchTransactions(TransactionVO searchTransaction) throws TransactionException {
         List<TransactionVO> transactionVOs = null;
         try {
@@ -63,8 +84,15 @@ public class TransactionServiceImpl implements TransactionService {
         return transactionVOs;
     }
 
+    /**
+     * fetch transaction from id
+     *
+     * @param id of the transaction to be fetched
+     * @return transaction instance
+     * @throws TransactionException on error
+     */
     public TransactionVO fetchTransactionFromId(Long id) throws TransactionException {
-        TransactionVO transactionVO= null;
+        TransactionVO transactionVO = null;
         try {
             transactionVO = transactionDAO.fetchTransactionFromId(id);
         } catch (TransactionException t) {
@@ -76,8 +104,15 @@ public class TransactionServiceImpl implements TransactionService {
         return transactionVO;
     }
 
+    /**
+     * fetch a transaction from tag number
+     *
+     * @param tagNo tag number of the transaction
+     * @return reporting transaction vo
+     * @throws TransactionException on error
+     */
     public TransactionReportVO fetchTransactionFromTag(String tagNo) throws TransactionException {
-        TransactionReportVO transactionVO= null;
+        TransactionReportVO transactionVO = null;
         try {
             transactionVO = transactionDAO.fetchTransactionFromTag(tagNo);
         } catch (TransactionException t) {
@@ -89,6 +124,11 @@ public class TransactionServiceImpl implements TransactionService {
         return transactionVO;
     }
 
+    /**
+     * update transaction
+     *
+     * @param currentTransaction transaction instance
+     */
     public void updateTransaction(TransactionVO currentTransaction) {
         try {
             transactionDAO.updateTransaction(currentTransaction);
@@ -97,6 +137,12 @@ public class TransactionServiceImpl implements TransactionService {
         }
     }
 
+    /**
+     * delete a transaction
+     *
+     * @param id of the transaction to be deleted
+     * @throws TransactionException on error
+     */
     public void deleteTransaction(Long id) throws TransactionException {
         try {
             transactionDAO.deleteTransaction(id);
@@ -108,10 +154,17 @@ public class TransactionServiceImpl implements TransactionService {
         }
     }
 
+    /**
+     * update the status of a transaction
+     *
+     * @param id     id of transaction
+     * @param status new status to be updated
+     * @throws TransactionException on error
+     */
     @Override
     public void updateTransactionStatus(Long id, String status) throws TransactionException {
         try {
-            transactionDAO.updateTransactionStatus(id,status);
+            transactionDAO.updateTransactionStatus(id, status);
         } catch (TransactionException t) {
             LOG.error(" Exception type in service impl " + t.getExceptionType());
             throw new TransactionException(t.getExceptionType());
@@ -120,6 +173,12 @@ public class TransactionServiceImpl implements TransactionService {
         }
     }
 
+    /**
+     * list all transactions
+     *
+     * @return list of transaction vo
+     * @throws TransactionException on error
+     */
     @Override
     public List<TransactionVO> listAllTransactions() throws TransactionException {
         List<TransactionVO> transactionVOs = null;

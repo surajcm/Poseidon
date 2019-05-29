@@ -313,7 +313,7 @@ public class InvoiceController {
             }
         } catch (TransactionException e) {
             LOG.error(e.getLocalizedMessage());
-            LOG.error(" Exception type in controller " + e.ExceptionType);
+            LOG.error(" Exception type in controller " + e.exceptionType);
             if (e.getExceptionType().equalsIgnoreCase(TransactionException.DATABASE_ERROR)) {
                 LOG.info(" An error occurred while fetching data from database. !! ");
             } else {

@@ -6,6 +6,7 @@ import com.poseidon.reports.domain.ReportsVO;
 import com.poseidon.transaction.domain.TransactionVO;
 
 import java.util.List;
+import java.util.StringJoiner;
 
 /**
  * user: Suraj
@@ -115,13 +116,18 @@ public class ReportsForm {
 
     @Override
     public String toString() {
-        return "ReportsForm{" +
-                "currentReport=" + currentReport +
-                ", searchReports=" + searchReports +
-                ", reportsVOs=" + reportsVOs +
-                ", loggedInUser='" + loggedInUser + '\'' +
-                ", loggedInRole='" + loggedInRole + '\'' +
-                ", exportList=" + exportList +
-                '}';
+        return new StringJoiner(", ", ReportsForm.class.getSimpleName() + "[", "]")
+                .add("currentReport=" + currentReport)
+                .add("searchReports=" + searchReports)
+                .add("reportsVOs=" + reportsVOs)
+                .add("loggedInUser='" + loggedInUser + "'")
+                .add("loggedInRole='" + loggedInRole + "'")
+                .add("exportList=" + exportList)
+                .add("txnReportTransactionVO=" + txnReportTransactionVO)
+                .add("invoiceListReportTransactionVO=" + invoiceListReportTransactionVO)
+                .add("makeVOs=" + makeVOs)
+                .add("statusList=" + statusList)
+                .add("modelReportMakeAndModelVO=" + modelReportMakeAndModelVO)
+                .toString();
     }
 }

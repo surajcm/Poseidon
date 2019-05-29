@@ -1,6 +1,7 @@
 package com.poseidon.transaction.domain;
 
 import java.util.Date;
+import java.util.StringJoiner;
 
 /**
  * user: Suraj
@@ -245,31 +246,33 @@ public class TransactionVO {
 
     @Override
     public String toString() {
-        return "TransactionVO{" +
-                "id=" + id +
-                ", tagNo='" + tagNo + '\'' +
-                ", dateReported=" + dateReported +
-                ", customerId=" + customerId +
-                ", customerName='" + customerName + '\'' +
-                ", productCategory='" + productCategory + '\'' +
-                ", makeId=" + makeId +
-                ", makeName='" + makeName + '\'' +
-                ", modelId=" + modelId +
-                ", modelName='" + modelName + '\'' +
-                ", serialNo='" + serialNo + '\'' +
-                ", accessories='" + accessories + '\'' +
-                ", complaintReported='" + complaintReported + '\'' +
-                ", complaintDiagonsed='" + complaintDiagonsed + '\'' +
-                ", enggRemark='" + enggRemark + '\'' +
-                ", repairAction='" + repairAction + '\'' +
-                ", status='" + status + '\'' +
-                ", createdOn=" + createdOn +
-                ", modifiedOn=" + modifiedOn +
-                ", createdBy='" + createdBy + '\'' +
-                ", modifiedBy='" + modifiedBy + '\'' +
-                ", startswith=" + startswith +
-                ", includes=" + includes +
-                ", notes='" + notes + '\'' +
-                '}';
+        return new StringJoiner(", ", TransactionVO.class.getSimpleName() + "[", "]")
+                .add("id=" + id)
+                .add("tagNo='" + tagNo + "'")
+                .add("dateReported='" + dateReported + "'")
+                .add("customerId=" + customerId)
+                .add("customerName='" + customerName + "'")
+                .add("productCategory='" + productCategory + "'")
+                .add("makeId=" + makeId)
+                .add("makeName='" + makeName + "'")
+                .add("modelId=" + modelId)
+                .add("modelName='" + modelName + "'")
+                .add("serialNo='" + serialNo + "'")
+                .add("accessories='" + accessories + "'")
+                .add("complaintReported='" + complaintReported + "'")
+                .add("complaintDiagonsed='" + complaintDiagonsed + "'")
+                .add("enggRemark='" + enggRemark + "'")
+                .add("repairAction='" + repairAction + "'")
+                .add("status='" + status + "'")
+                .add("createdOn=" + createdOn)
+                .add("modifiedOn=" + modifiedOn)
+                .add("createdBy='" + createdBy + "'")
+                .add("modifiedBy='" + modifiedBy + "'")
+                .add("startswith=" + startswith)
+                .add("includes=" + includes)
+                .add("notes='" + notes + "'")
+                .add("startDate='" + startDate + "'")
+                .add("endDate='" + endDate + "'")
+                .toString();
     }
 }

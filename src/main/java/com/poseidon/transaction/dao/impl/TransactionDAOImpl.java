@@ -23,7 +23,6 @@ import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.time.OffsetTime;
 import java.time.format.DateTimeFormatter;
-import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -55,11 +54,20 @@ public class TransactionDAOImpl implements TransactionDAO {
 
     private static final Logger LOG = LoggerFactory.getLogger(TransactionDAOImpl.class);
 
+    /**
+     * list todays transactions
+     */
     public List<TransactionVO> listTodaysTransactions() {
         List<Transaction> transactions = transactionRepository.todaysTransaction();
         return transactions.stream().map(this::convertToVO).collect(Collectors.toList());
     }
 
+    /**
+     * save transaction
+     *
+     * @param currentTransaction transaction
+     * @return tag number
+     */
     public String saveTransaction(TransactionVO currentTransaction) {
         Transaction txn = getTransaction(currentTransaction);
         Transaction newTxn = transactionRepository.save(txn);
@@ -91,6 +99,13 @@ public class TransactionDAOImpl implements TransactionDAO {
         return txn;
     }
 
+    /**
+     * search transactions
+     *
+     * @param searchTransaction transaction
+     * @return list of matching transcations
+     * @throws TransactionException on error
+     */
     public List<TransactionVO> searchTransactions(TransactionVO searchTransaction) throws TransactionException {
         List<TransactionVO> transactionVOList;
         try {
@@ -102,6 +117,12 @@ public class TransactionDAOImpl implements TransactionDAO {
         return transactionVOList;
     }
 
+    /**
+     * fetch a transaction by its id
+     *
+     * @param id id of the transaction
+     * @return transaction
+     */
     public TransactionVO fetchTransactionFromId(Long id) {
         TransactionVO transactionVO = null;
         Optional<Transaction> optionalTransaction = transactionRepository.findById(id);
@@ -138,6 +159,11 @@ public class TransactionDAOImpl implements TransactionDAO {
         return transactionVO;
     }
 
+    /**
+     * update transaction
+     *
+     * @param currentTransaction transaction
+     */
     public void updateTransaction(TransactionVO currentTransaction) {
         Optional<Transaction> optionalTransaction = transactionRepository.findById(currentTransaction.getId());
         if (optionalTransaction.isPresent()) {
@@ -164,15 +190,32 @@ public class TransactionDAOImpl implements TransactionDAO {
         return txn;
     }
 
+    /**
+     * delete a transaction based on id
+     *
+     * @param id id of transaction
+     */
     public void deleteTransaction(Long id) {
         transactionRepository.deleteById(id);
     }
 
+    /**
+     * fetch the transaction from its tag
+     *
+     * @param tagNo tag
+     * @return transaction for reporting
+     */
     public TransactionReportVO fetchTransactionFromTag(String tagNo) {
         Transaction transaction = transactionRepository.findBytagno(tagNo);
         return convertToTransactionReportVO(transaction);
     }
 
+    /**
+     * update transaction status
+     *
+     * @param id     id of the transaction
+     * @param status status
+     */
     @Override
     public void updateTransactionStatus(Long id, String status) {
         Optional<Transaction> optionalTransaction = transactionRepository.findById(id);
@@ -183,6 +226,11 @@ public class TransactionDAOImpl implements TransactionDAO {
         }
     }
 
+    /**
+     * list all transactions
+     *
+     * @return list of transactions
+     */
     @Override
     public List<TransactionVO> listAllTransactions() {
         List<Transaction> transactions = transactionRepository.findAll();
@@ -214,7 +262,7 @@ public class TransactionDAOImpl implements TransactionDAO {
         txs.setSerialNo(transaction.getSerialNumber());
         txs.setAccessories(transaction.getAccessories());
         txs.setComplaintReported(transaction.getComplaintReported());
-        txs.setComplaintDiagonsed(transaction.getComplaintDiagnosed());
+        txs.setComplaintDiagnosed(transaction.getComplaintDiagnosed());
         txs.setEnggRemark(transaction.getEngineerRemarks());
         txs.setRepairAction(transaction.getRepairAction());
         txs.setNotes(transaction.getNote());
@@ -243,119 +291,113 @@ public class TransactionDAOImpl implements TransactionDAO {
         if (hasTagNo || hasCustomerName || hasSerialNo || hasMake || hasModel || hasStatus || hasStartDateAndEndDate) {
             hqlQuery.append(" where");
         }
-        List<TransactionVO> hTransactionVoList = new ArrayList<>();
-        try {
-            boolean first = false;
-            String tag = "";
-            if (hasTagNo) {
-                first = true;
-                hqlQuery.append(" tr.tagno like :tag ");
-                if (searchTransaction.getIncludes() != null && searchTransaction.getIncludes()) {
-                    tag = "%" + searchTransaction.getTagNo() + "%";
-                } else if (searchTransaction.getStartswith() != null && searchTransaction.getStartswith()) {
-                    tag = searchTransaction.getTagNo() + "%";
-                } else {
-                    tag = searchTransaction.getTagNo();
-                }
-            }
-            String customer = "";
-            if (hasCustomerName) {
-                if (first) {
-                    hqlQuery.append(" and ");
-                }
-                hqlQuery.append(" cust.name like :customer ");
-                if (searchTransaction.getIncludes() != null && searchTransaction.getIncludes()) {
-                    customer = "%" + searchTransaction.getCustomerName() + "%";
-                } else if (searchTransaction.getStartswith() != null && searchTransaction.getStartswith()) {
-                    customer = searchTransaction.getCustomerName() + "%";
-                } else {
-                    customer = searchTransaction.getCustomerName();
-                }
-            }
-            String serial = "";
-            if (hasSerialNo) {
-                if (first) {
-                    hqlQuery.append(" and ");
-                }
-                hqlQuery.append(" tr.serialno like :serial ");
-                if (searchTransaction.getIncludes() != null && searchTransaction.getIncludes()) {
-                    serial = "%" + searchTransaction.getSerialNo() + "%";
-                } else if (searchTransaction.getStartswith() != null && searchTransaction.getStartswith()) {
-                    serial = searchTransaction.getSerialNo() + "%";
-                } else {
-                    serial = searchTransaction.getSerialNo();
-                }
-            }
-            Long make = 0L;
-            if (hasMake) {
-                if (first) {
-                    hqlQuery.append(" and ");
-                }
-                hqlQuery.append(" mk.id like :make ");
-                make = searchTransaction.getMakeId();
-            }
-            Long model = 0L;
-            if (hasModel) {
-                if (first) {
-                    hqlQuery.append(" and ");
-                }
-                hqlQuery.append(" mdl.id like :model ");
-                model = searchTransaction.getModelId();
-            }
-            String status = "";
-            if (hasStatus) {
-                if (first) {
-                    hqlQuery.append(" and ");
-                }
-                hqlQuery.append(" tr.status like :status ");
-                if (searchTransaction.getIncludes() != null && searchTransaction.getIncludes()) {
-                    status = "%" + searchTransaction.getStatus() + "%";
-                } else if (searchTransaction.getStartswith() != null && searchTransaction.getStartswith()) {
-                    status = searchTransaction.getStatus() + "%";
-                } else {
-                    status = searchTransaction.getStatus();
-                }
-            }
-            OffsetDateTime start = OffsetDateTime.now();
-            OffsetDateTime end = OffsetDateTime.now();
-            if (hasStartDateAndEndDate) {
-                if (first) {
-                    hqlQuery.append(" and ");
-                }
-                start = getParsedDate(searchTransaction.getStartDate());
-                end = getParsedDate(searchTransaction.getEndDate());
-                hqlQuery.append(" tr.dateReported between :start and :end ");
-            }
-            Query query1 = em.createQuery(hqlQuery.toString());
-            if (hasTagNo) {
-                query1.setParameter("tag", tag);
-            }
-            if (hasCustomerName) {
-                query1.setParameter("customer", customer);
-            }
-            if (hasSerialNo) {
-                query1.setParameter("serial", serial);
-            }
-            if (hasMake) {
-                query1.setParameter("make", make);
-            }
-            if (hasModel) {
-                query1.setParameter("model", model);
-            }
-            if (hasStatus) {
-                query1.setParameter("status", status);
-            }
-            if (hasStartDateAndEndDate) {
-                query1.setParameter("start", start);
-                query1.setParameter("end", end);
-            }
 
-            List<Transaction> transactions = query1.getResultList();
-            hTransactionVoList = transactions.stream().map(this::convertToVO).collect(Collectors.toList());
-        } catch (Exception e) {
-            e.printStackTrace();
+        boolean first = false;
+        String tag = "";
+        if (hasTagNo) {
+            first = true;
+            hqlQuery.append(" tr.tagno like :tag ");
+            if (searchTransaction.getIncludes() != null && searchTransaction.getIncludes()) {
+                tag = "%" + searchTransaction.getTagNo() + "%";
+            } else if (searchTransaction.getStartswith() != null && searchTransaction.getStartswith()) {
+                tag = searchTransaction.getTagNo() + "%";
+            } else {
+                tag = searchTransaction.getTagNo();
+            }
         }
-        return hTransactionVoList;
+        String customer = "";
+        if (hasCustomerName) {
+            if (first) {
+                hqlQuery.append(" and ");
+            }
+            hqlQuery.append(" cust.name like :customer ");
+            if (searchTransaction.getIncludes() != null && searchTransaction.getIncludes()) {
+                customer = "%" + searchTransaction.getCustomerName() + "%";
+            } else if (searchTransaction.getStartswith() != null && searchTransaction.getStartswith()) {
+                customer = searchTransaction.getCustomerName() + "%";
+            } else {
+                customer = searchTransaction.getCustomerName();
+            }
+        }
+        String serial = "";
+        if (hasSerialNo) {
+            if (first) {
+                hqlQuery.append(" and ");
+            }
+            hqlQuery.append(" tr.serialno like :serial ");
+            if (searchTransaction.getIncludes() != null && searchTransaction.getIncludes()) {
+                serial = "%" + searchTransaction.getSerialNo() + "%";
+            } else if (searchTransaction.getStartswith() != null && searchTransaction.getStartswith()) {
+                serial = searchTransaction.getSerialNo() + "%";
+            } else {
+                serial = searchTransaction.getSerialNo();
+            }
+        }
+        Long make = 0L;
+        if (hasMake) {
+            if (first) {
+                hqlQuery.append(" and ");
+            }
+            hqlQuery.append(" mk.id like :make ");
+            make = searchTransaction.getMakeId();
+        }
+        Long model = 0L;
+        if (hasModel) {
+            if (first) {
+                hqlQuery.append(" and ");
+            }
+            hqlQuery.append(" mdl.id like :model ");
+            model = searchTransaction.getModelId();
+        }
+        String status = "";
+        if (hasStatus) {
+            if (first) {
+                hqlQuery.append(" and ");
+            }
+            hqlQuery.append(" tr.status like :status ");
+            if (searchTransaction.getIncludes() != null && searchTransaction.getIncludes()) {
+                status = "%" + searchTransaction.getStatus() + "%";
+            } else if (searchTransaction.getStartswith() != null && searchTransaction.getStartswith()) {
+                status = searchTransaction.getStatus() + "%";
+            } else {
+                status = searchTransaction.getStatus();
+            }
+        }
+        OffsetDateTime start = OffsetDateTime.now();
+        OffsetDateTime end = OffsetDateTime.now();
+        if (hasStartDateAndEndDate) {
+            if (first) {
+                hqlQuery.append(" and ");
+            }
+            start = getParsedDate(searchTransaction.getStartDate());
+            end = getParsedDate(searchTransaction.getEndDate());
+            hqlQuery.append(" tr.dateReported between :start and :end ");
+        }
+        Query query = em.createQuery(hqlQuery.toString());
+        if (hasTagNo) {
+            query.setParameter("tag", tag);
+        }
+        if (hasCustomerName) {
+            query.setParameter("customer", customer);
+        }
+        if (hasSerialNo) {
+            query.setParameter("serial", serial);
+        }
+        if (hasMake) {
+            query.setParameter("make", make);
+        }
+        if (hasModel) {
+            query.setParameter("model", model);
+        }
+        if (hasStatus) {
+            query.setParameter("status", status);
+        }
+        if (hasStartDateAndEndDate) {
+            query.setParameter("start", start);
+            query.setParameter("end", end);
+        }
+        List<Transaction> transactions = query.getResultList();
+        return transactions.stream().map(this::convertToVO).collect(Collectors.toList());
     }
 
     private OffsetDateTime getParsedDate(String dateField) {

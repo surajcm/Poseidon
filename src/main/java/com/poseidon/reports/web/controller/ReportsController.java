@@ -48,10 +48,10 @@ import java.util.Locale;
 @SuppressWarnings("unused")
 public class ReportsController {
     private static final Logger LOG = LoggerFactory.getLogger(ReportsController.class);
-    public static final String FORM_DETAILS = " form details are {}";
-    public static final String REPORTS = "/resources/reports";
-    public static final String COMPILE_REPORT = " going to compile report";
-    public static final String JRXML = ".jrxml";
+    private static final String FORM_DETAILS = " form details are {}";
+    private static final String REPORTS = "/resources/reports";
+    private static final String COMPILE_REPORT = " going to compile report";
+    private static final String JRXML = ".jrxml";
     @Autowired
     private ReportsService reportsService;
 
@@ -69,7 +69,7 @@ public class ReportsController {
     @PostMapping(value = "/reports/List.htm")
     public ModelAndView list(ReportsForm reportsForm) {
         LOG.info(" Inside List method of ReportsController ");
-        LOG.info(" form details are : {}" , reportsForm);
+        LOG.info(" form details are : {}", reportsForm);
 
         List<ReportsVO> reportsVOs = null;
         try {
@@ -365,7 +365,6 @@ public class ReportsController {
             reportsForm.getCurrentReport().setLocale(Locale.US);
 
             String reportFileName = "serviceBillReport";
-            String reportType = reportsForm.getCurrentReport().getExportTo();
             reportsForm.getCurrentReport().setRptfilename(reportFileName);
             String path = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest()
                     .getSession().getServletContext().getRealPath(REPORTS);
@@ -373,6 +372,7 @@ public class ReportsController {
             jasperReport = JasperCompileManager.compileReport(path + '/' + reportFileName + JRXML);
             jasperPrint = reportsService.getInvoiceReport(jasperReport, reportsForm.getCurrentReport());
             LOG.info(jasperPrint.toString());
+            String reportType = reportsForm.getCurrentReport().getExportTo();
             getJasperReport(httpServletResponse, jasperPrint, reportFileName, reportType);
         } catch (Exception e) {
             LOG.error(e.getLocalizedMessage());
@@ -430,7 +430,8 @@ public class ReportsController {
                 LOG.info("PDF -- > reportFileName ---> " + reportFileName + reportType);
                 String mimetype = httpServletResponse.getContentType();
                 httpServletResponse.setContentType((mimetype != null) ? mimetype : "application/pdf");
-                httpServletResponse.setHeader("Content-Disposition", "attachment;filename=" + reportFileName + ";");
+                httpServletResponse.setHeader("Content-Disposition",
+                        "attachment;filename=" + reportFileName + ";");
                 JRExporter jrPdfExporter = new net.sf.jasperreports.engine.export.JRPdfExporter();
                 jrPdfExporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
                 jrPdfExporter.setParameter(JRXlsExporterParameter.IS_REMOVE_EMPTY_SPACE_BETWEEN_ROWS, Boolean.TRUE);
@@ -456,7 +457,8 @@ public class ReportsController {
                 exporter.exportReport();
                 // Send response
                 byte[] bytes = docxReport.toByteArray();
-                httpServletResponse.addHeader("Content-disposition", "attachment;filename=" + reportFileName + ".doc;");
+                httpServletResponse.addHeader("Content-disposition",
+                        "attachment;filename=" + reportFileName + ".doc;");
                 httpServletResponse.setContentType("application/vnd.ms-word");
                 httpServletResponse.setContentLength(bytes.length);
                 httpServletResponse.getOutputStream().write(bytes, 0, bytes.length);

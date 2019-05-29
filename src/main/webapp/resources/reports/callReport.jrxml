@@ -18,7 +18,7 @@
 	<field name="serialNo" class="java.lang.String"/>
 	<field name="accessories" class="java.lang.String"/>
 	<field name="complaintReported" class="java.lang.String"/>
-	<field name="complaintDiagonsed" class="java.lang.String"/>
+	<field name="complaintDiagnosed" class="java.lang.String"/>
 	<field name="enggRemark" class="java.lang.String"/>
 	<field name="status" class="java.lang.String"/>
 	<field name="companyName" class="java.lang.String"/>
@@ -271,7 +271,7 @@
 				<textElement>
 					<font fontName="Arial" size="11"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{complaintDiagonsed}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{complaintDiagnosed}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement uuid="4f84e632-60bb-4bde-a194-707ec94af633" x="110" y="384" width="418" height="46"/>

@@ -38,7 +38,6 @@ import java.util.stream.Collectors;
 //@RequestMapping("/txs")
 @SuppressWarnings("unused")
 public class TransactionController {
-
     private static final Logger LOG = LoggerFactory.getLogger(TransactionController.class);
     private static final String SUCCESS = "success";
     private static final String ERROR = "error";
@@ -59,6 +58,12 @@ public class TransactionController {
     @Autowired
     private CustomerService customerService;
 
+    /**
+     * List all transactions
+     *
+     * @param transactionForm TransactionForm
+     * @return view
+     */
     @PostMapping(value = "/txs/List.htm")
     public ModelAndView list(TransactionForm transactionForm) {
         LOG.info(" Inside List method of TransactionController ");
@@ -102,6 +107,12 @@ public class TransactionController {
         return statusList;
     }
 
+    /**
+     * add a new transaction
+     *
+     * @param transactionForm TransactionForm
+     * @return view
+     */
     @PostMapping(value = "/txs/AddTxn.htm")
     public ModelAndView addTxn(TransactionForm transactionForm) {
         LOG.info(" Inside AddTxn method of TransactionController ");
@@ -123,7 +134,8 @@ public class TransactionController {
                 makeAndModelVOs = makeService.getAllModelsFromMakeId(makeVOs.get(0).getId());
                 if (makeAndModelVOs != null) {
                     transactionForm.setMakeAndModelVOs(makeAndModelVOs);
-                    makeAndModelVOs.stream().map(makeAndModelVO -> "makeAndModel vo is" + makeAndModelVO).forEach(LOG::info);
+                    makeAndModelVOs.stream().map(makeAndModelVO -> "makeAndModel vo is" + makeAndModelVO)
+                            .forEach(LOG::info);
                 }
             }
         }
@@ -132,6 +144,12 @@ public class TransactionController {
         return new ModelAndView("txs/TxnAdd", TRANSACTION_FORM, transactionForm);
     }
 
+    /**
+     * save the current transaction
+     *
+     * @param transactionForm TransactionForm
+     * @return view
+     */
     @PostMapping(value = "/txs/SaveTxn.htm")
     public ModelAndView saveTxn(TransactionForm transactionForm) {
         LOG.info(" Inside SaveTxn method of TransactionController ");
@@ -170,7 +188,7 @@ public class TransactionController {
             transactionForm.setStatusMessage("Unable to create a new transaction due to a Data base error");
             transactionForm.setStatusMessageType(ERROR);
             LOG.error(e.getLocalizedMessage());
-            LOG.error(EXCEPTION_IN_CONTROLLER, e.ExceptionType);
+            LOG.error(EXCEPTION_IN_CONTROLLER, e.exceptionType);
             if (e.getExceptionType().equalsIgnoreCase(TransactionException.DATABASE_ERROR)) {
                 LOG.info(DATA_FROM_DATABASE);
             } else {
@@ -189,6 +207,12 @@ public class TransactionController {
         return list(transactionForm);
     }
 
+    /**
+     * update model drop down via ajax
+     *
+     * @param httpServletRequest  req
+     * @param httpServletResponse res
+     */
     @RequestMapping(value = "/txs/UpdateModelAjax.htm", method = {RequestMethod.GET, RequestMethod.POST})
     public void updateModelAjax(HttpServletRequest httpServletRequest,
                                 HttpServletResponse httpServletResponse) {
@@ -196,7 +220,7 @@ public class TransactionController {
 
         String selectMakeId = httpServletRequest.getParameter("selectMakeId");
         //get all the models for this make id
-        LOG.info(" At UpdateModelAjax, selectMakeId is : {}" , selectMakeId);
+        LOG.info(" At UpdateModelAjax, selectMakeId is : {}", selectMakeId);
         List<MakeAndModelVO> makeAndModelVOs;
         try {
             makeAndModelVOs = makeService.getAllModelsFromMakeId(Long.valueOf(selectMakeId));
@@ -222,6 +246,12 @@ public class TransactionController {
         }
     }
 
+    /**
+     * search transactions
+     *
+     * @param transactionForm TransactionForm
+     * @return view
+     */
     @PostMapping(value = "/txs/SearchTxn.htm")
     public ModelAndView searchTxn(TransactionForm transactionForm) {
         LOG.info(" Inside SearchTxn method of TransactionController ");
@@ -236,7 +266,7 @@ public class TransactionController {
             transactionForm.setStatusMessage("Unable to search due to a data base error");
             transactionForm.setStatusMessageType(ERROR);
             LOG.error(e.getLocalizedMessage());
-            LOG.error(EXCEPTION_IN_CONTROLLER, e.ExceptionType);
+            LOG.error(EXCEPTION_IN_CONTROLLER, e.exceptionType);
             if (e.getExceptionType().equalsIgnoreCase(TransactionException.DATABASE_ERROR)) {
                 LOG.info(DATA_FROM_DATABASE);
             } else {
@@ -271,6 +301,12 @@ public class TransactionController {
         return new ModelAndView(TRANSACTION_LIST, TRANSACTION_FORM, transactionForm);
     }
 
+    /**
+     * edit a transaction
+     *
+     * @param transactionForm TransactionForm
+     * @return view
+     */
     @PostMapping(value = "/txs/EditTxn.htm")
     public ModelAndView editTxn(TransactionForm transactionForm) {
         LOG.info(" EditTxn method of TransactionController ");
@@ -302,7 +338,7 @@ public class TransactionController {
             }
         } catch (TransactionException e) {
             LOG.error(e.getLocalizedMessage());
-            LOG.error(EXCEPTION_IN_CONTROLLER, e.ExceptionType);
+            LOG.error(EXCEPTION_IN_CONTROLLER, e.exceptionType);
             if (e.getExceptionType().equalsIgnoreCase(TransactionException.DATABASE_ERROR)) {
                 LOG.info(DATA_FROM_DATABASE);
             } else {
@@ -323,13 +359,19 @@ public class TransactionController {
         return new ModelAndView("txs/TxnEdit", TRANSACTION_FORM, transactionForm);
     }
 
+    /**
+     * update transaction
+     *
+     * @param transactionForm TransactionForm
+     * @return view
+     */
     @PostMapping(value = "/txs/updateTxn.htm")
     public ModelAndView updateTxn(TransactionForm transactionForm) {
         LOG.info(" updateTxn method of TransactionController ");
         LOG.info("TransactionForm values are {}", transactionForm);
         transactionForm.getCurrentTransaction().setModifiedBy(transactionForm.getLoggedInUser());
         transactionForm.getCurrentTransaction().setModifiedOn(new Date());
-        LOG.info("TransactionForm, current transactions are values are {}" , transactionForm.getCurrentTransaction());
+        LOG.info("TransactionForm, current transactions are values are {}", transactionForm.getCurrentTransaction());
         try {
             transactionService.updateTransaction(transactionForm.getCurrentTransaction());
             transactionForm.setStatusMessage("Successfully updated the transaction");
@@ -368,6 +410,12 @@ public class TransactionController {
         return new ModelAndView(TRANSACTION_LIST, TRANSACTION_FORM, transactionForm);
     }
 
+    /**
+     * delete transaction
+     *
+     * @param transactionForm TransactionForm
+     * @return view
+     */
     @PostMapping(value = "/txs/DeleteTxn.htm")
     public ModelAndView deleteTxn(TransactionForm transactionForm) {
         LOG.info(" DeleteTxn method of TransactionController ");
@@ -380,7 +428,7 @@ public class TransactionController {
             transactionForm.setStatusMessage("Unable to delete the selected transaction due to a Data base error");
             transactionForm.setStatusMessageType(ERROR);
             LOG.error(e.getLocalizedMessage());
-            LOG.error(EXCEPTION_IN_CONTROLLER, e.ExceptionType);
+            LOG.error(EXCEPTION_IN_CONTROLLER, e.exceptionType);
             if (e.getExceptionType().equalsIgnoreCase(TransactionException.DATABASE_ERROR)) {
                 LOG.info(DATA_FROM_DATABASE);
             } else {

@@ -225,6 +225,9 @@ public class Transaction {
         this.modifiedBy = modifiedBy;
     }
 
+    /**
+     * initialize / update date fields
+     */
     @PrePersist
     @PreUpdate
     public void initializeDate() {

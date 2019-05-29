@@ -25,7 +25,7 @@ public class TransactionForm {
     private CustomerVO customerVO;
     private String statusMessage;
     private String statusMessageType;
-    private Long Id;
+    private Long id;
 
     public TransactionVO getCurrentTransaction() {
         return currentTransaction;
@@ -116,11 +116,11 @@ public class TransactionForm {
     }
 
     public Long getId() {
-        return Id;
+        return id;
     }
 
     public void setId(Long id) {
-        Id = id;
+        this.id = id;
     }
 
     @Override
@@ -137,7 +137,7 @@ public class TransactionForm {
                 .add("customerVO=" + customerVO)
                 .add("statusMessage='" + statusMessage + "'")
                 .add("statusMessageType='" + statusMessageType + "'")
-                .add("Id=" + Id)
+                .add("id=" + id)
                 .toString();
     }
 }
