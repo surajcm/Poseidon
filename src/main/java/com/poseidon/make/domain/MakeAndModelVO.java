@@ -1,6 +1,7 @@
 package com.poseidon.make.domain;
 
 import java.util.Date;
+import java.util.StringJoiner;
 
 /**
  * user: Suraj
@@ -8,7 +9,7 @@ import java.util.Date;
  * Time: 7:26:27 PM
  */
 public class MakeAndModelVO {
-    private Long Id;
+    private Long id;
     private Long makeId;
     private Long modelId;
     private String makeName;
@@ -22,11 +23,11 @@ public class MakeAndModelVO {
     private String modifiedBy;
 
     public Long getId() {
-        return Id;
+        return id;
     }
 
     public void setId(Long id) {
-        Id = id;
+        this.id = id;
     }
 
     public Long getMakeId() {
@@ -119,19 +120,19 @@ public class MakeAndModelVO {
 
     @Override
     public String toString() {
-        return "MakeVO{" +
-                "Id=" + Id +
-                ", makeId=" + makeId +
-                ", modelId=" + modelId +
-                ", makeName='" + makeName + '\'' +
-                ", modelName='" + modelName + '\'' +
-                ", description='" + description + '\'' +
-                ", startswith=" + startswith +
-                ", includes=" + includes +
-                ", createdDate=" + createdDate +
-                ", modifiedDate=" + modifiedDate +
-                ", createdBy='" + createdBy + '\'' +
-                ", modifiedBy='" + modifiedBy + '\'' +
-                '}';
+        return new StringJoiner(", ", MakeAndModelVO.class.getSimpleName() + "[", "]")
+                .add("id=" + id)
+                .add("makeId=" + makeId)
+                .add("modelId=" + modelId)
+                .add("makeName='" + makeName + "'")
+                .add("modelName='" + modelName + "'")
+                .add("description='" + description + "'")
+                .add("startswith=" + startswith)
+                .add("includes=" + includes)
+                .add("createdDate=" + createdDate)
+                .add("modifiedDate=" + modifiedDate)
+                .add("createdBy='" + createdBy + "'")
+                .add("modifiedBy='" + modifiedBy + "'")
+                .toString();
     }
 }

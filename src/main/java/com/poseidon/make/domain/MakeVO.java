@@ -1,6 +1,7 @@
 package com.poseidon.make.domain;
 
 import java.util.Date;
+import java.util.StringJoiner;
 
 /**
  * user: Suraj
@@ -74,14 +75,14 @@ public class MakeVO {
 
     @Override
     public String toString() {
-        return "MakeVO{" +
-                "id=" + id +
-                ", makeName='" + makeName + '\'' +
-                ", description='" + description + '\'' +
-                ", createdOn=" + createdOn +
-                ", modifiedOn=" + modifiedOn +
-                ", createdBy='" + createdBy + '\'' +
-                ", modifiedBy='" + modifiedBy + '\'' +
-                '}';
+        return new StringJoiner(", ", MakeVO.class.getSimpleName() + "[", "]")
+                .add("id=" + id)
+                .add("makeName='" + makeName + "'")
+                .add("description='" + description + "'")
+                .add("createdOn=" + createdOn)
+                .add("modifiedOn=" + modifiedOn)
+                .add("createdBy='" + createdBy + "'")
+                .add("modifiedBy='" + modifiedBy + "'")
+                .toString();
     }
 }

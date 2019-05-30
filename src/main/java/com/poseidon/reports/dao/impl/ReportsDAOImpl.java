@@ -33,7 +33,8 @@ public class ReportsDAOImpl implements ReportsDAO {
     public JasperPrint getMakeDetailsChart(JasperReport jasperReport, ReportsVO currentReport) throws JRException {
         JasperPrint jasperPrint;
         Map<String, Object> params = new HashMap<>();
-        jasperPrint = JasperFillManager.fillReport(jasperReport, params,  new JRBeanCollectionDataSource(currentReport.getMakeVOList()));
+        jasperPrint = JasperFillManager.fillReport(jasperReport, params,
+                new JRBeanCollectionDataSource(currentReport.getMakeVOList()));
         return jasperPrint;
     }
 
@@ -52,28 +53,32 @@ public class ReportsDAOImpl implements ReportsDAO {
         }
         List<TransactionReportVO> reportVOs = new ArrayList<>();
         reportVOs.add(currentReport.getTransactionReportVO());
-        jasperPrint = JasperFillManager.fillReport(jasperReport, params,  new JRBeanCollectionDataSource(reportVOs));
+        jasperPrint = JasperFillManager.fillReport(jasperReport, params, new JRBeanCollectionDataSource(reportVOs));
         return jasperPrint;
     }
 
-    public JasperPrint getTransactionsListReport(JasperReport jasperReport, ReportsVO currentReport) throws JRException {
+    public JasperPrint getTransactionsListReport(JasperReport jasperReport,
+                                                 ReportsVO currentReport) throws JRException {
         JasperPrint jasperPrint;
         Map<String, Object> params = new HashMap<>();
-        jasperPrint = JasperFillManager.fillReport(jasperReport, params,  new JRBeanCollectionDataSource(currentReport.getTransactionsList()));
+        jasperPrint = JasperFillManager.fillReport(jasperReport, params,
+                new JRBeanCollectionDataSource(currentReport.getTransactionsList()));
         return jasperPrint;
     }
 
     public JasperPrint getModelListReport(JasperReport jasperReport, ReportsVO currentReport) throws JRException {
         JasperPrint jasperPrint;
         Map<String, Object> params = new HashMap<>();
-        jasperPrint = JasperFillManager.fillReport(jasperReport, params,  new JRBeanCollectionDataSource(currentReport.getMakeAndModelVOs()));
+        jasperPrint = JasperFillManager.fillReport(jasperReport, params,
+                new JRBeanCollectionDataSource(currentReport.getMakeAndModelVOs()));
         return jasperPrint;
     }
 
     public JasperPrint getErrorReport(JasperReport jasperReport, ReportsVO currentReport) throws JRException {
         JasperPrint jasperPrint;
         Map<String, Object> params = new HashMap<>();
-        jasperPrint = JasperFillManager.fillReport(jasperReport, params,  new JRBeanCollectionDataSource(new ArrayList<Object>()));
+        jasperPrint = JasperFillManager.fillReport(jasperReport, params,
+                new JRBeanCollectionDataSource(new ArrayList<>()));
         return jasperPrint;
     }
 
@@ -83,7 +88,8 @@ public class ReportsDAOImpl implements ReportsDAO {
         Map<String, Object> params = new HashMap<>();
         List<InvoiceReportVO> invoiceReportVOs = new ArrayList<>();
         invoiceReportVOs.add(currentReport.getInvoiceReportVO());
-        jasperPrint = JasperFillManager.fillReport(jasperReport, params,  new JRBeanCollectionDataSource(invoiceReportVOs));
+        jasperPrint = JasperFillManager.fillReport(jasperReport, params,
+                new JRBeanCollectionDataSource(invoiceReportVOs));
         return jasperPrint;
     }
 

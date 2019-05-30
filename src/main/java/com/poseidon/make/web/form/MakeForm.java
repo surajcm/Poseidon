@@ -4,6 +4,7 @@ import com.poseidon.make.domain.MakeAndModelVO;
 import com.poseidon.make.domain.MakeVO;
 
 import java.util.List;
+import java.util.StringJoiner;
 
 /**
  * user: Suraj
@@ -14,9 +15,9 @@ public class MakeForm {
     private List<MakeAndModelVO> makeAndModelVOs;
     private MakeAndModelVO currentMakeAndModeVO;
     private MakeAndModelVO searchMakeAndModelVO;
-    private String LoggedInRole;
-    private String LoggedInUser;
-    private Long Id;
+    private String loggedInRole;
+    private String loggedInUser;
+    private Long id;
     private MakeVO makeVO;
     private List<MakeVO> makeVOs;
     private String statusMessage;
@@ -47,27 +48,27 @@ public class MakeForm {
     }
 
     public String getLoggedInRole() {
-        return LoggedInRole;
+        return loggedInRole;
     }
 
     public void setLoggedInRole(String loggedInRole) {
-        LoggedInRole = loggedInRole;
+        this.loggedInRole = loggedInRole;
     }
 
     public String getLoggedInUser() {
-        return LoggedInUser;
+        return loggedInUser;
     }
 
     public void setLoggedInUser(String loggedInUser) {
-        LoggedInUser = loggedInUser;
+        this.loggedInUser = loggedInUser;
     }
 
     public Long getId() {
-        return Id;
+        return id;
     }
 
     public void setId(Long id) {
-        Id = id;
+        this.id = id;
     }
 
     public MakeVO getMakeVO() {
@@ -104,15 +105,17 @@ public class MakeForm {
 
     @Override
     public String toString() {
-        return "MakeForm{" +
-                "makeAndModelVOs=" + makeAndModelVOs +
-                ", currentMakeAndModeVO=" + currentMakeAndModeVO +
-                ", searchMakeAndModelVO=" + searchMakeAndModelVO +
-                ", LoggedInRole='" + LoggedInRole + '\'' +
-                ", LoggedInUser='" + LoggedInUser + '\'' +
-                ", Id=" + Id +
-                ", makeVO=" + makeVO +
-                ", makeVOs=" + makeVOs +
-                '}';
+        return new StringJoiner(", ", MakeForm.class.getSimpleName() + "[", "]")
+                .add("makeAndModelVOs=" + makeAndModelVOs)
+                .add("currentMakeAndModeVO=" + currentMakeAndModeVO)
+                .add("searchMakeAndModelVO=" + searchMakeAndModelVO)
+                .add("loggedInRole='" + loggedInRole + "'")
+                .add("loggedInUser='" + loggedInUser + "'")
+                .add("id=" + id)
+                .add("makeVO=" + makeVO)
+                .add("makeVOs=" + makeVOs)
+                .add("statusMessage='" + statusMessage + "'")
+                .add("statusMessageType='" + statusMessageType + "'")
+                .toString();
     }
 }

@@ -24,7 +24,7 @@ public class MakeServiceImpl implements MakeService {
     private MakeDao makeDAO;
 
     private static final Logger LOG = LoggerFactory.getLogger(MakeServiceImpl.class);
-    
+
     public List<MakeAndModelVO> listAllMakesAndModels() {
         List<MakeAndModelVO> makeVOs = null;
         try {
@@ -54,7 +54,7 @@ public class MakeServiceImpl implements MakeService {
     }
 
     public MakeAndModelVO getMakeFromId(Long makeId) {
-        MakeAndModelVO makeVO= null;
+        MakeAndModelVO makeVO = null;
         try {
             makeVO = makeDAO.getMakeFromId(makeId);
         } catch (MakeException makeException) {
@@ -72,7 +72,7 @@ public class MakeServiceImpl implements MakeService {
     }
 
     public MakeAndModelVO getModelFromId(Long modelId) {
-        MakeAndModelVO makeVO= null;
+        MakeAndModelVO makeVO = null;
         try {
             makeVO = makeDAO.getModelFromId(modelId);
         } catch (MakeException makeException) {

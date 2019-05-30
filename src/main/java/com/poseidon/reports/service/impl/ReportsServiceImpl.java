@@ -32,7 +32,7 @@ import java.util.List;
  * Time: 10:40:26 AM
  */
 @Service
-public class ReportsServiceImpl implements ReportsService{
+public class ReportsServiceImpl implements ReportsService {
     private static final Logger LOG = LoggerFactory.getLogger(ReportsServiceImpl.class);
     @Autowired
     private ReportsDAO reportsDAO;
@@ -45,16 +45,28 @@ public class ReportsServiceImpl implements ReportsService{
     @Autowired
     private InvoiceService invoiceService;
 
+    /**
+     * daily report
+     *
+     * @return list of reports
+     */
     public List<ReportsVO> generateDailyReport() {
         List<ReportsVO> reportsVOs = null;
         try {
             reportsVOs = reportsDAO.generateDailyReport();
-        }catch (ReportsException e){
+        } catch (ReportsException e) {
             LOG.error(e.getLocalizedMessage());
         }
         return reportsVOs;
     }
 
+    /**
+     * make details chart
+     *
+     * @param jasperReport  jasperReport
+     * @param currentReport currentReport
+     * @return JasperPrint
+     */
     public JasperPrint getMakeDetailsChart(JasperReport jasperReport, ReportsVO currentReport) {
         currentReport.setMakeVOList(makeService.fetchMakes());
         JasperPrint jasperPrint = new JasperPrint();
@@ -66,6 +78,13 @@ public class ReportsServiceImpl implements ReportsService{
         return jasperPrint;
     }
 
+    /**
+     * call report
+     *
+     * @param jasperReport  jasperReport
+     * @param currentReport currentReport
+     * @return JasperPrint
+     */
     public JasperPrint getCallReport(JasperReport jasperReport,
                                      ReportsVO currentReport) {
         CompanyTermsVO companyTermsVO = companyTermsService.listCompanyTerms();
@@ -87,13 +106,22 @@ public class ReportsServiceImpl implements ReportsService{
         return jasperPrint;
     }
 
-    public JasperPrint getTransactionsListReport(JasperReport jasperReport, ReportsVO currentReport,TransactionVO searchTransaction) {
+    /**
+     * transaction list report
+     *
+     * @param jasperReport      jasperReport
+     * @param currentReport     currentReport
+     * @param searchTransaction searchTransaction
+     * @return JasperPrint
+     */
+    public JasperPrint getTransactionsListReport(JasperReport jasperReport,
+                                                 ReportsVO currentReport,
+                                                 TransactionVO searchTransaction) {
         try {
             currentReport.setTransactionsList(transactionService.searchTransactions(searchTransaction));
         } catch (TransactionException e) {
             e.printStackTrace();
         }
-
         JasperPrint jasperPrint = new JasperPrint();
         try {
             jasperPrint = reportsDAO.getTransactionsListReport(jasperReport, currentReport);
@@ -103,7 +131,17 @@ public class ReportsServiceImpl implements ReportsService{
         return jasperPrint;
     }
 
-    public JasperPrint getModelListReport(JasperReport jasperReport, ReportsVO currentReport, MakeAndModelVO searchMakeAndModelVO){
+    /**
+     * model list report
+     *
+     * @param jasperReport         jasperReport
+     * @param currentReport        currentReport
+     * @param searchMakeAndModelVO searchMakeAndModelVO
+     * @return JasperPrint
+     */
+    public JasperPrint getModelListReport(JasperReport jasperReport,
+                                          ReportsVO currentReport,
+                                          MakeAndModelVO searchMakeAndModelVO) {
         currentReport.setMakeAndModelVOs(makeService.searchMakeVOs(searchMakeAndModelVO));
         JasperPrint jasperPrint = new JasperPrint();
         try {
@@ -114,6 +152,13 @@ public class ReportsServiceImpl implements ReportsService{
         return jasperPrint;
     }
 
+    /**
+     * error report
+     *
+     * @param jasperReport  jasperReport
+     * @param currentReport currentReport
+     * @return JasperPrint
+     */
     public JasperPrint getErrorReport(JasperReport jasperReport, ReportsVO currentReport) {
         JasperPrint jasperPrint = new JasperPrint();
         try {
@@ -124,6 +169,13 @@ public class ReportsServiceImpl implements ReportsService{
         return jasperPrint;
     }
 
+    /**
+     * invoice report
+     *
+     * @param jasperReport  jasperReport
+     * @param currentReport currentReport
+     * @return JasperPrint
+     */
     public JasperPrint getInvoiceReport(JasperReport jasperReport, ReportsVO currentReport) {
         try {
             InvoiceReportVO invoiceReportVO = new InvoiceReportVO();
@@ -135,7 +187,7 @@ public class ReportsServiceImpl implements ReportsService{
                 searchInvoiceVO.setStartsWith(Boolean.FALSE);
                 searchInvoiceVO.setIncludes(Boolean.FALSE);
                 List<InvoiceVO> invoiceVOs = invoiceService.findInvoices(searchInvoiceVO);
-                if (invoiceVOs != null && invoiceVOs.size() > 0) {
+                if (invoiceVOs != null && !invoiceVOs.isEmpty()) {
                     InvoiceVO invoiceVO = invoiceVOs.get(0);
                     invoiceReportVO.setInvoiceId(invoiceVO.getId());
                     invoiceReportVO.setTagNo(transactionVO.getTagNo());
@@ -161,11 +213,8 @@ public class ReportsServiceImpl implements ReportsService{
                 invoiceReportVO.setCompanyVATTIN(companyTermsVO.getCompanyVATTIN());
                 invoiceReportVO.setCompanyCSTTIN(companyTermsVO.getCompanyCSTTIN());
             }
-
             currentReport.setInvoiceReportVO(invoiceReportVO);
-        } catch (TransactionException e) {
-            e.printStackTrace();
-        } catch (InvoiceException e) {
+        } catch (TransactionException | InvoiceException e) {
             e.printStackTrace();
         }
         JasperPrint jasperPrint = new JasperPrint();

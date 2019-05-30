@@ -8,6 +8,7 @@ import com.poseidon.transaction.domain.TransactionVO;
 
 import java.util.List;
 import java.util.Locale;
+import java.util.StringJoiner;
 
 /**
  * user: Suraj
@@ -99,16 +100,16 @@ public class ReportsVO {
 
     @Override
     public String toString() {
-        return "ReportsVO{" +
-                "locale=" + locale +
-                ", exportTo='" + exportTo + '\'' +
-                ", rptfilename='" + rptfilename + '\'' +
-                ", makeVOList=" + makeVOList +
-                ", tagNo='" + tagNo + '\'' +
-                ", transactionsList=" + transactionsList +
-                ", makeAndModelVOs=" + makeAndModelVOs +
-                ", transactionReportVO=" + transactionReportVO +
-                ", invoiceReportVO=" + invoiceReportVO +
-                '}';
+        return new StringJoiner(", ", ReportsVO.class.getSimpleName() + "[", "]")
+                .add("locale=" + locale)
+                .add("exportTo='" + exportTo + "'")
+                .add("rptfilename='" + rptfilename + "'")
+                .add("makeVOList=" + makeVOList)
+                .add("tagNo='" + tagNo + "'")
+                .add("transactionsList=" + transactionsList)
+                .add("makeAndModelVOs=" + makeAndModelVOs)
+                .add("transactionReportVO=" + transactionReportVO)
+                .add("invoiceReportVO=" + invoiceReportVO)
+                .toString();
     }
 }

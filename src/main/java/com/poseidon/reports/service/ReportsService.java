@@ -16,14 +16,18 @@ import java.util.List;
 public interface ReportsService {
     List<ReportsVO> generateDailyReport();
 
-    JasperPrint getMakeDetailsChart(JasperReport jasperReport, ReportsVO currentReport);
+    JasperPrint getMakeDetailsChart(JasperReport jasperReport,
+                                    ReportsVO currentReport);
 
     JasperPrint getCallReport(JasperReport jasperReport,
-                                     ReportsVO currentReport);
+                              ReportsVO currentReport);
 
-    JasperPrint getTransactionsListReport(JasperReport jasperReport, ReportsVO currentReport,TransactionVO searchTransaction);
+    JasperPrint getTransactionsListReport(JasperReport jasperReport,
+                                          ReportsVO currentReport,
+                                          TransactionVO searchTransaction);
 
-    JasperPrint getModelListReport(JasperReport jasperReport, ReportsVO currentReport,
+    JasperPrint getModelListReport(JasperReport jasperReport,
+                                   ReportsVO currentReport,
                                    MakeAndModelVO searchMakeAndModelVO);
 
     JasperPrint getErrorReport(JasperReport jasperReport, ReportsVO currentReport);

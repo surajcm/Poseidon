@@ -66,6 +66,12 @@ public class ReportsController {
         this.makeService = makeService;
     }
 
+    /**
+     * list reports
+     *
+     * @param reportsForm form
+     * @return view
+     */
     @PostMapping(value = "/reports/List.htm")
     public ModelAndView list(ReportsForm reportsForm) {
         LOG.info(" Inside List method of ReportsController ");
@@ -159,17 +165,15 @@ public class ReportsController {
             if (reportsForm.getCurrentReport() != null) {
                 reportsForm.getCurrentReport().setLocale(Locale.US);
                 String reportFileName = "makeListReport";
-                String reportType = reportsForm.getCurrentReport().getExportTo();
                 reportsForm.getCurrentReport().setRptfilename(reportFileName);
                 String path = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest()
                         .getSession().getServletContext().getRealPath(REPORTS);
-
                 LOG.info(COMPILE_REPORT);
                 jasperReport = JasperCompileManager.compileReport(path + '/' + reportFileName + JRXML);
-
                 jasperPrint = reportsService.getMakeDetailsChart(jasperReport,
                         reportsForm.getCurrentReport());
                 LOG.info(jasperPrint.toString());
+                String reportType = reportsForm.getCurrentReport().getExportTo();
                 getJasperReport(httpServletResponse, jasperPrint, reportFileName, reportType);
             }
         } catch (Exception e) {
@@ -286,7 +290,6 @@ public class ReportsController {
             reportsForm.getCurrentReport().setLocale(Locale.US);
 
             String reportFileName = "modelListReport";
-            String reportType = reportsForm.getCurrentReport().getExportTo();
             reportsForm.getCurrentReport().setRptfilename(reportFileName);
             String path = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest()
                     .getSession().getServletContext().getRealPath(REPORTS);
@@ -297,6 +300,7 @@ public class ReportsController {
                     reportsForm.getCurrentReport(),
                     reportsForm.getModelReportMakeAndModelVO());
             LOG.info(jasperPrint.toString());
+            String reportType = reportsForm.getCurrentReport().getExportTo();
             getJasperReport(httpServletResponse, jasperPrint, reportFileName, reportType);
         } catch (Exception e) {
             LOG.error(e.getLocalizedMessage());
@@ -327,7 +331,6 @@ public class ReportsController {
             reportsForm.getCurrentReport().setLocale(Locale.US);
 
             String reportFileName = "errorReport";
-            String reportType = reportsForm.getCurrentReport().getExportTo();
             reportsForm.getCurrentReport().setRptfilename(reportFileName);
             String path = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest()
                     .getSession().getServletContext().getRealPath(REPORTS);
@@ -335,6 +338,7 @@ public class ReportsController {
             jasperReport = JasperCompileManager.compileReport(path + '/' + reportFileName + JRXML);
             jasperPrint = reportsService.getErrorReport(jasperReport, reportsForm.getCurrentReport());
             LOG.info(jasperPrint.toString());
+            String reportType = reportsForm.getCurrentReport().getExportTo();
             getJasperReport(httpServletResponse, jasperPrint, reportFileName, reportType);
         } catch (Exception e) {
             LOG.error(e.getLocalizedMessage());
