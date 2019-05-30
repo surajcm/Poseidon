@@ -37,6 +37,12 @@ public class MakeDaoImpl implements MakeDao {
     @Autowired
     private MakeAndModelEntityConverter makeAndModelEntityConverter;
 
+    /**
+     * list all makes and models
+     *
+     * @return list of make and model vos
+     * @throws MakeException on error
+     */
     public List<MakeAndModelVO> listAllMakesAndModels() throws MakeException {
         List<MakeAndModelVO> makeAndModelVOS;
         try {
@@ -50,6 +56,12 @@ public class MakeDaoImpl implements MakeDao {
         return makeAndModelVOS;
     }
 
+    /**
+     * list all makes
+     *
+     * @return list of make and model vo
+     * @throws MakeException on error
+     */
     public List<MakeAndModelVO> listAllMakes() throws MakeException {
         List<MakeAndModelVO> makeVOs;
         try {
@@ -62,6 +74,12 @@ public class MakeDaoImpl implements MakeDao {
         return makeVOs;
     }
 
+    /**
+     * add new make
+     *
+     * @param currentMakeVo currentMakeVo
+     * @throws MakeException on error
+     */
     public void addNewMake(MakeAndModelVO currentMakeVo) throws MakeException {
         try {
             Make make = makeAndModelEntityConverter.convertToMake(currentMakeVo);
@@ -72,6 +90,12 @@ public class MakeDaoImpl implements MakeDao {
         }
     }
 
+    /**
+     * update make
+     *
+     * @param currentMakeVo currentMakeVo
+     * @throws MakeException on error
+     */
     public void updateMake(MakeAndModelVO currentMakeVo) throws MakeException {
         try {
             Make make = makeAndModelEntityConverter.convertToMake(currentMakeVo);
@@ -89,6 +113,13 @@ public class MakeDaoImpl implements MakeDao {
         }
     }
 
+    /**
+     * get make from id
+     *
+     * @param makeId makeId
+     * @return make and model vo
+     * @throws MakeException on error
+     */
     public MakeAndModelVO getMakeFromId(Long makeId) throws MakeException {
         MakeAndModelVO makeVO = null;
         try {
@@ -103,6 +134,12 @@ public class MakeDaoImpl implements MakeDao {
         return makeVO;
     }
 
+    /**
+     * delete a make
+     *
+     * @param makeId makeId
+     * @throws MakeException on error
+     */
     public void deleteMake(Long makeId) throws MakeException {
         try {
             makeRepository.deleteById(makeId);
@@ -112,6 +149,12 @@ public class MakeDaoImpl implements MakeDao {
         }
     }
 
+    /**
+     * get model from id
+     *
+     * @param modelId modelId
+     * @return make and model vo
+     */
     public MakeAndModelVO getModelFromId(Long modelId) {
         MakeAndModelVO makeAndModelVO = null;
         Optional<Model> optionalModel = modelRepository.findById(modelId);
@@ -130,6 +173,12 @@ public class MakeDaoImpl implements MakeDao {
         return makeAndModelVO;
     }
 
+    /**
+     * delete a model
+     *
+     * @param modelId id of model to be deleted
+     * @throws MakeException on error
+     */
     public void deleteModel(Long modelId) throws MakeException {
         try {
             modelRepository.deleteById(modelId);
@@ -139,6 +188,12 @@ public class MakeDaoImpl implements MakeDao {
         }
     }
 
+    /**
+     * add a new model
+     *
+     * @param currentMakeVo currentMakeVo
+     * @throws MakeException on error
+     */
     public void addNewModel(MakeAndModelVO currentMakeVo) throws MakeException {
         try {
             Model model = convertMakeAndModelVOToModel(currentMakeVo);
@@ -155,13 +210,19 @@ public class MakeDaoImpl implements MakeDao {
         model.setMakeId(makeAndModelVO.getMakeId());
         model.setCreatedBy(makeAndModelVO.getCreatedBy());
         model.setModifiedBy(makeAndModelVO.getModifiedBy());
-        LOG.info("in convertMakeAndModelVOToModel -> make id is : %s" , makeAndModelVO.getMakeId());
+        LOG.info("in convertMakeAndModelVOToModel -> make id is : %s", makeAndModelVO.getMakeId());
         Optional<Make> optionalMake = makeRepository.findById(makeAndModelVO.getMakeId());
         optionalMake.ifPresent(m1 -> LOG.info(m1.toString()));
         optionalMake.ifPresent(model::setMake);
         return model;
     }
 
+    /**
+     * update model
+     *
+     * @param currentMakeVO currentMakeVO
+     * @throws MakeException on error
+     */
     public void updateModel(MakeAndModelVO currentMakeVO) throws MakeException {
         try {
             Optional<Model> optionalModel = modelRepository.findById(currentMakeVO.getId());
@@ -178,6 +239,13 @@ public class MakeDaoImpl implements MakeDao {
         }
     }
 
+    /**
+     * search make vos
+     *
+     * @param searchMakeVo searchMakeVo
+     * @return list of make and model vos
+     * @throws MakeException on error
+     */
     public List<MakeAndModelVO> searchMakeVOs(MakeAndModelVO searchMakeVo) throws MakeException {
         List<MakeAndModelVO> makeVOs;
         try {
@@ -189,6 +257,12 @@ public class MakeDaoImpl implements MakeDao {
         return makeVOs;
     }
 
+    /**
+     * fetch all makes
+     *
+     * @return list of make vos
+     * @throws MakeException on error
+     */
     public List<MakeVO> fetchMakes() throws MakeException {
         List<MakeVO> makeVOs;
         try {
@@ -201,6 +275,13 @@ public class MakeDaoImpl implements MakeDao {
         return makeVOs;
     }
 
+    /**
+     * get all models from make id
+     *
+     * @param makeId make id
+     * @return list of make and model vo
+     * @throws MakeException on error
+     */
     public List<MakeAndModelVO> getAllModelsFromMakeId(Long makeId) throws MakeException {
         List<MakeAndModelVO> makeVOs = new ArrayList<>();
         try {

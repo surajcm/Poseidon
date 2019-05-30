@@ -107,6 +107,9 @@ public class Model {
         this.make = make;
     }
 
+    /**
+     * initialize / update date fields
+     */
     @PrePersist
     @PreUpdate
     public void initializeDate() {

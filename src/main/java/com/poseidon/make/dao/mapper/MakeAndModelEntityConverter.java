@@ -10,9 +10,15 @@ import java.util.List;
 
 @Component
 public class MakeAndModelEntityConverter {
+    /**
+     * convert models to make and model vos
+     *
+     * @param models list of model entity objects
+     * @return list of make and model vos
+     */
     public List<MakeAndModelVO> convertModelsToMakeAndModelVOs(List<Model> models) {
         List<MakeAndModelVO> makeAndModelVOS = new ArrayList<>();
-        for (Model model:models) {
+        for (Model model : models) {
             MakeAndModelVO makeAndModelVO = new MakeAndModelVO();
             makeAndModelVO.setModelId(model.getModelId());
             makeAndModelVO.setModelName(model.getModelName());
@@ -23,6 +29,12 @@ public class MakeAndModelEntityConverter {
         return makeAndModelVOS;
     }
 
+    /**
+     * convert list of make to make and model vo list
+     *
+     * @param makes list of makes
+     * @return list of make and model vos
+     */
     public List<MakeAndModelVO> convertMakeToMakeAndModelVOs(List<Make> makes) {
         List<MakeAndModelVO> makeAndModelVOS = new ArrayList<>();
         makes.forEach(make -> {
@@ -37,6 +49,12 @@ public class MakeAndModelEntityConverter {
         return makeAndModelVOS;
     }
 
+    /**
+     * convert make and model vo to make
+     *
+     * @param currentMakeVO make and model vo
+     * @return make
+     */
     public Make convertToMake(MakeAndModelVO currentMakeVO) {
         Make make = new Make();
         make.setMakeName(currentMakeVO.getMakeName());
@@ -46,6 +64,12 @@ public class MakeAndModelEntityConverter {
         return make;
     }
 
+    /**
+     * get make vo from make entity
+     *
+     * @param make make
+     * @return make and model vo
+     */
     public MakeAndModelVO getMakeVOFromMake(Make make) {
         MakeAndModelVO makeAndModelVO = new MakeAndModelVO();
         makeAndModelVO.setMakeId(make.getMakeId());

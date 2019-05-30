@@ -26,10 +26,24 @@ import java.util.Map;
 @Repository
 public class ReportsDAOImpl implements ReportsDAO {
 
+    /**
+     * generate daily report
+     *
+     * @return list of reports vo
+     * @throws ReportsException on error
+     */
     public List<ReportsVO> generateDailyReport() throws ReportsException {
         return null;
     }
 
+    /**
+     * get make details report
+     *
+     * @param jasperReport  jasperReport
+     * @param currentReport currentReport
+     * @return JasperPrint
+     * @throws JRException on error
+     */
     public JasperPrint getMakeDetailsChart(JasperReport jasperReport, ReportsVO currentReport) throws JRException {
         JasperPrint jasperPrint;
         Map<String, Object> params = new HashMap<>();
@@ -38,6 +52,15 @@ public class ReportsDAOImpl implements ReportsDAO {
         return jasperPrint;
     }
 
+    /**
+     * get call report
+     *
+     * @param jasperReport   jasperReport
+     * @param currentReport  currentReport
+     * @param companyTermsVO companyTermsVO
+     * @return JasperPrint
+     * @throws JRException on error
+     */
     public JasperPrint getCallReport(JasperReport jasperReport,
                                      ReportsVO currentReport,
                                      CompanyTermsVO companyTermsVO) throws JRException {
@@ -57,6 +80,14 @@ public class ReportsDAOImpl implements ReportsDAO {
         return jasperPrint;
     }
 
+    /**
+     * get transaction list report
+     *
+     * @param jasperReport  jasperReport
+     * @param currentReport currentReport
+     * @return JasperPrint
+     * @throws JRException on error
+     */
     public JasperPrint getTransactionsListReport(JasperReport jasperReport,
                                                  ReportsVO currentReport) throws JRException {
         JasperPrint jasperPrint;
@@ -66,6 +97,14 @@ public class ReportsDAOImpl implements ReportsDAO {
         return jasperPrint;
     }
 
+    /**
+     * get model list report
+     *
+     * @param jasperReport  jasperReport
+     * @param currentReport currentReport
+     * @return JasperPrint
+     * @throws JRException on error
+     */
     public JasperPrint getModelListReport(JasperReport jasperReport, ReportsVO currentReport) throws JRException {
         JasperPrint jasperPrint;
         Map<String, Object> params = new HashMap<>();
@@ -74,6 +113,14 @@ public class ReportsDAOImpl implements ReportsDAO {
         return jasperPrint;
     }
 
+    /**
+     * get error report
+     *
+     * @param jasperReport  jasperReport
+     * @param currentReport currentReport
+     * @return JasperPrint
+     * @throws JRException on error
+     */
     public JasperPrint getErrorReport(JasperReport jasperReport, ReportsVO currentReport) throws JRException {
         JasperPrint jasperPrint;
         Map<String, Object> params = new HashMap<>();
@@ -82,6 +129,14 @@ public class ReportsDAOImpl implements ReportsDAO {
         return jasperPrint;
     }
 
+    /**
+     * get invoice report
+     *
+     * @param jasperReport  jasperReport
+     * @param currentReport currentReport
+     * @return JasperPrint
+     * @throws JRException on error
+     */
     @Override
     public JasperPrint getInvoiceReport(JasperReport jasperReport, ReportsVO currentReport) throws JRException {
         JasperPrint jasperPrint;
