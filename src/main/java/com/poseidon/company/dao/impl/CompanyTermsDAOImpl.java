@@ -28,7 +28,12 @@ public class CompanyTermsDAOImpl implements CompanyTermsDAO {
     @Autowired
     private CompanyTermsRepository companyTermsRepository;
 
-
+    /**
+     * list company terms
+     *
+     * @return CompanyTermsVO
+     * @throws CompanyTermsException on error
+     */
     public CompanyTermsVO listCompanyTerms() throws CompanyTermsException {
         CompanyTermsVO companyTermsVO = null;
         try {
@@ -51,11 +56,18 @@ public class CompanyTermsDAOImpl implements CompanyTermsDAO {
         companyTermsVO.setCompanyPhoneNumber(companyTerms.getCompanyPhone());
         companyTermsVO.setCompanyEmail(companyTerms.getCompanyEmail());
         companyTermsVO.setCompanyWebsite(companyTerms.getCompanyWebsite());
-        companyTermsVO.setCompanyVATTIN(companyTerms.getVat_tin());
-        companyTermsVO.setCompanyCSTTIN(companyTerms.getCst_tin());
+        companyTermsVO.setCompanyVATTIN(companyTerms.getVatTin());
+        companyTermsVO.setCompanyCSTTIN(companyTerms.getCstTin());
         return companyTermsVO;
     }
 
+    /**
+     * update company details
+     *
+     * @param companyTermsVO companyTermsVO
+     * @return CompanyTermsVO
+     * @throws CompanyTermsException on error
+     */
     public CompanyTermsVO updateCompanyDetails(CompanyTermsVO companyTermsVO) throws CompanyTermsException {
         CompanyTermsVO termsVO = null;
         try {
@@ -68,8 +80,8 @@ public class CompanyTermsDAOImpl implements CompanyTermsDAO {
                 companyTerms.setCompanyPhone(companyTermsVO.getCompanyPhoneNumber());
                 companyTerms.setCompanyEmail(companyTermsVO.getCompanyEmail());
                 companyTerms.setCompanyWebsite(companyTermsVO.getCompanyWebsite());
-                companyTerms.setVat_tin(companyTermsVO.getCompanyVATTIN());
-                companyTerms.setCst_tin(companyTermsVO.getCompanyCSTTIN());
+                companyTerms.setVatTin(companyTermsVO.getCompanyVATTIN());
+                companyTerms.setCstTin(companyTermsVO.getCompanyCSTTIN());
                 companyTerms.setModifiedBy(companyTermsVO.getModifiedBy());
                 CompanyTerms updatedCompanyTerms = companyTermsRepository.save(companyTerms);
                 termsVO = convertToCompanyTermsVO(updatedCompanyTerms);

@@ -3,6 +3,7 @@ package com.poseidon.customer.web.form;
 import com.poseidon.customer.domain.CustomerVO;
 
 import java.util.List;
+import java.util.StringJoiner;
 
 /**
  * user: Suraj
@@ -86,13 +87,15 @@ public class CustomerForm {
 
     @Override
     public String toString() {
-        return "CustomerForm{" +
-                "id=" + id +
-                ", customerVOs=" + customerVOs +
-                ", currentCustomerVO=" + currentCustomerVO +
-                ", searchCustomerVO=" + searchCustomerVO +
-                ", loggedInRole='" + loggedInRole + '\'' +
-                ", loggedInUser='" + loggedInUser + '\'' +
-                '}';
+        return new StringJoiner(", ", CustomerForm.class.getSimpleName() + "[", "]")
+                .add("id=" + id)
+                .add("customerVOs=" + customerVOs)
+                .add("currentCustomerVO=" + currentCustomerVO)
+                .add("searchCustomerVO=" + searchCustomerVO)
+                .add("loggedInRole='" + loggedInRole + "'")
+                .add("loggedInUser='" + loggedInUser + "'")
+                .add("statusMessage='" + statusMessage + "'")
+                .add("statusMessageType='" + statusMessageType + "'")
+                .toString();
     }
 }

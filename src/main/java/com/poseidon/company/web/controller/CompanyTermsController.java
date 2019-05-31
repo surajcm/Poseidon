@@ -25,11 +25,16 @@ public class CompanyTermsController {
     @Autowired
     private CompanyTermsService companyTermsService;
 
+    /**
+     * list company details
+     *
+     * @param companyTermsForm companyTermsForm
+     * @return on error
+     */
     @PostMapping(value = "/company/List.htm")
     public ModelAndView list(CompanyTermsForm companyTermsForm) {
         LOG.info(" Inside List method of CompanyTermsController ");
-        LOG.info(" form details are {}" , companyTermsForm);
-
+        LOG.info(" form details are {}", companyTermsForm);
         CompanyTermsVO companyTermsVO = null;
         try {
             companyTermsVO = companyTermsService.listCompanyTerms();
@@ -37,7 +42,7 @@ public class CompanyTermsController {
             LOG.error(e.getLocalizedMessage());
         }
         if (companyTermsVO != null) {
-            LOG.info(" companyTermsVO is {}" , companyTermsVO);
+            LOG.info(" companyTermsVO is {}", companyTermsVO);
             companyTermsForm.setCurrentCompanyTermsVO(companyTermsVO);
         } else {
             companyTermsForm.setCurrentCompanyTermsVO(new CompanyTermsVO());
@@ -47,11 +52,16 @@ public class CompanyTermsController {
         return new ModelAndView("company/TermsList", "companyTermsForm", companyTermsForm);
     }
 
+    /**
+     * update company details
+     *
+     * @param companyTermsForm companyTermsForm
+     * @return view
+     */
     @PostMapping(value = "/company/updateCompanyDetails.htm")
     public ModelAndView updateCompanyDetails(CompanyTermsForm companyTermsForm) {
         LOG.info(" Inside editTerms method of CompanyTermsController ");
-        LOG.info(" form details are {}" , companyTermsForm);
-
+        LOG.info(" form details are {}", companyTermsForm);
         companyTermsForm.getCurrentCompanyTermsVO().setModifiedBy(companyTermsForm.getLoggedInUser());
         companyTermsForm.getCurrentCompanyTermsVO().setModifiedDate(new Date());
         CompanyTermsVO companyTermsVO = null;
@@ -61,16 +71,13 @@ public class CompanyTermsController {
             LOG.error(e.getLocalizedMessage());
         }
         if (companyTermsVO != null) {
-            LOG.info(" companyTermsVO is {}" , companyTermsVO);
+            LOG.info(" companyTermsVO is {}", companyTermsVO);
             companyTermsForm.setCurrentCompanyTermsVO(companyTermsVO);
         } else {
             companyTermsForm.setCurrentCompanyTermsVO(new CompanyTermsVO());
         }
-
         companyTermsForm.setLoggedInRole(companyTermsForm.getLoggedInRole());
         companyTermsForm.setLoggedInUser(companyTermsForm.getLoggedInUser());
         return new ModelAndView("company/TermsList", "companyTermsForm", companyTermsForm);
     }
-
-
 }

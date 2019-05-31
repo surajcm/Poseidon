@@ -37,6 +37,12 @@ public class InvoiceDAOImpl implements InvoiceDAO {
 
     private static final Logger log = LoggerFactory.getLogger(InvoiceDAOImpl.class);
 
+    /**
+     * add invoice
+     *
+     * @param currentInvoiceVO currentInvoiceVO
+     * @throws InvoiceException on error
+     */
     public void addInvoice(InvoiceVO currentInvoiceVO) throws InvoiceException {
         try {
             saveInvoice(currentInvoiceVO);
@@ -46,6 +52,13 @@ public class InvoiceDAOImpl implements InvoiceDAO {
         }
     }
 
+    /**
+     * fetch Invoice For List Of Transactions
+     *
+     * @param tagNumbers tagNumbers as list
+     * @return list of invoice vo
+     * @throws InvoiceException on error
+     */
     public List<InvoiceVO> fetchInvoiceForListOfTransactions(List<String> tagNumbers) throws InvoiceException {
         List<InvoiceVO> invoiceVOs;
         try {
@@ -58,6 +71,12 @@ public class InvoiceDAOImpl implements InvoiceDAO {
         return invoiceVOs;
     }
 
+    /**
+     * fetch invoice vo from id
+     *
+     * @param id of invoice vo
+     * @return invoice vo
+     */
     public InvoiceVO fetchInvoiceVOFromId(Long id) {
         Optional<Invoice> optionalInvoice = invoiceRepository.findById(id.intValue());
         InvoiceVO invoiceVO = null;
@@ -82,6 +101,12 @@ public class InvoiceDAOImpl implements InvoiceDAO {
         return invoiceVO;
     }
 
+    /**
+     * delete Invoice
+     *
+     * @param id of invoice
+     * @throws InvoiceException on error
+     */
     public void deleteInvoice(Long id) throws InvoiceException {
         try {
             invoiceRepository.deleteById(id.intValue());
@@ -91,6 +116,12 @@ public class InvoiceDAOImpl implements InvoiceDAO {
         }
     }
 
+    /**
+     * update an invoice
+     *
+     * @param currentInvoiceVO currentInvoiceVO
+     * @throws InvoiceException on error
+     */
     public void updateInvoice(InvoiceVO currentInvoiceVO) throws InvoiceException {
         try {
             Optional<Invoice> optionalInvoice = invoiceRepository.findById(currentInvoiceVO.getId().intValue());
@@ -114,6 +145,13 @@ public class InvoiceDAOImpl implements InvoiceDAO {
         }
     }
 
+    /**
+     * search for invoices
+     *
+     * @param searchInvoiceVO searchInvoiceVO
+     * @return list of invoice
+     * @throws InvoiceException on error
+     */
     public List<InvoiceVO> findInvoices(InvoiceVO searchInvoiceVO) throws InvoiceException {
         List<InvoiceVO> invoiceVOs;
         try {
@@ -132,47 +170,52 @@ public class InvoiceDAOImpl implements InvoiceDAO {
         criteria.select(invoiceRoot);
 
         if (searchInvoiceVO.getIncludes()) {
-            if(!StringUtils.isEmpty(searchInvoiceVO.getTagNo())) {
-                criteria.where(builder.like(invoiceRoot.get("tagno"), "%"+searchInvoiceVO.getTagNo()+"%"));
+            if (!StringUtils.isEmpty(searchInvoiceVO.getTagNo())) {
+                criteria.where(builder.like(invoiceRoot.get("tagno"),
+                        "%" + searchInvoiceVO.getTagNo() + "%"));
             }
-            if(!StringUtils.isEmpty(searchInvoiceVO.getSerialNo())) {
-                criteria.where(builder.like(invoiceRoot.get("serialno"), "%"+searchInvoiceVO.getSerialNo()+"%"));
+            if (!StringUtils.isEmpty(searchInvoiceVO.getSerialNo())) {
+                criteria.where(builder.like(invoiceRoot.get("serialno"),
+                        "%" + searchInvoiceVO.getSerialNo() + "%"));
             }
-            if(!StringUtils.isEmpty(searchInvoiceVO.getDescription())) {
-                criteria.where(builder.like(invoiceRoot.get("description"), "%"+searchInvoiceVO.getDescription()+"%"));
+            if (!StringUtils.isEmpty(searchInvoiceVO.getDescription())) {
+                criteria.where(builder.like(invoiceRoot.get("description"),
+                        "%" + searchInvoiceVO.getDescription() + "%"));
             }
-            if(searchInvoiceVO.getId() != null && searchInvoiceVO.getId() > 0) {
-                criteria.where(builder.like(invoiceRoot.get("id"), "%"+searchInvoiceVO.getId()+"%"));
+            if (searchInvoiceVO.getId() != null && searchInvoiceVO.getId() > 0) {
+                criteria.where(builder.like(invoiceRoot.get("id"), "%" + searchInvoiceVO.getId() + "%"));
             }
 
         } else if (searchInvoiceVO.getStartsWith()) {
-            if(!StringUtils.isEmpty(searchInvoiceVO.getTagNo())) {
-                criteria.where(builder.like(invoiceRoot.get("tagno"), searchInvoiceVO.getTagNo()+"%"));
+            if (!StringUtils.isEmpty(searchInvoiceVO.getTagNo())) {
+                criteria.where(builder.like(invoiceRoot.get("tagno"), searchInvoiceVO.getTagNo() + "%"));
             }
-            if(!StringUtils.isEmpty(searchInvoiceVO.getSerialNo())) {
-                criteria.where(builder.like(invoiceRoot.get("serialno"), searchInvoiceVO.getSerialNo()+"%"));
+            if (!StringUtils.isEmpty(searchInvoiceVO.getSerialNo())) {
+                criteria.where(builder.like(invoiceRoot.get("serialno"),
+                        searchInvoiceVO.getSerialNo() + "%"));
             }
-            if(!StringUtils.isEmpty(searchInvoiceVO.getDescription())) {
-                criteria.where(builder.like(invoiceRoot.get("description"), searchInvoiceVO.getDescription()+"%"));
+            if (!StringUtils.isEmpty(searchInvoiceVO.getDescription())) {
+                criteria.where(builder.like(invoiceRoot.get("description"),
+                        searchInvoiceVO.getDescription() + "%"));
             }
-            if(searchInvoiceVO.getId() != null && searchInvoiceVO.getId() > 0) {
-                criteria.where(builder.like(invoiceRoot.get("id"), searchInvoiceVO.getId()+"%"));
+            if (searchInvoiceVO.getId() != null && searchInvoiceVO.getId() > 0) {
+                criteria.where(builder.like(invoiceRoot.get("id"), searchInvoiceVO.getId() + "%"));
             }
         } else {
-            if(!StringUtils.isEmpty(searchInvoiceVO.getTagNo())) {
+            if (!StringUtils.isEmpty(searchInvoiceVO.getTagNo())) {
                 criteria.where(builder.like(invoiceRoot.get("tagno"), searchInvoiceVO.getTagNo()));
             }
-            if(!StringUtils.isEmpty(searchInvoiceVO.getSerialNo())) {
+            if (!StringUtils.isEmpty(searchInvoiceVO.getSerialNo())) {
                 criteria.where(builder.like(invoiceRoot.get("serialno"), searchInvoiceVO.getSerialNo()));
             }
-            if(!StringUtils.isEmpty(searchInvoiceVO.getDescription())) {
+            if (!StringUtils.isEmpty(searchInvoiceVO.getDescription())) {
                 criteria.where(builder.like(invoiceRoot.get("description"), searchInvoiceVO.getDescription()));
             }
-            if(searchInvoiceVO.getId() != null && searchInvoiceVO.getId() > 0) {
+            if (searchInvoiceVO.getId() != null && searchInvoiceVO.getId() > 0) {
                 criteria.where(builder.equal(invoiceRoot.get("id"), searchInvoiceVO.getId()));
             }
         }
-        if(searchInvoiceVO.getAmount() != null && searchInvoiceVO.getAmount() > 0) {
+        if (searchInvoiceVO.getAmount() != null && searchInvoiceVO.getAmount() > 0) {
             if (searchInvoiceVO.getGreater() && !searchInvoiceVO.getLesser()) {
                 criteria.where(builder.greaterThanOrEqualTo(invoiceRoot.get("amount"), searchInvoiceVO.getAmount()));
             } else if (searchInvoiceVO.getLesser() && !searchInvoiceVO.getGreater()) {

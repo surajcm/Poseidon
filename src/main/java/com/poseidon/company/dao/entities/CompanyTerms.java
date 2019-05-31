@@ -37,11 +37,11 @@ public class CompanyTerms {
     @Column(name = "companyWebsite")
     private String companyWebsite;
 
-    @Column(name = "vat_tin")
-    private String vat_tin;
+    @Column(name = "vatTin")
+    private String vatTin;
 
-    @Column(name = "cst_tin")
-    private String cst_tin;
+    @Column(name = "cstTin")
+    private String cstTin;
 
     @Column(name = "createdOn")
     private OffsetDateTime createdOn;
@@ -111,20 +111,20 @@ public class CompanyTerms {
         this.companyWebsite = companyWebsite;
     }
 
-    public String getVat_tin() {
-        return vat_tin;
+    public String getVatTin() {
+        return vatTin;
     }
 
-    public void setVat_tin(String vat_tin) {
-        this.vat_tin = vat_tin;
+    public void setVatTin(String vatTin) {
+        this.vatTin = vatTin;
     }
 
-    public String getCst_tin() {
-        return cst_tin;
+    public String getCstTin() {
+        return cstTin;
     }
 
-    public void setCst_tin(String cst_tin) {
-        this.cst_tin = cst_tin;
+    public void setCstTin(String cstTin) {
+        this.cstTin = cstTin;
     }
 
     public OffsetDateTime getCreatedOn() {
@@ -159,6 +159,9 @@ public class CompanyTerms {
         this.modifiedBy = modifiedBy;
     }
 
+    /**
+     * initialize / update date fields
+     */
     @PrePersist
     @PreUpdate
     public void initializeDate() {

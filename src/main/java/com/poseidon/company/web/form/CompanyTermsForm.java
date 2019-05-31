@@ -2,6 +2,8 @@ package com.poseidon.company.web.form;
 
 import com.poseidon.company.domain.CompanyTermsVO;
 
+import java.util.StringJoiner;
+
 /**
  * user: Suraj
  * Date: Jun 2, 2012
@@ -101,17 +103,17 @@ public class CompanyTermsForm {
 
     @Override
     public String toString() {
-        return "CompanyTermsForm{" +
-                "id=" + id +
-                ", companyName='" + companyName + '\'' +
-                ", companyAddress='" + companyAddress + '\'' +
-                ", companyPhoneNumber='" + companyPhoneNumber + '\'' +
-                ", companyWebsite='" + companyWebsite + '\'' +
-                ", companyEmail='" + companyEmail + '\'' +
-                ", companyTerms='" + companyTerms + '\'' +
-                ", currentCompanyTermsVO=" + currentCompanyTermsVO +
-                ", loggedInRole='" + loggedInRole + '\'' +
-                ", loggedInUser='" + loggedInUser + '\'' +
-                '}';
+        return new StringJoiner(", ", CompanyTermsForm.class.getSimpleName() + "[", "]")
+                .add("id=" + id)
+                .add("companyName='" + companyName + "'")
+                .add("companyAddress='" + companyAddress + "'")
+                .add("companyPhoneNumber='" + companyPhoneNumber + "'")
+                .add("companyWebsite='" + companyWebsite + "'")
+                .add("companyEmail='" + companyEmail + "'")
+                .add("companyTerms='" + companyTerms + "'")
+                .add("currentCompanyTermsVO=" + currentCompanyTermsVO)
+                .add("loggedInRole='" + loggedInRole + "'")
+                .add("loggedInUser='" + loggedInUser + "'")
+                .toString();
     }
 }

@@ -5,7 +5,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
 public class Poseidon {
-	public static void main(String[] args) {
-		SpringApplication.run(Poseidon.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(Poseidon.class, args);
+    }
 }

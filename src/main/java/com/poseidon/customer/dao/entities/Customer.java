@@ -193,6 +193,9 @@ public class Customer {
     }
 
 
+    /**
+     * initialize / update date fields
+     */
     @PrePersist
     @PreUpdate
     public void initializeDate() {

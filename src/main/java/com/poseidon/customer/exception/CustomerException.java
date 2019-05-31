@@ -5,23 +5,23 @@ package com.poseidon.customer.exception;
  * Date: Jun 2, 2012
  * Time: 10:46:40 PM
  */
-public class CustomerException extends Exception{
+public class CustomerException extends Exception {
     /**
      * exception type for all database related errors
      */
-    public static String DATABASE_ERROR = "DATABASE_ERROR";
+    public static final String DATABASE_ERROR = "DATABASE_ERROR";
 
-    public String ExceptionType;
+    private String exceptionType;
 
     public CustomerException(String exceptionType) {
-        this.ExceptionType = exceptionType;
+        this.exceptionType = exceptionType;
     }
 
     public String getExceptionType() {
-        return ExceptionType;
+        return exceptionType;
     }
 
     public void setExceptionType(String exceptionType) {
-        ExceptionType = exceptionType;
+        this.exceptionType = exceptionType;
     }
 }

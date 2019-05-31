@@ -1,6 +1,7 @@
 package com.poseidon.customer.domain;
 
 import java.util.Date;
+import java.util.StringJoiner;
 
 /**
  * user: Suraj
@@ -173,25 +174,25 @@ public class CustomerVO {
 
     @Override
     public String toString() {
-        return "CustomerVO{" +
-                "customerId=" + customerId +
-                ", customerName='" + customerName + '\'' +
-                ", address1='" + address1 + '\'' +
-                ", address2='" + address2 + '\'' +
-                ", phoneNo='" + phoneNo + '\'' +
-                ", mobile='" + mobile + '\'' +
-                ", email='" + email + '\'' +
-                ", contactPerson1='" + contactPerson1 + '\'' +
-                ", contactPerson2='" + contactPerson2 + '\'' +
-                ", contactMobile1='" + contactMobile1 + '\'' +
-                ", contactMobile2='" + contactMobile2 + '\'' +
-                ", notes='" + notes + '\'' +
-                ", startsWith=" + startsWith +
-                ", includes=" + includes +
-                ", createdOn=" + createdOn +
-                ", modifiedOn=" + modifiedOn +
-                ", createdBy='" + createdBy + '\'' +
-                ", modifiedBy='" + modifiedBy + '\'' +
-                '}';
+        return new StringJoiner(", ", CustomerVO.class.getSimpleName() + "[", "]")
+                .add("customerId=" + customerId)
+                .add("customerName='" + customerName + "'")
+                .add("address1='" + address1 + "'")
+                .add("address2='" + address2 + "'")
+                .add("phoneNo='" + phoneNo + "'")
+                .add("mobile='" + mobile + "'")
+                .add("email='" + email + "'")
+                .add("contactPerson1='" + contactPerson1 + "'")
+                .add("contactPerson2='" + contactPerson2 + "'")
+                .add("contactMobile1='" + contactMobile1 + "'")
+                .add("contactMobile2='" + contactMobile2 + "'")
+                .add("notes='" + notes + "'")
+                .add("startsWith=" + startsWith)
+                .add("includes=" + includes)
+                .add("createdOn=" + createdOn)
+                .add("modifiedOn=" + modifiedOn)
+                .add("createdBy='" + createdBy + "'")
+                .add("modifiedBy='" + modifiedBy + "'")
+                .toString();
     }
 }

@@ -38,6 +38,12 @@ public class CustomerDAOImpl implements CustomerDAO {
     @PersistenceContext
     private EntityManager em;
 
+    /**
+     * list all customer details
+     *
+     * @return list customer vo
+     * @throws CustomerException on error
+     */
     public List<CustomerVO> listAllCustomerDetails() throws CustomerException {
         List<CustomerVO> customerVOs;
         try {
@@ -48,6 +54,13 @@ public class CustomerDAOImpl implements CustomerDAO {
         return customerVOs;
     }
 
+    /**
+     * save customer
+     *
+     * @param currentCustomerVo currentCustomerVo
+     * @return long
+     * @throws CustomerException on error
+     */
     public long saveCustomer(CustomerVO currentCustomerVo) throws CustomerException {
         Long id;
         Customer customer = convertToSingleCustomer(currentCustomerVo);
@@ -61,6 +74,13 @@ public class CustomerDAOImpl implements CustomerDAO {
         return id;
     }
 
+    /**
+     * get customer from id
+     *
+     * @param id of customer
+     * @return customer vo
+     * @throws CustomerException on error
+     */
     public CustomerVO getCustomerFromId(Long id) throws CustomerException {
         CustomerVO customerVO;
         try {
@@ -92,6 +112,12 @@ public class CustomerDAOImpl implements CustomerDAO {
         return customerVO;
     }
 
+    /**
+     * delete customer from id
+     *
+     * @param id of customer
+     * @throws CustomerException on error
+     */
     public void deleteCustomerFromId(Long id) throws CustomerException {
         try {
             customerRepository.deleteById(id);
@@ -101,11 +127,16 @@ public class CustomerDAOImpl implements CustomerDAO {
         }
     }
 
+    /**
+     * update customer
+     *
+     * @param currentCustomerVo currentCustomerVo
+     * @throws CustomerException on error
+     */
     public void updateCustomer(CustomerVO currentCustomerVo) throws CustomerException {
         try {
             Optional<Customer> optionalCustomer = customerRepository.findById(
                     currentCustomerVo.getCustomerId());
-
             if (optionalCustomer.isPresent()) {
                 Customer customer = optionalCustomer.get();
                 customer.setName(currentCustomerVo.getCustomerName());
@@ -128,6 +159,13 @@ public class CustomerDAOImpl implements CustomerDAO {
         }
     }
 
+    /**
+     * search customer
+     *
+     * @param searchCustomerVo searchCustomerVo
+     * @return list of customer vo
+     * @throws CustomerException on error
+     */
     public List<CustomerVO> searchCustomer(CustomerVO searchCustomerVo) throws CustomerException {
         List<CustomerVO> customerVOs;
         try {
@@ -185,41 +223,38 @@ public class CustomerDAOImpl implements CustomerDAO {
         CriteriaQuery<Customer> criteria = builder.createQuery(Customer.class);
         Root<Customer> customerRoot = criteria.from(Customer.class);
         criteria.select(customerRoot);
-
-        if(searchVO.getIncludes()) {
-            if(searchVO.getCustomerId() != null && searchVO.getCustomerId() > 0) {
-                criteria.where(builder.like(customerRoot.get("id"), "%"+searchVO.getCustomerId()+"%"));
+        if (searchVO.getIncludes()) {
+            if (searchVO.getCustomerId() != null && searchVO.getCustomerId() > 0) {
+                criteria.where(builder.like(customerRoot.get("id"), "%" + searchVO.getCustomerId() + "%"));
             }
-            if(!StringUtils.isEmpty(searchVO.getCustomerName())) {
-                criteria.where(builder.like(customerRoot.get("name"), "%"+searchVO.getCustomerName()+"%"));
+            if (!StringUtils.isEmpty(searchVO.getCustomerName())) {
+                criteria.where(builder.like(customerRoot.get("name"), "%" + searchVO.getCustomerName() + "%"));
             }
-            if(!StringUtils.isEmpty(searchVO.getMobile())) {
-                criteria.where(builder.like(customerRoot.get("mobile"), "%"+searchVO.getMobile()+"%"));
+            if (!StringUtils.isEmpty(searchVO.getMobile())) {
+                criteria.where(builder.like(customerRoot.get("mobile"), "%" + searchVO.getMobile() + "%"));
             }
         } else if (searchVO.getStartsWith()) {
-            if(searchVO.getCustomerId() != null && searchVO.getCustomerId() > 0) {
-                criteria.where(builder.like(customerRoot.get("id"), searchVO.getCustomerId()+"%"));
+            if (searchVO.getCustomerId() != null && searchVO.getCustomerId() > 0) {
+                criteria.where(builder.like(customerRoot.get("id"), searchVO.getCustomerId() + "%"));
             }
-            if(!StringUtils.isEmpty(searchVO.getCustomerName())) {
-                criteria.where(builder.like(customerRoot.get("name"), searchVO.getCustomerName()+"%"));
+            if (!StringUtils.isEmpty(searchVO.getCustomerName())) {
+                criteria.where(builder.like(customerRoot.get("name"), searchVO.getCustomerName() + "%"));
             }
-            if(!StringUtils.isEmpty(searchVO.getMobile())) {
-                criteria.where(builder.like(customerRoot.get("mobile"), searchVO.getMobile()+"%"));
+            if (!StringUtils.isEmpty(searchVO.getMobile())) {
+                criteria.where(builder.like(customerRoot.get("mobile"), searchVO.getMobile() + "%"));
             }
         } else {
-            if(searchVO.getCustomerId() != null && searchVO.getCustomerId() > 0) {
+            if (searchVO.getCustomerId() != null && searchVO.getCustomerId() > 0) {
                 criteria.where(builder.equal(customerRoot.get("id"), searchVO.getCustomerId()));
             }
-            if(!StringUtils.isEmpty(searchVO.getCustomerName())) {
+            if (!StringUtils.isEmpty(searchVO.getCustomerName())) {
                 criteria.where(builder.equal(customerRoot.get("name"), searchVO.getCustomerName()));
             }
-            if(!StringUtils.isEmpty(searchVO.getMobile())) {
+            if (!StringUtils.isEmpty(searchVO.getMobile())) {
                 criteria.where(builder.equal(customerRoot.get("mobile"), searchVO.getMobile()));
             }
         }
-
         List<Customer> resultList = em.unwrap(Session.class).createQuery(criteria).getResultList();
-
         return convertToCustomerVO(resultList);
     }
 }

@@ -15,7 +15,7 @@ public interface InvoiceDAO {
 
     List<InvoiceVO> fetchInvoiceForListOfTransactions(List<String> tagNumbers) throws InvoiceException;
 
-    InvoiceVO fetchInvoiceVOFromId(Long id) throws InvoiceException ;
+    InvoiceVO fetchInvoiceVOFromId(Long id) throws InvoiceException;
 
     void deleteInvoice(Long id) throws InvoiceException;
 

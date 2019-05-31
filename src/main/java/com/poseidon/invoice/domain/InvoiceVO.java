@@ -1,6 +1,7 @@
 package com.poseidon.invoice.domain;
 
 import java.util.Date;
+import java.util.StringJoiner;
 
 /**
  * user: Suraj
@@ -130,25 +131,6 @@ public class InvoiceVO {
         this.lesser = lesser;
     }
 
-    @Override
-    public String toString() {
-        return "InvoiceVO{" +
-                "id=" + id +
-                ", tagNo='" + tagNo + '\'' +
-                ", customerId=" + customerId +
-                ", customerName='" + customerName + '\'' +
-                ", description='" + description + '\'' +
-                ", serialNo='" + serialNo + '\'' +
-                ", quantity=" + quantity +
-                ", rate=" + rate +
-                ", amount=" + amount +
-                ", startsWith=" + startsWith +
-                ", includes=" + includes +
-                ", greater=" + greater +
-                ", lesser=" + lesser +
-                '}';
-    }
-
     public Date getCreatedDate() {
         return createdDate;
     }
@@ -179,5 +161,28 @@ public class InvoiceVO {
 
     public void setModifiedBy(String modifiedBy) {
         this.modifiedBy = modifiedBy;
+    }
+
+    @Override
+    public String toString() {
+        return new StringJoiner(", ", InvoiceVO.class.getSimpleName() + "[", "]")
+                .add("id=" + id)
+                .add("tagNo='" + tagNo + "'")
+                .add("customerId=" + customerId)
+                .add("customerName='" + customerName + "'")
+                .add("description='" + description + "'")
+                .add("serialNo='" + serialNo + "'")
+                .add("quantity=" + quantity)
+                .add("rate=" + rate)
+                .add("amount=" + amount)
+                .add("startsWith=" + startsWith)
+                .add("includes=" + includes)
+                .add("greater=" + greater)
+                .add("lesser=" + lesser)
+                .add("createdDate=" + createdDate)
+                .add("modifiedDate=" + modifiedDate)
+                .add("createdBy='" + createdBy + "'")
+                .add("modifiedBy='" + modifiedBy + "'")
+                .toString();
     }
 }

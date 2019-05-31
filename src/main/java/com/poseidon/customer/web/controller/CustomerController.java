@@ -26,7 +26,8 @@ import java.util.List;
 public class CustomerController {
     private static final Logger LOG = LoggerFactory.getLogger(CustomerController.class);
     private static final String CUSTOMER_FORM = "customerForm";
-    private static final String AN_ERROR_OCCURRED_WHILE_FETCHING_DATA_FROM_DATABASE = " An error occurred while fetching data from database. !! ";
+    private static final String AN_ERROR_OCCURRED_WHILE_FETCHING_DATA_FROM_DATABASE =
+            " An error occurred while fetching data from database. !! ";
     private static final String UNKNOWN_ERROR_HAS_BEEN_OCCURRED = " An Unknown Error has been occurred !!";
     private static final String SUCCESS = "success";
     private static final String ERROR = "error";
@@ -36,15 +37,16 @@ public class CustomerController {
     @Autowired
     private CustomerService customerService;
 
-    public void setCustomerService(CustomerService customerService) {
-        this.customerService = customerService;
-    }
-
-
+    /**
+     * list the customers
+     *
+     * @param customerForm customerForm
+     * @return view
+     */
     @PostMapping(value = "/customer/List.htm")
     public ModelAndView list(CustomerForm customerForm) {
         LOG.info(" Inside list method of CustomerController ");
-        LOG.info(" form details are {}" , customerForm);
+        LOG.info(" form details are {}", customerForm);
         List<CustomerVO> customerVOs = null;
         try {
             customerVOs = customerService.listAllCustomerDetails();
@@ -61,26 +63,38 @@ public class CustomerController {
         return new ModelAndView("customer/CustomerList", CUSTOMER_FORM, customerForm);
     }
 
+    /**
+     * add a customer
+     *
+     * @param customerForm customerForm
+     * @return view
+     */
     @PostMapping(value = "/customer/addCust.htm")
     public ModelAndView addCustomer(CustomerForm customerForm) {
-        LOG.info(" addCustomer method of CustomerController {}" , customerForm);
+        LOG.info(" addCustomer method of CustomerController {}", customerForm);
         customerForm.setLoggedInUser(customerForm.getLoggedInUser());
         customerForm.setLoggedInRole(customerForm.getLoggedInRole());
         customerForm.setCurrentCustomerVO(new CustomerVO());
         return new ModelAndView("customer/AddCustomer", CUSTOMER_FORM, customerForm);
     }
 
+    /**
+     * edit a customer
+     *
+     * @param customerForm customerForm
+     * @return view
+     */
     @PostMapping(value = "/customer/editCust.htm")
     public ModelAndView editCustomer(CustomerForm customerForm) {
         LOG.info(" editCustomer method of CustomerController ");
-        LOG.info(" customerForm is {}" , customerForm);
-        LOG.info(" customerForm is {}" , customerForm.getCurrentCustomerVO());
+        LOG.info(" customerForm is {}", customerForm);
+        LOG.info(" customerForm is {}", customerForm.getCurrentCustomerVO());
         CustomerVO customerVO = null;
         try {
             customerVO = customerService.getCustomerFromId(customerForm.getId());
         } catch (CustomerException e) {
             LOG.error(e.getLocalizedMessage());
-            LOG.error(EXCEPTION_TYPE_IN_CONTROLLER, e.ExceptionType);
+            LOG.error(EXCEPTION_TYPE_IN_CONTROLLER, e.getExceptionType());
             if (e.getExceptionType().equalsIgnoreCase(CustomerException.DATABASE_ERROR)) {
                 LOG.info(AN_ERROR_OCCURRED_WHILE_FETCHING_DATA_FROM_DATABASE);
             } else {
@@ -93,7 +107,7 @@ public class CustomerController {
         if (customerVO == null) {
             LOG.error(" No details found for current makeVO !!");
         } else {
-            LOG.info(" customerVO details are {}" , customerVO);
+            LOG.info(" customerVO details are {}", customerVO);
         }
         customerForm.setCurrentCustomerVO(customerVO);
         customerForm.setLoggedInUser(customerForm.getLoggedInUser());
@@ -101,6 +115,31 @@ public class CustomerController {
         return new ModelAndView("customer/EditCustomer", CUSTOMER_FORM, customerForm);
     }
 
+    /**
+     * edit a customer
+     *
+     * @param transactionForm transactionForm
+     * @return view
+     */
+    @PostMapping(value = "/customer/editCustomer.htm")
+    public ModelAndView editCustomer(TransactionForm transactionForm) {
+        LOG.info(" editCustomer method of TransactionController ");
+        LOG.info("TransactionForm values are {}", transactionForm);
+        CustomerForm customerForm = new CustomerForm();
+        if (transactionForm.getCustomerVO() != null && transactionForm.getCustomerVO().getCustomerId() > 0) {
+            customerForm.setId(transactionForm.getCustomerVO().getCustomerId());
+            return editCustomer(customerForm);
+        } else {
+            return new ModelAndView("ErrorPage", "userForm", customerForm);
+        }
+    }
+
+    /**
+     * delete a customer
+     *
+     * @param customerForm customerForm
+     * @return view
+     */
     @PostMapping(value = "/customer/deleteCust.htm")
     public ModelAndView deleteCustomer(CustomerForm customerForm) {
         LOG.info(" deleteCustomer method of CustomerController ");
@@ -113,7 +152,7 @@ public class CustomerController {
             customerForm.setStatusMessage("Unable to delete the selected customer details due to a Data base error");
             customerForm.setStatusMessageType(ERROR);
             LOG.error(e.getLocalizedMessage());
-            LOG.error(EXCEPTION_TYPE_IN_CONTROLLER, e.ExceptionType);
+            LOG.error(EXCEPTION_TYPE_IN_CONTROLLER, e.getExceptionType());
             if (e.getExceptionType().equalsIgnoreCase(CustomerException.DATABASE_ERROR)) {
                 LOG.info(AN_ERROR_OCCURRED_WHILE_FETCHING_DATA_FROM_DATABASE);
             } else {
@@ -128,6 +167,12 @@ public class CustomerController {
         return list(customerForm);
     }
 
+    /**
+     * save the customer
+     *
+     * @param customerForm customerForm
+     * @return view
+     */
     @PostMapping(value = "/customer/saveCustomer.htm")
     public ModelAndView saveCustomer(CustomerForm customerForm) {
         LOG.info(" saveCustomer method of CustomerController ");
@@ -145,13 +190,12 @@ public class CustomerController {
             customerForm.setStatusMessage("Unable to add the new customer details due to a Data base error");
             customerForm.setStatusMessageType(ERROR);
             LOG.error(e.getLocalizedMessage());
-            LOG.error(EXCEPTION_TYPE_IN_CONTROLLER, e.ExceptionType);
+            LOG.error(EXCEPTION_TYPE_IN_CONTROLLER, e.getExceptionType());
             if (e.getExceptionType().equalsIgnoreCase(CustomerException.DATABASE_ERROR)) {
                 LOG.info(AN_ERROR_OCCURRED_WHILE_FETCHING_DATA_FROM_DATABASE);
             } else {
                 LOG.info(UNKNOWN_ERROR_HAS_BEEN_OCCURRED);
             }
-
         } catch (Exception e1) {
             customerForm.setStatusMessage("Unable to add the new customer details");
             customerForm.setStatusMessageType(ERROR);
@@ -161,6 +205,12 @@ public class CustomerController {
         return list(customerForm);
     }
 
+    /**
+     * update a customer
+     *
+     * @param customerForm customerForm
+     * @return view
+     */
     @PostMapping(value = "/customer/updateCustomer.htm")
     public ModelAndView updateCustomer(CustomerForm customerForm) {
         LOG.info(" updateCustomer method of CustomerController ");
@@ -176,13 +226,12 @@ public class CustomerController {
             customerForm.setStatusMessage("Unable to update the selected customer details due to a Data base error");
             customerForm.setStatusMessageType(ERROR);
             LOG.error(e.getLocalizedMessage());
-            LOG.error(EXCEPTION_TYPE_IN_CONTROLLER, e.ExceptionType);
+            LOG.error(EXCEPTION_TYPE_IN_CONTROLLER, e.getExceptionType());
             if (e.getExceptionType().equalsIgnoreCase(CustomerException.DATABASE_ERROR)) {
                 LOG.info(AN_ERROR_OCCURRED_WHILE_FETCHING_DATA_FROM_DATABASE);
             } else {
                 LOG.info(UNKNOWN_ERROR_HAS_BEEN_OCCURRED);
             }
-
         } catch (Exception e1) {
             customerForm.setStatusMessage("Unable to update the selected customer details");
             customerForm.setStatusMessageType(ERROR);
@@ -192,6 +241,12 @@ public class CustomerController {
         return list(customerForm);
     }
 
+    /**
+     * search customer
+     *
+     * @param customerForm customerForm
+     * @return view
+     */
     @PostMapping(value = "/customer/searchCustomer.htm")
     public ModelAndView searchCustomer(CustomerForm customerForm) {
         LOG.info(" searchCustomer method of CustomerController ");
@@ -205,7 +260,7 @@ public class CustomerController {
             customerForm.setStatusMessage("Unable to fetch customer details due to a Data base error");
             customerForm.setStatusMessageType(ERROR);
             LOG.error(e.getLocalizedMessage());
-            LOG.error(EXCEPTION_TYPE_IN_CONTROLLER, e.ExceptionType);
+            LOG.error(EXCEPTION_TYPE_IN_CONTROLLER, e.getExceptionType());
             if (e.getExceptionType().equalsIgnoreCase(CustomerException.DATABASE_ERROR)) {
                 LOG.info(AN_ERROR_OCCURRED_WHILE_FETCHING_DATA_FROM_DATABASE);
             } else {
@@ -224,20 +279,6 @@ public class CustomerController {
         customerForm.setLoggedInRole(customerForm.getLoggedInRole());
         customerForm.setLoggedInUser(customerForm.getLoggedInUser());
         return new ModelAndView("customer/CustomerList", CUSTOMER_FORM, customerForm);
-    }
-
-    @PostMapping(value = "/customer/editCustomer.htm")
-    public ModelAndView editCustomer(TransactionForm transactionForm) {
-        LOG.info(" editCustomer method of TransactionController ");
-        LOG.info("TransactionForm values are {}" , transactionForm);
-        CustomerForm customerForm = new CustomerForm();
-        if (transactionForm.getCustomerVO() != null && transactionForm.getCustomerVO().getCustomerId() > 0) {
-            customerForm.setId(transactionForm.getCustomerVO().getCustomerId());
-            return editCustomer(customerForm);
-        } else {
-            return new ModelAndView("ErrorPage", "userForm", customerForm);
-        }
-
     }
 
 }

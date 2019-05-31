@@ -31,6 +31,12 @@ public class InvoiceServiceImpl implements InvoiceService {
     @Autowired
     private TransactionService transactionService;
 
+    /**
+     * add invoice
+     *
+     * @param currentInvoiceVO currentInvoiceVO
+     * @throws InvoiceException on error
+     */
     public void addInvoice(InvoiceVO currentInvoiceVO) throws InvoiceException {
         TransactionReportVO transactionReportVO = null;
         try {
@@ -49,6 +55,12 @@ public class InvoiceServiceImpl implements InvoiceService {
         }
     }
 
+    /**
+     * fetch Invoice For List Of Transactions
+     *
+     * @return list of invoice vo
+     * @throws InvoiceException on error
+     */
     public List<InvoiceVO> fetchInvoiceForListOfTransactions() throws InvoiceException {
         List<TransactionVO> transactionVOs = null;
         List<InvoiceVO> invoiceVOs = null;
@@ -57,7 +69,7 @@ public class InvoiceServiceImpl implements InvoiceService {
         } catch (TransactionException e) {
             e.printStackTrace();
         }
-        if(transactionVOs != null) {
+        if (transactionVOs != null) {
             List<String> tagNumbers = fetchTagNoFromListOfTransactionVOs(transactionVOs);
             try {
                 invoiceVOs = invoiceDAO.fetchInvoiceForListOfTransactions(tagNumbers);
@@ -71,13 +83,20 @@ public class InvoiceServiceImpl implements InvoiceService {
 
     private List<String> fetchTagNoFromListOfTransactionVOs(List<TransactionVO> transactionVOs) {
         List<String> tagNumbers = new ArrayList<>();
-        for(TransactionVO transactionVO:transactionVOs){
+        for (TransactionVO transactionVO : transactionVOs) {
             tagNumbers.add(transactionVO.getTagNo());
         }
         return tagNumbers;
     }
 
 
+    /**
+     * fetch InvoiceVO From Id
+     *
+     * @param id id
+     * @return InvoiceVO
+     * @throws InvoiceException on error
+     */
     public InvoiceVO fetchInvoiceVOFromId(Long id) throws InvoiceException {
         InvoiceVO invoiceVO;
         try {
@@ -89,6 +108,12 @@ public class InvoiceServiceImpl implements InvoiceService {
         return invoiceVO;
     }
 
+    /**
+     * delete Invoice
+     *
+     * @param id id
+     * @throws InvoiceException on error
+     */
     public void deleteInvoice(Long id) throws InvoiceException {
         try {
             invoiceDAO.deleteInvoice(id);
@@ -98,6 +123,12 @@ public class InvoiceServiceImpl implements InvoiceService {
         }
     }
 
+    /**
+     * update Invoice
+     *
+     * @param currentInvoiceVO currentInvoiceVO
+     * @throws InvoiceException on error
+     */
     public void updateInvoice(InvoiceVO currentInvoiceVO) throws InvoiceException {
         TransactionReportVO transactionReportVo = null;
         try {

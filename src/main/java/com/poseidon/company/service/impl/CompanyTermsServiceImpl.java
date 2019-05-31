@@ -22,8 +22,13 @@ public class CompanyTermsServiceImpl implements CompanyTermsService {
     @Autowired
     private CompanyTermsDAO companyTermsDAO;
 
+    /**
+     * list company terms
+     *
+     * @return CompanyTermsVO
+     */
     public CompanyTermsVO listCompanyTerms() {
-        CompanyTermsVO companyTermsVO= null;
+        CompanyTermsVO companyTermsVO = null;
         try {
             companyTermsVO = companyTermsDAO.listCompanyTerms();
         } catch (CompanyTermsException e) {
@@ -32,6 +37,12 @@ public class CompanyTermsServiceImpl implements CompanyTermsService {
         return companyTermsVO;
     }
 
+    /**
+     * update company details
+     *
+     * @param companyTermsVO companyTermsVO
+     * @return company terms vo
+     */
     public CompanyTermsVO updateCompanyDetails(CompanyTermsVO companyTermsVO) {
         CompanyTermsVO termsVO = null;
         try {

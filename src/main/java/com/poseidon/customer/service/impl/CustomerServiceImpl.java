@@ -23,6 +23,11 @@ public class CustomerServiceImpl implements CustomerService {
     @Autowired
     private CustomerDAO customerDAO;
 
+    /**
+     * list all customer details
+     *
+     * @return list of customer vo
+     */
     public List<CustomerVO> listAllCustomerDetails() {
         List<CustomerVO> customerVOs = null;
         try {
@@ -33,6 +38,12 @@ public class CustomerServiceImpl implements CustomerService {
         return customerVOs;
     }
 
+    /**
+     * save a customer
+     *
+     * @param currentCustomerVO currentCustomerVO
+     * @return view
+     */
     public long saveCustomer(CustomerVO currentCustomerVO) {
         long customerId = 0L;
         try {
@@ -43,6 +54,12 @@ public class CustomerServiceImpl implements CustomerService {
         return customerId;
     }
 
+    /**
+     * get customer from id
+     *
+     * @param id of customer
+     * @return customer vo
+     */
     public CustomerVO getCustomerFromId(Long id) {
         CustomerVO customerVO = null;
         try {
@@ -53,6 +70,11 @@ public class CustomerServiceImpl implements CustomerService {
         return customerVO;
     }
 
+    /**
+     * delete customer with id
+     *
+     * @param id of customer to be deleted
+     */
     public void deleteCustomerFromId(Long id) {
         try {
             customerDAO.deleteCustomerFromId(id);
@@ -61,6 +83,11 @@ public class CustomerServiceImpl implements CustomerService {
         }
     }
 
+    /**
+     * update customer
+     *
+     * @param currentCustomerVO currentCustomerVO
+     */
     public void updateCustomer(CustomerVO currentCustomerVO) {
         try {
             customerDAO.updateCustomer(currentCustomerVO);
@@ -69,6 +96,12 @@ public class CustomerServiceImpl implements CustomerService {
         }
     }
 
+    /**
+     * search customer
+     *
+     * @param searchCustomerVO searchCustomerVO
+     * @return list of customer vo
+     */
     public List<CustomerVO> searchCustomer(CustomerVO searchCustomerVO) {
         List<CustomerVO> customerVOs = null;
         try {
