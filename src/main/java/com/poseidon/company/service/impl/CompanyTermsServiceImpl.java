@@ -27,6 +27,7 @@ public class CompanyTermsServiceImpl implements CompanyTermsService {
      *
      * @return CompanyTermsVO
      */
+    @Override
     public CompanyTermsVO listCompanyTerms() {
         CompanyTermsVO companyTermsVO = null;
         try {
@@ -43,6 +44,7 @@ public class CompanyTermsServiceImpl implements CompanyTermsService {
      * @param companyTermsVO companyTermsVO
      * @return company terms vo
      */
+    @Override
     public CompanyTermsVO updateCompanyDetails(CompanyTermsVO companyTermsVO) {
         CompanyTermsVO termsVO = null;
         try {

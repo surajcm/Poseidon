@@ -34,6 +34,7 @@ public class CompanyTermsDAOImpl implements CompanyTermsDAO {
      * @return CompanyTermsVO
      * @throws CompanyTermsException on error
      */
+    @Override
     public CompanyTermsVO listCompanyTerms() throws CompanyTermsException {
         CompanyTermsVO companyTermsVO = null;
         try {
@@ -68,6 +69,7 @@ public class CompanyTermsDAOImpl implements CompanyTermsDAO {
      * @return CompanyTermsVO
      * @throws CompanyTermsException on error
      */
+    @Override
     public CompanyTermsVO updateCompanyDetails(CompanyTermsVO companyTermsVO) throws CompanyTermsException {
         CompanyTermsVO termsVO = null;
         try {

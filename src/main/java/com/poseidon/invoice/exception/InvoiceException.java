@@ -14,6 +14,7 @@ public class InvoiceException extends Exception {
     private String exceptionType;
 
     public InvoiceException(String exceptionType) {
+        super();
         this.exceptionType = exceptionType;
     }
 
