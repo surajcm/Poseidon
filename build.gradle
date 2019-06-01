@@ -41,10 +41,9 @@ dependencies {
     compile("org.springframework.boot:spring-boot-devtools")
     compile("org.springframework.boot:spring-boot-starter-actuator")
 
-    compile group: 'javax.xml.bind', name: 'jaxb-api', version: '2.3.1'
-
-    compile group: 'org.apache.commons', name: 'commons-collections4', version: '4.2'
-    compile group: 'org.slf4j', name:'jcl-over-slf4j', version: '1.7.25'
+    compile('javax.xml.bind:jaxb-api:2.3.1')
+    compile('org.apache.commons:commons-collections4:4.2')
+    compile('org.slf4j:jcl-over-slf4j:1.7.25')
 
     compile('org.hsqldb:hsqldb:2.4.1')
     compile('org.apache.tomcat.embed:tomcat-embed-jasper')
@@ -54,4 +53,6 @@ dependencies {
 
     testCompile('org.springframework.boot:spring-boot-starter-test')
     testCompile("junit:junit")
+    testCompile('org.powermock:powermock-mockito-release-full:1.6.4')
+    testCompile('org.powermock:powermock-api-mockito2:1.7.0')
 }

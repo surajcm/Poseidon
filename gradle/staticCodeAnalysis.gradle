@@ -10,6 +10,7 @@ buildscript {
 apply plugin: 'checkstyle'
 //apply plugin: 'findbugs'
 apply plugin: 'pmd'
+apply plugin: 'jacoco'
 //apply plugin: de.aaschmid.gradle.plugins.cpd.CpdPlugin
 
 checkstyle {
@@ -29,7 +30,11 @@ pmd {
     ignoreFailures = false
     ruleSetFiles = files("${rootGradleDir}/static-code-analysis/pmd/ruleset.xml")
     ruleSets = []
-    rulePriority = 3
+    rulePriority = 2
+}
+
+jacoco {
+    toolVersion = "0.8.3+"
 }
 
 tasks.withType(Checkstyle) {

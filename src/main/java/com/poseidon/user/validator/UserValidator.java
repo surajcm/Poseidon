@@ -15,7 +15,7 @@ public class UserValidator implements Validator {
     /**
      * logger for validator.
      */
-    private final Logger logger = LoggerFactory.getLogger(UserValidator.class);
+    private static final Logger logger = LoggerFactory.getLogger(UserValidator.class);
 
     /**
      * default method overridden for matching the POJO.
