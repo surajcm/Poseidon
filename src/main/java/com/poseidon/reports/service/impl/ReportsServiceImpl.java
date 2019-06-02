@@ -50,6 +50,7 @@ public class ReportsServiceImpl implements ReportsService {
      *
      * @return list of reports
      */
+    @Override
     public List<ReportsVO> generateDailyReport() {
         List<ReportsVO> reportsVOs = null;
         try {
@@ -67,6 +68,7 @@ public class ReportsServiceImpl implements ReportsService {
      * @param currentReport currentReport
      * @return JasperPrint
      */
+    @Override
     public JasperPrint getMakeDetailsChart(JasperReport jasperReport, ReportsVO currentReport) {
         currentReport.setMakeVOList(makeService.fetchMakes());
         JasperPrint jasperPrint = new JasperPrint();
@@ -85,6 +87,7 @@ public class ReportsServiceImpl implements ReportsService {
      * @param currentReport currentReport
      * @return JasperPrint
      */
+    @Override
     public JasperPrint getCallReport(JasperReport jasperReport,
                                      ReportsVO currentReport) {
         CompanyTermsVO companyTermsVO = companyTermsService.listCompanyTerms();
@@ -92,7 +95,7 @@ public class ReportsServiceImpl implements ReportsService {
         try {
             transactionVO = transactionService.fetchTransactionFromTag(currentReport.getTagNo());
         } catch (TransactionException e) {
-            e.printStackTrace();
+            LOG.error(e.getLocalizedMessage());
         }
         currentReport.setTransactionReportVO(transactionVO);
         JasperPrint jasperPrint = new JasperPrint();
@@ -114,13 +117,14 @@ public class ReportsServiceImpl implements ReportsService {
      * @param searchTransaction searchTransaction
      * @return JasperPrint
      */
+    @Override
     public JasperPrint getTransactionsListReport(JasperReport jasperReport,
                                                  ReportsVO currentReport,
                                                  TransactionVO searchTransaction) {
         try {
             currentReport.setTransactionsList(transactionService.searchTransactions(searchTransaction));
         } catch (TransactionException e) {
-            e.printStackTrace();
+            LOG.error(e.getLocalizedMessage());
         }
         JasperPrint jasperPrint = new JasperPrint();
         try {
@@ -139,6 +143,7 @@ public class ReportsServiceImpl implements ReportsService {
      * @param searchMakeAndModelVO searchMakeAndModelVO
      * @return JasperPrint
      */
+    @Override
     public JasperPrint getModelListReport(JasperReport jasperReport,
                                           ReportsVO currentReport,
                                           MakeAndModelVO searchMakeAndModelVO) {
@@ -159,6 +164,7 @@ public class ReportsServiceImpl implements ReportsService {
      * @param currentReport currentReport
      * @return JasperPrint
      */
+    @Override
     public JasperPrint getErrorReport(JasperReport jasperReport, ReportsVO currentReport) {
         JasperPrint jasperPrint = new JasperPrint();
         try {
@@ -176,6 +182,7 @@ public class ReportsServiceImpl implements ReportsService {
      * @param currentReport currentReport
      * @return JasperPrint
      */
+    @Override
     public JasperPrint getInvoiceReport(JasperReport jasperReport, ReportsVO currentReport) {
         try {
             InvoiceReportVO invoiceReportVO = new InvoiceReportVO();
@@ -215,7 +222,7 @@ public class ReportsServiceImpl implements ReportsService {
             }
             currentReport.setInvoiceReportVO(invoiceReportVO);
         } catch (TransactionException | InvoiceException e) {
-            e.printStackTrace();
+            LOG.error(e.getLocalizedMessage());
         }
         JasperPrint jasperPrint = new JasperPrint();
         try {

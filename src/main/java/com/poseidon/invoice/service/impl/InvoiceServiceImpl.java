@@ -37,12 +37,13 @@ public class InvoiceServiceImpl implements InvoiceService {
      * @param currentInvoiceVO currentInvoiceVO
      * @throws InvoiceException on error
      */
+    @Override
     public void addInvoice(InvoiceVO currentInvoiceVO) throws InvoiceException {
         TransactionReportVO transactionReportVO = null;
         try {
             transactionReportVO = transactionService.fetchTransactionFromTag(currentInvoiceVO.getTagNo());
         } catch (TransactionException e) {
-            e.printStackTrace();
+            LOG.error(e.getLocalizedMessage());
         }
         currentInvoiceVO.setCustomerId(transactionReportVO.getCustomerId());
         currentInvoiceVO.setCustomerName(transactionReportVO.getCustomerName());
@@ -61,13 +62,14 @@ public class InvoiceServiceImpl implements InvoiceService {
      * @return list of invoice vo
      * @throws InvoiceException on error
      */
+    @Override
     public List<InvoiceVO> fetchInvoiceForListOfTransactions() throws InvoiceException {
         List<TransactionVO> transactionVOs = null;
         List<InvoiceVO> invoiceVOs = null;
         try {
             transactionVOs = transactionService.listTodaysTransactions();
         } catch (TransactionException e) {
-            e.printStackTrace();
+            LOG.error(e.getLocalizedMessage());
         }
         if (transactionVOs != null) {
             List<String> tagNumbers = fetchTagNoFromListOfTransactionVOs(transactionVOs);
@@ -97,6 +99,7 @@ public class InvoiceServiceImpl implements InvoiceService {
      * @return InvoiceVO
      * @throws InvoiceException on error
      */
+    @Override
     public InvoiceVO fetchInvoiceVOFromId(Long id) throws InvoiceException {
         InvoiceVO invoiceVO;
         try {
@@ -114,6 +117,7 @@ public class InvoiceServiceImpl implements InvoiceService {
      * @param id id
      * @throws InvoiceException on error
      */
+    @Override
     public void deleteInvoice(Long id) throws InvoiceException {
         try {
             invoiceDAO.deleteInvoice(id);
@@ -129,12 +133,13 @@ public class InvoiceServiceImpl implements InvoiceService {
      * @param currentInvoiceVO currentInvoiceVO
      * @throws InvoiceException on error
      */
+    @Override
     public void updateInvoice(InvoiceVO currentInvoiceVO) throws InvoiceException {
         TransactionReportVO transactionReportVo = null;
         try {
             transactionReportVo = transactionService.fetchTransactionFromTag(currentInvoiceVO.getTagNo());
         } catch (TransactionException e) {
-            e.printStackTrace();
+            LOG.error(e.getLocalizedMessage());
         }
         currentInvoiceVO.setCustomerId(transactionReportVo.getCustomerId());
         currentInvoiceVO.setCustomerName(transactionReportVo.getCustomerName());
@@ -154,6 +159,7 @@ public class InvoiceServiceImpl implements InvoiceService {
      * @return List of InvoiceVO
      * @throws InvoiceException on error
      */
+    @Override
     public List<InvoiceVO> findInvoices(InvoiceVO searchInvoiceVo) throws InvoiceException {
         List<InvoiceVO> invoiceVOs;
         try {

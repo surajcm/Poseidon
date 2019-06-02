@@ -10,6 +10,7 @@ import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 import java.time.OffsetDateTime;
+import java.time.ZoneId;
 import java.util.List;
 
 @Entity
@@ -113,8 +114,8 @@ public class Make {
     @PreUpdate
     public void initializeDate() {
         if (this.makeId == null) {
-            createdOn = OffsetDateTime.now();
+            createdOn = OffsetDateTime.now(ZoneId.systemDefault());
         }
-        modifiedOn = OffsetDateTime.now();
+        modifiedOn = OffsetDateTime.now(ZoneId.systemDefault());
     }
 }

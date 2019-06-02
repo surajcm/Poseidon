@@ -43,6 +43,7 @@ public class MakeDaoImpl implements MakeDao {
      * @return list of make and model vos
      * @throws MakeException on error
      */
+    @Override
     public List<MakeAndModelVO> listAllMakesAndModels() throws MakeException {
         List<MakeAndModelVO> makeAndModelVOS;
         try {
@@ -62,6 +63,7 @@ public class MakeDaoImpl implements MakeDao {
      * @return list of make and model vo
      * @throws MakeException on error
      */
+    @Override
     public List<MakeAndModelVO> listAllMakes() throws MakeException {
         List<MakeAndModelVO> makeVOs;
         try {
@@ -80,6 +82,7 @@ public class MakeDaoImpl implements MakeDao {
      * @param currentMakeVo currentMakeVo
      * @throws MakeException on error
      */
+    @Override
     public void addNewMake(MakeAndModelVO currentMakeVo) throws MakeException {
         try {
             Make make = makeAndModelEntityConverter.convertToMake(currentMakeVo);
@@ -96,6 +99,7 @@ public class MakeDaoImpl implements MakeDao {
      * @param currentMakeVo currentMakeVo
      * @throws MakeException on error
      */
+    @Override
     public void updateMake(MakeAndModelVO currentMakeVo) throws MakeException {
         try {
             Make make = makeAndModelEntityConverter.convertToMake(currentMakeVo);
@@ -120,6 +124,7 @@ public class MakeDaoImpl implements MakeDao {
      * @return make and model vo
      * @throws MakeException on error
      */
+    @Override
     public MakeAndModelVO getMakeFromId(Long makeId) throws MakeException {
         MakeAndModelVO makeVO = null;
         try {
@@ -140,6 +145,7 @@ public class MakeDaoImpl implements MakeDao {
      * @param makeId makeId
      * @throws MakeException on error
      */
+    @Override
     public void deleteMake(Long makeId) throws MakeException {
         try {
             makeRepository.deleteById(makeId);
@@ -155,6 +161,7 @@ public class MakeDaoImpl implements MakeDao {
      * @param modelId modelId
      * @return make and model vo
      */
+    @Override
     public MakeAndModelVO getModelFromId(Long modelId) {
         MakeAndModelVO makeAndModelVO = null;
         Optional<Model> optionalModel = modelRepository.findById(modelId);
@@ -179,6 +186,7 @@ public class MakeDaoImpl implements MakeDao {
      * @param modelId id of model to be deleted
      * @throws MakeException on error
      */
+    @Override
     public void deleteModel(Long modelId) throws MakeException {
         try {
             modelRepository.deleteById(modelId);
@@ -194,6 +202,7 @@ public class MakeDaoImpl implements MakeDao {
      * @param currentMakeVo currentMakeVo
      * @throws MakeException on error
      */
+    @Override
     public void addNewModel(MakeAndModelVO currentMakeVo) throws MakeException {
         try {
             Model model = convertMakeAndModelVOToModel(currentMakeVo);
@@ -223,6 +232,7 @@ public class MakeDaoImpl implements MakeDao {
      * @param currentMakeVO currentMakeVO
      * @throws MakeException on error
      */
+    @Override
     public void updateModel(MakeAndModelVO currentMakeVO) throws MakeException {
         try {
             Optional<Model> optionalModel = modelRepository.findById(currentMakeVO.getId());
@@ -246,6 +256,7 @@ public class MakeDaoImpl implements MakeDao {
      * @return list of make and model vos
      * @throws MakeException on error
      */
+    @Override
     public List<MakeAndModelVO> searchMakeVOs(MakeAndModelVO searchMakeVo) throws MakeException {
         List<MakeAndModelVO> makeVOs;
         try {
@@ -263,6 +274,7 @@ public class MakeDaoImpl implements MakeDao {
      * @return list of make vos
      * @throws MakeException on error
      */
+    @Override
     public List<MakeVO> fetchMakes() throws MakeException {
         List<MakeVO> makeVOs;
         try {
@@ -282,6 +294,7 @@ public class MakeDaoImpl implements MakeDao {
      * @return list of make and model vo
      * @throws MakeException on error
      */
+    @Override
     public List<MakeAndModelVO> getAllModelsFromMakeId(Long makeId) throws MakeException {
         List<MakeAndModelVO> makeVOs = new ArrayList<>();
         try {

@@ -28,6 +28,7 @@ public class CustomerServiceImpl implements CustomerService {
      *
      * @return list of customer vo
      */
+    @Override
     public List<CustomerVO> listAllCustomerDetails() {
         List<CustomerVO> customerVOs = null;
         try {
@@ -44,6 +45,7 @@ public class CustomerServiceImpl implements CustomerService {
      * @param currentCustomerVO currentCustomerVO
      * @return view
      */
+    @Override
     public long saveCustomer(CustomerVO currentCustomerVO) {
         long customerId = 0L;
         try {
@@ -60,6 +62,7 @@ public class CustomerServiceImpl implements CustomerService {
      * @param id of customer
      * @return customer vo
      */
+    @Override
     public CustomerVO getCustomerFromId(Long id) {
         CustomerVO customerVO = null;
         try {
@@ -75,6 +78,7 @@ public class CustomerServiceImpl implements CustomerService {
      *
      * @param id of customer to be deleted
      */
+    @Override
     public void deleteCustomerFromId(Long id) {
         try {
             customerDAO.deleteCustomerFromId(id);
@@ -88,6 +92,7 @@ public class CustomerServiceImpl implements CustomerService {
      *
      * @param currentCustomerVO currentCustomerVO
      */
+    @Override
     public void updateCustomer(CustomerVO currentCustomerVO) {
         try {
             customerDAO.updateCustomer(currentCustomerVO);
@@ -102,6 +107,7 @@ public class CustomerServiceImpl implements CustomerService {
      * @param searchCustomerVO searchCustomerVO
      * @return list of customer vo
      */
+    @Override
     public List<CustomerVO> searchCustomer(CustomerVO searchCustomerVO) {
         List<CustomerVO> customerVOs = null;
         try {

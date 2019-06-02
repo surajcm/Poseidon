@@ -57,6 +57,7 @@ public class TransactionDAOImpl implements TransactionDAO {
     /**
      * list todays transactions
      */
+    @Override
     public List<TransactionVO> listTodaysTransactions() {
         List<Transaction> transactions = transactionRepository.todaysTransaction();
         return transactions.stream().map(this::convertToVO).collect(Collectors.toList());
@@ -68,6 +69,7 @@ public class TransactionDAOImpl implements TransactionDAO {
      * @param currentTransaction transaction
      * @return tag number
      */
+    @Override
     public String saveTransaction(TransactionVO currentTransaction) {
         Transaction txn = getTransaction(currentTransaction);
         Transaction newTxn = transactionRepository.save(txn);
@@ -106,6 +108,7 @@ public class TransactionDAOImpl implements TransactionDAO {
      * @return list of matching transcations
      * @throws TransactionException on error
      */
+    @Override
     public List<TransactionVO> searchTransactions(TransactionVO searchTransaction) throws TransactionException {
         List<TransactionVO> transactionVOList;
         try {
@@ -123,6 +126,7 @@ public class TransactionDAOImpl implements TransactionDAO {
      * @param id id of the transaction
      * @return transaction
      */
+    @Override
     public TransactionVO fetchTransactionFromId(Long id) {
         TransactionVO transactionVO = null;
         Optional<Transaction> optionalTransaction = transactionRepository.findById(id);
@@ -164,6 +168,7 @@ public class TransactionDAOImpl implements TransactionDAO {
      *
      * @param currentTransaction transaction
      */
+    @Override
     public void updateTransaction(TransactionVO currentTransaction) {
         Optional<Transaction> optionalTransaction = transactionRepository.findById(currentTransaction.getId());
         if (optionalTransaction.isPresent()) {
@@ -195,6 +200,7 @@ public class TransactionDAOImpl implements TransactionDAO {
      *
      * @param id id of transaction
      */
+    @Override
     public void deleteTransaction(Long id) {
         transactionRepository.deleteById(id);
     }
@@ -205,6 +211,7 @@ public class TransactionDAOImpl implements TransactionDAO {
      * @param tagNo tag
      * @return transaction for reporting
      */
+    @Override
     public TransactionReportVO fetchTransactionFromTag(String tagNo) {
         Transaction transaction = transactionRepository.findBytagno(tagNo);
         return convertToTransactionReportVO(transaction);

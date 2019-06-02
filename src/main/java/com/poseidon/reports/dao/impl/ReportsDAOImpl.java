@@ -32,6 +32,7 @@ public class ReportsDAOImpl implements ReportsDAO {
      * @return list of reports vo
      * @throws ReportsException on error
      */
+    @Override
     public List<ReportsVO> generateDailyReport() throws ReportsException {
         return null;
     }
@@ -44,6 +45,7 @@ public class ReportsDAOImpl implements ReportsDAO {
      * @return JasperPrint
      * @throws JRException on error
      */
+    @Override
     public JasperPrint getMakeDetailsChart(JasperReport jasperReport, ReportsVO currentReport) throws JRException {
         JasperPrint jasperPrint;
         Map<String, Object> params = new HashMap<>();
@@ -61,6 +63,7 @@ public class ReportsDAOImpl implements ReportsDAO {
      * @return JasperPrint
      * @throws JRException on error
      */
+    @Override
     public JasperPrint getCallReport(JasperReport jasperReport,
                                      ReportsVO currentReport,
                                      CompanyTermsVO companyTermsVO) throws JRException {
@@ -88,6 +91,7 @@ public class ReportsDAOImpl implements ReportsDAO {
      * @return JasperPrint
      * @throws JRException on error
      */
+    @Override
     public JasperPrint getTransactionsListReport(JasperReport jasperReport,
                                                  ReportsVO currentReport) throws JRException {
         JasperPrint jasperPrint;
@@ -105,6 +109,7 @@ public class ReportsDAOImpl implements ReportsDAO {
      * @return JasperPrint
      * @throws JRException on error
      */
+    @Override
     public JasperPrint getModelListReport(JasperReport jasperReport, ReportsVO currentReport) throws JRException {
         JasperPrint jasperPrint;
         Map<String, Object> params = new HashMap<>();
@@ -121,6 +126,7 @@ public class ReportsDAOImpl implements ReportsDAO {
      * @return JasperPrint
      * @throws JRException on error
      */
+    @Override
     public JasperPrint getErrorReport(JasperReport jasperReport, ReportsVO currentReport) throws JRException {
         JasperPrint jasperPrint;
         Map<String, Object> params = new HashMap<>();

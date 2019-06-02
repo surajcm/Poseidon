@@ -43,6 +43,7 @@ public class InvoiceDAOImpl implements InvoiceDAO {
      * @param currentInvoiceVO currentInvoiceVO
      * @throws InvoiceException on error
      */
+    @Override
     public void addInvoice(InvoiceVO currentInvoiceVO) throws InvoiceException {
         try {
             saveInvoice(currentInvoiceVO);
@@ -59,6 +60,7 @@ public class InvoiceDAOImpl implements InvoiceDAO {
      * @return list of invoice vo
      * @throws InvoiceException on error
      */
+    @Override
     public List<InvoiceVO> fetchInvoiceForListOfTransactions(List<String> tagNumbers) throws InvoiceException {
         List<InvoiceVO> invoiceVOs;
         try {
@@ -77,6 +79,7 @@ public class InvoiceDAOImpl implements InvoiceDAO {
      * @param id of invoice vo
      * @return invoice vo
      */
+    @Override
     public InvoiceVO fetchInvoiceVOFromId(Long id) {
         Optional<Invoice> optionalInvoice = invoiceRepository.findById(id.intValue());
         InvoiceVO invoiceVO = null;
@@ -107,6 +110,7 @@ public class InvoiceDAOImpl implements InvoiceDAO {
      * @param id of invoice
      * @throws InvoiceException on error
      */
+    @Override
     public void deleteInvoice(Long id) throws InvoiceException {
         try {
             invoiceRepository.deleteById(id.intValue());
@@ -122,6 +126,7 @@ public class InvoiceDAOImpl implements InvoiceDAO {
      * @param currentInvoiceVO currentInvoiceVO
      * @throws InvoiceException on error
      */
+    @Override
     public void updateInvoice(InvoiceVO currentInvoiceVO) throws InvoiceException {
         try {
             Optional<Invoice> optionalInvoice = invoiceRepository.findById(currentInvoiceVO.getId().intValue());
@@ -152,6 +157,7 @@ public class InvoiceDAOImpl implements InvoiceDAO {
      * @return list of invoice
      * @throws InvoiceException on error
      */
+    @Override
     public List<InvoiceVO> findInvoices(InvoiceVO searchInvoiceVO) throws InvoiceException {
         List<InvoiceVO> invoiceVOs;
         try {

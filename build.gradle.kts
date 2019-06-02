@@ -19,6 +19,7 @@ plugins {
 apply(plugin = "io.spring.dependency-management")
 apply("gradle/dependencies.gradle")
 apply("gradle/staticCodeAnalysis.gradle")
+
 //println org.gradle.internal.jvm.Jvm.current()
 
 tasks.jar {

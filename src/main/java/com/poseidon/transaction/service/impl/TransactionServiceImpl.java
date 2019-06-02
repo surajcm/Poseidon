@@ -31,6 +31,7 @@ public class TransactionServiceImpl implements TransactionService {
      * @return list of transactions
      * @throws TransactionException on error
      */
+    @Override
     public List<TransactionVO> listTodaysTransactions() throws TransactionException {
         List<TransactionVO> transactionVOs = null;
         try {
@@ -51,6 +52,7 @@ public class TransactionServiceImpl implements TransactionService {
      * @return tag number of the transaction
      * @throws TransactionException on error
      */
+    @Override
     public String saveTransaction(TransactionVO currentTransaction) throws TransactionException {
         String tagNo = null;
         try {
@@ -71,6 +73,7 @@ public class TransactionServiceImpl implements TransactionService {
      * @return list of transactions
      * @throws TransactionException on error
      */
+    @Override
     public List<TransactionVO> searchTransactions(TransactionVO searchTransaction) throws TransactionException {
         List<TransactionVO> transactionVOs = null;
         try {
@@ -91,6 +94,7 @@ public class TransactionServiceImpl implements TransactionService {
      * @return transaction instance
      * @throws TransactionException on error
      */
+    @Override
     public TransactionVO fetchTransactionFromId(Long id) throws TransactionException {
         TransactionVO transactionVO = null;
         try {
@@ -111,6 +115,7 @@ public class TransactionServiceImpl implements TransactionService {
      * @return reporting transaction vo
      * @throws TransactionException on error
      */
+    @Override
     public TransactionReportVO fetchTransactionFromTag(String tagNo) throws TransactionException {
         TransactionReportVO transactionVO = null;
         try {
@@ -129,6 +134,7 @@ public class TransactionServiceImpl implements TransactionService {
      *
      * @param currentTransaction transaction instance
      */
+    @Override
     public void updateTransaction(TransactionVO currentTransaction) {
         try {
             transactionDAO.updateTransaction(currentTransaction);
@@ -143,6 +149,7 @@ public class TransactionServiceImpl implements TransactionService {
      * @param id of the transaction to be deleted
      * @throws TransactionException on error
      */
+    @Override
     public void deleteTransaction(Long id) throws TransactionException {
         try {
             transactionDAO.deleteTransaction(id);

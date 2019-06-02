@@ -23,6 +23,7 @@ public class UserValidator implements Validator {
      * @param classInstance classInstance instance
      * @return boolean
      */
+    @Override
     public boolean supports(Class<?> classInstance) {
         return classInstance.equals(UserVO.class);
     }
@@ -33,6 +34,7 @@ public class UserValidator implements Validator {
      * @param o      o the user instance
      * @param errors errors
      */
+    @Override
     public void validate(Object o, Errors errors) {
         logger.info(" Inside the validate method");
         UserVO user = (UserVO) o;

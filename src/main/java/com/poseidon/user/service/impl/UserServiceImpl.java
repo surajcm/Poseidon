@@ -36,6 +36,7 @@ public class UserServiceImpl implements UserService {
      * @return user instance from database
      * @throws UserException on error
      */
+    @Override
     public UserVO logIn(UserVO user) throws UserException {
         UserVO realUser = null;
         try {
@@ -55,6 +56,7 @@ public class UserServiceImpl implements UserService {
      *
      * @return List of user
      */
+    @Override
     public List<UserVO> getAllUserDetails() throws UserException {
         List<UserVO> userList = null;
         try {
@@ -74,6 +76,7 @@ public class UserServiceImpl implements UserService {
      * @param user user
      * @throws UserException on error
      */
+    @Override
     public void save(UserVO user) throws UserException {
         try {
             user.setPassword(bcryptPasswordEncoder.encode(user.getPassword()));
@@ -93,6 +96,7 @@ public class UserServiceImpl implements UserService {
      * @return UserVO
      * @throws UserException on error
      */
+    @Override
     public UserVO getUserDetailsFromId(Long id) throws UserException {
         UserVO userVO = null;
         try {
@@ -112,6 +116,7 @@ public class UserServiceImpl implements UserService {
      *
      * @param user user
      */
+    @Override
     public void updateUser(UserVO user) {
         try {
             userDAO.updateUser(user);
@@ -125,6 +130,7 @@ public class UserServiceImpl implements UserService {
      *
      * @param id id of the user
      */
+    @Override
     public void deleteUser(Long id) {
         try {
             userDAO.deleteUser(id);
@@ -140,6 +146,7 @@ public class UserServiceImpl implements UserService {
      * @return List of user
      * @throws UserException on error
      */
+    @Override
     public List<UserVO> searchUserDetails(UserVO searchUser) throws UserException {
         List<UserVO> userList = null;
         try {

@@ -44,6 +44,7 @@ public class CustomerDAOImpl implements CustomerDAO {
      * @return list customer vo
      * @throws CustomerException on error
      */
+    @Override
     public List<CustomerVO> listAllCustomerDetails() throws CustomerException {
         List<CustomerVO> customerVOs;
         try {
@@ -61,6 +62,7 @@ public class CustomerDAOImpl implements CustomerDAO {
      * @return long
      * @throws CustomerException on error
      */
+    @Override
     public long saveCustomer(CustomerVO currentCustomerVo) throws CustomerException {
         Long id;
         Customer customer = convertToSingleCustomer(currentCustomerVo);
@@ -81,6 +83,7 @@ public class CustomerDAOImpl implements CustomerDAO {
      * @return customer vo
      * @throws CustomerException on error
      */
+    @Override
     public CustomerVO getCustomerFromId(Long id) throws CustomerException {
         CustomerVO customerVO;
         try {
@@ -118,6 +121,7 @@ public class CustomerDAOImpl implements CustomerDAO {
      * @param id of customer
      * @throws CustomerException on error
      */
+    @Override
     public void deleteCustomerFromId(Long id) throws CustomerException {
         try {
             customerRepository.deleteById(id);
@@ -133,6 +137,7 @@ public class CustomerDAOImpl implements CustomerDAO {
      * @param currentCustomerVo currentCustomerVo
      * @throws CustomerException on error
      */
+    @Override
     public void updateCustomer(CustomerVO currentCustomerVo) throws CustomerException {
         try {
             Optional<Customer> optionalCustomer = customerRepository.findById(
@@ -166,6 +171,7 @@ public class CustomerDAOImpl implements CustomerDAO {
      * @return list of customer vo
      * @throws CustomerException on error
      */
+    @Override
     public List<CustomerVO> searchCustomer(CustomerVO searchCustomerVo) throws CustomerException {
         List<CustomerVO> customerVOs;
         try {

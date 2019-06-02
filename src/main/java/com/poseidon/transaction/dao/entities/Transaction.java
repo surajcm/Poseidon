@@ -9,6 +9,7 @@ import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 import java.time.OffsetDateTime;
+import java.time.ZoneId;
 
 @Entity
 //todo : add schema
@@ -232,8 +233,8 @@ public class Transaction {
     @PreUpdate
     public void initializeDate() {
         if (this.transactionId == null) {
-            createdOn = OffsetDateTime.now();
+            createdOn = OffsetDateTime.now(ZoneId.systemDefault());
         }
-        modifiedOn = OffsetDateTime.now();
+        modifiedOn = OffsetDateTime.now(ZoneId.systemDefault());
     }
 }

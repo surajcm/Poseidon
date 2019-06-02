@@ -44,6 +44,7 @@ public class UserDAOImpl implements UserDAO {
      * @return user instance from database
      * @throws UserException on error
      */
+    @Override
     public UserVO logIn(UserVO userVO) throws UserException {
         User user;
         try {
@@ -84,6 +85,7 @@ public class UserDAOImpl implements UserDAO {
      * @return List of user
      * @throws UserException on db error
      */
+    @Override
     public List<UserVO> getAllUserDetails() throws UserException {
         List<UserVO> userList;
         try {
@@ -117,6 +119,7 @@ public class UserDAOImpl implements UserDAO {
      * @param userVO user
      * @throws UserException on error
      */
+    @Override
     public void save(UserVO userVO) throws UserException {
         User user = convertToUser(userVO);
         try {
@@ -145,6 +148,7 @@ public class UserDAOImpl implements UserDAO {
      * @return UserVO
      * @throws UserException on error
      */
+    @Override
     public UserVO getUserDetailsFromId(Long id) throws UserException {
         UserVO userVO = null;
         try {
@@ -214,6 +218,7 @@ public class UserDAOImpl implements UserDAO {
      *
      * @param userVO user
      */
+    @Override
     public void updateUser(UserVO userVO) {
         Optional<User> optionalUser = userRepository.findById(userVO.getId());
         if (optionalUser.isPresent()) {
@@ -231,6 +236,7 @@ public class UserDAOImpl implements UserDAO {
      *
      * @param id id
      */
+    @Override
     public void deleteUser(Long id) {
         userRepository.deleteById(id);
     }
@@ -242,6 +248,7 @@ public class UserDAOImpl implements UserDAO {
      * @return List of user
      * @throws UserException on error
      */
+    @Override
     public List<UserVO> searchUserDetails(UserVO searchUser) throws UserException {
         List<UserVO> userList;
         try {
