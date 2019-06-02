@@ -8,10 +8,10 @@ buildscript {
 }
 
 apply plugin: 'checkstyle'
-//apply plugin: 'findbugs'
 apply plugin: 'pmd'
 apply plugin: 'jacoco'
-//apply plugin: de.aaschmid.gradle.plugins.cpd.CpdPlugin
+apply plugin: "com.github.spotbugs"
+apply plugin: 'cpd'
 
 checkstyle {
     toolVersion = '8.12'
@@ -20,11 +20,10 @@ checkstyle {
     maxWarnings = 0
 }
 
-//findbugs {
-//    toolVersion = '3.0.1'
-//    ignoreFailures = false
-//}
-
+spotbugs {
+    toolVersion = '3.1.12'
+    ignoreFailures = true
+}
 pmd {
     toolVersion = '6.12.0'
     ignoreFailures = false
@@ -35,6 +34,15 @@ pmd {
 
 jacoco {
     toolVersion = "0.8.3+"
+}
+
+cpdCheck {
+    ignoreFailures = true
+    reports {
+        text.enabled = true
+        xml.enabled = false
+    }
+    source = sourceSets.main.allJava
 }
 
 tasks.withType(Checkstyle) {

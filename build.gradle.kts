@@ -5,6 +5,8 @@ buildscript {
     dependencies {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:2.1.5.RELEASE")
         classpath("org.jetbrains.kotlin:kotlin-gradle-plugin:1.2.21")
+        classpath("gradle.plugin.com.github.spotbugs:spotbugs-gradle-plugin:1.7.1")
+        classpath("de.aaschmid:gradle-cpd-plugin:1.2")
     }
 }
 
