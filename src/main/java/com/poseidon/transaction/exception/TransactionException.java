@@ -14,6 +14,7 @@ public class TransactionException extends Exception {
     public String exceptionType;
 
     public TransactionException(String exceptionType) {
+        super();
         this.exceptionType = exceptionType;
     }
 

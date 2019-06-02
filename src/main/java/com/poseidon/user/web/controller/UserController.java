@@ -36,7 +36,7 @@ public class UserController {
     private static final String ERROR = "error";
     private static final String SUCCESS = "success";
     private static final String USER_LIST = "user/UserList";
-    private static final String AN_UNKNOWN_ERROR_HAS_BEEN_OCCURRED = " An Unknown Error has been occurred !!";
+    private static final String UNKNOWN_ERROR = " An Unknown Error has been occurred !!";
     private static final String DB_ERROR = " An error occurred while fetching data from database. !! ";
     private static final String EXCEPTION_IN_CONTROLLER = " Exception type in controller {}";
 
@@ -100,11 +100,11 @@ public class UserController {
             if (e.getExceptionType().equalsIgnoreCase(UserException.DATABASE_ERROR)) {
                 logger.info(DB_ERROR);
             } else {
-                logger.error(AN_UNKNOWN_ERROR_HAS_BEEN_OCCURRED);
+                logger.error(UNKNOWN_ERROR);
             }
         } catch (Exception e1) {
             logger.error(e1.getLocalizedMessage());
-            logger.info(AN_UNKNOWN_ERROR_HAS_BEEN_OCCURRED);
+            logger.info(UNKNOWN_ERROR);
         }
         if (userList != null) {
             userList.forEach(userIteration -> logger.info(" user detail {}", userIteration));
@@ -171,14 +171,14 @@ public class UserController {
             if (e.getExceptionType().equalsIgnoreCase(UserException.DATABASE_ERROR)) {
                 logger.info(DB_ERROR);
             } else {
-                logger.info(AN_UNKNOWN_ERROR_HAS_BEEN_OCCURRED);
+                logger.info(UNKNOWN_ERROR);
             }
 
         } catch (Exception e1) {
             userForm.setStatusMessage("Unable to save the user due to an error");
             userForm.setStatusMessageType(ERROR);
             logger.error(e1.getLocalizedMessage());
-            logger.info(AN_UNKNOWN_ERROR_HAS_BEEN_OCCURRED);
+            logger.info(UNKNOWN_ERROR);
 
         }
         List<UserVO> userList = null;
@@ -192,12 +192,12 @@ public class UserController {
             if (e.getExceptionType().equalsIgnoreCase(UserException.DATABASE_ERROR)) {
                 logger.info(DB_ERROR);
             } else {
-                logger.info(AN_UNKNOWN_ERROR_HAS_BEEN_OCCURRED);
+                logger.info(UNKNOWN_ERROR);
             }
 
         } catch (Exception e1) {
             logger.error(e1.getLocalizedMessage());
-            logger.info(AN_UNKNOWN_ERROR_HAS_BEEN_OCCURRED);
+            logger.info(UNKNOWN_ERROR);
 
         }
         if (userList != null) {
@@ -249,11 +249,11 @@ public class UserController {
             if (e.getExceptionType().equalsIgnoreCase(UserException.DATABASE_ERROR)) {
                 logger.info(DB_ERROR);
             } else {
-                logger.info(AN_UNKNOWN_ERROR_HAS_BEEN_OCCURRED);
+                logger.info(UNKNOWN_ERROR);
             }
         } catch (Exception e1) {
             logger.error(e1.getLocalizedMessage());
-            logger.info(AN_UNKNOWN_ERROR_HAS_BEEN_OCCURRED);
+            logger.info(UNKNOWN_ERROR);
         }
         List<UserVO> userList = null;
         try {
@@ -264,12 +264,12 @@ public class UserController {
             if (e.getExceptionType().equalsIgnoreCase(UserException.DATABASE_ERROR)) {
                 logger.info(DB_ERROR);
             } else {
-                logger.info(AN_UNKNOWN_ERROR_HAS_BEEN_OCCURRED);
+                logger.info(UNKNOWN_ERROR);
             }
 
         } catch (Exception e1) {
             logger.error(e1.getLocalizedMessage());
-            logger.info(AN_UNKNOWN_ERROR_HAS_BEEN_OCCURRED);
+            logger.info(UNKNOWN_ERROR);
 
         }
         return fetchJsonUserList(userList);
@@ -313,12 +313,12 @@ public class UserController {
             if (e.getExceptionType().equalsIgnoreCase(UserException.DATABASE_ERROR)) {
                 logger.info(DB_ERROR);
             } else {
-                logger.info(AN_UNKNOWN_ERROR_HAS_BEEN_OCCURRED);
+                logger.info(UNKNOWN_ERROR);
             }
 
         } catch (Exception e1) {
             logger.error(e1.getLocalizedMessage());
-            logger.info(AN_UNKNOWN_ERROR_HAS_BEEN_OCCURRED);
+            logger.info(UNKNOWN_ERROR);
         }
         if (userVo == null) {
             logger.error(" No details found for current user !!");
@@ -352,7 +352,7 @@ public class UserController {
             userForm.setStatusMessage("Unable to update the user due to an error");
             userForm.setStatusMessageType(ERROR);
             logger.error(e1.getLocalizedMessage());
-            logger.info(AN_UNKNOWN_ERROR_HAS_BEEN_OCCURRED);
+            logger.info(UNKNOWN_ERROR);
         }
         return listAll(userForm);
     }
@@ -375,7 +375,7 @@ public class UserController {
             userForm.setStatusMessage("Unable to delete the user due to an error");
             userForm.setStatusMessageType(ERROR);
             logger.error(e1.getLocalizedMessage());
-            logger.info(AN_UNKNOWN_ERROR_HAS_BEEN_OCCURRED);
+            logger.info(UNKNOWN_ERROR);
         }
         return listAll(userForm);
     }
@@ -431,14 +431,14 @@ public class UserController {
             if (e.getExceptionType().equalsIgnoreCase(UserException.DATABASE_ERROR)) {
                 logger.info(DB_ERROR);
             } else {
-                logger.info(AN_UNKNOWN_ERROR_HAS_BEEN_OCCURRED);
+                logger.info(UNKNOWN_ERROR);
             }
 
         } catch (Exception e1) {
             userForm.setStatusMessage("Unable to search due to an error");
             userForm.setStatusMessageType(ERROR);
             logger.error(e1.getLocalizedMessage());
-            logger.info(AN_UNKNOWN_ERROR_HAS_BEEN_OCCURRED);
+            logger.info(UNKNOWN_ERROR);
 
         }
         if (userList != null) {

@@ -12,6 +12,7 @@ public class InvoiceException extends Exception {
     public static final String DATABASE_ERROR = "DATABASE_ERROR";
 
     private String exceptionType;
+    public static final long serialVersionUID = 4328744;
 
     public InvoiceException(String exceptionType) {
         super();

@@ -12,8 +12,10 @@ public class CompanyTermsException extends Exception {
     public static final String DATABASE_ERROR = "DATABASE_ERROR";
 
     private String exceptionType;
+    public static final long serialVersionUID = 4328745;
 
     public CompanyTermsException(String exceptionType) {
+        super();
         this.exceptionType = exceptionType;
     }
 

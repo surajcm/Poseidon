@@ -22,6 +22,7 @@ import javax.persistence.Query;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.time.OffsetTime;
+import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.Date;
 import java.util.List;
@@ -278,10 +279,9 @@ public class TransactionDAOImpl implements TransactionDAO {
     }
 
     private List<TransactionVO> searchTxs(TransactionVO searchTransaction) {
-        StringBuilder hqlQuery = new StringBuilder("SELECT tr FROM Transaction tr ")
-                .append("inner join Make mk on tr.makeId=mk.id ")
-                .append("inner join Model mdl on tr.modelId=mdl.id ")
-                .append("inner join Customer cust on cust.id=tr.customerId ");
+        StringBuilder hqlQuery = new StringBuilder()
+                .append("SELECT tr FROM Transaction tr inner join Make mk on tr.makeId=mk.id inner join Model mdl")
+                .append(" on tr.modelId=mdl.id inner join Customer cust on cust.id=tr.customerId ");
         boolean hasTagNo = searchTransaction.getTagNo() != null && searchTransaction.getTagNo().trim().length() > 0;
         boolean hasCustomerName = searchTransaction.getCustomerName() != null
                 && searchTransaction.getCustomerName().trim().length() > 0;
@@ -370,8 +370,8 @@ public class TransactionDAOImpl implements TransactionDAO {
                 status = searchTransaction.getStatus();
             }
         }
-        OffsetDateTime start = OffsetDateTime.now();
-        OffsetDateTime end = OffsetDateTime.now();
+        OffsetDateTime start = OffsetDateTime.now(ZoneId.systemDefault());
+        OffsetDateTime end = OffsetDateTime.now(ZoneId.systemDefault());
         if (hasStartDateAndEndDate) {
             if (first) {
                 hqlQuery.append(" and ");

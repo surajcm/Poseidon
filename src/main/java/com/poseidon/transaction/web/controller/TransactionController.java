@@ -42,7 +42,7 @@ public class TransactionController {
     private static final String SUCCESS = "success";
     private static final String ERROR = "error";
     private static final String DATA_FROM_DATABASE = " An error occurred while fetching data from database. !! ";
-    private static final String UNKNOWN_ERROR_HAS_BEEN_OCCURRED = " An Unknown Error has been occurred !!";
+    private static final String UNKNOWN_ERROR = " An Unknown Error has been occurred !!";
     private static final String EXCEPTION_IN_CONTROLLER = " Exception type in controller {}";
     private static final String TRANSACTION_VO = " transaction vo is {}";
     private static final String MAKE_VO = "make vo is {}";
@@ -192,14 +192,14 @@ public class TransactionController {
             if (e.getExceptionType().equalsIgnoreCase(TransactionException.DATABASE_ERROR)) {
                 LOG.info(DATA_FROM_DATABASE);
             } else {
-                LOG.info(UNKNOWN_ERROR_HAS_BEEN_OCCURRED);
+                LOG.info(UNKNOWN_ERROR);
             }
 
         } catch (Exception e) {
             transactionForm.setStatusMessage("Unable to create the new transaction");
             transactionForm.setStatusMessageType(ERROR);
             LOG.error(e.getLocalizedMessage());
-            LOG.info(UNKNOWN_ERROR_HAS_BEEN_OCCURRED);
+            LOG.info(UNKNOWN_ERROR);
         }
         transactionForm.setLoggedInUser(transactionForm.getLoggedInUser());
         transactionForm.setLoggedInRole(transactionForm.getLoggedInRole());
@@ -270,14 +270,14 @@ public class TransactionController {
             if (e.getExceptionType().equalsIgnoreCase(TransactionException.DATABASE_ERROR)) {
                 LOG.info(DATA_FROM_DATABASE);
             } else {
-                LOG.info(UNKNOWN_ERROR_HAS_BEEN_OCCURRED);
+                LOG.info(UNKNOWN_ERROR);
             }
 
         } catch (Exception e1) {
             transactionForm.setStatusMessage("Unable to search ");
             transactionForm.setStatusMessageType(ERROR);
             LOG.error(e1.getLocalizedMessage());
-            LOG.info(UNKNOWN_ERROR_HAS_BEEN_OCCURRED);
+            LOG.info(UNKNOWN_ERROR);
 
         }
         if (transactionVOs != null) {
@@ -342,11 +342,11 @@ public class TransactionController {
             if (e.getExceptionType().equalsIgnoreCase(TransactionException.DATABASE_ERROR)) {
                 LOG.info(DATA_FROM_DATABASE);
             } else {
-                LOG.info(UNKNOWN_ERROR_HAS_BEEN_OCCURRED);
+                LOG.info(UNKNOWN_ERROR);
             }
         } catch (Exception e1) {
             LOG.error(e1.getLocalizedMessage());
-            LOG.info(UNKNOWN_ERROR_HAS_BEEN_OCCURRED);
+            LOG.info(UNKNOWN_ERROR);
         }
         if (transactionVO != null) {
             LOG.info("transactionVO {}", transactionVO);
@@ -380,7 +380,7 @@ public class TransactionController {
             transactionForm.setStatusMessage("Unable to update the selected transaction");
             transactionForm.setStatusMessageType(ERROR);
             LOG.error(e.getLocalizedMessage());
-            LOG.info(UNKNOWN_ERROR_HAS_BEEN_OCCURRED);
+            LOG.info(UNKNOWN_ERROR);
         }
         List<TransactionVO> transactionVOs = null;
         try {
@@ -432,13 +432,13 @@ public class TransactionController {
             if (e.getExceptionType().equalsIgnoreCase(TransactionException.DATABASE_ERROR)) {
                 LOG.info(DATA_FROM_DATABASE);
             } else {
-                LOG.info(UNKNOWN_ERROR_HAS_BEEN_OCCURRED);
+                LOG.info(UNKNOWN_ERROR);
             }
         } catch (Exception e) {
             transactionForm.setStatusMessage("Unable to delete the selected transaction");
             transactionForm.setStatusMessageType(ERROR);
             LOG.error(e.getLocalizedMessage());
-            LOG.info(UNKNOWN_ERROR_HAS_BEEN_OCCURRED);
+            LOG.info(UNKNOWN_ERROR);
         }
         List<TransactionVO> transactionVOs = null;
         try {

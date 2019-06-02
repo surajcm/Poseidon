@@ -12,8 +12,10 @@ public class CustomerException extends Exception {
     public static final String DATABASE_ERROR = "DATABASE_ERROR";
 
     private String exceptionType;
+    public static final long serialVersionUID = 4328743;
 
     public CustomerException(String exceptionType) {
+        super();
         this.exceptionType = exceptionType;
     }
 

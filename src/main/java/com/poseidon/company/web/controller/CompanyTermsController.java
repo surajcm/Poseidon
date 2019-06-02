@@ -31,7 +31,7 @@ public class CompanyTermsController {
      * @param companyTermsForm companyTermsForm
      * @return on error
      */
-    @PostMapping(value = "/company/List.htm")
+    @PostMapping("/company/List.htm")
     public ModelAndView list(CompanyTermsForm companyTermsForm) {
         LOG.info(" Inside List method of CompanyTermsController ");
         LOG.info(" form details are {}", companyTermsForm);
@@ -58,7 +58,7 @@ public class CompanyTermsController {
      * @param companyTermsForm companyTermsForm
      * @return view
      */
-    @PostMapping(value = "/company/updateCompanyDetails.htm")
+    @PostMapping("/company/updateCompanyDetails.htm")
     public ModelAndView updateCompanyDetails(CompanyTermsForm companyTermsForm) {
         LOG.info(" Inside editTerms method of CompanyTermsController ");
         LOG.info(" form details are {}", companyTermsForm);
