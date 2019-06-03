@@ -89,7 +89,7 @@ public class MakeController {
      * @param makeForm makeForm
      * @return view
      */
-    @PostMapping(value = "/make/MakeList.htm")
+    @PostMapping("/make/MakeList.htm")
     public ModelAndView makeList(MakeForm makeForm) {
         LOG.info(" listMake List method of MakeController ");
         List<MakeAndModelVO> makeAndModelVOs = null;
@@ -128,7 +128,7 @@ public class MakeController {
      * @param makeForm makeForm
      * @return view
      */
-    @PostMapping(value = "/make/editMake.htm")
+    @PostMapping("/make/editMake.htm")
     public ModelAndView editMake(MakeForm makeForm) {
         LOG.debug(" editMake method of MakeController ");
         LOG.debug(MAKE_FORM_IS, makeForm);
@@ -159,7 +159,7 @@ public class MakeController {
      * @param makeForm makeForm
      * @return view
      */
-    @PostMapping(value = "/make/deleteMake.htm")
+    @PostMapping("/make/deleteMake.htm")
     @SuppressWarnings("unused")
     public ModelAndView deleteMake(MakeForm makeForm) {
         LOG.debug("  deleteMake method of MakeController ");
@@ -209,7 +209,7 @@ public class MakeController {
      * @param makeForm makeForm
      * @return view
      */
-    @PostMapping(value = "/make/editModel.htm")
+    @PostMapping("/make/editModel.htm")
     @SuppressWarnings("unused")
     public ModelAndView editModel(MakeForm makeForm) {
         LOG.debug(" editModel method of MakeController ");
@@ -252,7 +252,7 @@ public class MakeController {
      * @param makeForm makeForm
      * @return view
      */
-    @PostMapping(value = "/make/deleteModel.htm")
+    @PostMapping("/make/deleteModel.htm")
     @SuppressWarnings("unused")
     public ModelAndView deleteModel(MakeForm makeForm) {
         LOG.debug(" listMake deleteModel method of MakeController ");
@@ -282,10 +282,10 @@ public class MakeController {
      * @param result         BindingResult
      * @return as json
      */
-    @PostMapping(value = "/make/saveMakeAjax.htm")
+    @PostMapping("/make/saveMakeAjax.htm")
     public @ResponseBody
-    String saveMakeAjax(@ModelAttribute(value = "selectMakeName") String selectMakeName,
-                        @ModelAttribute(value = "selectMakeDesc") String selectMakeDesc,
+    String saveMakeAjax(@ModelAttribute("selectMakeName") String selectMakeName,
+                        @ModelAttribute("selectMakeDesc") String selectMakeDesc,
                         BindingResult result) {
         LOG.info("saveMakeAjax1 method of MakeController ");
         StringBuilder responseString = new StringBuilder();
@@ -344,7 +344,7 @@ public class MakeController {
      * @param makeForm makeForm
      * @return view
      */
-    @PostMapping(value = "/make/updateMake.htm")
+    @PostMapping("/make/updateMake.htm")
     public ModelAndView updateMake(MakeForm makeForm) {
         LOG.info(" updateMake method of MakeController ");
         LOG.info(" makeForm instance to add to database  {}", makeForm);
@@ -371,7 +371,7 @@ public class MakeController {
      * @param makeForm makeForm
      * @return view
      */
-    @PostMapping(value = "/make/updateModel.htm")
+    @PostMapping("/make/updateModel.htm")
     public ModelAndView updateModel(MakeForm makeForm) {
         LOG.debug(" updateModel method of MakeController ");
         LOG.debug(" makeForm instance to add to database {}", makeForm);
@@ -398,7 +398,7 @@ public class MakeController {
      * @param makeForm makeForm
      * @return view
      */
-    @PostMapping(value = "/make/saveModel.htm")
+    @PostMapping("/make/saveModel.htm")
     public ModelAndView saveModel(MakeForm makeForm) {
         LOG.info(" at saveModel makeForm instance to add to database {}", makeForm);
         makeForm.getCurrentMakeAndModeVO().setCreatedDate(new Date());
@@ -425,7 +425,7 @@ public class MakeController {
      * @param makeForm makeForm
      * @return view
      */
-    @PostMapping(value = "/make/searchModel.htm")
+    @PostMapping("/make/searchModel.htm")
     public ModelAndView searchModel(MakeForm makeForm) {
         LOG.debug(" searchModel method of MakeController ");
         LOG.debug(" makeForm instance to search {}", makeForm);
@@ -466,7 +466,7 @@ public class MakeController {
      * @param makeForm makeForm
      * @return view
      */
-    @PostMapping(value = "/make/printMake.htm")
+    @PostMapping("/make/printMake.htm")
     public ModelAndView printMake(MakeForm makeForm) {
         return null;
     }

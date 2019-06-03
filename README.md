@@ -1,4 +1,4 @@
-# Poseidon ![alt text](https://raw.githubusercontent.com/surajcm/Poseidon/master/src/main/webapp/resources/images/Poseidon_Menu.png "{Poseidon}")
+# ![alt text](https://raw.githubusercontent.com/surajcm/Poseidon/master/src/main/webapp/resources/images/Poseidon_Menu.png "{Poseidon}") Poseidon
 
 
 Poseidon is a service center management software. Designed as a solution for keeping the inventory and billing for a laptop service centre.

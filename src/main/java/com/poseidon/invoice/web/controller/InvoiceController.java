@@ -67,7 +67,7 @@ public class InvoiceController {
      * @param invoiceForm InvoiceForm
      * @return ModelAndView
      */
-    @PostMapping(value = "/invoice/ListInvoice.htm")
+    @PostMapping("/invoice/ListInvoice.htm")
     public ModelAndView listInvoice(InvoiceForm invoiceForm) {
         LOG.info(" Inside ListInvoice method of InvoiceController ");
         List<InvoiceVO> invoiceVOs;
@@ -93,7 +93,7 @@ public class InvoiceController {
      * @param invoiceForm InvoiceForm
      * @return ModelAndView
      */
-    @PostMapping(value = "/invoice/addInvoice.htm")
+    @PostMapping("/invoice/addInvoice.htm")
     public ModelAndView addInvoice(InvoiceForm invoiceForm) {
         LOG.info(" Inside addInvoice method of InvoiceController ");
         InvoiceVO vo = new InvoiceVO();
@@ -108,7 +108,7 @@ public class InvoiceController {
      * @param invoiceForm InvoiceForm
      * @return ModelAndView
      */
-    @PostMapping(value = "/invoice/saveInvoice.htm")
+    @PostMapping("/invoice/saveInvoice.htm")
     public ModelAndView saveInvoice(InvoiceForm invoiceForm) {
         LOG.info(" Inside saveInvoice method of InvoiceController ");
         LOG.info(" invoice Form details are " + invoiceForm);
@@ -166,7 +166,7 @@ public class InvoiceController {
      * @param invoiceForm InvoiceForm
      * @return ModelAndView
      */
-    @PostMapping(value = "/invoice/EditInvoice.htm")
+    @PostMapping("/invoice/EditInvoice.htm")
     public ModelAndView editInvoice(InvoiceForm invoiceForm) {
         LOG.info(" Inside EditInvoice method of InvoiceController ");
         LOG.info(" invoice Form details are " + invoiceForm);
@@ -186,7 +186,7 @@ public class InvoiceController {
      * @param invoiceForm InvoiceForm
      * @return ModelAndView
      */
-    @PostMapping(value = "/invoice/DeleteInvoice.htm")
+    @PostMapping("/invoice/DeleteInvoice.htm")
     public ModelAndView deleteInvoice(InvoiceForm invoiceForm) {
         LOG.info(" Inside DeleteInvoice method of InvoiceController ");
         LOG.info(" invoice Form details are " + invoiceForm);
@@ -223,7 +223,7 @@ public class InvoiceController {
      * @param invoiceForm InvoiceForm
      * @return ModelAndView
      */
-    @PostMapping(value = "/invoice/SearchInvoice.htm")
+    @PostMapping("/invoice/SearchInvoice.htm")
     public ModelAndView searchInvoice(InvoiceForm invoiceForm) {
         LOG.info(" Inside SearchInvoice method of InvoiceController ");
         LOG.info(" invoice Form details are " + invoiceForm);
@@ -249,7 +249,7 @@ public class InvoiceController {
      * @param invoiceForm InvoiceForm
      * @return ModelAndView
      */
-    @PostMapping(value = "/invoice/updateInvoice.htm")
+    @PostMapping("/invoice/updateInvoice.htm")
     public ModelAndView updateInvoice(InvoiceForm invoiceForm) {
         LOG.info(" Inside updateInvoice method of InvoiceController ");
         LOG.info(" invoice Form details are " + invoiceForm);
@@ -283,7 +283,7 @@ public class InvoiceController {
      * @param transactionForm TransactionForm
      * @return ModelAndView
      */
-    @PostMapping(value = "/invoice/InvoiceTxn.htm")
+    @PostMapping("/invoice/InvoiceTxn.htm")
     public ModelAndView invoiceTxn(TransactionForm transactionForm) {
         //get the id
         TransactionVO transactionVo = null;

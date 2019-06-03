@@ -72,7 +72,7 @@ public class ReportsController {
      * @param reportsForm form
      * @return view
      */
-    @PostMapping(value = "/reports/List.htm")
+    @PostMapping("/reports/List.htm")
     public ModelAndView list(ReportsForm reportsForm) {
         LOG.info(" Inside List method of ReportsController ");
         LOG.info(" form details are : {}", reportsForm);
@@ -174,7 +174,7 @@ public class ReportsController {
                         reportsForm.getCurrentReport());
                 LOG.info(jasperPrint.toString());
                 String reportType = reportsForm.getCurrentReport().getExportTo();
-                getJasperReport(httpServletResponse, jasperPrint, reportFileName, reportType);
+                generateJasperReport(httpServletResponse, jasperPrint, reportFileName, reportType);
             }
         } catch (Exception e) {
             LOG.error(e.getLocalizedMessage());
@@ -216,7 +216,7 @@ public class ReportsController {
 
             jasperPrint = reportsService.getCallReport(jasperReport, reportsForm.getCurrentReport());
             LOG.info(jasperPrint.toString());
-            getJasperReport(httpServletResponse, jasperPrint, reportFileName, reportType);
+            generateJasperReport(httpServletResponse, jasperPrint, reportFileName, reportType);
         } catch (Exception e) {
             LOG.error(e.getLocalizedMessage());
             return getErrorReport(httpServletRequest, httpServletResponse, reportsForm);
@@ -260,7 +260,7 @@ public class ReportsController {
                     reportsForm.getCurrentReport(),
                     reportsForm.getTxnReportTransactionVO());
             LOG.info(jasperPrint.toString());
-            getJasperReport(httpServletResponse, jasperPrint, reportFileName, reportType);
+            generateJasperReport(httpServletResponse, jasperPrint, reportFileName, reportType);
         } catch (Exception e) {
             LOG.error(e.getLocalizedMessage());
         }
@@ -301,7 +301,7 @@ public class ReportsController {
                     reportsForm.getModelReportMakeAndModelVO());
             LOG.info(jasperPrint.toString());
             String reportType = reportsForm.getCurrentReport().getExportTo();
-            getJasperReport(httpServletResponse, jasperPrint, reportFileName, reportType);
+            generateJasperReport(httpServletResponse, jasperPrint, reportFileName, reportType);
         } catch (Exception e) {
             LOG.error(e.getLocalizedMessage());
         }
@@ -339,7 +339,7 @@ public class ReportsController {
             jasperPrint = reportsService.getErrorReport(jasperReport, reportsForm.getCurrentReport());
             LOG.info(jasperPrint.toString());
             String reportType = reportsForm.getCurrentReport().getExportTo();
-            getJasperReport(httpServletResponse, jasperPrint, reportFileName, reportType);
+            generateJasperReport(httpServletResponse, jasperPrint, reportFileName, reportType);
         } catch (Exception e) {
             LOG.error(e.getLocalizedMessage());
         }
@@ -377,7 +377,7 @@ public class ReportsController {
             jasperPrint = reportsService.getInvoiceReport(jasperReport, reportsForm.getCurrentReport());
             LOG.info(jasperPrint.toString());
             String reportType = reportsForm.getCurrentReport().getExportTo();
-            getJasperReport(httpServletResponse, jasperPrint, reportFileName, reportType);
+            generateJasperReport(httpServletResponse, jasperPrint, reportFileName, reportType);
         } catch (Exception e) {
             LOG.error(e.getLocalizedMessage());
         }
@@ -392,15 +392,15 @@ public class ReportsController {
      * @param reportFileName      reportFileName instance
      * @param reportType          reportType instance
      */
-    private void getJasperReport(HttpServletResponse httpServletResponse,
-                                 JasperPrint jasperPrint,
-                                 String reportFileName,
-                                 String reportType) {
+    private void generateJasperReport(HttpServletResponse httpServletResponse,
+                                      JasperPrint jasperPrint,
+                                      String reportFileName,
+                                      String reportType) {
         JRAbstractExporter jrExporter;
         byte[] output;
         ServletOutputStream outputStream;
         try {
-            LOG.info("In getJasperReport method");
+            LOG.info("In generateJasperReport method");
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
             if ("EXCEL".equalsIgnoreCase(reportType)) {
                 LOG.info("ExcelReport -- > reportFileName ---> " + reportFileName + reportType);
