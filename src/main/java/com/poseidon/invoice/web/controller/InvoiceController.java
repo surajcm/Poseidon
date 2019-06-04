@@ -39,6 +39,7 @@ public class InvoiceController {
     private static final String ERROR = "error";
     private static final String LIST_INVOICE = "invoice/ListInvoice";
     private static final String INVOICE_FORM = "invoiceForm";
+    public static final String INVOICE_FORM_DETAILS = "Inside saveInvoice method of InvoiceController, invoice Form details are %s";
 
     @Autowired
     private InvoiceService invoiceService;
@@ -110,8 +111,7 @@ public class InvoiceController {
      */
     @PostMapping("/invoice/saveInvoice.htm")
     public ModelAndView saveInvoice(InvoiceForm invoiceForm) {
-        LOG.info(" Inside saveInvoice method of InvoiceController ");
-        LOG.info(" invoice Form details are " + invoiceForm);
+        LOG.info(String.format(INVOICE_FORM_DETAILS, invoiceForm));
         invoiceForm.getCurrentInvoiceVo().setCreatedBy(invoiceForm.getLoggedInUser());
         invoiceForm.getCurrentInvoiceVo().setModifiedBy(invoiceForm.getLoggedInUser());
         invoiceForm.getCurrentInvoiceVo().setCreatedDate(new Date());
@@ -168,8 +168,7 @@ public class InvoiceController {
      */
     @PostMapping("/invoice/EditInvoice.htm")
     public ModelAndView editInvoice(InvoiceForm invoiceForm) {
-        LOG.info(" Inside EditInvoice method of InvoiceController ");
-        LOG.info(" invoice Form details are " + invoiceForm);
+        LOG.info(String.format(INVOICE_FORM_DETAILS, invoiceForm));
         InvoiceVO invoiceVo;
         try {
             invoiceVo = invoiceService.fetchInvoiceVOFromId(invoiceForm.getId());
@@ -188,8 +187,7 @@ public class InvoiceController {
      */
     @PostMapping("/invoice/DeleteInvoice.htm")
     public ModelAndView deleteInvoice(InvoiceForm invoiceForm) {
-        LOG.info(" Inside DeleteInvoice method of InvoiceController ");
-        LOG.info(" invoice Form details are " + invoiceForm);
+        LOG.info(String.format(INVOICE_FORM_DETAILS, invoiceForm));
         try {
             InvoiceVO invoiceVo = invoiceService.fetchInvoiceVOFromId(invoiceForm.getId());
             invoiceService.deleteInvoice(invoiceForm.getId());
@@ -225,8 +223,7 @@ public class InvoiceController {
      */
     @PostMapping("/invoice/SearchInvoice.htm")
     public ModelAndView searchInvoice(InvoiceForm invoiceForm) {
-        LOG.info(" Inside SearchInvoice method of InvoiceController ");
-        LOG.info(" invoice Form details are " + invoiceForm);
+        LOG.info(String.format(INVOICE_FORM_DETAILS, invoiceForm));
         List<InvoiceVO> invoiceVOs;
         try {
             invoiceVOs = invoiceService.findInvoices(invoiceForm.getSearchInvoiceVo());
@@ -251,8 +248,7 @@ public class InvoiceController {
      */
     @PostMapping("/invoice/updateInvoice.htm")
     public ModelAndView updateInvoice(InvoiceForm invoiceForm) {
-        LOG.info(" Inside updateInvoice method of InvoiceController ");
-        LOG.info(" invoice Form details are " + invoiceForm);
+        LOG.info(String.format(INVOICE_FORM_DETAILS, invoiceForm));
         invoiceForm.getCurrentInvoiceVo().setModifiedBy(invoiceForm.getLoggedInUser());
         invoiceForm.getCurrentInvoiceVo().setModifiedDate(new Date());
         try {

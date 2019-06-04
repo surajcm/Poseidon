@@ -33,7 +33,7 @@ public class MakeController {
     private static final String ERROR = "error";
     private static final String MAKE_FORM = "makeForm";
     private static final String SUCCESS = "success";
-    private static final String UNKNOWN_ERROR_HAS_BEEN_OCCURRED = " An Unknown Error has been occurred !!";
+    private static final String UNKNOWN_ERROR = " An Unknown Error has been occurred !!";
     private static final String MAKE_FORM_IS = " makeForm is {}";
     private static final String MAKE_VO_IS = " makeVO is {}";
 
@@ -48,8 +48,7 @@ public class MakeController {
      */
     @RequestMapping(value = "/make/ModelList.htm", method = {RequestMethod.POST, RequestMethod.GET})
     public ModelAndView modelList(MakeForm makeForm) {
-        LOG.info(" Inside List method of MakeController ");
-        LOG.info(" form details are  {}", makeForm);
+        LOG.info(" Inside List method of MakeController, form details are  {}", makeForm);
 
         List<MakeAndModelVO> makeAndModelVOs = null;
         try {
@@ -137,7 +136,7 @@ public class MakeController {
             makeVO = makeService.getMakeFromId(makeForm.getId());
         } catch (Exception e1) {
             LOG.error(e1.getLocalizedMessage());
-            LOG.error(UNKNOWN_ERROR_HAS_BEEN_OCCURRED);
+            LOG.error(UNKNOWN_ERROR);
         }
 
         if (makeVO == null) {
@@ -145,9 +144,7 @@ public class MakeController {
         } else {
             LOG.debug(" makeVO details are {}", makeVO);
         }
-
         makeForm.setCurrentMakeAndModeVO(makeVO);
-
         makeForm.setLoggedInUser(makeForm.getLoggedInUser());
         makeForm.setLoggedInRole(makeForm.getLoggedInRole());
         return new ModelAndView("make/MakeEdit", MAKE_FORM, makeForm);
@@ -162,13 +159,13 @@ public class MakeController {
     @PostMapping("/make/deleteMake.htm")
     @SuppressWarnings("unused")
     public ModelAndView deleteMake(MakeForm makeForm) {
-        LOG.debug("  deleteMake method of MakeController ");
+        LOG.debug("deleteMake method of MakeController ");
         LOG.debug(MAKE_FORM_IS, makeForm);
         try {
             makeService.deleteMake(makeForm.getId());
         } catch (Exception e1) {
             LOG.error(e1.getLocalizedMessage());
-            LOG.error(UNKNOWN_ERROR_HAS_BEEN_OCCURRED);
+            LOG.error(UNKNOWN_ERROR);
 
         }
         makeForm.setLoggedInUser(makeForm.getLoggedInUser());
@@ -186,7 +183,7 @@ public class MakeController {
     @RequestMapping(value = "/make/addModel.htm", method = {RequestMethod.GET, RequestMethod.POST})
     @SuppressWarnings("unused")
     public ModelAndView addModel(MakeForm makeForm) {
-        LOG.debug("  addModel method of MakeController ");
+        LOG.debug("addModel method of MakeController ");
         makeForm.setLoggedInUser(makeForm.getLoggedInUser());
         makeForm.setLoggedInRole(makeForm.getLoggedInRole());
         makeForm.setCurrentMakeAndModeVO(new MakeAndModelVO());
@@ -221,7 +218,7 @@ public class MakeController {
 
         } catch (Exception e1) {
             LOG.error(e1.getLocalizedMessage());
-            LOG.error(UNKNOWN_ERROR_HAS_BEEN_OCCURRED);
+            LOG.error(UNKNOWN_ERROR);
         }
 
         if (makeVO == null) {
@@ -255,7 +252,7 @@ public class MakeController {
     @PostMapping("/make/deleteModel.htm")
     @SuppressWarnings("unused")
     public ModelAndView deleteModel(MakeForm makeForm) {
-        LOG.debug(" listMake deleteModel method of MakeController ");
+        LOG.debug("deleteModel method of MakeController ");
         LOG.debug(MAKE_FORM_IS, makeForm);
         try {
             makeService.deleteModel(makeForm.getId());
@@ -265,9 +262,8 @@ public class MakeController {
             makeForm.setStatusMessage("Unable to delete the selected Model");
             makeForm.setStatusMessageType(ERROR);
             LOG.error(e1.getLocalizedMessage());
-            LOG.debug(UNKNOWN_ERROR_HAS_BEEN_OCCURRED);
+            LOG.debug(UNKNOWN_ERROR);
         }
-
         makeForm.setLoggedInUser(makeForm.getLoggedInUser());
         makeForm.setLoggedInRole(makeForm.getLoggedInRole());
         makeForm.setCurrentMakeAndModeVO(new MakeAndModelVO());
@@ -313,7 +309,7 @@ public class MakeController {
                 makeForm.setStatusMessage("Unable to save the make Detail due to an error");
                 makeForm.setStatusMessageType(ERROR);
                 LOG.error(e1.getLocalizedMessage());
-                LOG.info(UNKNOWN_ERROR_HAS_BEEN_OCCURRED);
+                LOG.info(UNKNOWN_ERROR);
             }
             //get all the make and pass it as a json object
             List<MakeVO> makes = makeService.fetchMakes();
@@ -346,8 +342,7 @@ public class MakeController {
      */
     @PostMapping("/make/updateMake.htm")
     public ModelAndView updateMake(MakeForm makeForm) {
-        LOG.info(" updateMake method of MakeController ");
-        LOG.info(" makeForm instance to add to database  {}", makeForm);
+        LOG.info("updateMake method of MakeController, makeForm instance to add to database  {}", makeForm);
         makeForm.getCurrentMakeAndModeVO().setModifiedDate(new Date());
         makeForm.getCurrentMakeAndModeVO().setModifiedBy(makeForm.getLoggedInUser());
         try {
@@ -358,11 +353,10 @@ public class MakeController {
             makeForm.setStatusMessage("Unable to update the selected make");
             makeForm.setStatusMessageType(ERROR);
             LOG.error(e1.getLocalizedMessage());
-            LOG.error(UNKNOWN_ERROR_HAS_BEEN_OCCURRED);
+            LOG.error(UNKNOWN_ERROR);
 
         }
         return makeList(makeForm);
-
     }
 
     /**
@@ -373,8 +367,7 @@ public class MakeController {
      */
     @PostMapping("/make/updateModel.htm")
     public ModelAndView updateModel(MakeForm makeForm) {
-        LOG.debug(" updateModel method of MakeController ");
-        LOG.debug(" makeForm instance to add to database {}", makeForm);
+        LOG.debug(" updateModel method of MakeController , makeForm instance to add to database {}", makeForm);
         makeForm.getCurrentMakeAndModeVO().setModifiedDate(new Date());
         makeForm.getCurrentMakeAndModeVO().setModifiedBy(makeForm.getLoggedInUser());
         try {
@@ -385,11 +378,10 @@ public class MakeController {
             makeForm.setStatusMessage("Unable to update the selected Model");
             makeForm.setStatusMessageType(ERROR);
             LOG.error(e1.getLocalizedMessage());
-            LOG.error(UNKNOWN_ERROR_HAS_BEEN_OCCURRED);
+            LOG.error(UNKNOWN_ERROR);
 
         }
         return modelList(makeForm);
-
     }
 
     /**
@@ -413,7 +405,7 @@ public class MakeController {
             makeForm.setStatusMessage("Unable to save the new Model");
             makeForm.setStatusMessageType(ERROR);
             LOG.error(e1.getLocalizedMessage());
-            LOG.error(UNKNOWN_ERROR_HAS_BEEN_OCCURRED);
+            LOG.error(UNKNOWN_ERROR);
 
         }
         return modelList(makeForm);
