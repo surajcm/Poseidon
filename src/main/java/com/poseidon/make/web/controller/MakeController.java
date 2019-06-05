@@ -166,7 +166,6 @@ public class MakeController {
         } catch (Exception e1) {
             LOG.error(e1.getLocalizedMessage());
             LOG.error(UNKNOWN_ERROR);
-
         }
         makeForm.setLoggedInUser(makeForm.getLoggedInUser());
         makeForm.setLoggedInRole(makeForm.getLoggedInRole());

@@ -39,7 +39,8 @@ public class InvoiceController {
     private static final String ERROR = "error";
     private static final String LIST_INVOICE = "invoice/ListInvoice";
     private static final String INVOICE_FORM = "invoiceForm";
-    public static final String INVOICE_FORM_DETAILS = "Inside saveInvoice method of InvoiceController, invoice Form details are %s";
+    private static final String INVOICE_FORM_DETAILS =
+            "Inside saveInvoice method of InvoiceController, invoice Form details are %s";
 
     @Autowired
     private InvoiceService invoiceService;

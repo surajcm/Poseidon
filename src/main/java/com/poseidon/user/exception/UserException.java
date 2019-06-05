@@ -18,6 +18,8 @@ public class UserException extends Exception {
      */
     public static final String INCORRECT_PASSWORD = "INCORRECT_PASSWORD";
 
+    public static final long serialVersionUID = 4328749;
+
     /**
      * exception type for all database related errors
      */
@@ -26,6 +28,7 @@ public class UserException extends Exception {
     public String exceptionType;
 
     public UserException(String exceptionType) {
+        super();
         this.exceptionType = exceptionType;
     }
 

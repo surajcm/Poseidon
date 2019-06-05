@@ -18,9 +18,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.io.IOException;
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @author : Suraj Muraleedharan.
@@ -51,7 +52,7 @@ public class UserController {
      *
      * @return ModelAndView to render
      */
-    @GetMapping(value = {"/"})
+    @GetMapping("/")
     public ModelAndView index() {
         logger.info(" Inside Index method of user controller ");
         UserForm userForm = new UserForm();
@@ -68,7 +69,7 @@ public class UserController {
      * @param logout String
      * @return String
      */
-    @GetMapping(value = "/login")
+    @GetMapping("/login")
     public String login(Model model, String error, String logout) {
         if (error != null) {
             model.addAttribute(ERROR, "Your username and password is invalid.");
@@ -86,7 +87,7 @@ public class UserController {
      * @param userForm userForm instance
      * @return ModelAndView to render
      */
-    @PostMapping(value = "/user/ListAll.htm")
+    @PostMapping("/user/ListAll.htm")
     public ModelAndView listAll(UserForm userForm) {
         logger.info(" Inside ListAll method of user controller ");
         List<UserVO> userList = null;
@@ -123,10 +124,7 @@ public class UserController {
      * @return List of String
      */
     private List<String> populateRoles() {
-        List<String> roleList = new ArrayList<>();
-        roleList.add("ROLE_ADMIN");
-        roleList.add("ROLE_GUEST");
-        return roleList;
+        return Arrays.stream(Role.values()).map(Enum::name).collect(Collectors.toList());
     }
 
     /**
@@ -135,7 +133,7 @@ public class UserController {
      * @param userForm userForm instance
      * @return ModelAndView to render
      */
-    @PostMapping(value = "/user/AddUser.htm")
+    @PostMapping("/user/AddUser.htm")
     public ModelAndView addUser(UserForm userForm) {
         logger.info(" Inside AddUser method of user controller ");
         userForm.setLoggedInUser(userForm.getLoggedInUser());
@@ -151,7 +149,7 @@ public class UserController {
      * @param userForm user instance
      * @return ModelAndView to render
      */
-    @PostMapping(value = "/user/SaveUser.htm")
+    @PostMapping("/user/SaveUser.htm")
     public ModelAndView saveUser(UserForm userForm) {
         logger.info(" Inside SaveUser method of user controller ");
         logger.info(" user instance to add to database {}", userForm);
@@ -179,7 +177,6 @@ public class UserController {
             userForm.setStatusMessageType(ERROR);
             logger.error(e1.getLocalizedMessage());
             logger.info(UNKNOWN_ERROR);
-
         }
         List<UserVO> userList = null;
         try {
@@ -194,11 +191,9 @@ public class UserController {
             } else {
                 logger.info(UNKNOWN_ERROR);
             }
-
         } catch (Exception e1) {
             logger.error(e1.getLocalizedMessage());
             logger.info(UNKNOWN_ERROR);
-
         }
         if (userList != null) {
             userList.forEach(userIteration -> logger.info(" user detail : {}", userIteration));
@@ -220,7 +215,7 @@ public class UserController {
      * @param result      BindingResult
      * @return String
      */
-    @PostMapping(value = "/user/saveUserAjax.htm")
+    @PostMapping("/user/saveUserAjax.htm")
     public String saveUserAjax(@ModelAttribute(value = "selectName") String selectName,
                                @ModelAttribute(value = "selectLogin") String selectLogin,
                                @ModelAttribute(value = "selectRole") String selectRole,
@@ -240,7 +235,6 @@ public class UserController {
         ajaxUserVo.setModifiedDate(new Date());
         ajaxUserVo.setCreatedBy("-ajax-");
         ajaxUserVo.setLastModifiedBy("-ajax-");
-
         try {
             userService.save(ajaxUserVo);
         } catch (UserException e) {
@@ -266,11 +260,9 @@ public class UserController {
             } else {
                 logger.info(UNKNOWN_ERROR);
             }
-
         } catch (Exception e1) {
             logger.error(e1.getLocalizedMessage());
             logger.info(UNKNOWN_ERROR);
-
         }
         return fetchJsonUserList(userList);
     }
@@ -300,7 +292,7 @@ public class UserController {
      * @param userForm userForm instance
      * @return ModelAndView to render
      */
-    @PostMapping(value = "/user/EditUser.htm")
+    @PostMapping("/user/EditUser.htm")
     public ModelAndView editUser(UserForm userForm) {
         logger.info(" Inside EditUser method of user controller ");
         logger.info(" user is {}", userForm);
@@ -315,7 +307,6 @@ public class UserController {
             } else {
                 logger.info(UNKNOWN_ERROR);
             }
-
         } catch (Exception e1) {
             logger.error(e1.getLocalizedMessage());
             logger.info(UNKNOWN_ERROR);
@@ -338,7 +329,7 @@ public class UserController {
      * @param userForm user instance
      * @return ModelAndView to render
      */
-    @PostMapping(value = "/user/updateUser.htm")
+    @PostMapping("/user/updateUser.htm")
     public ModelAndView updateUser(UserForm userForm) {
         logger.info(" Inside updateUser method of user controller ");
         try {
@@ -363,7 +354,7 @@ public class UserController {
      * @param userForm userForm instance
      * @return ModelAndView to render
      */
-    @PostMapping(value = "/user/DeleteUser.htm")
+    @PostMapping("/user/DeleteUser.htm")
     public ModelAndView deleteUser(UserForm userForm) {
         logger.info(" Inside DeleteUser method of user controller ");
         logger.info(" user is {}", userForm);
@@ -386,7 +377,7 @@ public class UserController {
      * @param userForm userForm instance
      * @return ModelAndView to render
      */
-    @PostMapping(value = "/user/ToHome.htm")
+    @PostMapping("/user/ToHome.htm")
     public ModelAndView toHome(UserForm userForm) {
         logger.info(" Inside ToHome method of user controller ");
         userForm.setLoggedInUser(userForm.getLoggedInUser());
@@ -400,7 +391,7 @@ public class UserController {
      * @param userForm userForm instance
      * @return ModelAndView to render
      */
-    @PostMapping(value = "/user/LogMeOut.htm")
+    @PostMapping("/user/LogMeOut.htm")
     public ModelAndView logMeOut(UserForm userForm) {
         logger.info(" Inside LogMeOut method of user controller ");
         return new ModelAndView(USER_LOG_IN, USER_FORM, new UserForm());
@@ -412,7 +403,7 @@ public class UserController {
      * @param userForm userForm instance
      * @return ModelAndView to render
      */
-    @PostMapping(value = "/user/SearchUser.htm")
+    @PostMapping("/user/SearchUser.htm")
     public ModelAndView searchUser(UserForm userForm) {
         logger.info(" Inside SearchUser method of user controller ");
         logger.info(" user Details are {}", userForm.getSearchUser());
@@ -433,13 +424,11 @@ public class UserController {
             } else {
                 logger.info(UNKNOWN_ERROR);
             }
-
         } catch (Exception e1) {
             userForm.setStatusMessage("Unable to search due to an error");
             userForm.setStatusMessageType(ERROR);
             logger.error(e1.getLocalizedMessage());
             logger.info(UNKNOWN_ERROR);
-
         }
         if (userList != null) {
             userList.stream().map(userIteration -> " user detail " + userIteration.toString()).forEach(logger::info);
