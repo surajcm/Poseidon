@@ -18,7 +18,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.io.IOException;
-import java.util.Date;
+import java.time.OffsetDateTime;
+import java.time.ZoneId;
 import java.util.List;
 
 /**
@@ -293,8 +294,8 @@ public class MakeController {
             MakeAndModelVO makeAndModelVO = new MakeAndModelVO();
             makeAndModelVO.setMakeName(selectMakeName);
             makeAndModelVO.setDescription(selectMakeDesc);
-            makeAndModelVO.setCreatedDate(new Date());
-            makeAndModelVO.setModifiedDate(new Date());
+            makeAndModelVO.setCreatedDate(OffsetDateTime.now(ZoneId.systemDefault()));
+            makeAndModelVO.setModifiedDate(OffsetDateTime.now(ZoneId.systemDefault()));
             makeAndModelVO.setCreatedBy("-ajax-");
             makeAndModelVO.setModifiedBy("-ajax-");
 
@@ -342,7 +343,7 @@ public class MakeController {
     @PostMapping("/make/updateMake.htm")
     public ModelAndView updateMake(MakeForm makeForm) {
         LOG.info("updateMake method of MakeController, makeForm instance to add to database  {}", makeForm);
-        makeForm.getCurrentMakeAndModeVO().setModifiedDate(new Date());
+        makeForm.getCurrentMakeAndModeVO().setModifiedDate(OffsetDateTime.now(ZoneId.systemDefault()));
         makeForm.getCurrentMakeAndModeVO().setModifiedBy(makeForm.getLoggedInUser());
         try {
             makeService.updateMake(makeForm.getCurrentMakeAndModeVO());
@@ -367,7 +368,7 @@ public class MakeController {
     @PostMapping("/make/updateModel.htm")
     public ModelAndView updateModel(MakeForm makeForm) {
         LOG.debug(" updateModel method of MakeController , makeForm instance to add to database {}", makeForm);
-        makeForm.getCurrentMakeAndModeVO().setModifiedDate(new Date());
+        makeForm.getCurrentMakeAndModeVO().setModifiedDate(OffsetDateTime.now(ZoneId.systemDefault()));
         makeForm.getCurrentMakeAndModeVO().setModifiedBy(makeForm.getLoggedInUser());
         try {
             makeService.updateModel(makeForm.getCurrentMakeAndModeVO());
@@ -392,8 +393,8 @@ public class MakeController {
     @PostMapping("/make/saveModel.htm")
     public ModelAndView saveModel(MakeForm makeForm) {
         LOG.info(" at saveModel makeForm instance to add to database {}", makeForm);
-        makeForm.getCurrentMakeAndModeVO().setCreatedDate(new Date());
-        makeForm.getCurrentMakeAndModeVO().setModifiedDate(new Date());
+        makeForm.getCurrentMakeAndModeVO().setCreatedDate(OffsetDateTime.now(ZoneId.systemDefault()));
+        makeForm.getCurrentMakeAndModeVO().setModifiedDate(OffsetDateTime.now(ZoneId.systemDefault()));
         makeForm.getCurrentMakeAndModeVO().setCreatedBy(makeForm.getLoggedInUser());
         makeForm.getCurrentMakeAndModeVO().setModifiedBy(makeForm.getLoggedInUser());
         try {

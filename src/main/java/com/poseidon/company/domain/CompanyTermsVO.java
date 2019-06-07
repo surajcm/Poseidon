@@ -1,6 +1,6 @@
 package com.poseidon.company.domain;
 
-import java.util.Date;
+import java.time.OffsetDateTime;
 
 /**
  * user: Suraj
@@ -19,8 +19,8 @@ public class CompanyTermsVO {
     private String companyDetails;
     private String companyVATTIN;
     private String companyCSTTIN;
-    private Date createdDate;
-    private Date modifiedDate;
+    private OffsetDateTime createdDate;
+    private OffsetDateTime modifiedDate;
     private String createdBy;
     private String modifiedBy;
 
@@ -112,19 +112,19 @@ public class CompanyTermsVO {
         this.companyCSTTIN = companyCSTTIN;
     }
 
-    public Date getCreatedDate() {
+    public OffsetDateTime getCreatedDate() {
         return createdDate;
     }
 
-    public void setCreatedDate(Date createdDate) {
+    public void setCreatedDate(OffsetDateTime createdDate) {
         this.createdDate = createdDate;
     }
 
-    public Date getModifiedDate() {
+    public OffsetDateTime getModifiedDate() {
         return modifiedDate;
     }
 
-    public void setModifiedDate(Date modifiedDate) {
+    public void setModifiedDate(OffsetDateTime modifiedDate) {
         this.modifiedDate = modifiedDate;
     }
 

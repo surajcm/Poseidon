@@ -10,7 +10,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.Date;
+import java.time.OffsetDateTime;
+import java.time.ZoneId;
 
 /**
  * user: Suraj
@@ -63,7 +64,7 @@ public class CompanyTermsController {
         LOG.info(" Inside editTerms method of CompanyTermsController ");
         LOG.info(" form details are {}", companyTermsForm);
         companyTermsForm.getCurrentCompanyTermsVO().setModifiedBy(companyTermsForm.getLoggedInUser());
-        companyTermsForm.getCurrentCompanyTermsVO().setModifiedDate(new Date());
+        companyTermsForm.getCurrentCompanyTermsVO().setModifiedDate(OffsetDateTime.now(ZoneId.systemDefault()));
         CompanyTermsVO companyTermsVO = null;
         try {
             companyTermsVO = companyTermsService.updateCompanyDetails(companyTermsForm.getCurrentCompanyTermsVO());

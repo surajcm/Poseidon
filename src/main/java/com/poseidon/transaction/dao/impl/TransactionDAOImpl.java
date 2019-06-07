@@ -24,7 +24,6 @@ import java.time.OffsetDateTime;
 import java.time.OffsetTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
-import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -252,7 +251,7 @@ public class TransactionDAOImpl implements TransactionDAO {
         TransactionReportVO txs = new TransactionReportVO();
         txs.setId(transaction.getTransactionId());
         txs.setTagNo(transaction.getTagno());
-        txs.setDateReported(new Date(transaction.getDateReported().toInstant().toEpochMilli()));
+        txs.setDateReported(transaction.getDateReported());
         txs.setCustomerName(customer.getName());
         txs.setCustomerId(transaction.getCustomerId());
         txs.setAddress1(customer.getAddress1());

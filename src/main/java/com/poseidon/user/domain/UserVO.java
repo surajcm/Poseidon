@@ -1,6 +1,6 @@
 package com.poseidon.user.domain;
 
-import java.util.Date;
+import java.time.OffsetDateTime;
 
 /**
  * @author : Suraj Muraleedharan
@@ -14,8 +14,8 @@ public class UserVO {
     private String loginId;
     private String password;
     private String role;
-    private Date createdDate;
-    private Date modifiedDate;
+    private OffsetDateTime createdDate;
+    private OffsetDateTime modifiedDate;
     private String createdBy;
     private String lastModifiedBy;
     private Boolean startsWith;
@@ -53,19 +53,19 @@ public class UserVO {
         this.role = role;
     }
 
-    public Date getCreatedDate() {
+    public OffsetDateTime getCreatedDate() {
         return createdDate;
     }
 
-    public void setCreatedDate(Date createdDate) {
+    public void setCreatedDate(OffsetDateTime createdDate) {
         this.createdDate = createdDate;
     }
 
-    public Date getModifiedDate() {
+    public OffsetDateTime getModifiedDate() {
         return modifiedDate;
     }
 
-    public void setModifiedDate(Date modifiedDate) {
+    public void setModifiedDate(OffsetDateTime modifiedDate) {
         this.modifiedDate = modifiedDate;
     }
 

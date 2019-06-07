@@ -18,8 +18,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.io.IOException;
+import java.time.OffsetDateTime;
+import java.time.ZoneId;
 import java.util.Arrays;
-import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -154,8 +155,8 @@ public class UserController {
         logger.info(" Inside SaveUser method of user controller ");
         logger.info(" user instance to add to database {}", userForm);
         try {
-            userForm.getUser().setCreatedDate(new Date());
-            userForm.getUser().setModifiedDate(new Date());
+            userForm.getUser().setCreatedDate(OffsetDateTime.now(ZoneId.systemDefault()));
+            userForm.getUser().setModifiedDate(OffsetDateTime.now(ZoneId.systemDefault()));
             userForm.getUser().setCreatedBy(userForm.getLoggedInUser());
             userForm.getUser().setLastModifiedBy(userForm.getLoggedInUser());
             userService.save(userForm.getUser());
@@ -231,8 +232,8 @@ public class UserController {
         ajaxUserVo.setRole(selectRole);
         //todo : find out a way to get current user
         ajaxUserVo.setPassword("password");
-        ajaxUserVo.setCreatedDate(new Date());
-        ajaxUserVo.setModifiedDate(new Date());
+        ajaxUserVo.setCreatedDate(OffsetDateTime.now(ZoneId.systemDefault()));
+        ajaxUserVo.setModifiedDate(OffsetDateTime.now(ZoneId.systemDefault()));
         ajaxUserVo.setCreatedBy("-ajax-");
         ajaxUserVo.setLastModifiedBy("-ajax-");
         try {
@@ -334,7 +335,7 @@ public class UserController {
         logger.info(" Inside updateUser method of user controller ");
         try {
             userForm.getUser().setLastModifiedBy(userForm.getLoggedInUser());
-            userForm.getUser().setModifiedDate(new Date());
+            userForm.getUser().setModifiedDate(OffsetDateTime.now(ZoneId.systemDefault()));
             logger.info(" user instance to update {}", userForm.getUser());
             userService.updateUser(userForm.getUser());
             userForm.setStatusMessage("Successfully updated the user");

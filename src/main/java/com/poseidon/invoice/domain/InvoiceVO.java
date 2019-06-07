@@ -1,6 +1,6 @@
 package com.poseidon.invoice.domain;
 
-import java.util.Date;
+import java.time.OffsetDateTime;
 import java.util.StringJoiner;
 
 /**
@@ -22,8 +22,8 @@ public class InvoiceVO {
     private Boolean includes;
     private Boolean greater;
     private Boolean lesser;
-    private Date createdDate;
-    private Date modifiedDate;
+    private OffsetDateTime createdDate;
+    private OffsetDateTime modifiedDate;
     private String createdBy;
     private String modifiedBy;
 
@@ -131,19 +131,19 @@ public class InvoiceVO {
         this.lesser = lesser;
     }
 
-    public Date getCreatedDate() {
+    public OffsetDateTime getCreatedDate() {
         return createdDate;
     }
 
-    public void setCreatedDate(Date createdDate) {
+    public void setCreatedDate(OffsetDateTime createdDate) {
         this.createdDate = createdDate;
     }
 
-    public Date getModifiedDate() {
+    public OffsetDateTime getModifiedDate() {
         return modifiedDate;
     }
 
-    public void setModifiedDate(Date modifiedDate) {
+    public void setModifiedDate(OffsetDateTime modifiedDate) {
         this.modifiedDate = modifiedDate;
     }
 

@@ -12,7 +12,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.Date;
+import java.time.OffsetDateTime;
+import java.time.ZoneId;
 import java.util.List;
 
 /**
@@ -179,8 +180,8 @@ public class CustomerController {
         LOG.info(CUSTOMER_FORM_IS, customerForm);
         try {
             CustomerVO customerVO = customerForm.getCurrentCustomerVO();
-            customerVO.setCreatedOn(new Date());
-            customerVO.setModifiedOn(new Date());
+            customerVO.setCreatedOn(OffsetDateTime.now(ZoneId.systemDefault()));
+            customerVO.setModifiedOn(OffsetDateTime.now(ZoneId.systemDefault()));
             customerVO.setCreatedBy(customerForm.getLoggedInUser());
             customerVO.setModifiedBy(customerForm.getLoggedInUser());
             customerService.saveCustomer(customerVO);
@@ -217,7 +218,7 @@ public class CustomerController {
         LOG.info(CUSTOMER_FORM_IS, customerForm);
         try {
             CustomerVO customerVO = customerForm.getCurrentCustomerVO();
-            customerVO.setModifiedOn(new Date());
+            customerVO.setModifiedOn(OffsetDateTime.now(ZoneId.systemDefault()));
             customerVO.setModifiedBy(customerForm.getLoggedInUser());
             customerService.updateCustomer(customerVO);
             customerForm.setStatusMessage("Updated the selected customer details successfully");

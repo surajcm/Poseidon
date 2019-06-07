@@ -22,7 +22,8 @@ import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.Date;
+import java.time.OffsetDateTime;
+import java.time.ZoneId;
 import java.util.List;
 
 
@@ -115,8 +116,8 @@ public class InvoiceController {
         LOG.info(String.format(INVOICE_FORM_DETAILS, invoiceForm));
         invoiceForm.getCurrentInvoiceVo().setCreatedBy(invoiceForm.getLoggedInUser());
         invoiceForm.getCurrentInvoiceVo().setModifiedBy(invoiceForm.getLoggedInUser());
-        invoiceForm.getCurrentInvoiceVo().setCreatedDate(new Date());
-        invoiceForm.getCurrentInvoiceVo().setModifiedDate(new Date());
+        invoiceForm.getCurrentInvoiceVo().setCreatedDate(OffsetDateTime.now(ZoneId.systemDefault()));
+        invoiceForm.getCurrentInvoiceVo().setModifiedDate(OffsetDateTime.now(ZoneId.systemDefault()));
         try {
             TransactionVO searchTransactionVo = new TransactionVO();
             searchTransactionVo.setTagNo(invoiceForm.getCurrentInvoiceVo().getTagNo());
@@ -251,7 +252,7 @@ public class InvoiceController {
     public ModelAndView updateInvoice(InvoiceForm invoiceForm) {
         LOG.info(String.format(INVOICE_FORM_DETAILS, invoiceForm));
         invoiceForm.getCurrentInvoiceVo().setModifiedBy(invoiceForm.getLoggedInUser());
-        invoiceForm.getCurrentInvoiceVo().setModifiedDate(new Date());
+        invoiceForm.getCurrentInvoiceVo().setModifiedDate(OffsetDateTime.now(ZoneId.systemDefault()));
         try {
             invoiceService.updateInvoice(invoiceForm.getCurrentInvoiceVo());
             invoiceForm.setStatusMessage("Successfully updated the new invoice Detail");

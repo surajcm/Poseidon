@@ -23,8 +23,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.time.OffsetDateTime;
+import java.time.ZoneId;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -155,8 +156,8 @@ public class TransactionController {
         LOG.info(" Inside SaveTxn method of TransactionController ");
         LOG.info(" form details are {} ", transactionForm);
         TransactionVO transactionVO = transactionForm.getCurrentTransaction();
-        transactionVO.setCreatedOn(new Date());
-        transactionVO.setModifiedOn(new Date());
+        transactionVO.setCreatedOn(OffsetDateTime.now(ZoneId.systemDefault()));
+        transactionVO.setModifiedOn(OffsetDateTime.now(ZoneId.systemDefault()));
         transactionVO.setCreatedBy(transactionForm.getLoggedInUser());
         transactionVO.setModifiedBy(transactionForm.getLoggedInUser());
         transactionVO.setStatus("NEW");
@@ -168,8 +169,8 @@ public class TransactionController {
         try {
             if (transactionVO.getCustomerId() == null) {
                 try {
-                    transactionForm.getCustomerVO().setCreatedOn(new Date());
-                    transactionForm.getCustomerVO().setModifiedOn(new Date());
+                    transactionForm.getCustomerVO().setCreatedOn(OffsetDateTime.now(ZoneId.systemDefault()));
+                    transactionForm.getCustomerVO().setModifiedOn(OffsetDateTime.now(ZoneId.systemDefault()));
                     transactionForm.getCustomerVO().setCreatedBy(transactionForm.getLoggedInUser());
                     transactionForm.getCustomerVO().setModifiedBy(transactionForm.getLoggedInUser());
                     long customerId = customerService.saveCustomer(transactionForm.getCustomerVO());
@@ -370,7 +371,7 @@ public class TransactionController {
         LOG.info(" updateTxn method of TransactionController ");
         LOG.info("TransactionForm values are {}", transactionForm);
         transactionForm.getCurrentTransaction().setModifiedBy(transactionForm.getLoggedInUser());
-        transactionForm.getCurrentTransaction().setModifiedOn(new Date());
+        transactionForm.getCurrentTransaction().setModifiedOn(OffsetDateTime.now(ZoneId.systemDefault()));
         LOG.info("TransactionForm, current transactions are values are {}", transactionForm.getCurrentTransaction());
         try {
             transactionService.updateTransaction(transactionForm.getCurrentTransaction());

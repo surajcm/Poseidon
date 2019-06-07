@@ -1,6 +1,6 @@
 package com.poseidon.make.domain;
 
-import java.util.Date;
+import java.time.OffsetDateTime;
 import java.util.StringJoiner;
 
 /**
@@ -12,8 +12,8 @@ public class MakeVO {
     private Long id;
     private String makeName;
     private String description;
-    private Date createdOn;
-    private Date modifiedOn;
+    private OffsetDateTime createdOn;
+    private OffsetDateTime modifiedOn;
     private String createdBy;
     private String modifiedBy;
 
@@ -41,19 +41,19 @@ public class MakeVO {
         this.description = description;
     }
 
-    public Date getCreatedOn() {
+    public OffsetDateTime getCreatedOn() {
         return createdOn;
     }
 
-    public void setCreatedOn(Date createdOn) {
+    public void setCreatedOn(OffsetDateTime createdOn) {
         this.createdOn = createdOn;
     }
 
-    public Date getModifiedOn() {
+    public OffsetDateTime getModifiedOn() {
         return modifiedOn;
     }
 
-    public void setModifiedOn(Date modifiedOn) {
+    public void setModifiedOn(OffsetDateTime modifiedOn) {
         this.modifiedOn = modifiedOn;
     }
 

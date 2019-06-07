@@ -1,6 +1,6 @@
 package com.poseidon.transaction.domain;
 
-import java.util.Date;
+import java.time.OffsetDateTime;
 import java.util.StringJoiner;
 
 /**
@@ -12,7 +12,7 @@ import java.util.StringJoiner;
 public class TransactionReportVO {
     private Long id;
     private String tagNo;
-    private Date dateReported;
+    private OffsetDateTime dateReported;
     private Long customerId;
     private String customerName;
     private String productCategory;
@@ -27,8 +27,8 @@ public class TransactionReportVO {
     private String enggRemark;
     private String repairAction;
     private String status;
-    private Date createdOn;
-    private Date modifiedOn;
+    private OffsetDateTime createdOn;
+    private OffsetDateTime modifiedOn;
     private String createdBy;
     private String modifiedBy;
     private Boolean startswith;
@@ -68,11 +68,11 @@ public class TransactionReportVO {
         this.tagNo = tagNo;
     }
 
-    public Date getDateReported() {
+    public OffsetDateTime getDateReported() {
         return dateReported;
     }
 
-    public void setDateReported(Date dateReported) {
+    public void setDateReported(OffsetDateTime dateReported) {
         this.dateReported = dateReported;
     }
 
@@ -172,19 +172,19 @@ public class TransactionReportVO {
         this.status = status;
     }
 
-    public Date getCreatedOn() {
+    public OffsetDateTime getCreatedOn() {
         return createdOn;
     }
 
-    public void setCreatedOn(Date createdOn) {
+    public void setCreatedOn(OffsetDateTime createdOn) {
         this.createdOn = createdOn;
     }
 
-    public Date getModifiedOn() {
+    public OffsetDateTime getModifiedOn() {
         return modifiedOn;
     }
 
-    public void setModifiedOn(Date modifiedOn) {
+    public void setModifiedOn(OffsetDateTime modifiedOn) {
         this.modifiedOn = modifiedOn;
     }
 
