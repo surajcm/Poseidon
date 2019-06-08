@@ -176,10 +176,16 @@
             var dMake = document.createElement("td");
             d.appendChild(dMake);
 
-            var inMake = document.createElement("input");
-            inMake.setAttribute("type","text");
+            var inMake = document.createElement("select");
             inMake.setAttribute("class", "form-control");
             inMake.setAttribute("id", "newMakeName");
+            var opLength = document.getElementById("makeName").options.length;
+            for( var i = 1; i <= opLength; i++) {
+                var newOption = document.createElement("option");
+                newOption.text = document.getElementById("makeName").options[i-1].text;
+                newOption.value = document.getElementById("makeName").options[i-1].value;
+                inMake.appendChild(newOption);
+            }
             dMake.appendChild(inMake);
 
             var dModel = document.createElement("td");
@@ -193,6 +199,71 @@
 
             myTable.appendChild(d);
         }
+
+        function saveSimpleModel() {
+            var e = document.forms[0].newMakeName;
+            var selectMakeId = e.options[e.selectedIndex].value;
+            var selectModelName = document.forms[0].newModelName.value;
+            $.ajax({
+                type: "POST",
+                url: "${contextPath}/make/saveModelAjax.htm",
+                data: "selectMakeId=" + selectMakeId + "&selectModelName=" + selectModelName + "&${_csrf.parameterName}=${_csrf.token}",
+                success: function(response) {
+                    alert(response);
+                    if (response != "") {
+                        rewriteTable(response);
+                    }
+                },error: function(e){
+                    alert('Error: ' + e);
+                }
+            });
+        }
+
+        function rewriteTable(textReturned) {
+            document.getElementById('myTable').innerHTML = "";
+            var myTable = document.getElementById("myTable");
+            var thead = document.createElement("thead");
+            var tr1 = document.createElement("tr");
+            var th1 = document.createElement("th");
+            th1.innerHTML = "#";
+            th1.setAttribute("class","text-center");
+            tr1.appendChild(th1);
+            var th2 = document.createElement("th");
+            th2.innerHTML = "Make Name";
+            th2.setAttribute("class","text-center");
+            tr1.appendChild(th2);
+            var th3 = document.createElement("th");
+            th3.innerHTML = "Model Name";
+            th3.setAttribute("class","text-center");
+            tr1.appendChild(th3);
+            thead.appendChild(tr1);
+            myTable.appendChild(thead);
+            var modelList = JSON.parse(textReturned);
+            var tbody = document.createElement("tbody");
+            for (var i = 0; i < modelList.length; i++) {
+                var singleModel = modelList[i];
+                var trx = document.createElement("tr");
+                var td1 = document.createElement("td");
+                var inCheck = document.createElement("input");
+                inCheck.setAttribute("type","checkbox");
+                inCheck.setAttribute("name","checkField");
+                inCheck.setAttribute("onclick","javascript:checkCall(this)");
+                inCheck.setAttribute("value",singleModel.id);
+                td1.appendChild(inCheck);
+                trx.appendChild(td1);
+                var td2 = document.createElement("td");
+                td2.innerHTML = singleModel.makeName;
+                trx.appendChild(td2);
+                var td3 = document.createElement("td");
+                td3.innerHTML = singleModel.modelName;
+                trx.appendChild(td3);
+                tbody.appendChild(trx);
+            }
+            myTable.appendChild(tbody);
+            //todo: optional message saving update is done !!
+
+        }
+
     </script>
 
 </head>
@@ -312,10 +383,13 @@
                         <td>
                             <input class="btn btn-primary" value="Add New Model" type="button" onclick="javascript:simpleAdd()"/>
                         </td>
-                        <td colspan="3">
-                            <br/>
-                            <br/>
                         <td>
+                            <input class="btn btn-primary btn-block" value="Simple Save Model" type="button" onclick="javascript:saveSimpleModel()"/>
+                        </td>
+                        <td colspan="2">
+                            <br/>
+                            <br/>
+                        </td>
                     </tr>
                 </table>
             </div>

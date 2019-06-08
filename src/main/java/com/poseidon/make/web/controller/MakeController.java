@@ -335,6 +335,70 @@ public class MakeController {
     }
 
     /**
+     * saveModelAjax
+     *
+     * @param selectMakeId selectMakeId
+     * @param selectModelName selectModelName
+     * @param result result
+     * @return json string
+     */
+    @PostMapping("/make/saveModelAjax.htm")
+    public @ResponseBody
+    String saveModelAjax(@ModelAttribute("selectMakeId") Long selectMakeId,
+                        @ModelAttribute("selectModelName") String selectModelName,
+                        BindingResult result) {
+        LOG.info("saveModelAjax method of MakeController ");
+        StringBuilder responseString = new StringBuilder();
+        if (!result.hasErrors()) {
+            LOG.info("selectMakeId : {}", selectMakeId);
+            LOG.info("selectModelName : {}", selectModelName);
+            // todo: how to get this ??
+            //makeForm.getCurrentMakeAndModeVO().setCreatedBy(makeForm.getLoggedInUser());
+            //makeForm.getCurrentMakeAndModeVO().setModifiedBy(makeForm.getLoggedInUser());
+            MakeAndModelVO makeAndModelVO = new MakeAndModelVO();
+            makeAndModelVO.setMakeId(selectMakeId);
+            makeAndModelVO.setModelName(selectModelName);
+            makeAndModelVO.setCreatedDate(OffsetDateTime.now(ZoneId.systemDefault()));
+            makeAndModelVO.setModifiedDate(OffsetDateTime.now(ZoneId.systemDefault()));
+            makeAndModelVO.setCreatedBy("-ajax-");
+            makeAndModelVO.setModifiedBy("-ajax-");
+
+            MakeForm makeForm = new MakeForm();
+            makeForm.setCurrentMakeAndModeVO(makeAndModelVO);
+            try {
+                makeService.addNewModel(makeForm.getCurrentMakeAndModeVO());
+                makeForm.setStatusMessage("Successfully saved the new make Detail");
+                makeForm.setStatusMessageType(SUCCESS);
+            } catch (Exception e1) {
+                makeForm.setStatusMessage("Unable to save the make Detail due to an error");
+                makeForm.setStatusMessageType(ERROR);
+                LOG.error(e1.getLocalizedMessage());
+                LOG.info(UNKNOWN_ERROR);
+            }
+            //get all the make and pass it as a json object
+            List<MakeAndModelVO> makeAndModelVOs = makeService.listAllMakesAndModels();
+            responseString.append(fetchJSONModelList(makeAndModelVOs));
+
+        } else {
+            LOG.info("errors {}", result);
+        }
+        return responseString.toString();
+    }
+
+    private String fetchJSONModelList(List<MakeAndModelVO> makeAndModelVOs) {
+        String response;
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            response = mapper.writeValueAsString(makeAndModelVOs);
+        } catch (IOException e) {
+            response = ERROR;
+            LOG.error(e.getMessage());
+        }
+        LOG.info(response);
+        return response;
+    }
+
+    /**
      * update a make
      *
      * @param makeForm makeForm
