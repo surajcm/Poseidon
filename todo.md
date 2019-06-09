@@ -11,5 +11,4 @@
 9. fix image issue in reports normal view
 10. Replace the reporting with html alternatives and libraries like apache poi
 11. Remove add model screen and move the logic to the listing screen
-12. Hibernate - use java8 date fields
-13. Combine Make & Model screen , its add /edit/updates . Make the descriptions optional
+12. Combine Make & Model screen , its add /edit/updates .

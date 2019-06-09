@@ -65,7 +65,7 @@ public class TransactionController {
      * @param transactionForm TransactionForm
      * @return view
      */
-    @PostMapping(value = "/txs/List.htm")
+    @PostMapping("/txs/List.htm")
     public ModelAndView list(TransactionForm transactionForm) {
         LOG.info(" Inside List method of TransactionController ");
         LOG.info(" form details are {}", transactionForm);
@@ -114,7 +114,7 @@ public class TransactionController {
      * @param transactionForm TransactionForm
      * @return view
      */
-    @PostMapping(value = "/txs/AddTxn.htm")
+    @PostMapping("/txs/AddTxn.htm")
     public ModelAndView addTxn(TransactionForm transactionForm) {
         LOG.info(" Inside AddTxn method of TransactionController ");
         transactionForm.setLoggedInUser(transactionForm.getLoggedInUser());
@@ -126,19 +126,17 @@ public class TransactionController {
         } catch (Exception e) {
             LOG.error(e.getLocalizedMessage());
         }
-        if (makeVOs != null) {
+        List<MakeAndModelVO> makeAndModelVOs = null;
+        if (makeVOs != null && !makeVOs.isEmpty()) {
             makeVOs.stream().map(makeVO -> "make vo is" + makeVO).forEach(LOG::info);
             transactionForm.setMakeVOs(makeVOs);
-            if (!makeVOs.isEmpty()) {
-                List<MakeAndModelVO> makeAndModelVOs;
-                LOG.info("The selected make id is {}", makeVOs.get(0).getId());
-                makeAndModelVOs = makeService.getAllModelsFromMakeId(makeVOs.get(0).getId());
-                if (makeAndModelVOs != null) {
-                    transactionForm.setMakeAndModelVOs(makeAndModelVOs);
-                    makeAndModelVOs.stream().map(makeAndModelVO -> "makeAndModel vo is" + makeAndModelVO)
-                            .forEach(LOG::info);
-                }
-            }
+            LOG.info("The selected make id is {}", makeVOs.get(0).getId());
+            makeAndModelVOs = makeService.getAllModelsFromMakeId(makeVOs.get(0).getId());
+        }
+        if (makeAndModelVOs != null) {
+            transactionForm.setMakeAndModelVOs(makeAndModelVOs);
+            makeAndModelVOs.stream().map(makeAndModelVO -> "makeAndModel vo is" + makeAndModelVO)
+                    .forEach(LOG::info);
         }
         transactionForm.setCurrentTransaction(new TransactionVO());
         transactionForm.setCustomerVO(new CustomerVO());
@@ -151,7 +149,7 @@ public class TransactionController {
      * @param transactionForm TransactionForm
      * @return view
      */
-    @PostMapping(value = "/txs/SaveTxn.htm")
+    @PostMapping("/txs/SaveTxn.htm")
     public ModelAndView saveTxn(TransactionForm transactionForm) {
         LOG.info(" Inside SaveTxn method of TransactionController ");
         LOG.info(" form details are {} ", transactionForm);
@@ -253,7 +251,7 @@ public class TransactionController {
      * @param transactionForm TransactionForm
      * @return view
      */
-    @PostMapping(value = "/txs/SearchTxn.htm")
+    @PostMapping("/txs/SearchTxn.htm")
     public ModelAndView searchTxn(TransactionForm transactionForm) {
         LOG.info(" Inside SearchTxn method of TransactionController ");
         LOG.info(" form details are {}", transactionForm);
@@ -308,7 +306,7 @@ public class TransactionController {
      * @param transactionForm TransactionForm
      * @return view
      */
-    @PostMapping(value = "/txs/EditTxn.htm")
+    @PostMapping("/txs/EditTxn.htm")
     public ModelAndView editTxn(TransactionForm transactionForm) {
         LOG.info(" EditTxn method of TransactionController ");
         LOG.info(" transactionForm is {}", transactionForm);
@@ -366,7 +364,7 @@ public class TransactionController {
      * @param transactionForm TransactionForm
      * @return view
      */
-    @PostMapping(value = "/txs/updateTxn.htm")
+    @PostMapping("/txs/updateTxn.htm")
     public ModelAndView updateTxn(TransactionForm transactionForm) {
         LOG.info(" updateTxn method of TransactionController ");
         LOG.info("TransactionForm values are {}", transactionForm);
@@ -417,7 +415,7 @@ public class TransactionController {
      * @param transactionForm TransactionForm
      * @return view
      */
-    @PostMapping(value = "/txs/DeleteTxn.htm")
+    @PostMapping("/txs/DeleteTxn.htm")
     public ModelAndView deleteTxn(TransactionForm transactionForm) {
         LOG.info(" DeleteTxn method of TransactionController ");
         LOG.info("TransactionForm values are {}", transactionForm);

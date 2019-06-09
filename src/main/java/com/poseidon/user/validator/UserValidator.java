@@ -31,13 +31,13 @@ public class UserValidator implements Validator {
     /**
      * validate method overridden from validator.
      *
-     * @param o      o the user instance
+     * @param userVo      userVo the user instance
      * @param errors errors
      */
     @Override
-    public void validate(Object o, Errors errors) {
+    public void validate(Object userVo, Errors errors) {
         logger.info(" Inside the validate method");
-        UserVO user = (UserVO) o;
+        UserVO user = (UserVO) userVo;
 
         if (user.getName().trim().length() == 0) {
             errors.rejectValue("name", "error.required.user.name", "user Name is required");

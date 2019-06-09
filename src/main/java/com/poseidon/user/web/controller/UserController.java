@@ -217,9 +217,9 @@ public class UserController {
      * @return String
      */
     @PostMapping("/user/saveUserAjax.htm")
-    public String saveUserAjax(@ModelAttribute(value = "selectName") String selectName,
-                               @ModelAttribute(value = "selectLogin") String selectLogin,
-                               @ModelAttribute(value = "selectRole") String selectRole,
+    public String saveUserAjax(@ModelAttribute("selectName") String selectName,
+                               @ModelAttribute("selectLogin") String selectLogin,
+                               @ModelAttribute("selectRole") String selectRole,
                                BindingResult result) {
         logger.info("saveUserAjax method of user controller ");
 
