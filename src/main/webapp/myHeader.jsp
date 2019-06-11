@@ -14,9 +14,12 @@
     <spring:url value="/resources/images/Poseidon_Ico.ico" var="posIcon" />
     <link rel="shortcut icon" href="${posIcon}" >
     <link href="/css/bootstrap.min.css" rel="stylesheet" type="text/css">
+    <!--link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" crossorigin="anonymous" type="text/css"-->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.css" crossorigin="anonymous" type="text/css">
     <!--link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.theme.min.css" crossorigin="anonymous" type="text/css"-->
 
+    <link rel="stylesheet" href="/css/custom/bootstrap.css" media="screen">
+    <link rel="stylesheet" href="/css/custom/custom.min.css">
 
     <!--link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-material-design/0.5.8/css/bootstrap-material-design.min.css"-->
     <!--link href="/css/font-awesome.min.css" rel="stylesheet" type="text/css"-->
@@ -32,28 +35,6 @@
             margin:auto;
             top:50%;
             left:50%;
-        }
-        body {
-            padding-top: 9px;
-            font-family: 'Lato',sans-serif;
-        }
-        /* responsive nav stacked liked 3.x */
-        @media(max-width:48em) {
-            .navbar .navbar-nav>.nav-item {
-                float: none;
-                margin-left: .1rem;
-            }
-            .navbar .navbar-nav {
-                float:none !important;
-            }
-            .navbar .collapse.in, .navbar .collapsing  {
-                clear:both;
-            }
-        }
-
-        .navbar-toggle:focus,
-        .navbar-toggle:active {
-            outline: 0;
         }
     </style>
     <script type="text/javascript">
@@ -104,7 +85,7 @@
     </script>
 </head>
 <body>
-<nav class="navbar navbar-expand-lg navbar-dark bg-primary">
+<nav class="navbar navbar-expand-lg fixed-top navbar-dark bg-primary">
     <spring:url value="/resources/images/Poseidon_Menu.png" var="posIcon2" />
     <a class="navbar-brand" href="#" onclick="javascript:goToHome();"><span><img src="${posIcon2}" width="30" height="30" class="d-inline-block align-top" alt="Poseidon"/></span>Poseidon</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
