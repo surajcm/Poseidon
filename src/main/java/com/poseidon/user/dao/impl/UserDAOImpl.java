@@ -178,39 +178,37 @@ public class UserDAOImpl implements UserDAO {
         Root<User> userRoot = criteria.from(User.class);
         criteria.select(userRoot);
 
-        if (searchUser.getIncludes()) {
-            if (!StringUtils.isEmpty(searchUser.getName())) {
-                criteria.where(builder.like(userRoot.get("name"), "%" + searchUser.getName() + "%"));
-            }
-            if (!StringUtils.isEmpty(searchUser.getLoginId())) {
-                criteria.where(builder.like(userRoot.get("logInId"), "%" + searchUser.getLoginId() + "%"));
-            }
-            if (!StringUtils.isEmpty(searchUser.getRole())) {
-                criteria.where(builder.like(userRoot.get("role"), "%" + searchUser.getRole() + "%"));
-            }
-        } else if (searchUser.getStartsWith()) {
-            if (!StringUtils.isEmpty(searchUser.getName())) {
-                criteria.where(builder.like(userRoot.get("name"), searchUser.getName() + "%"));
-            }
-            if (!StringUtils.isEmpty(searchUser.getLoginId())) {
-                criteria.where(builder.like(userRoot.get("logInId"), searchUser.getLoginId() + "%"));
-            }
-            if (!StringUtils.isEmpty(searchUser.getRole())) {
-                criteria.where(builder.like(userRoot.get("role"), searchUser.getRole() + "%"));
-            }
-        } else {
-            if (!StringUtils.isEmpty(searchUser.getName())) {
-                criteria.where(builder.equal(userRoot.get("name"), searchUser.getName()));
-            }
-            if (!StringUtils.isEmpty(searchUser.getLoginId())) {
-                criteria.where(builder.equal(userRoot.get("logInId"), searchUser.getLoginId()));
-            }
-            if (!StringUtils.isEmpty(searchUser.getRole())) {
-                criteria.where(builder.equal(userRoot.get("role"), searchUser.getRole()));
-            }
+        if (!StringUtils.isEmpty(searchUser.getName())) {
+            String pattern = searchPattern(searchUser.getIncludes(), searchUser.getStartsWith(),
+                    searchUser.getName());
+            criteria.where(builder.like(userRoot.get("name"), pattern));
+        }
+
+        if (!StringUtils.isEmpty(searchUser.getLoginId())) {
+            String pattern = searchPattern(searchUser.getIncludes(), searchUser.getStartsWith(),
+                    searchUser.getLoginId());
+            criteria.where(builder.like(userRoot.get("logInId"), pattern));
+        }
+
+        if (!StringUtils.isEmpty(searchUser.getRole())) {
+            String pattern = searchPattern(searchUser.getIncludes(), searchUser.getStartsWith(),
+                    searchUser.getRole());
+            criteria.where(builder.equal(userRoot.get("role"), pattern));
         }
         List<User> resultUsers = em.unwrap(Session.class).createQuery(criteria).getResultList();
         return convertUsersToUserVOs(resultUsers);
+    }
+
+    private String searchPattern(boolean includes, boolean startsWith, String field) {
+        String pattern;
+        if (includes) {
+            pattern = "%" + field + "%";
+        } else if (startsWith) {
+            pattern = field + "%";
+        } else {
+            pattern = field;
+        }
+        return pattern;
     }
 
     /**

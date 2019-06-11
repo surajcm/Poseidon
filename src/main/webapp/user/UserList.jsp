@@ -49,7 +49,7 @@
         }
 
         //code to delete a user
-        function deleteRow(){
+        function deleteRow() {
             var answer = confirm(" Are you sure you wanted to delete the user ");
             if(answer){
                 //if yes then delete
@@ -76,7 +76,7 @@
 
 
         //preventing multiple checks
-        function checkCall(e){
+        function checkCall(e) {
             var min = e.value;
             var checks = document.getElementsByName('checkField');
             for(var i = 0; i < checks.length ; i++){
@@ -213,13 +213,13 @@
                 url: "${contextPath}/user/saveUserAjax.htm",
                 data: "selectName=" + selectName + "&selectLogin=" + selectLogin + "&selectRole=" + selectRole + "&${_csrf.parameterName}=${_csrf.token}",
                 success: function(response) {
-                    //alert(response);
+                    alert(response);
                     if (response != "") {
                         rewriteTable(response);
                     }
                 },error: function(e){
                     alert('Error: ' + e);
-                    alert(data.responseText);
+                    //alert(data.responseText);
                 }
             });
         }

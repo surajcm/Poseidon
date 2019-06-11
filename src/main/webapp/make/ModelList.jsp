@@ -209,7 +209,7 @@
                 url: "${contextPath}/make/saveModelAjax.htm",
                 data: "selectMakeId=" + selectMakeId + "&selectModelName=" + selectModelName + "&${_csrf.parameterName}=${_csrf.token}",
                 success: function(response) {
-                    alert(response);
+                    //alert(response);
                     if (response != "") {
                         rewriteTable(response);
                     }

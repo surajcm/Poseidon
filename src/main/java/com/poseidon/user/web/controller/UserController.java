@@ -222,7 +222,6 @@ public class UserController {
                                @ModelAttribute("selectRole") String selectRole,
                                BindingResult result) {
         logger.info("saveUserAjax method of user controller ");
-
         logger.info(" At saveUserAjax, selectName is : {}", selectName);
         logger.info(" At saveUserAjax, selectLogin : {}", selectLogin);
         logger.info(" At saveUserAjax, selectRole : {}", selectRole);
@@ -281,9 +280,9 @@ public class UserController {
             response = mapper.writeValueAsString(userList);
         } catch (IOException e) {
             response = ERROR;
-            logger.error(e.getMessage());
+            logger.error("error parsing to json : "+e.getMessage());
         }
-        logger.info(response);
+        logger.info("user list json : "+response);
         return response;
     }
 
