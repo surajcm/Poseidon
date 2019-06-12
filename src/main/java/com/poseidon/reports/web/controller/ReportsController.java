@@ -402,6 +402,7 @@ public class ReportsController {
         try {
             LOG.info("In generateJasperReport method");
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            httpServletResponse.setHeader("X-Frame-Options","SAMEORIGIN");
             if ("EXCEL".equalsIgnoreCase(reportType)) {
                 LOG.info("ExcelReport -- > reportFileName ---> " + reportFileName + reportType);
                 httpServletResponse.setContentType("application/vnd.ms-excel");

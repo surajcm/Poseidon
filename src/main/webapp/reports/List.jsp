@@ -12,44 +12,44 @@
     <script type="text/javascript">
         function fetchMakeReport() {
             document.getElementById('exportTo').value = document.getElementById('makeExportValue').options[document.getElementById('makeExportValue').selectedIndex].text;
-            document.reportsForm.target = 'reportContent';
-            document.reportsForm.action = 'getMakeDetailsReport.htm';
-            document.reportsForm.submit();
-            document.reportsForm.target = '';
+            document.forms[0].target = 'reportContent';
+            document.forms[0].action = 'getMakeDetailsReport.htm';
+            document.forms[0].submit();
+            document.forms[0].target = '';
         }
 
         function fetchCallReport() {
             document.getElementById('exportTo').value = document.getElementById('callExportValue').options[document.getElementById('callExportValue').selectedIndex].text;
             document.getElementById('tagNo').value = document.getElementById('callTagNo').value;
-            document.reportsForm.target = 'reportContent';
-            document.reportsForm.action = 'getCallReport.htm';
-            document.reportsForm.submit();
-            document.reportsForm.target = '';
+            document.forms[0].target = 'reportContent';
+            document.forms[0].action = 'getCallReport.htm';
+            document.forms[0].submit();
+            document.forms[0].target = '';
         }
 
         function fetchTransactionsListReport() {
             document.getElementById('exportTo').value = document.getElementById('txnExportValue').options[document.getElementById('txnExportValue').selectedIndex].text;
-            document.reportsForm.target = 'reportContent';
-            document.reportsForm.action = 'getTransactionsListReport.htm';
-            document.reportsForm.submit();
-            document.reportsForm.target = '';
+            document.forms[0].target = 'reportContent';
+            document.forms[0].action = 'getTransactionsListReport.htm';
+            document.forms[0].submit();
+            document.forms[0].target = '';
         }
 
         function fetchModelListReport() {
             document.getElementById('exportTo').value = document.getElementById('makeExportValue').options[document.getElementById('makeExportValue').selectedIndex].text;
-            document.reportsForm.target = 'reportContent';
-            document.reportsForm.action = 'getModelListReport.htm';
-            document.reportsForm.submit();
-            document.reportsForm.target = '';
+            document.forms[0].target = 'reportContent';
+            document.forms[0].action = 'getModelListReport.htm';
+            document.forms[0].submit();
+            document.forms[0].target = '';
         }
 
         function fetchInvoiceReport() {
             document.getElementById('exportTo').value = document.getElementById('invoiceExportValue').options[document.getElementById('invoiceExportValue').selectedIndex].text;
             document.getElementById('tagNo').value = document.getElementById('invoiceTagNo').value;
-            document.reportsForm.target = 'reportContent';
-            document.reportsForm.action = 'getInvoiceReport.htm';
-            document.reportsForm.submit();
-            document.reportsForm.target = '';
+            document.forms[0].target = 'reportContent';
+            document.forms[0].action = 'getInvoiceReport.htm';
+            document.forms[0].submit();
+            document.forms[0].target = '';
         }
         function changeTheTxnModel(){
             var selectMakeId = document.searchTransaction.makeId.value;
@@ -65,7 +65,7 @@
         }
 
         function changeTheModel(){
-            var selectMakeId = document.reportsForm.makeId.value;
+            var selectMakeId = document.forms[0].makeId.value;
             var url = "${contextPath}/txs/UpdateModelAjax.htm";
             url = url + "?selectMakeId=" + selectMakeId;
             bustcacheparameter = (url.indexOf("?") != -1) ? "&" + new Date().getTime() : "?" + new Date().getTime();
@@ -111,14 +111,14 @@
                         }
                     }
                     var l =0;
-                    document.reportsForm.modelId.options.length = resultIds.length - 1;
-                    document.reportsForm.modelId.options[0] = new Option("<-- Select -->", "");
+                    document.forms[0].modelId.options.length = resultIds.length - 1;
+                    document.forms[0].modelId.options[0] = new Option("<-- Select -->", "");
                     for (var i = 1; i <= (resultIds.length); i++) {
-                        document.reportsForm.modelId.options[i] = new Option(resultNames[i - 1], resultIds[i - 1]);
+                        document.forms[0].modelId.options[i] = new Option(resultNames[i - 1], resultIds[i - 1]);
                     }
                 } else {
-                    document.reportsForm.modelId.options.length = 0;
-                    document.reportsForm.modelId.options[0] = new Option("<-- Select -->", "");
+                    document.forms[0].modelId.options.length = 0;
+                    document.forms[0].modelId.options[0] = new Option("<-- Select -->", "");
                 }
             }
         }
@@ -158,13 +158,7 @@
             document.getElementById('reportmgt').text = "Report <span class='sr-only'>Report</span>";
         }
     </script>
-    <script>
-        $(function() {
-            $( "#tabs" ).tabs();
-            $( "#startDate" ).datepicker({ dateFormat: "dd/mm/yy" });
-            $( "#endDate" ).datepicker({ dateFormat: "dd/mm/yy" });
-        });
-    </script>
+
 </head>
 <body onload="javascript:selectMenu()">
 <form:form method="POST" modelAttribute="reportsForm" >
@@ -173,6 +167,13 @@
 <form:hidden name="exportTo" path="currentReport.exportTo" id="exportTo"/>
 <form:hidden name="tagNo" path="currentReport.tagNo" id="tagNo"/>
 <%@include file="../myHeader.jsp" %>
+<script>
+    $(function() {
+        $( "#tabs" ).tabs();
+        $( "#startDate" ).datepicker({ dateFormat: "dd/mm/yy" });
+        $( "#endDate" ).datepicker({ dateFormat: "dd/mm/yy" });
+    });
+</script>
 <div class="container">
 <ul class="nav nav-tabs">
     <li class="nav-item">
