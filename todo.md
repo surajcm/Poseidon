@@ -1,5 +1,4 @@
 ## Things to do
--------------
 1. UI enhancements ( checkbox replacement, better drop down, alignment, alert using bootstrap popup )
 2. Replace ajax with jquery based ajax
 3. Better login page with customer registration.
@@ -11,4 +10,6 @@
 9. fix image issue in reports normal view
 10. Replace the reporting with html alternatives and libraries like apache poi
 11. Remove add model screen and move the logic to the listing screen
-12. Combine Make & Model screen , its add /edit/updates .
+12. Fix the issue with model addition, in which we cant have more than one model for a single make
+13. Fix issues with model edit, as id is not selected now.
+13. Combine Make & Model screen , its add /edit/updates.

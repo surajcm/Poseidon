@@ -22,10 +22,6 @@
             document.forms[0].submit();
         }
 
-        function addNewModel() {
-            document.forms[0].action = "addModel.htm";
-            document.forms[0].submit();
-        }
         function search() {
             document.forms[0].action = "searchModel.htm";
             document.forms[0].submit();
@@ -360,7 +356,7 @@
                 </table>
                 <table>
                     <tr>
-                        <td colspan="4">
+                        <td colspan="5">
                             <br/>
                             <br/>
                         <td>
@@ -370,7 +366,7 @@
                             <input class="btn btn-primary" value="Make List" type="button" onclick="javascript:listAllMake()"/>
                         </td>
                         <td>
-                            <input class="btn btn-primary" value="Add Model" type="button" onclick="javascript:addNewModel()"/>
+                            <input class="btn btn-primary" value="Add Model" type="button" onclick="javascript:simpleAdd()"/>
                         </td>
                         <td>
                             <input class="btn btn-primary" value="Edit Model" type="button" onclick="javascript:editModel()"/>
@@ -378,17 +374,8 @@
                         <td>
                             <input class="btn btn-primary" value="Delete Model" type="button" onclick="javascript:deleteModel()"/>
                         </td>
-                    </tr>
-                    <tr>
                         <td>
-                            <input class="btn btn-primary" value="Add New Model" type="button" onclick="javascript:simpleAdd()"/>
-                        </td>
-                        <td>
-                            <input class="btn btn-primary btn-block" value="Simple Save Model" type="button" onclick="javascript:saveSimpleModel()"/>
-                        </td>
-                        <td colspan="2">
-                            <br/>
-                            <br/>
+                            <input class="btn btn-primary" value="Save Model" type="button" onclick="javascript:saveSimpleModel()"/>
                         </td>
                     </tr>
                 </table>

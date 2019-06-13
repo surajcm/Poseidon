@@ -175,32 +175,6 @@ public class MakeController {
     }
 
     /**
-     * add a new model
-     *
-     * @param makeForm makeForm
-     * @return view
-     */
-    @RequestMapping(value = "/make/addModel.htm", method = {RequestMethod.GET, RequestMethod.POST})
-    @SuppressWarnings("unused")
-    public ModelAndView addModel(MakeForm makeForm) {
-        LOG.debug("addModel method of MakeController ");
-        makeForm.setLoggedInUser(makeForm.getLoggedInUser());
-        makeForm.setLoggedInRole(makeForm.getLoggedInRole());
-        makeForm.setCurrentMakeAndModeVO(new MakeAndModelVO());
-        List<MakeAndModelVO> makeVOs = null;
-        try {
-            makeVOs = makeService.listAllMakes();
-        } catch (Exception e) {
-            LOG.error(e.getLocalizedMessage());
-        }
-        if (makeVOs != null) {
-            makeVOs.forEach(makeVO -> LOG.debug(MAKE_VO_IS, makeVO));
-            makeForm.setMakeAndModelVOs(makeVOs);
-        }
-        return new ModelAndView("make/ModelAdd", MAKE_FORM, makeForm);
-    }
-
-    /**
      * edit model
      *
      * @param makeForm makeForm

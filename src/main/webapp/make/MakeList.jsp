@@ -126,7 +126,7 @@
 
         //code to delete
         function deleteRow() {
-            var answer = confirm(" Are you sure you wanted to delete the user ");
+            var answer = confirm(" Are you sure you wanted to delete the make ");
             if (answer) {
                 //if yes then delete
                 var userRow;
@@ -374,22 +374,9 @@
                         <td>
                             <input class="btn btn-primary" value="Delete Make" type="button" onclick="javascript:deleteMake()"/>
                         </td>
-                        <!--td>
-                            <input class="btn" value="Print MakeList" type="button" onclick="javascript:printMe()"/>
-                        </td-->
-                    </tr>
-                    <tr>
-                        <td colspan="5">
-                            <br/>
-                            <br/>
-                        <td>
-                    </tr>
-                    <tr>
                         <td>
                             <input class="btn btn-primary btn-block" value="Save Make" type="button" onclick="javascript:saveSimpleMake()"/>
                         <td>
-                        <td colspan="4">
-                        </td>
                     </tr>
                 </table>
             </div>
