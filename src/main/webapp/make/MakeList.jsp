@@ -147,7 +147,6 @@
                     document.forms[0].submit();
                 }
             }
-
         }
 
         //preventing multiple checks

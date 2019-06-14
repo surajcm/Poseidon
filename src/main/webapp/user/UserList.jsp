@@ -11,12 +11,6 @@
     <title><spring:message code="poseidon.userListPage" text="User List" /></title>
     <script type="text/javascript">
 
-        //code to add New user
-        function addNew(){
-            document.forms[0].action="AddUser.htm";
-            document.forms[0].submit();
-        }
-
         // delete user
         function deleteUser(){
             var check ='false';
@@ -213,7 +207,7 @@
                 url: "${contextPath}/user/saveUserAjax.htm",
                 data: "selectName=" + selectName + "&selectLogin=" + selectLogin + "&selectRole=" + selectRole + "&${_csrf.parameterName}=${_csrf.token}",
                 success: function(response) {
-                    alert(response);
+                    //alert(response);
                     if (response != "") {
                         rewriteTable(response);
                     }
@@ -390,11 +384,10 @@
                         <td>
                             <br/>
                             <br/>
-                            <input class="btn btn-primary" value="<spring:message code='poseidon.add' text='Add New User' />" type="button" onclick="javascript:addNew()" />
+                            <input class="btn btn-primary" value="<spring:message code='poseidon.add' text='Add New User' />" type="button" onclick="javascript:simpleAdd()" />
                             <input class="btn btn-primary" value="<spring:message code='poseidon.edit' text='Edit User' />" type="button" onclick="javascript:editMe()" />
                             <input class="btn btn-primary" value="<spring:message code='poseidon.delete' text='Delete User' />" type="button" onclick="javascript:deleteUser()" />
-                            <input class="btn btn-primary" value="<spring:message code='poseidon.simple.add' text='Simple Add' />" type="button" onclick="javascript:simpleAdd()" />
-                            <input class="btn btn-primary" value="<spring:message code='poseidon.simple.save' text='Simple Save' />" type="button" onclick="javascript:simpleSave()" />
+                            <input class="btn btn-primary" value="<spring:message code='poseidon.simple.save' text='Save' />" type="button" onclick="javascript:simpleSave()" />
                         </td>
                     </tr>
                 </table>

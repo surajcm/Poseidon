@@ -15,6 +15,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.io.IOException;
@@ -129,85 +130,6 @@ public class UserController {
     }
 
     /**
-     * Screen to add a new user.
-     *
-     * @param userForm userForm instance
-     * @return ModelAndView to render
-     */
-    @PostMapping("/user/AddUser.htm")
-    public ModelAndView addUser(UserForm userForm) {
-        logger.info(" Inside AddUser method of user controller ");
-        userForm.setLoggedInUser(userForm.getLoggedInUser());
-        userForm.setLoggedInRole(userForm.getLoggedInRole());
-        userForm.setUser(new UserVO());
-        userForm.setRoleList(populateRoles());
-        return new ModelAndView("user/userAdd", USER_FORM, userForm);
-    }
-
-    /**
-     * add a new user to database.
-     *
-     * @param userForm user instance
-     * @return ModelAndView to render
-     */
-    @PostMapping("/user/SaveUser.htm")
-    public ModelAndView saveUser(UserForm userForm) {
-        logger.info(" Inside SaveUser method of user controller ");
-        logger.info(" user instance to add to database {}", userForm);
-        try {
-            userForm.getUser().setCreatedDate(OffsetDateTime.now(ZoneId.systemDefault()));
-            userForm.getUser().setModifiedDate(OffsetDateTime.now(ZoneId.systemDefault()));
-            userForm.getUser().setCreatedBy(userForm.getLoggedInUser());
-            userForm.getUser().setLastModifiedBy(userForm.getLoggedInUser());
-            userService.save(userForm.getUser());
-            userForm.setStatusMessage("Successfully saved the new user");
-            userForm.setStatusMessageType(SUCCESS);
-        } catch (UserException e) {
-            userForm.setStatusMessage("Unable to save the user due to a database error");
-            userForm.setStatusMessageType(ERROR);
-            logger.error(e.getLocalizedMessage());
-            logger.error(EXCEPTION_IN_CONTROLLER, e.exceptionType);
-            if (e.getExceptionType().equalsIgnoreCase(UserException.DATABASE_ERROR)) {
-                logger.info(DB_ERROR);
-            } else {
-                logger.info(UNKNOWN_ERROR);
-            }
-
-        } catch (Exception e1) {
-            userForm.setStatusMessage("Unable to save the user due to an error");
-            userForm.setStatusMessageType(ERROR);
-            logger.error(e1.getLocalizedMessage());
-            logger.info(UNKNOWN_ERROR);
-        }
-        List<UserVO> userList = null;
-        try {
-            userList = userService.getAllUserDetails();
-        } catch (UserException e) {
-            userForm.setStatusMessage("Unable to list the Users due to an error");
-            userForm.setStatusMessageType(ERROR);
-            logger.error(e.getLocalizedMessage());
-            logger.error(EXCEPTION_IN_CONTROLLER, e.exceptionType);
-            if (e.getExceptionType().equalsIgnoreCase(UserException.DATABASE_ERROR)) {
-                logger.info(DB_ERROR);
-            } else {
-                logger.info(UNKNOWN_ERROR);
-            }
-        } catch (Exception e1) {
-            logger.error(e1.getLocalizedMessage());
-            logger.info(UNKNOWN_ERROR);
-        }
-        if (userList != null) {
-            userList.forEach(userIteration -> logger.info(" user detail : {}", userIteration));
-        }
-        userForm.setUserVOs(userList);
-        userForm.setLoggedInUser(userForm.getLoggedInUser());
-        userForm.setLoggedInRole(userForm.getLoggedInRole());
-        userForm.setSearchUser(new UserVO());
-        userForm.setRoleList(populateRoles());
-        return new ModelAndView(USER_LIST, USER_FORM, userForm);
-    }
-
-    /**
      * save user using ajax call.
      *
      * @param selectName  String
@@ -217,10 +139,11 @@ public class UserController {
      * @return String
      */
     @PostMapping("/user/saveUserAjax.htm")
-    public String saveUserAjax(@ModelAttribute("selectName") String selectName,
-                               @ModelAttribute("selectLogin") String selectLogin,
-                               @ModelAttribute("selectRole") String selectRole,
-                               BindingResult result) {
+    public @ResponseBody
+    String saveUserAjax(@ModelAttribute("selectName") String selectName,
+                        @ModelAttribute("selectLogin") String selectLogin,
+                        @ModelAttribute("selectRole") String selectRole,
+                        BindingResult result) {
         logger.info("saveUserAjax method of user controller ");
         logger.info(" At saveUserAjax, selectName is : {}", selectName);
         logger.info(" At saveUserAjax, selectLogin : {}", selectLogin);
@@ -264,6 +187,7 @@ public class UserController {
             logger.error(e1.getLocalizedMessage());
             logger.info(UNKNOWN_ERROR);
         }
+        userList.stream().forEach(u -> u.setPassword(""));
         return fetchJsonUserList(userList);
     }
 
