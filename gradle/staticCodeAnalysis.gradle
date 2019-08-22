@@ -24,6 +24,7 @@ spotbugs {
     toolVersion = '3.1.12'
     ignoreFailures = true
 }
+
 pmd {
     toolVersion = '6.12.0'
     ignoreFailures = false
