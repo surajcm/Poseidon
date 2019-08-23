@@ -24,4 +24,6 @@ dependencies {
     testCompile("junit:junit")
     testCompile("org.powermock:powermock-mockito-release-full:1.6.4")
     testCompile("org.powermock:powermock-api-mockito2:1.7.0")
+
+    testCompile("org.springframework:spring-test")
 }
