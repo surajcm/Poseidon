@@ -204,9 +204,9 @@ public class UserController {
             response = mapper.writeValueAsString(userList);
         } catch (IOException e) {
             response = ERROR;
-            logger.error("error parsing to json : "+e.getMessage());
+            logger.error("error parsing to json : " + e.getMessage());
         }
-        logger.info("user list json : "+response);
+        logger.info("user list json : " + response);
         return response;
     }
 
