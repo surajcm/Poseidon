@@ -1,6 +1,7 @@
 buildscript {
     repositories {
         mavenCentral()
+        maven(url = "https://plugins.gradle.org/m2/")
     }
     dependencies {
         classpath("org.springframework.boot:spring-boot-gradle-plugin:2.1.7.RELEASE")
