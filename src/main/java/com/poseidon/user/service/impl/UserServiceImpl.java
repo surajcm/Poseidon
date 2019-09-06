@@ -30,28 +30,6 @@ public class UserServiceImpl implements UserService {
     private BCryptPasswordEncoder bcryptPasswordEncoder;
 
     /**
-     * to dao layer
-     *
-     * @param user user
-     * @return user instance from database
-     * @throws UserException on error
-     */
-    @Override
-    public UserVO logIn(UserVO user) throws UserException {
-        UserVO realUser = null;
-        try {
-            LOG.info(" Inside user service impl");
-            realUser = userDAO.logIn(user);
-        } catch (UserException e) {
-            LOG.error(EXCEPTION_TYPE_IN_SERVICE_IMPL + e.getExceptionType());
-            throw new UserException(e.getExceptionType());
-        } catch (Exception e1) {
-            LOG.error(e1.getMessage());
-        }
-        return realUser;
-    }
-
-    /**
      * getAllUserDetails to list all user details
      *
      * @return List of user

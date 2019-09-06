@@ -11,14 +11,6 @@ import java.util.List;
  * Time: 2:38:15 PM
  */
 public interface UserService {
-    /**
-     * log in service
-     *
-     * @param user user
-     * @return user instance from database
-     * @throws UserException on error
-     */
-    UserVO logIn(UserVO user) throws UserException;
 
     /**
      * getAllUserDetails to list all user details

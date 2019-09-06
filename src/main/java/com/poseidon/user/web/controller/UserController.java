@@ -58,8 +58,7 @@ public class UserController {
     public ModelAndView index() {
         logger.info(" Inside Index method of user controller ");
         UserForm userForm = new UserForm();
-        UserVO userVo = new UserVO();
-        userForm.setUser(userVo);
+        userForm.setUser(new UserVO());
         return new ModelAndView("MainPage", USER_FORM, userForm);
     }
 
@@ -113,20 +112,9 @@ public class UserController {
             userList.forEach(userIteration -> logger.info(" user detail {}", userIteration));
         }
         userForm.setUserVOs(userList);
-        userForm.setLoggedInUser(userForm.getLoggedInUser());
-        userForm.setLoggedInRole(userForm.getLoggedInRole());
         userForm.setSearchUser(new UserVO());
         userForm.setRoleList(populateRoles());
         return new ModelAndView(USER_LIST, USER_FORM, userForm);
-    }
-
-    /**
-     * populateRoles.
-     *
-     * @return List of String
-     */
-    private List<String> populateRoles() {
-        return Arrays.stream(Role.values()).map(Enum::name).collect(Collectors.toList());
     }
 
     /**
@@ -175,6 +163,7 @@ public class UserController {
         List<UserVO> userList = null;
         try {
             userList = userService.getAllUserDetails();
+            userList.forEach(u -> u.setPassword(""));
         } catch (UserException e) {
             logger.error(e.getLocalizedMessage());
             logger.error(EXCEPTION_IN_CONTROLLER, e.exceptionType);
@@ -187,7 +176,6 @@ public class UserController {
             logger.error(e1.getLocalizedMessage());
             logger.info(UNKNOWN_ERROR);
         }
-        userList.stream().forEach(u -> u.setPassword(""));
         return fetchJsonUserList(userList);
     }
 
@@ -241,8 +229,6 @@ public class UserController {
             logger.info(" user details are {}", userVo);
         }
         userForm.setUser(userVo);
-        userForm.setLoggedInUser(userForm.getLoggedInUser());
-        userForm.setLoggedInRole(userForm.getLoggedInRole());
         userForm.setRoleList(populateRoles());
         return new ModelAndView("user/userEdit", USER_FORM, userForm);
     }
@@ -362,4 +348,13 @@ public class UserController {
         return new ModelAndView(USER_LIST, USER_FORM, userForm);
     }
 
+
+    /**
+     * populateRoles.
+     *
+     * @return List of String
+     */
+    private List<String> populateRoles() {
+        return Arrays.stream(Role.values()).map(Enum::name).collect(Collectors.toList());
+    }
 }
