@@ -239,7 +239,7 @@ public class UserController {
      * @param userForm user instance
      * @return ModelAndView to render
      */
-    @PostMapping("/user/updateUser.htm")
+    @PostMapping("/user/UpdateUser.htm")
     public ModelAndView updateUser(UserForm userForm) {
         logger.info(" Inside updateUser method of user controller ");
         try {
