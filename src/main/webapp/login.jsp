@@ -56,8 +56,8 @@
                                  <button type="submit" class="btn">Sign in</button>
                             </p>
                             <p class="checkbox">
-                                 <label>
-                                 <input type="checkbox"> keep me logged-in
+                                 <label class="sr-only" >
+                                 <input type="checkbox" /> keep me logged-in
                                  </label>
                             </p>
                         </fieldset>

@@ -138,6 +138,15 @@
         }
 
         function addNewUser() {
+            var isAddInProgress = document.getElementById("id").value;
+            //alert(isAddInProgress);
+            if (isAddInProgress != "TRUE") {
+                document.getElementById("id").value = "TRUE";
+                addUser();
+            }
+        }
+
+        function addUser() {
             //todo: add check for multiple calls
             var myTable = document.getElementById("myTable");
 
@@ -274,6 +283,8 @@
             }
             myTable.appendChild(tbody);
             //todo: optional message saving update is done !!
+            var isAddInProgress = document.getElementById("id").value;
+            isAddInProgress = "FALSE";
         }
 
     </script>
@@ -281,6 +292,7 @@
 <body onload="javascript:hideAlerts()">
 <form:form method="POST" action="listAll.htm" modelAttribute="userForm">
     <input type="hidden" name="id" id="id" />
+    <input type="hidden" name="addInProgress" id="addInProgress" />
     <form:hidden name="loggedInUser" path="loggedInUser" />
     <form:hidden name="loggedInRole" path="loggedInRole" />
     <%@include file="../myHeader.jsp" %>
