@@ -17,7 +17,6 @@ plugins {
     id("org.springframework.boot") version "2.1.8.RELEASE"
     id("net.ltgt.errorprone") version "0.8.1"
     id("io.spring.dependency-management") version "1.0.8.RELEASE"
-    id("de.aaschmid.cpd") version "2.0"
 }
 
 apply("gradle/dependencies.gradle")
