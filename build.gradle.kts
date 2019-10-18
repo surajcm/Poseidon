@@ -13,7 +13,7 @@ plugins {
     java
     idea
     application
-    id("org.springframework.boot") version "2.1.9.RELEASE"
+    id("org.springframework.boot") version "2.2.0.RELEASE"
     id("net.ltgt.errorprone") version "0.8.1"
     id("io.spring.dependency-management") version "1.0.8.RELEASE"
 }
