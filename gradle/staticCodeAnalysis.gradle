@@ -36,13 +36,6 @@ tasks.withType(Checkstyle) {
     }
 }
 
-tasks.withType(FindBugs) {
-    reports {
-        xml.enabled false
-        html.enabled true
-    }
-}
-
 tasks.withType(Pmd) {
     reports {
         xml.enabled false
