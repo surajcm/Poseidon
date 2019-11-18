@@ -4,7 +4,7 @@ buildscript {
         maven(url = "https://plugins.gradle.org/m2/")
     }
     dependencies {
-        classpath("org.springframework.boot:spring-boot-gradle-plugin:2.2.0.RELEASE")
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:2.2.1.RELEASE")
         classpath("gradle.plugin.com.github.spotbugs:spotbugs-gradle-plugin:2.0.0")
     }
 }
@@ -13,7 +13,7 @@ plugins {
     java
     idea
     application
-    id("org.springframework.boot") version "2.2.0.RELEASE"
+    id("org.springframework.boot") version "2.2.1.RELEASE"
     id("net.ltgt.errorprone") version "0.8.1"
     id("io.spring.dependency-management") version "1.0.8.RELEASE"
 }
