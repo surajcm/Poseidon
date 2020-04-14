@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.StringJoiner;
 
 /**
- * user: Suraj
+ * user: Suraj.
  * Date: Jun 2, 2012
  * Time: 7:24:42 PM
  */
@@ -27,7 +27,7 @@ public class MakeForm {
         return makeAndModelVOs;
     }
 
-    public void setMakeAndModelVOs(List<MakeAndModelVO> makeAndModelVOs) {
+    public void setMakeAndModelVOs(final List<MakeAndModelVO> makeAndModelVOs) {
         this.makeAndModelVOs = makeAndModelVOs;
     }
 
@@ -35,7 +35,7 @@ public class MakeForm {
         return currentMakeAndModeVO;
     }
 
-    public void setCurrentMakeAndModeVO(MakeAndModelVO currentMakeAndModeVO) {
+    public void setCurrentMakeAndModeVO(final MakeAndModelVO currentMakeAndModeVO) {
         this.currentMakeAndModeVO = currentMakeAndModeVO;
     }
 
@@ -43,7 +43,7 @@ public class MakeForm {
         return searchMakeAndModelVO;
     }
 
-    public void setSearchMakeAndModelVO(MakeAndModelVO searchMakeAndModelVO) {
+    public void setSearchMakeAndModelVO(final MakeAndModelVO searchMakeAndModelVO) {
         this.searchMakeAndModelVO = searchMakeAndModelVO;
     }
 
@@ -51,7 +51,7 @@ public class MakeForm {
         return loggedInRole;
     }
 
-    public void setLoggedInRole(String loggedInRole) {
+    public void setLoggedInRole(final String loggedInRole) {
         this.loggedInRole = loggedInRole;
     }
 
@@ -59,7 +59,7 @@ public class MakeForm {
         return loggedInUser;
     }
 
-    public void setLoggedInUser(String loggedInUser) {
+    public void setLoggedInUser(final String loggedInUser) {
         this.loggedInUser = loggedInUser;
     }
 
@@ -67,7 +67,7 @@ public class MakeForm {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(final Long id) {
         this.id = id;
     }
 
@@ -75,7 +75,7 @@ public class MakeForm {
         return makeVO;
     }
 
-    public void setMakeVO(MakeVO makeVO) {
+    public void setMakeVO(final MakeVO makeVO) {
         this.makeVO = makeVO;
     }
 
@@ -83,7 +83,7 @@ public class MakeForm {
         return makeVOs;
     }
 
-    public void setMakeVOs(List<MakeVO> makeVOs) {
+    public void setMakeVOs(final List<MakeVO> makeVOs) {
         this.makeVOs = makeVOs;
     }
 
@@ -91,7 +91,7 @@ public class MakeForm {
         return statusMessage;
     }
 
-    public void setStatusMessage(String statusMessage) {
+    public void setStatusMessage(final String statusMessage) {
         this.statusMessage = statusMessage;
     }
 
@@ -99,7 +99,7 @@ public class MakeForm {
         return statusMessageType;
     }
 
-    public void setStatusMessageType(String statusMessageType) {
+    public void setStatusMessageType(final String statusMessageType) {
         this.statusMessageType = statusMessageType;
     }
 

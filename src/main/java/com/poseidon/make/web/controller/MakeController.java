@@ -23,7 +23,7 @@ import java.time.ZoneId;
 import java.util.List;
 
 /**
- * user: Suraj
+ * user: Suraj.
  * Date: Jun 2, 2012
  * Time: 7:24:14 PM
  */
@@ -41,23 +41,23 @@ public class MakeController {
     @Autowired
     private MakeService makeService;
 
-    /**
+    /**.
      * list all models
      *
      * @param makeForm makeForm
      * @return view
      */
     @RequestMapping(value = "/make/ModelList.htm", method = {RequestMethod.POST, RequestMethod.GET})
-    public ModelAndView modelList(MakeForm makeForm) {
+    public ModelAndView modelList(final MakeForm makeForm) {
         LOG.info(" Inside List method of MakeController, form details are  {}", makeForm);
 
         List<MakeAndModelVO> makeAndModelVOs = null;
         try {
             makeAndModelVOs = makeService.listAllMakesAndModels();
-        } catch (Exception e) {
+        } catch (Exception ex) {
             makeForm.setStatusMessage("Unable to list the Models due to an error");
             makeForm.setStatusMessageType(ERROR);
-            LOG.error(e.getLocalizedMessage());
+            LOG.error(ex.getLocalizedMessage());
         }
         if (makeAndModelVOs != null) {
             for (MakeAndModelVO makeAndModelVO : makeAndModelVOs) {
@@ -68,13 +68,11 @@ public class MakeController {
         List<MakeVO> makeVOs = null;
         try {
             makeVOs = makeService.fetchMakes();
-        } catch (Exception e) {
-            LOG.error(e.getLocalizedMessage());
+        } catch (Exception ex) {
+            LOG.error(ex.getLocalizedMessage());
         }
         if (makeVOs != null) {
-            for (MakeVO makeVO : makeVOs) {
-                LOG.debug(MAKE_VO_IS, makeVO);
-            }
+            makeVOs.forEach(makeVO -> LOG.debug(MAKE_VO_IS, makeVO));
             makeForm.setMakeVOs(makeVOs);
         }
         makeForm.setSearchMakeAndModelVO(new MakeAndModelVO());
@@ -84,21 +82,21 @@ public class MakeController {
     }
 
     /**
-     * list out makes
+     * list out makes.
      *
      * @param makeForm makeForm
      * @return view
      */
     @PostMapping("/make/MakeList.htm")
-    public ModelAndView makeList(MakeForm makeForm) {
+    public ModelAndView makeList(final MakeForm makeForm) {
         LOG.info(" listMake List method of MakeController ");
         List<MakeAndModelVO> makeAndModelVOs = null;
         try {
             makeAndModelVOs = makeService.listAllMakes();
-        } catch (Exception e) {
+        } catch (Exception ex) {
             makeForm.setStatusMessage("Unable to list the Makes due to an error");
             makeForm.setStatusMessageType(ERROR);
-            LOG.error(e.getLocalizedMessage());
+            LOG.error(ex.getLocalizedMessage());
         }
         if (makeAndModelVOs != null) {
             makeAndModelVOs.forEach(makeAndModelVO -> LOG.debug(" makeAndModelVO is {}", makeAndModelVO));
@@ -108,8 +106,8 @@ public class MakeController {
         List<MakeVO> makeVOs = null;
         try {
             makeVOs = makeService.fetchMakes();
-        } catch (Exception e) {
-            LOG.error(e.getLocalizedMessage());
+        } catch (Exception ex) {
+            LOG.error(ex.getLocalizedMessage());
         }
         if (makeVOs != null) {
             makeVOs.forEach(makeVO -> LOG.debug(MAKE_VO_IS, makeVO));
@@ -123,13 +121,13 @@ public class MakeController {
     }
 
     /**
-     * edit a make
+     * edit a make.
      *
      * @param makeForm makeForm
      * @return view
      */
     @PostMapping("/make/editMake.htm")
-    public ModelAndView editMake(MakeForm makeForm) {
+    public ModelAndView editMake(final MakeForm makeForm) {
         LOG.debug(" editMake method of MakeController ");
         LOG.debug(MAKE_FORM_IS, makeForm);
         MakeAndModelVO makeVO = null;
@@ -152,14 +150,14 @@ public class MakeController {
     }
 
     /**
-     * delete a make
+     * delete a make.
      *
      * @param makeForm makeForm
      * @return view
      */
     @PostMapping("/make/deleteMake.htm")
     @SuppressWarnings("unused")
-    public ModelAndView deleteMake(MakeForm makeForm) {
+    public ModelAndView deleteMake(final MakeForm makeForm) {
         LOG.debug("deleteMake method of MakeController ");
         LOG.debug(MAKE_FORM_IS, makeForm);
         try {
@@ -175,26 +173,23 @@ public class MakeController {
     }
 
     /**
-     * edit model
+     * edit model.
      *
      * @param makeForm makeForm
      * @return view
      */
     @PostMapping("/make/editModel.htm")
     @SuppressWarnings("unused")
-    public ModelAndView editModel(MakeForm makeForm) {
+    public ModelAndView editModel(final MakeForm makeForm) {
         LOG.debug(" editModel method of MakeController ");
-
         LOG.debug(MAKE_FORM_IS, makeForm);
         MakeAndModelVO makeVO = null;
         try {
             makeVO = makeService.getModelFromId(makeForm.getId());
-
         } catch (Exception e1) {
             LOG.error(e1.getLocalizedMessage());
             LOG.error(UNKNOWN_ERROR);
         }
-
         if (makeVO == null) {
             LOG.error(" No details found for current makeVO !!");
         } else {
@@ -205,8 +200,8 @@ public class MakeController {
         List<MakeAndModelVO> makeVOs = null;
         try {
             makeVOs = makeService.listAllMakes();
-        } catch (Exception e) {
-            LOG.error(e.getLocalizedMessage());
+        } catch (Exception ex) {
+            LOG.error(ex.getLocalizedMessage());
         }
         if (makeVOs != null) {
             makeVOs.forEach(makeVONew -> LOG.debug(MAKE_VO_IS, makeVONew));
@@ -218,14 +213,14 @@ public class MakeController {
     }
 
     /**
-     * delete model
+     * delete model.
      *
      * @param makeForm makeForm
      * @return view
      */
     @PostMapping("/make/deleteModel.htm")
     @SuppressWarnings("unused")
-    public ModelAndView deleteModel(MakeForm makeForm) {
+    public ModelAndView deleteModel(final MakeForm makeForm) {
         LOG.debug("deleteModel method of MakeController ");
         LOG.debug(MAKE_FORM_IS, makeForm);
         try {
@@ -245,7 +240,7 @@ public class MakeController {
     }
 
     /**
-     * save make via ajax
+     * save make via ajax.
      *
      * @param selectMakeName selectMakeName
      * @param selectMakeDesc selectMakeDesc
@@ -254,9 +249,9 @@ public class MakeController {
      */
     @PostMapping("/make/saveMakeAjax.htm")
     public @ResponseBody
-    String saveMakeAjax(@ModelAttribute("selectMakeName") String selectMakeName,
-                        @ModelAttribute("selectMakeDesc") String selectMakeDesc,
-                        BindingResult result) {
+    String saveMakeAjax(@ModelAttribute("selectMakeName") final String selectMakeName,
+                        @ModelAttribute("selectMakeDesc") final String selectMakeDesc,
+                        final BindingResult result) {
         LOG.info("saveMakeAjax1 method of MakeController ");
         StringBuilder responseString = new StringBuilder();
         if (!result.hasErrors()) {
@@ -287,7 +282,7 @@ public class MakeController {
             }
             //get all the make and pass it as a json object
             List<MakeVO> makes = makeService.fetchMakes();
-            responseString.append(fetchJSONMakeList(makes));
+            responseString.append(fetchJsonMakeList(makes));
 
         } else {
             LOG.info("errors {}", result);
@@ -295,21 +290,21 @@ public class MakeController {
         return responseString.toString();
     }
 
-    private String fetchJSONMakeList(List<MakeVO> makeVOS) {
+    private String fetchJsonMakeList(final List<MakeVO> makeVOS) {
         String response;
         ObjectMapper mapper = new ObjectMapper();
         try {
             response = mapper.writeValueAsString(makeVOS);
-        } catch (IOException e) {
+        } catch (IOException ex) {
             response = ERROR;
-            LOG.error(e.getMessage());
+            LOG.error(ex.getMessage());
         }
         LOG.info(response);
         return response;
     }
 
     /**
-     * saveModelAjax
+     * saveModelAjax.
      *
      * @param selectMakeId selectMakeId
      * @param selectModelName selectModelName
@@ -318,9 +313,9 @@ public class MakeController {
      */
     @PostMapping("/make/saveModelAjax.htm")
     public @ResponseBody
-    String saveModelAjax(@ModelAttribute("selectMakeId") Long selectMakeId,
-                        @ModelAttribute("selectModelName") String selectModelName,
-                        BindingResult result) {
+    String saveModelAjax(@ModelAttribute("selectMakeId") final Long selectMakeId,
+                        @ModelAttribute("selectModelName") final String selectModelName,
+                        final BindingResult result) {
         LOG.info("saveModelAjax method of MakeController ");
         StringBuilder responseString = new StringBuilder();
         if (!result.hasErrors()) {
@@ -351,7 +346,7 @@ public class MakeController {
             }
             //get all the make and pass it as a json object
             List<MakeAndModelVO> makeAndModelVOs = makeService.listAllMakesAndModels();
-            responseString.append(fetchJSONModelList(makeAndModelVOs));
+            responseString.append(fetchJsonModelList(makeAndModelVOs));
 
         } else {
             LOG.info("errors {}", result);
@@ -359,27 +354,27 @@ public class MakeController {
         return responseString.toString();
     }
 
-    private String fetchJSONModelList(List<MakeAndModelVO> makeAndModelVOs) {
+    private String fetchJsonModelList(final List<MakeAndModelVO> makeAndModelVOs) {
         String response;
         ObjectMapper mapper = new ObjectMapper();
         try {
             response = mapper.writeValueAsString(makeAndModelVOs);
-        } catch (IOException e) {
+        } catch (IOException ex) {
             response = ERROR;
-            LOG.error(e.getMessage());
+            LOG.error(ex.getMessage());
         }
         LOG.info(response);
         return response;
     }
 
     /**
-     * update a make
+     * update a make.
      *
      * @param makeForm makeForm
      * @return view
      */
     @PostMapping("/make/updateMake.htm")
-    public ModelAndView updateMake(MakeForm makeForm) {
+    public ModelAndView updateMake(final MakeForm makeForm) {
         LOG.info("updateMake method of MakeController, makeForm instance to add to database  {}", makeForm);
         makeForm.getCurrentMakeAndModeVO().setModifiedDate(OffsetDateTime.now(ZoneId.systemDefault()));
         makeForm.getCurrentMakeAndModeVO().setModifiedBy(makeForm.getLoggedInUser());
@@ -392,19 +387,18 @@ public class MakeController {
             makeForm.setStatusMessageType(ERROR);
             LOG.error(e1.getLocalizedMessage());
             LOG.error(UNKNOWN_ERROR);
-
         }
         return makeList(makeForm);
     }
 
     /**
-     * update a model
+     * update a model.
      *
      * @param makeForm makeForm
      * @return view
      */
     @PostMapping("/make/updateModel.htm")
-    public ModelAndView updateModel(MakeForm makeForm) {
+    public ModelAndView updateModel(final MakeForm makeForm) {
         LOG.debug(" updateModel method of MakeController , makeForm instance to add to database {}", makeForm);
         makeForm.getCurrentMakeAndModeVO().setModifiedDate(OffsetDateTime.now(ZoneId.systemDefault()));
         makeForm.getCurrentMakeAndModeVO().setModifiedBy(makeForm.getLoggedInUser());
@@ -417,19 +411,18 @@ public class MakeController {
             makeForm.setStatusMessageType(ERROR);
             LOG.error(e1.getLocalizedMessage());
             LOG.error(UNKNOWN_ERROR);
-
         }
         return modelList(makeForm);
     }
 
     /**
-     * save a model
+     * save a model.
      *
      * @param makeForm makeForm
      * @return view
      */
     @PostMapping("/make/saveModel.htm")
-    public ModelAndView saveModel(MakeForm makeForm) {
+    public ModelAndView saveModel(final MakeForm makeForm) {
         LOG.info(" at saveModel makeForm instance to add to database {}", makeForm);
         makeForm.getCurrentMakeAndModeVO().setCreatedDate(OffsetDateTime.now(ZoneId.systemDefault()));
         makeForm.getCurrentMakeAndModeVO().setModifiedDate(OffsetDateTime.now(ZoneId.systemDefault()));
@@ -444,19 +437,18 @@ public class MakeController {
             makeForm.setStatusMessageType(ERROR);
             LOG.error(e1.getLocalizedMessage());
             LOG.error(UNKNOWN_ERROR);
-
         }
         return modelList(makeForm);
     }
 
     /**
-     * search for a model
+     * search for a model.
      *
      * @param makeForm makeForm
      * @return view
      */
     @PostMapping("/make/searchModel.htm")
-    public ModelAndView searchModel(MakeForm makeForm) {
+    public ModelAndView searchModel(final MakeForm makeForm) {
         LOG.debug(" searchModel method of MakeController ");
         LOG.debug(" makeForm instance to search {}", makeForm);
         LOG.debug(" searchVO instance to search {}", makeForm.getSearchMakeAndModelVO());
@@ -465,10 +457,10 @@ public class MakeController {
             makeVOs = makeService.searchMakeVOs(makeForm.getSearchMakeAndModelVO());
             makeForm.setStatusMessage("Found " + makeVOs.size() + " Models");
             makeForm.setStatusMessageType("info");
-        } catch (Exception e) {
+        } catch (Exception ex) {
             makeForm.setStatusMessage("Unable get the Model");
             makeForm.setStatusMessageType(ERROR);
-            LOG.error(e.getLocalizedMessage());
+            LOG.error(ex.getLocalizedMessage());
         }
         if (makeVOs != null) {
             makeVOs.forEach(makeVO -> LOG.debug(MAKE_VO_IS, makeVO));
@@ -477,8 +469,8 @@ public class MakeController {
         List<MakeVO> searchMakeVOs = null;
         try {
             searchMakeVOs = makeService.fetchMakes();
-        } catch (Exception e) {
-            LOG.error(e.getLocalizedMessage());
+        } catch (Exception ex) {
+            LOG.error(ex.getLocalizedMessage());
         }
         if (searchMakeVOs != null) {
             searchMakeVOs.forEach(searchMakeVO -> LOG.debug(" searchMakeVO is {}", searchMakeVO));
@@ -487,17 +479,16 @@ public class MakeController {
         makeForm.setLoggedInRole(makeForm.getLoggedInRole());
         makeForm.setLoggedInUser(makeForm.getLoggedInUser());
         return new ModelAndView("make/ModelList", MAKE_FORM, makeForm);
-
     }
 
     /**
-     * print make
+     * print make.
      *
      * @param makeForm makeForm
      * @return view
      */
     @PostMapping("/make/printMake.htm")
-    public ModelAndView printMake(MakeForm makeForm) {
+    public ModelAndView printMake(final MakeForm makeForm) {
         return null;
     }
 }

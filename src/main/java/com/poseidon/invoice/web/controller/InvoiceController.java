@@ -26,12 +26,6 @@ import java.time.OffsetDateTime;
 import java.time.ZoneId;
 import java.util.List;
 
-
-/**
- * user: Suraj.
- * Date: 7/26/12
- * Time: 9:56 PM
- */
 @Controller
 //@RequestMapping("/invoice")
 @SuppressWarnings("unused")
@@ -52,15 +46,15 @@ public class InvoiceController {
     @Autowired
     private MakeService makeService;
 
-    public void setTransactionService(TransactionService transactionService) {
+    public void setTransactionService(final TransactionService transactionService) {
         this.transactionService = transactionService;
     }
 
-    public void setMakeService(MakeService makeService) {
+    public void setMakeService(final MakeService makeService) {
         this.makeService = makeService;
     }
 
-    public void setInvoiceService(InvoiceService invoiceService) {
+    public void setInvoiceService(final InvoiceService invoiceService) {
         this.invoiceService = invoiceService;
     }
 
@@ -71,7 +65,7 @@ public class InvoiceController {
      * @return ModelAndView
      */
     @PostMapping("/invoice/ListInvoice.htm")
-    public ModelAndView listInvoice(InvoiceForm invoiceForm) {
+    public ModelAndView listInvoice(final InvoiceForm invoiceForm) {
         LOG.info(" Inside ListInvoice method of InvoiceController ");
         List<InvoiceVO> invoiceVOs;
         try {
@@ -79,10 +73,10 @@ public class InvoiceController {
             if (invoiceVOs != null && !invoiceVOs.isEmpty()) {
                 invoiceForm.setInvoiceVos(invoiceVOs);
             }
-        } catch (InvoiceException e) {
+        } catch (InvoiceException ex) {
             invoiceForm.setStatusMessage("Unable to list the Invoices due to an error");
             invoiceForm.setStatusMessageType(ERROR);
-            LOG.error(e.getLocalizedMessage());
+            LOG.error(ex.getLocalizedMessage());
         }
         invoiceForm.setSearchInvoiceVo(new InvoiceVO());
         invoiceForm.setLoggedInUser(invoiceForm.getLoggedInUser());
@@ -97,7 +91,7 @@ public class InvoiceController {
      * @return ModelAndView
      */
     @PostMapping("/invoice/addInvoice.htm")
-    public ModelAndView addInvoice(InvoiceForm invoiceForm) {
+    public ModelAndView addInvoice(final InvoiceForm invoiceForm) {
         LOG.info(" Inside addInvoice method of InvoiceController ");
         InvoiceVO vo = new InvoiceVO();
         vo.setQuantity(1);
@@ -112,7 +106,7 @@ public class InvoiceController {
      * @return ModelAndView
      */
     @PostMapping("/invoice/saveInvoice.htm")
-    public ModelAndView saveInvoice(InvoiceForm invoiceForm) {
+    public ModelAndView saveInvoice(final InvoiceForm invoiceForm) {
         LOG.info(String.format(INVOICE_FORM_DETAILS, invoiceForm));
         invoiceForm.getCurrentInvoiceVo().setCreatedBy(invoiceForm.getLoggedInUser());
         invoiceForm.getCurrentInvoiceVo().setModifiedBy(invoiceForm.getLoggedInUser());
@@ -126,10 +120,9 @@ public class InvoiceController {
             List<TransactionVO> transactionVOs = null;
             try {
                 transactionVOs = transactionService.searchTransactions(searchTransactionVo);
-            } catch (TransactionException e) {
-                LOG.error(e.getLocalizedMessage());
+            } catch (TransactionException ex) {
+                LOG.error(ex.getLocalizedMessage());
             }
-
 
             if (transactionVOs != null && !transactionVOs.isEmpty()) {
                 invoiceService.addInvoice(invoiceForm.getCurrentInvoiceVo());
@@ -144,10 +137,10 @@ public class InvoiceController {
                         + invoiceForm.getCurrentInvoiceVo().getTagNo());
                 invoiceForm.setStatusMessageType(ERROR);
             }
-        } catch (Exception e) {
+        } catch (Exception ex) {
             invoiceForm.setStatusMessage("Unable to save the invoice due to an error");
             invoiceForm.setStatusMessageType(ERROR);
-            LOG.error(e.getLocalizedMessage());
+            LOG.error(ex.getLocalizedMessage());
         }
         List<InvoiceVO> invoiceVOs;
         try {
@@ -155,8 +148,8 @@ public class InvoiceController {
             if (invoiceVOs != null && !invoiceVOs.isEmpty()) {
                 invoiceForm.setInvoiceVos(invoiceVOs);
             }
-        } catch (InvoiceException e) {
-            LOG.error(e.getLocalizedMessage());
+        } catch (InvoiceException ex) {
+            LOG.error(ex.getLocalizedMessage());
         }
         invoiceForm.setSearchInvoiceVo(new InvoiceVO());
         return new ModelAndView(LIST_INVOICE, INVOICE_FORM, invoiceForm);
@@ -169,14 +162,14 @@ public class InvoiceController {
      * @return ModelAndView
      */
     @PostMapping("/invoice/EditInvoice.htm")
-    public ModelAndView editInvoice(InvoiceForm invoiceForm) {
+    public ModelAndView editInvoice(final InvoiceForm invoiceForm) {
         LOG.info(String.format(INVOICE_FORM_DETAILS, invoiceForm));
         InvoiceVO invoiceVo;
         try {
             invoiceVo = invoiceService.fetchInvoiceVOFromId(invoiceForm.getId());
             invoiceForm.setCurrentInvoiceVo(invoiceVo);
-        } catch (InvoiceException e) {
-            LOG.error(e.getLocalizedMessage());
+        } catch (InvoiceException ex) {
+            LOG.error(ex.getLocalizedMessage());
         }
         return new ModelAndView("invoice/EditInvoice", INVOICE_FORM, invoiceForm);
     }
@@ -188,7 +181,7 @@ public class InvoiceController {
      * @return ModelAndView
      */
     @PostMapping("/invoice/DeleteInvoice.htm")
-    public ModelAndView deleteInvoice(InvoiceForm invoiceForm) {
+    public ModelAndView deleteInvoice(final InvoiceForm invoiceForm) {
         LOG.info(String.format(INVOICE_FORM_DETAILS, invoiceForm));
         try {
             InvoiceVO invoiceVo = invoiceService.fetchInvoiceVOFromId(invoiceForm.getId());
@@ -199,10 +192,10 @@ public class InvoiceController {
             transactionService.updateTransactionStatus(reportVo.getId(), "CLOSED");
             invoiceForm.setStatusMessage("Successfully deleted the new invoice Detail");
             invoiceForm.setStatusMessageType("success");
-        } catch (Exception e) {
+        } catch (Exception ex) {
             invoiceForm.setStatusMessage("Unable to delete the invoice due to an error");
             invoiceForm.setStatusMessageType(ERROR);
-            LOG.error(e.getLocalizedMessage());
+            LOG.error(ex.getLocalizedMessage());
         }
         List<InvoiceVO> invoiceVOs;
         try {
@@ -210,8 +203,8 @@ public class InvoiceController {
             if (invoiceVOs != null && !invoiceVOs.isEmpty()) {
                 invoiceForm.setInvoiceVos(invoiceVOs);
             }
-        } catch (InvoiceException e) {
-            LOG.error(e.getLocalizedMessage());
+        } catch (InvoiceException ex) {
+            LOG.error(ex.getLocalizedMessage());
         }
         invoiceForm.setSearchInvoiceVo(new InvoiceVO());
         return new ModelAndView(LIST_INVOICE, INVOICE_FORM, invoiceForm);
@@ -224,7 +217,7 @@ public class InvoiceController {
      * @return ModelAndView
      */
     @PostMapping("/invoice/SearchInvoice.htm")
-    public ModelAndView searchInvoice(InvoiceForm invoiceForm) {
+    public ModelAndView searchInvoice(final InvoiceForm invoiceForm) {
         LOG.info(String.format(INVOICE_FORM_DETAILS, invoiceForm));
         List<InvoiceVO> invoiceVOs;
         try {
@@ -234,10 +227,10 @@ public class InvoiceController {
             }
             invoiceForm.setStatusMessage("Found " + invoiceVOs.size() + " invoice details");
             invoiceForm.setStatusMessageType("info");
-        } catch (InvoiceException e) {
+        } catch (InvoiceException ex) {
             invoiceForm.setStatusMessage("Unable to find the Invoices due to an error");
             invoiceForm.setStatusMessageType(ERROR);
-            LOG.error(e.getLocalizedMessage());
+            LOG.error(ex.getLocalizedMessage());
         }
         return new ModelAndView(LIST_INVOICE, INVOICE_FORM, invoiceForm);
     }
@@ -249,7 +242,7 @@ public class InvoiceController {
      * @return ModelAndView
      */
     @PostMapping("/invoice/updateInvoice.htm")
-    public ModelAndView updateInvoice(InvoiceForm invoiceForm) {
+    public ModelAndView updateInvoice(final InvoiceForm invoiceForm) {
         LOG.info(String.format(INVOICE_FORM_DETAILS, invoiceForm));
         invoiceForm.getCurrentInvoiceVo().setModifiedBy(invoiceForm.getLoggedInUser());
         invoiceForm.getCurrentInvoiceVo().setModifiedDate(OffsetDateTime.now(ZoneId.systemDefault()));
@@ -257,10 +250,10 @@ public class InvoiceController {
             invoiceService.updateInvoice(invoiceForm.getCurrentInvoiceVo());
             invoiceForm.setStatusMessage("Successfully updated the new invoice Detail");
             invoiceForm.setStatusMessageType("success");
-        } catch (Exception e) {
+        } catch (Exception ex) {
             invoiceForm.setStatusMessage("Unable to update the invoice due to an error");
             invoiceForm.setStatusMessageType(ERROR);
-            LOG.error(e.getLocalizedMessage());
+            LOG.error(ex.getLocalizedMessage());
         }
         List<InvoiceVO> invoiceVOs;
         try {
@@ -268,8 +261,8 @@ public class InvoiceController {
             if (invoiceVOs != null && !invoiceVOs.isEmpty()) {
                 invoiceForm.setInvoiceVos(invoiceVOs);
             }
-        } catch (InvoiceException e) {
-            LOG.error(e.getLocalizedMessage());
+        } catch (InvoiceException ex) {
+            LOG.error(ex.getLocalizedMessage());
         }
         invoiceForm.setSearchInvoiceVo(new InvoiceVO());
         return new ModelAndView(LIST_INVOICE, INVOICE_FORM, invoiceForm);
@@ -282,7 +275,7 @@ public class InvoiceController {
      * @return ModelAndView
      */
     @PostMapping("/invoice/InvoiceTxn.htm")
-    public ModelAndView invoiceTxn(TransactionForm transactionForm) {
+    public ModelAndView invoiceTxn(final TransactionForm transactionForm) {
         //get the id
         TransactionVO transactionVo = null;
         try {
@@ -291,28 +284,25 @@ public class InvoiceController {
                 List<MakeVO> makeVOs = null;
                 try {
                     makeVOs = makeService.fetchMakes();
-                } catch (Exception e) {
-                    LOG.error(e.getLocalizedMessage());
+                } catch (Exception ex) {
+                    LOG.error(ex.getLocalizedMessage());
                 }
                 if (makeVOs != null) {
-                    for (MakeVO makeVo : makeVOs) {
-                        LOG.info("make vo is" + makeVo);
-                    }
+                    makeVOs.stream().map(makeVo -> "make vo is" + makeVo).forEach(LOG::info);
                     transactionForm.setMakeVOs(makeVOs);
                 }
                 List<MakeAndModelVO> makeAndModelVOs;
                 makeAndModelVOs = makeService.getAllModelsFromMakeId(transactionVo.getMakeId());
                 if (makeAndModelVOs != null) {
                     transactionForm.setMakeAndModelVOs(makeAndModelVOs);
-                    for (MakeAndModelVO makeAndModelVo : makeAndModelVOs) {
-                        LOG.info("makeAndModel vo is" + makeAndModelVo);
-                    }
+                    makeAndModelVOs.stream()
+                            .map(makeAndModelVo -> "makeAndModel vo is" + makeAndModelVo).forEach(LOG::info);
                 }
             }
-        } catch (TransactionException e) {
-            LOG.error(e.getLocalizedMessage());
-            LOG.error(" Exception type in controller " + e.exceptionType);
-            if (e.getExceptionType().equalsIgnoreCase(TransactionException.DATABASE_ERROR)) {
+        } catch (TransactionException ex) {
+            LOG.error(ex.getLocalizedMessage());
+            LOG.error(" Exception type in controller " + ex.exceptionType);
+            if (ex.getExceptionType().equalsIgnoreCase(TransactionException.DATABASE_ERROR)) {
                 LOG.info(" An error occurred while fetching data from database. !! ");
             } else {
                 LOG.info(" An Unknown Error has been occurred !!");
@@ -347,7 +337,7 @@ public class InvoiceController {
      * @param webDataBinder webDataBinder
      */
     @InitBinder
-    public void initBinder(WebDataBinder webDataBinder) {
+    public void initBinder(final WebDataBinder webDataBinder) {
         webDataBinder.registerCustomEditor(Double.class, new CustomNumberEditor(Double.class, true));
     }
 }

@@ -69,7 +69,7 @@ public class Customer {
         return customerId;
     }
 
-    public void setCustomerId(Long customerId) {
+    public void setCustomerId(final Long customerId) {
         this.customerId = customerId;
     }
 
@@ -77,7 +77,7 @@ public class Customer {
         return name;
     }
 
-    public void setName(String name) {
+    public void setName(final String name) {
         this.name = name;
     }
 
@@ -85,7 +85,7 @@ public class Customer {
         return address1;
     }
 
-    public void setAddress1(String address1) {
+    public void setAddress1(final String address1) {
         this.address1 = address1;
     }
 
@@ -93,7 +93,7 @@ public class Customer {
         return address2;
     }
 
-    public void setAddress2(String address2) {
+    public void setAddress2(final String address2) {
         this.address2 = address2;
     }
 
@@ -101,7 +101,7 @@ public class Customer {
         return phone;
     }
 
-    public void setPhone(String phone) {
+    public void setPhone(final String phone) {
         this.phone = phone;
     }
 
@@ -109,7 +109,7 @@ public class Customer {
         return mobile;
     }
 
-    public void setMobile(String mobile) {
+    public void setMobile(final String mobile) {
         this.mobile = mobile;
     }
 
@@ -117,7 +117,7 @@ public class Customer {
         return email;
     }
 
-    public void setEmail(String email) {
+    public void setEmail(final String email) {
         this.email = email;
     }
 
@@ -125,7 +125,7 @@ public class Customer {
         return contactPerson1;
     }
 
-    public void setContactPerson1(String contactPerson1) {
+    public void setContactPerson1(final String contactPerson1) {
         this.contactPerson1 = contactPerson1;
     }
 
@@ -133,7 +133,7 @@ public class Customer {
         return contactPhone1;
     }
 
-    public void setContactPhone1(String contactPhone1) {
+    public void setContactPhone1(final String contactPhone1) {
         this.contactPhone1 = contactPhone1;
     }
 
@@ -141,7 +141,7 @@ public class Customer {
         return contactPerson2;
     }
 
-    public void setContactPerson2(String contactPerson2) {
+    public void setContactPerson2(final String contactPerson2) {
         this.contactPerson2 = contactPerson2;
     }
 
@@ -149,7 +149,7 @@ public class Customer {
         return contactPhone2;
     }
 
-    public void setContactPhone2(String contactPhone2) {
+    public void setContactPhone2(final String contactPhone2) {
         this.contactPhone2 = contactPhone2;
     }
 
@@ -157,7 +157,7 @@ public class Customer {
         return note;
     }
 
-    public void setNote(String note) {
+    public void setNote(final String note) {
         this.note = note;
     }
 
@@ -165,7 +165,7 @@ public class Customer {
         return createdOn;
     }
 
-    public void setCreatedOn(OffsetDateTime createdOn) {
+    public void setCreatedOn(final OffsetDateTime createdOn) {
         this.createdOn = createdOn;
     }
 
@@ -173,7 +173,7 @@ public class Customer {
         return modifiedOn;
     }
 
-    public void setModifiedOn(OffsetDateTime modifiedOn) {
+    public void setModifiedOn(final OffsetDateTime modifiedOn) {
         this.modifiedOn = modifiedOn;
     }
 
@@ -181,7 +181,7 @@ public class Customer {
         return createdBy;
     }
 
-    public void setCreatedBy(String createdBy) {
+    public void setCreatedBy(final String createdBy) {
         this.createdBy = createdBy;
     }
 
@@ -189,13 +189,13 @@ public class Customer {
         return modifiedBy;
     }
 
-    public void setModifiedBy(String modifiedBy) {
+    public void setModifiedBy(final String modifiedBy) {
         this.modifiedBy = modifiedBy;
     }
 
 
     /**
-     * initialize / update date fields
+     * initialize / update date fields.
      */
     @PrePersist
     @PreUpdate

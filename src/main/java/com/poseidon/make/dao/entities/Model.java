@@ -48,7 +48,7 @@ public class Model {
         return modelId;
     }
 
-    public void setModelId(Long modelId) {
+    public void setModelId(final Long modelId) {
         this.modelId = modelId;
     }
 
@@ -56,7 +56,7 @@ public class Model {
         return modelName;
     }
 
-    public void setModelName(String modelName) {
+    public void setModelName(final String modelName) {
         this.modelName = modelName;
     }
 
@@ -64,7 +64,7 @@ public class Model {
         return makeId;
     }
 
-    public void setMakeId(Long makeId) {
+    public void setMakeId(final Long makeId) {
         this.makeId = makeId;
     }
 
@@ -72,7 +72,7 @@ public class Model {
         return createdOn;
     }
 
-    public void setCreatedOn(OffsetDateTime createdOn) {
+    public void setCreatedOn(final OffsetDateTime createdOn) {
         this.createdOn = createdOn;
     }
 
@@ -80,7 +80,7 @@ public class Model {
         return modifiedOn;
     }
 
-    public void setModifiedOn(OffsetDateTime modifiedOn) {
+    public void setModifiedOn(final OffsetDateTime modifiedOn) {
         this.modifiedOn = modifiedOn;
     }
 
@@ -88,7 +88,7 @@ public class Model {
         return createdBy;
     }
 
-    public void setCreatedBy(String createdBy) {
+    public void setCreatedBy(final String createdBy) {
         this.createdBy = createdBy;
     }
 
@@ -96,7 +96,7 @@ public class Model {
         return modifiedBy;
     }
 
-    public void setModifiedBy(String modifiedBy) {
+    public void setModifiedBy(final String modifiedBy) {
         this.modifiedBy = modifiedBy;
     }
 
@@ -104,12 +104,12 @@ public class Model {
         return make;
     }
 
-    public void setMake(Make make) {
+    public void setMake(final Make make) {
         this.make = make;
     }
 
     /**
-     * initialize / update date fields
+     * initialize / update date fields.
      */
     @PrePersist
     @PreUpdate

@@ -10,12 +10,12 @@ import java.time.OffsetDateTime;
 public class OffsetDateTimePersistenceConverter implements AttributeConverter<OffsetDateTime, Timestamp> {
 
     @Override
-    public Timestamp convertToDatabaseColumn(OffsetDateTime attribute) {
+    public Timestamp convertToDatabaseColumn(final OffsetDateTime attribute) {
         return attribute == null ? null : Timestamp.from(Instant.from(attribute));
     }
 
     @Override
-    public OffsetDateTime convertToEntityAttribute(Timestamp dbData) {
+    public OffsetDateTime convertToEntityAttribute(final Timestamp dbData) {
         return dbData == null ? null : OffsetDateTime.parse(dbData.toInstant().toString());
     }
 

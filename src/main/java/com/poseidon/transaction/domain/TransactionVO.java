@@ -4,7 +4,7 @@ import java.time.OffsetDateTime;
 import java.util.StringJoiner;
 
 /**
- * user: Suraj
+ * user: Suraj.
  * Date: Jun 2, 2012
  * Time: 3:56:06 PM
  */
@@ -40,7 +40,7 @@ public class TransactionVO {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(final Long id) {
         this.id = id;
     }
 
@@ -48,7 +48,7 @@ public class TransactionVO {
         return tagNo;
     }
 
-    public void setTagNo(String tagNo) {
+    public void setTagNo(final String tagNo) {
         this.tagNo = tagNo;
     }
 
@@ -56,7 +56,7 @@ public class TransactionVO {
         return dateReported;
     }
 
-    public void setDateReported(String dateReported) {
+    public void setDateReported(final String dateReported) {
         this.dateReported = dateReported;
     }
 
@@ -64,7 +64,7 @@ public class TransactionVO {
         return customerId;
     }
 
-    public void setCustomerId(Long customerId) {
+    public void setCustomerId(final Long customerId) {
         this.customerId = customerId;
     }
 
@@ -72,7 +72,7 @@ public class TransactionVO {
         return customerName;
     }
 
-    public void setCustomerName(String customerName) {
+    public void setCustomerName(final String customerName) {
         this.customerName = customerName;
     }
 
@@ -80,7 +80,7 @@ public class TransactionVO {
         return productCategory;
     }
 
-    public void setProductCategory(String productCategory) {
+    public void setProductCategory(final String productCategory) {
         this.productCategory = productCategory;
     }
 
@@ -88,7 +88,7 @@ public class TransactionVO {
         return makeId;
     }
 
-    public void setMakeId(Long makeId) {
+    public void setMakeId(final Long makeId) {
         this.makeId = makeId;
     }
 
@@ -96,7 +96,7 @@ public class TransactionVO {
         return modelId;
     }
 
-    public void setModelId(Long modelId) {
+    public void setModelId(final Long modelId) {
         this.modelId = modelId;
     }
 
@@ -104,7 +104,7 @@ public class TransactionVO {
         return serialNo;
     }
 
-    public void setSerialNo(String serialNo) {
+    public void setSerialNo(final String serialNo) {
         this.serialNo = serialNo;
     }
 
@@ -112,7 +112,7 @@ public class TransactionVO {
         return accessories;
     }
 
-    public void setAccessories(String accessories) {
+    public void setAccessories(final String accessories) {
         this.accessories = accessories;
     }
 
@@ -120,7 +120,7 @@ public class TransactionVO {
         return complaintReported;
     }
 
-    public void setComplaintReported(String complaintReported) {
+    public void setComplaintReported(final String complaintReported) {
         this.complaintReported = complaintReported;
     }
 
@@ -128,7 +128,7 @@ public class TransactionVO {
         return complaintDiagonsed;
     }
 
-    public void setComplaintDiagonsed(String complaintDiagonsed) {
+    public void setComplaintDiagonsed(final String complaintDiagonsed) {
         this.complaintDiagonsed = complaintDiagonsed;
     }
 
@@ -136,7 +136,7 @@ public class TransactionVO {
         return enggRemark;
     }
 
-    public void setEnggRemark(String enggRemark) {
+    public void setEnggRemark(final String enggRemark) {
         this.enggRemark = enggRemark;
     }
 
@@ -144,7 +144,7 @@ public class TransactionVO {
         return repairAction;
     }
 
-    public void setRepairAction(String repairAction) {
+    public void setRepairAction(final String repairAction) {
         this.repairAction = repairAction;
     }
 
@@ -152,7 +152,7 @@ public class TransactionVO {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(final String status) {
         this.status = status;
     }
 
@@ -160,7 +160,7 @@ public class TransactionVO {
         return createdOn;
     }
 
-    public void setCreatedOn(OffsetDateTime createdOn) {
+    public void setCreatedOn(final OffsetDateTime createdOn) {
         this.createdOn = createdOn;
     }
 
@@ -168,7 +168,7 @@ public class TransactionVO {
         return modifiedOn;
     }
 
-    public void setModifiedOn(OffsetDateTime modifiedOn) {
+    public void setModifiedOn(final OffsetDateTime modifiedOn) {
         this.modifiedOn = modifiedOn;
     }
 
@@ -176,7 +176,7 @@ public class TransactionVO {
         return createdBy;
     }
 
-    public void setCreatedBy(String createdBy) {
+    public void setCreatedBy(final String createdBy) {
         this.createdBy = createdBy;
     }
 
@@ -184,7 +184,7 @@ public class TransactionVO {
         return modifiedBy;
     }
 
-    public void setModifiedBy(String modifiedBy) {
+    public void setModifiedBy(final String modifiedBy) {
         this.modifiedBy = modifiedBy;
     }
 
@@ -192,7 +192,7 @@ public class TransactionVO {
         return makeName;
     }
 
-    public void setMakeName(String makeName) {
+    public void setMakeName(final String makeName) {
         this.makeName = makeName;
     }
 
@@ -200,7 +200,7 @@ public class TransactionVO {
         return modelName;
     }
 
-    public void setModelName(String modelName) {
+    public void setModelName(final String modelName) {
         this.modelName = modelName;
     }
 
@@ -208,7 +208,7 @@ public class TransactionVO {
         return startswith;
     }
 
-    public void setStartswith(Boolean startswith) {
+    public void setStartswith(final Boolean startswith) {
         this.startswith = startswith;
     }
 
@@ -216,7 +216,7 @@ public class TransactionVO {
         return includes;
     }
 
-    public void setIncludes(Boolean includes) {
+    public void setIncludes(final Boolean includes) {
         this.includes = includes;
     }
 
@@ -224,7 +224,7 @@ public class TransactionVO {
         return notes;
     }
 
-    public void setNotes(String notes) {
+    public void setNotes(final String notes) {
         this.notes = notes;
     }
 
@@ -232,7 +232,7 @@ public class TransactionVO {
         return startDate;
     }
 
-    public void setStartDate(String startDate) {
+    public void setStartDate(final String startDate) {
         this.startDate = startDate;
     }
 
@@ -240,7 +240,7 @@ public class TransactionVO {
         return endDate;
     }
 
-    public void setEndDate(String endDate) {
+    public void setEndDate(final String endDate) {
         this.endDate = endDate;
     }
 

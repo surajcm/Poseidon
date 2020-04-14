@@ -2,11 +2,6 @@ package com.poseidon.company.domain;
 
 import java.time.OffsetDateTime;
 
-/**
- * user: Suraj
- * Date: Jun 2, 2012
- * Time: 10:42:40 PM
- */
 public class CompanyTermsVO {
     private Long id;
     private String companyName;
@@ -17,8 +12,8 @@ public class CompanyTermsVO {
     private String companyTerms;
     private String termsAndConditions;
     private String companyDetails;
-    private String companyVATTIN;
-    private String companyCSTTIN;
+    private String companyVatTin;
+    private String companyCstTin;
     private OffsetDateTime createdDate;
     private OffsetDateTime modifiedDate;
     private String createdBy;
@@ -28,7 +23,7 @@ public class CompanyTermsVO {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(final Long id) {
         this.id = id;
     }
 
@@ -36,7 +31,7 @@ public class CompanyTermsVO {
         return companyName;
     }
 
-    public void setCompanyName(String companyName) {
+    public void setCompanyName(final String companyName) {
         this.companyName = companyName;
     }
 
@@ -44,7 +39,7 @@ public class CompanyTermsVO {
         return companyAddress;
     }
 
-    public void setCompanyAddress(String companyAddress) {
+    public void setCompanyAddress(final String companyAddress) {
         this.companyAddress = companyAddress;
     }
 
@@ -52,7 +47,7 @@ public class CompanyTermsVO {
         return companyPhoneNumber;
     }
 
-    public void setCompanyPhoneNumber(String companyPhoneNumber) {
+    public void setCompanyPhoneNumber(final String companyPhoneNumber) {
         this.companyPhoneNumber = companyPhoneNumber;
     }
 
@@ -60,7 +55,7 @@ public class CompanyTermsVO {
         return companyWebsite;
     }
 
-    public void setCompanyWebsite(String companyWebsite) {
+    public void setCompanyWebsite(final String companyWebsite) {
         this.companyWebsite = companyWebsite;
     }
 
@@ -68,7 +63,7 @@ public class CompanyTermsVO {
         return companyEmail;
     }
 
-    public void setCompanyEmail(String companyEmail) {
+    public void setCompanyEmail(final String companyEmail) {
         this.companyEmail = companyEmail;
     }
 
@@ -76,7 +71,7 @@ public class CompanyTermsVO {
         return companyTerms;
     }
 
-    public void setCompanyTerms(String companyTerms) {
+    public void setCompanyTerms(final String companyTerms) {
         this.companyTerms = companyTerms;
     }
 
@@ -84,7 +79,7 @@ public class CompanyTermsVO {
         return termsAndConditions;
     }
 
-    public void setTermsAndConditions(String termsAndConditions) {
+    public void setTermsAndConditions(final String termsAndConditions) {
         this.termsAndConditions = termsAndConditions;
     }
 
@@ -92,31 +87,31 @@ public class CompanyTermsVO {
         return companyDetails;
     }
 
-    public void setCompanyDetails(String companyDetails) {
+    public void setCompanyDetails(final String companyDetails) {
         this.companyDetails = companyDetails;
     }
 
-    public String getCompanyVATTIN() {
-        return companyVATTIN;
+    public String getCompanyVatTin() {
+        return companyVatTin;
     }
 
-    public void setCompanyVATTIN(String companyVATTIN) {
-        this.companyVATTIN = companyVATTIN;
+    public void setCompanyVatTin(final String companyVatTin) {
+        this.companyVatTin = companyVatTin;
     }
 
-    public String getCompanyCSTTIN() {
-        return companyCSTTIN;
+    public String getCompanyCstTin() {
+        return companyCstTin;
     }
 
-    public void setCompanyCSTTIN(String companyCSTTIN) {
-        this.companyCSTTIN = companyCSTTIN;
+    public void setCompanyCstTin(final String companyCstTin) {
+        this.companyCstTin = companyCstTin;
     }
 
     public OffsetDateTime getCreatedDate() {
         return createdDate;
     }
 
-    public void setCreatedDate(OffsetDateTime createdDate) {
+    public void setCreatedDate(final OffsetDateTime createdDate) {
         this.createdDate = createdDate;
     }
 
@@ -124,7 +119,7 @@ public class CompanyTermsVO {
         return modifiedDate;
     }
 
-    public void setModifiedDate(OffsetDateTime modifiedDate) {
+    public void setModifiedDate(final OffsetDateTime modifiedDate) {
         this.modifiedDate = modifiedDate;
     }
 
@@ -132,7 +127,7 @@ public class CompanyTermsVO {
         return createdBy;
     }
 
-    public void setCreatedBy(String createdBy) {
+    public void setCreatedBy(final String createdBy) {
         this.createdBy = createdBy;
     }
 
@@ -140,7 +135,7 @@ public class CompanyTermsVO {
         return modifiedBy;
     }
 
-    public void setModifiedBy(String modifiedBy) {
+    public void setModifiedBy(final String modifiedBy) {
         this.modifiedBy = modifiedBy;
     }
 }

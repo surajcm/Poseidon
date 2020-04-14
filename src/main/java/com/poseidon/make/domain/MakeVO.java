@@ -4,7 +4,7 @@ import java.time.OffsetDateTime;
 import java.util.StringJoiner;
 
 /**
- * user: Suraj
+ * user: Suraj.
  * Date: Jun 10, 2012
  * Time: 10:25:12 PM
  */
@@ -21,7 +21,7 @@ public class MakeVO {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(final Long id) {
         this.id = id;
     }
 
@@ -29,7 +29,7 @@ public class MakeVO {
         return makeName;
     }
 
-    public void setMakeName(String makeName) {
+    public void setMakeName(final String makeName) {
         this.makeName = makeName;
     }
 
@@ -37,7 +37,7 @@ public class MakeVO {
         return description;
     }
 
-    public void setDescription(String description) {
+    public void setDescription(final String description) {
         this.description = description;
     }
 
@@ -45,7 +45,7 @@ public class MakeVO {
         return createdOn;
     }
 
-    public void setCreatedOn(OffsetDateTime createdOn) {
+    public void setCreatedOn(final OffsetDateTime createdOn) {
         this.createdOn = createdOn;
     }
 
@@ -53,7 +53,7 @@ public class MakeVO {
         return modifiedOn;
     }
 
-    public void setModifiedOn(OffsetDateTime modifiedOn) {
+    public void setModifiedOn(final OffsetDateTime modifiedOn) {
         this.modifiedOn = modifiedOn;
     }
 
@@ -61,7 +61,7 @@ public class MakeVO {
         return createdBy;
     }
 
-    public void setCreatedBy(String createdBy) {
+    public void setCreatedBy(final String createdBy) {
         this.createdBy = createdBy;
     }
 
@@ -69,7 +69,7 @@ public class MakeVO {
         return modifiedBy;
     }
 
-    public void setModifiedBy(String modifiedBy) {
+    public void setModifiedBy(final String modifiedBy) {
         this.modifiedBy = modifiedBy;
     }
 

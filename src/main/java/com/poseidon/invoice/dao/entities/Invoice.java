@@ -60,7 +60,7 @@ public class Invoice {
         return invoiceId;
     }
 
-    public void setInvoiceId(Long invoiceId) {
+    public void setInvoiceId(final Long invoiceId) {
         this.invoiceId = invoiceId;
     }
 
@@ -68,7 +68,7 @@ public class Invoice {
         return transactionId;
     }
 
-    public void setTransactionId(String transactionId) {
+    public void setTransactionId(final String transactionId) {
         this.transactionId = transactionId;
     }
 
@@ -76,7 +76,7 @@ public class Invoice {
         return description;
     }
 
-    public void setDescription(String description) {
+    public void setDescription(final String description) {
         this.description = description;
     }
 
@@ -84,7 +84,7 @@ public class Invoice {
         return tagNumber;
     }
 
-    public void setTagNumber(String tagNumber) {
+    public void setTagNumber(final String tagNumber) {
         this.tagNumber = tagNumber;
     }
 
@@ -92,7 +92,7 @@ public class Invoice {
         return amount;
     }
 
-    public void setAmount(String amount) {
+    public void setAmount(final String amount) {
         this.amount = amount;
     }
 
@@ -100,7 +100,7 @@ public class Invoice {
         return quantity;
     }
 
-    public void setQuantity(String quantity) {
+    public void setQuantity(final String quantity) {
         this.quantity = quantity;
     }
 
@@ -108,7 +108,7 @@ public class Invoice {
         return rate;
     }
 
-    public void setRate(String rate) {
+    public void setRate(final String rate) {
         this.rate = rate;
     }
 
@@ -116,7 +116,7 @@ public class Invoice {
         return serialNumber;
     }
 
-    public void setSerialNumber(String serialNumber) {
+    public void setSerialNumber(final String serialNumber) {
         this.serialNumber = serialNumber;
     }
 
@@ -124,7 +124,7 @@ public class Invoice {
         return customerId;
     }
 
-    public void setCustomerId(Long customerId) {
+    public void setCustomerId(final Long customerId) {
         this.customerId = customerId;
     }
 
@@ -132,7 +132,7 @@ public class Invoice {
         return customerName;
     }
 
-    public void setCustomerName(String customerName) {
+    public void setCustomerName(final String customerName) {
         this.customerName = customerName;
     }
 
@@ -140,7 +140,7 @@ public class Invoice {
         return createdOn;
     }
 
-    public void setCreatedOn(OffsetDateTime createdOn) {
+    public void setCreatedOn(final OffsetDateTime createdOn) {
         this.createdOn = createdOn;
     }
 
@@ -148,7 +148,7 @@ public class Invoice {
         return modifiedOn;
     }
 
-    public void setModifiedOn(OffsetDateTime modifiedOn) {
+    public void setModifiedOn(final OffsetDateTime modifiedOn) {
         this.modifiedOn = modifiedOn;
     }
 
@@ -156,7 +156,7 @@ public class Invoice {
         return createdBy;
     }
 
-    public void setCreatedBy(String createdBy) {
+    public void setCreatedBy(final String createdBy) {
         this.createdBy = createdBy;
     }
 
@@ -164,7 +164,7 @@ public class Invoice {
         return modifiedBy;
     }
 
-    public void setModifiedBy(String modifiedBy) {
+    public void setModifiedBy(final String modifiedBy) {
         this.modifiedBy = modifiedBy;
     }
 }

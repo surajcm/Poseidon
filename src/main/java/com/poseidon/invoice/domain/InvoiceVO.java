@@ -3,11 +3,6 @@ package com.poseidon.invoice.domain;
 import java.time.OffsetDateTime;
 import java.util.StringJoiner;
 
-/**
- * user: Suraj
- * Date: 7/26/12
- * Time: 10:40 PM
- */
 public class InvoiceVO {
     private Long id;
     private String tagNo;
@@ -31,7 +26,7 @@ public class InvoiceVO {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(final Long id) {
         this.id = id;
     }
 
@@ -39,7 +34,7 @@ public class InvoiceVO {
         return tagNo;
     }
 
-    public void setTagNo(String tagNo) {
+    public void setTagNo(final String tagNo) {
         this.tagNo = tagNo;
     }
 
@@ -47,7 +42,7 @@ public class InvoiceVO {
         return customerId;
     }
 
-    public void setCustomerId(Long customerId) {
+    public void setCustomerId(final Long customerId) {
         this.customerId = customerId;
     }
 
@@ -55,7 +50,7 @@ public class InvoiceVO {
         return customerName;
     }
 
-    public void setCustomerName(String customerName) {
+    public void setCustomerName(final String customerName) {
         this.customerName = customerName;
     }
 
@@ -63,7 +58,7 @@ public class InvoiceVO {
         return description;
     }
 
-    public void setDescription(String description) {
+    public void setDescription(final String description) {
         this.description = description;
     }
 
@@ -71,7 +66,7 @@ public class InvoiceVO {
         return serialNo;
     }
 
-    public void setSerialNo(String serialNo) {
+    public void setSerialNo(final String serialNo) {
         this.serialNo = serialNo;
     }
 
@@ -79,7 +74,7 @@ public class InvoiceVO {
         return quantity;
     }
 
-    public void setQuantity(int quantity) {
+    public void setQuantity(final int quantity) {
         this.quantity = quantity;
     }
 
@@ -87,7 +82,7 @@ public class InvoiceVO {
         return rate;
     }
 
-    public void setRate(Double rate) {
+    public void setRate(final Double rate) {
         this.rate = rate;
     }
 
@@ -95,7 +90,7 @@ public class InvoiceVO {
         return amount;
     }
 
-    public void setAmount(Double amount) {
+    public void setAmount(final Double amount) {
         this.amount = amount;
     }
 
@@ -103,7 +98,7 @@ public class InvoiceVO {
         return startsWith;
     }
 
-    public void setStartsWith(Boolean startsWith) {
+    public void setStartsWith(final Boolean startsWith) {
         this.startsWith = startsWith;
     }
 
@@ -111,7 +106,7 @@ public class InvoiceVO {
         return includes;
     }
 
-    public void setIncludes(Boolean includes) {
+    public void setIncludes(final Boolean includes) {
         this.includes = includes;
     }
 
@@ -119,7 +114,7 @@ public class InvoiceVO {
         return greater;
     }
 
-    public void setGreater(Boolean greater) {
+    public void setGreater(final Boolean greater) {
         this.greater = greater;
     }
 
@@ -127,7 +122,7 @@ public class InvoiceVO {
         return lesser;
     }
 
-    public void setLesser(Boolean lesser) {
+    public void setLesser(final Boolean lesser) {
         this.lesser = lesser;
     }
 
@@ -135,7 +130,7 @@ public class InvoiceVO {
         return createdDate;
     }
 
-    public void setCreatedDate(OffsetDateTime createdDate) {
+    public void setCreatedDate(final OffsetDateTime createdDate) {
         this.createdDate = createdDate;
     }
 
@@ -143,7 +138,7 @@ public class InvoiceVO {
         return modifiedDate;
     }
 
-    public void setModifiedDate(OffsetDateTime modifiedDate) {
+    public void setModifiedDate(final OffsetDateTime modifiedDate) {
         this.modifiedDate = modifiedDate;
     }
 
@@ -151,7 +146,7 @@ public class InvoiceVO {
         return createdBy;
     }
 
-    public void setCreatedBy(String createdBy) {
+    public void setCreatedBy(final String createdBy) {
         this.createdBy = createdBy;
     }
 
@@ -159,7 +154,7 @@ public class InvoiceVO {
         return modifiedBy;
     }
 
-    public void setModifiedBy(String modifiedBy) {
+    public void setModifiedBy(final String modifiedBy) {
         this.modifiedBy = modifiedBy;
     }
 

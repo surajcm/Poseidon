@@ -14,11 +14,6 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 import java.util.Optional;
 
-/**
- * user: Suraj
- * Date: Jun 2, 2012
- * Time: 10:00:05 PM
- */
 @Repository
 @SuppressWarnings("unused")
 public class CompanyTermsDAOImpl implements CompanyTermsDAO {
@@ -29,7 +24,7 @@ public class CompanyTermsDAOImpl implements CompanyTermsDAO {
     private CompanyTermsRepository companyTermsRepository;
 
     /**
-     * list company terms
+     * list company terms.
      *
      * @return CompanyTermsVO
      * @throws CompanyTermsException on error
@@ -43,13 +38,13 @@ public class CompanyTermsDAOImpl implements CompanyTermsDAO {
                 CompanyTerms companyTerms = companyTermsList.get(0);
                 companyTermsVO = convertToCompanyTermsVO(companyTerms);
             }
-        } catch (DataAccessException e) {
+        } catch (DataAccessException ex) {
             throw new CompanyTermsException(CompanyTermsException.DATABASE_ERROR);
         }
         return companyTermsVO;
     }
 
-    private CompanyTermsVO convertToCompanyTermsVO(CompanyTerms companyTerms) {
+    private CompanyTermsVO convertToCompanyTermsVO(final CompanyTerms companyTerms) {
         CompanyTermsVO companyTermsVO = new CompanyTermsVO();
         companyTermsVO.setCompanyTerms(companyTerms.getTerms());
         companyTermsVO.setCompanyAddress(companyTerms.getCompanyAddress());
@@ -57,41 +52,45 @@ public class CompanyTermsDAOImpl implements CompanyTermsDAO {
         companyTermsVO.setCompanyPhoneNumber(companyTerms.getCompanyPhone());
         companyTermsVO.setCompanyEmail(companyTerms.getCompanyEmail());
         companyTermsVO.setCompanyWebsite(companyTerms.getCompanyWebsite());
-        companyTermsVO.setCompanyVATTIN(companyTerms.getVatTin());
-        companyTermsVO.setCompanyCSTTIN(companyTerms.getCstTin());
+        companyTermsVO.setCompanyVatTin(companyTerms.getVatTin());
+        companyTermsVO.setCompanyCstTin(companyTerms.getCstTin());
         return companyTermsVO;
     }
 
     /**
-     * update company details
+     * update company details.
      *
      * @param companyTermsVO companyTermsVO
      * @return CompanyTermsVO
      * @throws CompanyTermsException on error
      */
     @Override
-    public CompanyTermsVO updateCompanyDetails(CompanyTermsVO companyTermsVO) throws CompanyTermsException {
+    public CompanyTermsVO updateCompanyDetails(final CompanyTermsVO companyTermsVO) throws CompanyTermsException {
         CompanyTermsVO termsVO = null;
         try {
             Optional<CompanyTerms> optionalCompanyTerms = companyTermsRepository.findById(1L);
             if (optionalCompanyTerms.isPresent()) {
-                CompanyTerms companyTerms = optionalCompanyTerms.get();
-                companyTerms.setCompanyName(companyTermsVO.getCompanyName());
-                companyTerms.setTerms(companyTermsVO.getCompanyTerms());
-                companyTerms.setCompanyAddress(companyTermsVO.getCompanyAddress());
-                companyTerms.setCompanyPhone(companyTermsVO.getCompanyPhoneNumber());
-                companyTerms.setCompanyEmail(companyTermsVO.getCompanyEmail());
-                companyTerms.setCompanyWebsite(companyTermsVO.getCompanyWebsite());
-                companyTerms.setVatTin(companyTermsVO.getCompanyVATTIN());
-                companyTerms.setCstTin(companyTermsVO.getCompanyCSTTIN());
-                companyTerms.setModifiedBy(companyTermsVO.getModifiedBy());
+                CompanyTerms companyTerms = getCompanyTerms(companyTermsVO, optionalCompanyTerms.get());
                 CompanyTerms updatedCompanyTerms = companyTermsRepository.save(companyTerms);
                 termsVO = convertToCompanyTermsVO(updatedCompanyTerms);
             }
-        } catch (DataAccessException e) {
-            logger.error(e.getMessage());
+        } catch (DataAccessException ex) {
+            logger.error(ex.getMessage());
             throw new CompanyTermsException(CompanyTermsException.DATABASE_ERROR);
         }
         return termsVO;
+    }
+
+    private CompanyTerms getCompanyTerms(final CompanyTermsVO companyTermsVO, final CompanyTerms companyTerms) {
+        companyTerms.setCompanyName(companyTermsVO.getCompanyName());
+        companyTerms.setTerms(companyTermsVO.getCompanyTerms());
+        companyTerms.setCompanyAddress(companyTermsVO.getCompanyAddress());
+        companyTerms.setCompanyPhone(companyTermsVO.getCompanyPhoneNumber());
+        companyTerms.setCompanyEmail(companyTermsVO.getCompanyEmail());
+        companyTerms.setCompanyWebsite(companyTermsVO.getCompanyWebsite());
+        companyTerms.setVatTin(companyTermsVO.getCompanyVatTin());
+        companyTerms.setCstTin(companyTermsVO.getCompanyCstTin());
+        companyTerms.setModifiedBy(companyTermsVO.getModifiedBy());
+        return companyTerms;
     }
 }

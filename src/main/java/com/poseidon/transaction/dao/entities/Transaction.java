@@ -78,7 +78,7 @@ public class Transaction {
         return transactionId;
     }
 
-    public void setTransactionId(Long transactionId) {
+    public void setTransactionId(final Long transactionId) {
         this.transactionId = transactionId;
     }
 
@@ -86,7 +86,7 @@ public class Transaction {
         return tagno;
     }
 
-    public void setTagno(String tagno) {
+    public void setTagno(final String tagno) {
         this.tagno = tagno;
     }
 
@@ -94,7 +94,7 @@ public class Transaction {
         return dateReported;
     }
 
-    public void setDateReported(OffsetDateTime dateReported) {
+    public void setDateReported(final OffsetDateTime dateReported) {
         this.dateReported = dateReported;
     }
 
@@ -102,7 +102,7 @@ public class Transaction {
         return customerId;
     }
 
-    public void setCustomerId(Long customerId) {
+    public void setCustomerId(final Long customerId) {
         this.customerId = customerId;
     }
 
@@ -110,7 +110,7 @@ public class Transaction {
         return productCategory;
     }
 
-    public void setProductCategory(String productCategory) {
+    public void setProductCategory(final String productCategory) {
         this.productCategory = productCategory;
     }
 
@@ -118,7 +118,7 @@ public class Transaction {
         return makeId;
     }
 
-    public void setMakeId(Long makeId) {
+    public void setMakeId(final Long makeId) {
         this.makeId = makeId;
     }
 
@@ -126,7 +126,7 @@ public class Transaction {
         return modelId;
     }
 
-    public void setModelId(Long modelId) {
+    public void setModelId(final Long modelId) {
         this.modelId = modelId;
     }
 
@@ -134,7 +134,7 @@ public class Transaction {
         return serialNumber;
     }
 
-    public void setSerialNumber(String serialNumber) {
+    public void setSerialNumber(final String serialNumber) {
         this.serialNumber = serialNumber;
     }
 
@@ -142,7 +142,7 @@ public class Transaction {
         return accessories;
     }
 
-    public void setAccessories(String accessories) {
+    public void setAccessories(final String accessories) {
         this.accessories = accessories;
     }
 
@@ -150,7 +150,7 @@ public class Transaction {
         return complaintReported;
     }
 
-    public void setComplaintReported(String complaintReported) {
+    public void setComplaintReported(final String complaintReported) {
         this.complaintReported = complaintReported;
     }
 
@@ -158,7 +158,7 @@ public class Transaction {
         return complaintDiagnosed;
     }
 
-    public void setComplaintDiagnosed(String complaintDiagnosed) {
+    public void setComplaintDiagnosed(final String complaintDiagnosed) {
         this.complaintDiagnosed = complaintDiagnosed;
     }
 
@@ -166,7 +166,7 @@ public class Transaction {
         return engineerRemarks;
     }
 
-    public void setEngineerRemarks(String engineerRemarks) {
+    public void setEngineerRemarks(final String engineerRemarks) {
         this.engineerRemarks = engineerRemarks;
     }
 
@@ -174,7 +174,7 @@ public class Transaction {
         return repairAction;
     }
 
-    public void setRepairAction(String repairAction) {
+    public void setRepairAction(final String repairAction) {
         this.repairAction = repairAction;
     }
 
@@ -182,7 +182,7 @@ public class Transaction {
         return note;
     }
 
-    public void setNote(String note) {
+    public void setNote(final String note) {
         this.note = note;
     }
 
@@ -190,7 +190,7 @@ public class Transaction {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(final String status) {
         this.status = status;
     }
 
@@ -198,7 +198,7 @@ public class Transaction {
         return createdOn;
     }
 
-    public void setCreatedOn(OffsetDateTime createdOn) {
+    public void setCreatedOn(final OffsetDateTime createdOn) {
         this.createdOn = createdOn;
     }
 
@@ -206,7 +206,7 @@ public class Transaction {
         return modifiedOn;
     }
 
-    public void setModifiedOn(OffsetDateTime modifiedOn) {
+    public void setModifiedOn(final OffsetDateTime modifiedOn) {
         this.modifiedOn = modifiedOn;
     }
 
@@ -214,7 +214,7 @@ public class Transaction {
         return createdBy;
     }
 
-    public void setCreatedBy(String createdBy) {
+    public void setCreatedBy(final String createdBy) {
         this.createdBy = createdBy;
     }
 
@@ -222,12 +222,12 @@ public class Transaction {
         return modifiedBy;
     }
 
-    public void setModifiedBy(String modifiedBy) {
+    public void setModifiedBy(final String modifiedBy) {
         this.modifiedBy = modifiedBy;
     }
 
     /**
-     * initialize / update date fields
+     * initialize / update date fields.
      */
     @PrePersist
     @PreUpdate

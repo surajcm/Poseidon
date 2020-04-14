@@ -47,7 +47,7 @@ public class Make {
         return makeId;
     }
 
-    public void setMakeId(Long makeId) {
+    public void setMakeId(final Long makeId) {
         this.makeId = makeId;
     }
 
@@ -55,7 +55,7 @@ public class Make {
         return makeName;
     }
 
-    public void setMakeName(String makeName) {
+    public void setMakeName(final String makeName) {
         this.makeName = makeName;
     }
 
@@ -63,7 +63,7 @@ public class Make {
         return description;
     }
 
-    public void setDescription(String description) {
+    public void setDescription(final String description) {
         this.description = description;
     }
 
@@ -71,7 +71,7 @@ public class Make {
         return createdOn;
     }
 
-    public void setCreatedOn(OffsetDateTime createdOn) {
+    public void setCreatedOn(final OffsetDateTime createdOn) {
         this.createdOn = createdOn;
     }
 
@@ -79,7 +79,7 @@ public class Make {
         return modifiedOn;
     }
 
-    public void setModifiedOn(OffsetDateTime modifiedOn) {
+    public void setModifiedOn(final OffsetDateTime modifiedOn) {
         this.modifiedOn = modifiedOn;
     }
 
@@ -87,7 +87,7 @@ public class Make {
         return createdBy;
     }
 
-    public void setCreatedBy(String createdBy) {
+    public void setCreatedBy(final String createdBy) {
         this.createdBy = createdBy;
     }
 
@@ -95,7 +95,7 @@ public class Make {
         return modifiedBy;
     }
 
-    public void setModifiedBy(String modifiedBy) {
+    public void setModifiedBy(final String modifiedBy) {
         this.modifiedBy = modifiedBy;
     }
 
@@ -103,7 +103,7 @@ public class Make {
         return models;
     }
 
-    public void setModels(List<Model> models) {
+    public void setModels(final List<Model> models) {
         this.models = models;
     }
 

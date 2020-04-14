@@ -29,7 +29,7 @@ import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
- * user: Suraj
+ * user: Suraj.
  * Date: Jun 2, 2012
  * Time: 3:46:15 PM
  */
@@ -55,7 +55,7 @@ public class TransactionDAOImpl implements TransactionDAO {
     private static final Logger LOG = LoggerFactory.getLogger(TransactionDAOImpl.class);
 
     /**
-     * list todays transactions
+     * list today's transactions.
      */
     @Override
     public List<TransactionVO> listTodaysTransactions() {
@@ -64,13 +64,13 @@ public class TransactionDAOImpl implements TransactionDAO {
     }
 
     /**
-     * save transaction
+     * save transaction.
      *
      * @param currentTransaction transaction
      * @return tag number
      */
     @Override
-    public String saveTransaction(TransactionVO currentTransaction) {
+    public String saveTransaction(final TransactionVO currentTransaction) {
         Transaction txn = getTransaction(currentTransaction);
         Transaction newTxn = transactionRepository.save(txn);
         String tagNo = "WON2N" + newTxn.getTransactionId();
@@ -79,7 +79,7 @@ public class TransactionDAOImpl implements TransactionDAO {
         return tagNo;
     }
 
-    private Transaction getTransaction(TransactionVO currentTransaction) {
+    private Transaction getTransaction(final TransactionVO currentTransaction) {
         Transaction txn = new Transaction();
         txn.setDateReported(LocalDate.parse(currentTransaction.getDateReported(),
                 DateTimeFormatter.ofPattern("MM/dd/yyyy"))
@@ -102,32 +102,32 @@ public class TransactionDAOImpl implements TransactionDAO {
     }
 
     /**
-     * search transactions
+     * search transactions.
      *
      * @param searchTransaction transaction
      * @return list of matching transcations
      * @throws TransactionException on error
      */
     @Override
-    public List<TransactionVO> searchTransactions(TransactionVO searchTransaction) throws TransactionException {
+    public List<TransactionVO> searchTransactions(final TransactionVO searchTransaction) throws TransactionException {
         List<TransactionVO> transactionVOList;
         try {
             transactionVOList = searchTxs(searchTransaction);
-        } catch (Exception e) {
-            LOG.error(e.getLocalizedMessage());
+        } catch (Exception ex) {
+            LOG.error(ex.getLocalizedMessage());
             throw new TransactionException(TransactionException.DATABASE_ERROR);
         }
         return transactionVOList;
     }
 
     /**
-     * fetch a transaction by its id
+     * fetch a transaction by its id.
      *
      * @param id id of the transaction
      * @return transaction
      */
     @Override
-    public TransactionVO fetchTransactionFromId(Long id) {
+    public TransactionVO fetchTransactionFromId(final Long id) {
         TransactionVO transactionVO = null;
         Optional<Transaction> optionalTransaction = transactionRepository.findById(id);
         if (optionalTransaction.isPresent()) {
@@ -137,7 +137,7 @@ public class TransactionDAOImpl implements TransactionDAO {
         return transactionVO;
     }
 
-    private TransactionVO convertToVO(Transaction txn) {
+    private TransactionVO convertToVO(final Transaction txn) {
         Customer customer = customerRepository.getOne(txn.getCustomerId());
         Make make = makeRepository.getOne(txn.getMakeId());
         Model model = modelRepository.getOne(txn.getModelId());
@@ -164,12 +164,12 @@ public class TransactionDAOImpl implements TransactionDAO {
     }
 
     /**
-     * update transaction
+     * update transaction.
      *
      * @param currentTransaction transaction
      */
     @Override
-    public void updateTransaction(TransactionVO currentTransaction) {
+    public void updateTransaction(final TransactionVO currentTransaction) {
         Optional<Transaction> optionalTransaction = transactionRepository.findById(currentTransaction.getId());
         if (optionalTransaction.isPresent()) {
             Transaction txn = convertToTXN(optionalTransaction.get(), currentTransaction);
@@ -177,7 +177,7 @@ public class TransactionDAOImpl implements TransactionDAO {
         }
     }
 
-    private Transaction convertToTXN(Transaction txn, TransactionVO currentTransaction) {
+    private Transaction convertToTXN(final Transaction txn, final TransactionVO currentTransaction) {
         txn.setDateReported(OffsetDateTime.parse(currentTransaction.getDateReported()));
         txn.setProductCategory(currentTransaction.getProductCategory());
         txn.setCustomerId(currentTransaction.getCustomerId());
@@ -196,35 +196,35 @@ public class TransactionDAOImpl implements TransactionDAO {
     }
 
     /**
-     * delete a transaction based on id
+     * delete a transaction based on id.
      *
      * @param id id of transaction
      */
     @Override
-    public void deleteTransaction(Long id) {
+    public void deleteTransaction(final Long id) {
         transactionRepository.deleteById(id);
     }
 
     /**
-     * fetch the transaction from its tag
+     * fetch the transaction from its tag.
      *
      * @param tagNo tag
      * @return transaction for reporting
      */
     @Override
-    public TransactionReportVO fetchTransactionFromTag(String tagNo) {
+    public TransactionReportVO fetchTransactionFromTag(final String tagNo) {
         Transaction transaction = transactionRepository.findBytagno(tagNo);
         return convertToTransactionReportVO(transaction);
     }
 
     /**
-     * update transaction status
+     * update transaction status.
      *
      * @param id     id of the transaction
      * @param status status
      */
     @Override
-    public void updateTransactionStatus(Long id, String status) {
+    public void updateTransactionStatus(final Long id, final String status) {
         Optional<Transaction> optionalTransaction = transactionRepository.findById(id);
         if (optionalTransaction.isPresent()) {
             Transaction txn = optionalTransaction.get();
@@ -234,7 +234,7 @@ public class TransactionDAOImpl implements TransactionDAO {
     }
 
     /**
-     * list all transactions
+     * list all transactions.
      *
      * @return list of transactions
      */
@@ -244,7 +244,7 @@ public class TransactionDAOImpl implements TransactionDAO {
         return transactions.stream().map(this::convertToVO).collect(Collectors.toList());
     }
 
-    private TransactionReportVO convertToTransactionReportVO(Transaction transaction) {
+    private TransactionReportVO convertToTransactionReportVO(final Transaction transaction) {
         Customer customer = customerRepository.getOne(transaction.getCustomerId());
         Make make = makeRepository.getOne(transaction.getMakeId());
         Model model = modelRepository.getOne(transaction.getModelId());
@@ -277,7 +277,7 @@ public class TransactionDAOImpl implements TransactionDAO {
         return txs;
     }
 
-    private List<TransactionVO> searchTxs(TransactionVO searchTransaction) {
+    private List<TransactionVO> searchTxs(final TransactionVO searchTransaction) {
         StringBuilder hqlQuery = new StringBuilder()
                 .append("SELECT tr FROM Transaction tr inner join Make mk on tr.makeId=mk.id inner join Model mdl")
                 .append(" on tr.modelId=mdl.id inner join Customer cust on cust.id=tr.customerId ");
@@ -406,7 +406,7 @@ public class TransactionDAOImpl implements TransactionDAO {
         return transactions.stream().map(this::convertToVO).collect(Collectors.toList());
     }
 
-    private OffsetDateTime getParsedDate(String dateField) {
+    private OffsetDateTime getParsedDate(final String dateField) {
         return LocalDate.parse(dateField,
                 DateTimeFormatter.ofPattern("MM/dd/yyyy"))
                 .atTime(OffsetTime.MIN);

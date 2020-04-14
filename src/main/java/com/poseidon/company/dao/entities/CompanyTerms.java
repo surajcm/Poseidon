@@ -60,7 +60,7 @@ public class CompanyTerms {
         return companyId;
     }
 
-    public void setCompanyId(Long companyId) {
+    public void setCompanyId(final Long companyId) {
         this.companyId = companyId;
     }
 
@@ -68,7 +68,7 @@ public class CompanyTerms {
         return terms;
     }
 
-    public void setTerms(String terms) {
+    public void setTerms(final String terms) {
         this.terms = terms;
     }
 
@@ -76,7 +76,7 @@ public class CompanyTerms {
         return companyAddress;
     }
 
-    public void setCompanyAddress(String companyAddress) {
+    public void setCompanyAddress(final String companyAddress) {
         this.companyAddress = companyAddress;
     }
 
@@ -84,7 +84,7 @@ public class CompanyTerms {
         return companyName;
     }
 
-    public void setCompanyName(String companyName) {
+    public void setCompanyName(final String companyName) {
         this.companyName = companyName;
     }
 
@@ -92,7 +92,7 @@ public class CompanyTerms {
         return companyPhone;
     }
 
-    public void setCompanyPhone(String companyPhone) {
+    public void setCompanyPhone(final String companyPhone) {
         this.companyPhone = companyPhone;
     }
 
@@ -100,7 +100,7 @@ public class CompanyTerms {
         return companyEmail;
     }
 
-    public void setCompanyEmail(String companyEmail) {
+    public void setCompanyEmail(final String companyEmail) {
         this.companyEmail = companyEmail;
     }
 
@@ -108,7 +108,7 @@ public class CompanyTerms {
         return companyWebsite;
     }
 
-    public void setCompanyWebsite(String companyWebsite) {
+    public void setCompanyWebsite(final String companyWebsite) {
         this.companyWebsite = companyWebsite;
     }
 
@@ -116,7 +116,7 @@ public class CompanyTerms {
         return vatTin;
     }
 
-    public void setVatTin(String vatTin) {
+    public void setVatTin(final String vatTin) {
         this.vatTin = vatTin;
     }
 
@@ -124,7 +124,7 @@ public class CompanyTerms {
         return cstTin;
     }
 
-    public void setCstTin(String cstTin) {
+    public void setCstTin(final String cstTin) {
         this.cstTin = cstTin;
     }
 
@@ -132,7 +132,7 @@ public class CompanyTerms {
         return createdOn;
     }
 
-    public void setCreatedOn(OffsetDateTime createdOn) {
+    public void setCreatedOn(final OffsetDateTime createdOn) {
         this.createdOn = createdOn;
     }
 
@@ -140,7 +140,7 @@ public class CompanyTerms {
         return modifiedOn;
     }
 
-    public void setModifiedOn(OffsetDateTime modifiedOn) {
+    public void setModifiedOn(final OffsetDateTime modifiedOn) {
         this.modifiedOn = modifiedOn;
     }
 
@@ -148,7 +148,7 @@ public class CompanyTerms {
         return createdBy;
     }
 
-    public void setCreatedBy(String createdBy) {
+    public void setCreatedBy(final String createdBy) {
         this.createdBy = createdBy;
     }
 
@@ -156,12 +156,12 @@ public class CompanyTerms {
         return modifiedBy;
     }
 
-    public void setModifiedBy(String modifiedBy) {
+    public void setModifiedBy(final String modifiedBy) {
         this.modifiedBy = modifiedBy;
     }
 
     /**
-     * initialize / update date fields
+     * initialize / update date fields.
      */
     @PrePersist
     @PreUpdate

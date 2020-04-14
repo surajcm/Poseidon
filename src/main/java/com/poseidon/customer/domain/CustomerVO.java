@@ -3,11 +3,6 @@ package com.poseidon.customer.domain;
 import java.time.OffsetDateTime;
 import java.util.StringJoiner;
 
-/**
- * user: Suraj
- * Date: Jun 2, 2012
- * Time: 10:46:23 PM
- */
 public class CustomerVO {
     private Long customerId;
     private String customerName;
@@ -32,7 +27,7 @@ public class CustomerVO {
         return customerId;
     }
 
-    public void setCustomerId(Long customerId) {
+    public void setCustomerId(final Long customerId) {
         this.customerId = customerId;
     }
 
@@ -40,7 +35,7 @@ public class CustomerVO {
         return customerName;
     }
 
-    public void setCustomerName(String customerName) {
+    public void setCustomerName(final String customerName) {
         this.customerName = customerName;
     }
 
@@ -48,7 +43,7 @@ public class CustomerVO {
         return address1;
     }
 
-    public void setAddress1(String address1) {
+    public void setAddress1(final String address1) {
         this.address1 = address1;
     }
 
@@ -56,7 +51,7 @@ public class CustomerVO {
         return address2;
     }
 
-    public void setAddress2(String address2) {
+    public void setAddress2(final String address2) {
         this.address2 = address2;
     }
 
@@ -64,7 +59,7 @@ public class CustomerVO {
         return phoneNo;
     }
 
-    public void setPhoneNo(String phoneNo) {
+    public void setPhoneNo(final String phoneNo) {
         this.phoneNo = phoneNo;
     }
 
@@ -72,7 +67,7 @@ public class CustomerVO {
         return mobile;
     }
 
-    public void setMobile(String mobile) {
+    public void setMobile(final String mobile) {
         this.mobile = mobile;
     }
 
@@ -80,7 +75,7 @@ public class CustomerVO {
         return email;
     }
 
-    public void setEmail(String email) {
+    public void setEmail(final String email) {
         this.email = email;
     }
 
@@ -88,7 +83,7 @@ public class CustomerVO {
         return contactPerson1;
     }
 
-    public void setContactPerson1(String contactPerson1) {
+    public void setContactPerson1(final String contactPerson1) {
         this.contactPerson1 = contactPerson1;
     }
 
@@ -96,7 +91,7 @@ public class CustomerVO {
         return contactPerson2;
     }
 
-    public void setContactPerson2(String contactPerson2) {
+    public void setContactPerson2(final String contactPerson2) {
         this.contactPerson2 = contactPerson2;
     }
 
@@ -104,7 +99,7 @@ public class CustomerVO {
         return contactMobile1;
     }
 
-    public void setContactMobile1(String contactMobile1) {
+    public void setContactMobile1(final String contactMobile1) {
         this.contactMobile1 = contactMobile1;
     }
 
@@ -112,7 +107,7 @@ public class CustomerVO {
         return contactMobile2;
     }
 
-    public void setContactMobile2(String contactMobile2) {
+    public void setContactMobile2(final String contactMobile2) {
         this.contactMobile2 = contactMobile2;
     }
 
@@ -120,7 +115,7 @@ public class CustomerVO {
         return notes;
     }
 
-    public void setNotes(String notes) {
+    public void setNotes(final String notes) {
         this.notes = notes;
     }
 
@@ -128,7 +123,7 @@ public class CustomerVO {
         return startsWith;
     }
 
-    public void setStartsWith(Boolean startsWith) {
+    public void setStartsWith(final Boolean startsWith) {
         this.startsWith = startsWith;
     }
 
@@ -136,7 +131,7 @@ public class CustomerVO {
         return includes;
     }
 
-    public void setIncludes(Boolean includes) {
+    public void setIncludes(final Boolean includes) {
         this.includes = includes;
     }
 
@@ -144,7 +139,7 @@ public class CustomerVO {
         return createdOn;
     }
 
-    public void setCreatedOn(OffsetDateTime createdOn) {
+    public void setCreatedOn(final OffsetDateTime createdOn) {
         this.createdOn = createdOn;
     }
 
@@ -152,7 +147,7 @@ public class CustomerVO {
         return modifiedOn;
     }
 
-    public void setModifiedOn(OffsetDateTime modifiedOn) {
+    public void setModifiedOn(final OffsetDateTime modifiedOn) {
         this.modifiedOn = modifiedOn;
     }
 
@@ -160,7 +155,7 @@ public class CustomerVO {
         return createdBy;
     }
 
-    public void setCreatedBy(String createdBy) {
+    public void setCreatedBy(final String createdBy) {
         this.createdBy = createdBy;
     }
 
@@ -168,7 +163,7 @@ public class CustomerVO {
         return modifiedBy;
     }
 
-    public void setModifiedBy(String modifiedBy) {
+    public void setModifiedBy(final String modifiedBy) {
         this.modifiedBy = modifiedBy;
     }
 

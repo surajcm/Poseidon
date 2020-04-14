@@ -10,11 +10,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-/**
- * user: Suraj
- * Date: Jun 2, 2012
- * Time: 10:43:48 PM
- */
 @Service
 public class CompanyTermsServiceImpl implements CompanyTermsService {
     private static final Logger LOG = LoggerFactory.getLogger(CompanyTermsServiceImpl.class);
@@ -23,7 +18,7 @@ public class CompanyTermsServiceImpl implements CompanyTermsService {
     private CompanyTermsDAO companyTermsDAO;
 
     /**
-     * list company terms
+     * list company terms.
      *
      * @return CompanyTermsVO
      */
@@ -32,25 +27,25 @@ public class CompanyTermsServiceImpl implements CompanyTermsService {
         CompanyTermsVO companyTermsVO = null;
         try {
             companyTermsVO = companyTermsDAO.listCompanyTerms();
-        } catch (CompanyTermsException e) {
-            LOG.error(e.getLocalizedMessage());
+        } catch (CompanyTermsException ex) {
+            LOG.error(ex.getLocalizedMessage());
         }
         return companyTermsVO;
     }
 
     /**
-     * update company details
+     * update company details.
      *
      * @param companyTermsVO companyTermsVO
      * @return company terms vo
      */
     @Override
-    public CompanyTermsVO updateCompanyDetails(CompanyTermsVO companyTermsVO) {
+    public CompanyTermsVO updateCompanyDetails(final CompanyTermsVO companyTermsVO) {
         CompanyTermsVO termsVO = null;
         try {
             termsVO = companyTermsDAO.updateCompanyDetails(companyTermsVO);
-        } catch (CompanyTermsException e) {
-            LOG.error(e.getLocalizedMessage());
+        } catch (CompanyTermsException ex) {
+            LOG.error(ex.getLocalizedMessage());
         }
         return termsVO;
     }

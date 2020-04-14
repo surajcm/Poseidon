@@ -11,12 +11,12 @@ import java.util.List;
 @Component
 public class MakeAndModelEntityConverter {
     /**
-     * convert models to make and model vos
+     * convert models to make and model vos.
      *
      * @param models list of model entity objects
      * @return list of make and model vos
      */
-    public List<MakeAndModelVO> convertModelsToMakeAndModelVOs(List<Model> models) {
+    public List<MakeAndModelVO> convertModelsToMakeAndModelVOs(final List<Model> models) {
         List<MakeAndModelVO> makeAndModelVOS = new ArrayList<>();
         for (Model model : models) {
             MakeAndModelVO makeAndModelVO = new MakeAndModelVO();
@@ -30,12 +30,12 @@ public class MakeAndModelEntityConverter {
     }
 
     /**
-     * convert list of make to make and model vo list
+     * convert list of make to make and model vo list.
      *
      * @param makes list of makes
      * @return list of make and model vos
      */
-    public List<MakeAndModelVO> convertMakeToMakeAndModelVOs(List<Make> makes) {
+    public List<MakeAndModelVO> convertMakeToMakeAndModelVOs(final List<Make> makes) {
         List<MakeAndModelVO> makeAndModelVOS = new ArrayList<>();
         makes.forEach(make -> {
             MakeAndModelVO makeAndModelVO = new MakeAndModelVO();
@@ -50,12 +50,12 @@ public class MakeAndModelEntityConverter {
     }
 
     /**
-     * convert make and model vo to make
+     * convert make and model vo to make.
      *
      * @param currentMakeVO make and model vo
      * @return make
      */
-    public Make convertToMake(MakeAndModelVO currentMakeVO) {
+    public Make convertToMake(final MakeAndModelVO currentMakeVO) {
         Make make = new Make();
         make.setMakeName(currentMakeVO.getMakeName());
         make.setDescription(currentMakeVO.getDescription());
@@ -65,12 +65,12 @@ public class MakeAndModelEntityConverter {
     }
 
     /**
-     * get make vo from make entity
+     * get make vo from make entity.
      *
      * @param make make
      * @return make and model vo
      */
-    public MakeAndModelVO getMakeVOFromMake(Make make) {
+    public MakeAndModelVO getMakeVOFromMake(final Make make) {
         MakeAndModelVO makeAndModelVO = new MakeAndModelVO();
         makeAndModelVO.setMakeId(make.getMakeId());
         makeAndModelVO.setMakeName(make.getMakeName());

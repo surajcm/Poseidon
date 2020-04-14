@@ -11,7 +11,7 @@ import java.util.Locale;
 import java.util.StringJoiner;
 
 /**
- * user: Suraj
+ * user: Suraj.
  * Date: Jun 3, 2012
  * Time: 10:39:11 AM
  */
@@ -30,7 +30,7 @@ public class ReportsVO {
         return locale;
     }
 
-    public void setLocale(Locale locale) {
+    public void setLocale(final Locale locale) {
         this.locale = locale;
     }
 
@@ -38,7 +38,7 @@ public class ReportsVO {
         return exportTo;
     }
 
-    public void setExportTo(String exportTo) {
+    public void setExportTo(final String exportTo) {
         this.exportTo = exportTo;
     }
 
@@ -46,7 +46,7 @@ public class ReportsVO {
         return rptfilename;
     }
 
-    public void setRptfilename(String rptfilename) {
+    public void setRptfilename(final String rptfilename) {
         this.rptfilename = rptfilename;
     }
 
@@ -54,7 +54,7 @@ public class ReportsVO {
         return makeVOList;
     }
 
-    public void setMakeVOList(List<MakeVO> makeVOList) {
+    public void setMakeVOList(final List<MakeVO> makeVOList) {
         this.makeVOList = makeVOList;
     }
 
@@ -62,7 +62,7 @@ public class ReportsVO {
         return tagNo;
     }
 
-    public void setTagNo(String tagNo) {
+    public void setTagNo(final String tagNo) {
         this.tagNo = tagNo;
     }
 
@@ -70,7 +70,7 @@ public class ReportsVO {
         return transactionsList;
     }
 
-    public void setTransactionsList(List<TransactionVO> transactionsList) {
+    public void setTransactionsList(final List<TransactionVO> transactionsList) {
         this.transactionsList = transactionsList;
     }
 
@@ -78,7 +78,7 @@ public class ReportsVO {
         return makeAndModelVOs;
     }
 
-    public void setMakeAndModelVOs(List<MakeAndModelVO> makeAndModelVOs) {
+    public void setMakeAndModelVOs(final List<MakeAndModelVO> makeAndModelVOs) {
         this.makeAndModelVOs = makeAndModelVOs;
     }
 
@@ -86,7 +86,7 @@ public class ReportsVO {
         return transactionReportVO;
     }
 
-    public void setTransactionReportVO(TransactionReportVO transactionReportVO) {
+    public void setTransactionReportVO(final TransactionReportVO transactionReportVO) {
         this.transactionReportVO = transactionReportVO;
     }
 
@@ -94,7 +94,7 @@ public class ReportsVO {
         return invoiceReportVO;
     }
 
-    public void setInvoiceReportVO(InvoiceReportVO invoiceReportVO) {
+    public void setInvoiceReportVO(final InvoiceReportVO invoiceReportVO) {
         this.invoiceReportVO = invoiceReportVO;
     }
 

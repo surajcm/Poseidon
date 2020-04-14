@@ -21,11 +21,6 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
-/**
- * user: Suraj
- * Date: 7/26/12
- * Time: 10:39 PM
- */
 @SuppressWarnings("unused")
 @Repository
 public class InvoiceDAOImpl implements InvoiceDAO {
@@ -38,59 +33,59 @@ public class InvoiceDAOImpl implements InvoiceDAO {
     private static final Logger log = LoggerFactory.getLogger(InvoiceDAOImpl.class);
 
     /**
-     * add invoice
+     * add invoice.
      *
      * @param currentInvoiceVO currentInvoiceVO
      * @throws InvoiceException on error
      */
     @Override
-    public void addInvoice(InvoiceVO currentInvoiceVO) throws InvoiceException {
+    public void addInvoice(final InvoiceVO currentInvoiceVO) throws InvoiceException {
         try {
             saveInvoice(currentInvoiceVO);
-        } catch (DataAccessException e) {
-            log.error(e.getLocalizedMessage());
+        } catch (DataAccessException ex) {
+            log.error(ex.getLocalizedMessage());
             throw new InvoiceException(InvoiceException.DATABASE_ERROR);
         }
     }
 
     /**
-     * fetch Invoice For List Of Transactions
+     * fetch Invoice For List Of Transactions.
      *
      * @param tagNumbers tagNumbers as list
      * @return list of invoice vo
      * @throws InvoiceException on error
      */
     @Override
-    public List<InvoiceVO> fetchInvoiceForListOfTransactions(List<String> tagNumbers) throws InvoiceException {
+    public List<InvoiceVO> fetchInvoiceForListOfTransactions(final List<String> tagNumbers) throws InvoiceException {
         List<InvoiceVO> invoiceVOs;
         try {
             List<Invoice> invoices = invoiceRepository.fetchTodaysInvoices(tagNumbers);
-            invoiceVOs = invoices.stream().map(this::getInvoiceVOFromInvoice).collect(Collectors.toList());
-        } catch (DataAccessException e) {
-            log.error(e.getLocalizedMessage());
+            invoiceVOs = invoices.stream().map(this::getInvoiceVoFromInvoice).collect(Collectors.toList());
+        } catch (DataAccessException ex) {
+            log.error(ex.getLocalizedMessage());
             throw new InvoiceException(InvoiceException.DATABASE_ERROR);
         }
         return invoiceVOs;
     }
 
     /**
-     * fetch invoice vo from id
+     * fetch invoice vo from id.
      *
      * @param id of invoice vo
      * @return invoice vo
      */
     @Override
-    public InvoiceVO fetchInvoiceVOFromId(Long id) {
+    public InvoiceVO fetchInvoiceVOFromId(final Long id) {
         Optional<Invoice> optionalInvoice = invoiceRepository.findById(id.intValue());
         InvoiceVO invoiceVO = null;
         if (optionalInvoice.isPresent()) {
             Invoice invoice = optionalInvoice.get();
-            invoiceVO = getInvoiceVOFromInvoice(invoice);
+            invoiceVO = getInvoiceVoFromInvoice(invoice);
         }
         return invoiceVO;
     }
 
-    private InvoiceVO getInvoiceVOFromInvoice(Invoice invoice) {
+    private InvoiceVO getInvoiceVoFromInvoice(final Invoice invoice) {
         InvoiceVO invoiceVO;
         invoiceVO = new InvoiceVO();
         invoiceVO.setId(invoice.getInvoiceId());
@@ -99,77 +94,81 @@ public class InvoiceDAOImpl implements InvoiceDAO {
         invoiceVO.setDescription(invoice.getDescription());
         invoiceVO.setSerialNo(invoice.getSerialNumber());
         invoiceVO.setAmount(Double.valueOf(invoice.getAmount()));
-        invoiceVO.setQuantity(Integer.valueOf(invoice.getQuantity()));
+        invoiceVO.setQuantity(Integer.parseInt(invoice.getQuantity()));
         invoiceVO.setRate(Double.valueOf(invoice.getRate()));
         return invoiceVO;
     }
 
     /**
-     * delete Invoice
+     * delete Invoice.
      *
      * @param id of invoice
      * @throws InvoiceException on error
      */
     @Override
-    public void deleteInvoice(Long id) throws InvoiceException {
+    public void deleteInvoice(final Long id) throws InvoiceException {
         try {
             invoiceRepository.deleteById(id.intValue());
-        } catch (DataAccessException e) {
-            log.error(e.getLocalizedMessage());
+        } catch (DataAccessException ex) {
+            log.error(ex.getLocalizedMessage());
             throw new InvoiceException(InvoiceException.DATABASE_ERROR);
         }
     }
 
     /**
-     * update an invoice
+     * update an invoice.
      *
      * @param currentInvoiceVO currentInvoiceVO
      * @throws InvoiceException on error
      */
     @Override
-    public void updateInvoice(InvoiceVO currentInvoiceVO) throws InvoiceException {
+    public void updateInvoice(final InvoiceVO currentInvoiceVO) throws InvoiceException {
         try {
             Optional<Invoice> optionalInvoice = invoiceRepository.findById(currentInvoiceVO.getId().intValue());
             if (optionalInvoice.isPresent()) {
-                Invoice invoice = optionalInvoice.get();
-                invoice.setTagNumber(currentInvoiceVO.getTagNo());
-                invoice.setDescription(currentInvoiceVO.getDescription());
-                invoice.setSerialNumber(currentInvoiceVO.getSerialNo());
-                invoice.setAmount(currentInvoiceVO.getAmount().toString());
-                invoice.setQuantity(String.valueOf(currentInvoiceVO.getQuantity()));
-                invoice.setRate(currentInvoiceVO.getRate().toString());
-                invoice.setCustomerName(currentInvoiceVO.getCustomerName());
-                invoice.setCustomerId(currentInvoiceVO.getCustomerId());
-                invoice.setModifiedOn(currentInvoiceVO.getModifiedDate());
-                invoice.setModifiedBy(currentInvoiceVO.getModifiedBy());
+                Invoice invoice = getInvoice(currentInvoiceVO, optionalInvoice.get());
                 invoiceRepository.save(invoice);
             }
-        } catch (DataAccessException e) {
-            log.error(e.getLocalizedMessage());
+        } catch (DataAccessException ex) {
+            log.error(ex.getLocalizedMessage());
             throw new InvoiceException(InvoiceException.DATABASE_ERROR);
         }
     }
 
+    private Invoice getInvoice(final InvoiceVO currentInvoiceVO, final Invoice invoice) {
+        invoice.setTagNumber(currentInvoiceVO.getTagNo());
+        invoice.setDescription(currentInvoiceVO.getDescription());
+        invoice.setSerialNumber(currentInvoiceVO.getSerialNo());
+        invoice.setAmount(currentInvoiceVO.getAmount().toString());
+        invoice.setQuantity(String.valueOf(currentInvoiceVO.getQuantity()));
+        invoice.setRate(currentInvoiceVO.getRate().toString());
+        invoice.setCustomerName(currentInvoiceVO.getCustomerName());
+        invoice.setCustomerId(currentInvoiceVO.getCustomerId());
+        invoice.setModifiedOn(currentInvoiceVO.getModifiedDate());
+        invoice.setModifiedBy(currentInvoiceVO.getModifiedBy());
+        return invoice;
+    }
+
     /**
-     * search for invoices
+     * search for invoices.
      *
      * @param searchInvoiceVO searchInvoiceVO
      * @return list of invoice
      * @throws InvoiceException on error
      */
     @Override
-    public List<InvoiceVO> findInvoices(InvoiceVO searchInvoiceVO) throws InvoiceException {
+    public List<InvoiceVO> findInvoices(final InvoiceVO searchInvoiceVO) throws InvoiceException {
         List<InvoiceVO> invoiceVOs;
         try {
             invoiceVOs = searchInvoice(searchInvoiceVO);
-        } catch (DataAccessException e) {
-            log.error(e.getLocalizedMessage());
+        } catch (DataAccessException ex) {
+            log.error(ex.getLocalizedMessage());
             throw new InvoiceException(InvoiceException.DATABASE_ERROR);
         }
         return invoiceVOs;
     }
 
-    private List<InvoiceVO> searchInvoice(InvoiceVO searchInvoiceVO) {
+    private List<InvoiceVO> searchInvoice(final InvoiceVO searchInvoiceVO) {
         CriteriaBuilder builder = em.unwrap(Session.class).getCriteriaBuilder();
         CriteriaQuery<Invoice> criteria = builder.createQuery(Invoice.class);
         Root<Invoice> invoiceRoot = criteria.from(Invoice.class);
@@ -235,7 +234,7 @@ public class InvoiceDAOImpl implements InvoiceDAO {
         return resultList.stream().map(this::convertInvoiceToInvoiceVO).collect(Collectors.toList());
     }
 
-    private InvoiceVO convertInvoiceToInvoiceVO(Invoice invoice) {
+    private InvoiceVO convertInvoiceToInvoiceVO(final Invoice invoice) {
         InvoiceVO invoiceVO = new InvoiceVO();
         invoiceVO.setId(invoice.getInvoiceId());
         invoiceVO.setCustomerName(invoice.getCustomerName());
@@ -246,7 +245,7 @@ public class InvoiceDAOImpl implements InvoiceDAO {
         return invoiceVO;
     }
 
-    private void saveInvoice(InvoiceVO currentInvoiceVO) {
+    private void saveInvoice(final InvoiceVO currentInvoiceVO) {
         Invoice invoice = convertInvoiceVOToInvoice(currentInvoiceVO);
         Invoice newInvoice = invoiceRepository.save(invoice);
         log.info(" the queryForInt resulted in  " + newInvoice.getInvoiceId());
@@ -257,7 +256,7 @@ public class InvoiceDAOImpl implements InvoiceDAO {
         invoiceRepository.save(newInvoice);
     }
 
-    private Invoice convertInvoiceVOToInvoice(InvoiceVO currentInvoiceVO) {
+    private Invoice convertInvoiceVOToInvoice(final InvoiceVO currentInvoiceVO) {
         Invoice invoice = new Invoice();
         invoice.setTagNumber(currentInvoiceVO.getTagNo());
         invoice.setDescription(currentInvoiceVO.getDescription());

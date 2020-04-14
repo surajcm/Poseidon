@@ -32,7 +32,7 @@ public class InvoiceForm {
         return loggedInUser;
     }
 
-    public void setLoggedInUser(String loggedInUser) {
+    public void setLoggedInUser(final String loggedInUser) {
         this.loggedInUser = loggedInUser;
     }
 
@@ -40,7 +40,7 @@ public class InvoiceForm {
         return loggedInRole;
     }
 
-    public void setLoggedInRole(String loggedInRole) {
+    public void setLoggedInRole(final String loggedInRole) {
         this.loggedInRole = loggedInRole;
     }
 
@@ -48,7 +48,7 @@ public class InvoiceForm {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(final Long id) {
         this.id = id;
     }
 
@@ -56,7 +56,7 @@ public class InvoiceForm {
         return statusMessage;
     }
 
-    public void setStatusMessage(String statusMessage) {
+    public void setStatusMessage(final String statusMessage) {
         this.statusMessage = statusMessage;
     }
 
@@ -64,7 +64,7 @@ public class InvoiceForm {
         return statusMessageType;
     }
 
-    public void setStatusMessageType(String statusMessageType) {
+    public void setStatusMessageType(final String statusMessageType) {
         this.statusMessageType = statusMessageType;
     }
 
@@ -72,7 +72,7 @@ public class InvoiceForm {
         return tagNo;
     }
 
-    public void setTagNo(String tagNo) {
+    public void setTagNo(final String tagNo) {
         this.tagNo = tagNo;
     }
 
@@ -80,7 +80,7 @@ public class InvoiceForm {
         return customerId;
     }
 
-    public void setCustomerId(Long customerId) {
+    public void setCustomerId(final Long customerId) {
         this.customerId = customerId;
     }
 
@@ -88,7 +88,7 @@ public class InvoiceForm {
         return customerName;
     }
 
-    public void setCustomerName(String customerName) {
+    public void setCustomerName(final String customerName) {
         this.customerName = customerName;
     }
 
@@ -96,7 +96,7 @@ public class InvoiceForm {
         return description;
     }
 
-    public void setDescription(String description) {
+    public void setDescription(final String description) {
         this.description = description;
     }
 
@@ -104,7 +104,7 @@ public class InvoiceForm {
         return serialNo;
     }
 
-    public void setSerialNo(String serialNo) {
+    public void setSerialNo(final String serialNo) {
         this.serialNo = serialNo;
     }
 
@@ -112,7 +112,7 @@ public class InvoiceForm {
         return quantity;
     }
 
-    public void setQuantity(int quantity) {
+    public void setQuantity(final int quantity) {
         this.quantity = quantity;
     }
 
@@ -120,7 +120,7 @@ public class InvoiceForm {
         return rate;
     }
 
-    public void setRate(double rate) {
+    public void setRate(final double rate) {
         this.rate = rate;
     }
 
@@ -128,7 +128,7 @@ public class InvoiceForm {
         return amount;
     }
 
-    public void setAmount(double amount) {
+    public void setAmount(final double amount) {
         this.amount = amount;
     }
 
@@ -136,7 +136,7 @@ public class InvoiceForm {
         return totalAmount;
     }
 
-    public void setTotalAmount(double totalAmount) {
+    public void setTotalAmount(final double totalAmount) {
         this.totalAmount = totalAmount;
     }
 
@@ -144,7 +144,7 @@ public class InvoiceForm {
         return searchInvoiceVo;
     }
 
-    public void setSearchInvoiceVo(InvoiceVO searchInvoiceVo) {
+    public void setSearchInvoiceVo(final InvoiceVO searchInvoiceVo) {
         this.searchInvoiceVo = searchInvoiceVo;
     }
 
@@ -152,7 +152,7 @@ public class InvoiceForm {
         return invoiceVos;
     }
 
-    public void setInvoiceVos(List<InvoiceVO> invoiceVos) {
+    public void setInvoiceVos(final List<InvoiceVO> invoiceVos) {
         this.invoiceVos = invoiceVos;
     }
 
@@ -160,7 +160,7 @@ public class InvoiceForm {
         return currentInvoiceVo;
     }
 
-    public void setCurrentInvoiceVo(InvoiceVO currentInvoiceVo) {
+    public void setCurrentInvoiceVo(final InvoiceVO currentInvoiceVo) {
         this.currentInvoiceVo = currentInvoiceVo;
     }
 

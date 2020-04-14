@@ -4,7 +4,7 @@ import java.time.OffsetDateTime;
 import java.util.StringJoiner;
 
 /**
- * user: Suraj
+ * user: Suraj.
  * Date: Jun 2, 2012
  * Time: 7:26:27 PM
  */
@@ -26,7 +26,7 @@ public class MakeAndModelVO {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(final Long id) {
         this.id = id;
     }
 
@@ -34,7 +34,7 @@ public class MakeAndModelVO {
         return makeId;
     }
 
-    public void setMakeId(Long makeId) {
+    public void setMakeId(final Long makeId) {
         this.makeId = makeId;
     }
 
@@ -42,7 +42,7 @@ public class MakeAndModelVO {
         return makeName;
     }
 
-    public void setMakeName(String makeName) {
+    public void setMakeName(final String makeName) {
         this.makeName = makeName;
     }
 
@@ -50,7 +50,7 @@ public class MakeAndModelVO {
         return description;
     }
 
-    public void setDescription(String description) {
+    public void setDescription(final String description) {
         this.description = description;
     }
 
@@ -58,7 +58,7 @@ public class MakeAndModelVO {
         return modelId;
     }
 
-    public void setModelId(Long modelId) {
+    public void setModelId(final Long modelId) {
         this.modelId = modelId;
     }
 
@@ -66,7 +66,7 @@ public class MakeAndModelVO {
         return modelName;
     }
 
-    public void setModelName(String modelName) {
+    public void setModelName(final String modelName) {
         this.modelName = modelName;
     }
 
@@ -74,7 +74,7 @@ public class MakeAndModelVO {
         return startswith;
     }
 
-    public void setStartswith(Boolean startswith) {
+    public void setStartswith(final Boolean startswith) {
         this.startswith = startswith;
     }
 
@@ -82,7 +82,7 @@ public class MakeAndModelVO {
         return includes;
     }
 
-    public void setIncludes(Boolean includes) {
+    public void setIncludes(final Boolean includes) {
         this.includes = includes;
     }
 
@@ -90,7 +90,7 @@ public class MakeAndModelVO {
         return createdDate;
     }
 
-    public void setCreatedDate(OffsetDateTime createdDate) {
+    public void setCreatedDate(final OffsetDateTime createdDate) {
         this.createdDate = createdDate;
     }
 
@@ -98,7 +98,7 @@ public class MakeAndModelVO {
         return modifiedDate;
     }
 
-    public void setModifiedDate(OffsetDateTime modifiedDate) {
+    public void setModifiedDate(final OffsetDateTime modifiedDate) {
         this.modifiedDate = modifiedDate;
     }
 
@@ -106,7 +106,7 @@ public class MakeAndModelVO {
         return createdBy;
     }
 
-    public void setCreatedBy(String createdBy) {
+    public void setCreatedBy(final String createdBy) {
         this.createdBy = createdBy;
     }
 
@@ -114,7 +114,7 @@ public class MakeAndModelVO {
         return modifiedBy;
     }
 
-    public void setModifiedBy(String modifiedBy) {
+    public void setModifiedBy(final String modifiedBy) {
         this.modifiedBy = modifiedBy;
     }
 

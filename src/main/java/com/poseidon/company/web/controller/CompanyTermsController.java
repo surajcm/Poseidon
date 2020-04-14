@@ -13,11 +13,6 @@ import org.springframework.web.servlet.ModelAndView;
 import java.time.OffsetDateTime;
 import java.time.ZoneId;
 
-/**
- * user: Suraj
- * Date: Jun 2, 2012
- * Time: 10:44:08 PM
- */
 @Controller
 @SuppressWarnings("unused")
 public class CompanyTermsController {
@@ -27,20 +22,20 @@ public class CompanyTermsController {
     private CompanyTermsService companyTermsService;
 
     /**
-     * list company details
+     * list company details.
      *
      * @param companyTermsForm companyTermsForm
      * @return on error
      */
     @PostMapping("/company/List.htm")
-    public ModelAndView list(CompanyTermsForm companyTermsForm) {
+    public ModelAndView list(final CompanyTermsForm companyTermsForm) {
         LOG.info(" Inside List method of CompanyTermsController ");
         LOG.info(" form details are {}", companyTermsForm);
         CompanyTermsVO companyTermsVO = null;
         try {
             companyTermsVO = companyTermsService.listCompanyTerms();
-        } catch (Exception e) {
-            LOG.error(e.getLocalizedMessage());
+        } catch (Exception ex) {
+            LOG.error(ex.getLocalizedMessage());
         }
         if (companyTermsVO != null) {
             LOG.info(" companyTermsVO is {}", companyTermsVO);
@@ -54,13 +49,13 @@ public class CompanyTermsController {
     }
 
     /**
-     * update company details
+     * update company details.
      *
      * @param companyTermsForm companyTermsForm
      * @return view
      */
     @PostMapping("/company/updateCompanyDetails.htm")
-    public ModelAndView updateCompanyDetails(CompanyTermsForm companyTermsForm) {
+    public ModelAndView updateCompanyDetails(final CompanyTermsForm companyTermsForm) {
         LOG.info(" Inside editTerms method of CompanyTermsController ");
         LOG.info(" form details are {}", companyTermsForm);
         companyTermsForm.getCurrentCompanyTermsVO().setModifiedBy(companyTermsForm.getLoggedInUser());
@@ -68,8 +63,8 @@ public class CompanyTermsController {
         CompanyTermsVO companyTermsVO = null;
         try {
             companyTermsVO = companyTermsService.updateCompanyDetails(companyTermsForm.getCurrentCompanyTermsVO());
-        } catch (Exception e) {
-            LOG.error(e.getLocalizedMessage());
+        } catch (Exception ex) {
+            LOG.error(ex.getLocalizedMessage());
         }
         if (companyTermsVO != null) {
             LOG.info(" companyTermsVO is {}", companyTermsVO);

@@ -1,10 +1,5 @@
 package com.poseidon.invoice.domain;
 
-/**
- * user: Suraj
- * Date: 8/15/12
- * Time: 7:18 PM
- */
 public class InvoiceReportVO {
     private Long invoiceId;
     private String tagNo;
@@ -24,14 +19,14 @@ public class InvoiceReportVO {
     private String companyWebsite;
     private String companyEmail;
     private String companyTerms;
-    private String companyVATTIN;
-    private String companyCSTTIN;
+    private String companyVatTin;
+    private String companyCstTin;
 
     public Long getInvoiceId() {
         return invoiceId;
     }
 
-    public void setInvoiceId(Long invoiceId) {
+    public void setInvoiceId(final Long invoiceId) {
         this.invoiceId = invoiceId;
     }
 
@@ -39,7 +34,7 @@ public class InvoiceReportVO {
         return tagNo;
     }
 
-    public void setTagNo(String tagNo) {
+    public void setTagNo(final String tagNo) {
         this.tagNo = tagNo;
     }
 
@@ -47,7 +42,7 @@ public class InvoiceReportVO {
         return customerId;
     }
 
-    public void setCustomerId(Long customerId) {
+    public void setCustomerId(final Long customerId) {
         this.customerId = customerId;
     }
 
@@ -55,7 +50,7 @@ public class InvoiceReportVO {
         return customerName;
     }
 
-    public void setCustomerName(String customerName) {
+    public void setCustomerName(final String customerName) {
         this.customerName = customerName;
     }
 
@@ -63,7 +58,7 @@ public class InvoiceReportVO {
         return customerAddress1;
     }
 
-    public void setCustomerAddress1(String customerAddress1) {
+    public void setCustomerAddress1(final String customerAddress1) {
         this.customerAddress1 = customerAddress1;
     }
 
@@ -71,7 +66,7 @@ public class InvoiceReportVO {
         return customerAddress2;
     }
 
-    public void setCustomerAddress2(String customerAddress2) {
+    public void setCustomerAddress2(final String customerAddress2) {
         this.customerAddress2 = customerAddress2;
     }
 
@@ -79,7 +74,7 @@ public class InvoiceReportVO {
         return description;
     }
 
-    public void setDescription(String description) {
+    public void setDescription(final String description) {
         this.description = description;
     }
 
@@ -87,7 +82,7 @@ public class InvoiceReportVO {
         return serialNo;
     }
 
-    public void setSerialNo(String serialNo) {
+    public void setSerialNo(final String serialNo) {
         this.serialNo = serialNo;
     }
 
@@ -95,7 +90,7 @@ public class InvoiceReportVO {
         return quantity;
     }
 
-    public void setQuantity(int quantity) {
+    public void setQuantity(final int quantity) {
         this.quantity = quantity;
     }
 
@@ -103,7 +98,7 @@ public class InvoiceReportVO {
         return rate;
     }
 
-    public void setRate(double rate) {
+    public void setRate(final double rate) {
         this.rate = rate;
     }
 
@@ -111,7 +106,7 @@ public class InvoiceReportVO {
         return amount;
     }
 
-    public void setAmount(double amount) {
+    public void setAmount(final double amount) {
         this.amount = amount;
     }
 
@@ -119,7 +114,7 @@ public class InvoiceReportVO {
         return totalAmount;
     }
 
-    public void setTotalAmount(double totalAmount) {
+    public void setTotalAmount(final double totalAmount) {
         this.totalAmount = totalAmount;
     }
 
@@ -127,7 +122,7 @@ public class InvoiceReportVO {
         return companyName;
     }
 
-    public void setCompanyName(String companyName) {
+    public void setCompanyName(final String companyName) {
         this.companyName = companyName;
     }
 
@@ -135,7 +130,7 @@ public class InvoiceReportVO {
         return companyAddress;
     }
 
-    public void setCompanyAddress(String companyAddress) {
+    public void setCompanyAddress(final String companyAddress) {
         this.companyAddress = companyAddress;
     }
 
@@ -143,7 +138,7 @@ public class InvoiceReportVO {
         return companyPhoneNumber;
     }
 
-    public void setCompanyPhoneNumber(String companyPhoneNumber) {
+    public void setCompanyPhoneNumber(final String companyPhoneNumber) {
         this.companyPhoneNumber = companyPhoneNumber;
     }
 
@@ -151,7 +146,7 @@ public class InvoiceReportVO {
         return companyWebsite;
     }
 
-    public void setCompanyWebsite(String companyWebsite) {
+    public void setCompanyWebsite(final String companyWebsite) {
         this.companyWebsite = companyWebsite;
     }
 
@@ -159,7 +154,7 @@ public class InvoiceReportVO {
         return companyEmail;
     }
 
-    public void setCompanyEmail(String companyEmail) {
+    public void setCompanyEmail(final String companyEmail) {
         this.companyEmail = companyEmail;
     }
 
@@ -167,23 +162,23 @@ public class InvoiceReportVO {
         return companyTerms;
     }
 
-    public void setCompanyTerms(String companyTerms) {
+    public void setCompanyTerms(final String companyTerms) {
         this.companyTerms = companyTerms;
     }
 
-    public String getCompanyVATTIN() {
-        return companyVATTIN;
+    public String getCompanyVatTin() {
+        return companyVatTin;
     }
 
-    public void setCompanyVATTIN(String companyVATTIN) {
-        this.companyVATTIN = companyVATTIN;
+    public void setCompanyVatTin(final String companyVatTin) {
+        this.companyVatTin = companyVatTin;
     }
 
-    public String getCompanyCSTTIN() {
-        return companyCSTTIN;
+    public String getCompanyCstTin() {
+        return companyCstTin;
     }
 
-    public void setCompanyCSTTIN(String companyCSTTIN) {
-        this.companyCSTTIN = companyCSTTIN;
+    public void setCompanyCstTin(final String companyCstTin) {
+        this.companyCstTin = companyCstTin;
     }
 }

@@ -39,7 +39,7 @@ import java.util.List;
 import java.util.Locale;
 
 /**
- * user: Suraj
+ * user: Suraj.
  * Date: Jun 3, 2012
  * Time: 10:40:47 AM
  */
@@ -58,30 +58,30 @@ public class ReportsController {
     @Autowired
     private MakeService makeService;
 
-    public void setReportsService(ReportsService reportsService) {
+    public void setReportsService(final ReportsService reportsService) {
         this.reportsService = reportsService;
     }
 
-    public void setMakeService(MakeService makeService) {
+    public void setMakeService(final MakeService makeService) {
         this.makeService = makeService;
     }
 
     /**
-     * list reports
+     * list reports.
      *
      * @param reportsForm form
      * @return view
      */
     @PostMapping("/reports/List.htm")
-    public ModelAndView list(ReportsForm reportsForm) {
+    public ModelAndView list(final ReportsForm reportsForm) {
         LOG.info(" Inside List method of ReportsController ");
         LOG.info(" form details are : {}", reportsForm);
 
         List<ReportsVO> reportsVOs = null;
         try {
             reportsVOs = reportsService.generateDailyReport();
-        } catch (Exception e) {
-            LOG.error(e.getLocalizedMessage());
+        } catch (Exception ex) {
+            LOG.error(ex.getLocalizedMessage());
         }
         if (reportsVOs != null) {
             reportsVOs.forEach(reportsVO -> LOG.info(" reportsVO is {}", reportsVO));
@@ -91,8 +91,8 @@ public class ReportsController {
         List<MakeVO> makeVOs = null;
         try {
             makeVOs = makeService.fetchMakes();
-        } catch (Exception e) {
-            LOG.error(e.getLocalizedMessage());
+        } catch (Exception ex) {
+            LOG.error(ex.getLocalizedMessage());
         }
         if (makeVOs != null) {
             makeVOs.forEach(makeVO -> LOG.info("make vo is {}", makeVO));
@@ -143,7 +143,7 @@ public class ReportsController {
     }
 
     /**
-     * getMakeDetailsReport
+     * getMakeDetailsReport.
      *
      * @param httpServletRequest  HttpServletRequest
      * @param httpServletResponse HttpServletResponse
@@ -151,9 +151,9 @@ public class ReportsController {
      * @return ModelAndView
      */
     @RequestMapping(value = "/reports/getMakeDetailsReport.htm", method = {RequestMethod.GET, RequestMethod.POST})
-    public ModelAndView getMakeDetailsReport(HttpServletRequest httpServletRequest,
-                                             HttpServletResponse httpServletResponse,
-                                             ReportsForm reportsForm) {
+    public ModelAndView getMakeDetailsReport(final HttpServletRequest httpServletRequest,
+                                             final HttpServletResponse httpServletResponse,
+                                             final ReportsForm reportsForm) {
         LOG.info(" Inside getMakeDetailsReport method of ReportsController ");
         LOG.info(FORM_DETAILS, reportsForm);
         JasperReport jasperReport;
@@ -176,14 +176,14 @@ public class ReportsController {
                 String reportType = reportsForm.getCurrentReport().getExportTo();
                 generateJasperReport(httpServletResponse, jasperPrint, reportFileName, reportType);
             }
-        } catch (Exception e) {
-            LOG.error(e.getLocalizedMessage());
+        } catch (Exception ex) {
+            LOG.error(ex.getLocalizedMessage());
         }
         return null;
     }
 
     /**
-     * getCallReport
+     * getCallReport.
      *
      * @param httpServletRequest  HttpServletRequest
      * @param httpServletResponse HttpServletResponse
@@ -191,9 +191,9 @@ public class ReportsController {
      * @return ModelAndView
      */
     @RequestMapping(value = "/reports/getCallReport.htm", method = {RequestMethod.GET, RequestMethod.POST})
-    public ModelAndView getCallReport(HttpServletRequest httpServletRequest,
-                                      HttpServletResponse httpServletResponse,
-                                      ReportsForm reportsForm) {
+    public ModelAndView getCallReport(final HttpServletRequest httpServletRequest,
+                                      final HttpServletResponse httpServletResponse,
+                                      final ReportsForm reportsForm) {
         LOG.info(" Inside getCallReport method of ReportsController ");
         LOG.info(FORM_DETAILS, reportsForm);
         JasperReport jasperReport;
@@ -217,15 +217,15 @@ public class ReportsController {
             jasperPrint = reportsService.getCallReport(jasperReport, reportsForm.getCurrentReport());
             LOG.info(jasperPrint.toString());
             generateJasperReport(httpServletResponse, jasperPrint, reportFileName, reportType);
-        } catch (Exception e) {
-            LOG.error(e.getLocalizedMessage());
+        } catch (Exception ex) {
+            LOG.error(ex.getLocalizedMessage());
             return getErrorReport(httpServletRequest, httpServletResponse, reportsForm);
         }
         return null;
     }
 
     /**
-     * getTransactionsListReport
+     * getTransactionsListReport.
      *
      * @param httpServletRequest  HttpServletRequest
      * @param httpServletResponse HttpServletResponse
@@ -233,9 +233,9 @@ public class ReportsController {
      * @return ModelAndView
      */
     @RequestMapping(value = "/reports/getTransactionsListReport.htm", method = {RequestMethod.GET, RequestMethod.POST})
-    public ModelAndView getTransactionsListReport(HttpServletRequest httpServletRequest,
-                                                  HttpServletResponse httpServletResponse,
-                                                  ReportsForm reportsForm) {
+    public ModelAndView getTransactionsListReport(final HttpServletRequest httpServletRequest,
+                                                  final HttpServletResponse httpServletResponse,
+                                                  final ReportsForm reportsForm) {
         LOG.info(" Inside getTransactionsListReport method of ReportsController ");
         LOG.info(FORM_DETAILS, reportsForm);
         JasperReport jasperReport;
@@ -261,14 +261,14 @@ public class ReportsController {
                     reportsForm.getTxnReportTransactionVO());
             LOG.info(jasperPrint.toString());
             generateJasperReport(httpServletResponse, jasperPrint, reportFileName, reportType);
-        } catch (Exception e) {
-            LOG.error(e.getLocalizedMessage());
+        } catch (Exception ex) {
+            LOG.error(ex.getLocalizedMessage());
         }
         return null;
     }
 
     /**
-     * getModelListReport
+     * getModelListReport.
      *
      * @param httpServletRequest  HttpServletRequest
      * @param httpServletResponse HttpServletResponse
@@ -276,9 +276,9 @@ public class ReportsController {
      * @return ModelAndView
      */
     @RequestMapping(value = "/reports/getModelListReport.htm", method = {RequestMethod.GET, RequestMethod.POST})
-    public ModelAndView getModelListReport(HttpServletRequest httpServletRequest,
-                                           HttpServletResponse httpServletResponse,
-                                           ReportsForm reportsForm) {
+    public ModelAndView getModelListReport(final HttpServletRequest httpServletRequest,
+                                           final HttpServletResponse httpServletResponse,
+                                           final ReportsForm reportsForm) {
         LOG.info(" Inside getModelListReport method of ReportsController ");
         LOG.info(FORM_DETAILS, reportsForm);
         JasperReport jasperReport;
@@ -302,14 +302,14 @@ public class ReportsController {
             LOG.info(jasperPrint.toString());
             String reportType = reportsForm.getCurrentReport().getExportTo();
             generateJasperReport(httpServletResponse, jasperPrint, reportFileName, reportType);
-        } catch (Exception e) {
-            LOG.error(e.getLocalizedMessage());
+        } catch (Exception ex) {
+            LOG.error(ex.getLocalizedMessage());
         }
         return null;
     }
 
     /**
-     * getErrorReport
+     * getErrorReport.
      *
      * @param httpServletRequest  HttpServletRequest
      * @param httpServletResponse HttpServletResponse
@@ -317,9 +317,9 @@ public class ReportsController {
      * @return ModelAndView
      */
     @RequestMapping(value = "/reports/getErrorReport.htm", method = {RequestMethod.GET, RequestMethod.POST})
-    public ModelAndView getErrorReport(HttpServletRequest httpServletRequest,
-                                       HttpServletResponse httpServletResponse,
-                                       ReportsForm reportsForm) {
+    public ModelAndView getErrorReport(final HttpServletRequest httpServletRequest,
+                                       final HttpServletResponse httpServletResponse,
+                                       final ReportsForm reportsForm) {
         LOG.info(" Inside getErrorReport method of ReportsController ");
         LOG.info(FORM_DETAILS, reportsForm);
         JasperReport jasperReport;
@@ -340,14 +340,14 @@ public class ReportsController {
             LOG.info(jasperPrint.toString());
             String reportType = reportsForm.getCurrentReport().getExportTo();
             generateJasperReport(httpServletResponse, jasperPrint, reportFileName, reportType);
-        } catch (Exception e) {
-            LOG.error(e.getLocalizedMessage());
+        } catch (Exception ex) {
+            LOG.error(ex.getLocalizedMessage());
         }
         return null;
     }
 
     /**
-     * getInvoiceReport
+     * getInvoiceReport.
      *
      * @param httpServletRequest  HttpServletRequest
      * @param httpServletResponse HttpServletResponse
@@ -355,9 +355,9 @@ public class ReportsController {
      * @return ModelAndView
      */
     @RequestMapping(value = "/reports/getInvoiceReport.htm", method = {RequestMethod.GET, RequestMethod.POST})
-    public ModelAndView getInvoiceReport(HttpServletRequest httpServletRequest,
-                                         HttpServletResponse httpServletResponse,
-                                         ReportsForm reportsForm) {
+    public ModelAndView getInvoiceReport(final HttpServletRequest httpServletRequest,
+                                         final HttpServletResponse httpServletResponse,
+                                         final ReportsForm reportsForm) {
         LOG.info(" Inside getInvoiceReport method of ReportsController ");
         LOG.info(FORM_DETAILS, reportsForm);
         JasperReport jasperReport;
@@ -378,31 +378,31 @@ public class ReportsController {
             LOG.info(jasperPrint.toString());
             String reportType = reportsForm.getCurrentReport().getExportTo();
             generateJasperReport(httpServletResponse, jasperPrint, reportFileName, reportType);
-        } catch (Exception e) {
-            LOG.error(e.getLocalizedMessage());
+        } catch (Exception ex) {
+            LOG.error(ex.getLocalizedMessage());
         }
         return getErrorReport(httpServletRequest, httpServletResponse, reportsForm);
     }
 
     /**
-     * This method is used for generating the jasper report
+     * This method is for generating the jasper report.
      *
      * @param httpServletResponse the current HTTP response
      * @param jasperPrint         jasperPrint instance
      * @param reportFileName      reportFileName instance
      * @param reportType          reportType instance
      */
-    private void generateJasperReport(HttpServletResponse httpServletResponse,
-                                      JasperPrint jasperPrint,
-                                      String reportFileName,
-                                      String reportType) {
+    private void generateJasperReport(final HttpServletResponse httpServletResponse,
+                                      final JasperPrint jasperPrint,
+                                      final String reportFileName,
+                                      final String reportType) {
         JRAbstractExporter jrExporter;
         byte[] output;
         ServletOutputStream outputStream;
         try {
             LOG.info("In generateJasperReport method");
             ByteArrayOutputStream baos = new ByteArrayOutputStream();
-            httpServletResponse.setHeader("X-Frame-Options","SAMEORIGIN");
+            httpServletResponse.setHeader("X-Frame-Options", "SAMEORIGIN");
             if ("EXCEL".equalsIgnoreCase(reportType)) {
                 LOG.info("ExcelReport -- > reportFileName ---> " + reportFileName + reportType);
                 httpServletResponse.setContentType("application/vnd.ms-excel");
@@ -491,8 +491,8 @@ public class ReportsController {
                 outputStream.flush();
                 outputStream.close();
             }
-        } catch (Exception e) {
-            LOG.error(e.getLocalizedMessage());
+        } catch (Exception ex) {
+            LOG.error(ex.getLocalizedMessage());
         }
     }
 }

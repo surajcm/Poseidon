@@ -27,7 +27,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 /**
- * user: Suraj
+ * user: Suraj.
  * Date: Jun 3, 2012
  * Time: 10:40:26 AM
  */
@@ -46,7 +46,7 @@ public class ReportsServiceImpl implements ReportsService {
     private InvoiceService invoiceService;
 
     /**
-     * daily report
+     * daily report.
      *
      * @return list of reports
      */
@@ -55,47 +55,47 @@ public class ReportsServiceImpl implements ReportsService {
         List<ReportsVO> reportsVOs = null;
         try {
             reportsVOs = reportsDAO.generateDailyReport();
-        } catch (ReportsException e) {
-            LOG.error(e.getLocalizedMessage());
+        } catch (ReportsException ex) {
+            LOG.error(ex.getLocalizedMessage());
         }
         return reportsVOs;
     }
 
     /**
-     * make details chart
+     * make details chart.
      *
      * @param jasperReport  jasperReport
      * @param currentReport currentReport
      * @return JasperPrint
      */
     @Override
-    public JasperPrint getMakeDetailsChart(JasperReport jasperReport, ReportsVO currentReport) {
+    public JasperPrint getMakeDetailsChart(final JasperReport jasperReport, final ReportsVO currentReport) {
         currentReport.setMakeVOList(makeService.fetchMakes());
         JasperPrint jasperPrint = new JasperPrint();
         try {
             jasperPrint = reportsDAO.getMakeDetailsChart(jasperReport, currentReport);
-        } catch (JRException e) {
-            LOG.error(e.getLocalizedMessage());
+        } catch (JRException ex) {
+            LOG.error(ex.getLocalizedMessage());
         }
         return jasperPrint;
     }
 
     /**
-     * call report
+     * call report.
      *
      * @param jasperReport  jasperReport
      * @param currentReport currentReport
      * @return JasperPrint
      */
     @Override
-    public JasperPrint getCallReport(JasperReport jasperReport,
-                                     ReportsVO currentReport) {
+    public JasperPrint getCallReport(final JasperReport jasperReport,
+                                     final ReportsVO currentReport) {
         CompanyTermsVO companyTermsVO = companyTermsService.listCompanyTerms();
         TransactionReportVO transactionVO = null;
         try {
             transactionVO = transactionService.fetchTransactionFromTag(currentReport.getTagNo());
-        } catch (TransactionException e) {
-            LOG.error(e.getLocalizedMessage());
+        } catch (TransactionException ex) {
+            LOG.error(ex.getLocalizedMessage());
         }
         currentReport.setTransactionReportVO(transactionVO);
         JasperPrint jasperPrint = new JasperPrint();
@@ -103,14 +103,14 @@ public class ReportsServiceImpl implements ReportsService {
             jasperPrint = reportsDAO.getCallReport(jasperReport,
                     currentReport,
                     companyTermsVO);
-        } catch (JRException e) {
-            LOG.error(e.getLocalizedMessage());
+        } catch (JRException ex) {
+            LOG.error(ex.getLocalizedMessage());
         }
         return jasperPrint;
     }
 
     /**
-     * transaction list report
+     * transaction list report.
      *
      * @param jasperReport      jasperReport
      * @param currentReport     currentReport
@@ -118,25 +118,25 @@ public class ReportsServiceImpl implements ReportsService {
      * @return JasperPrint
      */
     @Override
-    public JasperPrint getTransactionsListReport(JasperReport jasperReport,
-                                                 ReportsVO currentReport,
-                                                 TransactionVO searchTransaction) {
+    public JasperPrint getTransactionsListReport(final JasperReport jasperReport,
+                                                 final ReportsVO currentReport,
+                                                 final TransactionVO searchTransaction) {
         try {
             currentReport.setTransactionsList(transactionService.searchTransactions(searchTransaction));
-        } catch (TransactionException e) {
-            LOG.error(e.getLocalizedMessage());
+        } catch (TransactionException ex) {
+            LOG.error(ex.getLocalizedMessage());
         }
         JasperPrint jasperPrint = new JasperPrint();
         try {
             jasperPrint = reportsDAO.getTransactionsListReport(jasperReport, currentReport);
-        } catch (JRException e) {
-            LOG.error(e.getLocalizedMessage());
+        } catch (JRException ex) {
+            LOG.error(ex.getLocalizedMessage());
         }
         return jasperPrint;
     }
 
     /**
-     * model list report
+     * model list report.
      *
      * @param jasperReport         jasperReport
      * @param currentReport        currentReport
@@ -144,46 +144,46 @@ public class ReportsServiceImpl implements ReportsService {
      * @return JasperPrint
      */
     @Override
-    public JasperPrint getModelListReport(JasperReport jasperReport,
-                                          ReportsVO currentReport,
-                                          MakeAndModelVO searchMakeAndModelVO) {
+    public JasperPrint getModelListReport(final JasperReport jasperReport,
+                                          final ReportsVO currentReport,
+                                          final MakeAndModelVO searchMakeAndModelVO) {
         currentReport.setMakeAndModelVOs(makeService.searchMakeVOs(searchMakeAndModelVO));
         JasperPrint jasperPrint = new JasperPrint();
         try {
             jasperPrint = reportsDAO.getModelListReport(jasperReport, currentReport);
-        } catch (JRException e) {
-            LOG.error(e.getLocalizedMessage());
+        } catch (JRException ex) {
+            LOG.error(ex.getLocalizedMessage());
         }
         return jasperPrint;
     }
 
     /**
-     * error report
+     * error report.
      *
      * @param jasperReport  jasperReport
      * @param currentReport currentReport
      * @return JasperPrint
      */
     @Override
-    public JasperPrint getErrorReport(JasperReport jasperReport, ReportsVO currentReport) {
+    public JasperPrint getErrorReport(final JasperReport jasperReport, final ReportsVO currentReport) {
         JasperPrint jasperPrint = new JasperPrint();
         try {
             jasperPrint = reportsDAO.getErrorReport(jasperReport, currentReport);
-        } catch (JRException e) {
-            LOG.error(e.getLocalizedMessage());
+        } catch (JRException ex) {
+            LOG.error(ex.getLocalizedMessage());
         }
         return jasperPrint;
     }
 
     /**
-     * invoice report
+     * invoice report.
      *
      * @param jasperReport  jasperReport
      * @param currentReport currentReport
      * @return JasperPrint
      */
     @Override
-    public JasperPrint getInvoiceReport(JasperReport jasperReport, ReportsVO currentReport) {
+    public JasperPrint getInvoiceReport(final JasperReport jasperReport, final ReportsVO currentReport) {
         try {
             InvoiceReportVO invoiceReportVO = new InvoiceReportVO();
             CompanyTermsVO companyTermsVO = companyTermsService.listCompanyTerms();
@@ -217,18 +217,18 @@ public class ReportsServiceImpl implements ReportsService {
                 invoiceReportVO.setCompanyWebsite(companyTermsVO.getCompanyWebsite());
                 invoiceReportVO.setCompanyEmail(companyTermsVO.getCompanyEmail());
                 invoiceReportVO.setCompanyTerms(companyTermsVO.getCompanyTerms());
-                invoiceReportVO.setCompanyVATTIN(companyTermsVO.getCompanyVATTIN());
-                invoiceReportVO.setCompanyCSTTIN(companyTermsVO.getCompanyCSTTIN());
+                invoiceReportVO.setCompanyVatTin(companyTermsVO.getCompanyVatTin());
+                invoiceReportVO.setCompanyCstTin(companyTermsVO.getCompanyCstTin());
             }
             currentReport.setInvoiceReportVO(invoiceReportVO);
-        } catch (TransactionException | InvoiceException e) {
-            LOG.error(e.getLocalizedMessage());
+        } catch (TransactionException | InvoiceException ex) {
+            LOG.error(ex.getLocalizedMessage());
         }
         JasperPrint jasperPrint = new JasperPrint();
         try {
             jasperPrint = reportsDAO.getInvoiceReport(jasperReport, currentReport);
-        } catch (JRException e) {
-            LOG.error(e.getLocalizedMessage());
+        } catch (JRException ex) {
+            LOG.error(ex.getLocalizedMessage());
         }
         return jasperPrint;
     }

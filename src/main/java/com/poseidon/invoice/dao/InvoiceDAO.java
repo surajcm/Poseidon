@@ -5,11 +5,6 @@ import com.poseidon.invoice.exception.InvoiceException;
 
 import java.util.List;
 
-/**
- * user: Suraj
- * Date: 7/26/12
- * Time: 10:35 PM
- */
 public interface InvoiceDAO {
     void addInvoice(InvoiceVO currentInvoiceVO) throws InvoiceException;
 

@@ -4,11 +4,6 @@ import com.poseidon.company.domain.CompanyTermsVO;
 
 import java.util.StringJoiner;
 
-/**
- * user: Suraj
- * Date: Jun 2, 2012
- * Time: 10:45:13 PM
- */
 public class CompanyTermsForm {
     private Long id;
     private String companyName;
@@ -25,7 +20,7 @@ public class CompanyTermsForm {
         return currentCompanyTermsVO;
     }
 
-    public void setCurrentCompanyTermsVO(CompanyTermsVO currentCompanyTermsVO) {
+    public void setCurrentCompanyTermsVO(final CompanyTermsVO currentCompanyTermsVO) {
         this.currentCompanyTermsVO = currentCompanyTermsVO;
     }
 
@@ -33,7 +28,7 @@ public class CompanyTermsForm {
         return loggedInRole;
     }
 
-    public void setLoggedInRole(String loggedInRole) {
+    public void setLoggedInRole(final String loggedInRole) {
         this.loggedInRole = loggedInRole;
     }
 
@@ -41,7 +36,7 @@ public class CompanyTermsForm {
         return loggedInUser;
     }
 
-    public void setLoggedInUser(String loggedInUser) {
+    public void setLoggedInUser(final String loggedInUser) {
         this.loggedInUser = loggedInUser;
     }
 
@@ -49,7 +44,7 @@ public class CompanyTermsForm {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(final Long id) {
         this.id = id;
     }
 
@@ -57,7 +52,7 @@ public class CompanyTermsForm {
         return companyName;
     }
 
-    public void setCompanyName(String companyName) {
+    public void setCompanyName(final String companyName) {
         this.companyName = companyName;
     }
 
@@ -65,7 +60,7 @@ public class CompanyTermsForm {
         return companyAddress;
     }
 
-    public void setCompanyAddress(String companyAddress) {
+    public void setCompanyAddress(final String companyAddress) {
         this.companyAddress = companyAddress;
     }
 
@@ -73,7 +68,7 @@ public class CompanyTermsForm {
         return companyPhoneNumber;
     }
 
-    public void setCompanyPhoneNumber(String companyPhoneNumber) {
+    public void setCompanyPhoneNumber(final String companyPhoneNumber) {
         this.companyPhoneNumber = companyPhoneNumber;
     }
 
@@ -81,7 +76,7 @@ public class CompanyTermsForm {
         return companyWebsite;
     }
 
-    public void setCompanyWebsite(String companyWebsite) {
+    public void setCompanyWebsite(final String companyWebsite) {
         this.companyWebsite = companyWebsite;
     }
 
@@ -89,7 +84,7 @@ public class CompanyTermsForm {
         return companyTerms;
     }
 
-    public void setCompanyTerms(String companyTerms) {
+    public void setCompanyTerms(final String companyTerms) {
         this.companyTerms = companyTerms;
     }
 
@@ -97,7 +92,7 @@ public class CompanyTermsForm {
         return companyEmail;
     }
 
-    public void setCompanyEmail(String companyEmail) {
+    public void setCompanyEmail(final String companyEmail) {
         this.companyEmail = companyEmail;
     }
 

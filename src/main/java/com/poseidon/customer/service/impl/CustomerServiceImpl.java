@@ -11,11 +11,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-/**
- * user: Suraj
- * Date: Jun 2, 2012
- * Time: 10:47:17 PM
- */
 @Service
 public class CustomerServiceImpl implements CustomerService {
     private static final Logger LOG = LoggerFactory.getLogger(CustomerServiceImpl.class);
@@ -24,7 +19,7 @@ public class CustomerServiceImpl implements CustomerService {
     private CustomerDAO customerDAO;
 
     /**
-     * list all customer details
+     * list all customer details.
      *
      * @return list of customer vo
      */
@@ -33,87 +28,87 @@ public class CustomerServiceImpl implements CustomerService {
         List<CustomerVO> customerVOs = null;
         try {
             customerVOs = customerDAO.listAllCustomerDetails();
-        } catch (CustomerException e) {
-            LOG.error(e.getMessage());
+        } catch (CustomerException ex) {
+            LOG.error(ex.getMessage());
         }
         return customerVOs;
     }
 
     /**
-     * save a customer
+     * save a customer.
      *
      * @param currentCustomerVO currentCustomerVO
      * @return view
      */
     @Override
-    public long saveCustomer(CustomerVO currentCustomerVO) {
+    public long saveCustomer(final CustomerVO currentCustomerVO) {
         long customerId = 0L;
         try {
             customerId = customerDAO.saveCustomer(currentCustomerVO);
-        } catch (CustomerException e) {
-            LOG.error(e.getMessage());
+        } catch (CustomerException ex) {
+            LOG.error(ex.getMessage());
         }
         return customerId;
     }
 
     /**
-     * get customer from id
+     * get customer from id.
      *
      * @param id of customer
      * @return customer vo
      */
     @Override
-    public CustomerVO getCustomerFromId(Long id) {
+    public CustomerVO getCustomerFromId(final Long id) {
         CustomerVO customerVO = null;
         try {
             customerVO = customerDAO.getCustomerFromId(id);
-        } catch (CustomerException e) {
-            LOG.error(e.getMessage());
+        } catch (CustomerException ex) {
+            LOG.error(ex.getMessage());
         }
         return customerVO;
     }
 
     /**
-     * delete customer with id
+     * delete a customer with id.
      *
      * @param id of customer to be deleted
      */
     @Override
-    public void deleteCustomerFromId(Long id) {
+    public void deleteCustomerFromId(final Long id) {
         try {
             customerDAO.deleteCustomerFromId(id);
-        } catch (CustomerException e) {
-            LOG.error(e.getMessage());
+        } catch (CustomerException ex) {
+            LOG.error(ex.getMessage());
         }
     }
 
     /**
-     * update customer
+     * update customer.
      *
      * @param currentCustomerVO currentCustomerVO
      */
     @Override
-    public void updateCustomer(CustomerVO currentCustomerVO) {
+    public void updateCustomer(final CustomerVO currentCustomerVO) {
         try {
             customerDAO.updateCustomer(currentCustomerVO);
-        } catch (CustomerException e) {
-            LOG.error(e.getMessage());
+        } catch (CustomerException ex) {
+            LOG.error(ex.getMessage());
         }
     }
 
     /**
-     * search customer
+     * search customer.
      *
      * @param searchCustomerVO searchCustomerVO
      * @return list of customer vo
      */
     @Override
-    public List<CustomerVO> searchCustomer(CustomerVO searchCustomerVO) {
+    public List<CustomerVO> searchCustomer(final CustomerVO searchCustomerVO) {
         List<CustomerVO> customerVOs = null;
         try {
             customerVOs = customerDAO.searchCustomer(searchCustomerVO);
-        } catch (CustomerException e) {
-            LOG.error(e.getMessage());
+        } catch (CustomerException ex) {
+            LOG.error(ex.getMessage());
         }
         return customerVOs;
     }

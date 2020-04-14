@@ -1,19 +1,19 @@
 package com.poseidon.transaction.exception;
 
 /**
- * user: Suraj
+ * user: Suraj.
  * Date: Jun 2, 2012
  * Time: 4:04:19 PM
  */
 public class TransactionException extends Exception {
     /**
-     * exception type for all database related errors
+     * exception type for all database related errors.
      */
     public static final String DATABASE_ERROR = "DATABASE_ERROR";
 
     public String exceptionType;
 
-    public TransactionException(String exceptionType) {
+    public TransactionException(final String exceptionType) {
         super();
         this.exceptionType = exceptionType;
     }
@@ -22,7 +22,7 @@ public class TransactionException extends Exception {
         return exceptionType;
     }
 
-    public void setExceptionType(String exceptionType) {
+    public void setExceptionType(final String exceptionType) {
         this.exceptionType = exceptionType;
     }
 }

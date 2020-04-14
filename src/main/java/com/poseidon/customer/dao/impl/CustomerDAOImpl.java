@@ -21,11 +21,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-/**
- * user: Suraj
- * Date: Jun 2, 2012
- * Time: 10:45:56 PM
- */
 @Repository
 @SuppressWarnings("unused")
 public class CustomerDAOImpl implements CustomerDAO {
@@ -39,7 +34,7 @@ public class CustomerDAOImpl implements CustomerDAO {
     private EntityManager em;
 
     /**
-     * list all customer details
+     * list all customer details.
      *
      * @return list customer vo
      * @throws CustomerException on error
@@ -49,54 +44,54 @@ public class CustomerDAOImpl implements CustomerDAO {
         List<CustomerVO> customerVOs;
         try {
             customerVOs = convertToCustomerVO(customerRepository.findAll());
-        } catch (DataAccessException e) {
+        } catch (DataAccessException ex) {
             throw new CustomerException(CustomerException.DATABASE_ERROR);
         }
         return customerVOs;
     }
 
     /**
-     * save customer
+     * save customer.
      *
      * @param currentCustomerVo currentCustomerVo
      * @return long
      * @throws CustomerException on error
      */
     @Override
-    public long saveCustomer(CustomerVO currentCustomerVo) throws CustomerException {
+    public long saveCustomer(final CustomerVO currentCustomerVo) throws CustomerException {
         Long id;
         Customer customer = convertToSingleCustomer(currentCustomerVo);
         try {
             Customer newCustomer = customerRepository.save(customer);
             id = newCustomer.getCustomerId();
-        } catch (DataAccessException e) {
-            LOG.error(e.getLocalizedMessage());
+        } catch (DataAccessException ex) {
+            LOG.error(ex.getLocalizedMessage());
             throw new CustomerException(CustomerException.DATABASE_ERROR);
         }
         return id;
     }
 
     /**
-     * get customer from id
+     * get customer from id.
      *
      * @param id of customer
      * @return customer vo
      * @throws CustomerException on error
      */
     @Override
-    public CustomerVO getCustomerFromId(Long id) throws CustomerException {
+    public CustomerVO getCustomerFromId(final Long id) throws CustomerException {
         CustomerVO customerVO;
         try {
             Customer customer = customerRepository.getOne(id);
             customerVO = convertToSingleCustomerVO(customer);
-        } catch (DataAccessException e) {
-            LOG.error(e.getLocalizedMessage());
+        } catch (DataAccessException ex) {
+            LOG.error(ex.getLocalizedMessage());
             throw new CustomerException(CustomerException.DATABASE_ERROR);
         }
         return customerVO;
     }
 
-    private CustomerVO convertToSingleCustomerVO(Customer customer) {
+    private CustomerVO convertToSingleCustomerVO(final Customer customer) {
         CustomerVO customerVO = new CustomerVO();
         customerVO.setCustomerId(customer.getCustomerId());
         customerVO.setCustomerName(customer.getName());
@@ -116,29 +111,29 @@ public class CustomerDAOImpl implements CustomerDAO {
     }
 
     /**
-     * delete customer from id
+     * delete a customer from id.
      *
      * @param id of customer
      * @throws CustomerException on error
      */
     @Override
-    public void deleteCustomerFromId(Long id) throws CustomerException {
+    public void deleteCustomerFromId(final Long id) throws CustomerException {
         try {
             customerRepository.deleteById(id);
-        } catch (DataAccessException e) {
-            LOG.error(e.getLocalizedMessage());
+        } catch (DataAccessException ex) {
+            LOG.error(ex.getLocalizedMessage());
             throw new CustomerException(CustomerException.DATABASE_ERROR);
         }
     }
 
     /**
-     * update customer
+     * update customer.
      *
      * @param currentCustomerVo currentCustomerVo
      * @throws CustomerException on error
      */
     @Override
-    public void updateCustomer(CustomerVO currentCustomerVo) throws CustomerException {
+    public void updateCustomer(final CustomerVO currentCustomerVo) throws CustomerException {
         try {
             Optional<Customer> optionalCustomer = customerRepository.findById(
                     currentCustomerVo.getCustomerId());
@@ -158,32 +153,32 @@ public class CustomerDAOImpl implements CustomerDAO {
                 customer.setModifiedBy(currentCustomerVo.getModifiedBy());
                 customerRepository.save(customer);
             }
-        } catch (DataAccessException e) {
-            LOG.error(e.getLocalizedMessage());
+        } catch (DataAccessException ex) {
+            LOG.error(ex.getLocalizedMessage());
             throw new CustomerException(CustomerException.DATABASE_ERROR);
         }
     }
 
     /**
-     * search customer
+     * search customer.
      *
      * @param searchCustomerVo searchCustomerVo
      * @return list of customer vo
      * @throws CustomerException on error
      */
     @Override
-    public List<CustomerVO> searchCustomer(CustomerVO searchCustomerVo) throws CustomerException {
+    public List<CustomerVO> searchCustomer(final CustomerVO searchCustomerVo) throws CustomerException {
         List<CustomerVO> customerVOs;
         try {
             customerVOs = searchCustomerInDetail(searchCustomerVo);
-        } catch (DataAccessException e) {
-            LOG.error(e.getLocalizedMessage());
+        } catch (DataAccessException ex) {
+            LOG.error(ex.getLocalizedMessage());
             throw new CustomerException(CustomerException.DATABASE_ERROR);
         }
         return customerVOs;
     }
 
-    private Customer convertToSingleCustomer(CustomerVO currentCustomerVO) {
+    private Customer convertToSingleCustomer(final CustomerVO currentCustomerVO) {
         Customer customer = new Customer();
         customer.setName(currentCustomerVO.getCustomerName());
         customer.setAddress1(currentCustomerVO.getAddress1());
@@ -201,7 +196,7 @@ public class CustomerDAOImpl implements CustomerDAO {
         return customer;
     }
 
-    private List<CustomerVO> convertToCustomerVO(List<Customer> customers) {
+    private List<CustomerVO> convertToCustomerVO(final List<Customer> customers) {
         List<CustomerVO> customerVOS = new ArrayList<>();
         for (Customer customer : customers) {
             CustomerVO customerVO = new CustomerVO();
@@ -224,7 +219,7 @@ public class CustomerDAOImpl implements CustomerDAO {
         return customerVOS;
     }
 
-    private List<CustomerVO> searchCustomerInDetail(CustomerVO searchVO) {
+    private List<CustomerVO> searchCustomerInDetail(final CustomerVO searchVO) {
         CriteriaBuilder builder = em.unwrap(Session.class).getCriteriaBuilder();
         CriteriaQuery<Customer> criteria = builder.createQuery(Customer.class);
         Root<Customer> customerRoot = criteria.from(Customer.class);

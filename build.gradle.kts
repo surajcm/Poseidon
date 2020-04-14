@@ -3,10 +3,6 @@ buildscript {
         mavenCentral()
         maven(url = "https://plugins.gradle.org/m2/")
     }
-    dependencies {
-        classpath("org.springframework.boot:spring-boot-gradle-plugin:2.2.6.RELEASE")
-        classpath("gradle.plugin.com.github.spotbugs:spotbugs-gradle-plugin:2.0.0")
-    }
 }
 
 plugins {
@@ -30,6 +26,10 @@ val jar by tasks.getting(Jar::class) {
 
 application {
     applicationDefaultJvmArgs = listOf("-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005")
+}
+
+tasks.withType<Test> {
+    useJUnitPlatform()
 }
 
 java {

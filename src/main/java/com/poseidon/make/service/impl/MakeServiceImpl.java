@@ -13,7 +13,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 /**
- * user: Suraj
+ * user: Suraj.
  * Date: Jun 2, 2012
  * Time: 7:27:42 PM
  */
@@ -26,7 +26,7 @@ public class MakeServiceImpl implements MakeService {
     private static final Logger LOG = LoggerFactory.getLogger(MakeServiceImpl.class);
 
     /**
-     * list all makes and models
+     * list all makes and models.
      *
      * @return list of makes and models
      */
@@ -42,7 +42,7 @@ public class MakeServiceImpl implements MakeService {
     }
 
     /**
-     * list all makes
+     * list all makes.
      *
      * @return list of makes and models
      */
@@ -58,12 +58,12 @@ public class MakeServiceImpl implements MakeService {
     }
 
     /**
-     * add a new make
+     * add a new make.
      *
      * @param currentMakeVO currentMakeVO
      */
     @Override
-    public void addNewMake(MakeAndModelVO currentMakeVO) {
+    public void addNewMake(final MakeAndModelVO currentMakeVO) {
         try {
             makeDAO.addNewMake(currentMakeVO);
         } catch (MakeException makeException) {
@@ -72,13 +72,13 @@ public class MakeServiceImpl implements MakeService {
     }
 
     /**
-     * get a make from its id
+     * get a make from its id.
      *
      * @param makeId makeId
      * @return make and model vo
      */
     @Override
-    public MakeAndModelVO getMakeFromId(Long makeId) {
+    public MakeAndModelVO getMakeFromId(final Long makeId) {
         MakeAndModelVO makeVO = null;
         try {
             makeVO = makeDAO.getMakeFromId(makeId);
@@ -89,12 +89,12 @@ public class MakeServiceImpl implements MakeService {
     }
 
     /**
-     * delete a make
+     * delete a make.
      *
      * @param makeId makeId
      */
     @Override
-    public void deleteMake(Long makeId) {
+    public void deleteMake(final Long makeId) {
         try {
             makeDAO.deleteMake(makeId);
         } catch (MakeException makeException) {
@@ -103,13 +103,13 @@ public class MakeServiceImpl implements MakeService {
     }
 
     /**
-     * get model from id
+     * get model from id.
      *
      * @param modelId modelId
      * @return make and model vo
      */
     @Override
-    public MakeAndModelVO getModelFromId(Long modelId) {
+    public MakeAndModelVO getModelFromId(final Long modelId) {
         MakeAndModelVO makeVO = null;
         try {
             makeVO = makeDAO.getModelFromId(modelId);
@@ -120,12 +120,12 @@ public class MakeServiceImpl implements MakeService {
     }
 
     /**
-     * delete a model
+     * delete a model.
      *
      * @param modelId modelId
      */
     @Override
-    public void deleteModel(Long modelId) {
+    public void deleteModel(final Long modelId) {
         try {
             makeDAO.deleteModel(modelId);
         } catch (MakeException makeException) {
@@ -134,12 +134,12 @@ public class MakeServiceImpl implements MakeService {
     }
 
     /**
-     * update make
+     * update make.
      *
      * @param currentMakeVO currentMakeVO
      */
     @Override
-    public void updateMake(MakeAndModelVO currentMakeVO) {
+    public void updateMake(final MakeAndModelVO currentMakeVO) {
         try {
             makeDAO.updateMake(currentMakeVO);
         } catch (MakeException makeException) {
@@ -148,12 +148,12 @@ public class MakeServiceImpl implements MakeService {
     }
 
     /**
-     * add a new model
+     * add a new model.
      *
      * @param currentMakeVO currentMakeVO
      */
     @Override
-    public void addNewModel(MakeAndModelVO currentMakeVO) {
+    public void addNewModel(final MakeAndModelVO currentMakeVO) {
         try {
             makeDAO.addNewModel(currentMakeVO);
         } catch (MakeException makeException) {
@@ -162,12 +162,12 @@ public class MakeServiceImpl implements MakeService {
     }
 
     /**
-     * update a model
+     * update a model.
      *
      * @param currentMakeVO currentMakeVO
      */
     @Override
-    public void updateModel(MakeAndModelVO currentMakeVO) {
+    public void updateModel(final MakeAndModelVO currentMakeVO) {
         try {
             makeDAO.updateModel(currentMakeVO);
         } catch (MakeException makeException) {
@@ -176,13 +176,13 @@ public class MakeServiceImpl implements MakeService {
     }
 
     /**
-     * search for a make
+     * search for a make.
      *
      * @param searchMakeVO searchMakeVO
      * @return list of make and models
      */
     @Override
-    public List<MakeAndModelVO> searchMakeVOs(MakeAndModelVO searchMakeVO) {
+    public List<MakeAndModelVO> searchMakeVOs(final MakeAndModelVO searchMakeVO) {
         List<MakeAndModelVO> makeVOs = null;
         try {
             makeVOs = makeDAO.searchMakeVOs(searchMakeVO);
@@ -193,7 +193,7 @@ public class MakeServiceImpl implements MakeService {
     }
 
     /**
-     * fetch all makes
+     * fetch all makes.
      *
      * @return list of makes
      */
@@ -209,13 +209,13 @@ public class MakeServiceImpl implements MakeService {
     }
 
     /**
-     * get all models from make id
+     * get all models from make id.
      *
      * @param id id of make
      * @return list of make and model vo
      */
     @Override
-    public List<MakeAndModelVO> getAllModelsFromMakeId(Long id) {
+    public List<MakeAndModelVO> getAllModelsFromMakeId(final Long id) {
         List<MakeAndModelVO> makeVOs = null;
         try {
             makeVOs = makeDAO.getAllModelsFromMakeId(id);

@@ -9,7 +9,7 @@ import java.util.List;
 import java.util.StringJoiner;
 
 /**
- * user: Suraj
+ * user: Suraj.
  * Date: Jun 3, 2012
  * Time: 10:41:08 AM
  */
@@ -30,7 +30,7 @@ public class ReportsForm {
         return currentReport;
     }
 
-    public void setCurrentReport(ReportsVO currentReport) {
+    public void setCurrentReport(final ReportsVO currentReport) {
         this.currentReport = currentReport;
     }
 
@@ -38,7 +38,7 @@ public class ReportsForm {
         return searchReports;
     }
 
-    public void setSearchReports(ReportsVO searchReports) {
+    public void setSearchReports(final ReportsVO searchReports) {
         this.searchReports = searchReports;
     }
 
@@ -46,7 +46,7 @@ public class ReportsForm {
         return reportsVOs;
     }
 
-    public void setReportsVOs(List<ReportsVO> reportsVOs) {
+    public void setReportsVOs(final List<ReportsVO> reportsVOs) {
         this.reportsVOs = reportsVOs;
     }
 
@@ -54,7 +54,7 @@ public class ReportsForm {
         return loggedInUser;
     }
 
-    public void setLoggedInUser(String loggedInUser) {
+    public void setLoggedInUser(final String loggedInUser) {
         this.loggedInUser = loggedInUser;
     }
 
@@ -62,7 +62,7 @@ public class ReportsForm {
         return loggedInRole;
     }
 
-    public void setLoggedInRole(String loggedInRole) {
+    public void setLoggedInRole(final String loggedInRole) {
         this.loggedInRole = loggedInRole;
     }
 
@@ -70,7 +70,7 @@ public class ReportsForm {
         return exportList;
     }
 
-    public void setExportList(List<String> exportList) {
+    public void setExportList(final List<String> exportList) {
         this.exportList = exportList;
     }
 
@@ -78,7 +78,7 @@ public class ReportsForm {
         return txnReportTransactionVO;
     }
 
-    public void setTxnReportTransactionVO(TransactionVO txnReportTransactionVO) {
+    public void setTxnReportTransactionVO(final TransactionVO txnReportTransactionVO) {
         this.txnReportTransactionVO = txnReportTransactionVO;
     }
 
@@ -86,7 +86,7 @@ public class ReportsForm {
         return makeVOs;
     }
 
-    public void setMakeVOs(List<MakeVO> makeVOs) {
+    public void setMakeVOs(final List<MakeVO> makeVOs) {
         this.makeVOs = makeVOs;
     }
 
@@ -94,7 +94,7 @@ public class ReportsForm {
         return statusList;
     }
 
-    public void setStatusList(List<String> statusList) {
+    public void setStatusList(final List<String> statusList) {
         this.statusList = statusList;
     }
 
@@ -102,7 +102,7 @@ public class ReportsForm {
         return modelReportMakeAndModelVO;
     }
 
-    public void setModelReportMakeAndModelVO(MakeAndModelVO modelReportMakeAndModelVO) {
+    public void setModelReportMakeAndModelVO(final MakeAndModelVO modelReportMakeAndModelVO) {
         this.modelReportMakeAndModelVO = modelReportMakeAndModelVO;
     }
 
@@ -110,7 +110,7 @@ public class ReportsForm {
         return invoiceListReportTransactionVO;
     }
 
-    public void setInvoiceListReportTransactionVO(TransactionVO invoiceListReportTransactionVO) {
+    public void setInvoiceListReportTransactionVO(final TransactionVO invoiceListReportTransactionVO) {
         this.invoiceListReportTransactionVO = invoiceListReportTransactionVO;
     }
 

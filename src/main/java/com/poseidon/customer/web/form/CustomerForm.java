@@ -5,11 +5,6 @@ import com.poseidon.customer.domain.CustomerVO;
 import java.util.List;
 import java.util.StringJoiner;
 
-/**
- * user: Suraj
- * Date: Jun 2, 2012
- * Time: 10:48:04 PM
- */
 public class CustomerForm {
     private Long id;
     private List<CustomerVO> customerVOs;
@@ -20,12 +15,11 @@ public class CustomerForm {
     private String statusMessage;
     private String statusMessageType;
 
-
     public Long getId() {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(final Long id) {
         this.id = id;
     }
 
@@ -33,7 +27,7 @@ public class CustomerForm {
         return customerVOs;
     }
 
-    public void setCustomerVOs(List<CustomerVO> customerVOs) {
+    public void setCustomerVOs(final List<CustomerVO> customerVOs) {
         this.customerVOs = customerVOs;
     }
 
@@ -41,7 +35,7 @@ public class CustomerForm {
         return currentCustomerVO;
     }
 
-    public void setCurrentCustomerVO(CustomerVO currentCustomerVO) {
+    public void setCurrentCustomerVO(final CustomerVO currentCustomerVO) {
         this.currentCustomerVO = currentCustomerVO;
     }
 
@@ -49,7 +43,7 @@ public class CustomerForm {
         return searchCustomerVO;
     }
 
-    public void setSearchCustomerVO(CustomerVO searchCustomerVO) {
+    public void setSearchCustomerVO(final CustomerVO searchCustomerVO) {
         this.searchCustomerVO = searchCustomerVO;
     }
 
@@ -57,7 +51,7 @@ public class CustomerForm {
         return loggedInRole;
     }
 
-    public void setLoggedInRole(String loggedInRole) {
+    public void setLoggedInRole(final String loggedInRole) {
         this.loggedInRole = loggedInRole;
     }
 
@@ -65,7 +59,7 @@ public class CustomerForm {
         return loggedInUser;
     }
 
-    public void setLoggedInUser(String loggedInUser) {
+    public void setLoggedInUser(final String loggedInUser) {
         this.loggedInUser = loggedInUser;
     }
 
@@ -73,7 +67,7 @@ public class CustomerForm {
         return statusMessage;
     }
 
-    public void setStatusMessage(String statusMessage) {
+    public void setStatusMessage(final String statusMessage) {
         this.statusMessage = statusMessage;
     }
 
@@ -81,7 +75,7 @@ public class CustomerForm {
         return statusMessageType;
     }
 
-    public void setStatusMessageType(String statusMessageType) {
+    public void setStatusMessageType(final String statusMessageType) {
         this.statusMessageType = statusMessageType;
     }
 

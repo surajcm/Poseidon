@@ -5,11 +5,6 @@ import com.poseidon.customer.exception.CustomerException;
 
 import java.util.List;
 
-/**
- * user: Suraj
- * Date: Jun 2, 2012
- * Time: 10:46:52 PM
- */
 public interface CustomerService {
     List<CustomerVO> listAllCustomerDetails() throws CustomerException;
 
