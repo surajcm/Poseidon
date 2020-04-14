@@ -25,11 +25,7 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-/**
- * @author : Suraj Muraleedharan.
- * Date: Nov 27, 2010
- * Time: 2:38:15 PM
- */
+
 @Controller
 @SuppressWarnings("unused")
 public class UserController {
@@ -71,7 +67,7 @@ public class UserController {
      * @return String
      */
     @GetMapping("/login")
-    public String login(Model model, String error, String logout) {
+    public String login(final Model model, final String error, final String logout) {
         if (error != null) {
             model.addAttribute(ERROR, "Your username and password is invalid.");
         }
@@ -89,17 +85,17 @@ public class UserController {
      * @return ModelAndView to render
      */
     @PostMapping("/user/ListAll.htm")
-    public ModelAndView listAll(UserForm userForm) {
+    public ModelAndView listAll(final UserForm userForm) {
         logger.info(" Inside ListAll method of user controller ");
         List<UserVO> userList = null;
         try {
             userList = userService.getAllUserDetails();
-        } catch (UserException e) {
+        } catch (UserException ex) {
             userForm.setStatusMessage("Unable to list the Users due to an error");
             userForm.setStatusMessageType(ERROR);
-            logger.error(e.getLocalizedMessage());
-            logger.error(EXCEPTION_IN_CONTROLLER, e.exceptionType);
-            if (e.getExceptionType().equalsIgnoreCase(UserException.DATABASE_ERROR)) {
+            logger.error(ex.getLocalizedMessage());
+            logger.error(EXCEPTION_IN_CONTROLLER, ex.exceptionType);
+            if (ex.getExceptionType().equalsIgnoreCase(UserException.DATABASE_ERROR)) {
                 logger.info(DB_ERROR);
             } else {
                 logger.error(UNKNOWN_ERROR);
@@ -128,10 +124,10 @@ public class UserController {
      */
     @PostMapping("/user/saveUserAjax.htm")
     public @ResponseBody
-    String saveUserAjax(@ModelAttribute("selectName") String selectName,
-                        @ModelAttribute("selectLogin") String selectLogin,
-                        @ModelAttribute("selectRole") String selectRole,
-                        BindingResult result) {
+    String saveUserAjax(@ModelAttribute("selectName") final String selectName,
+                        @ModelAttribute("selectLogin") final String selectLogin,
+                        @ModelAttribute("selectRole") final String selectRole,
+                        final BindingResult result) {
         logger.info("saveUserAjax method of user controller ");
         logger.info(" At saveUserAjax, selectName is : {}", selectName);
         logger.info(" At saveUserAjax, selectLogin : {}", selectLogin);
@@ -148,10 +144,10 @@ public class UserController {
         ajaxUserVo.setLastModifiedBy("-ajax-");
         try {
             userService.save(ajaxUserVo);
-        } catch (UserException e) {
-            logger.error(e.getLocalizedMessage());
-            logger.error(EXCEPTION_IN_CONTROLLER, e.exceptionType);
-            if (e.getExceptionType().equalsIgnoreCase(UserException.DATABASE_ERROR)) {
+        } catch (UserException ex) {
+            logger.error(ex.getLocalizedMessage());
+            logger.error(EXCEPTION_IN_CONTROLLER, ex.exceptionType);
+            if (ex.getExceptionType().equalsIgnoreCase(UserException.DATABASE_ERROR)) {
                 logger.info(DB_ERROR);
             } else {
                 logger.info(UNKNOWN_ERROR);
@@ -164,10 +160,10 @@ public class UserController {
         try {
             userList = userService.getAllUserDetails();
             userList.forEach(u -> u.setPassword(""));
-        } catch (UserException e) {
-            logger.error(e.getLocalizedMessage());
-            logger.error(EXCEPTION_IN_CONTROLLER, e.exceptionType);
-            if (e.getExceptionType().equalsIgnoreCase(UserException.DATABASE_ERROR)) {
+        } catch (UserException ex) {
+            logger.error(ex.getLocalizedMessage());
+            logger.error(EXCEPTION_IN_CONTROLLER, ex.exceptionType);
+            if (ex.getExceptionType().equalsIgnoreCase(UserException.DATABASE_ERROR)) {
                 logger.info(DB_ERROR);
             } else {
                 logger.info(UNKNOWN_ERROR);
@@ -185,14 +181,14 @@ public class UserController {
      * @param userList List of UserVO
      * @return String
      */
-    private String fetchJsonUserList(List<UserVO> userList) {
+    private String fetchJsonUserList(final List<UserVO> userList) {
         String response;
         ObjectMapper mapper = new ObjectMapper();
         try {
             response = mapper.writeValueAsString(userList);
-        } catch (IOException e) {
+        } catch (IOException ex) {
             response = ERROR;
-            logger.error("error parsing to json : " + e.getMessage());
+            logger.error("error parsing to json : " + ex.getMessage());
         }
         logger.info("user list json : " + response);
         return response;
@@ -205,16 +201,16 @@ public class UserController {
      * @return ModelAndView to render
      */
     @PostMapping("/user/EditUser.htm")
-    public ModelAndView editUser(UserForm userForm) {
+    public ModelAndView editUser(final UserForm userForm) {
         logger.info(" Inside EditUser method of user controller ");
         logger.info(" user is {}", userForm);
         UserVO userVo = null;
         try {
             userVo = userService.getUserDetailsFromId(userForm.getId());
-        } catch (UserException e) {
-            logger.error(e.getLocalizedMessage());
-            logger.error(EXCEPTION_IN_CONTROLLER, e.exceptionType);
-            if (e.getExceptionType().equalsIgnoreCase(UserException.DATABASE_ERROR)) {
+        } catch (UserException ex) {
+            logger.error(ex.getLocalizedMessage());
+            logger.error(EXCEPTION_IN_CONTROLLER, ex.exceptionType);
+            if (ex.getExceptionType().equalsIgnoreCase(UserException.DATABASE_ERROR)) {
                 logger.info(DB_ERROR);
             } else {
                 logger.info(UNKNOWN_ERROR);
@@ -240,7 +236,7 @@ public class UserController {
      * @return ModelAndView to render
      */
     @PostMapping("/user/UpdateUser.htm")
-    public ModelAndView updateUser(UserForm userForm) {
+    public ModelAndView updateUser(final UserForm userForm) {
         logger.info(" Inside updateUser method of user controller ");
         try {
             userForm.getUser().setLastModifiedBy(userForm.getLoggedInUser());
@@ -265,7 +261,7 @@ public class UserController {
      * @return ModelAndView to render
      */
     @PostMapping("/user/DeleteUser.htm")
-    public ModelAndView deleteUser(UserForm userForm) {
+    public ModelAndView deleteUser(final UserForm userForm) {
         logger.info(" Inside DeleteUser method of user controller ");
         logger.info(" user is {}", userForm);
         try {
@@ -288,7 +284,7 @@ public class UserController {
      * @return ModelAndView to render
      */
     @PostMapping("/user/ToHome.htm")
-    public ModelAndView toHome(UserForm userForm) {
+    public ModelAndView toHome(final UserForm userForm) {
         logger.info(" Inside ToHome method of user controller ");
         userForm.setLoggedInUser(userForm.getLoggedInUser());
         userForm.setLoggedInRole(userForm.getLoggedInRole());
@@ -302,7 +298,7 @@ public class UserController {
      * @return ModelAndView to render
      */
     @PostMapping("/user/LogMeOut.htm")
-    public ModelAndView logMeOut(UserForm userForm) {
+    public ModelAndView logMeOut(final UserForm userForm) {
         logger.info(" Inside LogMeOut method of user controller ");
         return new ModelAndView(USER_LOG_IN, USER_FORM, new UserForm());
     }
@@ -314,7 +310,7 @@ public class UserController {
      * @return ModelAndView to render
      */
     @PostMapping("/user/SearchUser.htm")
-    public ModelAndView searchUser(UserForm userForm) {
+    public ModelAndView searchUser(final UserForm userForm) {
         logger.info(" Inside SearchUser method of user controller ");
         logger.info(" user Details are {}", userForm.getSearchUser());
         List<UserVO> userList = null;
@@ -324,12 +320,12 @@ public class UserController {
                 userForm.setStatusMessage("Successfully fetched " + userList.size() + " Users");
                 userForm.setStatusMessageType("info");
             }
-        } catch (UserException e) {
+        } catch (UserException ex) {
             userForm.setStatusMessage("Unable to search due to a database error");
             userForm.setStatusMessageType(ERROR);
-            logger.error(e.getLocalizedMessage());
-            logger.error(EXCEPTION_IN_CONTROLLER, e.exceptionType);
-            if (e.getExceptionType().equalsIgnoreCase(UserException.DATABASE_ERROR)) {
+            logger.error(ex.getLocalizedMessage());
+            logger.error(EXCEPTION_IN_CONTROLLER, ex.exceptionType);
+            if (ex.getExceptionType().equalsIgnoreCase(UserException.DATABASE_ERROR)) {
                 logger.info(DB_ERROR);
             } else {
                 logger.info(UNKNOWN_ERROR);

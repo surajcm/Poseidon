@@ -20,27 +20,27 @@ public class MockCustomerDaoImpl implements CustomerDAO {
     }
 
     @Override
-    public long saveCustomer(CustomerVO currentCustomerVo) throws CustomerException {
+    public long saveCustomer(final CustomerVO currentCustomerVo) throws CustomerException {
         return 0;
     }
 
     @Override
-    public CustomerVO getCustomerFromId(Long id) throws CustomerException {
+    public CustomerVO getCustomerFromId(final Long id) throws CustomerException {
         return null;
     }
 
     @Override
-    public void deleteCustomerFromId(Long id) throws CustomerException {
+    public void deleteCustomerFromId(final Long id) throws CustomerException {
 
     }
 
     @Override
-    public void updateCustomer(CustomerVO currentCustomerVo) throws CustomerException {
+    public void updateCustomer(final CustomerVO currentCustomerVo) throws CustomerException {
 
     }
 
     @Override
-    public List<CustomerVO> searchCustomer(CustomerVO searchCustomerVo) throws CustomerException {
+    public List<CustomerVO> searchCustomer(final CustomerVO searchCustomerVo) throws CustomerException {
         return null;
     }
 }

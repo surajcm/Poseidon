@@ -14,13 +14,11 @@ import org.springframework.stereotype.Service;
 @SuppressWarnings("unused")
 public class SecurityServiceImpl implements SecurityService {
 
+    private static final Logger logger = LoggerFactory.getLogger(SecurityServiceImpl.class);
     @Autowired
     private WebSecurityConfigurerAdapter webSecurityConfigurerAdapter;
-
     @Autowired
     private UserDetailsService userDetailsService;
-
-    private static final Logger logger = LoggerFactory.getLogger(SecurityServiceImpl.class);
 
     @Override
     public String findLoggedInUsername() {
@@ -28,20 +26,19 @@ public class SecurityServiceImpl implements SecurityService {
         if (userDetails instanceof UserDetails) {
             return ((UserDetails) userDetails).getUsername();
         }
-
         return null;
     }
 
     @Override
-    public void autologin(String username, String password) {
+    public void autologin(final String username, final String password) {
         UserDetails userDetails = userDetailsService.loadUserByUsername(username);
         UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =
                 new UsernamePasswordAuthenticationToken(userDetails, password, userDetails.getAuthorities());
-
         try {
-            webSecurityConfigurerAdapter.authenticationManagerBean().authenticate(usernamePasswordAuthenticationToken);
-        } catch (Exception e) {
-            logger.error(e.getMessage());
+            webSecurityConfigurerAdapter.authenticationManagerBean()
+                    .authenticate(usernamePasswordAuthenticationToken);
+        } catch (Exception ex) {
+            logger.error(ex.getMessage());
         }
         if (usernamePasswordAuthenticationToken.isAuthenticated()) {
             SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);

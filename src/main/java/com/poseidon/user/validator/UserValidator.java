@@ -6,11 +6,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
-/**
- * @author : Suraj Muraleedharan
- * Date: Nov 27, 2010
- * Time: 2:38:15 PM
- */
 public class UserValidator implements Validator {
     /**
      * logger for validator.
@@ -24,18 +19,18 @@ public class UserValidator implements Validator {
      * @return boolean
      */
     @Override
-    public boolean supports(Class<?> classInstance) {
+    public boolean supports(final Class<?> classInstance) {
         return classInstance.equals(UserVO.class);
     }
 
     /**
      * validate method overridden from validator.
      *
-     * @param userVo      userVo the user instance
+     * @param userVo userVo the user instance
      * @param errors errors
      */
     @Override
-    public void validate(Object userVo, Errors errors) {
+    public void validate(final Object userVo, final Errors errors) {
         logger.info(" Inside the validate method");
         UserVO user = (UserVO) userVo;
 

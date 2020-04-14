@@ -27,11 +27,10 @@ import java.time.OffsetDateTime;
 import java.time.ZoneId;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
- * user: Suraj
+ * user: Suraj.
  * Date: Jun 2, 2012
  * Time: 3:33:20 PM
  */
@@ -60,20 +59,20 @@ public class TransactionController {
     private CustomerService customerService;
 
     /**
-     * List all transactions
+     * List all transactions.
      *
      * @param transactionForm TransactionForm
      * @return view
      */
     @PostMapping("/txs/List.htm")
-    public ModelAndView list(TransactionForm transactionForm) {
+    public ModelAndView list(final TransactionForm transactionForm) {
         LOG.info(" Inside List method of TransactionController ");
         LOG.info(" form details are {}", transactionForm);
         List<TransactionVO> transactionVOs = null;
         try {
             transactionVOs = transactionService.listAllTransactions();
-        } catch (Exception e) {
-            LOG.error(e.getLocalizedMessage());
+        } catch (Exception ex) {
+            LOG.error(ex.getLocalizedMessage());
         }
         if (transactionVOs != null) {
             transactionVOs.stream().map(transactionVO -> " transaction vo is " + transactionVO).forEach(LOG::info);
@@ -83,8 +82,8 @@ public class TransactionController {
         List<MakeVO> makeVOs = null;
         try {
             makeVOs = makeService.fetchMakes();
-        } catch (Exception e) {
-            LOG.error(e.getMessage());
+        } catch (Exception ex) {
+            LOG.error(ex.getMessage());
         }
         if (makeVOs != null) {
             makeVOs.stream().map(makeVO -> "make vo is" + makeVO).forEach(LOG::info);
@@ -109,13 +108,13 @@ public class TransactionController {
     }
 
     /**
-     * add a new transaction
+     * add a new transaction.
      *
      * @param transactionForm TransactionForm
      * @return view
      */
     @PostMapping("/txs/AddTxn.htm")
-    public ModelAndView addTxn(TransactionForm transactionForm) {
+    public ModelAndView addTxn(final TransactionForm transactionForm) {
         LOG.info(" Inside AddTxn method of TransactionController ");
         transactionForm.setLoggedInUser(transactionForm.getLoggedInUser());
         transactionForm.setLoggedInRole(transactionForm.getLoggedInRole());
@@ -123,8 +122,8 @@ public class TransactionController {
         List<MakeVO> makeVOs = null;
         try {
             makeVOs = makeService.fetchMakes();
-        } catch (Exception e) {
-            LOG.error(e.getLocalizedMessage());
+        } catch (Exception ex) {
+            LOG.error(ex.getLocalizedMessage());
         }
         List<MakeAndModelVO> makeAndModelVOs = null;
         if (makeVOs != null && !makeVOs.isEmpty()) {
@@ -144,13 +143,13 @@ public class TransactionController {
     }
 
     /**
-     * save the current transaction
+     * save the current transaction.
      *
      * @param transactionForm TransactionForm
      * @return view
      */
     @PostMapping("/txs/SaveTxn.htm")
-    public ModelAndView saveTxn(TransactionForm transactionForm) {
+    public ModelAndView saveTxn(final TransactionForm transactionForm) {
         LOG.info(" Inside SaveTxn method of TransactionController ");
         LOG.info(" form details are {} ", transactionForm);
         TransactionVO transactionVO = transactionForm.getCurrentTransaction();
@@ -176,28 +175,28 @@ public class TransactionController {
                     transactionVO.setCustomerId(customerId);
                     LOG.info("the customer id from db is  {}", customerId);
 
-                } catch (CustomerException e) {
-                    LOG.error(e.getLocalizedMessage());
+                } catch (CustomerException ex) {
+                    LOG.error(ex.getLocalizedMessage());
                 }
             }
             String tagNo = transactionService.saveTransaction(transactionVO);
             transactionForm.setStatusMessage("Successfully added the transaction, Tag Number is " + tagNo);
             transactionForm.setStatusMessageType(SUCCESS);
-        } catch (TransactionException e) {
+        } catch (TransactionException ex) {
             transactionForm.setStatusMessage("Unable to create a new transaction due to a Data base error");
             transactionForm.setStatusMessageType(ERROR);
-            LOG.error(e.getLocalizedMessage());
-            LOG.error(EXCEPTION_IN_CONTROLLER, e.exceptionType);
-            if (e.getExceptionType().equalsIgnoreCase(TransactionException.DATABASE_ERROR)) {
+            LOG.error(ex.getLocalizedMessage());
+            LOG.error(EXCEPTION_IN_CONTROLLER, ex.exceptionType);
+            if (ex.getExceptionType().equalsIgnoreCase(TransactionException.DATABASE_ERROR)) {
                 LOG.info(DATA_FROM_DATABASE);
             } else {
                 LOG.info(UNKNOWN_ERROR);
             }
 
-        } catch (Exception e) {
+        } catch (Exception ex) {
             transactionForm.setStatusMessage("Unable to create the new transaction");
             transactionForm.setStatusMessageType(ERROR);
-            LOG.error(e.getLocalizedMessage());
+            LOG.error(ex.getLocalizedMessage());
             LOG.info(UNKNOWN_ERROR);
         }
         transactionForm.setLoggedInUser(transactionForm.getLoggedInUser());
@@ -207,16 +206,15 @@ public class TransactionController {
     }
 
     /**
-     * update model drop down via ajax
+     * update model drop down via ajax.
      *
      * @param httpServletRequest  req
      * @param httpServletResponse res
      */
     @RequestMapping(value = "/txs/UpdateModelAjax.htm", method = {RequestMethod.GET, RequestMethod.POST})
-    public void updateModelAjax(HttpServletRequest httpServletRequest,
-                                HttpServletResponse httpServletResponse) {
+    public void updateModelAjax(final HttpServletRequest httpServletRequest,
+                                final HttpServletResponse httpServletResponse) {
         String responseString = "";
-
         String selectMakeId = httpServletRequest.getParameter("selectMakeId");
         //get all the models for this make id
         LOG.info(" At UpdateModelAjax, selectMakeId is : {}", selectMakeId);
@@ -229,8 +227,8 @@ public class TransactionController {
                                 + "#id#" + "#modelName#" + makeAndModelVO.getModelName()
                                 + "#modelName#" + "#start#").collect(Collectors.joining());
             }
-        } catch (Exception e) {
-            LOG.error(e.getLocalizedMessage());
+        } catch (Exception ex) {
+            LOG.error(ex.getLocalizedMessage());
 
         }
         // get a id-name combination, which is splittable by js
@@ -240,19 +238,19 @@ public class TransactionController {
             out = httpServletResponse.getWriter();
             out.print(responseString);
             out.flush();
-        } catch (IOException e) {
-            LOG.error(e.getLocalizedMessage());
+        } catch (IOException ex) {
+            LOG.error(ex.getLocalizedMessage());
         }
     }
 
     /**
-     * search transactions
+     * search transactions.
      *
      * @param transactionForm TransactionForm
      * @return view
      */
     @PostMapping("/txs/SearchTxn.htm")
-    public ModelAndView searchTxn(TransactionForm transactionForm) {
+    public ModelAndView searchTxn(final TransactionForm transactionForm) {
         LOG.info(" Inside SearchTxn method of TransactionController ");
         LOG.info(" form details are {}", transactionForm);
         LOG.info(" form search details are {}", transactionForm.getSearchTransaction());
@@ -261,23 +259,21 @@ public class TransactionController {
             transactionVOs = transactionService.searchTransactions(transactionForm.getSearchTransaction());
             transactionForm.setStatusMessage("Found " + transactionVOs.size() + " Transactions ");
             transactionForm.setStatusMessageType("info");
-        } catch (TransactionException e) {
+        } catch (TransactionException ex) {
             transactionForm.setStatusMessage("Unable to search due to a data base error");
             transactionForm.setStatusMessageType(ERROR);
-            LOG.error(e.getLocalizedMessage());
-            LOG.error(EXCEPTION_IN_CONTROLLER, e.exceptionType);
-            if (e.getExceptionType().equalsIgnoreCase(TransactionException.DATABASE_ERROR)) {
+            LOG.error(ex.getLocalizedMessage());
+            LOG.error(EXCEPTION_IN_CONTROLLER, ex.exceptionType);
+            if (ex.getExceptionType().equalsIgnoreCase(TransactionException.DATABASE_ERROR)) {
                 LOG.info(DATA_FROM_DATABASE);
             } else {
                 LOG.info(UNKNOWN_ERROR);
             }
-
         } catch (Exception e1) {
             transactionForm.setStatusMessage("Unable to search ");
             transactionForm.setStatusMessageType(ERROR);
             LOG.error(e1.getLocalizedMessage());
             LOG.info(UNKNOWN_ERROR);
-
         }
         if (transactionVOs != null) {
             transactionVOs.forEach(transactionVO -> LOG.debug(TRANSACTION_VO, transactionVO));
@@ -287,8 +283,8 @@ public class TransactionController {
         List<MakeVO> makeVOs = null;
         try {
             makeVOs = makeService.fetchMakes();
-        } catch (Exception e) {
-            LOG.error(e.getLocalizedMessage());
+        } catch (Exception ex) {
+            LOG.error(ex.getLocalizedMessage());
         }
         if (makeVOs != null) {
             makeVOs.forEach(makeVO -> LOG.debug(MAKE_VO, makeVO));
@@ -301,13 +297,13 @@ public class TransactionController {
     }
 
     /**
-     * edit a transaction
+     * edit a transaction.
      *
      * @param transactionForm TransactionForm
      * @return view
      */
     @PostMapping("/txs/EditTxn.htm")
-    public ModelAndView editTxn(TransactionForm transactionForm) {
+    public ModelAndView editTxn(final TransactionForm transactionForm) {
         LOG.info(" EditTxn method of TransactionController ");
         LOG.info(" transactionForm is {}", transactionForm);
         TransactionVO transactionVO = null;
@@ -321,8 +317,8 @@ public class TransactionController {
                 List<MakeVO> makeVOs = null;
                 try {
                     makeVOs = makeService.fetchMakes();
-                } catch (Exception e) {
-                    LOG.error(e.getLocalizedMessage());
+                } catch (Exception ex) {
+                    LOG.error(ex.getLocalizedMessage());
                 }
                 if (makeVOs != null) {
                     makeVOs.forEach(makeVO -> LOG.info(MAKE_VO, makeVO));
@@ -335,10 +331,10 @@ public class TransactionController {
                     makeAndModelVOs.forEach(makeAndModelVO -> LOG.info("makeAndModel vo is {}", makeAndModelVO));
                 }
             }
-        } catch (TransactionException e) {
-            LOG.error(e.getLocalizedMessage());
-            LOG.error(EXCEPTION_IN_CONTROLLER, e.exceptionType);
-            if (e.getExceptionType().equalsIgnoreCase(TransactionException.DATABASE_ERROR)) {
+        } catch (TransactionException ex) {
+            LOG.error(ex.getLocalizedMessage());
+            LOG.error(EXCEPTION_IN_CONTROLLER, ex.exceptionType);
+            if (ex.getExceptionType().equalsIgnoreCase(TransactionException.DATABASE_ERROR)) {
                 LOG.info(DATA_FROM_DATABASE);
             } else {
                 LOG.info(UNKNOWN_ERROR);
@@ -351,7 +347,11 @@ public class TransactionController {
             LOG.info("transactionVO {}", transactionVO);
         }
         transactionForm.setCurrentTransaction(transactionVO);
-        transactionForm.setCustomerVO(Objects.requireNonNullElseGet(customerVO, CustomerVO::new));
+        if (customerVO != null) {
+            transactionForm.setCustomerVO(customerVO);
+        } else {
+            transactionForm.setCustomerVO(new CustomerVO());
+        }
         transactionForm.setStatusList(populateStatus());
         transactionForm.setLoggedInRole(transactionForm.getLoggedInRole());
         transactionForm.setLoggedInUser(transactionForm.getLoggedInUser());
@@ -359,13 +359,13 @@ public class TransactionController {
     }
 
     /**
-     * update transaction
+     * update transaction.
      *
      * @param transactionForm TransactionForm
      * @return view
      */
     @PostMapping("/txs/updateTxn.htm")
-    public ModelAndView updateTxn(TransactionForm transactionForm) {
+    public ModelAndView updateTxn(final TransactionForm transactionForm) {
         LOG.info(" updateTxn method of TransactionController ");
         LOG.info("TransactionForm values are {}", transactionForm);
         transactionForm.getCurrentTransaction().setModifiedBy(transactionForm.getLoggedInUser());
@@ -375,17 +375,17 @@ public class TransactionController {
             transactionService.updateTransaction(transactionForm.getCurrentTransaction());
             transactionForm.setStatusMessage("Successfully updated the transaction");
             transactionForm.setStatusMessageType(SUCCESS);
-        } catch (Exception e) {
+        } catch (Exception ex) {
             transactionForm.setStatusMessage("Unable to update the selected transaction");
             transactionForm.setStatusMessageType(ERROR);
-            LOG.error(e.getLocalizedMessage());
+            LOG.error(ex.getLocalizedMessage());
             LOG.info(UNKNOWN_ERROR);
         }
         List<TransactionVO> transactionVOs = null;
         try {
             transactionVOs = transactionService.listTodaysTransactions();
-        } catch (Exception e) {
-            LOG.error(e.getLocalizedMessage());
+        } catch (Exception ex) {
+            LOG.error(ex.getLocalizedMessage());
         }
         if (transactionVOs != null) {
             transactionVOs.forEach(transactionVO -> LOG.info(TRANSACTION_VO, transactionVO));
@@ -395,8 +395,8 @@ public class TransactionController {
         List<MakeVO> makeVOs = null;
         try {
             makeVOs = makeService.fetchMakes();
-        } catch (Exception e) {
-            LOG.error(e.getLocalizedMessage());
+        } catch (Exception ex) {
+            LOG.error(ex.getLocalizedMessage());
         }
         if (makeVOs != null) {
             makeVOs.forEach(makeVO -> LOG.info(MAKE_VO, makeVO));
@@ -410,40 +410,40 @@ public class TransactionController {
     }
 
     /**
-     * delete transaction
+     * delete transaction.
      *
      * @param transactionForm TransactionForm
      * @return view
      */
     @PostMapping("/txs/DeleteTxn.htm")
-    public ModelAndView deleteTxn(TransactionForm transactionForm) {
+    public ModelAndView deleteTxn(final TransactionForm transactionForm) {
         LOG.info(" DeleteTxn method of TransactionController ");
         LOG.info("TransactionForm values are {}", transactionForm);
         try {
             transactionService.deleteTransaction(transactionForm.getId());
             transactionForm.setStatusMessage("Successfully deleted the transaction");
             transactionForm.setStatusMessageType(SUCCESS);
-        } catch (TransactionException e) {
+        } catch (TransactionException ex) {
             transactionForm.setStatusMessage("Unable to delete the selected transaction due to a Data base error");
             transactionForm.setStatusMessageType(ERROR);
-            LOG.error(e.getLocalizedMessage());
-            LOG.error(EXCEPTION_IN_CONTROLLER, e.exceptionType);
-            if (e.getExceptionType().equalsIgnoreCase(TransactionException.DATABASE_ERROR)) {
+            LOG.error(ex.getLocalizedMessage());
+            LOG.error(EXCEPTION_IN_CONTROLLER, ex.exceptionType);
+            if (ex.getExceptionType().equalsIgnoreCase(TransactionException.DATABASE_ERROR)) {
                 LOG.info(DATA_FROM_DATABASE);
             } else {
                 LOG.info(UNKNOWN_ERROR);
             }
-        } catch (Exception e) {
+        } catch (Exception ex) {
             transactionForm.setStatusMessage("Unable to delete the selected transaction");
             transactionForm.setStatusMessageType(ERROR);
-            LOG.error(e.getLocalizedMessage());
+            LOG.error(ex.getLocalizedMessage());
             LOG.info(UNKNOWN_ERROR);
         }
         List<TransactionVO> transactionVOs = null;
         try {
             transactionVOs = transactionService.listTodaysTransactions();
-        } catch (Exception e) {
-            LOG.error(e.getLocalizedMessage());
+        } catch (Exception ex) {
+            LOG.error(ex.getLocalizedMessage());
         }
         if (transactionVOs != null) {
             transactionVOs.forEach(transactionVO -> LOG.info(TRANSACTION_VO, transactionVO));
@@ -453,8 +453,8 @@ public class TransactionController {
         List<MakeVO> makeVOs = null;
         try {
             makeVOs = makeService.fetchMakes();
-        } catch (Exception e) {
-            LOG.error(e.getLocalizedMessage());
+        } catch (Exception ex) {
+            LOG.error(ex.getLocalizedMessage());
         }
         if (makeVOs != null) {
             makeVOs.forEach(makeVO -> LOG.info(MAKE_VO, makeVO));
@@ -466,6 +466,4 @@ public class TransactionController {
         transactionForm.setStatusList(populateStatus());
         return new ModelAndView(TRANSACTION_LIST, TRANSACTION_FORM, transactionForm);
     }
-
-
 }

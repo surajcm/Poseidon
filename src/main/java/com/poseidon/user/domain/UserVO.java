@@ -1,12 +1,8 @@
 package com.poseidon.user.domain;
 
 import java.time.OffsetDateTime;
+import java.util.StringJoiner;
 
-/**
- * @author : Suraj Muraleedharan
- * Date: Nov 27, 2010
- * Time: 12:28:55 PM
- */
 @SuppressWarnings("unused")
 public class UserVO {
     private Long id;
@@ -25,7 +21,7 @@ public class UserVO {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(final Long id) {
         this.id = id;
     }
 
@@ -33,7 +29,7 @@ public class UserVO {
         return name;
     }
 
-    public void setName(String name) {
+    public void setName(final String name) {
         this.name = name;
     }
 
@@ -41,7 +37,7 @@ public class UserVO {
         return password;
     }
 
-    public void setPassword(String password) {
+    public void setPassword(final String password) {
         this.password = password;
     }
 
@@ -49,7 +45,7 @@ public class UserVO {
         return role;
     }
 
-    public void setRole(String role) {
+    public void setRole(final String role) {
         this.role = role;
     }
 
@@ -57,7 +53,7 @@ public class UserVO {
         return createdDate;
     }
 
-    public void setCreatedDate(OffsetDateTime createdDate) {
+    public void setCreatedDate(final OffsetDateTime createdDate) {
         this.createdDate = createdDate;
     }
 
@@ -65,7 +61,7 @@ public class UserVO {
         return modifiedDate;
     }
 
-    public void setModifiedDate(OffsetDateTime modifiedDate) {
+    public void setModifiedDate(final OffsetDateTime modifiedDate) {
         this.modifiedDate = modifiedDate;
     }
 
@@ -73,7 +69,7 @@ public class UserVO {
         return createdBy;
     }
 
-    public void setCreatedBy(String createdBy) {
+    public void setCreatedBy(final String createdBy) {
         this.createdBy = createdBy;
     }
 
@@ -81,7 +77,7 @@ public class UserVO {
         return lastModifiedBy;
     }
 
-    public void setLastModifiedBy(String lastModifiedBy) {
+    public void setLastModifiedBy(final String lastModifiedBy) {
         this.lastModifiedBy = lastModifiedBy;
     }
 
@@ -89,7 +85,7 @@ public class UserVO {
         return startsWith;
     }
 
-    public void setStartsWith(Boolean startsWith) {
+    public void setStartsWith(final Boolean startsWith) {
         this.startsWith = startsWith;
     }
 
@@ -97,46 +93,28 @@ public class UserVO {
         return includes;
     }
 
-    public void setIncludes(Boolean includes) {
+    public void setIncludes(final Boolean includes) {
         this.includes = includes;
-    }
-
-    @Override
-    public String toString() {
-        return "UserVO{"
-                + "id="
-                + id
-                + ", name='"
-                + name
-                + '\''
-                + ", loginId='"
-                + loginId
-                + '\''
-                + ", password='"
-                + password
-                + '\''
-                + ", role='"
-                + role
-                + '\''
-                + ", createdDate="
-                + createdDate
-                + ", modifiedDate="
-                + modifiedDate
-                + ", createdBy='"
-                + createdBy
-                + '\''
-                + ", lastModifiedBy='"
-                + lastModifiedBy
-                + '\''
-                + '}';
     }
 
     public String getLoginId() {
         return loginId;
     }
 
-    public void setLoginId(String loginId) {
+    public void setLoginId(final String loginId) {
         this.loginId = loginId;
+    }
+
+    @Override
+    public String toString() {
+        return new StringJoiner(", ", UserVO.class.getSimpleName() + "[", "]")
+                .add("id=" + id).add("name='" + name + "'")
+                .add("loginId='" + loginId + "'").add("password='" + password + "'")
+                .add("role='" + role + "'").add("createdDate=" + createdDate)
+                .add("modifiedDate=" + modifiedDate).add("createdBy='" + createdBy + "'")
+                .add("lastModifiedBy='" + lastModifiedBy + "'")
+                .add("startsWith=" + startsWith).add("includes=" + includes)
+                .toString();
     }
 }
 

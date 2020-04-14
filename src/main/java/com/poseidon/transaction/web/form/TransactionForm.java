@@ -1,15 +1,15 @@
 package com.poseidon.transaction.web.form;
 
+import com.poseidon.customer.domain.CustomerVO;
+import com.poseidon.make.domain.MakeAndModelVO;
 import com.poseidon.make.domain.MakeVO;
 import com.poseidon.transaction.domain.TransactionVO;
-import com.poseidon.make.domain.MakeAndModelVO;
-import com.poseidon.customer.domain.CustomerVO;
 
 import java.util.List;
 import java.util.StringJoiner;
 
 /**
- * user: Suraj
+ * user: Suraj.
  * Date: Jun 2, 2012
  * Time: 3:53:07 PM
  */
@@ -31,7 +31,7 @@ public class TransactionForm {
         return currentTransaction;
     }
 
-    public void setCurrentTransaction(TransactionVO currentTransaction) {
+    public void setCurrentTransaction(final TransactionVO currentTransaction) {
         this.currentTransaction = currentTransaction;
     }
 
@@ -39,7 +39,7 @@ public class TransactionForm {
         return searchTransaction;
     }
 
-    public void setSearchTransaction(TransactionVO searchTransaction) {
+    public void setSearchTransaction(final TransactionVO searchTransaction) {
         this.searchTransaction = searchTransaction;
     }
 
@@ -47,7 +47,7 @@ public class TransactionForm {
         return transactionsList;
     }
 
-    public void setTransactionsList(List<TransactionVO> transactionsList) {
+    public void setTransactionsList(final List<TransactionVO> transactionsList) {
         this.transactionsList = transactionsList;
     }
 
@@ -55,7 +55,7 @@ public class TransactionForm {
         return loggedInUser;
     }
 
-    public void setLoggedInUser(String loggedInUser) {
+    public void setLoggedInUser(final String loggedInUser) {
         this.loggedInUser = loggedInUser;
     }
 
@@ -63,7 +63,7 @@ public class TransactionForm {
         return loggedInRole;
     }
 
-    public void setLoggedInRole(String loggedInRole) {
+    public void setLoggedInRole(final String loggedInRole) {
         this.loggedInRole = loggedInRole;
     }
 
@@ -71,7 +71,7 @@ public class TransactionForm {
         return makeVOs;
     }
 
-    public void setMakeVOs(List<MakeVO> makeVOs) {
+    public void setMakeVOs(final List<MakeVO> makeVOs) {
         this.makeVOs = makeVOs;
     }
 
@@ -79,7 +79,7 @@ public class TransactionForm {
         return statusList;
     }
 
-    public void setStatusList(List<String> statusList) {
+    public void setStatusList(final List<String> statusList) {
         this.statusList = statusList;
     }
 
@@ -87,7 +87,7 @@ public class TransactionForm {
         return customerVO;
     }
 
-    public void setCustomerVO(CustomerVO customerVO) {
+    public void setCustomerVO(final CustomerVO customerVO) {
         this.customerVO = customerVO;
     }
 
@@ -95,7 +95,7 @@ public class TransactionForm {
         return makeAndModelVOs;
     }
 
-    public void setMakeAndModelVOs(List<MakeAndModelVO> makeAndModelVOs) {
+    public void setMakeAndModelVOs(final List<MakeAndModelVO> makeAndModelVOs) {
         this.makeAndModelVOs = makeAndModelVOs;
     }
 
@@ -103,7 +103,7 @@ public class TransactionForm {
         return statusMessage;
     }
 
-    public void setStatusMessage(String statusMessage) {
+    public void setStatusMessage(final String statusMessage) {
         this.statusMessage = statusMessage;
     }
 
@@ -111,7 +111,7 @@ public class TransactionForm {
         return statusMessageType;
     }
 
-    public void setStatusMessageType(String statusMessageType) {
+    public void setStatusMessageType(final String statusMessageType) {
         this.statusMessageType = statusMessageType;
     }
 
@@ -119,7 +119,7 @@ public class TransactionForm {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(final Long id) {
         this.id = id;
     }
 
@@ -131,13 +131,10 @@ public class TransactionForm {
                 .add("transactionsList=" + transactionsList)
                 .add("loggedInUser='" + loggedInUser + "'")
                 .add("loggedInRole='" + loggedInRole + "'")
-                .add("makeVOs=" + makeVOs)
-                .add("makeAndModelVOs=" + makeAndModelVOs)
-                .add("statusList=" + statusList)
-                .add("customerVO=" + customerVO)
+                .add("makeVOs=" + makeVOs).add("makeAndModelVOs=" + makeAndModelVOs)
+                .add("statusList=" + statusList).add("customerVO=" + customerVO)
                 .add("statusMessage='" + statusMessage + "'")
-                .add("statusMessageType='" + statusMessageType + "'")
-                .add("id=" + id)
+                .add("statusMessageType='" + statusMessageType + "'").add("id=" + id)
                 .toString();
     }
 }

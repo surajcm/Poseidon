@@ -33,10 +33,18 @@ WHAT AND WHY CHECKS SUPPRESSED
     <suppress files="TransactionDAOImpl.java" checks="MethodLength"/>
     <suppress files="TransactionReportVO.java" checks="MethodLength"/>
     <suppress files="TransactionVO.java" checks="MethodLength"/>
+    <suppress files="TransactionController.java" checks="MethodLength"/>
+    <suppress files="UserDAOImpl.java" checks="MethodLength"/>
+    <suppress files="UserController.java" checks="MethodLength"/>
     <suppress files="CompanyTermsController.java" checks="IllegalCatch"/>
     <suppress files="CustomerController.java" checks="IllegalCatch"/>
     <suppress files="InvoiceController.java" checks="IllegalCatch"/>
     <suppress files="MakeController.java" checks="IllegalCatch"/>
     <suppress files="ReportsController.java" checks="IllegalCatch"/>
     <suppress files="TransactionDAOImpl.java" checks="IllegalCatch"/>
+    <suppress files="TransactionServiceImpl.java" checks="IllegalCatch"/>
+    <suppress files="TransactionController.java" checks="IllegalCatch"/>
+    <suppress files="SecurityServiceImpl.java" checks="IllegalCatch"/>
+    <suppress files="UserServiceImpl.java" checks="IllegalCatch"/>
+    <suppress files="UserController.java" checks="IllegalCatch"/>
 </suppressions>

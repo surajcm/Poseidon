@@ -4,14 +4,8 @@ import com.poseidon.user.domain.UserVO;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.StringJoiner;
 
-/**
- * UserForm form for user.
- *
- * @author : Suraj Muraleedharan
- * Date: Feb 1, 2011
- * Time: 10:21:09 PM
- */
 @SuppressWarnings("unused")
 public class UserForm {
     private Long id;
@@ -33,7 +27,7 @@ public class UserForm {
         return id;
     }
 
-    public void setId(Long id) {
+    public void setId(final Long id) {
         this.id = id;
     }
 
@@ -41,7 +35,7 @@ public class UserForm {
         return name;
     }
 
-    public void setName(String name) {
+    public void setName(final String name) {
         this.name = name;
     }
 
@@ -49,7 +43,7 @@ public class UserForm {
         return loginId;
     }
 
-    public void setLoginId(String loginId) {
+    public void setLoginId(final String loginId) {
         this.loginId = loginId;
     }
 
@@ -57,7 +51,7 @@ public class UserForm {
         return password;
     }
 
-    public void setPassword(String password) {
+    public void setPassword(final String password) {
         this.password = password;
     }
 
@@ -65,7 +59,7 @@ public class UserForm {
         return role;
     }
 
-    public void setRole(String role) {
+    public void setRole(final String role) {
         this.role = role;
     }
 
@@ -73,12 +67,72 @@ public class UserForm {
         return message;
     }
 
-    public void setMessage(String message) {
+    public void setMessage(final String message) {
         this.message = message;
     }
 
     public UserVO getUser() {
         return user;
+    }
+
+    public void setUser(final UserVO user) {
+        this.user = user;
+    }
+
+    public Collection<UserVO> getUserVOs() {
+        return userVOs;
+    }
+
+    public void setUserVOs(final Collection<UserVO> userVOs) {
+        this.userVOs = userVOs;
+    }
+
+    public String getLoggedInUser() {
+        return loggedInUser;
+    }
+
+    public void setLoggedInUser(final String loggedInUser) {
+        this.loggedInUser = loggedInUser;
+    }
+
+    public String getLoggedInRole() {
+        return loggedInRole;
+    }
+
+    public void setLoggedInRole(final String loggedInRole) {
+        this.loggedInRole = loggedInRole;
+    }
+
+    public UserVO getSearchUser() {
+        return searchUser;
+    }
+
+    public void setSearchUser(final UserVO searchUser) {
+        this.searchUser = searchUser;
+    }
+
+    public String getStatusMessage() {
+        return statusMessage;
+    }
+
+    public void setStatusMessage(final String statusMessage) {
+        this.statusMessage = statusMessage;
+    }
+
+    public String getStatusMessageType() {
+        return statusMessageType;
+    }
+
+    public void setStatusMessageType(final String statusMessageType) {
+        this.statusMessageType = statusMessageType;
+    }
+
+    public List<String> getRoleList() {
+        return roleList;
+    }
+
+    public void setRoleList(final List<String> roleList) {
+        this.roleList = roleList;
     }
 
     /**
@@ -95,98 +149,15 @@ public class UserForm {
         return userVo;
     }
 
-    public void setUser(UserVO user) {
-        this.user = user;
-    }
-
-    public Collection<UserVO> getUserVOs() {
-        return userVOs;
-    }
-
-    public void setUserVOs(Collection<UserVO> userVOs) {
-        this.userVOs = userVOs;
-    }
-
-    public String getLoggedInUser() {
-        return loggedInUser;
-    }
-
-    public void setLoggedInUser(String loggedInUser) {
-        this.loggedInUser = loggedInUser;
-    }
-
-    public String getLoggedInRole() {
-        return loggedInRole;
-    }
-
-    public void setLoggedInRole(String loggedInRole) {
-        this.loggedInRole = loggedInRole;
-    }
-
-    public UserVO getSearchUser() {
-        return searchUser;
-    }
-
-    public void setSearchUser(UserVO searchUser) {
-        this.searchUser = searchUser;
-    }
-
-    public String getStatusMessage() {
-        return statusMessage;
-    }
-
-    public void setStatusMessage(String statusMessage) {
-        this.statusMessage = statusMessage;
-    }
-
-    public String getStatusMessageType() {
-        return statusMessageType;
-    }
-
-    public void setStatusMessageType(String statusMessageType) {
-        this.statusMessageType = statusMessageType;
-    }
-
-    public List<String> getRoleList() {
-        return roleList;
-    }
-
-    public void setRoleList(List<String> roleList) {
-        this.roleList = roleList;
-    }
-
     @Override
     public String toString() {
-        return "UserForm{"
-                + "id="
-                + id
-                + ", name='"
-                + name
-                + '\''
-                + ", loginId='"
-                + loginId
-                + '\''
-                + ", password='"
-                + password
-                + '\''
-                + ", role='"
-                + role
-                + '\''
-                + ", message='"
-                + message
-                + '\''
-                + ", user="
-                + user
-                + ", userVOs="
-                + userVOs
-                + ", loggedInUser='"
-                + loggedInUser
-                + '\''
-                + ", loggedInRole='"
-                + loggedInRole
-                + '\''
-                + ", searchUser="
-                + searchUser
-                + '}';
+        return new StringJoiner(", ", UserForm.class.getSimpleName() + "[", "]")
+                .add("id=" + id).add("name='" + name + "'").add("loginId='" + loginId + "'")
+                .add("password='" + password + "'").add("role='" + role + "'")
+                .add("message='" + message + "'").add("user=" + user).add("userVOs=" + userVOs)
+                .add("loggedInUser='" + loggedInUser + "'").add("loggedInRole='" + loggedInRole + "'")
+                .add("searchUser=" + searchUser).add("statusMessage='" + statusMessage + "'")
+                .add("statusMessageType='" + statusMessageType + "'").add("roleList=" + roleList)
+                .toString();
     }
 }
