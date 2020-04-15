@@ -48,3 +48,16 @@ tasks.withType(Pmd) {
         html.enabled true
     }
 }
+cpd {
+    toolVersion = '6.21.0'
+    minimumTokenCount = 40
+    ignoreFailures = true
+}
+
+cpdCheck {
+    reports {
+        text.enabled = true
+        xml.enabled = false
+    }
+    source = sourceSets.main.allJava
+}

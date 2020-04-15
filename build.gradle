@@ -1,0 +1,47 @@
+buildscript {
+    ext {
+        applicationDefaultJvmArgs = ['-agentlib:jdwp=transport=dt_socket,server=y,suspend=n,address=5005']
+        spotbugsVersion = '1.6.8'
+        toolVersion = '3.1.10'
+    }
+    repositories {
+        mavenCentral()
+        maven {
+            url "https://plugins.gradle.org/m2/"
+        }
+    }
+}
+
+plugins {
+    id 'java'
+    id 'idea'
+    id 'org.springframework.boot' version '2.2.6.RELEASE'
+    id 'io.spring.dependency-management' version '1.0.8.RELEASE'
+    id 'net.ltgt.errorprone' version '0.8.1'
+    //id 'com.github.spotbugs' version '1.6.8' apply false
+    id 'de.aaschmid.cpd' version '3.1'
+}
+group = 'com.poseidon'
+version = '0.0.1-SNAPSHOT'
+sourceCompatibility = JavaVersion.VERSION_13
+
+repositories {
+    mavenCentral()
+}
+
+
+apply from: 'gradle/dependencies.gradle'
+apply from: 'gradle/staticCodeAnalysis.gradle'
+
+test {
+    useJUnitPlatform()
+}
+
+test.dependsOn checkstyleMain
+test.dependsOn checkstyleTest
+
+bootRun.dependsOn checkstyleMain
+
+check.dependsOn(cpdCheck, pmdMain)
+
+
