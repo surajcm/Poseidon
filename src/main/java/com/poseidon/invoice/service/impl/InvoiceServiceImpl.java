@@ -34,19 +34,15 @@ public class InvoiceServiceImpl implements InvoiceService {
      */
     @Override
     public void addInvoice(final InvoiceVO currentInvoiceVO) throws InvoiceException {
-        TransactionReportVO transactionReportVO = null;
         try {
-            transactionReportVO = transactionService.fetchTransactionFromTag(currentInvoiceVO.getTagNo());
-        } catch (TransactionException ex) {
-            LOG.error(ex.getLocalizedMessage());
-        }
-        currentInvoiceVO.setCustomerId(transactionReportVO.getCustomerId());
-        currentInvoiceVO.setCustomerName(transactionReportVO.getCustomerName());
-        currentInvoiceVO.setSerialNo(transactionReportVO.getSerialNo());
-        try {
+            TransactionReportVO transactionReportVO = transactionService
+                    .fetchTransactionFromTag(currentInvoiceVO.getTagNo());
+            currentInvoiceVO.setCustomerId(transactionReportVO.getCustomerId());
+            currentInvoiceVO.setCustomerName(transactionReportVO.getCustomerName());
+            currentInvoiceVO.setSerialNo(transactionReportVO.getSerialNo());
             invoiceDAO.addInvoice(currentInvoiceVO);
-        } catch (InvoiceException ex) {
-            LOG.error(ex.getLocalizedMessage());
+        } catch (TransactionException | InvoiceException ex) {
+            LOG.error(ex.getMessage());
             throw new InvoiceException(ex.getMessage());
         }
     }
@@ -126,19 +122,15 @@ public class InvoiceServiceImpl implements InvoiceService {
      */
     @Override
     public void updateInvoice(final InvoiceVO currentInvoiceVO) throws InvoiceException {
-        TransactionReportVO transactionReportVo = null;
         try {
-            transactionReportVo = transactionService.fetchTransactionFromTag(currentInvoiceVO.getTagNo());
-        } catch (TransactionException ex) {
-            LOG.error(ex.getLocalizedMessage());
-        }
-        currentInvoiceVO.setCustomerId(transactionReportVo.getCustomerId());
-        currentInvoiceVO.setCustomerName(transactionReportVo.getCustomerName());
-        currentInvoiceVO.setSerialNo(transactionReportVo.getSerialNo());
-        try {
+            TransactionReportVO transactionReportVo = transactionService
+                    .fetchTransactionFromTag(currentInvoiceVO.getTagNo());
+            currentInvoiceVO.setCustomerId(transactionReportVo.getCustomerId());
+            currentInvoiceVO.setCustomerName(transactionReportVo.getCustomerName());
+            currentInvoiceVO.setSerialNo(transactionReportVo.getSerialNo());
             invoiceDAO.updateInvoice(currentInvoiceVO);
-        } catch (InvoiceException ex) {
-            ex.printStackTrace();
+        } catch (TransactionException | InvoiceException ex) {
+            LOG.error(ex.getLocalizedMessage());
             throw new InvoiceException(ex.getMessage());
         }
     }
