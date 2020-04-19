@@ -37,30 +37,31 @@ import java.util.stream.Collectors;
 @Repository
 public class TransactionDAOImpl implements TransactionDAO {
 
+    private static final Logger LOG = LoggerFactory.getLogger(TransactionDAOImpl.class);
     @Autowired
     private TransactionRepository transactionRepository;
-
     @Autowired
     private CustomerRepository customerRepository;
-
     @Autowired
     private MakeRepository makeRepository;
-
     @Autowired
     private ModelRepository modelRepository;
-
     @PersistenceContext
     private EntityManager em;
-
-    private static final Logger LOG = LoggerFactory.getLogger(TransactionDAOImpl.class);
 
     /**
      * list today's transactions.
      */
     @Override
-    public List<TransactionVO> listTodaysTransactions() {
-        List<Transaction> transactions = transactionRepository.todaysTransaction();
-        return transactions.stream().map(this::convertToVO).collect(Collectors.toList());
+    public List<TransactionVO> listTodaysTransactions() throws TransactionException {
+        List<TransactionVO> transactionVOS;
+        try {
+            List<Transaction> transactions = transactionRepository.todaysTransaction();
+            transactionVOS = transactions.stream().map(this::convertToVO).collect(Collectors.toList());
+        } catch (Exception ex) {
+            throw new TransactionException(TransactionException.DATABASE_ERROR);
+        }
+        return transactionVOS;
     }
 
     /**

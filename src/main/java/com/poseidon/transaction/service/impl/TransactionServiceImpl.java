@@ -33,14 +33,12 @@ public class TransactionServiceImpl implements TransactionService {
      */
     @Override
     public List<TransactionVO> listTodaysTransactions() throws TransactionException {
-        List<TransactionVO> transactionVOs = null;
+        List<TransactionVO> transactionVOs;
         try {
             transactionVOs = transactionDAO.listTodaysTransactions();
         } catch (TransactionException ex) {
-            LOG.error(" Exception type in service impl " + ex.getExceptionType());
-            throw new TransactionException(ex.getExceptionType());
-        } catch (Exception e1) {
-            LOG.error(e1.getLocalizedMessage());
+            LOG.error(" Exception type in service impl " + ex.getMessage());
+            throw new TransactionException(ex.getMessage());
         }
         return transactionVOs;
     }
@@ -60,8 +58,6 @@ public class TransactionServiceImpl implements TransactionService {
         } catch (TransactionException ex) {
             LOG.error(" Exception type in service impl " + ex.getExceptionType());
             throw new TransactionException(ex.getExceptionType());
-        } catch (Exception e1) {
-            LOG.error(e1.getLocalizedMessage());
         }
         return tagNo;
     }
