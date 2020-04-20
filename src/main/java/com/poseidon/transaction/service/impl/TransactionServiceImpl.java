@@ -1,10 +1,10 @@
 package com.poseidon.transaction.service.impl;
 
-import com.poseidon.transaction.domain.TransactionReportVO;
-import com.poseidon.transaction.service.TransactionService;
 import com.poseidon.transaction.dao.TransactionDAO;
+import com.poseidon.transaction.domain.TransactionReportVO;
 import com.poseidon.transaction.domain.TransactionVO;
 import com.poseidon.transaction.exception.TransactionException;
+import com.poseidon.transaction.service.TransactionService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -72,14 +72,12 @@ public class TransactionServiceImpl implements TransactionService {
     @Override
     public List<TransactionVO> searchTransactions(final TransactionVO searchTransaction)
             throws TransactionException {
-        List<TransactionVO> transactionVOs = null;
+        List<TransactionVO> transactionVOs;
         try {
             transactionVOs = transactionDAO.searchTransactions(searchTransaction);
         } catch (TransactionException ex) {
             LOG.error(" Exception type in service impl " + ex.getExceptionType());
             throw new TransactionException(ex.getExceptionType());
-        } catch (Exception e1) {
-            LOG.error(e1.getLocalizedMessage());
         }
         return transactionVOs;
     }
@@ -93,14 +91,12 @@ public class TransactionServiceImpl implements TransactionService {
      */
     @Override
     public TransactionVO fetchTransactionFromId(final Long id) throws TransactionException {
-        TransactionVO transactionVO = null;
+        TransactionVO transactionVO;
         try {
             transactionVO = transactionDAO.fetchTransactionFromId(id);
         } catch (TransactionException ex) {
             LOG.error(" Exception type in service impl " + ex.getExceptionType());
             throw new TransactionException(ex.getExceptionType());
-        } catch (Exception e1) {
-            LOG.error(e1.getLocalizedMessage());
         }
         return transactionVO;
     }
@@ -114,14 +110,12 @@ public class TransactionServiceImpl implements TransactionService {
      */
     @Override
     public TransactionReportVO fetchTransactionFromTag(final String tagNo) throws TransactionException {
-        TransactionReportVO transactionVO = null;
+        TransactionReportVO transactionVO;
         try {
             transactionVO = transactionDAO.fetchTransactionFromTag(tagNo);
         } catch (TransactionException ex) {
             LOG.error(" Exception type in service impl " + ex.getExceptionType());
             throw new TransactionException(ex.getExceptionType());
-        } catch (Exception e1) {
-            LOG.error(e1.getLocalizedMessage());
         }
         return transactionVO;
     }
@@ -135,8 +129,8 @@ public class TransactionServiceImpl implements TransactionService {
     public void updateTransaction(final TransactionVO currentTransaction) {
         try {
             transactionDAO.updateTransaction(currentTransaction);
-        } catch (Exception e1) {
-            LOG.error(e1.getLocalizedMessage());
+        } catch (TransactionException ex) {
+            LOG.error(ex.getLocalizedMessage());
         }
     }
 
@@ -153,8 +147,6 @@ public class TransactionServiceImpl implements TransactionService {
         } catch (TransactionException ex) {
             LOG.error(" Exception type in service impl " + ex.getExceptionType());
             throw new TransactionException(ex.getExceptionType());
-        } catch (Exception e1) {
-            LOG.error(e1.getLocalizedMessage());
         }
     }
 
@@ -172,8 +164,6 @@ public class TransactionServiceImpl implements TransactionService {
         } catch (TransactionException ex) {
             LOG.error(" Exception type in service impl " + ex.getExceptionType());
             throw new TransactionException(ex.getExceptionType());
-        } catch (Exception e1) {
-            LOG.error(e1.getLocalizedMessage());
         }
     }
 
@@ -185,14 +175,12 @@ public class TransactionServiceImpl implements TransactionService {
      */
     @Override
     public List<TransactionVO> listAllTransactions() throws TransactionException {
-        List<TransactionVO> transactionVOs = null;
+        List<TransactionVO> transactionVOs;
         try {
             transactionVOs = transactionDAO.listAllTransactions();
         } catch (TransactionException ex) {
             LOG.error(" Exception type in service impl " + ex.getExceptionType());
             throw new TransactionException(ex.getExceptionType());
-        } catch (Exception e1) {
-            LOG.error(e1.getLocalizedMessage());
         }
         return transactionVOs;
     }

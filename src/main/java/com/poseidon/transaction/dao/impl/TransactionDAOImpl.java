@@ -128,12 +128,17 @@ public class TransactionDAOImpl implements TransactionDAO {
      * @return transaction
      */
     @Override
-    public TransactionVO fetchTransactionFromId(final Long id) {
+    public TransactionVO fetchTransactionFromId(final Long id) throws TransactionException {
         TransactionVO transactionVO = null;
-        Optional<Transaction> optionalTransaction = transactionRepository.findById(id);
-        if (optionalTransaction.isPresent()) {
-            Transaction txn = optionalTransaction.get();
-            transactionVO = convertToVO(txn);
+        try {
+            Optional<Transaction> optionalTransaction = transactionRepository.findById(id);
+            if (optionalTransaction.isPresent()) {
+                Transaction txn = optionalTransaction.get();
+                transactionVO = convertToVO(txn);
+            }
+        } catch (Exception ex) {
+            LOG.error(ex.getLocalizedMessage());
+            throw new TransactionException(TransactionException.DATABASE_ERROR);
         }
         return transactionVO;
     }
@@ -170,11 +175,15 @@ public class TransactionDAOImpl implements TransactionDAO {
      * @param currentTransaction transaction
      */
     @Override
-    public void updateTransaction(final TransactionVO currentTransaction) {
-        Optional<Transaction> optionalTransaction = transactionRepository.findById(currentTransaction.getId());
-        if (optionalTransaction.isPresent()) {
-            Transaction txn = convertToTXN(optionalTransaction.get(), currentTransaction);
-            transactionRepository.save(txn);
+    public void updateTransaction(final TransactionVO currentTransaction) throws TransactionException {
+        try {
+            Optional<Transaction> optionalTransaction = transactionRepository.findById(currentTransaction.getId());
+            if (optionalTransaction.isPresent()) {
+                Transaction txn = convertToTXN(optionalTransaction.get(), currentTransaction);
+                transactionRepository.save(txn);
+            }
+        } catch (Exception ex) {
+            throw new TransactionException(TransactionException.DATABASE_ERROR);
         }
     }
 
@@ -202,8 +211,13 @@ public class TransactionDAOImpl implements TransactionDAO {
      * @param id id of transaction
      */
     @Override
-    public void deleteTransaction(final Long id) {
-        transactionRepository.deleteById(id);
+    public void deleteTransaction(final Long id) throws TransactionException {
+        try {
+            transactionRepository.deleteById(id);
+        } catch (Exception ex) {
+            LOG.error(ex.getLocalizedMessage());
+            throw new TransactionException(TransactionException.DATABASE_ERROR);
+        }
     }
 
     /**
@@ -213,9 +227,16 @@ public class TransactionDAOImpl implements TransactionDAO {
      * @return transaction for reporting
      */
     @Override
-    public TransactionReportVO fetchTransactionFromTag(final String tagNo) {
-        Transaction transaction = transactionRepository.findBytagno(tagNo);
-        return convertToTransactionReportVO(transaction);
+    public TransactionReportVO fetchTransactionFromTag(final String tagNo) throws TransactionException {
+        TransactionReportVO transactionReportVO;
+        try {
+            Transaction transaction = transactionRepository.findBytagno(tagNo);
+            transactionReportVO = convertToTransactionReportVO(transaction);
+        } catch (Exception ex) {
+            LOG.error(ex.getLocalizedMessage());
+            throw new TransactionException(TransactionException.DATABASE_ERROR);
+        }
+        return transactionReportVO;
     }
 
     /**
@@ -225,12 +246,17 @@ public class TransactionDAOImpl implements TransactionDAO {
      * @param status status
      */
     @Override
-    public void updateTransactionStatus(final Long id, final String status) {
-        Optional<Transaction> optionalTransaction = transactionRepository.findById(id);
-        if (optionalTransaction.isPresent()) {
-            Transaction txn = optionalTransaction.get();
-            txn.setStatus(status);
-            transactionRepository.save(txn);
+    public void updateTransactionStatus(final Long id, final String status) throws TransactionException {
+        try {
+            Optional<Transaction> optionalTransaction = transactionRepository.findById(id);
+            if (optionalTransaction.isPresent()) {
+                Transaction txn = optionalTransaction.get();
+                txn.setStatus(status);
+                transactionRepository.save(txn);
+            }
+        } catch (Exception ex) {
+            LOG.error(ex.getLocalizedMessage());
+            throw new TransactionException(TransactionException.DATABASE_ERROR);
         }
     }
 
@@ -240,9 +266,14 @@ public class TransactionDAOImpl implements TransactionDAO {
      * @return list of transactions
      */
     @Override
-    public List<TransactionVO> listAllTransactions() {
-        List<Transaction> transactions = transactionRepository.findAll();
-        return transactions.stream().map(this::convertToVO).collect(Collectors.toList());
+    public List<TransactionVO> listAllTransactions() throws TransactionException {
+        try {
+            List<Transaction> transactions = transactionRepository.findAll();
+            return transactions.stream().map(this::convertToVO).collect(Collectors.toList());
+        } catch (Exception ex) {
+            LOG.error(ex.getLocalizedMessage());
+            throw new TransactionException(TransactionException.DATABASE_ERROR);
+        }
     }
 
     private TransactionReportVO convertToTransactionReportVO(final Transaction transaction) {

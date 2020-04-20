@@ -20,13 +20,13 @@ public interface TransactionDAO {
 
     TransactionVO fetchTransactionFromId(Long id) throws TransactionException;
 
-    void updateTransaction(TransactionVO currentTransaction);
+    void updateTransaction(TransactionVO currentTransaction) throws TransactionException;
 
-    void deleteTransaction(Long id)throws TransactionException;
+    void deleteTransaction(Long id) throws TransactionException;
 
     TransactionReportVO fetchTransactionFromTag(String tagNo) throws TransactionException;
 
-    void updateTransactionStatus(Long id, String status)throws TransactionException;
+    void updateTransactionStatus(Long id, String status) throws TransactionException;
 
     List<TransactionVO> listAllTransactions() throws TransactionException;
 }
