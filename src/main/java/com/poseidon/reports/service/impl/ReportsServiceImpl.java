@@ -88,25 +88,26 @@ public class ReportsServiceImpl implements ReportsService {
      * @return JasperPrint
      */
     @Override
-    public JasperPrint getCallReport(final JasperReport jasperReport,
-                                     final ReportsVO currentReport) {
+    public JasperPrint getCallReport(final JasperReport jasperReport, final ReportsVO currentReport) {
         CompanyTermsVO companyTermsVO = companyTermsService.listCompanyTerms();
-        TransactionReportVO transactionVO = null;
-        try {
-            transactionVO = transactionService.fetchTransactionFromTag(currentReport.getTagNo());
-        } catch (TransactionException ex) {
-            LOG.error(ex.getLocalizedMessage());
-        }
-        currentReport.setTransactionReportVO(transactionVO);
+        currentReport.setTransactionReportVO(getTransactionReportVO(currentReport.getTagNo()));
         JasperPrint jasperPrint = new JasperPrint();
         try {
-            jasperPrint = reportsDAO.getCallReport(jasperReport,
-                    currentReport,
-                    companyTermsVO);
+            jasperPrint = reportsDAO.getCallReport(jasperReport, currentReport, companyTermsVO);
         } catch (JRException ex) {
             LOG.error(ex.getLocalizedMessage());
         }
         return jasperPrint;
+    }
+
+    private TransactionReportVO getTransactionReportVO(final String tagNo) {
+        TransactionReportVO transactionVO = null;
+        try {
+            transactionVO = transactionService.fetchTransactionFromTag(tagNo);
+        } catch (TransactionException ex) {
+            LOG.error(ex.getLocalizedMessage());
+        }
+        return transactionVO;
     }
 
     /**
