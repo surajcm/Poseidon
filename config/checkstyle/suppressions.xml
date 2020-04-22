@@ -22,13 +22,11 @@ WHAT AND WHY CHECKS SUPPRESSED
     <suppress files="CustomerController.java" checks="MethodLength"/>
     <suppress files="InvoiceDAOImpl.java" checks="MethodLength"/>
     <suppress files="InvoiceVO.java" checks="MethodLength"/>
-    <suppress files="InvoiceServiceImpl.java" checks="MethodLength"/>
     <suppress files="InvoiceController.java" checks="MethodLength"/>
     <suppress files="InvoiceForm.java" checks="MethodLength"/>
     <suppress files="MakeDaoImpl.java" checks="MethodLength"/>
     <suppress files="MakeAndModelVO.java" checks="MethodLength"/>
     <suppress files="MakeController.java" checks="MethodLength"/>
-    <suppress files="ReportsServiceImpl.java" checks="MethodLength"/>
     <suppress files="ReportsController.java" checks="MethodLength"/>
     <suppress files="TransactionDAOImpl.java" checks="MethodLength"/>
     <suppress files="TransactionReportVO.java" checks="MethodLength"/>
@@ -42,9 +40,8 @@ WHAT AND WHY CHECKS SUPPRESSED
     <suppress files="MakeController.java" checks="IllegalCatch"/>
     <suppress files="ReportsController.java" checks="IllegalCatch"/>
     <suppress files="TransactionDAOImpl.java" checks="IllegalCatch"/>
-    <suppress files="TransactionServiceImpl.java" checks="IllegalCatch"/>
     <suppress files="TransactionController.java" checks="IllegalCatch"/>
     <suppress files="SecurityServiceImpl.java" checks="IllegalCatch"/>
-    <suppress files="UserServiceImpl.java" checks="IllegalCatch"/>
     <suppress files="UserController.java" checks="IllegalCatch"/>
+    <suppress files="UserDAOImpl.java" checks="IllegalCatch"/>
 </suppressions>

@@ -47,7 +47,7 @@ public interface UserDAO {
      *
      * @param user user
      */
-    void updateUser(UserVO user);
+    void updateUser(UserVO user) throws UserException;
 
     /**
      * deletes the selected user.
@@ -66,5 +66,5 @@ public interface UserDAO {
      */
     List<UserVO> searchUserDetails(UserVO searchUser) throws UserException;
 
-    UserVO findByUsername(String username);
+    UserVO findByUsername(String username) throws UserException;
 }

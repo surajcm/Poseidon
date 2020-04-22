@@ -55,13 +55,8 @@ public class InvoiceServiceImpl implements InvoiceService {
      */
     @Override
     public List<InvoiceVO> fetchInvoiceForListOfTransactions() throws InvoiceException {
-        List<TransactionVO> transactionVOs = null;
         List<InvoiceVO> invoiceVOs = null;
-        try {
-            transactionVOs = transactionService.listTodaysTransactions();
-        } catch (TransactionException ex) {
-            LOG.error(ex.getLocalizedMessage());
-        }
+        List<TransactionVO> transactionVOs = getTransactionVOS();
         if (transactionVOs != null) {
             List<String> tagNumbers = fetchTagNoFromListOfTransactionVOs(transactionVOs);
             try {
@@ -72,6 +67,16 @@ public class InvoiceServiceImpl implements InvoiceService {
             }
         }
         return invoiceVOs;
+    }
+
+    private List<TransactionVO> getTransactionVOS() {
+        List<TransactionVO> transactionVOs = null;
+        try {
+            transactionVOs = transactionService.listTodaysTransactions();
+        } catch (TransactionException ex) {
+            LOG.error(ex.getLocalizedMessage());
+        }
+        return transactionVOs;
     }
 
     private List<String> fetchTagNoFromListOfTransactionVOs(final List<TransactionVO> transactionVOs) {

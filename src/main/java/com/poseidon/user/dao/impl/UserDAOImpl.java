@@ -86,7 +86,7 @@ public class UserDAOImpl implements UserDAO {
         try {
             List<User> users = userRepository.findAll();
             userList = convertUsersToUserVOs(users);
-        } catch (DataAccessException ex) {
+        } catch (Exception ex) {
             throw new UserException(UserException.DATABASE_ERROR);
         }
         return userList;
@@ -119,7 +119,7 @@ public class UserDAOImpl implements UserDAO {
         User user = convertToUser(userVO);
         try {
             userRepository.save(user);
-        } catch (DataAccessException ex) {
+        } catch (Exception ex) {
             LOG.error(ex.getLocalizedMessage());
             throw new UserException(UserException.DATABASE_ERROR);
         }
@@ -152,7 +152,7 @@ public class UserDAOImpl implements UserDAO {
                 User user = optionalUser.get();
                 userVO = convertToUserVO(user);
             }
-        } catch (DataAccessException ex) {
+        } catch (Exception ex) {
             LOG.error(ex.getLocalizedMessage());
             throw new UserException(UserException.DATABASE_ERROR);
         }
@@ -212,15 +212,19 @@ public class UserDAOImpl implements UserDAO {
      * @param userVO user
      */
     @Override
-    public void updateUser(final UserVO userVO) {
-        Optional<User> optionalUser = userRepository.findById(userVO.getId());
-        if (optionalUser.isPresent()) {
-            User user = optionalUser.get();
-            user.setName(userVO.getName());
-            user.setLogInId(userVO.getLoginId());
-            user.setPassword(userVO.getPassword());
-            user.setRole(userVO.getRole());
-            user.setModifiedBy(userVO.getLastModifiedBy());
+    public void updateUser(final UserVO userVO) throws UserException {
+        try {
+            Optional<User> optionalUser = userRepository.findById(userVO.getId());
+            if (optionalUser.isPresent()) {
+                User user = optionalUser.get();
+                user.setName(userVO.getName());
+                user.setLogInId(userVO.getLoginId());
+                user.setPassword(userVO.getPassword());
+                user.setRole(userVO.getRole());
+                user.setModifiedBy(userVO.getLastModifiedBy());
+            }
+        } catch (Exception ex) {
+            throw new UserException(UserException.DATABASE_ERROR);
         }
     }
 
@@ -230,8 +234,12 @@ public class UserDAOImpl implements UserDAO {
      * @param id id
      */
     @Override
-    public void deleteUser(final Long id) {
-        userRepository.deleteById(id);
+    public void deleteUser(final Long id) throws UserException {
+        try {
+            userRepository.deleteById(id);
+        } catch (Exception ex) {
+            throw new UserException(UserException.DATABASE_ERROR);
+        }
     }
 
     /**
@@ -246,7 +254,7 @@ public class UserDAOImpl implements UserDAO {
         List<UserVO> userList;
         try {
             userList = searchAllUsers(searchUser);
-        } catch (DataAccessException ex) {
+        } catch (Exception ex) {
             throw new UserException(UserException.DATABASE_ERROR);
         }
         return userList;

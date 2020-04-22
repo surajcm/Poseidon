@@ -32,14 +32,12 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public List<UserVO> getAllUserDetails() throws UserException {
-        List<UserVO> userList = null;
+        List<UserVO> userList;
         try {
             userList = userDAO.getAllUserDetails();
         } catch (UserException ex) {
             LOG.error(EXCEPTION_TYPE_IN_SERVICE_IMPL + ex.getExceptionType());
             throw new UserException(ex.getExceptionType());
-        } catch (Exception e1) {
-            LOG.error(e1.getMessage());
         }
         return userList;
     }
@@ -58,8 +56,6 @@ public class UserServiceImpl implements UserService {
         } catch (UserException ex) {
             LOG.error(EXCEPTION_TYPE_IN_SERVICE_IMPL + ex.getExceptionType());
             throw new UserException(ex.getExceptionType());
-        } catch (Exception e1) {
-            LOG.error(e1.getMessage());
         }
     }
 
@@ -72,14 +68,12 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public UserVO getUserDetailsFromId(final Long id) throws UserException {
-        UserVO userVO = null;
+        UserVO userVO;
         try {
             userVO = userDAO.getUserDetailsFromId(id);
         } catch (UserException ex) {
             LOG.error(EXCEPTION_TYPE_IN_SERVICE_IMPL + ex.getExceptionType());
             throw new UserException(ex.getExceptionType());
-        } catch (Exception e1) {
-            LOG.error(e1.getMessage());
         }
         return userVO;
     }
@@ -94,7 +88,7 @@ public class UserServiceImpl implements UserService {
     public void updateUser(final UserVO user) {
         try {
             userDAO.updateUser(user);
-        } catch (Exception ex) {
+        } catch (UserException ex) {
             LOG.error(ex.getMessage());
         }
     }
@@ -108,7 +102,7 @@ public class UserServiceImpl implements UserService {
     public void deleteUser(final Long id) {
         try {
             userDAO.deleteUser(id);
-        } catch (Exception ex) {
+        } catch (UserException ex) {
             LOG.error(ex.getMessage());
         }
     }
@@ -122,14 +116,12 @@ public class UserServiceImpl implements UserService {
      */
     @Override
     public List<UserVO> searchUserDetails(final UserVO searchUser) throws UserException {
-        List<UserVO> userList = null;
+        List<UserVO> userList;
         try {
             userList = userDAO.searchUserDetails(searchUser);
         } catch (UserException ex) {
             LOG.error(EXCEPTION_TYPE_IN_SERVICE_IMPL + ex.getExceptionType());
             throw new UserException(ex.getExceptionType());
-        } catch (Exception e1) {
-            LOG.error(e1.getMessage());
         }
         return userList;
     }

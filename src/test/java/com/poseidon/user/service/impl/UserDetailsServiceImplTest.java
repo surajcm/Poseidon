@@ -2,6 +2,7 @@ package com.poseidon.user.service.impl;
 
 import com.poseidon.user.dao.UserDAO;
 import com.poseidon.user.domain.UserVO;
+import com.poseidon.user.exception.UserException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -26,27 +27,25 @@ public class UserDetailsServiceImplTest {
     }
 
     @Test
-    public void loadUserByNullUsername() {
+    public void loadUserByNullUsername() throws UserException {
         when(userRepository.findByUsername(anyString())).thenReturn(null);
         Assertions.assertThrows(UsernameNotFoundException.class,
                 () -> userDetailsService.loadUserByUsername("admin"));
     }
 
     @Test
-    public void loadUserByValidUsername() {
+    public void loadUserByValidUsername() throws UserException {
         String userName = "admin";
-        when(userRepository.findByUsername(anyString())).thenReturn(mockUser(userName));
+        when(userRepository.findByUsername(anyString())).thenReturn(mockUser());
         UserDetails userDetails = userDetailsService.loadUserByUsername("admin");
         Assertions.assertEquals(userName, userDetails.getUsername());
     }
 
-    private UserVO mockUser(final String userName) {
+    private UserVO mockUser() {
         UserVO user = new UserVO();
         user.setName("admin");
         user.setPassword("pass");
         user.setRole("admin");
         return user;
     }
-
-
 }

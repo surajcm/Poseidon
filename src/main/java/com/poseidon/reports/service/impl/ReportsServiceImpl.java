@@ -90,7 +90,8 @@ public class ReportsServiceImpl implements ReportsService {
     @Override
     public JasperPrint getCallReport(final JasperReport jasperReport, final ReportsVO currentReport) {
         CompanyTermsVO companyTermsVO = companyTermsService.listCompanyTerms();
-        currentReport.setTransactionReportVO(getTransactionReportVO(currentReport.getTagNo()));
+        TransactionReportVO transactionVO = getTransactionReportVO(currentReport.getTagNo());
+        currentReport.setTransactionReportVO(transactionVO);
         JasperPrint jasperPrint = new JasperPrint();
         try {
             jasperPrint = reportsDAO.getCallReport(jasperReport, currentReport, companyTermsVO);
@@ -122,11 +123,7 @@ public class ReportsServiceImpl implements ReportsService {
     public JasperPrint getTransactionsListReport(final JasperReport jasperReport,
                                                  final ReportsVO currentReport,
                                                  final TransactionVO searchTransaction) {
-        try {
-            currentReport.setTransactionsList(transactionService.searchTransactions(searchTransaction));
-        } catch (TransactionException ex) {
-            LOG.error(ex.getLocalizedMessage());
-        }
+        currentReport.setTransactionsList(getTransactionVOS(searchTransaction));
         JasperPrint jasperPrint = new JasperPrint();
         try {
             jasperPrint = reportsDAO.getTransactionsListReport(jasperReport, currentReport);
@@ -134,6 +131,16 @@ public class ReportsServiceImpl implements ReportsService {
             LOG.error(ex.getLocalizedMessage());
         }
         return jasperPrint;
+    }
+
+    private List<TransactionVO> getTransactionVOS(final TransactionVO searchTransaction) {
+        List<TransactionVO> transactions = null;
+        try {
+            transactions = transactionService.searchTransactions(searchTransaction);
+        } catch (TransactionException ex) {
+            LOG.error(ex.getLocalizedMessage());
+        }
+        return transactions;
     }
 
     /**
@@ -185,45 +192,10 @@ public class ReportsServiceImpl implements ReportsService {
      */
     @Override
     public JasperPrint getInvoiceReport(final JasperReport jasperReport, final ReportsVO currentReport) {
-        try {
-            InvoiceReportVO invoiceReportVO = new InvoiceReportVO();
-            CompanyTermsVO companyTermsVO = companyTermsService.listCompanyTerms();
-            TransactionReportVO transactionVO = transactionService.fetchTransactionFromTag(currentReport.getTagNo());
-            if (transactionVO != null) {
-                InvoiceVO searchInvoiceVO = new InvoiceVO();
-                searchInvoiceVO.setTagNo(transactionVO.getTagNo());
-                searchInvoiceVO.setStartsWith(Boolean.FALSE);
-                searchInvoiceVO.setIncludes(Boolean.FALSE);
-                List<InvoiceVO> invoiceVOs = invoiceService.findInvoices(searchInvoiceVO);
-                if (invoiceVOs != null && !invoiceVOs.isEmpty()) {
-                    InvoiceVO invoiceVO = invoiceVOs.get(0);
-                    invoiceReportVO.setInvoiceId(invoiceVO.getId());
-                    invoiceReportVO.setTagNo(transactionVO.getTagNo());
-                    invoiceReportVO.setCustomerId(transactionVO.getCustomerId());
-                    invoiceReportVO.setCustomerName(transactionVO.getCustomerName());
-                    invoiceReportVO.setCustomerAddress1(transactionVO.getAddress1());
-                    invoiceReportVO.setCustomerAddress2(transactionVO.getAddress2());
-                    invoiceReportVO.setDescription(invoiceVO.getDescription());
-                    invoiceReportVO.setSerialNo(invoiceVO.getSerialNo());
-                    invoiceReportVO.setQuantity(invoiceVO.getQuantity());
-                    invoiceReportVO.setRate(invoiceVO.getRate());
-                    invoiceReportVO.setAmount(invoiceVO.getAmount());
-                    invoiceReportVO.setTotalAmount(invoiceVO.getAmount());
-                }
-            }
-            if (companyTermsVO != null) {
-                invoiceReportVO.setCompanyName(companyTermsVO.getCompanyName());
-                invoiceReportVO.setCompanyAddress(companyTermsVO.getCompanyAddress());
-                invoiceReportVO.setCompanyPhoneNumber(companyTermsVO.getCompanyPhoneNumber());
-                invoiceReportVO.setCompanyWebsite(companyTermsVO.getCompanyWebsite());
-                invoiceReportVO.setCompanyEmail(companyTermsVO.getCompanyEmail());
-                invoiceReportVO.setCompanyTerms(companyTermsVO.getCompanyTerms());
-                invoiceReportVO.setCompanyVatTin(companyTermsVO.getCompanyVatTin());
-                invoiceReportVO.setCompanyCstTin(companyTermsVO.getCompanyCstTin());
-            }
-            currentReport.setInvoiceReportVO(invoiceReportVO);
-        } catch (TransactionException | InvoiceException ex) {
-            LOG.error(ex.getLocalizedMessage());
+        TransactionReportVO transaction = getTransactionReportVO(currentReport.getTagNo());
+        InvoiceVO invoiceVO = getInvoiceVOFromTag(transaction);
+        if (invoiceVO != null) {
+            currentReport.setInvoiceReportVO(getInvoiceReportVO(transaction, invoiceVO));
         }
         JasperPrint jasperPrint = new JasperPrint();
         try {
@@ -232,5 +204,76 @@ public class ReportsServiceImpl implements ReportsService {
             LOG.error(ex.getLocalizedMessage());
         }
         return jasperPrint;
+    }
+
+    private InvoiceVO getInvoiceVOFromTag(final TransactionReportVO transaction) {
+        InvoiceVO invoiceVO = null;
+        if (transaction != null) {
+            invoiceVO = getInvoiceVOs(transaction.getTagNo());
+        }
+        return invoiceVO;
+    }
+
+    private InvoiceReportVO getInvoiceReportVO(final TransactionReportVO transactionVO, final InvoiceVO invoiceVO) {
+        InvoiceReportVO invoiceReportVO = new InvoiceReportVO();
+        updateInvoiceInfo(invoiceReportVO, invoiceVO);
+        updateTransactionInfo(invoiceReportVO, transactionVO);
+        updateCompanyInfo(invoiceReportVO);
+        return invoiceReportVO;
+    }
+
+    private void updateInvoiceInfo(final InvoiceReportVO invoiceReportVO, final InvoiceVO invoiceVO) {
+        invoiceReportVO.setInvoiceId(invoiceVO.getId());
+        invoiceReportVO.setDescription(invoiceVO.getDescription());
+        invoiceReportVO.setSerialNo(invoiceVO.getSerialNo());
+        invoiceReportVO.setQuantity(invoiceVO.getQuantity());
+        invoiceReportVO.setRate(invoiceVO.getRate());
+        invoiceReportVO.setAmount(invoiceVO.getAmount());
+        invoiceReportVO.setTotalAmount(invoiceVO.getAmount());
+    }
+
+    private void updateTransactionInfo(final InvoiceReportVO invoiceReportVO, final TransactionReportVO transactionVO) {
+        invoiceReportVO.setTagNo(transactionVO.getTagNo());
+        invoiceReportVO.setCustomerId(transactionVO.getCustomerId());
+        invoiceReportVO.setCustomerName(transactionVO.getCustomerName());
+        invoiceReportVO.setCustomerAddress1(transactionVO.getAddress1());
+        invoiceReportVO.setCustomerAddress2(transactionVO.getAddress2());
+    }
+
+    private void updateCompanyInfo(final InvoiceReportVO invoiceReportVO) {
+        CompanyTermsVO companyTermsVO = companyTermsService.listCompanyTerms();
+        if (companyTermsVO != null) {
+            invoiceReportVO.setCompanyName(companyTermsVO.getCompanyName());
+            invoiceReportVO.setCompanyAddress(companyTermsVO.getCompanyAddress());
+            invoiceReportVO.setCompanyPhoneNumber(companyTermsVO.getCompanyPhoneNumber());
+            invoiceReportVO.setCompanyWebsite(companyTermsVO.getCompanyWebsite());
+            invoiceReportVO.setCompanyEmail(companyTermsVO.getCompanyEmail());
+            invoiceReportVO.setCompanyTerms(companyTermsVO.getCompanyTerms());
+            invoiceReportVO.setCompanyVatTin(companyTermsVO.getCompanyVatTin());
+            invoiceReportVO.setCompanyCstTin(companyTermsVO.getCompanyCstTin());
+        }
+    }
+
+    private InvoiceVO getInvoiceVOs(final String tagNo) {
+        InvoiceVO firstInvoice = null;
+        InvoiceVO searchInvoiceVO = populateSearchInvoiceVO(tagNo);
+        try {
+            //todo : use findbyTagno method instead of this
+            List<InvoiceVO> invoiceVOs = invoiceService.findInvoices(searchInvoiceVO);
+            if (invoiceVOs != null && !invoiceVOs.isEmpty()) {
+                firstInvoice = invoiceVOs.get(0);
+            }
+        } catch (InvoiceException ex) {
+            LOG.error(ex.getLocalizedMessage());
+        }
+        return firstInvoice;
+    }
+
+    private InvoiceVO populateSearchInvoiceVO(final String tagNo) {
+        InvoiceVO searchInvoiceVO = new InvoiceVO();
+        searchInvoiceVO.setTagNo(tagNo);
+        searchInvoiceVO.setStartsWith(Boolean.FALSE);
+        searchInvoiceVO.setIncludes(Boolean.FALSE);
+        return searchInvoiceVO;
     }
 }
