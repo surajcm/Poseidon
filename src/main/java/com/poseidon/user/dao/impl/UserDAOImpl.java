@@ -160,53 +160,6 @@ public class UserDAOImpl implements UserDAO {
     }
 
     /**
-     * search for all the user details from the database.
-     *
-     * @param searchUser UserVO
-     * @return List of users
-     * @throws DataAccessException on error
-     */
-    @SuppressWarnings("unchecked")
-    private List<UserVO> searchAllUsers(final UserVO searchUser) {
-        CriteriaBuilder builder = em.unwrap(Session.class).getCriteriaBuilder();
-        CriteriaQuery<User> criteria = builder.createQuery(User.class);
-        Root<User> userRoot = criteria.from(User.class);
-        criteria.select(userRoot);
-
-        if (!StringUtils.isEmpty(searchUser.getName())) {
-            String pattern = searchPattern(searchUser.getIncludes(), searchUser.getStartsWith(),
-                    searchUser.getName());
-            criteria.where(builder.like(userRoot.get("name"), pattern));
-        }
-
-        if (!StringUtils.isEmpty(searchUser.getLoginId())) {
-            String pattern = searchPattern(searchUser.getIncludes(), searchUser.getStartsWith(),
-                    searchUser.getLoginId());
-            criteria.where(builder.like(userRoot.get("logInId"), pattern));
-        }
-
-        if (!StringUtils.isEmpty(searchUser.getRole())) {
-            String pattern = searchPattern(searchUser.getIncludes(), searchUser.getStartsWith(),
-                    searchUser.getRole());
-            criteria.where(builder.equal(userRoot.get("role"), pattern));
-        }
-        List<User> resultUsers = em.unwrap(Session.class).createQuery(criteria).getResultList();
-        return convertUsersToUserVOs(resultUsers);
-    }
-
-    private String searchPattern(final boolean includes, final boolean startsWith, final String field) {
-        String pattern;
-        if (includes) {
-            pattern = "%" + field + "%";
-        } else if (startsWith) {
-            pattern = field + "%";
-        } else {
-            pattern = field;
-        }
-        return pattern;
-    }
-
-    /**
      * updateUser.
      *
      * @param userVO user
@@ -264,5 +217,52 @@ public class UserDAOImpl implements UserDAO {
     public UserVO findByUsername(final String username) {
         User user = userRepository.findByName(username);
         return convertToUserVO(user);
+    }
+
+    /**
+     * search for all the user details from the database.
+     *
+     * @param searchUser UserVO
+     * @return List of users
+     * @throws DataAccessException on error
+     */
+    @SuppressWarnings("unchecked")
+    private List<UserVO> searchAllUsers(final UserVO searchUser) {
+        CriteriaBuilder builder = em.unwrap(Session.class).getCriteriaBuilder();
+        CriteriaQuery<User> criteria = builder.createQuery(User.class);
+        Root<User> userRoot = criteria.from(User.class);
+        criteria.select(userRoot);
+
+        if (!StringUtils.isEmpty(searchUser.getName())) {
+            String pattern = searchPattern(searchUser.getIncludes(), searchUser.getStartsWith(),
+                    searchUser.getName());
+            criteria.where(builder.like(userRoot.get("name"), pattern));
+        }
+
+        if (!StringUtils.isEmpty(searchUser.getLoginId())) {
+            String pattern = searchPattern(searchUser.getIncludes(), searchUser.getStartsWith(),
+                    searchUser.getLoginId());
+            criteria.where(builder.like(userRoot.get("logInId"), pattern));
+        }
+
+        if (!StringUtils.isEmpty(searchUser.getRole())) {
+            String pattern = searchPattern(searchUser.getIncludes(), searchUser.getStartsWith(),
+                    searchUser.getRole());
+            criteria.where(builder.equal(userRoot.get("role"), pattern));
+        }
+        List<User> resultUsers = em.unwrap(Session.class).createQuery(criteria).getResultList();
+        return convertUsersToUserVOs(resultUsers);
+    }
+
+    private String searchPattern(final boolean includes, final boolean startsWith, final String field) {
+        String pattern;
+        if (includes) {
+            pattern = "%" + field + "%";
+        } else if (startsWith) {
+            pattern = field + "%";
+        } else {
+            pattern = field;
+        }
+        return pattern;
     }
 }
