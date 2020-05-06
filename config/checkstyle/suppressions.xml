@@ -34,6 +34,7 @@ WHAT AND WHY CHECKS SUPPRESSED
     <suppress files="TransactionController.java" checks="MethodLength"/>
     <suppress files="UserDAOImpl.java" checks="MethodLength"/>
     <suppress files="UserController.java" checks="MethodLength"/>
+    <suppress files="UserSpecification.java" checks="MethodLength"/>
     <suppress files="CompanyTermsController.java" checks="IllegalCatch"/>
     <suppress files="CustomerController.java" checks="IllegalCatch"/>
     <suppress files="InvoiceController.java" checks="IllegalCatch"/>

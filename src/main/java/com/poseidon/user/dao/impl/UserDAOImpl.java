@@ -1,10 +1,12 @@
 package com.poseidon.user.dao.impl;
 
+import com.poseidon.dataaccess.specs.SearchCriteria;
+import com.poseidon.dataaccess.specs.SearchOperation;
 import com.poseidon.user.dao.UserDAO;
 import com.poseidon.user.dao.entities.User;
+import com.poseidon.user.dao.spec.UserSpecification;
 import com.poseidon.user.domain.UserVO;
 import com.poseidon.user.exception.UserException;
-import org.hibernate.Session;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,11 +14,6 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -28,9 +25,6 @@ public class UserDAOImpl implements UserDAO {
 
     @Autowired
     private UserRepository userRepository;
-
-    @PersistenceContext
-    private EntityManager em;
 
     /**
      * LOG in.
@@ -84,7 +78,8 @@ public class UserDAOImpl implements UserDAO {
     public List<UserVO> getAllUserDetails() throws UserException {
         List<UserVO> userList;
         try {
-            List<User> users = userRepository.findAll();
+            List<User> users = new ArrayList<>();
+            userRepository.findAll().forEach(users::add);
             userList = convertUsersToUserVOs(users);
         } catch (Exception ex) {
             throw new UserException(UserException.DATABASE_ERROR);
@@ -195,6 +190,16 @@ public class UserDAOImpl implements UserDAO {
         }
     }
 
+    @Override
+    public UserVO findByUsername(final String username) throws UserException {
+        try {
+            User user = userRepository.findByName(username);
+            return convertToUserVO(user);
+        } catch (Exception ex) {
+            throw new UserException(UserException.DATABASE_ERROR);
+        }
+    }
+
     /**
      * search for a list of users.
      *
@@ -213,12 +218,6 @@ public class UserDAOImpl implements UserDAO {
         return userList;
     }
 
-    @Override
-    public UserVO findByUsername(final String username) {
-        User user = userRepository.findByName(username);
-        return convertToUserVO(user);
-    }
-
     /**
      * search for all the user details from the database.
      *
@@ -228,41 +227,30 @@ public class UserDAOImpl implements UserDAO {
      */
     @SuppressWarnings("unchecked")
     private List<UserVO> searchAllUsers(final UserVO searchUser) {
-        CriteriaBuilder builder = em.unwrap(Session.class).getCriteriaBuilder();
-        CriteriaQuery<User> criteria = builder.createQuery(User.class);
-        Root<User> userRoot = criteria.from(User.class);
-        criteria.select(userRoot);
-
+        UserSpecification userSpec = new UserSpecification();
+        SearchOperation search = populateSearchOperation(searchUser);
         if (!StringUtils.isEmpty(searchUser.getName())) {
-            String pattern = searchPattern(searchUser.getIncludes(), searchUser.getStartsWith(),
-                    searchUser.getName());
-            criteria.where(builder.like(userRoot.get("name"), pattern));
+            userSpec.add(new SearchCriteria("name", searchUser.getName(), search));
         }
-
         if (!StringUtils.isEmpty(searchUser.getLoginId())) {
-            String pattern = searchPattern(searchUser.getIncludes(), searchUser.getStartsWith(),
-                    searchUser.getLoginId());
-            criteria.where(builder.like(userRoot.get("logInId"), pattern));
+            userSpec.add(new SearchCriteria("logInId", searchUser.getLoginId(), search));
         }
-
         if (!StringUtils.isEmpty(searchUser.getRole())) {
-            String pattern = searchPattern(searchUser.getIncludes(), searchUser.getStartsWith(),
-                    searchUser.getRole());
-            criteria.where(builder.equal(userRoot.get("role"), pattern));
+            userSpec.add(new SearchCriteria("role", searchUser.getRole(), search));
         }
-        List<User> resultUsers = em.unwrap(Session.class).createQuery(criteria).getResultList();
+        List<User> resultUsers = userRepository.findAll(userSpec);
         return convertUsersToUserVOs(resultUsers);
     }
 
-    private String searchPattern(final boolean includes, final boolean startsWith, final String field) {
-        String pattern;
-        if (includes) {
-            pattern = "%" + field + "%";
-        } else if (startsWith) {
-            pattern = field + "%";
+    private SearchOperation populateSearchOperation(final UserVO searchUser) {
+        SearchOperation searchOperation;
+        if (searchUser.getIncludes()) {
+            searchOperation = SearchOperation.MATCH;
+        } else if (searchUser.getStartsWith()) {
+            searchOperation = SearchOperation.MATCH_START;
         } else {
-            pattern = field;
+            searchOperation = SearchOperation.EQUAL;
         }
-        return pattern;
+        return searchOperation;
     }
 }
