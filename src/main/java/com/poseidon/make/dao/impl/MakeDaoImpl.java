@@ -38,6 +38,25 @@ public class MakeDaoImpl implements MakeDao {
     private MakeAndModelEntityConverter makeAndModelEntityConverter;
 
     /**
+     * list all makes.
+     *
+     * @return list of make and model vo
+     * @throws MakeException on error
+     */
+    @Override
+    public List<MakeAndModelVO> listAllMakes() throws MakeException {
+        List<MakeAndModelVO> makeVOs;
+        try {
+            List<Make> makes = makeRepository.findAll();
+            makeVOs = makeAndModelEntityConverter.convertMakeToMakeAndModelVOs(makes);
+        } catch (DataAccessException ex) {
+            LOG.error(ex.getLocalizedMessage());
+            throw new MakeException(MakeException.DATABASE_ERROR);
+        }
+        return makeVOs;
+    }
+
+    /**
      * list all makes and models.
      *
      * @return list of make and model vos
@@ -55,25 +74,6 @@ public class MakeDaoImpl implements MakeDao {
             throw new MakeException(MakeException.DATABASE_ERROR);
         }
         return makeAndModelVOS;
-    }
-
-    /**
-     * list all makes.
-     *
-     * @return list of make and model vo
-     * @throws MakeException on error
-     */
-    @Override
-    public List<MakeAndModelVO> listAllMakes() throws MakeException {
-        List<MakeAndModelVO> makeVOs;
-        try {
-            List<Make> makes = makeRepository.findAll();
-            makeVOs = makeAndModelEntityConverter.convertMakeToMakeAndModelVOs(makes);
-        } catch (DataAccessException ex) {
-            LOG.error(ex.getLocalizedMessage());
-            throw new MakeException(MakeException.DATABASE_ERROR);
-        }
-        return makeVOs;
     }
 
     /**
@@ -166,17 +166,8 @@ public class MakeDaoImpl implements MakeDao {
         MakeAndModelVO makeAndModelVO = null;
         Optional<Model> optionalModel = modelRepository.findById(modelId);
         if (optionalModel.isPresent()) {
-            makeAndModelVO = convertModelToMakeAndModelVO(optionalModel.get());
+            makeAndModelVO = makeAndModelEntityConverter.convertModelToMakeAndModelVO(optionalModel.get());
         }
-        return makeAndModelVO;
-    }
-
-    private MakeAndModelVO convertModelToMakeAndModelVO(final Model model) {
-        MakeAndModelVO makeAndModelVO = new MakeAndModelVO();
-        makeAndModelVO.setModelId(model.getModelId());
-        makeAndModelVO.setModelName(model.getModelName());
-        makeAndModelVO.setMakeId(model.getMake().getMakeId());
-        makeAndModelVO.setMakeName(model.getMake().getMakeName());
         return makeAndModelVO;
     }
 

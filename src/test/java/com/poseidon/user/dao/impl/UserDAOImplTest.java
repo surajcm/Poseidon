@@ -157,6 +157,24 @@ public class UserDAOImplTest {
         Assertions.assertThrows(UserException.class, () -> userDAO.findByUsername("ABC"));
     }
 
+    @Test
+    public void searchUserDetailsSuccess() throws UserException {
+        when(userRepository.findAll(any())).thenReturn(mockUsers());
+        UserVO user = mockUserVO();
+        Assertions.assertNotNull(userDAO.searchUserDetails(user));
+        user.setIncludes(Boolean.TRUE);
+        Assertions.assertNotNull(userDAO.searchUserDetails(user));
+        user.setIncludes(Boolean.FALSE);
+        user.setStartsWith(Boolean.TRUE);
+        Assertions.assertNotNull(userDAO.searchUserDetails(user));
+    }
+
+    @Test
+    public void searchUserDetailsFailure() throws UserException {
+        when(userRepository.findAll(any())).thenThrow(new CannotAcquireLockException("DB error"));
+        Assertions.assertThrows(UserException.class, () -> userDAO.searchUserDetails(mockUserVO()));
+    }
+
     private Optional<User> mockOptionalUser() {
         return Optional.of(mockUser());
     }
@@ -176,6 +194,18 @@ public class UserDAOImplTest {
         user.setRole("ADMIN");
         user.setCreatedBy("ADMIN");
         user.setModifiedBy("ADMIN");
+        return user;
+    }
+
+    private UserVO mockUserVO() {
+        UserVO user = new UserVO();
+        user.setId(1234L);
+        user.setName("ABC");
+        user.setLoginId("ABC");
+        user.setPassword("PASS");
+        user.setRole("ADMIN");
+        user.setCreatedBy("ADMIN");
+        user.setLastModifiedBy("ADMIN");
         return user;
     }
 

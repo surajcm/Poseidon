@@ -17,6 +17,7 @@ import org.springframework.util.StringUtils;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Repository
 @SuppressWarnings("unused")
@@ -56,17 +57,6 @@ public class UserDAOImpl implements UserDAO {
         return convertToUserVO(user);
     }
 
-    private UserVO convertToUserVO(final User user) {
-        UserVO userVO = new UserVO();
-        userVO.setId(user.getUserId());
-        userVO.setName(user.getName());
-        userVO.setLoginId(user.getLogInId());
-        userVO.setPassword(user.getPassword());
-        userVO.setRole(user.getRole());
-        userVO.setCreatedBy(user.getCreatedBy());
-        userVO.setLastModifiedBy(user.getModifiedBy());
-        return userVO;
-    }
 
     /**
      * getAllUserDetails to list all user details.
@@ -88,19 +78,19 @@ public class UserDAOImpl implements UserDAO {
     }
 
     private List<UserVO> convertUsersToUserVOs(final List<User> users) {
-        List<UserVO> userVoS = new ArrayList<>();
-        users.forEach(user -> {
-            UserVO userVO = new UserVO();
-            userVO.setId(user.getUserId());
-            userVO.setName(user.getName());
-            userVO.setLoginId(user.getLogInId());
-            userVO.setPassword(user.getPassword());
-            userVO.setRole(user.getRole());
-            userVO.setCreatedBy(user.getCreatedBy());
-            userVO.setLastModifiedBy(user.getModifiedBy());
-            userVoS.add(userVO);
-        });
-        return userVoS;
+        return users.stream().map(this::convertToUserVO).collect(Collectors.toList());
+    }
+
+    private UserVO convertToUserVO(final User user) {
+        UserVO userVO = new UserVO();
+        userVO.setId(user.getUserId());
+        userVO.setName(user.getName());
+        userVO.setLoginId(user.getLogInId());
+        userVO.setPassword(user.getPassword());
+        userVO.setRole(user.getRole());
+        userVO.setCreatedBy(user.getCreatedBy());
+        userVO.setLastModifiedBy(user.getModifiedBy());
+        return userVO;
     }
 
     /**
@@ -244,9 +234,9 @@ public class UserDAOImpl implements UserDAO {
 
     private SearchOperation populateSearchOperation(final UserVO searchUser) {
         SearchOperation searchOperation;
-        if (searchUser.getIncludes()) {
+        if (searchUser.getIncludes() != null && searchUser.getIncludes().booleanValue()) {
             searchOperation = SearchOperation.MATCH;
-        } else if (searchUser.getStartsWith()) {
+        } else if (searchUser.getStartsWith() != null && searchUser.getStartsWith().booleanValue()) {
             searchOperation = SearchOperation.MATCH_START;
         } else {
             searchOperation = SearchOperation.EQUAL;

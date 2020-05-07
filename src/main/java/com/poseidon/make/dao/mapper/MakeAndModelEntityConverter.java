@@ -57,6 +57,7 @@ public class MakeAndModelEntityConverter {
      */
     public Make convertToMake(final MakeAndModelVO currentMakeVO) {
         Make make = new Make();
+        make.setMakeId(currentMakeVO.getMakeId());
         make.setMakeName(currentMakeVO.getMakeName());
         make.setDescription(currentMakeVO.getDescription());
         make.setCreatedBy(currentMakeVO.getCreatedBy());
@@ -75,6 +76,15 @@ public class MakeAndModelEntityConverter {
         makeAndModelVO.setMakeId(make.getMakeId());
         makeAndModelVO.setMakeName(make.getMakeName());
         makeAndModelVO.setDescription(make.getDescription());
+        return makeAndModelVO;
+    }
+
+    public MakeAndModelVO convertModelToMakeAndModelVO(final Model model) {
+        MakeAndModelVO makeAndModelVO = new MakeAndModelVO();
+        makeAndModelVO.setModelId(model.getModelId());
+        makeAndModelVO.setModelName(model.getModelName());
+        makeAndModelVO.setMakeId(model.getMake().getMakeId());
+        makeAndModelVO.setMakeName(model.getMake().getMakeName());
         return makeAndModelVO;
     }
 }
