@@ -162,11 +162,16 @@ public class MakeDaoImpl implements MakeDao {
      * @return make and model vo
      */
     @Override
-    public MakeAndModelVO getModelFromId(final Long modelId) {
+    public MakeAndModelVO getModelFromId(final Long modelId) throws MakeException {
         MakeAndModelVO makeAndModelVO = null;
-        Optional<Model> optionalModel = modelRepository.findById(modelId);
-        if (optionalModel.isPresent()) {
-            makeAndModelVO = makeAndModelEntityConverter.convertModelToMakeAndModelVO(optionalModel.get());
+        try {
+            Optional<Model> optionalModel = modelRepository.findById(modelId);
+            if (optionalModel.isPresent()) {
+                makeAndModelVO = makeAndModelEntityConverter.convertModelToMakeAndModelVO(optionalModel.get());
+            }
+        } catch (DataAccessException ex) {
+            LOG.error(ex.getLocalizedMessage());
+            throw new MakeException(MakeException.DATABASE_ERROR);
         }
         return makeAndModelVO;
     }
@@ -196,23 +201,17 @@ public class MakeDaoImpl implements MakeDao {
     @Override
     public void addNewModel(final MakeAndModelVO currentMakeVo) throws MakeException {
         try {
-            Model model = convertMakeAndModelVOToModel(currentMakeVo);
-            modelRepository.save(model);
+            Model model = makeAndModelEntityConverter.convertMakeAndModelVOToModel(currentMakeVo);
+            Model model1 = updateModelWithMake(model);
+            modelRepository.save(model1);
         } catch (DataAccessException ex) {
             LOG.error(ex.getLocalizedMessage());
             throw new MakeException(MakeException.DATABASE_ERROR);
         }
     }
 
-    private Model convertMakeAndModelVOToModel(final MakeAndModelVO makeAndModelVO) {
-        Model model = new Model();
-        model.setModelName(makeAndModelVO.getModelName());
-        model.setMakeId(makeAndModelVO.getMakeId());
-        model.setCreatedBy(makeAndModelVO.getCreatedBy());
-        model.setModifiedBy(makeAndModelVO.getModifiedBy());
-        LOG.info("in convertMakeAndModelVOToModel -> make id is : %s", makeAndModelVO.getMakeId());
-        Optional<Make> optionalMake = makeRepository.findById(makeAndModelVO.getMakeId());
-        optionalMake.ifPresent(m1 -> LOG.info(m1.toString()));
+    private Model updateModelWithMake(final Model model) {
+        Optional<Make> optionalMake = makeRepository.findById(model.getMakeId());
         optionalMake.ifPresent(model::setMake);
         return model;
     }

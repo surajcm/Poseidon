@@ -20,6 +20,7 @@ import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
@@ -115,8 +116,60 @@ public class MakeDaoImplTest {
 
     @Test
     public void deleteMakeFailure() {
-        //when()
-        Assertions.assertAll(() -> makeDao.deleteMake(1234L));
+        doThrow(new CannotAcquireLockException("DB error")).when(makeRepository).deleteById(anyLong());
+        Assertions.assertThrows(MakeException.class, () -> makeDao.deleteMake(1234L));
+    }
+
+    @Test
+    public void getModelFromIdSuccess() throws MakeException {
+        when(modelRepository.findById(anyLong())).thenReturn(Optional.of(mockModel()));
+        Assertions.assertNotNull(makeDao.getModelFromId(1234L));
+    }
+
+    @Test
+    public void getModelFromIdSuccessOnEmpty() throws MakeException {
+        when(modelRepository.findById(anyLong())).thenReturn(Optional.empty());
+        Assertions.assertNull(makeDao.getModelFromId(1234L));
+    }
+
+    @Test
+    public void getModelFromIdFailure() {
+        when(modelRepository.findById(anyLong())).thenThrow(new CannotAcquireLockException("DB error"));
+        Assertions.assertThrows(MakeException.class, () -> makeDao.getModelFromId(1234L));
+    }
+
+    @Test
+    public void deleteModelSuccess() {
+        Assertions.assertAll(() -> makeDao.deleteModel(1234L));
+    }
+
+    @Test
+    public void deleteModelFailure() {
+        doThrow(new CannotAcquireLockException("DB error")).when(modelRepository).deleteById(anyLong());
+        Assertions.assertThrows(MakeException.class, () -> makeDao.deleteModel(1234L));
+    }
+
+    @Test
+    public void addNewModelSuccess() {
+        when(makeRepository.findById(anyLong())).thenReturn(Optional.of(mockMake()));
+        Assertions.assertAll(() -> makeDao.addNewModel(mockMakeAndModelVO()));
+    }
+
+    @Test
+    public void addNewModelFailure() {
+        when(makeRepository.findById(anyLong())).thenThrow(new CannotAcquireLockException("DB error"));
+        Assertions.assertThrows(MakeException.class, () -> makeDao.addNewModel(mockMakeAndModelVO()));
+    }
+
+    @Test
+    public void updateModelSuccess() {
+        when(modelRepository.findById(anyLong())).thenReturn(Optional.of(mockModel()));
+        when(makeRepository.findById(anyLong())).thenReturn(Optional.of(mockMake()));
+        MakeAndModelVO makeAndModelVO = new MakeAndModelVO();
+        makeAndModelVO.setId(1234L);
+        makeAndModelVO.setModelName("Macbook");
+        makeAndModelVO.setMakeId(1234L);
+        Assertions.assertAll(() -> makeDao.updateModel(makeAndModelVO));
     }
 
     private List<Make> mockMakes() {
