@@ -91,25 +91,6 @@ public class CustomerDAOImpl implements CustomerDAO {
         return customerVO;
     }
 
-    private CustomerVO convertToSingleCustomerVO(final Customer customer) {
-        CustomerVO customerVO = new CustomerVO();
-        customerVO.setCustomerId(customer.getCustomerId());
-        customerVO.setCustomerName(customer.getName());
-        customerVO.setAddress1(customer.getAddress1());
-        customerVO.setAddress2(customer.getAddress2());
-        customerVO.setPhoneNo(customer.getPhone());
-        customerVO.setMobile(customer.getMobile());
-        customerVO.setEmail(customer.getEmail());
-        customerVO.setContactPerson1(customer.getContactPerson1());
-        customerVO.setContactMobile1(customer.getContactPhone1());
-        customerVO.setContactPerson2(customer.getContactPerson2());
-        customerVO.setContactMobile2(customer.getContactPhone2());
-        customerVO.setNotes(customer.getNote());
-        customerVO.setCreatedBy(customer.getCreatedBy());
-        customerVO.setModifiedBy(customer.getModifiedBy());
-        return customerVO;
-    }
-
     /**
      * delete a customer from id.
      *
@@ -139,24 +120,28 @@ public class CustomerDAOImpl implements CustomerDAO {
                     currentCustomerVo.getCustomerId());
             if (optionalCustomer.isPresent()) {
                 Customer customer = optionalCustomer.get();
-                customer.setName(currentCustomerVo.getCustomerName());
-                customer.setAddress1(currentCustomerVo.getAddress1());
-                customer.setAddress2(currentCustomerVo.getAddress2());
-                customer.setPhone(currentCustomerVo.getPhoneNo());
-                customer.setMobile(currentCustomerVo.getMobile());
-                customer.setEmail(currentCustomerVo.getEmail());
-                customer.setContactPerson1(currentCustomerVo.getContactPerson1());
-                customer.setContactPhone1(currentCustomerVo.getContactMobile1());
-                customer.setContactPerson2(currentCustomerVo.getContactPerson2());
-                customer.setContactPhone2(currentCustomerVo.getContactMobile2());
-                customer.setNote(currentCustomerVo.getNotes());
-                customer.setModifiedBy(currentCustomerVo.getModifiedBy());
+                updateCustomer(currentCustomerVo, customer);
                 customerRepository.save(customer);
             }
         } catch (DataAccessException ex) {
             LOG.error(ex.getLocalizedMessage());
             throw new CustomerException(CustomerException.DATABASE_ERROR);
         }
+    }
+
+    private void updateCustomer(final CustomerVO currentCustomerVo, final Customer customer) {
+        customer.setName(currentCustomerVo.getCustomerName());
+        customer.setAddress1(currentCustomerVo.getAddress1());
+        customer.setAddress2(currentCustomerVo.getAddress2());
+        customer.setPhone(currentCustomerVo.getPhoneNo());
+        customer.setMobile(currentCustomerVo.getMobile());
+        customer.setEmail(currentCustomerVo.getEmail());
+        customer.setContactPerson1(currentCustomerVo.getContactPerson1());
+        customer.setContactPhone1(currentCustomerVo.getContactMobile1());
+        customer.setContactPerson2(currentCustomerVo.getContactPerson2());
+        customer.setContactPhone2(currentCustomerVo.getContactMobile2());
+        customer.setNote(currentCustomerVo.getNotes());
+        customer.setModifiedBy(currentCustomerVo.getModifiedBy());
     }
 
     /**
@@ -176,6 +161,25 @@ public class CustomerDAOImpl implements CustomerDAO {
             throw new CustomerException(CustomerException.DATABASE_ERROR);
         }
         return customerVOs;
+    }
+
+    private CustomerVO convertToSingleCustomerVO(final Customer customer) {
+        CustomerVO customerVO = new CustomerVO();
+        customerVO.setCustomerId(customer.getCustomerId());
+        customerVO.setCustomerName(customer.getName());
+        customerVO.setAddress1(customer.getAddress1());
+        customerVO.setAddress2(customer.getAddress2());
+        customerVO.setPhoneNo(customer.getPhone());
+        customerVO.setMobile(customer.getMobile());
+        customerVO.setEmail(customer.getEmail());
+        customerVO.setContactPerson1(customer.getContactPerson1());
+        customerVO.setContactMobile1(customer.getContactPhone1());
+        customerVO.setContactPerson2(customer.getContactPerson2());
+        customerVO.setContactMobile2(customer.getContactPhone2());
+        customerVO.setNotes(customer.getNote());
+        customerVO.setCreatedBy(customer.getCreatedBy());
+        customerVO.setModifiedBy(customer.getModifiedBy());
+        return customerVO;
     }
 
     private Customer convertToSingleCustomer(final CustomerVO currentCustomerVO) {
