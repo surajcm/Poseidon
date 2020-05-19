@@ -15,7 +15,7 @@ buildscript {
 plugins {
     id 'java'
     id 'idea'
-    id 'org.springframework.boot' version '2.2.6.RELEASE'
+    id 'org.springframework.boot' version '2.3.0.RELEASE'
     id 'io.spring.dependency-management' version '1.0.8.RELEASE'
     id 'net.ltgt.errorprone' version '0.8.1'
     //id 'com.github.spotbugs' version '1.6.8' apply false
@@ -23,7 +23,7 @@ plugins {
 }
 group = 'com.poseidon'
 version = '0.0.1-SNAPSHOT'
-sourceCompatibility = JavaVersion.VERSION_13
+sourceCompatibility = JavaVersion.VERSION_14
 
 repositories {
     mavenCentral()
@@ -43,5 +43,3 @@ test.dependsOn checkstyleTest
 bootRun.dependsOn checkstyleMain
 
 check.dependsOn(cpdCheck, pmdMain)
-
-
