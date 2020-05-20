@@ -185,7 +185,7 @@
                             </label>
                         </td>
                         <td align="left">
-                            <form:input path="currentCompanyTermsVO.companyVATTIN" cssClass="form-control" id="vat_tin"/>
+                            <form:input path="currentCompanyTermsVO.companyVatTin" cssClass="form-control" id="vat_tin"/>
                         </td>
                         <td colspan="2">&nbsp;</td>
                         <td>
@@ -194,7 +194,7 @@
                             </label>
                         </td>
                         <td align="left">
-                            <form:input path="currentCompanyTermsVO.companyCSTTIN" cssClass="form-control" id="cst_tin"/>
+                            <form:input path="currentCompanyTermsVO.companyCstTin" cssClass="form-control" id="cst_tin"/>
                         </td>
                     </tr>
                     <tr>
