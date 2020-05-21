@@ -41,7 +41,8 @@ public class MakeController {
     @Autowired
     private MakeService makeService;
 
-    /**.
+    /**
+     * .
      * list all models
      *
      * @param makeForm makeForm
@@ -306,16 +307,16 @@ public class MakeController {
     /**
      * saveModelAjax.
      *
-     * @param selectMakeId selectMakeId
+     * @param selectMakeId    selectMakeId
      * @param selectModelName selectModelName
-     * @param result result
+     * @param result          result
      * @return json string
      */
     @PostMapping("/make/saveModelAjax.htm")
     public @ResponseBody
     String saveModelAjax(@ModelAttribute("selectMakeId") final Long selectMakeId,
-                        @ModelAttribute("selectModelName") final String selectModelName,
-                        final BindingResult result) {
+                         @ModelAttribute("selectModelName") final String selectModelName,
+                         final BindingResult result) {
         LOG.info("saveModelAjax method of MakeController ");
         StringBuilder responseString = new StringBuilder();
         if (!result.hasErrors()) {
@@ -376,8 +377,10 @@ public class MakeController {
     @PostMapping("/make/updateMake.htm")
     public ModelAndView updateMake(final MakeForm makeForm) {
         LOG.info("updateMake method of MakeController, makeForm instance to add to database  {}", makeForm);
-        makeForm.getCurrentMakeAndModeVO().setModifiedDate(OffsetDateTime.now(ZoneId.systemDefault()));
-        makeForm.getCurrentMakeAndModeVO().setModifiedBy(makeForm.getLoggedInUser());
+        if (makeForm.getCurrentMakeAndModeVO() != null) {
+            makeForm.getCurrentMakeAndModeVO().setModifiedDate(OffsetDateTime.now(ZoneId.systemDefault()));
+            makeForm.getCurrentMakeAndModeVO().setModifiedBy(makeForm.getLoggedInUser());
+        }
         try {
             makeService.updateMake(makeForm.getCurrentMakeAndModeVO());
             makeForm.setStatusMessage("Updated the make successfully");
@@ -400,8 +403,10 @@ public class MakeController {
     @PostMapping("/make/updateModel.htm")
     public ModelAndView updateModel(final MakeForm makeForm) {
         LOG.debug(" updateModel method of MakeController , makeForm instance to add to database {}", makeForm);
-        makeForm.getCurrentMakeAndModeVO().setModifiedDate(OffsetDateTime.now(ZoneId.systemDefault()));
-        makeForm.getCurrentMakeAndModeVO().setModifiedBy(makeForm.getLoggedInUser());
+        if (makeForm.getCurrentMakeAndModeVO() != null) {
+            makeForm.getCurrentMakeAndModeVO().setModifiedDate(OffsetDateTime.now(ZoneId.systemDefault()));
+            makeForm.getCurrentMakeAndModeVO().setModifiedBy(makeForm.getLoggedInUser());
+        }
         try {
             makeService.updateModel(makeForm.getCurrentMakeAndModeVO());
             makeForm.setStatusMessage("Updated the Model successfully");
@@ -424,10 +429,12 @@ public class MakeController {
     @PostMapping("/make/saveModel.htm")
     public ModelAndView saveModel(final MakeForm makeForm) {
         LOG.info(" at saveModel makeForm instance to add to database {}", makeForm);
-        makeForm.getCurrentMakeAndModeVO().setCreatedDate(OffsetDateTime.now(ZoneId.systemDefault()));
-        makeForm.getCurrentMakeAndModeVO().setModifiedDate(OffsetDateTime.now(ZoneId.systemDefault()));
-        makeForm.getCurrentMakeAndModeVO().setCreatedBy(makeForm.getLoggedInUser());
-        makeForm.getCurrentMakeAndModeVO().setModifiedBy(makeForm.getLoggedInUser());
+        if (makeForm.getCurrentMakeAndModeVO() != null) {
+            makeForm.getCurrentMakeAndModeVO().setCreatedDate(OffsetDateTime.now(ZoneId.systemDefault()));
+            makeForm.getCurrentMakeAndModeVO().setModifiedDate(OffsetDateTime.now(ZoneId.systemDefault()));
+            makeForm.getCurrentMakeAndModeVO().setCreatedBy(makeForm.getLoggedInUser());
+            makeForm.getCurrentMakeAndModeVO().setModifiedBy(makeForm.getLoggedInUser());
+        }
         try {
             makeService.addNewModel(makeForm.getCurrentMakeAndModeVO());
             makeForm.setStatusMessage("Saved the new Model successfully");

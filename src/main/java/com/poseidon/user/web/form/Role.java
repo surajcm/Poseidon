@@ -1,4 +1,4 @@
-package com.poseidon.user.web.controller;
+package com.poseidon.user.web.form;
 
 public enum Role {
     ADMIN,

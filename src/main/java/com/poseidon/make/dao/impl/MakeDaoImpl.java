@@ -240,25 +240,6 @@ public class MakeDaoImpl implements MakeDao {
     }
 
     /**
-     * search make vos.
-     *
-     * @param searchMakeVo searchMakeVo
-     * @return list of make and model vos
-     * @throws MakeException on error
-     */
-    @Override
-    public List<MakeAndModelVO> searchMakeVOs(final MakeAndModelVO searchMakeVo) throws MakeException {
-        List<MakeAndModelVO> makeVOs;
-        try {
-            makeVOs = searchModels(searchMakeVo);
-        } catch (DataAccessException ex) {
-            LOG.error(ex.getLocalizedMessage());
-            throw new MakeException(MakeException.DATABASE_ERROR);
-        }
-        return makeVOs;
-    }
-
-    /**
      * fetch all makes.
      *
      * @return list of make vos
@@ -286,13 +267,13 @@ public class MakeDaoImpl implements MakeDao {
      */
     @Override
     public List<MakeAndModelVO> getAllModelsFromMakeId(final Long makeId) throws MakeException {
-        List<MakeAndModelVO> makeVOs = new ArrayList<>();
+        List<MakeAndModelVO> makeVOs = null;
         try {
             Optional<Make> optionalMake = makeRepository.findById(makeId);
             if (optionalMake.isPresent()) {
                 Make make = optionalMake.get();
                 List<Model> models = make.getModels();
-                if (!models.isEmpty()) {
+                if (models != null && !models.isEmpty()) {
                     makeVOs = models.stream().map(model -> getMakeAndModelVO(make, model))
                             .collect(Collectors.toList());
                 }
@@ -316,6 +297,34 @@ public class MakeDaoImpl implements MakeDao {
             makeVOS.add(makeVO);
         }
         return makeVOS;
+    }
+
+    private MakeAndModelVO getMakeAndModelVO(final Make make, final Model model) {
+        MakeAndModelVO makeAndModelVO = new MakeAndModelVO();
+        makeAndModelVO.setModelId(model.getModelId());
+        makeAndModelVO.setModelName(model.getModelName());
+        makeAndModelVO.setMakeId(model.getMakeId());
+        makeAndModelVO.setMakeName(make.getMakeName());
+        return makeAndModelVO;
+    }
+
+    /**
+     * search make vos.
+     *
+     * @param searchMakeVo searchMakeVo
+     * @return list of make and model vos
+     * @throws MakeException on error
+     */
+    @Override
+    public List<MakeAndModelVO> searchMakeVOs(final MakeAndModelVO searchMakeVo) throws MakeException {
+        List<MakeAndModelVO> makeVOs;
+        try {
+            makeVOs = searchModels(searchMakeVo);
+        } catch (DataAccessException ex) {
+            LOG.error(ex.getLocalizedMessage());
+            throw new MakeException(MakeException.DATABASE_ERROR);
+        }
+        return makeVOs;
     }
 
     private List<MakeAndModelVO> searchModels(final MakeAndModelVO searchMakeVO) {
@@ -348,14 +357,5 @@ public class MakeDaoImpl implements MakeDao {
         }
 
         return makeAndModelVOS;
-    }
-
-    private MakeAndModelVO getMakeAndModelVO(final Make make, final Model model) {
-        MakeAndModelVO makeAndModelVO = new MakeAndModelVO();
-        makeAndModelVO.setModelId(model.getModelId());
-        makeAndModelVO.setModelName(model.getModelName());
-        makeAndModelVO.setMakeId(model.getMakeId());
-        makeAndModelVO.setMakeName(make.getMakeName());
-        return makeAndModelVO;
     }
 }

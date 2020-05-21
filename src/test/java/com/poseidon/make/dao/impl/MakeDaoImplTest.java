@@ -172,6 +172,64 @@ public class MakeDaoImplTest {
         Assertions.assertAll(() -> makeDao.updateModel(makeAndModelVO));
     }
 
+    @Test
+    public void updateModelSuccessOnEmpty() {
+        when(modelRepository.findById(anyLong())).thenReturn(Optional.empty());
+        MakeAndModelVO makeAndModelVO = new MakeAndModelVO();
+        makeAndModelVO.setId(1234L);
+        makeAndModelVO.setModelName("Macbook");
+        makeAndModelVO.setMakeId(1234L);
+        Assertions.assertAll(() -> makeDao.updateModel(makeAndModelVO));
+    }
+
+    @Test
+    public void updateModelFailure() {
+        when(modelRepository.findById(anyLong())).thenThrow(new CannotAcquireLockException("DB error"));
+        MakeAndModelVO makeAndModelVO = new MakeAndModelVO();
+        makeAndModelVO.setId(1234L);
+        makeAndModelVO.setModelName("Macbook");
+        makeAndModelVO.setMakeId(1234L);
+        Assertions.assertThrows(MakeException.class, () -> makeDao.updateModel(makeAndModelVO));
+    }
+
+    @Test
+    public void fetchMakesSuccess() throws MakeException {
+        when(makeRepository.findAll()).thenReturn(mockMakes());
+        Assertions.assertNotNull(makeDao.fetchMakes());
+    }
+
+    @Test
+    public void fetchMakesFailure() {
+        when(makeRepository.findAll()).thenThrow(new CannotAcquireLockException("DB error"));
+        Assertions.assertThrows(MakeException.class, makeDao::fetchMakes);
+    }
+
+    @Test
+    public void getAllModelsFromMakeIdSuccess() throws MakeException {
+        Make mockMake = mockMake();
+        mockMake.setModels(mockModels());
+        when(makeRepository.findById(anyLong())).thenReturn(Optional.of(mockMake));
+        Assertions.assertNotNull(makeDao.getAllModelsFromMakeId(1234L));
+    }
+
+    @Test
+    public void getAllModelsFromMakeIdSuccessOnEmpty() throws MakeException {
+        when(makeRepository.findById(anyLong())).thenReturn(Optional.empty());
+        Assertions.assertNull(makeDao.getAllModelsFromMakeId(1234L));
+    }
+
+    @Test
+    public void getAllModelsFromMakeIdSuccessOnEmptyModels() throws MakeException {
+        when(makeRepository.findById(anyLong())).thenReturn(Optional.of(mockMake()));
+        Assertions.assertNull(makeDao.getAllModelsFromMakeId(1234L));
+    }
+
+    @Test
+    public void getAllModelsFromMakeIdFailure() {
+        when(makeRepository.findById(anyLong())).thenThrow(new CannotAcquireLockException("DB error"));
+        Assertions.assertThrows(MakeException.class, () -> makeDao.getAllModelsFromMakeId(1234L));
+    }
+
     private List<Make> mockMakes() {
         List<Make> makes = new ArrayList<>();
         makes.add(mockMake());
