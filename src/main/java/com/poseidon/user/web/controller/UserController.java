@@ -115,87 +115,6 @@ public class UserController {
     }
 
     /**
-     * save user using ajax call.
-     *
-     * @param selectName  String
-     * @param selectLogin String
-     * @param selectRole  String
-     * @param result      BindingResult
-     * @return String
-     */
-    @PostMapping("/user/saveUserAjax.htm")
-    public @ResponseBody
-    String saveUserAjax(@ModelAttribute("selectName") final String selectName,
-                        @ModelAttribute("selectLogin") final String selectLogin,
-                        @ModelAttribute("selectRole") final String selectRole,
-                        final BindingResult result) {
-        logger.info("saveUserAjax method of user controller ");
-        logger.info(" At saveUserAjax, selectName is : {}", selectName);
-        logger.info(" At saveUserAjax, selectLogin : {}", selectLogin);
-        logger.info(" At saveUserAjax, selectRole : {}", selectRole);
-        UserVO ajaxUserVo = new UserVO();
-        ajaxUserVo.setName(selectName);
-        ajaxUserVo.setLoginId(selectName);
-        ajaxUserVo.setRole(selectRole);
-        //todo : find out a way to get current user
-        ajaxUserVo.setPassword("password");
-        ajaxUserVo.setCreatedDate(OffsetDateTime.now(ZoneId.systemDefault()));
-        ajaxUserVo.setModifiedDate(OffsetDateTime.now(ZoneId.systemDefault()));
-        ajaxUserVo.setCreatedBy("-ajax-");
-        ajaxUserVo.setLastModifiedBy("-ajax-");
-        try {
-            userService.save(ajaxUserVo);
-        } catch (UserException ex) {
-            logger.error(ex.getLocalizedMessage());
-            logger.error(EXCEPTION_IN_CONTROLLER, ex.exceptionType);
-            if (ex.getExceptionType().equalsIgnoreCase(UserException.DATABASE_ERROR)) {
-                logger.info(DB_ERROR);
-            } else {
-                logger.info(UNKNOWN_ERROR);
-            }
-        } catch (Exception e1) {
-            logger.error(e1.getLocalizedMessage());
-            logger.info(UNKNOWN_ERROR);
-        }
-        List<UserVO> userList = null;
-        try {
-            userList = userService.getAllUserDetails();
-            userList.forEach(u -> u.setPassword(""));
-        } catch (UserException ex) {
-            logger.error(ex.getLocalizedMessage());
-            logger.error(EXCEPTION_IN_CONTROLLER, ex.exceptionType);
-            if (ex.getExceptionType().equalsIgnoreCase(UserException.DATABASE_ERROR)) {
-                logger.info(DB_ERROR);
-            } else {
-                logger.info(UNKNOWN_ERROR);
-            }
-        } catch (Exception e1) {
-            logger.error(e1.getLocalizedMessage());
-            logger.info(UNKNOWN_ERROR);
-        }
-        return fetchJsonUserList(userList);
-    }
-
-    /**
-     * fetch user list as json.
-     *
-     * @param userList List of UserVO
-     * @return String
-     */
-    private String fetchJsonUserList(final List<UserVO> userList) {
-        String response;
-        ObjectMapper mapper = new ObjectMapper();
-        try {
-            response = mapper.writeValueAsString(userList);
-        } catch (IOException ex) {
-            response = ERROR;
-            logger.error("error parsing to json : " + ex.getMessage());
-        }
-        logger.info("user list json : " + response);
-        return response;
-    }
-
-    /**
      * Screen to add a new user.
      *
      * @param userForm userForm instance
@@ -353,5 +272,86 @@ public class UserController {
      */
     private List<String> populateRoles() {
         return Arrays.stream(Role.values()).map(Enum::name).collect(Collectors.toList());
+    }
+
+    /**
+     * save user using ajax call.
+     *
+     * @param selectName  String
+     * @param selectLogin String
+     * @param selectRole  String
+     * @param result      BindingResult
+     * @return String
+     */
+    @PostMapping("/user/saveUserAjax.htm")
+    public @ResponseBody
+    String saveUserAjax(@ModelAttribute("selectName") final String selectName,
+                        @ModelAttribute("selectLogin") final String selectLogin,
+                        @ModelAttribute("selectRole") final String selectRole,
+                        final BindingResult result) {
+        logger.info("saveUserAjax method of user controller ");
+        logger.info(" At saveUserAjax, selectName is : {}", selectName);
+        logger.info(" At saveUserAjax, selectLogin : {}", selectLogin);
+        logger.info(" At saveUserAjax, selectRole : {}", selectRole);
+        UserVO ajaxUserVo = new UserVO();
+        ajaxUserVo.setName(selectName);
+        ajaxUserVo.setLoginId(selectName);
+        ajaxUserVo.setRole(selectRole);
+        //todo : find out a way to get current user
+        ajaxUserVo.setPassword("password");
+        ajaxUserVo.setCreatedDate(OffsetDateTime.now(ZoneId.systemDefault()));
+        ajaxUserVo.setModifiedDate(OffsetDateTime.now(ZoneId.systemDefault()));
+        ajaxUserVo.setCreatedBy("-ajax-");
+        ajaxUserVo.setLastModifiedBy("-ajax-");
+        try {
+            userService.save(ajaxUserVo);
+        } catch (UserException ex) {
+            logger.error(ex.getLocalizedMessage());
+            logger.error(EXCEPTION_IN_CONTROLLER, ex.exceptionType);
+            if (ex.getExceptionType().equalsIgnoreCase(UserException.DATABASE_ERROR)) {
+                logger.info(DB_ERROR);
+            } else {
+                logger.info(UNKNOWN_ERROR);
+            }
+        } catch (Exception e1) {
+            logger.error(e1.getLocalizedMessage());
+            logger.info(UNKNOWN_ERROR);
+        }
+        List<UserVO> userList = null;
+        try {
+            userList = userService.getAllUserDetails();
+            userList.forEach(u -> u.setPassword(""));
+        } catch (UserException ex) {
+            logger.error(ex.getLocalizedMessage());
+            logger.error(EXCEPTION_IN_CONTROLLER, ex.exceptionType);
+            if (ex.getExceptionType().equalsIgnoreCase(UserException.DATABASE_ERROR)) {
+                logger.info(DB_ERROR);
+            } else {
+                logger.info(UNKNOWN_ERROR);
+            }
+        } catch (Exception e1) {
+            logger.error(e1.getLocalizedMessage());
+            logger.info(UNKNOWN_ERROR);
+        }
+        return fetchJsonUserList(userList);
+    }
+
+    /**
+     * fetch user list as json.
+     *
+     * @param userList List of UserVO
+     * @return String
+     */
+    private String fetchJsonUserList(final List<UserVO> userList) {
+        String response;
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            response = mapper.writeValueAsString(userList);
+        } catch (IOException ex) {
+            response = ERROR;
+            logger.error("error parsing to json : " + ex.getMessage());
+        }
+        logger.info("user list json : " + response);
+        return response;
     }
 }

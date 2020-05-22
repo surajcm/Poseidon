@@ -58,8 +58,10 @@ public class CompanyTermsController {
     public ModelAndView updateCompanyDetails(final CompanyTermsForm companyTermsForm) {
         LOG.info(" Inside editTerms method of CompanyTermsController ");
         LOG.info(" form details are {}", companyTermsForm);
-        companyTermsForm.getCurrentCompanyTermsVO().setModifiedBy(companyTermsForm.getLoggedInUser());
-        companyTermsForm.getCurrentCompanyTermsVO().setModifiedDate(OffsetDateTime.now(ZoneId.systemDefault()));
+        if (companyTermsForm.getCurrentCompanyTermsVO() != null) {
+            companyTermsForm.getCurrentCompanyTermsVO().setModifiedBy(companyTermsForm.getLoggedInUser());
+            companyTermsForm.getCurrentCompanyTermsVO().setModifiedDate(OffsetDateTime.now(ZoneId.systemDefault()));
+        }
         CompanyTermsVO companyTermsVO = null;
         try {
             companyTermsVO = companyTermsService.updateCompanyDetails(companyTermsForm.getCurrentCompanyTermsVO());
