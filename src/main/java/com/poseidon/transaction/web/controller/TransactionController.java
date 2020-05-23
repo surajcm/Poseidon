@@ -116,8 +116,6 @@ public class TransactionController {
     @PostMapping("/txs/AddTxn.htm")
     public ModelAndView addTxn(final TransactionForm transactionForm) {
         LOG.info(" Inside AddTxn method of TransactionController ");
-        transactionForm.setLoggedInUser(transactionForm.getLoggedInUser());
-        transactionForm.setLoggedInRole(transactionForm.getLoggedInRole());
         //get all the make list for displaying in search
         List<MakeVO> makeVOs = null;
         try {
@@ -153,18 +151,20 @@ public class TransactionController {
         LOG.info(" Inside SaveTxn method of TransactionController ");
         LOG.info(" form details are {} ", transactionForm);
         TransactionVO transactionVO = transactionForm.getCurrentTransaction();
-        transactionVO.setCreatedOn(OffsetDateTime.now(ZoneId.systemDefault()));
-        transactionVO.setModifiedOn(OffsetDateTime.now(ZoneId.systemDefault()));
-        transactionVO.setCreatedBy(transactionForm.getLoggedInUser());
-        transactionVO.setModifiedBy(transactionForm.getLoggedInUser());
-        transactionVO.setStatus("NEW");
+        if (transactionForm.getCurrentTransaction() != null) {
+            transactionVO.setCreatedOn(OffsetDateTime.now(ZoneId.systemDefault()));
+            transactionVO.setModifiedOn(OffsetDateTime.now(ZoneId.systemDefault()));
+            transactionVO.setCreatedBy(transactionForm.getLoggedInUser());
+            transactionVO.setModifiedBy(transactionForm.getLoggedInUser());
+            transactionVO.setStatus("NEW");
+        }
         if (transactionForm.getCustomerVO() != null
                 && transactionForm.getCustomerVO().getCustomerId() != null
                 && transactionForm.getCustomerVO().getCustomerId() > 0) {
             transactionVO.setCustomerId(transactionForm.getCustomerVO().getCustomerId());
         }
         try {
-            if (transactionVO.getCustomerId() == null) {
+            if (transactionVO != null && transactionVO.getCustomerId() == null) {
                 try {
                     transactionForm.getCustomerVO().setCreatedOn(OffsetDateTime.now(ZoneId.systemDefault()));
                     transactionForm.getCustomerVO().setModifiedOn(OffsetDateTime.now(ZoneId.systemDefault()));
@@ -203,44 +203,6 @@ public class TransactionController {
         transactionForm.setLoggedInRole(transactionForm.getLoggedInRole());
         transactionForm.setCurrentTransaction(new TransactionVO());
         return list(transactionForm);
-    }
-
-    /**
-     * update model drop down via ajax.
-     *
-     * @param httpServletRequest  req
-     * @param httpServletResponse res
-     */
-    @RequestMapping(value = "/txs/UpdateModelAjax.htm", method = {RequestMethod.GET, RequestMethod.POST})
-    public void updateModelAjax(final HttpServletRequest httpServletRequest,
-                                final HttpServletResponse httpServletResponse) {
-        String responseString = "";
-        String selectMakeId = httpServletRequest.getParameter("selectMakeId");
-        //get all the models for this make id
-        LOG.info(" At UpdateModelAjax, selectMakeId is : {}", selectMakeId);
-        List<MakeAndModelVO> makeAndModelVOs;
-        try {
-            makeAndModelVOs = makeService.getAllModelsFromMakeId(Long.valueOf(selectMakeId));
-            if (makeAndModelVOs != null && !makeAndModelVOs.isEmpty()) {
-                responseString = makeAndModelVOs.stream()
-                        .map(makeAndModelVO -> "#start#" + "#id#" + makeAndModelVO.getModelId()
-                                + "#id#" + "#modelName#" + makeAndModelVO.getModelName()
-                                + "#modelName#" + "#start#").collect(Collectors.joining());
-            }
-        } catch (Exception ex) {
-            LOG.error(ex.getLocalizedMessage());
-
-        }
-        // get a id-name combination, which is splittable by js
-        httpServletResponse.setContentType("text/plain");
-        PrintWriter out;
-        try {
-            out = httpServletResponse.getWriter();
-            out.print(responseString);
-            out.flush();
-        } catch (IOException ex) {
-            LOG.error(ex.getLocalizedMessage());
-        }
     }
 
     /**
@@ -368,8 +330,10 @@ public class TransactionController {
     public ModelAndView updateTxn(final TransactionForm transactionForm) {
         LOG.info(" updateTxn method of TransactionController ");
         LOG.info("TransactionForm values are {}", transactionForm);
-        transactionForm.getCurrentTransaction().setModifiedBy(transactionForm.getLoggedInUser());
-        transactionForm.getCurrentTransaction().setModifiedOn(OffsetDateTime.now(ZoneId.systemDefault()));
+        if (transactionForm.getCurrentTransaction() != null) {
+            transactionForm.getCurrentTransaction().setModifiedBy(transactionForm.getLoggedInUser());
+            transactionForm.getCurrentTransaction().setModifiedOn(OffsetDateTime.now(ZoneId.systemDefault()));
+        }
         LOG.info("TransactionForm, current transactions are values are {}", transactionForm.getCurrentTransaction());
         try {
             transactionService.updateTransaction(transactionForm.getCurrentTransaction());
@@ -465,5 +429,43 @@ public class TransactionController {
         transactionForm.setLoggedInUser(transactionForm.getLoggedInUser());
         transactionForm.setStatusList(populateStatus());
         return new ModelAndView(TRANSACTION_LIST, TRANSACTION_FORM, transactionForm);
+    }
+
+    /**
+     * update model drop down via ajax.
+     *
+     * @param httpServletRequest  req
+     * @param httpServletResponse res
+     */
+    @RequestMapping(value = "/txs/UpdateModelAjax.htm", method = {RequestMethod.GET, RequestMethod.POST})
+    public void updateModelAjax(final HttpServletRequest httpServletRequest,
+                                final HttpServletResponse httpServletResponse) {
+        String responseString = "";
+        String selectMakeId = httpServletRequest.getParameter("selectMakeId");
+        //get all the models for this make id
+        LOG.info(" At UpdateModelAjax, selectMakeId is : {}", selectMakeId);
+        List<MakeAndModelVO> makeAndModelVOs;
+        try {
+            makeAndModelVOs = makeService.getAllModelsFromMakeId(Long.valueOf(selectMakeId));
+            if (makeAndModelVOs != null && !makeAndModelVOs.isEmpty()) {
+                responseString = makeAndModelVOs.stream()
+                        .map(makeAndModelVO -> "#start#" + "#id#" + makeAndModelVO.getModelId()
+                                + "#id#" + "#modelName#" + makeAndModelVO.getModelName()
+                                + "#modelName#" + "#start#").collect(Collectors.joining());
+            }
+        } catch (Exception ex) {
+            LOG.error(ex.getLocalizedMessage());
+
+        }
+        // get a id-name combination, which is splittable by js
+        httpServletResponse.setContentType("text/plain");
+        PrintWriter out;
+        try {
+            out = httpServletResponse.getWriter();
+            out.print(responseString);
+            out.flush();
+        } catch (IOException ex) {
+            LOG.error(ex.getLocalizedMessage());
+        }
     }
 }

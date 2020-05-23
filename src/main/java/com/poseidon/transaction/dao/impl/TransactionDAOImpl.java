@@ -71,54 +71,17 @@ public class TransactionDAOImpl implements TransactionDAO {
      * @return tag number
      */
     @Override
-    public String saveTransaction(final TransactionVO currentTransaction) {
-        Transaction txn = getTransaction(currentTransaction);
-        Transaction newTxn = transactionRepository.save(txn);
-        String tagNo = "WON2N" + newTxn.getTransactionId();
-        newTxn.setTagno(tagNo);
-        transactionRepository.save(newTxn);
-        return tagNo;
-    }
-
-    private Transaction getTransaction(final TransactionVO currentTransaction) {
-        Transaction txn = new Transaction();
-        txn.setDateReported(LocalDate.parse(currentTransaction.getDateReported(),
-                DateTimeFormatter.ofPattern("MM/dd/yyyy"))
-                .atTime(OffsetTime.MIN));
-        txn.setProductCategory(currentTransaction.getProductCategory());
-        txn.setCustomerId(currentTransaction.getCustomerId());
-        txn.setMakeId(currentTransaction.getMakeId());
-        txn.setModelId(currentTransaction.getModelId());
-        txn.setSerialNumber(currentTransaction.getSerialNo());
-        txn.setAccessories(currentTransaction.getAccessories());
-        txn.setComplaintReported(currentTransaction.getComplaintReported());
-        txn.setComplaintDiagnosed(currentTransaction.getComplaintDiagonsed());
-        txn.setEngineerRemarks(currentTransaction.getEnggRemark());
-        txn.setRepairAction(currentTransaction.getRepairAction());
-        txn.setNote(currentTransaction.getNotes());
-        txn.setStatus(currentTransaction.getStatus());
-        txn.setCreatedBy(currentTransaction.getCreatedBy());
-        txn.setModifiedBy(currentTransaction.getModifiedBy());
-        return txn;
-    }
-
-    /**
-     * search transactions.
-     *
-     * @param searchTransaction transaction
-     * @return list of matching transcations
-     * @throws TransactionException on error
-     */
-    @Override
-    public List<TransactionVO> searchTransactions(final TransactionVO searchTransaction) throws TransactionException {
-        List<TransactionVO> transactionVOList;
+    public String saveTransaction(final TransactionVO currentTransaction) throws TransactionException {
         try {
-            transactionVOList = searchTxs(searchTransaction);
+            Transaction txn = getTransaction(currentTransaction);
+            Transaction newTxn = transactionRepository.save(txn);
+            String tagNo = "WON2N" + newTxn.getTransactionId();
+            newTxn.setTagno(tagNo);
+            transactionRepository.save(newTxn);
+            return tagNo;
         } catch (Exception ex) {
-            LOG.error(ex.getLocalizedMessage());
             throw new TransactionException(TransactionException.DATABASE_ERROR);
         }
-        return transactionVOList;
     }
 
     /**
@@ -133,39 +96,12 @@ public class TransactionDAOImpl implements TransactionDAO {
         try {
             Optional<Transaction> optionalTransaction = transactionRepository.findById(id);
             if (optionalTransaction.isPresent()) {
-                Transaction txn = optionalTransaction.get();
-                transactionVO = convertToVO(txn);
+                transactionVO = convertToVO(optionalTransaction.get());
             }
         } catch (Exception ex) {
             LOG.error(ex.getLocalizedMessage());
             throw new TransactionException(TransactionException.DATABASE_ERROR);
         }
-        return transactionVO;
-    }
-
-    private TransactionVO convertToVO(final Transaction txn) {
-        Customer customer = customerRepository.getOne(txn.getCustomerId());
-        Make make = makeRepository.getOne(txn.getMakeId());
-        Model model = modelRepository.getOne(txn.getModelId());
-        TransactionVO transactionVO = new TransactionVO();
-        transactionVO.setId(txn.getTransactionId());
-        transactionVO.setTagNo(txn.getTagno());
-        transactionVO.setDateReported(txn.getDateReported().toString());
-        transactionVO.setProductCategory(txn.getProductCategory());
-        transactionVO.setCustomerId(txn.getCustomerId());
-        transactionVO.setCustomerName(customer.getName());
-        transactionVO.setMakeId(txn.getMakeId());
-        transactionVO.setMakeName(make.getMakeName());
-        transactionVO.setModelId(txn.getModelId());
-        transactionVO.setModelName(model.getModelName());
-        transactionVO.setSerialNo(txn.getSerialNumber());
-        transactionVO.setStatus(txn.getStatus());
-        transactionVO.setAccessories(txn.getAccessories());
-        transactionVO.setComplaintReported(txn.getComplaintReported());
-        transactionVO.setComplaintDiagonsed(txn.getComplaintDiagnosed());
-        transactionVO.setEndDate(txn.getEngineerRemarks());
-        transactionVO.setRepairAction(txn.getRepairAction());
-        transactionVO.setNotes(txn.getNote());
         return transactionVO;
     }
 
@@ -185,24 +121,6 @@ public class TransactionDAOImpl implements TransactionDAO {
         } catch (Exception ex) {
             throw new TransactionException(TransactionException.DATABASE_ERROR);
         }
-    }
-
-    private Transaction convertToTXN(final Transaction txn, final TransactionVO currentTransaction) {
-        txn.setDateReported(OffsetDateTime.parse(currentTransaction.getDateReported()));
-        txn.setProductCategory(currentTransaction.getProductCategory());
-        txn.setCustomerId(currentTransaction.getCustomerId());
-        txn.setMakeId(currentTransaction.getMakeId());
-        txn.setModelId(currentTransaction.getModelId());
-        txn.setSerialNumber(currentTransaction.getSerialNo());
-        txn.setAccessories(currentTransaction.getAccessories());
-        txn.setComplaintReported(currentTransaction.getComplaintReported());
-        txn.setComplaintDiagnosed(currentTransaction.getComplaintDiagonsed());
-        txn.setEngineerRemarks(currentTransaction.getEnggRemark());
-        txn.setRepairAction(currentTransaction.getRepairAction());
-        txn.setNote(currentTransaction.getNotes());
-        txn.setStatus(currentTransaction.getStatus());
-        txn.setModifiedBy(currentTransaction.getModifiedBy());
-        return txn;
     }
 
     /**
@@ -276,37 +194,23 @@ public class TransactionDAOImpl implements TransactionDAO {
         }
     }
 
-    private TransactionReportVO convertToTransactionReportVO(final Transaction transaction) {
-        Customer customer = customerRepository.getOne(transaction.getCustomerId());
-        Make make = makeRepository.getOne(transaction.getMakeId());
-        Model model = modelRepository.getOne(transaction.getModelId());
-        TransactionReportVO txs = new TransactionReportVO();
-        txs.setId(transaction.getTransactionId());
-        txs.setTagNo(transaction.getTagno());
-        txs.setDateReported(transaction.getDateReported());
-        txs.setCustomerName(customer.getName());
-        txs.setCustomerId(transaction.getCustomerId());
-        txs.setAddress1(customer.getAddress1());
-        txs.setAddress2(customer.getAddress2());
-        txs.setPhone(customer.getPhone());
-        txs.setMobile(customer.getMobile());
-        txs.setEmail(customer.getEmail());
-        txs.setContactPerson1(customer.getContactPerson1());
-        txs.setContactPh1(customer.getContactPhone1());
-        txs.setContactPerson2(customer.getContactPerson2());
-        txs.setContactPh2(customer.getContactPhone2());
-        txs.setProductCategory(transaction.getProductCategory());
-        txs.setMakeName(make.getMakeName());
-        txs.setModelName(model.getModelName());
-        txs.setSerialNo(transaction.getSerialNumber());
-        txs.setAccessories(transaction.getAccessories());
-        txs.setComplaintReported(transaction.getComplaintReported());
-        txs.setComplaintDiagnosed(transaction.getComplaintDiagnosed());
-        txs.setEnggRemark(transaction.getEngineerRemarks());
-        txs.setRepairAction(transaction.getRepairAction());
-        txs.setNotes(transaction.getNote());
-        txs.setStatus(transaction.getStatus());
-        return txs;
+    /**
+     * search transactions.
+     *
+     * @param searchTransaction transaction
+     * @return list of matching transcations
+     * @throws TransactionException on error
+     */
+    @Override
+    public List<TransactionVO> searchTransactions(final TransactionVO searchTransaction) throws TransactionException {
+        List<TransactionVO> transactionVOList;
+        try {
+            transactionVOList = searchTxs(searchTransaction);
+        } catch (Exception ex) {
+            LOG.error(ex.getLocalizedMessage());
+            throw new TransactionException(TransactionException.DATABASE_ERROR);
+        }
+        return transactionVOList;
     }
 
     private List<TransactionVO> searchTxs(final TransactionVO searchTransaction) {
@@ -438,9 +342,121 @@ public class TransactionDAOImpl implements TransactionDAO {
         return transactions.stream().map(this::convertToVO).collect(Collectors.toList());
     }
 
-    private OffsetDateTime getParsedDate(final String dateField) {
-        return LocalDate.parse(dateField,
-                DateTimeFormatter.ofPattern("MM/dd/yyyy"))
-                .atTime(OffsetTime.MIN);
+    private TransactionVO convertToVO(final Transaction txn) {
+        final Customer customer = customerRepository.getOne(txn.getCustomerId());
+        final Make make = makeRepository.getOne(txn.getMakeId());
+        final Model model = modelRepository.getOne(txn.getModelId());
+        TransactionVO transactionVO = new TransactionVO();
+        transactionVO.setId(txn.getTransactionId());
+        transactionVO.setTagNo(txn.getTagno());
+        transactionVO.setDateReported(txn.getDateReported().toString());
+        transactionVO.setProductCategory(txn.getProductCategory());
+        transactionVO.setCustomerId(txn.getCustomerId());
+        transactionVO.setCustomerName(customer.getName());
+        transactionVO.setMakeId(txn.getMakeId());
+        transactionVO.setMakeName(make.getMakeName());
+        transactionVO.setModelId(txn.getModelId());
+        transactionVO.setModelName(model.getModelName());
+        transactionVO.setSerialNo(txn.getSerialNumber());
+        transactionVO.setStatus(txn.getStatus());
+        transactionVO.setAccessories(txn.getAccessories());
+        transactionVO.setComplaintReported(txn.getComplaintReported());
+        transactionVO.setComplaintDiagonsed(txn.getComplaintDiagnosed());
+        transactionVO.setEndDate(txn.getEngineerRemarks());
+        transactionVO.setRepairAction(txn.getRepairAction());
+        transactionVO.setNotes(txn.getNote());
+        return transactionVO;
+    }
+
+    private Transaction convertToTXN(final Transaction txn, final TransactionVO currentTransaction) {
+        txn.setDateReported(parseDate(currentTransaction.getDateReported()));
+        txn.setProductCategory(currentTransaction.getProductCategory());
+        txn.setCustomerId(currentTransaction.getCustomerId());
+        txn.setMakeId(currentTransaction.getMakeId());
+        txn.setModelId(currentTransaction.getModelId());
+        txn.setSerialNumber(currentTransaction.getSerialNo());
+        txn.setAccessories(currentTransaction.getAccessories());
+        txn.setComplaintReported(currentTransaction.getComplaintReported());
+        txn.setComplaintDiagnosed(currentTransaction.getComplaintDiagonsed());
+        txn.setEngineerRemarks(currentTransaction.getEnggRemark());
+        txn.setRepairAction(currentTransaction.getRepairAction());
+        txn.setNote(currentTransaction.getNotes());
+        txn.setStatus(currentTransaction.getStatus());
+        txn.setModifiedBy(currentTransaction.getModifiedBy());
+        return txn;
+    }
+
+    private OffsetDateTime parseDate(final String dateReported) {
+        OffsetDateTime parsedTime = OffsetDateTime.now(ZoneId.systemDefault());
+        try {
+            parsedTime = OffsetDateTime.parse(dateReported);
+        } catch (Exception ex) {
+            LOG.info(ex.getMessage());
+        }
+        return parsedTime;
+    }
+
+    private TransactionReportVO convertToTransactionReportVO(final Transaction transaction) {
+        Customer customer = customerRepository.getOne(transaction.getCustomerId());
+        Make make = makeRepository.getOne(transaction.getMakeId());
+        Model model = modelRepository.getOne(transaction.getModelId());
+        TransactionReportVO txs = new TransactionReportVO();
+        txs.setId(transaction.getTransactionId());
+        txs.setTagNo(transaction.getTagno());
+        txs.setDateReported(transaction.getDateReported());
+        txs.setCustomerName(customer.getName());
+        txs.setCustomerId(transaction.getCustomerId());
+        txs.setAddress1(customer.getAddress1());
+        txs.setAddress2(customer.getAddress2());
+        txs.setPhone(customer.getPhone());
+        txs.setMobile(customer.getMobile());
+        txs.setEmail(customer.getEmail());
+        txs.setContactPerson1(customer.getContactPerson1());
+        txs.setContactPh1(customer.getContactPhone1());
+        txs.setContactPerson2(customer.getContactPerson2());
+        txs.setContactPh2(customer.getContactPhone2());
+        txs.setProductCategory(transaction.getProductCategory());
+        txs.setMakeName(make.getMakeName());
+        txs.setModelName(model.getModelName());
+        txs.setSerialNo(transaction.getSerialNumber());
+        txs.setAccessories(transaction.getAccessories());
+        txs.setComplaintReported(transaction.getComplaintReported());
+        txs.setComplaintDiagnosed(transaction.getComplaintDiagnosed());
+        txs.setEnggRemark(transaction.getEngineerRemarks());
+        txs.setRepairAction(transaction.getRepairAction());
+        txs.setNotes(transaction.getNote());
+        txs.setStatus(transaction.getStatus());
+        return txs;
+    }
+
+    private Transaction getTransaction(final TransactionVO currentTransaction) {
+        Transaction txn = new Transaction();
+        txn.setDateReported(getParsedDate(currentTransaction.getDateReported()));
+        txn.setProductCategory(currentTransaction.getProductCategory());
+        txn.setCustomerId(currentTransaction.getCustomerId());
+        txn.setMakeId(currentTransaction.getMakeId());
+        txn.setModelId(currentTransaction.getModelId());
+        txn.setSerialNumber(currentTransaction.getSerialNo());
+        txn.setAccessories(currentTransaction.getAccessories());
+        txn.setComplaintReported(currentTransaction.getComplaintReported());
+        txn.setComplaintDiagnosed(currentTransaction.getComplaintDiagonsed());
+        txn.setEngineerRemarks(currentTransaction.getEnggRemark());
+        txn.setRepairAction(currentTransaction.getRepairAction());
+        txn.setNote(currentTransaction.getNotes());
+        txn.setStatus(currentTransaction.getStatus());
+        txn.setCreatedBy(currentTransaction.getCreatedBy());
+        txn.setModifiedBy(currentTransaction.getModifiedBy());
+        return txn;
+    }
+
+    private OffsetDateTime getParsedDate(final String dateReported) {
+        OffsetDateTime reported = OffsetDateTime.now(ZoneId.systemDefault());
+        try {
+            reported = LocalDate.parse(dateReported, DateTimeFormatter.ofPattern("MM/dd/yyyy"))
+                    .atTime(OffsetTime.MIN);
+        } catch (Exception ex) {
+            LOG.error(ex.getMessage());
+        }
+        return reported;
     }
 }

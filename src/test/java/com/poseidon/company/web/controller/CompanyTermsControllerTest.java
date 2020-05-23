@@ -1,6 +1,7 @@
 package com.poseidon.company.web.controller;
 
 import com.poseidon.company.CompanyTermsConfigurations;
+import com.poseidon.company.domain.CompanyTermsVO;
 import com.poseidon.company.service.CompanyTermsService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -12,6 +13,8 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -31,12 +34,28 @@ public class CompanyTermsControllerTest {
     }
 
     @Test
-    public void list() throws Exception {
+    public void listNormal() throws Exception {
+        mvc.perform(post("/company/List.htm")).andExpect(status().isOk());
+        when(companyTermsService.listCompanyTerms()).thenThrow(new NullPointerException());
         mvc.perform(post("/company/List.htm")).andExpect(status().isOk());
     }
 
     @Test
+    public void list() throws Exception {
+        when(companyTermsService.listCompanyTerms()).thenReturn(new CompanyTermsVO());
+        mvc.perform(post("/company/List.htm")).andExpect(status().isOk());
+    }
+
+    @Test
+    public void updateCompanyDetailsSuccess() throws Exception {
+        mvc.perform(post("/company/updateCompanyDetails.htm")).andExpect(status().isOk());
+        when(companyTermsService.updateCompanyDetails(any())).thenThrow(new NullPointerException());
+        mvc.perform(post("/company/updateCompanyDetails.htm")).andExpect(status().isOk());
+    }
+
+    @Test
     public void updateCompanyDetails() throws Exception {
+        when(companyTermsService.updateCompanyDetails(any())).thenReturn(new CompanyTermsVO());
         mvc.perform(post("/company/updateCompanyDetails.htm")).andExpect(status().isOk());
     }
 }
