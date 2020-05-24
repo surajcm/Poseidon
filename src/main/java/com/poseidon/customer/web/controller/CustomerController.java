@@ -119,7 +119,7 @@ public class CustomerController {
      * @return view
      */
     @PostMapping("/customer/editCustomer.htm")
-    public ModelAndView editCustomer(final TransactionForm transactionForm) {
+    public ModelAndView editCustomerOnTransaction(final TransactionForm transactionForm) {
         LOG.info(" editCustomer method of TransactionController ");
         LOG.info("TransactionForm values are {}", transactionForm);
         CustomerForm customerForm = new CustomerForm();

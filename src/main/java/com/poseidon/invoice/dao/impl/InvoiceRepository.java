@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 
 @Repository
-public interface InvoiceRepository  extends JpaRepository<Invoice, Integer> {
+public interface InvoiceRepository  extends JpaRepository<Invoice, Long> {
     @Query("SELECT distinct inv FROM Invoice inv WHERE inv.tagNumber IN (:tags) ")
     List<Invoice> fetchTodaysInvoices(@Param("tags") List<String> tagNumbers);
 }

@@ -46,18 +46,6 @@ public class InvoiceController {
     @Autowired
     private MakeService makeService;
 
-    public void setTransactionService(final TransactionService transactionService) {
-        this.transactionService = transactionService;
-    }
-
-    public void setMakeService(final MakeService makeService) {
-        this.makeService = makeService;
-    }
-
-    public void setInvoiceService(final InvoiceService invoiceService) {
-        this.invoiceService = invoiceService;
-    }
-
     /**
      * list invoice.
      *
@@ -108,10 +96,12 @@ public class InvoiceController {
     @PostMapping("/invoice/saveInvoice.htm")
     public ModelAndView saveInvoice(final InvoiceForm invoiceForm) {
         LOG.info(String.format(INVOICE_FORM_DETAILS, invoiceForm));
-        invoiceForm.getCurrentInvoiceVo().setCreatedBy(invoiceForm.getLoggedInUser());
-        invoiceForm.getCurrentInvoiceVo().setModifiedBy(invoiceForm.getLoggedInUser());
-        invoiceForm.getCurrentInvoiceVo().setCreatedDate(OffsetDateTime.now(ZoneId.systemDefault()));
-        invoiceForm.getCurrentInvoiceVo().setModifiedDate(OffsetDateTime.now(ZoneId.systemDefault()));
+        if (invoiceForm.getCurrentInvoiceVo() != null) {
+            invoiceForm.getCurrentInvoiceVo().setCreatedBy(invoiceForm.getLoggedInUser());
+            invoiceForm.getCurrentInvoiceVo().setModifiedBy(invoiceForm.getLoggedInUser());
+            invoiceForm.getCurrentInvoiceVo().setCreatedDate(OffsetDateTime.now(ZoneId.systemDefault()));
+            invoiceForm.getCurrentInvoiceVo().setModifiedDate(OffsetDateTime.now(ZoneId.systemDefault()));
+        }
         try {
             TransactionVO searchTransactionVo = new TransactionVO();
             searchTransactionVo.setTagNo(invoiceForm.getCurrentInvoiceVo().getTagNo());
@@ -244,8 +234,10 @@ public class InvoiceController {
     @PostMapping("/invoice/updateInvoice.htm")
     public ModelAndView updateInvoice(final InvoiceForm invoiceForm) {
         LOG.info(String.format(INVOICE_FORM_DETAILS, invoiceForm));
-        invoiceForm.getCurrentInvoiceVo().setModifiedBy(invoiceForm.getLoggedInUser());
-        invoiceForm.getCurrentInvoiceVo().setModifiedDate(OffsetDateTime.now(ZoneId.systemDefault()));
+        if (invoiceForm.getCurrentInvoiceVo() != null) {
+            invoiceForm.getCurrentInvoiceVo().setModifiedBy(invoiceForm.getLoggedInUser());
+            invoiceForm.getCurrentInvoiceVo().setModifiedDate(OffsetDateTime.now(ZoneId.systemDefault()));
+        }
         try {
             invoiceService.updateInvoice(invoiceForm.getCurrentInvoiceVo());
             invoiceForm.setStatusMessage("Successfully updated the new invoice Detail");

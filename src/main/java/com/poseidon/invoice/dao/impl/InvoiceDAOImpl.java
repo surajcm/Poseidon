@@ -75,27 +75,18 @@ public class InvoiceDAOImpl implements InvoiceDAO {
      * @return invoice vo
      */
     @Override
-    public InvoiceVO fetchInvoiceVOFromId(final Long id) {
-        Optional<Invoice> optionalInvoice = invoiceRepository.findById(id.intValue());
+    public InvoiceVO fetchInvoiceVOFromId(final Long id) throws InvoiceException {
         InvoiceVO invoiceVO = null;
-        if (optionalInvoice.isPresent()) {
-            Invoice invoice = optionalInvoice.get();
-            invoiceVO = getInvoiceVoFromInvoice(invoice);
+        try {
+            Optional<Invoice> optionalInvoice = invoiceRepository.findById(id);
+            if (optionalInvoice.isPresent()) {
+                Invoice invoice = optionalInvoice.get();
+                invoiceVO = getInvoiceVoFromInvoice(invoice);
+            }
+        } catch (DataAccessException ex) {
+            log.error(ex.getLocalizedMessage());
+            throw new InvoiceException(InvoiceException.DATABASE_ERROR);
         }
-        return invoiceVO;
-    }
-
-    private InvoiceVO getInvoiceVoFromInvoice(final Invoice invoice) {
-        InvoiceVO invoiceVO;
-        invoiceVO = new InvoiceVO();
-        invoiceVO.setId(invoice.getInvoiceId());
-        invoiceVO.setCustomerName(invoice.getCustomerName());
-        invoiceVO.setTagNo(invoice.getTagNumber());
-        invoiceVO.setDescription(invoice.getDescription());
-        invoiceVO.setSerialNo(invoice.getSerialNumber());
-        invoiceVO.setAmount(Double.valueOf(invoice.getAmount()));
-        invoiceVO.setQuantity(Integer.parseInt(invoice.getQuantity()));
-        invoiceVO.setRate(Double.valueOf(invoice.getRate()));
         return invoiceVO;
     }
 
@@ -108,7 +99,7 @@ public class InvoiceDAOImpl implements InvoiceDAO {
     @Override
     public void deleteInvoice(final Long id) throws InvoiceException {
         try {
-            invoiceRepository.deleteById(id.intValue());
+            invoiceRepository.deleteById(id);
         } catch (DataAccessException ex) {
             log.error(ex.getLocalizedMessage());
             throw new InvoiceException(InvoiceException.DATABASE_ERROR);
@@ -124,7 +115,7 @@ public class InvoiceDAOImpl implements InvoiceDAO {
     @Override
     public void updateInvoice(final InvoiceVO currentInvoiceVO) throws InvoiceException {
         try {
-            Optional<Invoice> optionalInvoice = invoiceRepository.findById(currentInvoiceVO.getId().intValue());
+            Optional<Invoice> optionalInvoice = invoiceRepository.findById(currentInvoiceVO.getId());
             if (optionalInvoice.isPresent()) {
                 Invoice invoice = getInvoice(currentInvoiceVO, optionalInvoice.get());
                 invoiceRepository.save(invoice);
@@ -133,20 +124,6 @@ public class InvoiceDAOImpl implements InvoiceDAO {
             log.error(ex.getLocalizedMessage());
             throw new InvoiceException(InvoiceException.DATABASE_ERROR);
         }
-    }
-
-    private Invoice getInvoice(final InvoiceVO currentInvoiceVO, final Invoice invoice) {
-        invoice.setTagNumber(currentInvoiceVO.getTagNo());
-        invoice.setDescription(currentInvoiceVO.getDescription());
-        invoice.setSerialNumber(currentInvoiceVO.getSerialNo());
-        invoice.setAmount(currentInvoiceVO.getAmount().toString());
-        invoice.setQuantity(String.valueOf(currentInvoiceVO.getQuantity()));
-        invoice.setRate(currentInvoiceVO.getRate().toString());
-        invoice.setCustomerName(currentInvoiceVO.getCustomerName());
-        invoice.setCustomerId(currentInvoiceVO.getCustomerId());
-        invoice.setModifiedOn(currentInvoiceVO.getModifiedDate());
-        invoice.setModifiedBy(currentInvoiceVO.getModifiedBy());
-        return invoice;
     }
 
     /**
@@ -234,6 +211,40 @@ public class InvoiceDAOImpl implements InvoiceDAO {
         return resultList.stream().map(this::convertInvoiceToInvoiceVO).collect(Collectors.toList());
     }
 
+    private InvoiceVO getInvoiceVoFromInvoice(final Invoice invoice) {
+        InvoiceVO invoiceVO;
+        invoiceVO = new InvoiceVO();
+        invoiceVO.setId(invoice.getInvoiceId());
+        invoiceVO.setCustomerName(invoice.getCustomerName());
+        invoiceVO.setTagNo(invoice.getTagNumber());
+        invoiceVO.setDescription(invoice.getDescription());
+        invoiceVO.setSerialNo(invoice.getSerialNumber());
+        if (invoice.getAmount() != null) {
+            invoiceVO.setAmount(Double.valueOf(invoice.getAmount()));
+        }
+        if (invoice.getQuantity() != null) {
+            invoiceVO.setQuantity(Integer.parseInt(invoice.getQuantity()));
+        }
+        if (invoice.getRate() != null) {
+            invoiceVO.setRate(Double.valueOf(invoice.getRate()));
+        }
+        return invoiceVO;
+    }
+
+    private Invoice getInvoice(final InvoiceVO currentInvoiceVO, final Invoice invoice) {
+        invoice.setTagNumber(currentInvoiceVO.getTagNo());
+        invoice.setDescription(currentInvoiceVO.getDescription());
+        invoice.setSerialNumber(currentInvoiceVO.getSerialNo());
+        invoice.setAmount(String.valueOf(currentInvoiceVO.getAmount()));
+        invoice.setQuantity(String.valueOf(currentInvoiceVO.getQuantity()));
+        invoice.setRate(String.valueOf(currentInvoiceVO.getRate()));
+        invoice.setCustomerName(currentInvoiceVO.getCustomerName());
+        invoice.setCustomerId(currentInvoiceVO.getCustomerId());
+        invoice.setModifiedOn(currentInvoiceVO.getModifiedDate());
+        invoice.setModifiedBy(currentInvoiceVO.getModifiedBy());
+        return invoice;
+    }
+
     private InvoiceVO convertInvoiceToInvoiceVO(final Invoice invoice) {
         InvoiceVO invoiceVO = new InvoiceVO();
         invoiceVO.setId(invoice.getInvoiceId());
@@ -262,11 +273,11 @@ public class InvoiceDAOImpl implements InvoiceDAO {
         invoice.setDescription(currentInvoiceVO.getDescription());
         invoice.setSerialNumber(currentInvoiceVO.getSerialNo());
         //todo: clean up
-        invoice.setAmount(currentInvoiceVO.getAmount().toString());
+        invoice.setAmount(String.valueOf(currentInvoiceVO.getAmount()));
         //todo: clean up
         invoice.setQuantity(String.valueOf(currentInvoiceVO.getQuantity()));
         //todo: clean up
-        invoice.setRate(currentInvoiceVO.getRate().toString());
+        invoice.setRate(String.valueOf(currentInvoiceVO.getRate()));
         invoice.setCustomerId(currentInvoiceVO.getCustomerId());
         invoice.setCustomerName(currentInvoiceVO.getCustomerName());
         return invoice;

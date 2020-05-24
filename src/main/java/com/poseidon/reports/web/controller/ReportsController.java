@@ -58,14 +58,6 @@ public class ReportsController {
     @Autowired
     private MakeService makeService;
 
-    public void setReportsService(final ReportsService reportsService) {
-        this.reportsService = reportsService;
-    }
-
-    public void setMakeService(final MakeService makeService) {
-        this.makeService = makeService;
-    }
-
     /**
      * list reports.
      *
@@ -108,38 +100,6 @@ public class ReportsController {
         reportsForm.setTxnReportTransactionVO(getSearchTransaction());
         reportsForm.setInvoiceListReportTransactionVO(getSearchTransaction());
         return new ModelAndView("reports/List", "reportsForm", reportsForm);
-    }
-
-    private TransactionVO getSearchTransaction() {
-        TransactionVO searchVO = new TransactionVO();
-        searchVO.setModelId(0L);
-        searchVO.setMakeId(0L);
-        return searchVO;
-    }
-
-    private MakeAndModelVO getSearchMakeAndModelVO() {
-        MakeAndModelVO searchVO = new MakeAndModelVO();
-        searchVO.setMakeId(0L);
-        searchVO.setModelId(0L);
-        return searchVO;
-    }
-
-    private List<String> populateStatus() {
-        List<String> statusList = new ArrayList<>();
-        statusList.add("NEW");
-        statusList.add("ACCEPTED");
-        statusList.add("VERIFIED");
-        statusList.add("CLOSED");
-        statusList.add("REJECTED");
-        return statusList;
-    }
-
-    private List<String> populateExportToList() {
-        List<String> exportToList = new ArrayList<>();
-        exportToList.add("EXCEL");
-        exportToList.add("WORD");
-        exportToList.add("PDF");
-        return exportToList;
     }
 
     /**
@@ -494,5 +454,37 @@ public class ReportsController {
         } catch (Exception ex) {
             LOG.error(ex.getLocalizedMessage());
         }
+    }
+
+    private TransactionVO getSearchTransaction() {
+        TransactionVO searchVO = new TransactionVO();
+        searchVO.setModelId(0L);
+        searchVO.setMakeId(0L);
+        return searchVO;
+    }
+
+    private MakeAndModelVO getSearchMakeAndModelVO() {
+        MakeAndModelVO searchVO = new MakeAndModelVO();
+        searchVO.setMakeId(0L);
+        searchVO.setModelId(0L);
+        return searchVO;
+    }
+
+    private List<String> populateStatus() {
+        List<String> statusList = new ArrayList<>();
+        statusList.add("NEW");
+        statusList.add("ACCEPTED");
+        statusList.add("VERIFIED");
+        statusList.add("CLOSED");
+        statusList.add("REJECTED");
+        return statusList;
+    }
+
+    private List<String> populateExportToList() {
+        List<String> exportToList = new ArrayList<>();
+        exportToList.add("EXCEL");
+        exportToList.add("WORD");
+        exportToList.add("PDF");
+        return exportToList;
     }
 }
