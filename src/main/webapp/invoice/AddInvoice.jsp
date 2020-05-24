@@ -70,7 +70,7 @@
                         </td>
                         <td colspan="2">&nbsp;</td>
                         <td>
-                            <form:input path="currentInvoiceVO.tagNo" cssClass="form-control" id="tagNo"/>
+                            <form:input path="currentInvoiceVo.tagNo" cssClass="form-control" id="tagNo"/>
                         </td>
                         <td colspan="2">&nbsp;</td>
                         <td>
@@ -80,7 +80,7 @@
                         </td>
                         <td colspan="2">&nbsp;</td>
                         <td colspan="7">
-                            <form:textarea path="currentInvoiceVO.description" cssClass="form-control" id="description"/>
+                            <form:textarea path="currentInvoiceVo.description" cssClass="form-control" id="description"/>
                         </td>
                     </tr>
                     <tr>
@@ -91,7 +91,7 @@
                         </td>
                         <td colspan="2">&nbsp;</td>
                         <td style="text-align:left;">
-                            <form:input path="currentInvoiceVO.quantity" id="quantity" cssClass="form-control" onkeyup="multiplyFromQty()"/>
+                            <form:input path="currentInvoiceVo.quantity" id="quantity" cssClass="form-control" onkeyup="multiplyFromQty()"/>
                         </td>
                         <td colspan="2">&nbsp;</td>
                         <td>
@@ -101,7 +101,7 @@
                         </td>
                         <td colspan="2">&nbsp;</td>
                         <td>
-                            <form:input path="currentInvoiceVO.rate" id="rate" cssClass="form-control" onkeyup="multiplyFromRate()" />
+                            <form:input path="currentInvoiceVo.rate" id="rate" cssClass="form-control" onkeyup="multiplyFromRate()" />
                         </td>
                         <td colspan="2">&nbsp;</td>
                         <td>
@@ -111,7 +111,7 @@
                         </td>
                         <td colspan="2">&nbsp;</td>
                         <td>
-                            <form:input path="currentInvoiceVO.amount" cssClass="form-control" id="amount"/>
+                            <form:input path="currentInvoiceVo.amount" cssClass="form-control" id="amount"/>
                         </td>
                     </tr>
                     <tr>

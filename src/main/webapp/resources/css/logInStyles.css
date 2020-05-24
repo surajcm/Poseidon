@@ -12,16 +12,16 @@ body {
     display:inline;
 }
 
-#signin fieldset { padding: 20px 0 20px 0; }
+#signin div { padding: 20px 0 20px 0; }
 
-#signin fieldset p {
+#signin div p {
     margin: 0 20px 10px 20px;
     font-weight: bold;
     font-size: .70em;
     color: #6e6e6e;
 }
 
-#signin fieldset label {
+#signin div label {
     margin: 0 0 5px 0;
     display: block;
 }
@@ -33,17 +33,11 @@ body {
 
 #signin fieldset p.button { margin-bottom: 0; }
 #signin fieldset p.button input { width: auto; }
-
-/* Signin styling */
 #signin .sign_in fieldset input { width: 200px; }
 
-
-
 .box_wrapper {
-
     width:500px;
     height:200px;
     margin:auto;
     margin-top: 190px;
-
 }

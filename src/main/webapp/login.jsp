@@ -13,8 +13,7 @@
     <spring:url value="/resources/css/logInStyles.css" var="logInStyles" />
     <link href="${logInStyles}" rel="stylesheet" />
     <script type="text/javascript">
-        function submitLogIn(){
-            //code to submit the page
+        function submitLogIn() {
             document.forms[0].action="LogIn.htm";
             document.forms[0].submit();
         }
@@ -35,7 +34,7 @@
                 </td>
                 <td>
                     <form class="form" role="form" method="post" action="${contextPath}/login" accept-charset="UTF-8" id="login-nav">
-                        <fieldset>
+                        <div>
                             <p>
                                  <span>${message}</span>
                                  <span>${error}</span>
@@ -49,18 +48,17 @@
                             <p>
                                  <label class="sr-only" for="exampleInputPassword2">Password</label>
                                  <input name="password" type="password" class="textboxes" placeholder="Password" required/>
-
-                                 <div class="help-block text-right"><a href="">Forget the password ?</a></div>
                             </p>
+                            <br />
                             <p class="button">
                                  <button type="submit" class="btn">Sign in</button>
                             </p>
                             <p class="checkbox">
                                  <label class="sr-only" >
-                                 <input type="checkbox" /> keep me logged-in
+                                    <input type="checkbox" /> keep me logged-in
                                  </label>
                             </p>
-                        </fieldset>
+                        </div>
                     </form>
                 </td>
             </tr>
