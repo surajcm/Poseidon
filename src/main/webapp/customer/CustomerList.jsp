@@ -24,70 +24,76 @@
 <%@include file="../myHeader.jsp" %>
 <div class="container">
     <div class="wrap">
-        <div class="panel panel-primary">
-            <div class="panel-heading">Search Customers</div>
-            <table>
-                <tr>
-                    <td>
-                        <label for="customerId" class="control-label">
-                            Customer Id :
-                        </label>
-                    </td>
-                    <td>
-                        <form:input cssClass="form-control" path="searchCustomerVO.customerId" id="customerId"/>
-                    </td>
-                    <td colspan="2">&nbsp;</td>
-                    <td>
-                        <label for="customerName" class="control-label">
-                            Customer Name :
-                        </label>
-                    </td>
-                    <td>
-                        <form:input cssClass="form-control" path="searchCustomerVO.customerName" id="customerName"/>
-                    </td>
-                    <td colspan="2">&nbsp;</td>
-                    <td>
-                        <label for="mobile" class="control-label">
-                            Mobile :
-                        </label>
-                    </td>
-                    <td>
-                        <form:input cssClass="form-control" path="searchCustomerVO.mobile" id="mobile"/>
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="8">&nbsp;</td>
-                    <td>
-                        <label for="includes" class="control-label">
-                            <spring:message code="user.includes" text="Includes"/>
-                            <form:checkbox path="searchCustomerVO.includes" id="includes" value=""/>
-                        </label>
-                    </td>
-                    <td>
-                        <label for="startsWith" class="control-label">
-                            <spring:message code="user.startsWith" text="Starts with"/>
-                            <form:checkbox path="searchCustomerVO.startsWith" id="startsWith" value=""/>
-                        </label>
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="10">&nbsp;</td>
-                </tr>
-                <tr>
-                    <td colspan="8">&nbsp;</td>
-                    <td>
-                        <input class="btn btn-primary"
-                               value="<spring:message code="poseidon.search" text="Search" />"
-                               type="button" onclick="javascript:search()"/>
-                    </td>
-                    <td>
-                        <input class="btn btn-primary"
-                               value="<spring:message code="poseidon.clear" text="Clear" />"
-                               type="button" onclick="javascript:clearOut()"/>
-                    </td>
-                </tr>
-            </table>
+        <div class="card">
+            <div class="card-header">
+                Search Customers
+            </div>
+            <div class="card-body">
+                <table>
+                    <tr>
+                        <td>
+                            <label for="customerId" class="control-label">
+                                Customer Id :
+                            </label>
+                        </td>
+                        <td>
+                            <form:input cssClass="form-control" path="searchCustomerVO.customerId" id="customerId"/>
+                        </td>
+                        <td colspan="2">&nbsp;</td>
+                        <td>
+                            <label for="customerName" class="control-label">
+                                Customer Name :
+                            </label>
+                        </td>
+                        <td>
+                            <form:input cssClass="form-control" path="searchCustomerVO.customerName" id="customerName"/>
+                        </td>
+                        <td colspan="2">&nbsp;</td>
+                        <td>
+                            <label for="mobile" class="control-label">
+                                Mobile :
+                            </label>
+                        </td>
+                        <td>
+                            <form:input cssClass="form-control" path="searchCustomerVO.mobile" id="mobile"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="8">&nbsp;</td>
+                        <td>
+                            <label for="includes" class="control-label">
+                                <spring:message code="user.includes" text="Includes"/>
+                                <form:checkbox path="searchCustomerVO.includes" id="includes" value=""/>
+                            </label>
+                        </td>
+                        <td>
+                            <label for="startsWith" class="control-label">
+                                <spring:message code="user.startsWith" text="Starts with"/>
+                                <form:checkbox path="searchCustomerVO.startsWith" id="startsWith" value=""/>
+                            </label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="10">&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td colspan="8">&nbsp;</td>
+                        <td>
+                            <input class="btn btn-primary"
+                                   value="<spring:message code="poseidon.search" text="Search" />"
+                                   type="button" onclick="javascript:search()"/>
+                        </td>
+                        <td>
+                            <input class="btn btn-primary"
+                                   value="<spring:message code="poseidon.clear" text="Clear" />"
+                                   type="button" onclick="javascript:clearOut()"/>
+                        </td>
+                    </tr>
+                </table>
+            </div>
         </div>
+        <br />
+        <br />
         <c:if test="${customerForm.statusMessage!=null}">
             <div class="alert alert-<c:out value="${customerForm.statusMessageType}"/>">
                 <a class="close" data-dismiss="alert" href="#" aria-hidden="true">x</a>

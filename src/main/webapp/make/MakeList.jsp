@@ -27,60 +27,65 @@
     <%@include file="../myHeader.jsp" %>
     <div  class="container">
         <div class="wrap">
-            <div class="panel panel-primary">
-                <div class="panel-heading">Search Model</div>
-                <table>
-                    <tr>
-                        <td>
-                            <label for="makeName" class="control-label">
-                                Make Name :
-                            </label>
-                        </td>
-                        <td>
-                            <form:select id="makeName" path="searchMakeAndModelVO.makeName" cssClass="form-control" tabindex="1">
-                                <form:option value="0" label="-- Select --"/>
-                                <form:options items="${makeForm.makeVOs}"
-                                              itemValue="id" itemLabel="makeName"/>
-                            </form:select>
-                        </td>
-                        <td colspan="2">&nbsp;</td>
-                        <td>
-                            <label for="modelName" class="control-label">
-                                Model Name :
-                            </label>
-                        </td>
-                        <td>
-                            <form:input path="searchMakeAndModelVO.modelName" cssClass="form-control" id="modelName"/>
-                        </td>
-                    <tr>
-                    <tr>
-                        <td colspan="2">
-                            <label for="includes" class="control-label">
-                                <spring:message code="user.includes" text="Includes"/>
-                                <form:checkbox path="searchMakeAndModelVO.includes" cssStyle="vertical-align:middle"
-                                               id="includes" value=""/>
-                            </label>
-                        </td>
-                        <td colspan="2">&nbsp;</td>
-                        <td colspan="2">
-                            <label for="startswith" class="control-label">
-                                <spring:message code="user.startsWith" text="Starts with"/>
-                                <form:checkbox path="searchMakeAndModelVO.startswith" cssStyle="vertical-align:middle"
-                                               id="startswith" value=""/>
-                            </label>
-                        </td>
-                    <tr>
-                    <tr>
-                        <td colspan="2">
-                            <input class="btn btn-primary" value="Search" type="button" onclick="javascript:search()"/>
-                        </td>
-                        <td colspan="2">&nbsp;</td>
-                        <td colspan="2">
-                            <input class="btn btn-primary" value="Clear" type="button" onclick="javascript:clearOut()"/>
-                        </td>
-                    <tr>
-                </table>
+            <div class="card">
+                <div class="card-header">
+                    Search Model
+                </div>
+                <div class="card-body">
+                    <table>
+                        <tr>
+                            <td>
+                                <label for="makeName" class="control-label">
+                                    Make Name :
+                                </label>
+                            </td>
+                            <td>
+                                <form:select id="makeName" path="searchMakeAndModelVO.makeName" cssClass="form-control" tabindex="1">
+                                    <form:option value="0" label="-- Select --"/>
+                                    <form:options items="${makeForm.makeVOs}"
+                                                  itemValue="id" itemLabel="makeName"/>
+                                </form:select>
+                            </td>
+                            <td colspan="2">&nbsp;</td>
+                            <td>
+                                <label for="modelName" class="control-label">
+                                    Model Name :
+                                </label>
+                            </td>
+                            <td>
+                                <form:input path="searchMakeAndModelVO.modelName" cssClass="form-control" id="modelName"/>
+                            </td>
+                        <tr>
+                        <tr>
+                            <td colspan="2">
+                                <label for="includes" class="control-label">
+                                    <spring:message code="user.includes" text="Includes"/>
+                                    <form:checkbox path="searchMakeAndModelVO.includes" cssStyle="vertical-align:middle"
+                                                   id="includes" value=""/>
+                                </label>
+                            </td>
+                            <td colspan="2">&nbsp;</td>
+                            <td colspan="2">
+                                <label for="startswith" class="control-label">
+                                    <spring:message code="user.startsWith" text="Starts with"/>
+                                    <form:checkbox path="searchMakeAndModelVO.startswith" cssStyle="vertical-align:middle"
+                                                   id="startswith" value=""/>
+                                </label>
+                            </td>
+                        <tr>
+                        <tr>
+                            <td colspan="2">
+                                <input class="btn btn-primary" value="Search" type="button" onclick="javascript:search()"/>
+                            </td>
+                            <td colspan="2">&nbsp;</td>
+                            <td colspan="2">
+                                <input class="btn btn-primary" value="Clear" type="button" onclick="javascript:clearOut()"/>
+                            </td>
+                        <tr>
+                    </table>
+                </div>
             </div>
+            <br/>
             <br/>
             <c:if test="${makeForm.statusMessage!=null}">
                 <div class="alert alert-<c:out value="${makeForm.statusMessageType}"/>">

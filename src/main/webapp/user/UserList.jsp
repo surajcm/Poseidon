@@ -90,7 +90,6 @@
             </div>
             <br />
             <br />
-            <br />
             <c:if test="${userForm.statusMessage!=null}">
                 <div class="alert alert-<c:out value='${userForm.statusMessageType}'/>">
                     <a class="close" data-dismiss="alert" href="#" aria-hidden="true">x</a>

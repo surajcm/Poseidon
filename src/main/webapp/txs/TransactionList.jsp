@@ -27,133 +27,139 @@
 
 <div class="container">
     <div class="wrap">
-        <div class="panel panel-primary">
-            <div class="panel-heading">Search Transactions</div>
-            <table>
-                <tr>
-                    <td>
-                        <label for="TagNo" class="control-label">
-                            Tag No :
-                        </label>
-                    </td>
-                    <td>
-                        <form:input class="form-control" path="searchTransaction.TagNo" id="TagNo"/>
-                    </td>
-                    <td colspan="2">&nbsp;</td>
-                    <td>
-                        <label for="CustomerName" class="control-label">
-                            Customer Name :
-                        </label>
-                    </td>
-                    <td>
-                        <form:input class="form-control" path="searchTransaction.CustomerName" id="CustomerName"/>
-                    </td>
-                    <td colspan="2">&nbsp;</td>
-                    <td>
-                        <label for="start" class="control-label">
-                            Reported Date (From) :
-                        </label>
-                    </td>
-                    <td>
-                        <div class="input-group">
-                            <form:input path="searchTransaction.startDate" class="date-picker form-control" id = "startDate" />
-                            <label for="start" class="input-group-addon btn"><span class="fa fa-calendar"></span>
-                        </div>
-                    </td>
-                    <td colspan="2">&nbsp;</td>
-                    <td>
-                        <label for="end" class="control-label">
-                            Reported Date (To) :
-                        </label>
-                    </td>
-                    <td>
-                        <div class="input-group">
-                            <form:input path="searchTransaction.endDate" class="date-picker form-control" id = "endDate" />
-                            <label for="end" class="input-group-addon btn"><span class="fa fa-calendar"></span>
-                        </div>
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="14">&nbsp;</td>
-                </tr>
-                <tr>
-                    <td>
-                        <label for="SerialNo" class="control-label">
-                            Serial No :
-                        </label>
-                    </td>
-                    <td>
-                        <form:input class="form-control" path="searchTransaction.SerialNo" id="SerialNo"/>
-                    </td>
-                    <td colspan="2">&nbsp;</td>
-                    <td>
-                        <label for="makeId" class="control-label">
-                            Make :
-                        </label>
-                    </td>
-                    <td>
-                        <form:select id="makeId" cssClass="form-control" path="searchTransaction.makeId" tabindex="1" onchange="changeTheModel();">
-                            <form:option value=""><spring:message code="common.select" text="<-- Select -->"/></form:option>
-                            <form:options items="${transactionForm.makeVOs}" itemValue="Id" itemLabel="makeName"/>
-                        </form:select>
-                    </td>
-                    <td colspan="2">&nbsp;</td>
-                    <td>
-                        <label for="modelId" class="control-label">
-                            Model Name :
-                        </label>
-                    </td>
-                    <td>
-                        <form:select id="modelId" cssClass="form-control" path="searchTransaction.modelId" tabindex="1">
-                            <form:option value=""><spring:message code="common.select" text="<-- Select -->"/></form:option>
-                            <form:options items="${transactionForm.makeAndModelVOs}"
-                                          itemValue="modelId" itemLabel="modelName"/>
-                        </form:select>
-                    </td>
-                    <td colspan="2">&nbsp;</td>
-                    <td>
-                        <label for="Status" class="control-label">
-                            Status :
-                        </label>
-                    </td>
-                    <td>
-                        <form:select id="Status" cssClass="form-control" path="searchTransaction.Status">
-                            <form:option value=""><spring:message code="common.select" text="<-- Select -->"/></form:option>
-                            <form:options items="${transactionForm.statusList}" />
-                        </form:select>
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="14">&nbsp;</td>
-                </tr>
-                <tr>
-                    <td colspan="12">&nbsp;</td>
-                    <td>
-                        <label for="includes" class="control-label">
-                            <spring:message code="user.includes" text="Includes"/>
-                            <form:checkbox path="searchTransaction.includes" cssStyle="vertical-align:middle" id="includes" value="" />
-                        </label>
-                    </td>
-                    <td>
-                        <label for="startswith" class="control-label">
-                            <spring:message code="user.startsWith" text="Starts with"/>
-                            <form:checkbox path="searchTransaction.startswith" cssStyle="vertical-align:middle" id="startswith" value="" />
-                        </label>
-                    </td>
-                </tr>
-                <tr>
-                    <td colspan="12">&nbsp;</td>
-                    <td>
-                        <input class="btn btn-primary" value="<spring:message code="poseidon.search" text="Search" />"
-                               type="button" onclick="javascript:search()"/>
-                    </td>
-                    <td>
-                        <input class="btn btn-primary" value="<spring:message code="poseidon.clear" text="Clear" />"
-                               type="button" onclick="javascript:clearOut()"/>
-                    </td>
-                </tr>
-            </table>
+        <div class="card">
+            <div class="card-header">
+                Search Transactions
+            </div>
+            <div class="card-body">
+                <table>
+                    <tr>
+                        <td>
+                            <label for="TagNo" class="control-label">
+                                Tag No :
+                            </label>
+                        </td>
+                        <td>
+                            <form:input class="form-control" path="searchTransaction.TagNo" id="TagNo"/>
+                        </td>
+                        <td colspan="2">&nbsp;</td>
+                        <td>
+                            <label for="CustomerName" class="control-label">
+                                Customer Name :
+                            </label>
+                        </td>
+                        <td>
+                            <form:input class="form-control" path="searchTransaction.CustomerName" id="CustomerName"/>
+                        </td>
+                        <td colspan="2">&nbsp;</td>
+                        <td>
+                            <label for="start" class="control-label">
+                                Reported Date (From) :
+                            </label>
+                        </td>
+                        <td>
+                            <div class="input-group">
+                                <form:input path="searchTransaction.startDate" class="date-picker form-control" id = "startDate" />
+                                <label for="start" class="input-group-addon btn"><span class="fa fa-calendar"></span>
+                            </div>
+                        </td>
+                        <td colspan="2">&nbsp;</td>
+                        <td>
+                            <label for="end" class="control-label">
+                                Reported Date (To) :
+                            </label>
+                        </td>
+                        <td>
+                            <div class="input-group">
+                                <form:input path="searchTransaction.endDate" class="date-picker form-control" id = "endDate" />
+                                <label for="end" class="input-group-addon btn"><span class="fa fa-calendar"></span>
+                            </div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="14">&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <label for="SerialNo" class="control-label">
+                                Serial No :
+                            </label>
+                        </td>
+                        <td>
+                            <form:input class="form-control" path="searchTransaction.SerialNo" id="SerialNo"/>
+                        </td>
+                        <td colspan="2">&nbsp;</td>
+                        <td>
+                            <label for="makeId" class="control-label">
+                                Make :
+                            </label>
+                        </td>
+                        <td>
+                            <form:select id="makeId" cssClass="form-control" path="searchTransaction.makeId" tabindex="1" onchange="changeTheModel();">
+                                <form:option value=""><spring:message code="common.select" text="<-- Select -->"/></form:option>
+                                <form:options items="${transactionForm.makeVOs}" itemValue="Id" itemLabel="makeName"/>
+                            </form:select>
+                        </td>
+                        <td colspan="2">&nbsp;</td>
+                        <td>
+                            <label for="modelId" class="control-label">
+                                Model Name :
+                            </label>
+                        </td>
+                        <td>
+                            <form:select id="modelId" cssClass="form-control" path="searchTransaction.modelId" tabindex="1">
+                                <form:option value=""><spring:message code="common.select" text="<-- Select -->"/></form:option>
+                                <form:options items="${transactionForm.makeAndModelVOs}"
+                                              itemValue="modelId" itemLabel="modelName"/>
+                            </form:select>
+                        </td>
+                        <td colspan="2">&nbsp;</td>
+                        <td>
+                            <label for="Status" class="control-label">
+                                Status :
+                            </label>
+                        </td>
+                        <td>
+                            <form:select id="Status" cssClass="form-control" path="searchTransaction.Status">
+                                <form:option value=""><spring:message code="common.select" text="<-- Select -->"/></form:option>
+                                <form:options items="${transactionForm.statusList}" />
+                            </form:select>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="14">&nbsp;</td>
+                    </tr>
+                    <tr>
+                        <td colspan="12">&nbsp;</td>
+                        <td>
+                            <label for="includes" class="control-label">
+                                <spring:message code="user.includes" text="Includes"/>
+                                <form:checkbox path="searchTransaction.includes" cssStyle="vertical-align:middle" id="includes" value="" />
+                            </label>
+                        </td>
+                        <td>
+                            <label for="startswith" class="control-label">
+                                <spring:message code="user.startsWith" text="Starts with"/>
+                                <form:checkbox path="searchTransaction.startswith" cssStyle="vertical-align:middle" id="startswith" value="" />
+                            </label>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td colspan="12">&nbsp;</td>
+                        <td>
+                            <input class="btn btn-primary" value="<spring:message code="poseidon.search" text="Search" />"
+                                   type="button" onclick="javascript:search()"/>
+                        </td>
+                        <td>
+                            <input class="btn btn-primary" value="<spring:message code="poseidon.clear" text="Clear" />"
+                                   type="button" onclick="javascript:clearOut()"/>
+                        </td>
+                    </tr>
+                </table>
+            </div>
         </div>
+        <br />
+        <br />
         <c:if test="${transactionForm.statusMessage!=null}">
             <div class="alert alert-<c:out value='${transactionForm.statusMessageType}'/>">
                 <a class="close" data-dismiss="alert" href="#" aria-hidden="true">x</a>
