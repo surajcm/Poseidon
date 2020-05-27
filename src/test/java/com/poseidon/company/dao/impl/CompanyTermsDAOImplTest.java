@@ -21,7 +21,7 @@ import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
-public class CompanyTermsDAOImplTest {
+class CompanyTermsDAOImplTest {
     private final CompanyTermsDAOImpl companyTermsDAO = new CompanyTermsDAOImpl();
     private final CompanyTermsRepository companyTermsRepository = Mockito.mock(CompanyTermsRepository.class);
 
@@ -31,32 +31,32 @@ public class CompanyTermsDAOImplTest {
     }
 
     @Test
-    public void listCompanyTermsSuccess() throws CompanyTermsException {
+    void listCompanyTermsSuccess() throws CompanyTermsException {
         when(companyTermsRepository.findAll()).thenReturn(mockCompanyTermsList());
         Assertions.assertNotNull(companyTermsDAO.listCompanyTerms());
     }
 
     @Test
-    public void listCompanyTermsFailure() throws CompanyTermsException {
+    void listCompanyTermsFailure() {
         when(companyTermsRepository.findAll()).thenThrow(new CannotAcquireLockException("DB error"));
         Assertions.assertThrows(CompanyTermsException.class, companyTermsDAO::listCompanyTerms);
     }
 
     @Test
-    public void updateCompanyDetailsSuccessWithNull() throws CompanyTermsException {
+    void updateCompanyDetailsSuccessWithNull() throws CompanyTermsException {
         when(companyTermsRepository.findById(anyLong())).thenReturn(Optional.empty());
         Assertions.assertNull(companyTermsDAO.updateCompanyDetails(new CompanyTermsVO()));
     }
 
     @Test
-    public void updateCompanyDetailsSuccessWithNotNull() throws CompanyTermsException {
+    void updateCompanyDetailsSuccessWithNotNull() throws CompanyTermsException {
         when(companyTermsRepository.findById(anyLong())).thenReturn(Optional.of(mockCompanyTerms()));
         when(companyTermsRepository.save(any())).thenReturn(mockCompanyTerms());
         Assertions.assertNotNull(companyTermsDAO.updateCompanyDetails(new CompanyTermsVO()));
     }
 
     @Test
-    public void updateCompanyDetailsFailure() throws CompanyTermsException {
+    void updateCompanyDetailsFailure() {
         when(companyTermsRepository.findById(anyLong())).thenThrow(new CannotAcquireLockException("DB error"));
         Assertions.assertThrows(CompanyTermsException.class,
                 () -> companyTermsDAO.updateCompanyDetails(new CompanyTermsVO()));

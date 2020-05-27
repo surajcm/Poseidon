@@ -28,7 +28,7 @@ import static org.mockito.Mockito.when;
  */
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = {CustomerServiceConfiguration.class})
-public class CustomerServiceImplTest {
+class CustomerServiceImplTest {
     private CustomerServiceImpl customerService;
 
     @Autowired
@@ -44,55 +44,55 @@ public class CustomerServiceImplTest {
     }
 
     @Test
-    public void verifyListAllCustomerDetailsSuccess() {
+    void verifyListAllCustomerDetailsSuccess() {
         List<CustomerVO> customerVOs = customerService.listAllCustomerDetails();
         Assertions.assertEquals(0, customerVOs.size());
     }
 
     @Test
-    public void verifyListAllCustomerDetailsFailure() throws CustomerException {
+    void verifyListAllCustomerDetailsFailure() throws CustomerException {
         when(customerDAO.listAllCustomerDetails()).thenThrow(new CustomerException(CustomerException.DATABASE_ERROR));
         Assertions.assertNull(customerService.listAllCustomerDetails());
     }
 
     @Test
-    public void saveCustomerSuccess() {
+    void saveCustomerSuccess() {
         Assertions.assertEquals(0, customerService.saveCustomer(Mockito.mock(CustomerVO.class)));
     }
 
     @Test
-    public void saveCustomerFailure() throws CustomerException {
+    void saveCustomerFailure() throws CustomerException {
         when(customerDAO.saveCustomer(any())).thenThrow(new CustomerException(CustomerException.DATABASE_ERROR));
         Assertions.assertEquals(0, customerService.saveCustomer(Mockito.mock(CustomerVO.class)));
     }
 
     @Test
-    public void getCustomerFromIdSuccess() throws CustomerException {
+    void getCustomerFromIdSuccess() throws CustomerException {
         when(customerDAO.getCustomerFromId(anyLong())).thenReturn(new CustomerVO());
         Assertions.assertNotNull(customerService.getCustomerFromId(1234L));
     }
 
     @Test
-    public void getCustomerFromIdFailure() throws CustomerException {
+    void getCustomerFromIdFailure() throws CustomerException {
         when(customerDAO.getCustomerFromId(anyLong()))
                 .thenThrow(new CustomerException(CustomerException.DATABASE_ERROR));
         Assertions.assertNull(customerService.getCustomerFromId(1234L));
     }
 
     @Test
-    public void deleteCustomerFromIdSuccess() {
+    void deleteCustomerFromIdSuccess() {
         Assertions.assertAll(() -> customerService.deleteCustomerFromId(1234L));
     }
 
     @Test
-    public void deleteCustomerFromIdFailure() throws CustomerException {
+    void deleteCustomerFromIdFailure() throws CustomerException {
         doThrow(new CustomerException(CustomerException.DATABASE_ERROR))
                 .when(customerDAO).deleteCustomerFromId(anyLong());
         Assertions.assertAll(() -> customerService.deleteCustomerFromId(1234L));
     }
 
     @Test
-    public void updateCustomerSuccess() {
+    void updateCustomerSuccess() {
         Assertions.assertAll(() -> customerService.updateCustomer(Mockito.mock(CustomerVO.class)));
     }
 
@@ -104,13 +104,13 @@ public class CustomerServiceImplTest {
     }
 
     @Test
-    public void searchCustomerSuccess() throws CustomerException {
+    void searchCustomerSuccess() throws CustomerException {
         when(customerDAO.searchCustomer(Mockito.mock(CustomerVO.class))).thenReturn(new ArrayList<>());
         Assertions.assertNotNull(customerService.searchCustomer(Mockito.mock(CustomerVO.class)));
     }
 
     @Test
-    public void searchCustomerFailure() throws CustomerException {
+    void searchCustomerFailure() throws CustomerException {
         doThrow(new CustomerException(CustomerException.DATABASE_ERROR))
                 .when(customerDAO).searchCustomer(any());
         Assertions.assertNull(customerService.searchCustomer(Mockito.mock(CustomerVO.class)));

@@ -214,8 +214,8 @@ public class InvoiceController {
             invoiceVOs = invoiceService.findInvoices(invoiceForm.getSearchInvoiceVo());
             if (invoiceVOs != null && !invoiceVOs.isEmpty()) {
                 invoiceForm.setInvoiceVos(invoiceVOs);
+                invoiceForm.setStatusMessage("Found " + invoiceVOs.size() + " invoice details");
             }
-            invoiceForm.setStatusMessage("Found " + invoiceVOs.size() + " invoice details");
             invoiceForm.setStatusMessageType("info");
         } catch (InvoiceException ex) {
             invoiceForm.setStatusMessage("Unable to find the Invoices due to an error");

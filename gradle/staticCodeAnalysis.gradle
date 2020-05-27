@@ -34,6 +34,12 @@ jacoco {
     toolVersion = "0.8.5+"
 }
 
+jacocoTestReport {
+    reports {
+        xml.enabled true
+    }
+}
+
 tasks.withType(Checkstyle) {
     reports {
         xml.enabled false
@@ -60,4 +66,26 @@ cpdCheck {
         xml.enabled = false
     }
     source = sourceSets.main.allJava
+}
+
+jacocoTestCoverageVerification {
+    violationRules {
+        rule {
+            limit {
+                minimum = 0.62
+            }
+        }
+    }
+}
+
+check.dependsOn jacocoTestCoverageVerification
+
+sonarqube {
+    properties {
+        property "sonar.projectKey", "surajcm_Poseidon"
+        property "sonar.organization", "surajcm"
+        property "sonar.host.url", "https://sonarcloud.io"
+        property "sonar.login", "aa01b1f2c7b67dc4e6d6a0b0e360ebc4a42608dc"
+        property "sonar.coverage.jacoco.xmlReportPaths", "build/reports/jacoco/test/jacocoTestReport.xml"
+   }
 }
