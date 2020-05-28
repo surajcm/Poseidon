@@ -97,7 +97,7 @@ class CustomerServiceImplTest {
     }
 
     @Test
-    public void updateCustomerFailure() throws CustomerException {
+    void updateCustomerFailure() throws CustomerException {
         doThrow(new CustomerException(CustomerException.DATABASE_ERROR))
                 .when(customerDAO).updateCustomer(any());
         Assertions.assertAll(() -> customerService.updateCustomer(Mockito.mock(CustomerVO.class)));

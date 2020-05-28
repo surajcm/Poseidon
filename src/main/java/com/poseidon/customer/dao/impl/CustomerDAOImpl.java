@@ -26,6 +26,7 @@ import java.util.Optional;
 public class CustomerDAOImpl implements CustomerDAO {
 
     private static final Logger LOG = LoggerFactory.getLogger(CustomerDAOImpl.class);
+    private static final String MOBILE = "mobile";
 
     @Autowired
     private CustomerRepository customerRepository;
@@ -228,7 +229,7 @@ public class CustomerDAOImpl implements CustomerDAO {
         CriteriaQuery<Customer> criteria = builder.createQuery(Customer.class);
         Root<Customer> customerRoot = criteria.from(Customer.class);
         criteria.select(customerRoot);
-        if (searchVO.getIncludes()) {
+        if (searchVO.getIncludes().booleanValue()) {
             if (searchVO.getCustomerId() != null && searchVO.getCustomerId() > 0) {
                 criteria.where(builder.like(customerRoot.get("id"), "%" + searchVO.getCustomerId() + "%"));
             }
@@ -236,9 +237,9 @@ public class CustomerDAOImpl implements CustomerDAO {
                 criteria.where(builder.like(customerRoot.get("name"), "%" + searchVO.getCustomerName() + "%"));
             }
             if (!StringUtils.isEmpty(searchVO.getMobile())) {
-                criteria.where(builder.like(customerRoot.get("mobile"), "%" + searchVO.getMobile() + "%"));
+                criteria.where(builder.like(customerRoot.get(MOBILE), "%" + searchVO.getMobile() + "%"));
             }
-        } else if (searchVO.getStartsWith()) {
+        } else if (searchVO.getStartsWith().booleanValue()) {
             if (searchVO.getCustomerId() != null && searchVO.getCustomerId() > 0) {
                 criteria.where(builder.like(customerRoot.get("id"), searchVO.getCustomerId() + "%"));
             }
@@ -246,7 +247,7 @@ public class CustomerDAOImpl implements CustomerDAO {
                 criteria.where(builder.like(customerRoot.get("name"), searchVO.getCustomerName() + "%"));
             }
             if (!StringUtils.isEmpty(searchVO.getMobile())) {
-                criteria.where(builder.like(customerRoot.get("mobile"), searchVO.getMobile() + "%"));
+                criteria.where(builder.like(customerRoot.get(MOBILE), searchVO.getMobile() + "%"));
             }
         } else {
             if (searchVO.getCustomerId() != null && searchVO.getCustomerId() > 0) {
@@ -256,7 +257,7 @@ public class CustomerDAOImpl implements CustomerDAO {
                 criteria.where(builder.equal(customerRoot.get("name"), searchVO.getCustomerName()));
             }
             if (!StringUtils.isEmpty(searchVO.getMobile())) {
-                criteria.where(builder.equal(customerRoot.get("mobile"), searchVO.getMobile()));
+                criteria.where(builder.equal(customerRoot.get(MOBILE), searchVO.getMobile()));
             }
         }
         List<Customer> resultList = em.unwrap(Session.class).createQuery(criteria).getResultList();

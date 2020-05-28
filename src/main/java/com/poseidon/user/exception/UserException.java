@@ -20,7 +20,7 @@ public class UserException extends Exception {
      */
     public static final String DATABASE_ERROR = "DATABASE_ERROR";
 
-    public String exceptionType;
+    public final String exceptionType;
 
     public UserException(final String exceptionType) {
         super();
@@ -31,7 +31,4 @@ public class UserException extends Exception {
         return exceptionType;
     }
 
-    public void setExceptionType(final String exceptionType) {
-        this.exceptionType = exceptionType;
-    }
 }

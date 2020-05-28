@@ -1,9 +1,13 @@
-# ![alt text](https://raw.githubusercontent.com/surajcm/Poseidon/master/src/main/webapp/resources/images/Poseidon_Menu.png "{Poseidon}") Poseidon
+<h1 align="center">
+    Poseidon
+</h1>
 
-
+<p align="center">
+    <a href="https://github.com/surajcm/Poseidon/commits/" title="Last Commit"><img src="https://img.shields.io/github/last-commit/surajcm/Poseidon?style=flat"></a>
+    <a href="https://github.com/surajcm/Poseidon/issues" title="Open Issues"><img src="https://img.shields.io/github/issues/surajcm/Poseidon?style=flat"></a>
+    <a href="https://github.com/surajcm/Poseidon/blob/master/LICENSE" title="License"><img src="https://img.shields.io/badge/License-MIT-green.svg?style=flat"></a>
+</p>
 Poseidon is a software suit to manage a service center. It is designed as a solution for keeping the inventory and billing for a laptop service centre.
-
-![Poseidon](https://s12.postimg.org/8ai4xrrkd/screenshot-192.168.71.63_9090_2017-05-19_02-12-2.jpg)
 
 ## Author
 

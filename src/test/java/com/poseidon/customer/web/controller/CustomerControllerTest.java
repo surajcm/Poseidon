@@ -17,7 +17,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ExtendWith(SpringExtension.class)
 @WebMvcTest(CustomerController.class)
 @ContextConfiguration(classes = {CustomerConfigurations.class})
-public class CustomerControllerTest {
+class CustomerControllerTest {
     private MockMvc mvc;
     @Autowired
     private CustomerController customerController;
@@ -28,42 +28,42 @@ public class CustomerControllerTest {
     }
 
     @Test
-    public void list() throws Exception {
+    void list() throws Exception {
         mvc.perform(post("/customer/List.htm")).andExpect(status().isOk());
     }
 
     @Test
-    public void addCustomer() throws Exception {
+    void addCustomer() throws Exception {
         mvc.perform(post("/customer/addCust.htm")).andExpect(status().isOk());
     }
 
     @Test
-    public void editCustomer() throws Exception {
+    void editCustomer() throws Exception {
         mvc.perform(post("/customer/editCust.htm")).andExpect(status().isOk());
     }
 
     @Test
-    public void editCustomerOnTransaction() throws Exception {
+    void editCustomerOnTransaction() throws Exception {
         mvc.perform(post("/customer/editCustomer.htm")).andExpect(status().isOk());
     }
 
     @Test
-    public void deleteCustomer() throws Exception {
+    void deleteCustomer() throws Exception {
         mvc.perform(post("/customer/deleteCust.htm")).andExpect(status().isOk());
     }
 
     @Test
-    public void saveCustomer() throws Exception {
+    void saveCustomer() throws Exception {
         mvc.perform(post("/customer/saveCustomer.htm")).andExpect(status().isOk());
     }
 
     @Test
-    public void updateCustomer() throws Exception {
+    void updateCustomer() throws Exception {
         mvc.perform(post("/customer/updateCustomer.htm")).andExpect(status().isOk());
     }
 
     @Test
-    public void searchCustomer() throws Exception {
+    void searchCustomer() throws Exception {
         mvc.perform(post("/customer/searchCustomer.htm")).andExpect(status().isOk());
     }
 }

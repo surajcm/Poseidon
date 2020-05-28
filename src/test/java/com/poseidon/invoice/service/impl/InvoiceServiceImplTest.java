@@ -26,7 +26,7 @@ import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
-public class InvoiceServiceImplTest {
+class InvoiceServiceImplTest {
     private final InvoiceServiceImpl invoiceService = new InvoiceServiceImpl();
     private final InvoiceDAO invoiceDAO = Mockito.mock(InvoiceDAO.class);
     private final TransactionService transactionService = Mockito.mock(TransactionService.class);
@@ -38,7 +38,7 @@ public class InvoiceServiceImplTest {
     }
 
     @Test
-    public void addInvoiceSuccess() throws TransactionException {
+    void addInvoiceSuccess() throws TransactionException {
         when(transactionService.fetchTransactionFromTag(anyString()))
                 .thenReturn(Mockito.mock(TransactionReportVO.class));
         InvoiceVO invoiceVO = new InvoiceVO();
@@ -47,7 +47,7 @@ public class InvoiceServiceImplTest {
     }
 
     @Test
-    public void addInvoiceFailure() throws TransactionException {
+    void addInvoiceFailure() throws TransactionException {
         when(transactionService.fetchTransactionFromTag(anyString()))
                 .thenThrow(new TransactionException(TransactionException.DATABASE_ERROR));
         InvoiceVO invoiceVO = new InvoiceVO();
@@ -56,7 +56,7 @@ public class InvoiceServiceImplTest {
     }
 
     @Test
-    public void fetchInvoiceForListOfTransactionsSuccess() throws TransactionException, InvoiceException {
+    void fetchInvoiceForListOfTransactionsSuccess() throws TransactionException, InvoiceException {
         when(transactionService.listTodaysTransactions()).thenReturn(mockListOfTransactionVOs());
         when(invoiceDAO.fetchInvoiceForListOfTransactions(ArgumentMatchers.<List<String>>any()))
                 .thenReturn(new ArrayList<>());
@@ -64,14 +64,14 @@ public class InvoiceServiceImplTest {
     }
 
     @Test
-    public void fetchInvoiceForListOfTransactionsOnTransactionFailure() throws TransactionException, InvoiceException {
+    void fetchInvoiceForListOfTransactionsOnTransactionFailure() throws TransactionException, InvoiceException {
         when(transactionService.listTodaysTransactions())
                 .thenThrow(new TransactionException(TransactionException.DATABASE_ERROR));
         Assertions.assertNull(invoiceService.fetchInvoiceForListOfTransactions());
     }
 
     @Test
-    public void fetchInvoiceForListOfTransactionsOnInvoiceFailure() throws TransactionException, InvoiceException {
+    void fetchInvoiceForListOfTransactionsOnInvoiceFailure() throws TransactionException, InvoiceException {
         when(transactionService.listTodaysTransactions()).thenReturn(mockListOfTransactionVOs());
         when(invoiceDAO.fetchInvoiceForListOfTransactions(ArgumentMatchers.<List<String>>any()))
                 .thenThrow(new InvoiceException(InvoiceException.DATABASE_ERROR));
@@ -79,31 +79,31 @@ public class InvoiceServiceImplTest {
     }
 
     @Test
-    public void fetchInvoiceVOFromIdSuccess() throws InvoiceException {
+    void fetchInvoiceVOFromIdSuccess() throws InvoiceException {
         when(invoiceDAO.fetchInvoiceVOFromId(anyLong())).thenReturn(new InvoiceVO());
         Assertions.assertNotNull(invoiceService.fetchInvoiceVOFromId(1234L));
     }
 
     @Test
-    public void fetchInvoiceVOFromIdFailure() throws InvoiceException {
+    void fetchInvoiceVOFromIdFailure() throws InvoiceException {
         when(invoiceDAO.fetchInvoiceVOFromId(anyLong()))
                 .thenThrow(new InvoiceException(InvoiceException.DATABASE_ERROR));
         Assertions.assertThrows(InvoiceException.class, () -> invoiceService.fetchInvoiceVOFromId(1234L));
     }
 
     @Test
-    public void deleteInvoiceSuccess() {
+    void deleteInvoiceSuccess() {
         Assertions.assertAll(() -> invoiceService.deleteInvoice(1234L));
     }
 
     @Test
-    public void deleteInvoiceFailure() throws InvoiceException {
+    void deleteInvoiceFailure() throws InvoiceException {
         doThrow(new InvoiceException(InvoiceException.DATABASE_ERROR)).when(invoiceDAO).deleteInvoice(anyLong());
         Assertions.assertThrows(InvoiceException.class, () -> invoiceService.deleteInvoice(1234L));
     }
 
     @Test
-    public void updateInvoiceSuccess() throws TransactionException {
+    void updateInvoiceSuccess() throws TransactionException {
         when(transactionService.fetchTransactionFromTag(anyString()))
                 .thenReturn(Mockito.mock(TransactionReportVO.class));
         InvoiceVO invoiceVO = new InvoiceVO();
@@ -112,7 +112,7 @@ public class InvoiceServiceImplTest {
     }
 
     @Test
-    public void updateInvoiceFailure() throws TransactionException {
+    void updateInvoiceFailure() throws TransactionException {
         when(transactionService.fetchTransactionFromTag(anyString()))
                 .thenThrow(new TransactionException(TransactionException.DATABASE_ERROR));
         InvoiceVO invoiceVO = new InvoiceVO();
@@ -121,13 +121,13 @@ public class InvoiceServiceImplTest {
     }
 
     @Test
-    public void findInvoicesSuccess() throws InvoiceException {
+    void findInvoicesSuccess() throws InvoiceException {
         when(invoiceDAO.findInvoices(any())).thenReturn(new ArrayList<>());
         Assertions.assertNotNull(invoiceService.findInvoices(Mockito.mock(InvoiceVO.class)));
     }
 
     @Test
-    public void findInvoicesFailure() throws InvoiceException {
+    void findInvoicesFailure() throws InvoiceException {
         when(invoiceDAO.findInvoices(any())).thenThrow(new InvoiceException(InvoiceException.DATABASE_ERROR));
         Assertions.assertThrows(InvoiceException.class,
                 () -> invoiceService.findInvoices(Mockito.mock(InvoiceVO.class)));

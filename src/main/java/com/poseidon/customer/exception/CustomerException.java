@@ -6,8 +6,8 @@ public class CustomerException extends Exception {
      */
     public static final String DATABASE_ERROR = "DATABASE_ERROR";
 
-    private String exceptionType;
     public static final long serialVersionUID = 4328743;
+    private final String exceptionType;
 
     public CustomerException(final String exceptionType) {
         super();
@@ -16,9 +16,5 @@ public class CustomerException extends Exception {
 
     public String getExceptionType() {
         return exceptionType;
-    }
-
-    public void setExceptionType(final String exceptionType) {
-        this.exceptionType = exceptionType;
     }
 }

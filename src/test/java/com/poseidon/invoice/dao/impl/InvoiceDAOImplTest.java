@@ -22,7 +22,7 @@ import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
-public class InvoiceDAOImplTest {
+class InvoiceDAOImplTest {
     private final InvoiceDAOImpl invoiceDAO = new InvoiceDAOImpl();
     private final InvoiceRepository invoiceRepository = Mockito.mock(InvoiceRepository.class);
 
@@ -32,26 +32,26 @@ public class InvoiceDAOImplTest {
     }
 
     @Test
-    public void addInvoiceSuccess() {
+    void addInvoiceSuccess() {
         when(invoiceRepository.save(any())).thenReturn(mockInvoice());
         Assertions.assertAll(() -> invoiceDAO.addInvoice(new InvoiceVO()));
     }
 
     @Test
-    public void addInvoiceOnFailure() {
+    void addInvoiceOnFailure() {
         when(invoiceRepository.save(any())).thenThrow(new CannotAcquireLockException("DB error"));
         Assertions.assertThrows(InvoiceException.class, () -> invoiceDAO.addInvoice(new InvoiceVO()));
     }
 
     @Test
-    public void fetchInvoiceForListOfTransactionsSuccess() throws InvoiceException {
+    void fetchInvoiceForListOfTransactionsSuccess() throws InvoiceException {
         when(invoiceRepository.fetchTodaysInvoices(any())).thenReturn(mockListOfInvoices());
         List<String> tagNumbers = List.of("ABC", "CDE");
         Assertions.assertNotNull(invoiceDAO.fetchInvoiceForListOfTransactions(tagNumbers));
     }
 
     @Test
-    public void fetchInvoiceForListOfTransactionsFailure() {
+    void fetchInvoiceForListOfTransactionsFailure() {
         when(invoiceRepository.fetchTodaysInvoices(any())).thenThrow(new CannotAcquireLockException("DB error"));
         List<String> tagNumbers = List.of("ABC", "CDE");
         Assertions.assertThrows(InvoiceException.class,
@@ -59,42 +59,42 @@ public class InvoiceDAOImplTest {
     }
 
     @Test
-    public void fetchInvoiceVOFromIdSuccess() throws InvoiceException {
+    void fetchInvoiceVOFromIdSuccess() throws InvoiceException {
         when(invoiceRepository.findById(anyLong())).thenReturn(Optional.of(mockInvoice()));
         Assertions.assertNotNull(invoiceDAO.fetchInvoiceVOFromId(1234L));
     }
 
     @Test
-    public void fetchInvoiceVOFromIdFailure() {
+    void fetchInvoiceVOFromIdFailure() {
         when(invoiceRepository.findById(anyLong())).thenThrow(new CannotAcquireLockException("DB error"));
         Assertions.assertThrows(InvoiceException.class, () -> invoiceDAO.fetchInvoiceVOFromId(1234L));
     }
 
     @Test
-    public void deleteInvoiceSuccess() {
+    void deleteInvoiceSuccess() {
         Assertions.assertAll(() -> invoiceDAO.deleteInvoice(1234L));
     }
 
     @Test
-    public void deleteInvoiceFailure() {
+    void deleteInvoiceFailure() {
         doThrow(new CannotAcquireLockException("DB error")).when(invoiceRepository).deleteById(anyLong());
         Assertions.assertThrows(InvoiceException.class, () -> invoiceDAO.deleteInvoice(1234L));
     }
 
     @Test
-    public void updateInvoiceSuccess() {
+    void updateInvoiceSuccess() {
         when(invoiceRepository.findById(null)).thenReturn(Optional.of(mockInvoice()));
         Assertions.assertAll(() -> invoiceDAO.updateInvoice(new InvoiceVO()));
     }
 
     @Test
-    public void updateInvoiceEmpty() {
+    void updateInvoiceEmpty() {
         when(invoiceRepository.findById(null)).thenReturn(Optional.empty());
         Assertions.assertAll(() -> invoiceDAO.updateInvoice(new InvoiceVO()));
     }
 
     @Test
-    public void updateInvoiceFailure() {
+    void updateInvoiceFailure() {
         when(invoiceRepository.findById(null)).thenThrow(new CannotAcquireLockException("DB error"));
         Assertions.assertThrows(InvoiceException.class, () -> invoiceDAO.updateInvoice(new InvoiceVO()));
     }

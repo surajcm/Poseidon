@@ -341,19 +341,16 @@ public class MakeDaoImpl implements MakeDao {
         if (searchMakeVO.getModelName() != null && searchMakeVO.getModelName().trim().length() > 0) {
             String modelName = searchMakeVO.getModelName();
             List<Model> models;
-            if (searchMakeVO.getIncludes()) {
+            if (searchMakeVO.getIncludes().booleanValue()) {
                 models = modelRepository.findByModelNameWildCard("%" + modelName + "%");
-            } else if (searchMakeVO.getStartswith()) {
+            } else if (searchMakeVO.getStartswith().booleanValue()) {
                 models = modelRepository.findByModelNameWildCard(modelName + "%");
             } else {
                 models = modelRepository.findByModelName(modelName);
             }
-            for (Model model : models) {
-                MakeAndModelVO makeAndModelVO = getMakeAndModelVO(model.getMake(), model);
-                if (!makeAndModelVOS.contains(makeAndModelVO)) {
-                    makeAndModelVOS.add(makeAndModelVO);
-                }
-            }
+            makeAndModelVOS = models.stream()
+                    .map(model -> getMakeAndModelVO(model.getMake(), model))
+                    .collect(Collectors.toList());
         }
 
         return makeAndModelVOS;

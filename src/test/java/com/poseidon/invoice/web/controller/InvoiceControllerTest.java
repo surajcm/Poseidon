@@ -23,7 +23,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ExtendWith(SpringExtension.class)
 @WebMvcTest(InvoiceController.class)
 @ContextConfiguration(classes = {InvoiceConfigurations.class})
-public class InvoiceControllerTest {
+class InvoiceControllerTest {
     private MockMvc mvc;
     @Autowired
     private InvoiceController invoiceController;
@@ -40,75 +40,75 @@ public class InvoiceControllerTest {
     }
 
     @Test
-    public void listInvoice() throws Exception {
+    void listInvoice() throws Exception {
         mvc.perform(post("/invoice/ListInvoice.htm")).andExpect(status().isOk());
     }
 
     @Test
-    public void listInvoiceError() throws Exception {
+    void listInvoiceError() throws Exception {
         when(invoiceService.fetchInvoiceForListOfTransactions())
                 .thenThrow(new InvoiceException(InvoiceException.DATABASE_ERROR));
         mvc.perform(post("/invoice/ListInvoice.htm")).andExpect(status().isOk());
     }
 
     @Test
-    public void addInvoice() throws Exception {
+    void addInvoice() throws Exception {
         mvc.perform(post("/invoice/addInvoice.htm")).andExpect(status().isOk());
     }
 
     @Test
-    public void saveInvoice() throws Exception {
+    void saveInvoice() throws Exception {
         mvc.perform(post("/invoice/saveInvoice.htm")).andExpect(status().isOk());
     }
 
     @Test
-    public void editInvoice() throws Exception {
+    void editInvoice() throws Exception {
         mvc.perform(post("/invoice/EditInvoice.htm")).andExpect(status().isOk());
     }
 
     @Test
-    public void editInvoiceFailure() throws Exception {
+    void editInvoiceFailure() throws Exception {
         when(invoiceService.fetchInvoiceVOFromId(null))
                 .thenThrow(new InvoiceException(InvoiceException.DATABASE_ERROR));
         mvc.perform(post("/invoice/EditInvoice.htm")).andExpect(status().isOk());
     }
 
     @Test
-    public void deleteInvoice() throws Exception {
+    void deleteInvoice() throws Exception {
         mvc.perform(post("/invoice/DeleteInvoice.htm")).andExpect(status().isOk());
     }
 
     @Test
-    public void searchInvoice() throws Exception {
+    void searchInvoice() throws Exception {
         mvc.perform(post("/invoice/SearchInvoice.htm")).andExpect(status().isOk());
     }
 
     @Test
-    public void searchInvoiceFailure() throws Exception {
+    void searchInvoiceFailure() throws Exception {
         when(invoiceService.findInvoices(null))
                 .thenThrow(new InvoiceException(InvoiceException.DATABASE_ERROR));
         mvc.perform(post("/invoice/SearchInvoice.htm")).andExpect(status().isOk());
     }
 
     @Test
-    public void updateInvoice() throws Exception {
+    void updateInvoice() throws Exception {
         mvc.perform(post("/invoice/updateInvoice.htm")).andExpect(status().isOk());
     }
 
     @Test
-    public void updateInvoiceFailure() throws Exception {
+    void updateInvoiceFailure() throws Exception {
         doThrow(new InvoiceException(InvoiceException.DATABASE_ERROR))
                 .when(invoiceService).updateInvoice(null);
         mvc.perform(post("/invoice/updateInvoice.htm")).andExpect(status().isOk());
     }
 
     @Test
-    public void invoiceTxn() throws Exception {
+    void invoiceTxn() throws Exception {
         mvc.perform(post("/invoice/InvoiceTxn.htm")).andExpect(status().isOk());
     }
 
     @Test
-    public void invoiceTxnError() throws Exception {
+    void invoiceTxnError() throws Exception {
         when(transactionService.fetchTransactionFromId(null))
                 .thenThrow(new TransactionException(TransactionException.DATABASE_ERROR));
         mvc.perform(post("/invoice/InvoiceTxn.htm")).andExpect(status().isOk());

@@ -15,7 +15,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
-public class CompanyTermsServiceImplTest {
+class CompanyTermsServiceImplTest {
     private final CompanyTermsServiceImpl companyTermsService = new CompanyTermsServiceImpl();
     private final CompanyTermsDAO companyTermsDAO = Mockito.mock(CompanyTermsDAO.class);
 
@@ -25,28 +25,28 @@ public class CompanyTermsServiceImplTest {
     }
 
     @Test
-    public void listCompanyTermsSuccess() throws CompanyTermsException {
+    void listCompanyTermsSuccess() throws CompanyTermsException {
         when(companyTermsDAO.listCompanyTerms()).thenReturn(mockCompanyTermsVO());
         CompanyTermsVO companyTermsVO = companyTermsService.listCompanyTerms();
         Assertions.assertEquals("ABC", companyTermsVO.getCompanyName());
     }
 
     @Test
-    public void listCompanyTermsFailure() throws CompanyTermsException {
+    void listCompanyTermsFailure() throws CompanyTermsException {
         when(companyTermsDAO.listCompanyTerms())
                 .thenThrow(new CompanyTermsException(CompanyTermsException.DATABASE_ERROR));
         Assertions.assertNull(companyTermsService.listCompanyTerms());
     }
 
     @Test
-    public void updateCompanyDetailsSuccess() throws CompanyTermsException {
+    void updateCompanyDetailsSuccess() throws CompanyTermsException {
         when(companyTermsDAO.updateCompanyDetails(any())).thenReturn(mockCompanyTermsVO());
         CompanyTermsVO companyTermsVO = companyTermsService.updateCompanyDetails(new CompanyTermsVO());
         Assertions.assertEquals("ABC", companyTermsVO.getCompanyName());
     }
 
     @Test
-    public void updateCompanyDetailsFailure() throws CompanyTermsException {
+    void updateCompanyDetailsFailure() throws CompanyTermsException {
         when(companyTermsDAO.updateCompanyDetails(any()))
                 .thenThrow(new CompanyTermsException(CompanyTermsException.DATABASE_ERROR));
         Assertions.assertNull(companyTermsService.updateCompanyDetails(new CompanyTermsVO()));

@@ -151,7 +151,7 @@ public class InvoiceDAOImpl implements InvoiceDAO {
         Root<Invoice> invoiceRoot = criteria.from(Invoice.class);
         criteria.select(invoiceRoot);
 
-        if (searchInvoiceVO.getIncludes()) {
+        if (searchInvoiceVO.getIncludes().booleanValue()) {
             if (!StringUtils.isEmpty(searchInvoiceVO.getTagNo())) {
                 criteria.where(builder.like(invoiceRoot.get("tagno"),
                         "%" + searchInvoiceVO.getTagNo() + "%"));
@@ -168,7 +168,7 @@ public class InvoiceDAOImpl implements InvoiceDAO {
                 criteria.where(builder.like(invoiceRoot.get("id"), "%" + searchInvoiceVO.getId() + "%"));
             }
 
-        } else if (searchInvoiceVO.getStartsWith()) {
+        } else if (searchInvoiceVO.getStartsWith().booleanValue()) {
             if (!StringUtils.isEmpty(searchInvoiceVO.getTagNo())) {
                 criteria.where(builder.like(invoiceRoot.get("tagno"), searchInvoiceVO.getTagNo() + "%"));
             }
@@ -198,11 +198,14 @@ public class InvoiceDAOImpl implements InvoiceDAO {
             }
         }
         if (searchInvoiceVO.getAmount() != null && searchInvoiceVO.getAmount() > 0) {
-            if (searchInvoiceVO.getGreater() && !searchInvoiceVO.getLesser()) {
+            if (searchInvoiceVO.getGreater().booleanValue()
+                    && !searchInvoiceVO.getLesser().booleanValue()) {
                 criteria.where(builder.greaterThanOrEqualTo(invoiceRoot.get("amount"), searchInvoiceVO.getAmount()));
-            } else if (searchInvoiceVO.getLesser() && !searchInvoiceVO.getGreater()) {
+            } else if (searchInvoiceVO.getLesser().booleanValue()
+                    && !searchInvoiceVO.getGreater().booleanValue()) {
                 criteria.where(builder.lessThanOrEqualTo(invoiceRoot.get("amount"), searchInvoiceVO.getAmount()));
-            } else if (!searchInvoiceVO.getLesser() && !searchInvoiceVO.getGreater()) {
+            } else if (!searchInvoiceVO.getLesser().booleanValue()
+                    && !searchInvoiceVO.getGreater().booleanValue()) {
                 criteria.where(builder.equal(invoiceRoot.get("amount"), searchInvoiceVO.getAmount()));
             }
         }

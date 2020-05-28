@@ -12,7 +12,7 @@ public class ReportsException extends Exception {
     public static final String DATABASE_ERROR = "DATABASE_ERROR";
     public static final long serialVersionUID = 4328748;
 
-    private String exceptionType;
+    private final String exceptionType;
 
     public ReportsException(final String exceptionType) {
         super();
@@ -21,9 +21,5 @@ public class ReportsException extends Exception {
 
     public String getExceptionType() {
         return exceptionType;
-    }
-
-    public void setExceptionType(final String exceptionType) {
-        this.exceptionType = exceptionType;
     }
 }

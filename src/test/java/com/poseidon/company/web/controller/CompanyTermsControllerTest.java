@@ -21,7 +21,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ExtendWith(SpringExtension.class)
 @WebMvcTest(CompanyTermsController.class)
 @ContextConfiguration(classes = {CompanyTermsConfigurations.class})
-public class CompanyTermsControllerTest {
+class CompanyTermsControllerTest {
     private MockMvc mvc;
     @Autowired
     private CompanyTermsController companyTermsController;
@@ -34,27 +34,27 @@ public class CompanyTermsControllerTest {
     }
 
     @Test
-    public void listNormal() throws Exception {
+    void listNormal() throws Exception {
         mvc.perform(post("/company/List.htm")).andExpect(status().isOk());
         when(companyTermsService.listCompanyTerms()).thenThrow(new NullPointerException());
         mvc.perform(post("/company/List.htm")).andExpect(status().isOk());
     }
 
     @Test
-    public void list() throws Exception {
+    void list() throws Exception {
         when(companyTermsService.listCompanyTerms()).thenReturn(new CompanyTermsVO());
         mvc.perform(post("/company/List.htm")).andExpect(status().isOk());
     }
 
     @Test
-    public void updateCompanyDetailsSuccess() throws Exception {
+    void updateCompanyDetailsSuccess() throws Exception {
         mvc.perform(post("/company/updateCompanyDetails.htm")).andExpect(status().isOk());
         when(companyTermsService.updateCompanyDetails(any())).thenThrow(new NullPointerException());
         mvc.perform(post("/company/updateCompanyDetails.htm")).andExpect(status().isOk());
     }
 
     @Test
-    public void updateCompanyDetails() throws Exception {
+    void updateCompanyDetails() throws Exception {
         when(companyTermsService.updateCompanyDetails(any())).thenReturn(new CompanyTermsVO());
         mvc.perform(post("/company/updateCompanyDetails.htm")).andExpect(status().isOk());
     }

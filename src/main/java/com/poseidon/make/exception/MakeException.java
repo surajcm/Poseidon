@@ -11,7 +11,7 @@ public class MakeException extends Exception {
      */
     public static final String DATABASE_ERROR = "DATABASE_ERROR";
 
-    public String exceptionType;
+    public final String exceptionType;
     public static final long serialVersionUID = 4328746;
 
     public MakeException(final String exceptionType) {
@@ -21,9 +21,5 @@ public class MakeException extends Exception {
 
     public String getExceptionType() {
         return exceptionType;
-    }
-
-    public void setExceptionType(final String exceptionType) {
-        this.exceptionType = exceptionType;
     }
 }
