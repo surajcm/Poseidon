@@ -31,6 +31,9 @@ public class CustomerDAOImpl implements CustomerDAO {
     @Autowired
     private CustomerRepository customerRepository;
 
+    @Autowired
+    private CustomerAdditionalDetailsRepository customerAdditionalDetailsRepository;
+
     @PersistenceContext
     private EntityManager em;
 

@@ -1,5 +1,6 @@
 package com.poseidon.customer.service;
 
+import com.poseidon.customer.dao.impl.CustomerAdditionalDetailsRepository;
 import com.poseidon.customer.dao.impl.CustomerDAOImpl;
 import com.poseidon.customer.dao.impl.CustomerRepository;
 import org.mockito.Mockito;
@@ -23,5 +24,10 @@ public class CustomerServiceConfiguration {
     @Bean
     public CustomerRepository customerRepository() {
         return Mockito.mock(CustomerRepository.class);
+    }
+
+    @Bean
+    public CustomerAdditionalDetailsRepository customerAdditionalDetailsRepository() {
+        return Mockito.mock(CustomerAdditionalDetailsRepository.class);
     }
 }
