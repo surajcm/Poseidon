@@ -16,6 +16,7 @@ public class CustomerVO {
     private String contactMobile1;
     private String contactMobile2;
     private String notes;
+    private CustomerAdditionalDetailsVO customerAdditionalDetailsVO;
     private Boolean startsWith;
     private Boolean includes;
     private OffsetDateTime createdOn;
@@ -77,6 +78,14 @@ public class CustomerVO {
 
     public void setEmail(final String email) {
         this.email = email;
+    }
+
+    public CustomerAdditionalDetailsVO getCustomerAdditionalDetailsVO() {
+        return customerAdditionalDetailsVO;
+    }
+
+    public void setCustomerAdditionalDetailsVO(final CustomerAdditionalDetailsVO customerAdditionalDetailsVO) {
+        this.customerAdditionalDetailsVO = customerAdditionalDetailsVO;
     }
 
     public String getContactPerson1() {

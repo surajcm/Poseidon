@@ -1,5 +1,6 @@
 package com.poseidon.customer.web.controller;
 
+import com.poseidon.customer.domain.CustomerAdditionalDetailsVO;
 import com.poseidon.customer.domain.CustomerVO;
 import com.poseidon.customer.exception.CustomerException;
 import com.poseidon.customer.service.CustomerService;
@@ -180,6 +181,9 @@ public class CustomerController {
             customerVO.setModifiedOn(OffsetDateTime.now(ZoneId.systemDefault()));
             customerVO.setCreatedBy(customerForm.getLoggedInUser());
             customerVO.setModifiedBy(customerForm.getLoggedInUser());
+            //populate customer additional details
+            //todo: this need to be corrected at ui level later
+            customerVO.setCustomerAdditionalDetailsVO(populateAdditionalDetails(customerVO));
             customerService.saveCustomer(customerVO);
             customerForm.setStatusMessage("Added the new customer details successfully");
             customerForm.setStatusMessageType(SUCCESS);
@@ -200,6 +204,18 @@ public class CustomerController {
             LOG.info(UNKNOWN_ERROR);
         }
         return list(customerForm);
+    }
+
+    private CustomerAdditionalDetailsVO populateAdditionalDetails(final CustomerVO customerVO) {
+        CustomerAdditionalDetailsVO customerAdditionalDetailsVO = new CustomerAdditionalDetailsVO();
+        customerAdditionalDetailsVO.setContactMobile1(customerVO.getContactMobile1());
+        customerAdditionalDetailsVO.setContactMobile2(customerVO.getContactMobile2());
+        customerAdditionalDetailsVO.setContactPerson1(customerVO.getContactPerson1());
+        customerAdditionalDetailsVO.setContactPerson2(customerVO.getContactPerson2());
+        customerAdditionalDetailsVO.setNotes(customerVO.getNotes());
+        customerAdditionalDetailsVO.setCreatedBy(customerVO.getCreatedBy());
+        customerAdditionalDetailsVO.setModifiedBy(customerVO.getCreatedBy());
+        return customerAdditionalDetailsVO;
     }
 
     /**

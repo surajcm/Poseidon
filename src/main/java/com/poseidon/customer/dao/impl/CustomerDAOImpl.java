@@ -68,6 +68,7 @@ public class CustomerDAOImpl implements CustomerDAO {
         try {
             Customer newCustomer = customerRepository.save(customer);
             id = newCustomer.getCustomerId();
+            //todo : save additional details
         } catch (DataAccessException ex) {
             LOG.error(ex.getLocalizedMessage());
             throw new CustomerException(CustomerException.DATABASE_ERROR);
