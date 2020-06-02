@@ -25,10 +25,14 @@ import static org.mockito.Mockito.when;
 class CustomerDAOImplTest {
     private final CustomerDAOImpl customerDAO = new CustomerDAOImpl();
     private final CustomerRepository customerRepository = Mockito.mock(CustomerRepository.class);
+    private final CustomerAdditionalDetailsRepository customerAdditionalDetailsRepository =
+            Mockito.mock(CustomerAdditionalDetailsRepository.class);
 
     @BeforeEach
     public void setup() {
         Whitebox.setInternalState(customerDAO, "customerRepository", customerRepository);
+        Whitebox.setInternalState(customerDAO,
+                "customerAdditionalDetailsRepository", customerAdditionalDetailsRepository);
     }
 
     @Test

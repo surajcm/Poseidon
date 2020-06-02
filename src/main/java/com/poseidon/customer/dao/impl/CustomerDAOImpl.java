@@ -2,6 +2,8 @@ package com.poseidon.customer.dao.impl;
 
 import com.poseidon.customer.dao.CustomerDAO;
 import com.poseidon.customer.dao.entities.Customer;
+import com.poseidon.customer.dao.entities.CustomerAdditionalDetails;
+import com.poseidon.customer.domain.CustomerAdditionalDetailsVO;
 import com.poseidon.customer.domain.CustomerVO;
 import com.poseidon.customer.exception.CustomerException;
 import org.hibernate.Session;
@@ -68,7 +70,9 @@ public class CustomerDAOImpl implements CustomerDAO {
         try {
             Customer newCustomer = customerRepository.save(customer);
             id = newCustomer.getCustomerId();
-            //todo : save additional details
+            CustomerAdditionalDetails additionalDetails = convertToCustomerAdditionalDetails(
+                    newCustomer.getCustomerId(), currentCustomerVo.getCustomerAdditionalDetailsVO());
+            customerAdditionalDetailsRepository.save(additionalDetails);
         } catch (DataAccessException ex) {
             LOG.error(ex.getLocalizedMessage());
             throw new CustomerException(CustomerException.DATABASE_ERROR);
@@ -125,7 +129,7 @@ public class CustomerDAOImpl implements CustomerDAO {
                     currentCustomerVo.getCustomerId());
             if (optionalCustomer.isPresent()) {
                 Customer customer = optionalCustomer.get();
-                updateCustomer(currentCustomerVo, customer);
+                updateCustomerWithCustomerVo(currentCustomerVo, customer);
                 customerRepository.save(customer);
             }
         } catch (DataAccessException ex) {
@@ -134,7 +138,7 @@ public class CustomerDAOImpl implements CustomerDAO {
         }
     }
 
-    private void updateCustomer(final CustomerVO currentCustomerVo, final Customer customer) {
+    private void updateCustomerWithCustomerVo(final CustomerVO currentCustomerVo, final Customer customer) {
         customer.setName(currentCustomerVo.getCustomerName());
         customer.setAddress1(currentCustomerVo.getAddress1());
         customer.setAddress2(currentCustomerVo.getAddress2());
@@ -266,5 +270,21 @@ public class CustomerDAOImpl implements CustomerDAO {
         }
         List<Customer> resultList = em.unwrap(Session.class).createQuery(criteria).getResultList();
         return convertToCustomerVO(resultList);
+    }
+
+    private CustomerAdditionalDetails convertToCustomerAdditionalDetails(
+            final Long customerId, final CustomerAdditionalDetailsVO customerAdditionalDetailsVO) {
+        CustomerAdditionalDetails additionalDetails = new CustomerAdditionalDetails();
+        additionalDetails.setCustomerId(customerId);
+        if (customerAdditionalDetailsVO != null) {
+            additionalDetails.setContactPerson1(customerAdditionalDetailsVO.getContactPerson1());
+            additionalDetails.setContactPerson2(customerAdditionalDetailsVO.getContactPerson2());
+            additionalDetails.setContactPhone1(customerAdditionalDetailsVO.getContactMobile1());
+            additionalDetails.setContactPhone2(customerAdditionalDetailsVO.getContactMobile2());
+            additionalDetails.setNote(customerAdditionalDetailsVO.getNotes());
+            additionalDetails.setCreatedBy(customerAdditionalDetailsVO.getCreatedBy());
+            additionalDetails.setModifiedBy(customerAdditionalDetailsVO.getModifiedBy());
+        }
+        return additionalDetails;
     }
 }

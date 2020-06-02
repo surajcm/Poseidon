@@ -53,85 +53,84 @@
     </script>
 </head>
 <body>
-<form:form method="POST" modelAttribute="invoiceForm">
-    <form:hidden name="loggedInUser" path="loggedInUser"/>
-    <form:hidden name="loggedInRole" path="loggedInRole"/>
-    <%@include file="../myHeader.jsp" %>
-    <div class="container">
-        <div class="wrap">
-            <div class="panel panel-primary">
-                <div class="panel-heading">Add Invoice</div>
-                <table style="margin:auto;top:50%;left:50%;">
-                    <tr>
-                        <td>
-                            <label for="tagNo" class="control-label">
-                                Tag No
-                            </label>
-                        </td>
-                        <td colspan="2">&nbsp;</td>
-                        <td>
-                            <form:input path="currentInvoiceVo.tagNo" cssClass="form-control" id="tagNo"/>
-                        </td>
-                        <td colspan="2">&nbsp;</td>
-                        <td>
-                            <label for="description" class="control-label">
-                                Description
-                            </label>
-                        </td>
-                        <td colspan="2">&nbsp;</td>
-                        <td colspan="7">
-                            <form:textarea path="currentInvoiceVo.description" cssClass="form-control" id="description"/>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <label for="quantity" class="control-label">
-                                Quantity
-                            </label>
-                        </td>
-                        <td colspan="2">&nbsp;</td>
-                        <td style="text-align:left;">
-                            <form:input path="currentInvoiceVo.quantity" id="quantity" cssClass="form-control" onkeyup="multiplyFromQty()"/>
-                        </td>
-                        <td colspan="2">&nbsp;</td>
-                        <td>
-                            <label for="rate" class="control-label">
-                                Rate
-                            </label>
-                        </td>
-                        <td colspan="2">&nbsp;</td>
-                        <td>
-                            <form:input path="currentInvoiceVo.rate" id="rate" cssClass="form-control" onkeyup="multiplyFromRate()" />
-                        </td>
-                        <td colspan="2">&nbsp;</td>
-                        <td>
-                            <label for="amount" class="control-label">
-                                Amount
-                            </label>
-                        </td>
-                        <td colspan="2">&nbsp;</td>
-                        <td>
-                            <form:input path="currentInvoiceVo.amount" cssClass="form-control" id="amount"/>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td colspan="16">&nbsp;</td>
-                    </tr>
-                    <tr>
-                        <td colspan="12">&nbsp;</td>
-                        <td>
-                            <input class="btn btn-primary btn-success" value="Save" type="button" onclick="javascript:save()"/>
-                        </td>
-                        <td colspan="2">&nbsp;</td>
-                        <td>
-                            <input class="btn btn-primary" value="Clear" type="button" onclick="javascript:clearOut()"/>
-                        </td>
-                    </tr>
-                </table>
+    <form:form method="POST" modelAttribute="invoiceForm">
+        <form:hidden name="loggedInUser" path="loggedInUser"/>
+        <form:hidden name="loggedInRole" path="loggedInRole"/>
+        <%@include file="../myHeader.jsp" %>
+        <div class="container">
+            <div class="wrap">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">Add Invoice</div>
+                    <table style="margin:auto;top:50%;left:50%;">
+                        <tr>
+                            <td>
+                                <label for="tagNo" class="control-label">
+                                    Tag No
+                                </label>
+                            </td>
+                            <td colspan="2">&nbsp;</td>
+                            <td>
+                                <form:input path="currentInvoiceVo.tagNo" cssClass="form-control" id="tagNo"/>
+                            </td>
+                            <td colspan="2">&nbsp;</td>
+                            <td>
+                                <label for="description" class="control-label">
+                                    Description
+                                </label>
+                            </td>
+                            <td colspan="2">&nbsp;</td>
+                            <td colspan="7">
+                                <form:textarea path="currentInvoiceVo.description" cssClass="form-control" id="description"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label for="quantity" class="control-label">
+                                    Quantity
+                                </label>
+                            </td>
+                            <td colspan="2">&nbsp;</td>
+                            <td style="text-align:left;">
+                                <form:input path="currentInvoiceVo.quantity" id="quantity" cssClass="form-control" onkeyup="multiplyFromQty()"/>
+                            </td>
+                            <td colspan="2">&nbsp;</td>
+                            <td>
+                                <label for="rate" class="control-label">
+                                    Rate
+                                </label>
+                            </td>
+                            <td colspan="2">&nbsp;</td>
+                            <td>
+                                <form:input path="currentInvoiceVo.rate" id="rate" cssClass="form-control" onkeyup="multiplyFromRate()" />
+                            </td>
+                            <td colspan="2">&nbsp;</td>
+                            <td>
+                                <label for="amount" class="control-label">
+                                    Amount
+                                </label>
+                            </td>
+                            <td colspan="2">&nbsp;</td>
+                            <td>
+                                <form:input path="currentInvoiceVo.amount" cssClass="form-control" id="amount"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="16">&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td colspan="12">&nbsp;</td>
+                            <td>
+                                <input class="btn btn-primary btn-success" value="Save" type="button" onclick="javascript:save()"/>
+                            </td>
+                            <td colspan="2">&nbsp;</td>
+                            <td>
+                                <input class="btn btn-primary" value="Clear" type="button" onclick="javascript:clearOut()"/>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
             </div>
         </div>
-    </div>
-</form:form>
-
+    </form:form>
 </body>
 </html>

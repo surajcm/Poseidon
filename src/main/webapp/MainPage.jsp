@@ -8,31 +8,30 @@
     <title>Welcome</title>
 </head>
 <body>
-<form:form method="POST" action="listAll.htm" modelAttribute="userForm">
-    <input type="hidden" name="id" id="id" />
-    <form:hidden name="loggedInUser" path="loggedInUser" />
-    <form:hidden name="loggedInRole" path="loggedInRole" />
-    <%@include file="/myHeader.jsp" %>
-    <c:if test="${pageContext.request.userPrincipal.name != null}">
-        <form id="logoutForm" method="POST" action="${contextPath}/logout">
-            <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-        </form>
-    </c:if>
-    <table width="100%" height="100%">
-        <tr>
-            <td>&nbsp;
+    <form:form method="POST" action="listAll.htm" modelAttribute="userForm">
+        <input type="hidden" name="id" id="id" />
+        <form:hidden name="loggedInUser" path="loggedInUser" />
+        <form:hidden name="loggedInRole" path="loggedInRole" />
+        <%@include file="/myHeader.jsp" %>
+        <c:if test="${pageContext.request.userPrincipal.name != null}">
+            <form id="logoutForm" method="POST" action="${contextPath}/logout">
+                <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
+            </form>
+        </c:if>
+        <table width="100%" height="100%">
+            <tr>
+                <td>&nbsp;
 
-            </td>
-            <td align="center">
-                <spring:url value="/resources/images/poseidon_god_of_the_sea.jpg" var="main_img" />
-                <img src="${main_img}" style="margin:0px; width:800px; height:600px;"/>
-            </td>
-            <td>&nbsp;
+                </td>
+                <td align="center">
+                    <spring:url value="/resources/images/poseidon_god_of_the_sea.jpg" var="main_img" />
+                    <img src="${main_img}" style="margin:0px; width:800px; height:600px;"/>
+                </td>
+                <td>&nbsp;
 
-            </td>
-        </tr>
-    </table>
-
-</form:form>
+                </td>
+            </tr>
+        </table>
+    </form:form>
 </body>
 </html>

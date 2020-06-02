@@ -39,54 +39,53 @@
 
 </head>
 <body>
-<form:form method="POST" modelAttribute="makeForm" >
-    <form:hidden name="loggedInUser" path="loggedInUser" />
-    <form:hidden name="loggedInRole" path="loggedInRole" />
-    <form:hidden name="currentMakeAndModeVO.makeId" path="currentMakeAndModeVO.makeId" />
-    <%@include file="../myHeader.jsp" %>
-    <div class="container">
-        <div class="wrap">
-            <div class="panel panel-primary">
-                <div class="panel-heading">Edit Make</div>
-                <table style="margin:auto;top:50%;left:50%;">
-                    <tr>
-                        <td>
-                            <label for="makeName" class="control-label">
-                                Make Name :
-                            </label>
-                        </td>
-                        <td colspan="2">&nbsp;</td>
-                        <td>
-                            <form:input path="currentMakeAndModeVO.makeName" cssClass="form-control" id="makeName"/>
-                            <form:errors path="currentMakeAndModeVO.makeName"/>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <label for="makeName" class="control-label">
-                                Description :
-                            </label>
-                        </td>
-                        <td colspan="2">&nbsp;</td>
-                        <td>
-                            <form:input path="currentMakeAndModeVO.description" cssClass="form-control" id="description"/>
-                            <form:errors path="currentMakeAndModeVO.description"/>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <input class="btn btn-primary btn-success" value="Update" type="button" onclick="javascript:update()"/>
-                        </td>
-                        <td colspan="2">&nbsp;</td>
-                        <td>
-                            <input class="btn btn-primary" value="Cancel" type="button" onclick="javascript:cancel()"/>
-                        </td>
-                    </tr>
-                </table>
+    <form:form method="POST" modelAttribute="makeForm" >
+        <form:hidden name="loggedInUser" path="loggedInUser" />
+        <form:hidden name="loggedInRole" path="loggedInRole" />
+        <form:hidden name="currentMakeAndModeVO.makeId" path="currentMakeAndModeVO.makeId" />
+        <%@include file="../myHeader.jsp" %>
+        <div class="container">
+            <div class="wrap">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">Edit Make</div>
+                    <table style="margin:auto;top:50%;left:50%;">
+                        <tr>
+                            <td>
+                                <label for="makeName" class="control-label">
+                                    Make Name :
+                                </label>
+                            </td>
+                            <td colspan="2">&nbsp;</td>
+                            <td>
+                                <form:input path="currentMakeAndModeVO.makeName" cssClass="form-control" id="makeName"/>
+                                <form:errors path="currentMakeAndModeVO.makeName"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <label for="makeName" class="control-label">
+                                    Description :
+                                </label>
+                            </td>
+                            <td colspan="2">&nbsp;</td>
+                            <td>
+                                <form:input path="currentMakeAndModeVO.description" cssClass="form-control" id="description"/>
+                                <form:errors path="currentMakeAndModeVO.description"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>
+                                <input class="btn btn-primary btn-success" value="Update" type="button" onclick="javascript:update()"/>
+                            </td>
+                            <td colspan="2">&nbsp;</td>
+                            <td>
+                                <input class="btn btn-primary" value="Cancel" type="button" onclick="javascript:cancel()"/>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
             </div>
         </div>
-    </div>
-</form:form>
-
+    </form:form>
 </body>
 </html>

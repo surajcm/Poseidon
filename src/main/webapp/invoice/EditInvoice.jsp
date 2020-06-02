@@ -38,86 +38,85 @@
     </script>
 </head>
 <body>
-<form:form method="POST" modelAttribute="invoiceForm">
-    <form:hidden name="loggedInUser" path="loggedInUser" />
-    <form:hidden name="loggedInRole" path="loggedInRole" />
-    <form:hidden name="id" path="currentInvoiceVO.id" />
-    <%@include file="../myHeader.jsp" %>
-    <div class="container">
-        <div class="wrap">
-            <div class="panel panel-primary">
-                <div class="panel-heading">Edit Invoice</div>
-                <table style="margin:auto;top:50%;left:50%;">
-                    <tr>
-                        <td style="text-align:right;">
-                            <label for="tagNo" class="control-label">
-                                Tag No
-                            </label>
-                        </td>
-                        <td colspan="2">&nbsp;</td>
-                        <td style="text-align:left;">
-                            <form:input path="currentInvoiceVO.tagNo" cssClass="form-control" id="tagNo"/>
-                        </td>
-                        <td colspan="2">&nbsp;</td>
-                        <td style="text-align:right;">
-                            <label for="description" class="control-label">
-                                Description
-                            </label>
-                        </td>
-                        <td colspan="2">&nbsp;</td>
-                        <td colspan="7" style="text-align:left;">
-                            <form:textarea path="currentInvoiceVO.description" cssClass="form-control" id="description"/>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td style="text-align:right;">
-                            <label for="quantity" class="control-label">
-                                Quantity
-                            </label>
-                        </td>
-                        <td colspan="2">&nbsp;</td>
-                        <td style="text-align:left;">
-                            <form:input path="currentInvoiceVO.quantity" cssClass="form-control" id="quantity"/>
-                        </td>
-                        <td colspan="2">&nbsp;</td>
-                        <td style="text-align:right;">
-                            <label for="rate" class="control-label">
-                                Rate
-                            </label>
-                        </td>
-                        <td colspan="2">&nbsp;</td>
-                        <td style="text-align:left;">
-                            <form:input path="currentInvoiceVO.rate" cssClass="form-control" id="rate"/>
-                        </td>
-                        <td colspan="2">&nbsp;</td>
-                        <td style="text-align:right;">
-                            <label for="amount" class="control-label">
-                                Amount
-                            </label>
-                        </td>
-                        <td colspan="2">&nbsp;</td>
-                        <td style="text-align:left;">
-                            <form:input path="currentInvoiceVO.amount" cssClass="form-control" id="amount"/>
-                        </td>
-                    </tr>
-                    <tr>
-                        <td colspan="16">&nbsp;</td>
-                    </tr>
-                    <tr>
-                        <td colspan="12">&nbsp;</td>
-                        <td>
-                            <input class="btn btn-primary btn-success" value="Update" type="button" onclick="update()"/>
-                        </td>
-                        <td colspan="2">&nbsp;</td>
-                        <td>
-                            <input class="btn btn-primary" value="Cancel" type="button" onclick="cancel()"/>
-                        </td>
-                    </tr>
-                </table>
+    <form:form method="POST" modelAttribute="invoiceForm">
+        <form:hidden name="loggedInUser" path="loggedInUser" />
+        <form:hidden name="loggedInRole" path="loggedInRole" />
+        <form:hidden name="id" path="currentInvoiceVO.id" />
+        <%@include file="../myHeader.jsp" %>
+        <div class="container">
+            <div class="wrap">
+                <div class="panel panel-primary">
+                    <div class="panel-heading">Edit Invoice</div>
+                    <table style="margin:auto;top:50%;left:50%;">
+                        <tr>
+                            <td style="text-align:right;">
+                                <label for="tagNo" class="control-label">
+                                    Tag No
+                                </label>
+                            </td>
+                            <td colspan="2">&nbsp;</td>
+                            <td style="text-align:left;">
+                                <form:input path="currentInvoiceVO.tagNo" cssClass="form-control" id="tagNo"/>
+                            </td>
+                            <td colspan="2">&nbsp;</td>
+                            <td style="text-align:right;">
+                                <label for="description" class="control-label">
+                                    Description
+                                </label>
+                            </td>
+                            <td colspan="2">&nbsp;</td>
+                            <td colspan="7" style="text-align:left;">
+                                <form:textarea path="currentInvoiceVO.description" cssClass="form-control" id="description"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td style="text-align:right;">
+                                <label for="quantity" class="control-label">
+                                    Quantity
+                                </label>
+                            </td>
+                            <td colspan="2">&nbsp;</td>
+                            <td style="text-align:left;">
+                                <form:input path="currentInvoiceVO.quantity" cssClass="form-control" id="quantity"/>
+                            </td>
+                            <td colspan="2">&nbsp;</td>
+                            <td style="text-align:right;">
+                                <label for="rate" class="control-label">
+                                    Rate
+                                </label>
+                            </td>
+                            <td colspan="2">&nbsp;</td>
+                            <td style="text-align:left;">
+                                <form:input path="currentInvoiceVO.rate" cssClass="form-control" id="rate"/>
+                            </td>
+                            <td colspan="2">&nbsp;</td>
+                            <td style="text-align:right;">
+                                <label for="amount" class="control-label">
+                                    Amount
+                                </label>
+                            </td>
+                            <td colspan="2">&nbsp;</td>
+                            <td style="text-align:left;">
+                                <form:input path="currentInvoiceVO.amount" cssClass="form-control" id="amount"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td colspan="16">&nbsp;</td>
+                        </tr>
+                        <tr>
+                            <td colspan="12">&nbsp;</td>
+                            <td>
+                                <input class="btn btn-primary btn-success" value="Update" type="button" onclick="update()"/>
+                            </td>
+                            <td colspan="2">&nbsp;</td>
+                            <td>
+                                <input class="btn btn-primary" value="Cancel" type="button" onclick="cancel()"/>
+                            </td>
+                        </tr>
+                    </table>
+                </div>
             </div>
         </div>
-    </div>
-</form:form>
-
+    </form:form>
 </body>
 </html>
