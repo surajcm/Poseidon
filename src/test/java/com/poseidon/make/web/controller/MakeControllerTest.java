@@ -42,8 +42,8 @@ public class MakeControllerTest {
     public void modelList() throws Exception {
         when(makeService.listAllMakesAndModels()).thenReturn(mockMakeAndModelVOs());
         mvc.perform(post("/make/ModelList.htm")).andExpect(status().isOk());
-        when(makeService.listAllMakesAndModels()).thenThrow(new NullPointerException());
-        when(makeService.fetchMakes()).thenThrow(new NullPointerException());
+        when(makeService.listAllMakesAndModels()).thenThrow(new RuntimeException());
+        when(makeService.fetchMakes()).thenThrow(new RuntimeException());
         mvc.perform(post("/make/ModelList.htm")).andExpect(status().isOk());
     }
 
@@ -62,57 +62,57 @@ public class MakeControllerTest {
     @Test
     public void editMake() throws Exception {
         mvc.perform(post("/make/editMake.htm")).andExpect(status().isOk());
-        when(makeService.getMakeFromId(null)).thenThrow(new NullPointerException());
+        when(makeService.getMakeFromId(null)).thenThrow(new RuntimeException());
         mvc.perform(post("/make/editMake.htm")).andExpect(status().isOk());
     }
 
     @Test
     public void deleteMake() throws Exception {
         mvc.perform(post("/make/deleteMake.htm")).andExpect(status().isOk());
-        doThrow(new NullPointerException()).when(makeService).deleteMake(null);
+        doThrow(new RuntimeException()).when(makeService).deleteMake(null);
         mvc.perform(post("/make/deleteMake.htm")).andExpect(status().isOk());
     }
 
     @Test
     public void editModel() throws Exception {
         mvc.perform(post("/make/editModel.htm")).andExpect(status().isOk());
-        when(makeService.getModelFromId(null)).thenThrow(new NullPointerException());
-        when(makeService.listAllMakes()).thenThrow(new NullPointerException());
+        when(makeService.getModelFromId(null)).thenThrow(new RuntimeException());
+        when(makeService.listAllMakes()).thenThrow(new RuntimeException());
         mvc.perform(post("/make/editModel.htm")).andExpect(status().isOk());
     }
 
     @Test
     public void testDeleteModel() throws Exception {
         mvc.perform(post("/make/deleteModel.htm")).andExpect(status().isOk());
-        doThrow(new NullPointerException()).when(makeService).deleteModel(null);
+        doThrow(new RuntimeException()).when(makeService).deleteModel(null);
         mvc.perform(post("/make/deleteModel.htm")).andExpect(status().isOk());
     }
 
     @Test
     public void testUpdateMake() throws Exception {
         mvc.perform(post("/make/updateMake.htm")).andExpect(status().isOk());
-        doThrow(new NullPointerException()).when(makeService).updateMake(null);
+        doThrow(new RuntimeException()).when(makeService).updateMake(null);
         mvc.perform(post("/make/updateMake.htm")).andExpect(status().isOk());
     }
 
     @Test
     public void testUpdateModel() throws Exception {
         mvc.perform(post("/make/updateModel.htm")).andExpect(status().isOk());
-        doThrow(new NullPointerException()).when(makeService).updateModel(any());
+        doThrow(new RuntimeException()).when(makeService).updateModel(any());
         mvc.perform(post("/make/updateModel.htm")).andExpect(status().isOk());
     }
 
     @Test
     public void testSaveModel() throws Exception {
         mvc.perform(post("/make/saveModel.htm")).andExpect(status().isOk());
-        doThrow(new NullPointerException()).when(makeService).addNewModel(any());
+        doThrow(new RuntimeException()).when(makeService).addNewModel(any());
         mvc.perform(post("/make/saveModel.htm")).andExpect(status().isOk());
     }
 
     @Test
     public void testSearchModel() throws Exception {
         mvc.perform(post("/make/searchModel.htm")).andExpect(status().isOk());
-        when(makeService.searchMakeVOs(any())).thenThrow(new NullPointerException());
+        when(makeService.searchMakeVOs(any())).thenThrow(new RuntimeException());
         mvc.perform(post("/make/searchModel.htm")).andExpect(status().isOk());
     }
 
@@ -124,7 +124,7 @@ public class MakeControllerTest {
                 .param("selectMakeName", selectMakeName)
                 .param("selectMakeDesc", selectMakeDesc))
                 .andExpect(status().isOk());
-        doThrow(new NullPointerException()).when(makeService).addNewMake(any());
+        doThrow(new RuntimeException()).when(makeService).addNewMake(any());
         mvc.perform(post("/make/saveMakeAjax.htm")
                 .param("selectMakeName", selectMakeName)
                 .param("selectMakeDesc", selectMakeDesc))
@@ -139,7 +139,7 @@ public class MakeControllerTest {
                 .param("selectMakeId", selectMakeId)
                 .param("selectModelName", selectModelName))
                 .andExpect(status().isOk());
-        doThrow(new NullPointerException()).when(makeService).addNewModel(any());
+        doThrow(new RuntimeException()).when(makeService).addNewModel(any());
         mvc.perform(post("/make/saveModelAjax.htm")
                 .param("selectMakeId", selectMakeId)
                 .param("selectModelName", selectModelName))

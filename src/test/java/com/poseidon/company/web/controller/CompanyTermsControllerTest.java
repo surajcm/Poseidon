@@ -36,7 +36,7 @@ class CompanyTermsControllerTest {
     @Test
     void listNormal() throws Exception {
         mvc.perform(post("/company/List.htm")).andExpect(status().isOk());
-        when(companyTermsService.listCompanyTerms()).thenThrow(new NullPointerException());
+        when(companyTermsService.listCompanyTerms()).thenThrow(new RuntimeException());
         mvc.perform(post("/company/List.htm")).andExpect(status().isOk());
     }
 
@@ -49,7 +49,7 @@ class CompanyTermsControllerTest {
     @Test
     void updateCompanyDetailsSuccess() throws Exception {
         mvc.perform(post("/company/updateCompanyDetails.htm")).andExpect(status().isOk());
-        when(companyTermsService.updateCompanyDetails(any())).thenThrow(new NullPointerException());
+        when(companyTermsService.updateCompanyDetails(any())).thenThrow(new RuntimeException());
         mvc.perform(post("/company/updateCompanyDetails.htm")).andExpect(status().isOk());
     }
 

@@ -6,6 +6,17 @@
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Welcome</title>
+    <style type="text/css">
+    	.jumbotron {
+            display: flex;
+            align-items: center;
+            height: 600px;
+            background-image: url("/resources/images/poseidon_god_of_the_sea.jpg");
+            background-repeat: no-repeat;
+            background-size:  contain;
+            background-position: center;
+        }
+    </style>
 </head>
 <body>
     <form:form method="POST" action="listAll.htm" modelAttribute="userForm">
@@ -18,20 +29,9 @@
                 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
             </form>
         </c:if>
-        <table width="100%" height="100%">
-            <tr>
-                <td>&nbsp;
+        <section class="jumbotron">
 
-                </td>
-                <td align="center">
-                    <spring:url value="/resources/images/poseidon_god_of_the_sea.jpg" var="main_img" />
-                    <img src="${main_img}" style="margin:0px; width:800px; height:600px;"/>
-                </td>
-                <td>&nbsp;
-
-                </td>
-            </tr>
-        </table>
+        </section>
     </form:form>
 </body>
 </html>
