@@ -14,6 +14,7 @@ import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
 import org.springframework.stereotype.Repository;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -34,7 +35,7 @@ public class ReportsDAOImpl implements ReportsDAO {
      */
     @Override
     public List<ReportsVO> generateDailyReport() throws ReportsException {
-        return null;
+        return Collections.emptyList();
     }
 
     /**
