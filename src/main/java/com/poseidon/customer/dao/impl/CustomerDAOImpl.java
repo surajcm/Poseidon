@@ -3,10 +3,12 @@ package com.poseidon.customer.dao.impl;
 import com.poseidon.customer.dao.CustomerDAO;
 import com.poseidon.customer.dao.entities.Customer;
 import com.poseidon.customer.dao.entities.CustomerAdditionalDetails;
+import com.poseidon.customer.dao.spec.CustomerSpecification;
 import com.poseidon.customer.domain.CustomerAdditionalDetailsVO;
 import com.poseidon.customer.domain.CustomerVO;
 import com.poseidon.customer.exception.CustomerException;
-import org.hibernate.Session;
+import com.poseidon.dataaccess.specs.SearchCriteria;
+import com.poseidon.dataaccess.specs.SearchOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,9 +18,6 @@ import org.springframework.util.StringUtils;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -49,7 +48,9 @@ public class CustomerDAOImpl implements CustomerDAO {
     public List<CustomerVO> listAllCustomerDetails() throws CustomerException {
         List<CustomerVO> customerVOs;
         try {
-            customerVOs = convertToCustomerVO(customerRepository.findAll());
+            List<Customer> customers = new ArrayList<>();
+            customerRepository.findAll().forEach(customers::add);
+            customerVOs = convertToCustomerVO(customers);
         } catch (DataAccessException ex) {
             throw new CustomerException(CustomerException.DATABASE_ERROR);
         }
@@ -89,10 +90,12 @@ public class CustomerDAOImpl implements CustomerDAO {
      */
     @Override
     public CustomerVO getCustomerFromId(final Long id) throws CustomerException {
-        CustomerVO customerVO;
+        CustomerVO customerVO = null;
         try {
-            Customer customer = customerRepository.getOne(id);
-            customerVO = convertToSingleCustomerVO(customer);
+            Optional<Customer> customer = customerRepository.findById(id);
+            if (customer.isPresent()) {
+                customerVO = convertToSingleCustomerVO(customer.get());
+            }
         } catch (DataAccessException ex) {
             LOG.error(ex.getLocalizedMessage());
             throw new CustomerException(CustomerException.DATABASE_ERROR);
@@ -233,43 +236,31 @@ public class CustomerDAOImpl implements CustomerDAO {
     }
 
     private List<CustomerVO> searchCustomerInDetail(final CustomerVO searchVO) {
-        CriteriaBuilder builder = em.unwrap(Session.class).getCriteriaBuilder();
-        CriteriaQuery<Customer> criteria = builder.createQuery(Customer.class);
-        Root<Customer> customerRoot = criteria.from(Customer.class);
-        criteria.select(customerRoot);
-        if (searchVO.getIncludes().booleanValue()) {
-            if (searchVO.getCustomerId() != null && searchVO.getCustomerId() > 0) {
-                criteria.where(builder.like(customerRoot.get("id"), "%" + searchVO.getCustomerId() + "%"));
-            }
-            if (!StringUtils.isEmpty(searchVO.getCustomerName())) {
-                criteria.where(builder.like(customerRoot.get("name"), "%" + searchVO.getCustomerName() + "%"));
-            }
-            if (!StringUtils.isEmpty(searchVO.getMobile())) {
-                criteria.where(builder.like(customerRoot.get(MOBILE), "%" + searchVO.getMobile() + "%"));
-            }
-        } else if (searchVO.getStartsWith().booleanValue()) {
-            if (searchVO.getCustomerId() != null && searchVO.getCustomerId() > 0) {
-                criteria.where(builder.like(customerRoot.get("id"), searchVO.getCustomerId() + "%"));
-            }
-            if (!StringUtils.isEmpty(searchVO.getCustomerName())) {
-                criteria.where(builder.like(customerRoot.get("name"), searchVO.getCustomerName() + "%"));
-            }
-            if (!StringUtils.isEmpty(searchVO.getMobile())) {
-                criteria.where(builder.like(customerRoot.get(MOBILE), searchVO.getMobile() + "%"));
-            }
-        } else {
-            if (searchVO.getCustomerId() != null && searchVO.getCustomerId() > 0) {
-                criteria.where(builder.equal(customerRoot.get("id"), searchVO.getCustomerId()));
-            }
-            if (!StringUtils.isEmpty(searchVO.getCustomerName())) {
-                criteria.where(builder.equal(customerRoot.get("name"), searchVO.getCustomerName()));
-            }
-            if (!StringUtils.isEmpty(searchVO.getMobile())) {
-                criteria.where(builder.equal(customerRoot.get(MOBILE), searchVO.getMobile()));
-            }
+        CustomerSpecification customerSpec = new CustomerSpecification();
+        SearchOperation search = populateSearchOperation(searchVO);
+        if (!StringUtils.isEmpty(searchVO.getCustomerId())) {
+            customerSpec.add(new SearchCriteria("customerId", searchVO.getCustomerId(), search));
         }
-        List<Customer> resultList = em.unwrap(Session.class).createQuery(criteria).getResultList();
-        return convertToCustomerVO(resultList);
+        if (!StringUtils.isEmpty(searchVO.getCustomerName())) {
+            customerSpec.add(new SearchCriteria("name", searchVO.getCustomerName(), search));
+        }
+        if (!StringUtils.isEmpty(searchVO.getMobile())) {
+            customerSpec.add(new SearchCriteria(MOBILE, searchVO.getMobile(), search));
+        }
+        List<Customer> resultCustomers = customerRepository.findAll(customerSpec);
+        return convertToCustomerVO(resultCustomers);
+    }
+
+    private SearchOperation populateSearchOperation(final CustomerVO searchVO) {
+        SearchOperation searchOperation;
+        if (searchVO.getIncludes() != null && searchVO.getIncludes().booleanValue()) {
+            searchOperation = SearchOperation.MATCH;
+        } else if (searchVO.getStartsWith() != null && searchVO.getStartsWith().booleanValue()) {
+            searchOperation = SearchOperation.MATCH_START;
+        } else {
+            searchOperation = SearchOperation.EQUAL;
+        }
+        return searchOperation;
     }
 
     private CustomerAdditionalDetails convertToCustomerAdditionalDetails(

@@ -62,13 +62,13 @@ class CustomerDAOImplTest {
 
     @Test
     void getCustomerFromIdSuccess() throws CustomerException {
-        when(customerRepository.getOne(anyLong())).thenReturn(mockCustomer());
+        when(customerRepository.findById(anyLong())).thenReturn(Optional.of(mockCustomer()));
         Assertions.assertNotNull(customerDAO.getCustomerFromId(1234L));
     }
 
     @Test
     void getCustomerFromIdFailure() {
-        when(customerRepository.getOne(anyLong())).thenThrow(new CannotAcquireLockException("DB error"));
+        when(customerRepository.findById(anyLong())).thenThrow(new CannotAcquireLockException("DB error"));
         Assertions.assertThrows(CustomerException.class, () -> customerDAO.getCustomerFromId(1234L));
     }
 

@@ -25,6 +25,7 @@ WHAT AND WHY CHECKS SUPPRESSED
     <suppress files="InvoiceController.java" checks="MethodLength"/>
     <suppress files="InvoiceForm.java" checks="MethodLength"/>
     <suppress files="MakeDaoImpl.java" checks="MethodLength"/>
+    <suppress files="MakeSpecification.java" checks="MethodLength"/>
     <suppress files="MakeAndModelVO.java" checks="MethodLength"/>
     <suppress files="MakeController.java" checks="MethodLength"/>
     <suppress files="ReportsController.java" checks="MethodLength"/>

@@ -48,7 +48,7 @@ public class TransactionDAOImplTest {
 
     @Test
     public void listTodaysTransactionsSuccess() throws TransactionException {
-        when(customerRepository.getOne(anyLong())).thenReturn(mockCustomer());
+        when(customerRepository.findById(anyLong())).thenReturn(Optional.of(mockCustomer()));
         when(makeRepository.getOne(anyLong())).thenReturn(mockMake());
         when(modelRepository.getOne(anyLong())).thenReturn(mockModel());
         when(transactionRepository.todaysTransaction()).thenReturn(mockListOfTransactions());
@@ -75,7 +75,7 @@ public class TransactionDAOImplTest {
 
     @Test
     public void fetchTransactionFromIdSuccess() throws TransactionException {
-        when(customerRepository.getOne(anyLong())).thenReturn(mockCustomer());
+        when(customerRepository.findById(anyLong())).thenReturn(Optional.of(mockCustomer()));
         when(makeRepository.getOne(anyLong())).thenReturn(mockMake());
         when(modelRepository.getOne(anyLong())).thenReturn(mockModel());
         when(transactionRepository.findById(anyLong())).thenReturn(Optional.of(mockTransaction()));
@@ -97,7 +97,7 @@ public class TransactionDAOImplTest {
     @Test
     public void updateTransactionSuccess() {
         when(transactionRepository.findById(null)).thenReturn(Optional.of(mockTransaction()));
-        when(customerRepository.getOne(anyLong())).thenReturn(mockCustomer());
+        when(customerRepository.findById(anyLong())).thenReturn(Optional.of(mockCustomer()));
         when(makeRepository.getOne(anyLong())).thenReturn(mockMake());
         when(modelRepository.getOne(anyLong())).thenReturn(mockModel());
         when(transactionRepository.save(any())).thenReturn(mockTransaction());
@@ -130,7 +130,7 @@ public class TransactionDAOImplTest {
 
     @Test
     public void fetchTransactionFromTagSuccess() throws TransactionException {
-        when(customerRepository.getOne(anyLong())).thenReturn(mockCustomer());
+        when(customerRepository.findById(anyLong())).thenReturn(Optional.of(mockCustomer()));
         when(makeRepository.getOne(anyLong())).thenReturn(mockMake());
         when(modelRepository.getOne(anyLong())).thenReturn(mockModel());
         when(transactionRepository.findBytagno(anyString())).thenReturn(mockTransaction());
@@ -164,7 +164,7 @@ public class TransactionDAOImplTest {
 
     @Test
     public void listAllTransactionsSuccess() throws TransactionException {
-        when(customerRepository.getOne(anyLong())).thenReturn(mockCustomer());
+        when(customerRepository.findById(anyLong())).thenReturn(Optional.of(mockCustomer()));
         when(makeRepository.getOne(anyLong())).thenReturn(mockMake());
         when(modelRepository.getOne(anyLong())).thenReturn(mockModel());
         when(transactionRepository.findAll()).thenReturn(mockListOfTransactions());

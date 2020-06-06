@@ -343,7 +343,7 @@ public class TransactionDAOImpl implements TransactionDAO {
     }
 
     private TransactionVO convertToVO(final Transaction txn) {
-        final Customer customer = customerRepository.getOne(txn.getCustomerId());
+        final Optional<Customer> customer = customerRepository.findById(txn.getCustomerId());
         final Make make = makeRepository.getOne(txn.getMakeId());
         final Model model = modelRepository.getOne(txn.getModelId());
         TransactionVO transactionVO = new TransactionVO();
@@ -352,7 +352,7 @@ public class TransactionDAOImpl implements TransactionDAO {
         transactionVO.setDateReported(txn.getDateReported().toString());
         transactionVO.setProductCategory(txn.getProductCategory());
         transactionVO.setCustomerId(txn.getCustomerId());
-        transactionVO.setCustomerName(customer.getName());
+        customer.ifPresent(value -> transactionVO.setCustomerName(value.getName()));
         transactionVO.setMakeId(txn.getMakeId());
         transactionVO.setMakeName(make.getMakeName());
         transactionVO.setModelId(txn.getModelId());
@@ -397,26 +397,29 @@ public class TransactionDAOImpl implements TransactionDAO {
     }
 
     private TransactionReportVO convertToTransactionReportVO(final Transaction transaction) {
-        Customer customer = customerRepository.getOne(transaction.getCustomerId());
-        Make make = makeRepository.getOne(transaction.getMakeId());
-        Model model = modelRepository.getOne(transaction.getModelId());
         TransactionReportVO txs = new TransactionReportVO();
         txs.setId(transaction.getTransactionId());
         txs.setTagNo(transaction.getTagno());
         txs.setDateReported(transaction.getDateReported());
-        txs.setCustomerName(customer.getName());
         txs.setCustomerId(transaction.getCustomerId());
-        txs.setAddress1(customer.getAddress1());
-        txs.setAddress2(customer.getAddress2());
-        txs.setPhone(customer.getPhone());
-        txs.setMobile(customer.getMobile());
-        txs.setEmail(customer.getEmail());
-        txs.setContactPerson1(customer.getContactPerson1());
-        txs.setContactPh1(customer.getContactPhone1());
-        txs.setContactPerson2(customer.getContactPerson2());
-        txs.setContactPh2(customer.getContactPhone2());
+        Optional<Customer> customerOpt = customerRepository.findById(transaction.getCustomerId());
+        if (customerOpt.isPresent()) {
+            Customer customer = customerOpt.get();
+            txs.setCustomerName(customer.getName());
+            txs.setAddress1(customer.getAddress1());
+            txs.setAddress2(customer.getAddress2());
+            txs.setPhone(customer.getPhone());
+            txs.setMobile(customer.getMobile());
+            txs.setEmail(customer.getEmail());
+            txs.setContactPerson1(customer.getContactPerson1());
+            txs.setContactPh1(customer.getContactPhone1());
+            txs.setContactPerson2(customer.getContactPerson2());
+            txs.setContactPh2(customer.getContactPhone2());
+        }
         txs.setProductCategory(transaction.getProductCategory());
+        Make make = makeRepository.getOne(transaction.getMakeId());
         txs.setMakeName(make.getMakeName());
+        Model model = modelRepository.getOne(transaction.getModelId());
         txs.setModelName(model.getModelName());
         txs.setSerialNo(transaction.getSerialNumber());
         txs.setAccessories(transaction.getAccessories());
