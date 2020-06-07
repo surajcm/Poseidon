@@ -100,10 +100,8 @@
         <script src="/js/core/jquery-3.2.1.min.js"></script>
         <script src="/js/core/popper.min.js"></script>
         <script src="/js/core/bootstrap.min.js"></script>
-        <script src="/js/core/jquery-ui.min.js"></script>
         <script>
-            $(document).ready(function()
-            {
+            $(document).ready(function() {
                 //Handles menu drop down
                 $('.dropdown-menu').find('form').click(function (e) {
                     e.stopPropagation();

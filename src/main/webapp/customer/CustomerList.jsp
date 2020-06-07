@@ -12,8 +12,6 @@
     <meta name="author" content="Suraj">
     <spring:url value="/resources/images/Poseidon_Ico.ico" var="posIcon" />
     <link rel="shortcut icon" href="${posIcon}" />
-    <link rel="stylesheet" href="/css/jquery-ui.css" type="text/css" />
-    <link rel="stylesheet" href="/css/font-awesome.min.css" type="text/css" />
     <link rel="stylesheet" href="/css/bootstrap.min.css"  type="text/css" />
     <link rel="stylesheet" href="/css/custom.css" type="text/css" />
     <title>Customer List</title>
@@ -129,11 +127,6 @@
                             <th>Phone</th>
                             <th>Mobile</th>
                             <th>Email</th>
-                            <th>Contact Person 1</th>
-                            <th>Contact Phone No1</th>
-                            <th>Contact Person 1</th>
-                            <th>Contact Phone No1</th>
-                            <th>Notes</th>
                         </tr>
                         </thead>
 
@@ -149,11 +142,6 @@
                                 <td><c:out value="${iterationCust.phoneNo}"/></td>
                                 <td><c:out value="${iterationCust.mobile}"/></td>
                                 <td><c:out value="${iterationCust.email}"/></td>
-                                <td><c:out value="${iterationCust.contactPerson1}"/></td>
-                                <td><c:out value="${iterationCust.contactMobile1}"/></td>
-                                <td><c:out value="${iterationCust.contactPerson2}"/></td>
-                                <td><c:out value="${iterationCust.contactMobile2}"/></td>
-                                <td><c:out value="${iterationCust.notes}"/></td>
                             </tr>
                         </c:forEach>
                         </tbody>
@@ -174,7 +162,6 @@
             <script src="/js/core/jquery-3.2.1.min.js"></script>
             <script src="/js/core/popper.min.js"></script>
             <script src="/js/core/bootstrap.min.js"></script>
-            <script src="/js/core/jquery-ui.min.js"></script>
             <script>
                 $(document).ready(function() {
                     //Handles menu drop down

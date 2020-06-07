@@ -14,8 +14,6 @@
     <meta name="author" content="Suraj">
     <spring:url value="/resources/images/Poseidon_Ico.ico" var="posIcon" />
     <link rel="shortcut icon" href="${posIcon}" />
-    <link rel="stylesheet" href="/css/jquery-ui.css" type="text/css" />
-    <link rel="stylesheet" href="/css/font-awesome.min.css" type="text/css" />
     <link rel="stylesheet" href="/css/bootstrap.min.css"  type="text/css" />
     <link rel="stylesheet" href="/css/custom.css" type="text/css" />
     <sec:csrfMetaTags/>
@@ -161,10 +159,8 @@
         <script src="/js/core/jquery-3.2.1.min.js"></script>
         <script src="/js/core/popper.min.js"></script>
         <script src="/js/core/bootstrap.min.js"></script>
-        <script src="/js/core/jquery-ui.min.js"></script>
         <script>
-            $(document).ready(function()
-            {
+            $(document).ready(function() {
                 //Handles menu drop down
                 $('.dropdown-menu').find('form').click(function (e) {
                     e.stopPropagation();
