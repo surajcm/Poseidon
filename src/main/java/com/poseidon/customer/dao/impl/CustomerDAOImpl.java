@@ -71,6 +71,8 @@ public class CustomerDAOImpl implements CustomerDAO {
         try {
             Customer newCustomer = customerRepository.save(customer);
             id = newCustomer.getCustomerId();
+            //todo: this should move to controller, and finally to page
+            setAdditionalDetailsToVO(currentCustomerVo);
             CustomerAdditionalDetails additionalDetails = convertToCustomerAdditionalDetails(
                     newCustomer.getCustomerId(), currentCustomerVo.getCustomerAdditionalDetailsVO());
             customerAdditionalDetailsRepository.save(additionalDetails);
@@ -277,5 +279,17 @@ public class CustomerDAOImpl implements CustomerDAO {
             additionalDetails.setModifiedBy(customerAdditionalDetailsVO.getModifiedBy());
         }
         return additionalDetails;
+    }
+
+    private void setAdditionalDetailsToVO(final CustomerVO currentCustomerVo) {
+        CustomerAdditionalDetailsVO additionalDetails = new CustomerAdditionalDetailsVO();
+        additionalDetails.setContactPerson1(currentCustomerVo.getContactPerson1());
+        additionalDetails.setContactPerson2(currentCustomerVo.getContactPerson2());
+        additionalDetails.setContactMobile1(currentCustomerVo.getContactMobile1());
+        additionalDetails.setContactMobile2(currentCustomerVo.getContactMobile2());
+        additionalDetails.setNotes(currentCustomerVo.getNotes());
+        additionalDetails.setCreatedBy(currentCustomerVo.getCreatedBy());
+        additionalDetails.setModifiedBy(currentCustomerVo.getModifiedBy());
+        currentCustomerVo.setCustomerAdditionalDetailsVO(additionalDetails);
     }
 }

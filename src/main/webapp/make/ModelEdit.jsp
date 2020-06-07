@@ -6,39 +6,54 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="Suraj">
+    <spring:url value="/resources/images/Poseidon_Ico.ico" var="posIcon" />
+    <link rel="shortcut icon" href="${posIcon}" />
+    <link rel="stylesheet" href="/css/jquery-ui.css" type="text/css" />
+    <link rel="stylesheet" href="/css/font-awesome.min.css" type="text/css" />
+    <link rel="stylesheet" href="/css/bootstrap.min.css"  type="text/css" />
+    <link rel="stylesheet" href="/css/custom.css" type="text/css" />
     <title>Edit Model</title>
     <style type="text/css">
-        table
-        {
+        table {
+            margin:auto;
+            top:50%;
+            left:50%;
+        }
+        .foottable {
             margin:auto;
             top:50%;
             left:50%;
         }
     </style>
     <script type="text/javascript">
-        function update(){
+        function update() {
             if(document.getElementById('modelName').value.length == 0) {
                 document.getElementById('modelName').style.background = 'Yellow';
                 alert(" Please enter the Model name");
-            }else{
+            } else {
                 document.getElementById('modelName').style.background = 'White';
                 document.forms[0].action = "updateModel.htm";
                 document.forms[0].submit();
             }
         }
 
-        function cancel(){
+        function cancel() {
             document.forms[0].action = "ModelList.htm";
             document.forms[0].submit();
         }
     </script>
+    <script type="text/javascript" src="/js/navbar-scripts.js"></script>
 </head>
 <body>
     <form:form method="POST" modelAttribute="makeForm" >
         <form:hidden name="loggedInUser" path="loggedInUser" />
         <form:hidden name="loggedInRole" path="loggedInRole" />
         <form:hidden name="currentMakeAndModeVO.modelId" path="currentMakeAndModeVO.modelId" />
-        <%@include file="../myHeader.jsp" %>
+        <%@include file="../navbar.jsp" %>
         <div class="container">
             <div class="wrap">
                 <div class="panel panel-primary">
@@ -82,6 +97,19 @@
                 </div>
             </div>
         </div>
+        <script src="/js/core/jquery-3.2.1.min.js"></script>
+        <script src="/js/core/popper.min.js"></script>
+        <script src="/js/core/bootstrap.min.js"></script>
+        <script src="/js/core/jquery-ui.min.js"></script>
+        <script>
+            $(document).ready(function()
+            {
+                //Handles menu drop down
+                $('.dropdown-menu').find('form').click(function (e) {
+                    e.stopPropagation();
+                });
+            });
+        </script>
     </form:form>
 </body>
 </html>

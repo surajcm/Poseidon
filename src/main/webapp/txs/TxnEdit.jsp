@@ -8,6 +8,16 @@
 <html xmlns="http://www.w3.org/1999/xhtml">
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="description" content="">
+        <meta name="author" content="Suraj">
+        <spring:url value="/resources/images/Poseidon_Ico.ico" var="posIcon" />
+        <link rel="shortcut icon" href="${posIcon}" />
+        <link rel="stylesheet" href="/css/jquery-ui.css" type="text/css" />
+        <link rel="stylesheet" href="/css/font-awesome.min.css" type="text/css" />
+        <link rel="stylesheet" href="/css/bootstrap.min.css"  type="text/css" />
+        <link rel="stylesheet" href="/css/custom.css" type="text/css" />
         <title>Edit Transaction</title>
         <style type="text/css">
             table {
@@ -15,111 +25,21 @@
                 top:50%;
                 left:50%;
             }
+            .foottable {
+                margin:auto;
+                top:50%;
+                left:50%;
+            }
         </style>
-        <script type="text/javascript">
-            var req;
-
-            function update() {
-                 if(document.getElementById('productCategory').value.length == 0){
-                    alert("Please enter a valid Product Category");
-                }else if(document.getElementById('serialNo').value.length == 0){
-                    alert("Please enter a valid Serial No");
-                }else if(document.getElementById('customerId').value.length == 0){
-                        if(document.getElementById('customerName').value.length == 0
-                                || document.getElementById('mobile').value.length == 0){
-                            alert("Please enter a valid Customer Details");
-                        }
-                }else if(document.getElementById('makeId').value.length == 0){
-                    alert("Please enter a valid Make detail");
-                }else if(document.getElementById('modelId').value.length == 0){
-                    alert("Please enter a valid Model detail");
-                } else {
-                    document.forms[0].action = "updateTxn.htm";
-                    document.forms[0].submit();
-                }
-            }
-
-            function cancel() {
-                document.forms[0].action = "List.htm";
-                document.forms[0].submit();
-            }
-            function editThisCustomer(){
-                if(document.getElementById("customerId") != null){
-                    document.forms[0].action = "${contextPath}/customer/editCustomer.htm"+
-                            "?customerId=" +document.getElementById("customerId").value;
-                    document.forms[0].submit();
-                }else{
-                    alert("Unable to get the customer Details !!!");
-                }
-            }
-
-            function changeTheModel() {
-                var selectMakeId = document.transactionForm.makeId.value;
-                var url = "${contextPath}/txs/UpdateModelAjax.htm";
-                url = url + "?selectMakeId=" + selectMakeId;
-                bustcacheparameter = (url.indexOf("?") != -1) ? "&" + new Date().getTime() : "?" + new Date().getTime();
-                createAjaxRequest();
-                if (req) {
-                    req.onreadystatechange = stateChange;
-                    req.open("POST", url + bustcacheparameter, true);
-                    req.send(url + bustcacheparameter);
-                }
-            }
-
-            function createAjaxRequest() {
-                if (window.XMLHttpRequest) {
-                    req = new XMLHttpRequest();
-                } else if (window.ActiveXObject) {
-                    try {
-                        req = new ActiveXObject("Msxml2.XMLHTTP");
-                    } catch (e) {
-                        try {
-                            req = new ActiveXObject("Microsoft.XMLHTTP");
-                        } catch (e) {
-                        }
-                    }
-                }
-            }
-
-            function stateChange() {
-                if (req.readyState == 4 && (req.status == 200 || window.location.href.indexOf("http") == -1)) {
-                    textReturned = req.responseText;
-                    if (textReturned != "") {
-                        var fullContent = textReturned.split("#start#");
-                        var resultIds = new Array();
-                        var resultNames = new Array();
-                        var k = 0;
-                        var j = 0;
-                        var t = 0;
-
-                        for (j = 0; j < fullContent.length; j++) {
-                            if (fullContent[j].length > 0) {
-                                resultIds[k] = fullContent[j].split("#id#")[1];
-                                var testing = fullContent[j].split("#id#")[2];
-                                resultNames[k] = testing.split("#modelName#")[1];
-                                k++;
-                            }
-                        }
-                        var l = 0;
-                        document.transactionForm.modelId.options.length = resultIds.length - 1;
-                        document.transactionForm.modelId.options[0] = new Option("<---- Select ---->", "");
-                        for (var i = 1; i <= (resultIds.length); i++) {
-                            document.transactionForm.modelId.options[i] = new Option(resultNames[i - 1], resultIds[i - 1]);
-                        }
-                    } else {
-                        document.transactionForm.modelId.options.length = 0;
-                        document.transactionForm.modelId.options[0] = new Option("<---- Select ---->", "");
-                    }
-                }
-            }
-        </script>
+        <script type="text/javascript" src="/js/txn-edit-scripts.js"></script>
+        <script type="text/javascript" src="/js/navbar-scripts.js"></script>
     </head>
     <body>
         <form:form method="POST" modelAttribute="transactionForm" >
             <form:hidden name="loggedInUser" path="loggedInUser" />
             <form:hidden name="loggedInRole" path="loggedInRole" />
             <form:hidden name="id" path="currentTransaction.id" />
-            <%@include file="../myHeader.jsp" %>
+            <%@include file="../navbar.jsp" %>
             <div class="container">
             <div class="panel panel-primary">
                 <div class="panel-heading">Edit Transaction</div>
@@ -395,14 +315,22 @@
                     </tr>
                 </table>
             </div>
-        </div>
-    </form:form>
-    <script>
-        $(document).ready(function() {
-            $(function() {
-                $("#dateReported").datepicker();
-            });
-        });
-    </script>
+            <script src="/js/core/jquery-3.2.1.min.js"></script>
+            <script src="/js/core/popper.min.js"></script>
+            <script src="/js/core/bootstrap.min.js"></script>
+            <script src="/js/core/jquery-ui.min.js"></script>
+            <script>
+                $(document).ready(function()
+                {
+                    //Handles menu drop down
+                    $('.dropdown-menu').find('form').click(function (e) {
+                        e.stopPropagation();
+                    });
+                    $(function() {
+                        $("#dateReported").datepicker();
+                    });
+                });
+            </script>
+        </form:form>
     </body>
 </html>

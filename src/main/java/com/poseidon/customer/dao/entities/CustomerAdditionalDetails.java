@@ -144,7 +144,7 @@ public class CustomerAdditionalDetails {
     @PrePersist
     @PreUpdate
     public void initializeDate() {
-        if (this.getCustomerId() == null) {
+        if (this.getId() == null) {
             createdOn = OffsetDateTime.now(ZoneId.systemDefault());
         }
         modifiedOn = OffsetDateTime.now(ZoneId.systemDefault());

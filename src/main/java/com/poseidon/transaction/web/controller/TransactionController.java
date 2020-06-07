@@ -1,7 +1,6 @@
 package com.poseidon.transaction.web.controller;
 
 import com.poseidon.customer.domain.CustomerVO;
-import com.poseidon.customer.exception.CustomerException;
 import com.poseidon.customer.service.CustomerService;
 import com.poseidon.make.domain.MakeAndModelVO;
 import com.poseidon.make.domain.MakeVO;
@@ -165,19 +164,14 @@ public class TransactionController {
         }
         try {
             if (transactionVO != null && transactionVO.getCustomerId() == null) {
-                try {
-                    transactionForm.getCustomerVO().setCreatedOn(OffsetDateTime.now(ZoneId.systemDefault()));
-                    transactionForm.getCustomerVO().setModifiedOn(OffsetDateTime.now(ZoneId.systemDefault()));
-                    transactionForm.getCustomerVO().setCreatedBy(transactionForm.getLoggedInUser());
-                    transactionForm.getCustomerVO().setModifiedBy(transactionForm.getLoggedInUser());
-                    long customerId = customerService.saveCustomer(transactionForm.getCustomerVO());
-                    transactionForm.getCustomerVO().setCustomerId(customerId);
-                    transactionVO.setCustomerId(customerId);
-                    LOG.info("the customer id from db is  {}", customerId);
-
-                } catch (CustomerException ex) {
-                    LOG.error(ex.getLocalizedMessage());
-                }
+                transactionForm.getCustomerVO().setCreatedOn(OffsetDateTime.now(ZoneId.systemDefault()));
+                transactionForm.getCustomerVO().setModifiedOn(OffsetDateTime.now(ZoneId.systemDefault()));
+                transactionForm.getCustomerVO().setCreatedBy(transactionForm.getLoggedInUser());
+                transactionForm.getCustomerVO().setModifiedBy(transactionForm.getLoggedInUser());
+                long customerId = customerService.saveCustomer(transactionForm.getCustomerVO());
+                transactionForm.getCustomerVO().setCustomerId(customerId);
+                transactionVO.setCustomerId(customerId);
+                LOG.info("the customer id from db is  {}", customerId);
             }
             String tagNo = transactionService.saveTransaction(transactionVO);
             transactionForm.setStatusMessage("Successfully added the transaction, Tag Number is " + tagNo);
