@@ -10,7 +10,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.time.OffsetDateTime;
@@ -67,7 +70,7 @@ public class CustomerController {
      * @param customerForm customerForm
      * @return view
      */
-    @PostMapping("/customer/addCust.htm")
+    @PostMapping("/customer/addCustomer.htm")
     public ModelAndView addCustomer(final CustomerForm customerForm) {
         LOG.info(" addCustomer method of CustomerController {}", customerForm);
         customerForm.setLoggedInUser(customerForm.getLoggedInUser());
@@ -292,6 +295,18 @@ public class CustomerController {
         customerForm.setLoggedInRole(customerForm.getLoggedInRole());
         customerForm.setLoggedInUser(customerForm.getLoggedInUser());
         return new ModelAndView("customer/CustomerList", CUSTOMER_FORM, customerForm);
+    }
+
+    @PostMapping("/customer/viewCustomer.htm")
+    public @ResponseBody
+    Boolean viewCustomer(@ModelAttribute("customerId") final String customerId,
+                         final BindingResult result) {
+        LOG.info("viewCustomer customerId = " + customerId);
+        if (!result.hasErrors()) {
+            return Boolean.TRUE;
+        } else {
+            return Boolean.FALSE;
+        }
     }
 
 }

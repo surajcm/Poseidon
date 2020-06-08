@@ -42,3 +42,13 @@ insert into model (id, modelName, makeId, createdOn, modifiedOn, createdBy, modi
 
 insert into model (id, modelName, makeId, createdOn, modifiedOn, createdBy, modifiedBy) values
 (3, 'ThinkPad', 3 ,'2019-08-01 00:00:00','2019-08-01 09:25:00','admin','admin');
+
+insert into customer (id, address1, address2, contactPerson1, contactPerson2, contactPhone1, contactPhone2,
+createdBy, createdOn, email, mobile, modifiedBy, modifiedOn, name, note, phone) values
+(1, '5630 N Sheridan', 'Chicago', 'John', 'Hartigan', '888999777', '333555666', 'admin', '2020-06-08 00:00:00',
+ 'test@testmail.com', '555888999', 'admin', '2020-06-08 00:00:00', 'John Wick', 'Fix in 10 days', '0404 232323')
+
+insert into customer_additional_details (id, contactPerson1, contactPerson2, contactPhone1, contactPhone2,
+ createdBy, createdOn, customerId, modifiedBy, modifiedOn, note) values
+ (1, 'John', 'Hartigan', '888999777', '333555666',  'admin', '2020-06-08 00:00:00',
+  1,'admin', '2020-06-08 00:00:00', 'Fix in 10 days')

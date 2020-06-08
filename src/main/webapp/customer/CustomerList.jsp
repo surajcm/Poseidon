@@ -10,6 +10,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="Suraj">
+    <meta name="_csrf" content="${_csrf.token}"/>
+    <meta name="_csrf_header" content="${_csrf.headerName}"/>
     <spring:url value="/resources/images/Poseidon_Ico.ico" var="posIcon" />
     <link rel="shortcut icon" href="${posIcon}" />
     <link rel="stylesheet" href="/css/bootstrap.min.css"  type="text/css" />
@@ -151,9 +153,10 @@
                             <td>
                                 <br/>
                                 <br/>
-                                <input class="btn btn-primary" value="Add New Customer" type="button" onclick="javascript:addCust()"/>
-                                <input class="btn btn-primary" value="Edit Customer" type="button" onclick="javascript:editCust()"/>
-                                <input class="btn btn-primary" value="Delete Customer" type="button" onclick="javascript:deleteCust()"/>
+                                <input class="btn btn-primary" value="Add New Customer" type="button" onclick="javascript:addCustomer()"/>
+                                <input class="btn btn-primary" value="Edit Customer" type="button" onclick="javascript:editCustomer()"/>
+                                <input class="btn btn-primary" value="View Customer" type="button" onclick="javascript:viewCustomer()"/>
+                                <input class="btn btn-primary" value="Delete Customer" type="button" onclick="javascript:deleteCustomer()"/>
                             </td>
                         </tr>
                     </table>
