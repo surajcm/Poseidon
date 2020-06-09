@@ -155,11 +155,27 @@
                                 <br/>
                                 <input class="btn btn-primary" value="Add New Customer" type="button" onclick="javascript:addCustomer()"/>
                                 <input class="btn btn-primary" value="Edit Customer" type="button" onclick="javascript:editCustomer()"/>
-                                <input class="btn btn-primary" value="View Customer" type="button" onclick="javascript:viewCustomer()"/>
+                                <input class="btn btn-primary" value="View Customer" type="button" data-toggle="modal" data-target="#customerDetail" onclick="javascript:viewCustomer()"/>
                                 <input class="btn btn-primary" value="Delete Customer" type="button" onclick="javascript:deleteCustomer()"/>
                             </td>
                         </tr>
                     </table>
+                </div>
+            </div>
+            <div id="customerDetail" class="modal fade" role="dialog">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title">Customer Details</h4>
+                        </div>
+                        <div id="detail" class="modal-body">
+                            <p>Details of the customer.....</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                        </div>
+                    </div>
                 </div>
             </div>
             <script src="/js/core/jquery-3.2.1.min.js"></script>

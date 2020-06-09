@@ -178,7 +178,7 @@ function viewCustomer() {
 }
 
 function viewRow() {
-    alert(" going to view customer !!!!");
+    //alert(" going to view customer !!!!");
     var userRow;
     var customerId;
     var checks = document.getElementsByName('checkField');
@@ -200,22 +200,24 @@ function viewRow() {
 function callAjax(customerId) {
     var xhr = new XMLHttpRequest();
     xhr.open('POST', "viewCustomer.htm",true);
-    var token = $("meta[name='_csrf']").attr("content");
-    var header = $("meta[name='_csrf_header']").attr("content");
+    var token = document.querySelector("meta[name='_csrf']").content;
+    var header = document.querySelector("meta[name='_csrf_header']").content;
     xhr.setRequestHeader(header, token);
-    //xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     xhr.onload = function() {
         if (xhr.status === 200) {
             console.log('Response is ' + xhr.responseText);
-            if (xhr.responseText == 'true') {
-                alert(true);
+            if (xhr.responseText != null) {
+                var detail = document.getElementById("detail");
+                detail.innerHTML = xhr.responseText;
+                //alert(true);
             } else {
-                alert(false);
+                //alert(false);
             }
         } else if (xhr.status !== 200) {
             console.log('Request failed.  Returned status of ' + xhr.status);
         }
     };
-    xhr.send("viewCustomer.htm" + "?customerId=" + customerId+ "&${_csrf.parameterName}=${_csrf.token}");
+    xhr.send("customerId=" + customerId);
 }
 

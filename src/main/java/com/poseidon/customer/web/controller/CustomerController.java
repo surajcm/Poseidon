@@ -6,16 +6,17 @@ import com.poseidon.customer.exception.CustomerException;
 import com.poseidon.customer.service.CustomerService;
 import com.poseidon.customer.web.form.CustomerForm;
 import com.poseidon.transaction.web.form.TransactionForm;
+import org.codehaus.jackson.map.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.io.IOException;
 import java.time.OffsetDateTime;
 import java.time.ZoneId;
 import java.util.List;
@@ -90,21 +91,7 @@ public class CustomerController {
         LOG.info(" editCustomer method of CustomerController ");
         LOG.info(" customerForm is {}", customerForm);
         LOG.info(" customerForm is {}", customerForm.getCurrentCustomerVO());
-        CustomerVO customerVO = null;
-        try {
-            customerVO = customerService.getCustomerFromId(customerForm.getId());
-        } catch (CustomerException ex) {
-            LOG.error(ex.getLocalizedMessage());
-            LOG.error(EXCEPTION_TYPE_IN_CONTROLLER, ex.getExceptionType());
-            if (ex.getExceptionType().equalsIgnoreCase(CustomerException.DATABASE_ERROR)) {
-                LOG.info(DB_ERROR_OCCURRED);
-            } else {
-                LOG.info(UNKNOWN_ERROR);
-            }
-        } catch (Exception e1) {
-            LOG.error(e1.getLocalizedMessage());
-            LOG.info(UNKNOWN_ERROR);
-        }
+        CustomerVO customerVO = getCustomerVOFromId(customerForm.getId());
         if (customerVO == null) {
             LOG.error(" No details found for current makeVO !!");
         } else {
@@ -299,14 +286,43 @@ public class CustomerController {
 
     @PostMapping("/customer/viewCustomer.htm")
     public @ResponseBody
-    Boolean viewCustomer(@ModelAttribute("customerId") final String customerId,
-                         final BindingResult result) {
+    String viewCustomer(@ModelAttribute("customerId") final String customerId) {
         LOG.info("viewCustomer customerId = " + customerId);
-        if (!result.hasErrors()) {
-            return Boolean.TRUE;
-        } else {
-            return Boolean.FALSE;
+        Long id = Long.parseLong(customerId);
+        CustomerVO customerVO = getCustomerVOFromId(id);
+        return convertToJson(customerVO);
+    }
+
+    private String convertToJson(final CustomerVO customerVO) {
+        String response;
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            response = mapper.writeValueAsString(customerVO);
+        } catch (IOException ex) {
+            response = ERROR;
+            LOG.error(ex.getMessage());
         }
+        LOG.info(response);
+        return response;
+    }
+
+    private CustomerVO getCustomerVOFromId(final Long id) {
+        CustomerVO customerVO = null;
+        try {
+            customerVO = customerService.getCustomerFromId(id);
+        } catch (CustomerException ex) {
+            LOG.error(ex.getLocalizedMessage());
+            LOG.error(EXCEPTION_TYPE_IN_CONTROLLER, ex.getExceptionType());
+            if (ex.getExceptionType().equalsIgnoreCase(CustomerException.DATABASE_ERROR)) {
+                LOG.info(DB_ERROR_OCCURRED);
+            } else {
+                LOG.info(UNKNOWN_ERROR);
+            }
+        } catch (Exception e1) {
+            LOG.error(e1.getLocalizedMessage());
+            LOG.info(UNKNOWN_ERROR);
+        }
+        return customerVO;
     }
 
 }
