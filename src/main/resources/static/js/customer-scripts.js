@@ -210,9 +210,6 @@ function callAjax(customerId) {
             if (xhr.responseText != null) {
                 var detail = document.getElementById("detail");
                 detail.innerHTML = xhr.responseText;
-                //alert(true);
-            } else {
-                //alert(false);
             }
         } else if (xhr.status !== 200) {
             console.log('Request failed.  Returned status of ' + xhr.status);
