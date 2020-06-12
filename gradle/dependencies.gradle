@@ -13,7 +13,7 @@ dependencies {
     implementation("org.apache.commons:commons-collections4:4.2")
     implementation("org.slf4j:jcl-over-slf4j:1.7.25")
 
-    implementation("org.hsqldb:hsqldb:2.4.1")
+    implementation("org.hsqldb:hsqldb:2.5.0")
     implementation("org.apache.tomcat.embed:tomcat-embed-jasper")
     implementation("jstl:jstl:+")
 

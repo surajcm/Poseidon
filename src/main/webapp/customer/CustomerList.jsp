@@ -162,18 +162,20 @@
                     </table>
                 </div>
             </div>
-            <div id="customerDetail" class="modal fade" role="dialog">
-                <div class="modal-dialog">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <button type="button" class="close" data-dismiss="modal">&times;</button>
-                            <h4 class="modal-title">Customer Details</h4>
-                        </div>
-                        <div id="detail" class="modal-body">
-                            <p>Details of the customer.....</p>
-                        </div>
-                        <div class="modal-footer">
-                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            <div id="wrap" class="text-center">
+                <div id="customerDetail" class="modal fade" role="dialog">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h4 class="modal-title">Customer Details</h4>
+                                <button type="button" class="close" data-dismiss="modal">x</button>
+                            </div>
+                            <div id="detail" class="modal-body">
+                                <p>Details of the customer.....</p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            </div>
                         </div>
                     </div>
                 </div>

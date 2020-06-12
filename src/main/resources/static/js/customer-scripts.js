@@ -208,13 +208,42 @@ function callAjax(customerId) {
         if (xhr.status === 200) {
             console.log('Response is ' + xhr.responseText);
             if (xhr.responseText != null) {
-                var detail = document.getElementById("detail");
-                detail.innerHTML = xhr.responseText;
+                fillModal(xhr.responseText);
             }
         } else if (xhr.status !== 200) {
             console.log('Request failed.  Returned status of ' + xhr.status);
         }
     };
     xhr.send("customerId=" + customerId);
+}
+
+function fillModal(textReturned) {
+    var customer = JSON.parse(textReturned);
+    document.getElementById('detail').innerHTML = "";
+    var detail = document.getElementById("detail");
+    var fg1 = document.createElement("div");
+    fg1.setAttribute("class","form-group");
+    var lb1 = document.createElement("label");
+    lb1.textContent = "Customer Id";
+    fg1.appendChild(lb1);
+    var txt1 = document.createElement("input");
+    txt1.setAttribute("type","text");
+    txt1.setAttribute("class","form-control");
+    txt1.value = customer.customerId;
+    fg1.appendChild(txt1);
+    var fg2 = document.createElement("div");
+    fg2.setAttribute("class","form-group");
+    var lb2 = document.createElement("label");
+    lb2.textContent = "Customer Name";
+    fg2.appendChild(lb2);
+    var txt2 = document.createElement("input");
+    txt2.setAttribute("type","text");
+    txt2.setAttribute("class","form-control");
+    txt2.value = customer.customerName;
+    fg2.appendChild(txt2);
+    detail.appendChild(fg1);
+    detail.appendChild(fg2);
+
+    //detail.innerHTML = "<p>"+customer+"</p>";
 }
 
