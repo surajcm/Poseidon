@@ -335,7 +335,7 @@ function fillModal(textReturned) {
     divNotes2.appendChild(lbNotes);
     var txtNotes = document.createElement("label");
     txtNotes.textContent = customer.notes;
-    divNotes2.appendChild(txtAddress);
+    divNotes2.appendChild(txtNotes);
     divNotes.appendChild(divNotes2);
 
     detail.appendChild(divFirstRow);

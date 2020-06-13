@@ -1,5 +1,5 @@
 
-<nav class="navbar navbar-expand-lg fixed-top navbar-dark bg-primary">
+<nav class="navbar navbar-dark py-0 bg-primary navbar-expand-lg py-md-0">
     <spring:url value="/resources/images/Poseidon_Menu.png" var="posIcon2" />
     <a class="navbar-brand" href="#" onclick="javascript:goToHome();"><span><img src="${posIcon2}" width="30" height="30" class="d-inline-block align-top" alt="Poseidon"/></span>Poseidon</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -12,12 +12,12 @@
                     <li class='nav-item' id='user'><a href='#' class='nav-link' onclick='javascript:listMe();' >User<span class="sr-only">(current)</span></a></li>
                 </c:when>
             </c:choose>
-            <li class="nav-item" id="makeme"><a class="nav-link" href="#" onclick="javascript:MakeMe();" >Make</a></li>
-            <li class="nav-item" id="customermgt"><a class="nav-link" href="#" onclick="javascript:fetchCustomers();" >Customer</a></li>
-            <li class="nav-item" id="companymgt"><a class="nav-link" href="#" onclick="javascript:fetchTerms();" >Company</a></li>
-            <li class="nav-item" id="txnmgt"><a class="nav-link" href="#" onclick="javascript:fetchTransactions();" >Transactions</a></li>
-            <li class="nav-item" id="invmgt"><a class="nav-link" href="#" onclick="javascript:fetchInvoice();" >Invoice</a></li>
-            <li class="nav-item" id="reportmgt"><a class="nav-link" href="#" onclick="javascript:fetchReport();" >Report</a></li>
+            <li class="nav-item py-0" id="makeme"><a class="nav-link" href="#" onclick="javascript:MakeMe();" >Make</a></li>
+            <li class="nav-item py-0" id="customermgt"><a class="nav-link" href="#" onclick="javascript:fetchCustomers();" >Customer</a></li>
+            <li class="nav-item py-0" id="companymgt"><a class="nav-link" href="#" onclick="javascript:fetchTerms();" >Company</a></li>
+            <li class="nav-item py-0" id="txnmgt"><a class="nav-link" href="#" onclick="javascript:fetchTransactions();" >Transactions</a></li>
+            <li class="nav-item py-0" id="invmgt"><a class="nav-link" href="#" onclick="javascript:fetchInvoice();" >Invoice</a></li>
+            <li class="nav-item py-0" id="reportmgt"><a class="nav-link" href="#" onclick="javascript:fetchReport();" >Report</a></li>
         </ul>
         <ul class="navbar-nav my-2 my-lg-0">
             <li class="nav-item dropdown">

@@ -52,3 +52,13 @@ insert into customer_additional_details (id, contactPerson1, contactPerson2, con
  createdBy, createdOn, customerId, modifiedBy, modifiedOn, note) values
  (1, 'John', 'Hartigan', '888999777', '333555666',  'admin', '2020-06-08 00:00:00',
   1,'admin', '2020-06-08 00:00:00', 'Fix in 10 days')
+
+insert into customer (id, address1, address2, contactPerson1, contactPerson2, contactPhone1, contactPhone2,
+createdBy, createdOn, email, mobile, modifiedBy, modifiedOn, name, note, phone) values
+(2, '500 W Madison', 'Chicago', 'Philip', 'Coulson', '3322552233', '123131331', 'admin', '2020-06-13 00:00:00',
+ 'director@shield.com', '87878789', 'admin', '2020-06-13 00:00:00', 'Nick Fury', 'Send over for parts', '0404 343242')
+
+insert into customer_additional_details (id, contactPerson1, contactPerson2, contactPhone1, contactPhone2,
+ createdBy, createdOn, customerId, modifiedBy, modifiedOn, note) values
+ (2, 'Philip', 'Coulson', '3322552233', '123131331',  'admin', '2020-06-13 00:00:00',
+  2,'admin', '2020-06-13 00:00:00', 'Send over for parts')
