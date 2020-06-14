@@ -170,7 +170,7 @@ public class UserDAOImplTest {
     }
 
     @Test
-    public void searchUserDetailsFailure() throws UserException {
+    public void searchUserDetailsFailure() {
         when(userRepository.findAll(any())).thenThrow(new CannotAcquireLockException("DB error"));
         Assertions.assertThrows(UserException.class, () -> userDAO.searchUserDetails(mockUserVO()));
     }

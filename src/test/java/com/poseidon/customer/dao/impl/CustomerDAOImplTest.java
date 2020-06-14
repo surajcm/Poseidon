@@ -67,6 +67,12 @@ class CustomerDAOImplTest {
     }
 
     @Test
+    void getCustomerFromIdEmptySuccess() throws CustomerException {
+        when(customerRepository.findById(anyLong())).thenReturn(Optional.empty());
+        Assertions.assertNull(customerDAO.getCustomerFromId(1234L));
+    }
+
+    @Test
     void getCustomerFromIdFailure() {
         when(customerRepository.findById(anyLong())).thenThrow(new CannotAcquireLockException("DB error"));
         Assertions.assertThrows(CustomerException.class, () -> customerDAO.getCustomerFromId(1234L));
@@ -90,14 +96,39 @@ class CustomerDAOImplTest {
     }
 
     @Test
+    void updateCustomerEmptySuccess() {
+        when(customerRepository.findById(anyLong())).thenReturn(Optional.empty());
+        Assertions.assertAll(() -> customerDAO.updateCustomer(mockCustomerVO()));
+    }
+
+    @Test
     void updateCustomerFailure() {
         when(customerRepository.findById(anyLong())).thenThrow(new CannotAcquireLockException("DB error"));
         Assertions.assertThrows(CustomerException.class, () -> customerDAO.updateCustomer(mockCustomerVO()));
     }
 
+    @Test
+    void searchCustomerSuccess() throws CustomerException {
+        when(customerRepository.findAll(any())).thenReturn(mockCustomers());
+        CustomerVO mockCustomerVO = mockCustomerVO();
+        Assertions.assertNotNull(customerDAO.searchCustomer(mockCustomerVO));
+        mockCustomerVO.setIncludes(Boolean.TRUE);
+        Assertions.assertNotNull(customerDAO.searchCustomer(mockCustomerVO));
+        mockCustomerVO.setIncludes(Boolean.FALSE);
+        mockCustomerVO.setStartsWith(Boolean.TRUE);
+        Assertions.assertNotNull(customerDAO.searchCustomer(mockCustomerVO));
+    }
+
+    @Test
+    void searchCustomerFailure() {
+        when(customerRepository.findAll(any())).thenThrow(new CannotAcquireLockException("DB error"));
+        Assertions.assertThrows(CustomerException.class, () -> customerDAO.searchCustomer(mockCustomerVO()));
+    }
+
     private CustomerVO mockCustomerVO() {
         CustomerVO customerVO = new CustomerVO();
         customerVO.setCustomerId(1234L);
+        customerVO.setCustomerName("ABC");
         customerVO.setNotes("ABC");
         customerVO.setAddress1("ABC");
         customerVO.setAddress2("ABC");
