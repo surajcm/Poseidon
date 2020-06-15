@@ -43,22 +43,32 @@ insert into model (id, modelName, makeId, createdOn, modifiedOn, createdBy, modi
 insert into model (id, modelName, makeId, createdOn, modifiedOn, createdBy, modifiedBy) values
 (3, 'ThinkPad', 3 ,'2019-08-01 00:00:00','2019-08-01 09:25:00','admin','admin');
 
-insert into customer (id, address1, address2, contactPerson1, contactPerson2, contactPhone1, contactPhone2,
-createdBy, createdOn, email, mobile, modifiedBy, modifiedOn, name, note, phone) values
-(1, '5630 N Sheridan', 'Chicago', 'John', 'Hartigan', '888999777', '333555666', 'admin', '2020-06-08 00:00:00',
- 'test@testmail.com', '555888999', 'admin', '2020-06-08 00:00:00', 'John Wick', 'Fix in 10 days', '0404 232323')
+insert into customer (id, name, address1, address2, phone, mobile, email, note, contactPerson1,
+contactPerson2, contactPhone1, contactPhone2,createdBy, createdOn, modifiedBy, modifiedOn) values
+(1, 'John Wick', '5630 N Sheridan', 'Chicago', '0404 232323', '555888999', 'test@testmail.com', 'Fix in 10 days',
+'John', 'Hartigan', '888999777', '333555666', 'admin', '2020-06-08 00:00:00', 'admin', '2020-06-08 00:00:00')
 
-insert into customer_additional_details (id, contactPerson1, contactPerson2, contactPhone1, contactPhone2,
- createdBy, createdOn, customerId, modifiedBy, modifiedOn, note) values
- (1, 'John', 'Hartigan', '888999777', '333555666',  'admin', '2020-06-08 00:00:00',
-  1,'admin', '2020-06-08 00:00:00', 'Fix in 10 days')
+insert into customer_additional_details (id, customerId, contactPerson1, contactPerson2, contactPhone1, contactPhone2,
+ note, createdBy, createdOn, modifiedBy, modifiedOn) values
+ (1, 1, 'John', 'Hartigan', '888999777', '333555666', 'Fix in 10 days',
+  'admin', '2020-06-08 00:00:00', 'admin', '2020-06-08 00:00:00')
 
-insert into customer (id, address1, address2, contactPerson1, contactPerson2, contactPhone1, contactPhone2,
-createdBy, createdOn, email, mobile, modifiedBy, modifiedOn, name, note, phone) values
-(2, '500 W Madison', 'Chicago', 'Philip', 'Coulson', '3322552233', '123131331', 'admin', '2020-06-13 00:00:00',
- 'director@shield.com', '87878789', 'admin', '2020-06-13 00:00:00', 'Nick Fury', 'Send over for parts', '0404 343242')
+insert into customer (id, name, address1, address2, phone, mobile, email, note,
+contactPerson1, contactPerson2, contactPhone1, contactPhone2,createdBy, createdOn, modifiedBy, modifiedOn) values
+(2, 'Nick Fury', '500 W Madison', 'Chicago', '0404 343242', '87878789', 'director@shield.com', 'Send over for parts',
+'Philip', 'Coulson', '3322552233', '123131331', 'admin', '2020-06-13 00:00:00', 'admin', '2020-06-13 00:00:00')
 
-insert into customer_additional_details (id, contactPerson1, contactPerson2, contactPhone1, contactPhone2,
- createdBy, createdOn, customerId, modifiedBy, modifiedOn, note) values
- (2, 'Philip', 'Coulson', '3322552233', '123131331',  'admin', '2020-06-13 00:00:00',
-  2,'admin', '2020-06-13 00:00:00', 'Send over for parts')
+insert into customer_additional_details (id, customerId, contactPerson1, contactPerson2, contactPhone1, contactPhone2,
+ note, createdBy, createdOn, modifiedBy, modifiedOn) values
+ (2, 2, 'Philip', 'Coulson', '3322552233', '123131331', 'Send over for parts',
+ 'admin', '2020-06-13 00:00:00', 'admin', '2020-06-13 00:00:00')
+
+insert into customer (id, name, address1, address2, phone, mobile, email, note,
+contactPerson1, contactPerson2, contactPhone1, contactPhone2, createdBy, createdOn, modifiedBy, modifiedOn) values
+(3, 'Steve Rogers', '5650 N Clark', 'California', '0424 1978', '5557771978', 'steve@mcu.com', 'Dig legacy pc parts',
+'Tony', 'Stark', '8989898', '2223131', 'admin', '2020-06-15 00:00:00', 'admin', '2020-06-15 00:00:00')
+
+insert into customer_additional_details (id, customerId, contactPerson1, contactPerson2, contactPhone1, contactPhone2,
+ note, createdBy, createdOn, modifiedBy, modifiedOn) values
+ (3, 3, 'Tony', 'Stark', '8989898', '2223131', 'Dig legacy pc parts',
+ 'admin', '2020-06-15 00:00:00', 'admin', '2020-06-15 00:00:00')

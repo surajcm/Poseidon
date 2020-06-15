@@ -13,7 +13,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
-import org.springframework.stereotype.Repository;
+import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
 import javax.persistence.EntityManager;
@@ -22,7 +22,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-@Repository
+@Service
 @SuppressWarnings("unused")
 public class CustomerDAOImpl implements CustomerDAO {
 
@@ -114,6 +114,10 @@ public class CustomerDAOImpl implements CustomerDAO {
     @Override
     public void deleteCustomerFromId(final Long id) throws CustomerException {
         try {
+            Optional<CustomerAdditionalDetails> additionalDetails =
+                    customerAdditionalDetailsRepository.findByCustomerId(id);
+            additionalDetails.ifPresent(customerAdditionalDetails ->
+                    customerAdditionalDetailsRepository.deleteById(customerAdditionalDetails.getId()));
             customerRepository.deleteById(id);
         } catch (DataAccessException ex) {
             LOG.error(ex.getLocalizedMessage());
@@ -136,12 +140,41 @@ public class CustomerDAOImpl implements CustomerDAO {
                 Customer customer = optionalCustomer.get();
                 updateCustomerWithCustomerVo(currentCustomerVo, customer);
                 customerRepository.save(customer);
+                if (isAdditionalDetailsPresent(currentCustomerVo)) {
+                    Optional<CustomerAdditionalDetails> additionalDetails =
+                            customerAdditionalDetailsRepository.findByCustomerId(customer.getCustomerId());
+                    CustomerAdditionalDetails customerAdditionalDetails;
+                    if (additionalDetails.isPresent()) {
+                        customerAdditionalDetails = additionalDetails.get();
+                    } else {
+                        customerAdditionalDetails = new CustomerAdditionalDetails();
+                        customerAdditionalDetails.setCustomerId(customer.getCustomerId());
+                    }
+                    updateAdditionalDetails(currentCustomerVo, customerAdditionalDetails);
+                    customerAdditionalDetailsRepository.save(customerAdditionalDetails);
+                }
             }
         } catch (DataAccessException ex) {
             LOG.error(ex.getLocalizedMessage());
             throw new CustomerException(CustomerException.DATABASE_ERROR);
         }
     }
+
+    private void updateAdditionalDetails(final CustomerVO currentCustomerVo,
+                                         final CustomerAdditionalDetails customerAdditionalDetails) {
+        customerAdditionalDetails.setContactPerson1(currentCustomerVo.getContactPerson1());
+        customerAdditionalDetails.setContactPerson2(currentCustomerVo.getContactPerson2());
+        customerAdditionalDetails.setContactPhone1(currentCustomerVo.getContactMobile1());
+        customerAdditionalDetails.setContactPhone2(currentCustomerVo.getContactMobile2());
+        customerAdditionalDetails.setNote(currentCustomerVo.getNotes());
+    }
+
+    private boolean isAdditionalDetailsPresent(final CustomerVO currentCustomerVo) {
+        return currentCustomerVo.getContactPerson1() != null || currentCustomerVo.getContactPerson2() != null
+                || currentCustomerVo.getContactMobile1() != null || currentCustomerVo.getContactMobile2() != null
+                || currentCustomerVo.getNotes() != null;
+    }
+
 
     private void updateCustomerWithCustomerVo(final CustomerVO currentCustomerVo, final Customer customer) {
         customer.setName(currentCustomerVo.getCustomerName());
