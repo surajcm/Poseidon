@@ -178,7 +178,6 @@ function viewCustomer() {
 }
 
 function viewRow() {
-    //alert(" going to view customer !!!!");
     var userRow;
     var customerId;
     var checks = document.getElementsByName('checkField');
@@ -186,7 +185,7 @@ function viewRow() {
         userRow = document.getElementById("myTable").rows[0];
         customerId = userRow.cells[0].childNodes[0].value;
     } else {
-        for(var i = 0; i < checks.length ; i++) {
+        for (var i = 0; i < checks.length ; i++) {
             if (checks[i].checked) {
                 userRow = document.getElementById("myTable").rows[i+1];
             }

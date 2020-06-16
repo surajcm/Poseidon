@@ -167,8 +167,6 @@ public class CustomerController {
         LOG.info(CUSTOMER_FORM_IS, customerForm);
         try {
             CustomerVO customerVO = customerForm.getCurrentCustomerVO();
-            customerVO.setCreatedOn(OffsetDateTime.now(ZoneId.systemDefault()));
-            customerVO.setModifiedOn(OffsetDateTime.now(ZoneId.systemDefault()));
             customerVO.setCreatedBy(customerForm.getLoggedInUser());
             customerVO.setModifiedBy(customerForm.getLoggedInUser());
             //populate customer additional details

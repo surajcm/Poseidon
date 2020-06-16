@@ -1,6 +1,8 @@
 package com.poseidon.transaction.dao.impl;
 
 import com.poseidon.customer.dao.entities.Customer;
+import com.poseidon.customer.dao.entities.CustomerAdditionalDetails;
+import com.poseidon.customer.dao.impl.CustomerAdditionalDetailsRepository;
 import com.poseidon.customer.dao.impl.CustomerRepository;
 import com.poseidon.make.dao.entities.Make;
 import com.poseidon.make.dao.entities.Model;
@@ -37,6 +39,8 @@ public class TransactionDAOImplTest {
     private final CustomerRepository customerRepository = Mockito.mock(CustomerRepository.class);
     private final MakeRepository makeRepository = Mockito.mock(MakeRepository.class);
     private final ModelRepository modelRepository = Mockito.mock(ModelRepository.class);
+    private final CustomerAdditionalDetailsRepository customerAdditionalDetailsRepository =
+            Mockito.mock(CustomerAdditionalDetailsRepository.class);
 
     @BeforeEach
     public void setup() {
@@ -44,6 +48,8 @@ public class TransactionDAOImplTest {
         Whitebox.setInternalState(transactionDAO, "customerRepository", customerRepository);
         Whitebox.setInternalState(transactionDAO, "makeRepository", makeRepository);
         Whitebox.setInternalState(transactionDAO, "modelRepository", modelRepository);
+        Whitebox.setInternalState(transactionDAO, "customerAdditionalDetailsRepository",
+                customerAdditionalDetailsRepository);
     }
 
     @Test
@@ -131,6 +137,8 @@ public class TransactionDAOImplTest {
     @Test
     public void fetchTransactionFromTagSuccess() throws TransactionException {
         when(customerRepository.findById(anyLong())).thenReturn(Optional.of(mockCustomer()));
+        when(customerAdditionalDetailsRepository.findByCustomerId(anyLong()))
+                .thenReturn(Optional.of(mockCustomerAdditionalDetails()));
         when(makeRepository.getOne(anyLong())).thenReturn(mockMake());
         when(modelRepository.getOne(anyLong())).thenReturn(mockModel());
         when(transactionRepository.findBytagno(anyString())).thenReturn(mockTransaction());
@@ -212,6 +220,16 @@ public class TransactionDAOImplTest {
         customer.setCustomerId(1234L);
         customer.setName("ABC");
         return customer;
+    }
+
+    private CustomerAdditionalDetails mockCustomerAdditionalDetails() {
+        CustomerAdditionalDetails additionalDetails = new CustomerAdditionalDetails();
+        additionalDetails.setNote("ABC");
+        additionalDetails.setContactPerson1("ABC");
+        additionalDetails.setContactPhone1("12321323");
+        additionalDetails.setContactPerson2("ABC");
+        additionalDetails.setContactPhone2("12321323");
+        return additionalDetails;
     }
 
     private Make mockMake() {

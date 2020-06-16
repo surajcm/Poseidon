@@ -43,32 +43,36 @@ insert into model (id, modelName, makeId, createdOn, modifiedOn, createdBy, modi
 insert into model (id, modelName, makeId, createdOn, modifiedOn, createdBy, modifiedBy) values
 (3, 'ThinkPad', 3 ,'2019-08-01 00:00:00','2019-08-01 09:25:00','admin','admin');
 
-insert into customer (id, name, address1, address2, phone, mobile, email, note, contactPerson1,
-contactPerson2, contactPhone1, contactPhone2,createdBy, createdOn, modifiedBy, modifiedOn) values
-(1, 'John Wick', '5630 N Sheridan', 'Chicago', '0404 232323', '555888999', 'test@testmail.com', 'Fix in 10 days',
-'John', 'Hartigan', '888999777', '333555666', 'admin', '2020-06-08 00:00:00', 'admin', '2020-06-08 00:00:00')
+insert into customer (id, name, address1, address2, phone, mobile, email,createdBy, createdOn, modifiedBy, modifiedOn)
+values (1, 'John Wick', '5630 N Sheridan', 'Chicago', '0404 232323', '555888999', 'test@testmail.com',
+ 'admin', '2020-06-08 00:00:00', 'admin', '2020-06-08 00:00:00')
 
 insert into customer_additional_details (id, customerId, contactPerson1, contactPerson2, contactPhone1, contactPhone2,
  note, createdBy, createdOn, modifiedBy, modifiedOn) values
  (1, 1, 'John', 'Hartigan', '888999777', '333555666', 'Fix in 10 days',
   'admin', '2020-06-08 00:00:00', 'admin', '2020-06-08 00:00:00')
 
-insert into customer (id, name, address1, address2, phone, mobile, email, note,
-contactPerson1, contactPerson2, contactPhone1, contactPhone2,createdBy, createdOn, modifiedBy, modifiedOn) values
-(2, 'Nick Fury', '500 W Madison', 'Chicago', '0404 343242', '87878789', 'director@shield.com', 'Send over for parts',
-'Philip', 'Coulson', '3322552233', '123131331', 'admin', '2020-06-13 00:00:00', 'admin', '2020-06-13 00:00:00')
+insert into customer (id, name, address1, address2, phone, mobile, email, createdBy, createdOn, modifiedBy, modifiedOn)
+ values (2, 'Nick Fury', '500 W Madison', 'Chicago', '0404 343242', '87878789', 'director@shield.com',
+  'admin', '2020-06-13 00:00:00', 'admin', '2020-06-13 00:00:00')
 
 insert into customer_additional_details (id, customerId, contactPerson1, contactPerson2, contactPhone1, contactPhone2,
  note, createdBy, createdOn, modifiedBy, modifiedOn) values
  (2, 2, 'Philip', 'Coulson', '3322552233', '123131331', 'Send over for parts',
  'admin', '2020-06-13 00:00:00', 'admin', '2020-06-13 00:00:00')
 
-insert into customer (id, name, address1, address2, phone, mobile, email, note,
-contactPerson1, contactPerson2, contactPhone1, contactPhone2, createdBy, createdOn, modifiedBy, modifiedOn) values
-(3, 'Steve Rogers', '5650 N Clark', 'California', '0424 1978', '5557771978', 'steve@mcu.com', 'Dig legacy pc parts',
-'Tony', 'Stark', '8989898', '2223131', 'admin', '2020-06-15 00:00:00', 'admin', '2020-06-15 00:00:00')
+insert into customer (id, name, address1, address2, phone, mobile, email, createdBy, createdOn, modifiedBy, modifiedOn)
+values (3, 'Steve Rogers', '5650 N Clark', 'California', '0424 1978', '5557771978', 'steve@mcu.com',
+ 'admin', '2020-06-15 00:00:00', 'admin', '2020-06-15 00:00:00')
 
 insert into customer_additional_details (id, customerId, contactPerson1, contactPerson2, contactPhone1, contactPhone2,
  note, createdBy, createdOn, modifiedBy, modifiedOn) values
  (3, 3, 'Tony', 'Stark', '8989898', '2223131', 'Dig legacy pc parts',
+ 'admin', '2020-06-15 00:00:00', 'admin', '2020-06-15 00:00:00')
+
+insert into transaction (id, tagNo, dateReported, customerId, productCategory, makeId, modelId,
+ serialNo, accessories, complaintReported, complaintDiagnosed, engineerRemarks, repairAction, note, status,
+ createdBy, createdOn, modifiedBy, modifiedOn) values (1, 'WON2N1', '2020-06-15 00:00:00', 1 , 'LAPTOP', 1, 1,
+ 'AEPEP88990', 'Charger', 'Startup failure', 'Battery connectivity', 'Power circuit broken',
+ 'Replace Board', 'Purchase new board', 'ACCEPTED',
  'admin', '2020-06-15 00:00:00', 'admin', '2020-06-15 00:00:00')

@@ -162,7 +162,6 @@ class CustomerDAOImplTest {
         customer.setAddress1("ABC");
         customer.setAddress2("ABC");
         setCustomerContacts(customer);
-        customer.setNote("ABC");
         customer.setCreatedBy("ABC");
         customer.setModifiedBy("ABC");
         return customer;
@@ -172,9 +171,5 @@ class CustomerDAOImplTest {
         customer.setPhone("ABC");
         customer.setMobile("ABC");
         customer.setEmail("ABC");
-        customer.setContactPerson1("ABC");
-        customer.setContactPhone1("ABC");
-        customer.setContactPerson2("ABC");
-        customer.setContactPhone2("ABC");
     }
 }

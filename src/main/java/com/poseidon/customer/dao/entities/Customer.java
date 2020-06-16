@@ -38,21 +38,6 @@ public class Customer {
     @Column(name = "email")
     private String email;
 
-    @Column(name = "contactPerson1")
-    private String contactPerson1;
-
-    @Column(name = "contactPhone1")
-    private String contactPhone1;
-
-    @Column(name = "contactPerson2")
-    private String contactPerson2;
-
-    @Column(name = "contactPhone2")
-    private String contactPhone2;
-
-    @Column(name = "note")
-    private String note;
-
     @Column(name = "createdOn")
     private OffsetDateTime createdOn;
 
@@ -119,46 +104,6 @@ public class Customer {
 
     public void setEmail(final String email) {
         this.email = email;
-    }
-
-    public String getContactPerson1() {
-        return contactPerson1;
-    }
-
-    public void setContactPerson1(final String contactPerson1) {
-        this.contactPerson1 = contactPerson1;
-    }
-
-    public String getContactPhone1() {
-        return contactPhone1;
-    }
-
-    public void setContactPhone1(final String contactPhone1) {
-        this.contactPhone1 = contactPhone1;
-    }
-
-    public String getContactPerson2() {
-        return contactPerson2;
-    }
-
-    public void setContactPerson2(final String contactPerson2) {
-        this.contactPerson2 = contactPerson2;
-    }
-
-    public String getContactPhone2() {
-        return contactPhone2;
-    }
-
-    public void setContactPhone2(final String contactPhone2) {
-        this.contactPhone2 = contactPhone2;
-    }
-
-    public String getNote() {
-        return note;
-    }
-
-    public void setNote(final String note) {
-        this.note = note;
     }
 
     public OffsetDateTime getCreatedOn() {
