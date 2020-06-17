@@ -142,57 +142,6 @@
                             </td>
                         </tr>
                         <tr>
-                            <td style="text-align:right;">
-                                <label for="contactPerson1" class="control-label">
-                                    Contact Person 1 :
-                                </label>
-                            </td>
-                            <td style="text-align:left;">
-                                <form:input path="customerVO.contactPerson1" cssClass="form-control" id="contactPerson1"/>
-                            </td>
-                            <td colspan="2">&nbsp;</td>
-                            <td style="text-align:right;">
-                                <label for="contactMobile1" class="control-label">
-                                    Mobile of Contact Person 1 :
-                                </label>
-                            </td>
-                            <td style="text-align:left;">
-                                <form:input path="customerVO.contactMobile1" cssClass="form-control"
-                                            id="contactMobile1"/>
-                            </td>
-                            <td colspan="4">&nbsp;</td>
-                        </tr>
-                        <tr>
-                            <td style="text-align:right;">
-                                <label for="contactPerson2" class="control-label">
-                                    Contact Person 2 :
-                                </label>
-                            </td>
-                            <td style="text-align:left;">
-                                <form:input path="customerVO.contactPerson2" cssClass="form-control"
-                                            id="contactPerson2"/>
-                            </td>
-                            <td colspan="2">&nbsp;</td>
-                            <td style="text-align:right;">
-                                <label for="contactMobile2" class="control-label">
-                                    Mobile of Contact Person 2 :
-                                </label>
-                            </td>
-                            <td style="text-align:left;">
-                                <form:input path="customerVO.contactMobile2" cssClass="form-control"
-                                            id="contactMobile2"/>
-                            </td>
-                            <td colspan="2">&nbsp;</td>
-                            <td style="text-align:right;">
-                                <label for="notes" class="control-label">
-                                    Notes :
-                                </label>
-                            </td>
-                            <td style="text-align:left;">
-                                <form:textarea path="customerVO.notes" cssClass="form-control" id="notes"/>
-                            </td>
-                        </tr>
-                        <tr>
                             <td colspan="10">&nbsp;</td>
                         </tr>
                         <tr>

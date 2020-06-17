@@ -54,6 +54,22 @@ public class TransactionDAOImpl implements TransactionDAO {
     private EntityManager em;
 
     /**
+     * list all transactions.
+     *
+     * @return list of transactions
+     */
+    @Override
+    public List<TransactionVO> listAllTransactions() throws TransactionException {
+        try {
+            List<Transaction> transactions = transactionRepository.findAll();
+            return transactions.stream().map(this::convertToVO).collect(Collectors.toList());
+        } catch (Exception ex) {
+            LOG.error(ex.getLocalizedMessage());
+            throw new TransactionException(TransactionException.DATABASE_ERROR);
+        }
+    }
+
+    /**
      * list today's transactions.
      */
     @Override
@@ -176,22 +192,6 @@ public class TransactionDAOImpl implements TransactionDAO {
                 txn.setStatus(status);
                 transactionRepository.save(txn);
             }
-        } catch (Exception ex) {
-            LOG.error(ex.getLocalizedMessage());
-            throw new TransactionException(TransactionException.DATABASE_ERROR);
-        }
-    }
-
-    /**
-     * list all transactions.
-     *
-     * @return list of transactions
-     */
-    @Override
-    public List<TransactionVO> listAllTransactions() throws TransactionException {
-        try {
-            List<Transaction> transactions = transactionRepository.findAll();
-            return transactions.stream().map(this::convertToVO).collect(Collectors.toList());
         } catch (Exception ex) {
             LOG.error(ex.getLocalizedMessage());
             throw new TransactionException(TransactionException.DATABASE_ERROR);
@@ -366,7 +366,7 @@ public class TransactionDAOImpl implements TransactionDAO {
         transactionVO.setAccessories(txn.getAccessories());
         transactionVO.setComplaintReported(txn.getComplaintReported());
         transactionVO.setComplaintDiagonsed(txn.getComplaintDiagnosed());
-        transactionVO.setEndDate(txn.getEngineerRemarks());
+        transactionVO.setEnggRemark(txn.getEngineerRemarks());
         transactionVO.setRepairAction(txn.getRepairAction());
         transactionVO.setNotes(txn.getNote());
         return transactionVO;

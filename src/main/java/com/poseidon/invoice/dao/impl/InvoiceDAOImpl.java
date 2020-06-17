@@ -287,6 +287,8 @@ public class InvoiceDAOImpl implements InvoiceDAO {
         invoice.setRate(String.valueOf(currentInvoiceVO.getRate()));
         invoice.setCustomerId(currentInvoiceVO.getCustomerId());
         invoice.setCustomerName(currentInvoiceVO.getCustomerName());
+        invoice.setCreatedBy(currentInvoiceVO.getCreatedBy());
+        invoice.setModifiedBy(currentInvoiceVO.getModifiedBy());
         return invoice;
     }
 }

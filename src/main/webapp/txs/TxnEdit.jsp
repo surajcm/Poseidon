@@ -151,59 +151,6 @@
                         </td>
                     </tr>
                     <tr>
-                        <td style="text-align:right;">
-                            <label for="contactPerson1" class="control-label">
-                                Contact Person 1 :
-                            </label>
-                        </td>
-                        <td style="text-align:left;">
-                            <form:input path="customerVO.contactPerson1" cssStyle="background: #A9A9A9 ;" cssClass="form-control"
-                                        id="contactPerson1" readonly="true"/>
-                        </td>
-                        <td colspan="2">&nbsp;</td>
-                        <td style="text-align:right;">
-                            <label for="contactMobile1" class="control-label">
-                                Mobile of Contact Person 1 :
-                            </label>
-                        </td>
-                        <td style="text-align:left;">
-                            <form:input path="customerVO.contactMobile1" cssStyle="background: #A9A9A9 ;" cssClass="form-control"
-                                        id="contactMobile1" readonly="true"/>
-                        </td>
-                        <td colspan="4">&nbsp;</td>
-                    </tr>
-                    <tr>
-                        <td style="text-align:right;">
-                            <label for="contactPerson2" class="control-label">
-                                Contact Person 2 :
-                            </label>
-                        </td>
-                        <td style="text-align:left;">
-                            <form:input path="customerVO.contactPerson2" cssStyle="background: #A9A9A9 ;" cssClass="form-control"
-                                        id="contactPerson2" readonly="true"/>
-                        </td>
-                        <td colspan="2">&nbsp;</td>
-                        <td style="text-align:right;">
-                            <label for="contactMobile2" class="control-label">
-                                Mobile of Contact Person 2 :
-                            </label>
-                        </td>
-                        <td style="text-align:left;">
-                            <form:input path="customerVO.contactMobile2" cssStyle="background: #A9A9A9 ;" cssClass="form-control"
-                                        id="contactMobile2" readonly="true"/>
-                        </td>
-                        <td colspan="2">&nbsp;</td>
-                        <td style="text-align:right;" class="control-label">
-                            <label for="notes">
-                                Notes :
-                            </label>
-                        </td>
-                        <td style="text-align:left;">
-                            <form:textarea path="customerVO.notes" cssStyle="background: #A9A9A9 ;" cssClass="form-control"
-                                           id="notes" readonly="true"/>
-                        </td>
-                    </tr>
-                    <tr>
                         <td colspan="10">&nbsp;</td>
                     </tr>
                     <tr>
@@ -252,7 +199,6 @@
                     <tr>
                         <td style="text-align:right;">
                             <label for="accessories" class="control-label">Accessories :</label>
-                            <label class="mandatory">*</label>
                         </td>
                         <td style="text-align:left;">
                             <form:textarea path="currentTransaction.accessories" cssClass="form-control" id="accessories"/>
@@ -260,7 +206,6 @@
                         <td colspan="2"> &nbsp;</td>
                         <td style="text-align:right;">
                             <label for="complaintReported" class="control-label">Complaint Reported :</label>
-                            <label class="mandatory">*</label>
                         </td>
                         <td style="text-align:left;">
                             <form:textarea path="currentTransaction.complaintReported" cssClass="form-control" id="complaintReported"/>
@@ -268,7 +213,6 @@
                         <td colspan="2"> &nbsp;</td>
                         <td style="text-align:right;">
                             <label for="complaintDiagonsed">Complaint Diagnosed :</label>
-                            <label class="mandatory">*</label>
                         </td>
                         <td style="text-align:left;">
                             <form:textarea path="currentTransaction.complaintDiagonsed" cssClass="form-control" id="complaintDiagonsed"/>
@@ -277,7 +221,6 @@
                     <tr>
                         <td style="text-align:right;">
                             <label for="enggRemark" class="control-label">Engineer Remarks :</label>
-                            <label class="mandatory">*</label>
                         </td>
                         <td style="text-align:left;">
                             <form:textarea path="currentTransaction.enggRemark" cssClass="form-control" id="enggRemark"/>
@@ -285,7 +228,6 @@
                         <td colspan="2"> &nbsp;</td>
                         <td style="text-align:right;">
                             <label for="repairAction" class="control-label">Repair Action :</label>
-                            <label class="mandatory">*</label>
                         </td>
                         <td style="text-align:left;">
                             <form:textarea path="currentTransaction.repairAction" cssClass="form-control" id="repairAction"/>
@@ -293,7 +235,6 @@
                         <td colspan="2"> &nbsp;</td>
                         <td style="text-align:right;">
                             <label for="notes" class="control-label">Notes :</label>
-                            <label class="mandatory">*</label>
                         </td>
                         <td style="text-align:left;">
                             <form:textarea path="currentTransaction.notes" cssClass="form-control" id="notes"/>

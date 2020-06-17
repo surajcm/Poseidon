@@ -5,8 +5,11 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.PrePersist;
+import javax.persistence.PreUpdate;
 import javax.persistence.Table;
 import java.time.OffsetDateTime;
+import java.time.ZoneId;
 
 @Entity
 //todo : add schema
@@ -166,5 +169,17 @@ public class Invoice {
 
     public void setModifiedBy(final String modifiedBy) {
         this.modifiedBy = modifiedBy;
+    }
+
+    /**
+     * initialize / update date fields.
+     */
+    @PrePersist
+    @PreUpdate
+    public void initializeDate() {
+        if (this.getInvoiceId() == null) {
+            createdOn = OffsetDateTime.now(ZoneId.systemDefault());
+        }
+        modifiedOn = OffsetDateTime.now(ZoneId.systemDefault());
     }
 }

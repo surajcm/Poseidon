@@ -24,7 +24,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.time.OffsetDateTime;
 import java.time.ZoneId;
-import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -65,8 +65,6 @@ public class TransactionController {
      */
     @PostMapping("/txs/List.htm")
     public ModelAndView list(final TransactionForm transactionForm) {
-        LOG.info(" Inside List method of TransactionController ");
-        LOG.info(" form details are {}", transactionForm);
         List<TransactionVO> transactionVOs = null;
         try {
             transactionVOs = transactionService.listAllTransactions();
@@ -78,16 +76,7 @@ public class TransactionController {
             transactionForm.setTransactionsList(transactionVOs);
         }
         //get all the make list for displaying in search
-        List<MakeVO> makeVOs = null;
-        try {
-            makeVOs = makeService.fetchMakes();
-        } catch (Exception ex) {
-            LOG.error(ex.getMessage());
-        }
-        if (makeVOs != null) {
-            makeVOs.stream().map(makeVO -> "make vo is" + makeVO).forEach(LOG::info);
-            transactionForm.setMakeVOs(makeVOs);
-        }
+        transactionForm.setMakeVOs(getMakeVOS());
         transactionForm.setSearchTransaction(new TransactionVO());
         transactionForm.setLoggedInRole(transactionForm.getLoggedInRole());
         transactionForm.setLoggedInUser(transactionForm.getLoggedInUser());
@@ -95,15 +84,18 @@ public class TransactionController {
         return new ModelAndView(TRANSACTION_LIST, TRANSACTION_FORM, transactionForm);
     }
 
+    private List<MakeVO> getMakeVOS() {
+        List<MakeVO> makeVOs = null;
+        try {
+            makeVOs = makeService.fetchMakes();
+        } catch (Exception ex) {
+            LOG.error(ex.getMessage());
+        }
+        return makeVOs;
+    }
+
     private List<String> populateStatus() {
-        List<String> statusList = new ArrayList<>();
-        statusList.add("NEW");
-        statusList.add("ACCEPTED");
-        statusList.add("VERIFIED");
-        statusList.add("CLOSED");
-        statusList.add("REJECTED");
-        statusList.add("INVOICED");
-        return statusList;
+        return Arrays.stream(TransactionStatus.values()).map(Enum::name).collect(Collectors.toList());
     }
 
     /**
@@ -116,15 +108,9 @@ public class TransactionController {
     public ModelAndView addTxn(final TransactionForm transactionForm) {
         LOG.info(" Inside AddTxn method of TransactionController ");
         //get all the make list for displaying in search
-        List<MakeVO> makeVOs = null;
-        try {
-            makeVOs = makeService.fetchMakes();
-        } catch (Exception ex) {
-            LOG.error(ex.getLocalizedMessage());
-        }
+        List<MakeVO> makeVOs = getMakeVOS();
         List<MakeAndModelVO> makeAndModelVOs = null;
         if (makeVOs != null && !makeVOs.isEmpty()) {
-            makeVOs.stream().map(makeVO -> "make vo is" + makeVO).forEach(LOG::info);
             transactionForm.setMakeVOs(makeVOs);
             LOG.info("The selected make id is {}", makeVOs.get(0).getId());
             makeAndModelVOs = makeService.getAllModelsFromMakeId(makeVOs.get(0).getId());
@@ -235,17 +221,7 @@ public class TransactionController {
             transactionVOs.forEach(transactionVO -> LOG.debug(TRANSACTION_VO, transactionVO));
             transactionForm.setTransactionsList(transactionVOs);
         }
-        //get all the make list for displaying in search
-        List<MakeVO> makeVOs = null;
-        try {
-            makeVOs = makeService.fetchMakes();
-        } catch (Exception ex) {
-            LOG.error(ex.getLocalizedMessage());
-        }
-        if (makeVOs != null) {
-            makeVOs.forEach(makeVO -> LOG.debug(MAKE_VO, makeVO));
-            transactionForm.setMakeVOs(makeVOs);
-        }
+        transactionForm.setMakeVOs(getMakeVOS());
         transactionForm.setLoggedInRole(transactionForm.getLoggedInRole());
         transactionForm.setLoggedInUser(transactionForm.getLoggedInUser());
         transactionForm.setStatusList(populateStatus());
@@ -270,16 +246,7 @@ public class TransactionController {
                 customerVO = customerService.getCustomerFromId(transactionVO.getCustomerId());
             }
             if (transactionVO != null && transactionVO.getMakeId() != null && transactionVO.getMakeId() > 0) {
-                List<MakeVO> makeVOs = null;
-                try {
-                    makeVOs = makeService.fetchMakes();
-                } catch (Exception ex) {
-                    LOG.error(ex.getLocalizedMessage());
-                }
-                if (makeVOs != null) {
-                    makeVOs.forEach(makeVO -> LOG.info(MAKE_VO, makeVO));
-                    transactionForm.setMakeVOs(makeVOs);
-                }
+                transactionForm.setMakeVOs(getMakeVOS());
                 List<MakeAndModelVO> makeAndModelVOs;
                 makeAndModelVOs = makeService.getAllModelsFromMakeId(transactionVO.getMakeId());
                 if (makeAndModelVOs != null) {
@@ -349,17 +316,7 @@ public class TransactionController {
             transactionVOs.forEach(transactionVO -> LOG.info(TRANSACTION_VO, transactionVO));
             transactionForm.setTransactionsList(transactionVOs);
         }
-        //get all the make list for displaying in search
-        List<MakeVO> makeVOs = null;
-        try {
-            makeVOs = makeService.fetchMakes();
-        } catch (Exception ex) {
-            LOG.error(ex.getLocalizedMessage());
-        }
-        if (makeVOs != null) {
-            makeVOs.forEach(makeVO -> LOG.info(MAKE_VO, makeVO));
-            transactionForm.setMakeVOs(makeVOs);
-        }
+        transactionForm.setMakeVOs(getMakeVOS());
         transactionForm.setSearchTransaction(new TransactionVO());
         transactionForm.setLoggedInRole(transactionForm.getLoggedInRole());
         transactionForm.setLoggedInUser(transactionForm.getLoggedInUser());
@@ -407,17 +364,7 @@ public class TransactionController {
             transactionVOs.forEach(transactionVO -> LOG.info(TRANSACTION_VO, transactionVO));
             transactionForm.setTransactionsList(transactionVOs);
         }
-        //get all the make list for displaying in search
-        List<MakeVO> makeVOs = null;
-        try {
-            makeVOs = makeService.fetchMakes();
-        } catch (Exception ex) {
-            LOG.error(ex.getLocalizedMessage());
-        }
-        if (makeVOs != null) {
-            makeVOs.forEach(makeVO -> LOG.info(MAKE_VO, makeVO));
-            transactionForm.setMakeVOs(makeVOs);
-        }
+        transactionForm.setMakeVOs(getMakeVOS());
         transactionForm.setSearchTransaction(new TransactionVO());
         transactionForm.setLoggedInRole(transactionForm.getLoggedInRole());
         transactionForm.setLoggedInUser(transactionForm.getLoggedInUser());

@@ -14,10 +14,12 @@ function checkCall(e) {
         }
     }
 }
+
 function search() {
     document.forms[0].action = "SearchTxn.htm";
     document.forms[0].submit();
 }
+
 function isNumber(n) {
     return !isNaN(parseFloat(n)) && isFinite(n);
 }
@@ -234,27 +236,23 @@ function invoiceTxn() {
 }
 
 function invoiceRow() {
-
     var userRow;
     var checks = document.getElementsByName('checkField');
     if (checks.checked) {
         userRow = document.getElementById("myTable").rows[0];
-        document.getElementById("id").value = userRow.cells[0].childNodes[0].value;
-        document.forms[0].action="${contextPath}/invoice/InvoiceTxn.htm";
-        document.forms[0].submit();
     } else {
         for (var i = 0; i < checks.length; i++) {
             if (checks[i].checked) {
                 userRow = document.getElementById("myTable").rows[i + 1];
             }
         }
-        document.getElementById("id").value = userRow.cells[0].childNodes[0].value;
-        document.forms[0].action="${contextPath}/invoice/InvoiceTxn.htm";
-        document.forms[0].submit();
     }
+    document.getElementById("id").value = userRow.cells[0].childNodes[0].value;
+    document.forms[0].action="/invoice/InvoiceTxn.htm";
+    document.forms[0].submit();
 }
 
-function hideAlerts(){
+function hideAlerts() {
     document.getElementById('txnmgt').text = "Transactions <span class='sr-only'>Transactions</span>";
 }
 

@@ -113,9 +113,10 @@ public class InvoiceController {
             } catch (TransactionException ex) {
                 LOG.error(ex.getLocalizedMessage());
             }
-
+            LOG.info("Found transactions :" + transactionVOs.size());
             if (transactionVOs != null && !transactionVOs.isEmpty()) {
                 invoiceService.addInvoice(invoiceForm.getCurrentInvoiceVo());
+                LOG.info("Successfully saved the new invoice Detail");
                 invoiceForm.setStatusMessage("Successfully saved the new invoice Detail");
                 invoiceForm.setStatusMessageType("success");
                 //update the transaction
@@ -132,6 +133,7 @@ public class InvoiceController {
             invoiceForm.setStatusMessageType(ERROR);
             LOG.error(ex.getLocalizedMessage());
         }
+        LOG.info("fetching invoice for listing....");
         List<InvoiceVO> invoiceVOs;
         try {
             invoiceVOs = invoiceService.fetchInvoiceForListOfTransactions();

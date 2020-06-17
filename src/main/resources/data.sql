@@ -41,7 +41,10 @@ insert into model (id, modelName, makeId, createdOn, modifiedOn, createdBy, modi
 (2, 'MacBook Air', 1 ,'2019-08-01 00:00:00','2019-08-01 09:23:00','admin','admin');
 
 insert into model (id, modelName, makeId, createdOn, modifiedOn, createdBy, modifiedBy) values
-(3, 'ThinkPad', 3 ,'2019-08-01 00:00:00','2019-08-01 09:25:00','admin','admin');
+(3, 'Inspiron', 2 ,'2019-08-01 00:00:00','2019-08-01 09:23:00','admin','admin');
+
+insert into model (id, modelName, makeId, createdOn, modifiedOn, createdBy, modifiedBy) values
+(4, 'ThinkPad', 3 ,'2019-08-01 00:00:00','2019-08-01 09:25:00','admin','admin');
 
 insert into customer (id, name, address1, address2, phone, mobile, email,createdBy, createdOn, modifiedBy, modifiedOn)
 values (1, 'John Wick', '5630 N Sheridan', 'Chicago', '0404 232323', '555888999', 'test@testmail.com',
@@ -76,3 +79,10 @@ insert into transaction (id, tagNo, dateReported, customerId, productCategory, m
  'AEPEP88990', 'Charger', 'Startup failure', 'Battery connectivity', 'Power circuit broken',
  'Replace Board', 'Purchase new board', 'ACCEPTED',
  'admin', '2020-06-15 00:00:00', 'admin', '2020-06-15 00:00:00')
+
+insert into transaction (id, tagNo, dateReported, customerId, productCategory, makeId, modelId,
+ serialNo, accessories, complaintReported, complaintDiagnosed, engineerRemarks, repairAction, note, status,
+ createdBy, createdOn, modifiedBy, modifiedOn) values (2, 'WON2N2', '2020-06-16 00:00:00', 2 , 'LAPTOP', 1, 2,
+ 'PQRS12345', 'Charger', 'Display failure', 'Display connectivity', 'Display circuit broken',
+ 'Replace Board', 'Purchase new board', 'VERIFIED',
+ 'admin', '2020-06-16 00:00:00', 'admin', '2020-06-16 00:00:00')
