@@ -15,7 +15,6 @@
     <spring:url value="/resources/images/Poseidon_Ico.ico" var="posIcon" />
     <link rel="shortcut icon" href="${posIcon}" />
     <link rel="stylesheet" href="/css/jquery-ui.css" type="text/css" />
-    <link rel="stylesheet" href="/css/font-awesome.min.css" type="text/css" />
     <link rel="stylesheet" href="/css/bootstrap.min.css"  type="text/css" />
     <link rel="stylesheet" href="/css/custom.css" type="text/css" />
 
@@ -192,6 +191,9 @@
                     </td>
                     <td>
                         <form:input path="txnReportTransactionVO.startDate" cssClass="form-control" id="txnReportStartDate"/>
+                        <label for="startDate" class="input-group-addon btn">
+                            <img src="/img/calendar3.svg" alt="" width="16" height="16" title="calendar" />
+                        </label>
                     </td>
                     <td colspan="2">&nbsp;</td>
                     <td>
@@ -201,6 +203,9 @@
                     </td>
                     <td>
                         <form:input path="txnReportTransactionVO.endDate" cssClass="form-control" id="txnReportEndDate"/>
+                        <label for="endDate" class="input-group-addon btn">
+                            <img src="/img/calendar3.svg" alt="" width="16" height="16" title="calendar" />
+                        </label>
                     </td>
                 </tr>
                 <tr>
@@ -363,6 +368,9 @@
                     </td>
                     <td>
                         <form:input path="invoiceListReportTransactionVO.startDate" cssClass="form-control" id="invoiceListStartDate"/>
+                        <label for="startDate" class="input-group-addon btn">
+                            <img src="/img/calendar3.svg" alt="" width="16" height="16" title="calendar" />
+                        </label>
                     </td>
                     <td colspan="2">&nbsp;</td>
                     <td>
@@ -372,6 +380,9 @@
                     </td>
                     <td>
                         <form:input path="invoiceListReportTransactionVO.endDate" cssClass="form-control" id="invoiceListEndDate"/>
+                        <label for="endDate" class="input-group-addon btn">
+                            <img src="/img/calendar3.svg" alt="" width="16" height="16" title="calendar" />
+                        </label>
                     </td>
                 </tr>
                 <tr>

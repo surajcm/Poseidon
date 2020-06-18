@@ -1,10 +1,11 @@
-function addInvoice(){
+function addInvoice() {
     /*if(document.getElementById('amount').value.length == 0){
      document.getElementById('amount').value = "0.0";
      }*/
     document.forms[0].action = "addInvoice.htm";
     document.forms[0].submit();
 }
+
 function search() {
     /*if(document.getElementById('amount').value.length == 0){
      document.getElementById('amount').value = "0.0";
@@ -12,6 +13,7 @@ function search() {
     document.forms[0].action = "SearchInvoice.htm";
     document.forms[0].submit();
 }
+
 function clearOut() {
     document.getElementById('invoiceId').value = "";
     document.getElementById('description').value = "";
@@ -23,6 +25,7 @@ function clearOut() {
     document.getElementById('lesser').checked = false;
     document.getElementById('startsWith').checked = false;
 }
+
 //validation before edit
 function editMe() {
     var check = 'false';
@@ -154,6 +157,6 @@ function checkCall(e) {
     }
 }
 
-function hideAlerts(){
+function hideAlerts() {
     document.getElementById('invmgt').text = "Invoice <span class='sr-only'>Invoice</span>";
 }

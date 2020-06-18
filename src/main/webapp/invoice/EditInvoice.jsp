@@ -54,7 +54,7 @@
     <form:form method="POST" modelAttribute="invoiceForm">
         <form:hidden name="loggedInUser" path="loggedInUser" />
         <form:hidden name="loggedInRole" path="loggedInRole" />
-        <form:hidden name="id" path="currentInvoiceVO.id" />
+        <form:hidden name="id" path="currentInvoiceVo.id" />
         <%@include file="../navbar.jsp" %>
         <div class="container">
             <div class="wrap">
@@ -69,7 +69,7 @@
                             </td>
                             <td colspan="2">&nbsp;</td>
                             <td style="text-align:left;">
-                                <form:input path="currentInvoiceVO.tagNo" cssClass="form-control" id="tagNo"/>
+                                <form:input path="currentInvoiceVo.tagNo" cssClass="form-control" id="tagNo"/>
                             </td>
                             <td colspan="2">&nbsp;</td>
                             <td style="text-align:right;">
@@ -79,7 +79,7 @@
                             </td>
                             <td colspan="2">&nbsp;</td>
                             <td colspan="7" style="text-align:left;">
-                                <form:textarea path="currentInvoiceVO.description" cssClass="form-control" id="description"/>
+                                <form:textarea path="currentInvoiceVo.description" cssClass="form-control" id="description"/>
                             </td>
                         </tr>
                         <tr>
@@ -90,7 +90,7 @@
                             </td>
                             <td colspan="2">&nbsp;</td>
                             <td style="text-align:left;">
-                                <form:input path="currentInvoiceVO.quantity" cssClass="form-control" id="quantity"/>
+                                <form:input path="currentInvoiceVo.quantity" cssClass="form-control" id="quantity"/>
                             </td>
                             <td colspan="2">&nbsp;</td>
                             <td style="text-align:right;">
@@ -100,7 +100,7 @@
                             </td>
                             <td colspan="2">&nbsp;</td>
                             <td style="text-align:left;">
-                                <form:input path="currentInvoiceVO.rate" cssClass="form-control" id="rate"/>
+                                <form:input path="currentInvoiceVo.rate" cssClass="form-control" id="rate"/>
                             </td>
                             <td colspan="2">&nbsp;</td>
                             <td style="text-align:right;">
@@ -110,7 +110,7 @@
                             </td>
                             <td colspan="2">&nbsp;</td>
                             <td style="text-align:left;">
-                                <form:input path="currentInvoiceVO.amount" cssClass="form-control" id="amount"/>
+                                <form:input path="currentInvoiceVo.amount" cssClass="form-control" id="amount"/>
                             </td>
                         </tr>
                         <tr>

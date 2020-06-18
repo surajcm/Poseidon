@@ -15,7 +15,6 @@
         <spring:url value="/resources/images/Poseidon_Ico.ico" var="posIcon" />
         <link rel="shortcut icon" href="${posIcon}" />
         <link rel="stylesheet" href="/css/jquery-ui.css" type="text/css" />
-        <link rel="stylesheet" href="/css/font-awesome.min.css" type="text/css" />
         <link rel="stylesheet" href="/css/bootstrap.min.css"  type="text/css" />
         <link rel="stylesheet" href="/css/custom.css" type="text/css" />
         <title>Edit Transaction</title>
@@ -68,7 +67,9 @@
                         <td style="text-align:left;">
                             <div class="input-group">
                                 <form:input path="currentTransaction.dateReported" class="date-picker form-control" id = "dateReported" />
-                                <label for="reported" class="input-group-addon btn"><span class="fa fa-calendar"></span>
+                                <label for="reported" class="input-group-addon btn">
+                                    <img src="/img/calendar3.svg" alt="" width="16" height="16" title="calendar" />
+                                </label>
                             </div>
                         </td>
                     </tr>

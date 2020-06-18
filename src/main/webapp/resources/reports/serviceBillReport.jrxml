@@ -33,10 +33,6 @@
 				</textElement>
 				<text><![CDATA[SERVICE BILL]]></text>
 			</staticText>
-			<image isLazy="true">
-				<reportElement uuid="4cadb756-cbb3-42bb-94dd-4b2753daab25" x="8" y="47" width="74" height="74"/>
-				<imageExpression><![CDATA["C:\\CompanyLogo.gif"]]></imageExpression>
-			</image>
 			<textField>
 				<reportElement uuid="bb7b6665-51a4-4613-9d8b-5140f8a75dbe" x="101" y="56" width="180" height="30"/>
 				<textElement>
