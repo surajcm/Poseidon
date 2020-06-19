@@ -4,8 +4,6 @@ import com.poseidon.invoice.domain.InvoiceVO;
 import com.poseidon.invoice.exception.InvoiceException;
 import com.poseidon.invoice.service.InvoiceService;
 import com.poseidon.invoice.web.form.InvoiceForm;
-import com.poseidon.make.domain.MakeAndModelVO;
-import com.poseidon.make.domain.MakeVO;
 import com.poseidon.make.service.MakeService;
 import com.poseidon.transaction.domain.TransactionReportVO;
 import com.poseidon.transaction.domain.TransactionVO;
@@ -99,9 +97,8 @@ public class InvoiceController {
         if (invoiceForm.getCurrentInvoiceVo() != null) {
             invoiceForm.getCurrentInvoiceVo().setCreatedBy(invoiceForm.getLoggedInUser());
             invoiceForm.getCurrentInvoiceVo().setModifiedBy(invoiceForm.getLoggedInUser());
-            invoiceForm.getCurrentInvoiceVo().setCreatedDate(OffsetDateTime.now(ZoneId.systemDefault()));
-            invoiceForm.getCurrentInvoiceVo().setModifiedDate(OffsetDateTime.now(ZoneId.systemDefault()));
         }
+        TransactionVO transactionVo = null;
         try {
             TransactionVO searchTransactionVo = new TransactionVO();
             searchTransactionVo.setTagNo(invoiceForm.getCurrentInvoiceVo().getTagNo());
@@ -110,23 +107,23 @@ public class InvoiceController {
             List<TransactionVO> transactionVOs = null;
             try {
                 transactionVOs = transactionService.searchTransactions(searchTransactionVo);
+                LOG.info("Found transactions :" + transactionVOs.size());
+                transactionVo = transactionVOs.get(0);
             } catch (TransactionException ex) {
                 LOG.error(ex.getLocalizedMessage());
             }
-            LOG.info("Found transactions :" + transactionVOs.size());
-            if (transactionVOs != null && !transactionVOs.isEmpty()) {
+            if (transactionVo != null) {
+                invoiceForm.getCurrentInvoiceVo().setTransactionId(transactionVo.getId());
+                invoiceForm.getCurrentInvoiceVo().setSerialNo(transactionVo.getSerialNo());
+                invoiceForm.getCurrentInvoiceVo().setCustomerId(transactionVo.getCustomerId());
+                invoiceForm.getCurrentInvoiceVo().setCustomerName(transactionVo.getCustomerName());
                 invoiceService.addInvoice(invoiceForm.getCurrentInvoiceVo());
                 LOG.info("Successfully saved the new invoice Detail");
                 invoiceForm.setStatusMessage("Successfully saved the new invoice Detail");
                 invoiceForm.setStatusMessageType("success");
                 //update the transaction
-                TransactionVO transactionVo = transactionVOs.get(0);
                 String status = "INVOICED";
                 transactionService.updateTransactionStatus(transactionVo.getId(), status);
-            } else {
-                invoiceForm.setStatusMessage("Unable to find a transaction with tagNo "
-                        + invoiceForm.getCurrentInvoiceVo().getTagNo());
-                invoiceForm.setStatusMessageType(ERROR);
             }
         } catch (Exception ex) {
             invoiceForm.setStatusMessage("Unable to save the invoice due to an error");
@@ -270,28 +267,14 @@ public class InvoiceController {
      */
     @PostMapping("/invoice/InvoiceTxn.htm")
     public ModelAndView invoiceTxn(final TransactionForm transactionForm) {
-        //get the id
         TransactionVO transactionVo = null;
+        String makeName = "";
+        String modelName = "";
         try {
             transactionVo = transactionService.fetchTransactionFromId(transactionForm.getId());
             if (transactionVo != null && transactionVo.getMakeId() != null && transactionVo.getMakeId() > 0) {
-                List<MakeVO> makeVOs = null;
-                try {
-                    makeVOs = makeService.fetchMakes();
-                } catch (Exception ex) {
-                    LOG.error(ex.getLocalizedMessage());
-                }
-                if (makeVOs != null) {
-                    makeVOs.stream().map(makeVo -> "make vo is" + makeVo).forEach(LOG::info);
-                    transactionForm.setMakeVOs(makeVOs);
-                }
-                List<MakeAndModelVO> makeAndModelVOs;
-                makeAndModelVOs = makeService.getAllModelsFromMakeId(transactionVo.getMakeId());
-                if (makeAndModelVOs != null) {
-                    transactionForm.setMakeAndModelVOs(makeAndModelVOs);
-                    makeAndModelVOs.stream()
-                            .map(makeAndModelVo -> "makeAndModel vo is" + makeAndModelVo).forEach(LOG::info);
-                }
+                makeName = transactionVo.getMakeName();
+                modelName = transactionVo.getModelName();
             }
         } catch (TransactionException ex) {
             LOG.error(ex.getLocalizedMessage());
@@ -312,12 +295,6 @@ public class InvoiceController {
         InvoiceVO invoiceVo = new InvoiceVO();
         if (transactionVo != null) {
             invoiceVo.setTagNo(transactionVo.getTagNo());
-            String makeName = "";
-            String modelName = "";
-            if (transactionForm.getMakeAndModelVOs() != null && !transactionForm.getMakeAndModelVOs().isEmpty()) {
-                makeName = transactionForm.getMakeAndModelVOs().get(0).getMakeName();
-                modelName = transactionForm.getMakeAndModelVOs().get(0).getModelName();
-            }
             invoiceVo.setDescription("SERVICE CHARGES FOR " + makeName + " " + modelName);
         }
         invoiceForm.setCurrentInvoiceVo(invoiceVo);

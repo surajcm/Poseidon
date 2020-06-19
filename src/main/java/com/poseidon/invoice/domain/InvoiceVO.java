@@ -5,6 +5,7 @@ import java.util.StringJoiner;
 
 public class InvoiceVO {
     private Long id;
+    private Long transactionId;
     private String tagNo;
     private Long customerId;
     private String customerName;
@@ -28,6 +29,14 @@ public class InvoiceVO {
 
     public void setId(final Long id) {
         this.id = id;
+    }
+
+    public Long getTransactionId() {
+        return transactionId;
+    }
+
+    public void setTransactionId(final Long transactionId) {
+        this.transactionId = transactionId;
     }
 
     public String getTagNo() {

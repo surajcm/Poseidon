@@ -21,7 +21,7 @@ public class Invoice {
     private Long invoiceId;
 
     @Column(name = "transactionId")
-    private String transactionId;
+    private Long transactionId;
 
     @Column(name = "description")
     private String description;
@@ -30,13 +30,13 @@ public class Invoice {
     private String serialNumber;
 
     @Column(name = "amount")
-    private String amount;
+    private Long amount;
 
     @Column(name = "quantity")
-    private String quantity;
+    private Integer quantity;
 
     @Column(name = "rate")
-    private String rate;
+    private Long rate;
 
     @Column(name = "customerId")
     private Long customerId;
@@ -67,11 +67,11 @@ public class Invoice {
         this.invoiceId = invoiceId;
     }
 
-    public String getTransactionId() {
+    public Long getTransactionId() {
         return transactionId;
     }
 
-    public void setTransactionId(final String transactionId) {
+    public void setTransactionId(final Long transactionId) {
         this.transactionId = transactionId;
     }
 
@@ -91,27 +91,27 @@ public class Invoice {
         this.tagNumber = tagNumber;
     }
 
-    public String getAmount() {
+    public Long getAmount() {
         return amount;
     }
 
-    public void setAmount(final String amount) {
+    public void setAmount(final Long amount) {
         this.amount = amount;
     }
 
-    public String getQuantity() {
+    public Integer getQuantity() {
         return quantity;
     }
 
-    public void setQuantity(final String quantity) {
+    public void setQuantity(final Integer quantity) {
         this.quantity = quantity;
     }
 
-    public String getRate() {
+    public Long getRate() {
         return rate;
     }
 
-    public void setRate(final String rate) {
+    public void setRate(final Long rate) {
         this.rate = rate;
     }
 
