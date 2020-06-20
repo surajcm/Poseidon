@@ -18,18 +18,6 @@
     <link rel="stylesheet" href="/css/custom.css" type="text/css" />
     <sec:csrfMetaTags/>
     <title>Make List</title>
-    <style type="text/css">
-        table {
-            margin:auto;
-            top:50%;
-            left:50%;
-        }
-        .foottable {
-            margin:auto;
-            top:50%;
-            left:50%;
-        }
-    </style>
     <script type="text/javascript" src="/js/make-scripts.js"></script>
     <script type="text/javascript" src="/js/navbar-scripts.js"></script>
 </head>

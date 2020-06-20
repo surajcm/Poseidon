@@ -17,18 +17,6 @@
     <link rel="stylesheet" href="/css/bootstrap.min.css"  type="text/css" />
     <link rel="stylesheet" href="/css/custom.css" type="text/css" />
     <title>Customer List</title>
-    <style type="text/css">
-        table {
-            margin:auto;
-            top:50%;
-            left:50%;
-        }
-        .foottable {
-            margin:auto;
-            top:50%;
-            left:50%;
-        }
-    </style>
     <script type="text/javascript" src="/js/customer-scripts.js"></script>
     <script type="text/javascript" src="/js/navbar-scripts.js"></script>
 </head>

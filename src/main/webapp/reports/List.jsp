@@ -17,14 +17,6 @@
     <link rel="stylesheet" href="/css/jquery-ui.css" type="text/css" />
     <link rel="stylesheet" href="/css/bootstrap.min.css"  type="text/css" />
     <link rel="stylesheet" href="/css/custom.css" type="text/css" />
-
-    <style type="text/css">
-        .foottable {
-            margin:auto;
-            top:50%;
-            left:50%;
-        }
-    </style>
     <title>Reports List</title>
     <script type="text/javascript" src="/js/report-scripts.js"></script>
     <script type="text/javascript" src="/js/navbar-scripts.js"></script>

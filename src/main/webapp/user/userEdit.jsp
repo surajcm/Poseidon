@@ -15,19 +15,7 @@
     <link rel="stylesheet" href="/css/bootstrap.min.css"  type="text/css" />
     <link rel="stylesheet" href="/css/custom.css" type="text/css" />
     <title>Edit User</title>
-    <style type="text/css">
-        .foottable {
-            margin:auto;
-            top:50%;
-            left:50%;
-        }
-        table {
-            margin:auto;
-            top:50%;
-            left:50%;
-        }
-	</style>
-	<script type="text/javascript" src="/js/user-edit-scripts.js"></script>
+    <script type="text/javascript" src="/js/user-edit-scripts.js"></script>
 	<script type="text/javascript" src="/js/navbar-scripts.js"></script>
 </head>
 <body>

@@ -16,13 +16,6 @@
     <link rel="shortcut icon" href="${posIcon}" />
     <link rel="stylesheet" href="/css/bootstrap.min.css"  type="text/css" />
     <link rel="stylesheet" href="/css/custom.css" type="text/css" />
-    <style type="text/css">
-        .foottable {
-            margin:auto;
-            top:50%;
-            left:50%;
-        }
-    </style>
     <title><spring:message code="poseidon.userListPage" text="User List" /></title>
     <script type="text/javascript" src="/js/user-scripts.js"></script>
     <script type="text/javascript" src="/js/navbar-scripts.js"></script>

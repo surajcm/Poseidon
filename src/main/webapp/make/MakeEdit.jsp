@@ -15,18 +15,6 @@
     <link rel="stylesheet" href="/css/bootstrap.min.css"  type="text/css" />
     <link rel="stylesheet" href="/css/custom.css" type="text/css" />
     <title>Edit Make</title>
-    <style type="text/css">
-        table {
-            margin:auto;
-            top:50%;
-            left:50%;
-        }
-        .foottable {
-            margin:auto;
-            top:50%;
-            left:50%;
-        }
-    </style>
     <script type="text/javascript">
         function update() {
             if (document.getElementById('makeName').value.length == 0) {

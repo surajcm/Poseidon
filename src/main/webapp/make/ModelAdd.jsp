@@ -15,18 +15,6 @@
     <link rel="stylesheet" href="/css/bootstrap.min.css"  type="text/css" />
     <link rel="stylesheet" href="/css/custom.css" type="text/css" />
     <title>Add Model</title>
-    <style type="text/css">
-        table {
-            margin:auto;
-            top:50%;
-            left:50%;
-        }
-        .foottable {
-            margin:auto;
-            top:50%;
-            left:50%;
-        }
-    </style>
     <script type="text/javascript">
         function save(){
             if (document.getElementById('modelName').value.length == 0) {

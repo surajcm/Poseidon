@@ -25,11 +25,6 @@
             background-size:  contain;
             background-position: center;
         }
-       .foottable {
-            margin:auto;
-            top:50%;
-            left:50%;
-        }
     </style>
     <script type="text/javascript" src="/js/navbar-scripts.js"></script>
 </head>
