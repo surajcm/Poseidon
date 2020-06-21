@@ -28,6 +28,7 @@ version = '0.0.1-SNAPSHOT'
 
 repositories {
     mavenCentral()
+    maven { url "http://jaspersoft.jfrog.io/jaspersoft/third-party-ce-artifacts/" }
 }
 
 

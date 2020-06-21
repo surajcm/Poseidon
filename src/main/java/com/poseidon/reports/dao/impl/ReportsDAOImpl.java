@@ -75,7 +75,8 @@ public class ReportsDAOImpl implements ReportsDAO {
             currentReport.getTransactionReportVO().setCompanyPhoneNumber(companyTermsVO.getCompanyPhoneNumber());
             currentReport.getTransactionReportVO().setCompanyWebsite(companyTermsVO.getCompanyWebsite());
             currentReport.getTransactionReportVO().setCompanyEmail(companyTermsVO.getCompanyEmail());
-            currentReport.getTransactionReportVO().setCompanyTerms(companyTermsVO.getCompanyTerms());
+            //todo : fix it
+            currentReport.getTransactionReportVO().setDateReported(companyTermsVO.getCreatedDate());
         }
         List<TransactionReportVO> reportVOs = new ArrayList<>();
         reportVOs.add(currentReport.getTransactionReportVO());

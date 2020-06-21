@@ -13,7 +13,7 @@ import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
-import net.sf.jasperreports.engine.export.JRHtmlExporter;
+import net.sf.jasperreports.engine.export.HtmlExporter;
 import net.sf.jasperreports.engine.export.JRHtmlExporterParameter;
 import net.sf.jasperreports.engine.export.JRXlsExporter;
 import net.sf.jasperreports.engine.export.JRXlsExporterParameter;
@@ -431,7 +431,7 @@ public class ReportsController {
                 httpServletResponse.getOutputStream().close();
             } else {
                 httpServletResponse.setContentType("text/html");
-                jrExporter = new JRHtmlExporter();
+                jrExporter = new HtmlExporter();
                 jrExporter.setParameter(JRHtmlExporterParameter.JASPER_PRINT, jasperPrint);
                 jrExporter.setParameter(JRHtmlExporterParameter.OUTPUT_STREAM, baos);
                 jrExporter.setParameter(JRHtmlExporterParameter.IS_REMOVE_EMPTY_SPACE_BETWEEN_ROWS,
@@ -439,8 +439,8 @@ public class ReportsController {
                 jrExporter.setParameter(JRXlsExporterParameter.IS_REMOVE_EMPTY_SPACE_BETWEEN_COLUMNS, Boolean.TRUE);
                 jrExporter.setParameter(JRXlsExporterParameter.IS_ONE_PAGE_PER_SHEET,
                         Boolean.FALSE);
-                jrExporter.setParameter(JRHtmlExporterParameter.IS_USING_IMAGES_TO_ALIGN,
-                        Boolean.FALSE);
+                /*jrExporter.setParameter(JRHtmlExporterParameter.IS_USING_IMAGES_TO_ALIGN,
+                        Boolean.FALSE);*/
                 jrExporter.setParameter(JRHtmlExporterParameter.IS_WHITE_PAGE_BACKGROUND,
                         Boolean.TRUE);
                 jrExporter.exportReport();

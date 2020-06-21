@@ -1,3 +1,12 @@
+function fetchCallReport() {
+    document.getElementById('exportTo').value = document.getElementById('callExportValue').options[document.getElementById('callExportValue').selectedIndex].text;
+    document.getElementById('tagNo').value = document.getElementById('callTagNo').value;
+    document.forms[0].target = 'reportContent';
+    document.forms[0].action = 'getCallReport.htm';
+    document.forms[0].submit();
+    document.forms[0].target = '';
+}
+
 function fetchMakeReport() {
     document.getElementById('exportTo').value = document.getElementById('makeExportValue').options[document.getElementById('makeExportValue').selectedIndex].text;
     document.forms[0].target = 'reportContent';
@@ -6,11 +15,10 @@ function fetchMakeReport() {
     document.forms[0].target = '';
 }
 
-function fetchCallReport() {
-    document.getElementById('exportTo').value = document.getElementById('callExportValue').options[document.getElementById('callExportValue').selectedIndex].text;
-    document.getElementById('tagNo').value = document.getElementById('callTagNo').value;
+function fetchModelListReport() {
+    document.getElementById('exportTo').value = document.getElementById('makeExportValue').options[document.getElementById('makeExportValue').selectedIndex].text;
     document.forms[0].target = 'reportContent';
-    document.forms[0].action = 'getCallReport.htm';
+    document.forms[0].action = 'getModelListReport.htm';
     document.forms[0].submit();
     document.forms[0].target = '';
 }
@@ -23,13 +31,6 @@ function fetchTransactionsListReport() {
     document.forms[0].target = '';
 }
 
-function fetchModelListReport() {
-    document.getElementById('exportTo').value = document.getElementById('makeExportValue').options[document.getElementById('makeExportValue').selectedIndex].text;
-    document.forms[0].target = 'reportContent';
-    document.forms[0].action = 'getModelListReport.htm';
-    document.forms[0].submit();
-    document.forms[0].target = '';
-}
 
 function fetchInvoiceReport() {
     document.getElementById('exportTo').value = document.getElementById('invoiceExportValue').options[document.getElementById('invoiceExportValue').selectedIndex].text;

@@ -4,6 +4,7 @@
 	<property name="ireport.zoom" value="0.75"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
+	<property name="net.sf.jasperreports.awt.ignore.missing.font" value="true"/>
 	<queryString>
 		<![CDATA[]]>
 	</queryString>
@@ -180,7 +181,7 @@
 				<text><![CDATA[Accessories :]]></text>
 			</staticText>
 			<staticText>
-				<reportElement x="8" y="283" width="100" height="30" uuid="730c6210-2c5c-4f7a-bb43-25d1b5165936"/>
+				<reportElement x="8" y="283" width="112" height="30" uuid="730c6210-2c5c-4f7a-bb43-25d1b5165936"/>
 				<textElement>
 					<font fontName="Arial" size="11"/>
 				</textElement>
@@ -201,35 +202,35 @@
 				<text><![CDATA[Engineer Remarks :]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="110" y="6" width="418" height="30" uuid="a1d90095-8a23-4bdc-b1b0-93830e22cc2f"/>
+				<reportElement x="130" y="6" width="398" height="30" uuid="a1d90095-8a23-4bdc-b1b0-93830e22cc2f"/>
 				<textElement>
 					<font fontName="Arial" size="11"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{customerName}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="110" y="38" width="418" height="46" uuid="b5c4fe62-9724-4a42-805b-e8d4e2406b5c"/>
+				<reportElement x="130" y="38" width="398" height="46" uuid="b5c4fe62-9724-4a42-805b-e8d4e2406b5c"/>
 				<textElement>
 					<font fontName="Arial" size="11"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{address1}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="110" y="88" width="418" height="46" uuid="47706d87-274f-4aeb-8c1a-cb696df6f4b1"/>
+				<reportElement x="130" y="88" width="398" height="46" uuid="47706d87-274f-4aeb-8c1a-cb696df6f4b1"/>
 				<textElement>
 					<font fontName="Arial"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{address2}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="110" y="138" width="418" height="30" uuid="efa0922a-81ec-4c8b-869b-a89c89804dd1"/>
+				<reportElement x="130" y="138" width="398" height="30" uuid="efa0922a-81ec-4c8b-869b-a89c89804dd1"/>
 				<textElement>
 					<font fontName="Arial" size="11"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{phone}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="110" y="170" width="143" height="30" uuid="fd281814-482f-4530-a517-e1178f4f0521"/>
+				<reportElement x="130" y="170" width="123" height="30" uuid="fd281814-482f-4530-a517-e1178f4f0521"/>
 				<textElement>
 					<font fontName="Arial" size="11"/>
 				</textElement>
@@ -243,35 +244,35 @@
 				<textFieldExpression><![CDATA[$F{modelName}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="110" y="202" width="418" height="30" uuid="f0bc45a5-7715-45f5-8c1d-bd7a56419331"/>
+				<reportElement x="130" y="202" width="398" height="30" uuid="f0bc45a5-7715-45f5-8c1d-bd7a56419331"/>
 				<textElement>
 					<font fontName="Arial" size="11"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{serialNo}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="110" y="234" width="418" height="46" uuid="4fbec4d2-b77a-4f50-b40a-072c7c185447"/>
+				<reportElement x="130" y="234" width="398" height="46" uuid="4fbec4d2-b77a-4f50-b40a-072c7c185447"/>
 				<textElement>
 					<font fontName="Arial" size="11"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{accessories}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="110" y="284" width="418" height="46" uuid="82b310e6-dbea-423c-9296-62be656ad238"/>
+				<reportElement x="130" y="284" width="398" height="46" uuid="82b310e6-dbea-423c-9296-62be656ad238"/>
 				<textElement>
 					<font fontName="Arial" size="11"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{complaintReported}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="110" y="334" width="418" height="46" uuid="ad52c427-dd44-4bc5-a7ce-d0bbbd69342d"/>
+				<reportElement x="130" y="334" width="398" height="46" uuid="ad52c427-dd44-4bc5-a7ce-d0bbbd69342d"/>
 				<textElement>
 					<font fontName="Arial" size="11"/>
 				</textElement>
 				<textFieldExpression><![CDATA[$F{complaintDiagnosed}]]></textFieldExpression>
 			</textField>
 			<textField>
-				<reportElement x="110" y="384" width="418" height="46" uuid="4f84e632-60bb-4bde-a194-707ec94af633"/>
+				<reportElement x="130" y="384" width="398" height="46" uuid="4f84e632-60bb-4bde-a194-707ec94af633"/>
 				<textElement>
 					<font fontName="Arial" size="11"/>
 				</textElement>
@@ -288,7 +289,7 @@
 				<text><![CDATA[Status : ]]></text>
 			</staticText>
 			<textField>
-				<reportElement x="110" y="433" width="418" height="30" uuid="add17630-0d83-40ca-b7bc-700036640726"/>
+				<reportElement x="130" y="433" width="398" height="30" uuid="add17630-0d83-40ca-b7bc-700036640726"/>
 				<textElement>
 					<font fontName="Arial"/>
 				</textElement>

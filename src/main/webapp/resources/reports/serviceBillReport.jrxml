@@ -3,6 +3,7 @@
 	<property name="ireport.zoom" value="0.75"/>
 	<property name="ireport.x" value="0"/>
 	<property name="ireport.y" value="0"/>
+	<property name="net.sf.jasperreports.awt.ignore.missing.font" value="true"/>
 	<field name="invoiceId" class="java.lang.Long"/>
 	<field name="tagNo" class="java.lang.String"/>
 	<field name="customerName" class="java.lang.String"/>

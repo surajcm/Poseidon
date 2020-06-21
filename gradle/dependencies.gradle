@@ -17,7 +17,12 @@ dependencies {
     implementation("org.apache.tomcat.embed:tomcat-embed-jasper")
     implementation("jstl:jstl:+")
 
-    implementation("net.sf.jasperreports:jasperreports:4.7.1")
+    implementation("org.codehaus.jackson:jackson-mapper-asl:1.9.13")
+
+    implementation("net.sf.jasperreports:jasperreports:6.12.2")
+    implementation("net.sf.jasperreports:jasperreports-fonts:6.12.2")
+    implementation("org.apache.poi:poi:4.1.2")
+
 
     testImplementation('org.springframework.boot:spring-boot-starter-test') {
         exclude module: "junit"

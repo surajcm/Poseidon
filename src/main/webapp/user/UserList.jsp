@@ -30,72 +30,51 @@
         <div class="container">
             <div class="wrap">
                 <div class="card">
-                  <div class="card-header">
-                    <spring:message code="user.searchUser" text="Search User Details" />
-                  </div>
-                  <div class="card-body">
-                    <table class="card-text">
-                        <tr>
-                            <td>
-                                <label for="name" class="control-label">
-                                    <spring:message code="poseidon.name" text="Name" /> :
-                                </label>
-                            </td>
-                            <td>
-                                <form:input cssClass="form-control" path="searchUser.name" id="name" />
-                            </td>
-                            <td colspan="2">&nbsp;</td>
-                            <td>
-                                <label for="loginId" class="control-label">
-                                    <spring:message code="poseidon.loginId" text="loginId" /> :
-                                </label>
-                            </td>
-                            <td>
-                                <form:input cssClass="form-control" path="searchUser.loginId" id="loginId" />
-                            </td>
-                            <td colspan="2">&nbsp;</td>
-                            <td>
-                                <label for="role" class="control-label">
-                                    <spring:message code="poseidon.role" text="Role" /> :
-                                </label>
-                            </td>
-                            <td>
-                                <form:select id="role" path="searchUser.role" cssClass="form-control"
+                    <div class="card-header">
+                        <spring:message code="user.searchUser" text="Search User Details" />
+                    </div>
+                    <div class="card-body">
+                        <div class="card-text">
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                  <label for="name"><spring:message code="poseidon.name" text="Name" /> :</label>
+                                  <form:input cssClass="form-control" path="searchUser.name" id="name" />
+                                </div>
+                                <div class="form-group col-md-2">
+                                  <label for="loginId"><spring:message code="poseidon.loginId" text="loginId" /> :</label>
+                                  <form:input cssClass="form-control" path="searchUser.loginId" id="loginId" />
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <label for="role"><spring:message code="poseidon.role" text="Role" /> :</label>
+                                    <form:select id="role" path="searchUser.role" cssClass="form-control"
                                              onkeypress="handleEnter(event);">
-                                    <form:option value=""><spring:message code="common.select" text="<-- Select -->"/></form:option>
-                                    <form:options items="${userForm.roleList}" />
-                                </form:select>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td colspan="4">&nbsp;</td>
-                        </tr>
-                        <tr>
-                            <td colspan="8">&nbsp;</td>
-                            <td>
-                                <label for="includes" class="control-label">
-                                    <spring:message code="user.includes" text="Includes" />
-                                    <form:checkbox path="searchUser.includes" cssStyle="vertical-align:middle" id="includes" value="" />
-                                </label>
-                            </td>
-                            <td>
-                                <label for="startsWith" class="control-label">
-                                    <spring:message code="user.startsWith" text="Starts with" />
-                                    <form:checkbox path="searchUser.startsWith" cssStyle="vertical-align:middle" id="startswith" value="" />
-                                </label>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td colspan="8">&nbsp;</td>
-                            <td>
-                                <input class="btn btn-primary" value="<spring:message code='poseidon.search' text='Search' />" type="button" onclick="javascript:search()" />
-                            </td>
-                            <td>
-                                <input class="btn btn-primary" value="<spring:message code='poseidon.clear' text='Clear' />" type="button" onclick="javascript:clearOut()" />
-                            </td>
-                        </tr>
-                    </table>
-                  </div>
+                                        <form:option value=""><spring:message code="common.select" text="<-- Select -->"/></form:option>
+                                        <form:options items="${userForm.roleList}" />
+                                    </form:select>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <div class="form-check">
+                                      <form:checkbox path="searchUser.includes" cssClass="form-check-input" id="includes" value="" />
+                                      <label class="form-check-label" for="includes">
+                                        <spring:message code="user.includes" text="Includes" />
+                                      </label>
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-6">    
+                                    <div class="form-check">
+                                      <form:checkbox path="searchUser.startsWith" cssClass="form-check-input" id="startswith" value="" />
+                                      <label class="form-check-label" for="startsWith">
+                                        <spring:message code="user.startsWith" text="Starts with" />
+                                      </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <input class="btn btn-primary" value="<spring:message code='poseidon.search' text='Search' />" type="button" onclick="javascript:search()" />
+                            <input class="btn btn-primary" value="<spring:message code='poseidon.clear' text='Clear' />" type="button" onclick="javascript:clearOut()" />
+                        </div>
+                    </div>
                 </div>
                 <br />
                 <br />
