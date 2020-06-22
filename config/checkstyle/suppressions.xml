@@ -16,7 +16,7 @@ WHAT AND WHY CHECKS SUPPRESSED
 -->
 
 <suppressions>
-    <suppress files="CompanyTermsController.java" checks="MethodLength"/>
+    <suppress files="CompanyController.java" checks="MethodLength"/>
     <suppress files="CustomerDAOImpl.java" checks="MethodLength"/>
     <suppress files="CustomerVO.java" checks="MethodLength"/>
     <suppress files="CustomerController.java" checks="MethodLength"/>
@@ -36,7 +36,7 @@ WHAT AND WHY CHECKS SUPPRESSED
     <suppress files="UserDAOImpl.java" checks="MethodLength"/>
     <suppress files="UserController.java" checks="MethodLength"/>
     <suppress files="UserSpecification.java" checks="MethodLength"/>
-    <suppress files="CompanyTermsController.java" checks="IllegalCatch"/>
+    <suppress files="CompanyController.java" checks="IllegalCatch"/>
     <suppress files="CustomerController.java" checks="IllegalCatch"/>
     <suppress files="InvoiceController.java" checks="IllegalCatch"/>
     <suppress files="MakeController.java" checks="IllegalCatch"/>

@@ -1,10 +1,10 @@
 
-function editMe(){
+function editMe() {
     makeEverythingWritable();
     hideEditAndShowUpdate();
 }
 
-function makeEverythingWritable(){
+function makeEverythingWritable() {
     document.getElementById("companyName").style.background ="#FFFFFF";
     document.getElementById('companyName').readOnly=false;
     document.getElementById("companyPhoneNumber").style.background ="#FFFFFF";
@@ -22,15 +22,16 @@ function makeEverythingWritable(){
     document.getElementById("cst_tin").style.background ="#FFFFFF";
     document.getElementById('cst_tin').readOnly=false;
 }
-function hideEditAndShowUpdate(){
+
+function hideEditAndShowUpdate() {
     document.getElementById('edit').style.visibility='hidden';
     document.getElementById('update').style.visibility='visible';
     document.getElementById('clear').style.visibility='visible';
     document.getElementById('cancel').style.visibility='visible';
 }
 
-function hideUpdate(){
-    document.getElementById('companymgt').text = "Company <span class='sr-only'>Company</span>";
+function hideUpdate() {
+    document.getElementById('company').text = "Company <span class='sr-only'>Company</span>";
     document.getElementById('update').style.visibility='hidden';
     document.getElementById('clear').style.visibility='hidden';
     document.getElementById('cancel').style.visibility='hidden';
@@ -56,12 +57,12 @@ function makeEverythingReadOnly() {
     document.getElementById("cst_tin").style.background ="#A9A9A9";
 }
 
-function updateCompanyDetails(){
+function updateCompanyDetails() {
     document.forms[0].action = "updateCompanyDetails.htm";
     document.forms[0].submit();
 }
 
-function clearOut(){
+function clearOut() {
     document.getElementById('companyName').value = "";
     document.getElementById('companyPhoneNumber').value = "";
     document.getElementById('companyEmail').value = "";

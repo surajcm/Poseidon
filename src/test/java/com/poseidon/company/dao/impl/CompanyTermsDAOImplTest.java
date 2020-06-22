@@ -12,12 +12,9 @@ import org.powermock.reflect.Whitebox;
 import org.springframework.dao.CannotAcquireLockException;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
@@ -32,41 +29,36 @@ class CompanyTermsDAOImplTest {
 
     @Test
     void listCompanyTermsSuccess() throws CompanyTermsException {
-        when(companyTermsRepository.findAll()).thenReturn(mockCompanyTermsList());
+        when(companyTermsRepository.findFirstByOrderByCompanyIdAsc()).thenReturn(Optional.of(mockCompanyTerms()));
         Assertions.assertNotNull(companyTermsDAO.listCompanyTerms());
     }
 
     @Test
     void listCompanyTermsFailure() {
-        when(companyTermsRepository.findAll()).thenThrow(new CannotAcquireLockException("DB error"));
+        when(companyTermsRepository.findFirstByOrderByCompanyIdAsc())
+                .thenThrow(new CannotAcquireLockException("DB error"));
         Assertions.assertThrows(CompanyTermsException.class, companyTermsDAO::listCompanyTerms);
     }
 
     @Test
     void updateCompanyDetailsSuccessWithNull() throws CompanyTermsException {
-        when(companyTermsRepository.findById(anyLong())).thenReturn(Optional.empty());
+        when(companyTermsRepository.findFirstByOrderByCompanyIdAsc()).thenReturn(Optional.empty());
         Assertions.assertNull(companyTermsDAO.updateCompanyDetails(new CompanyTermsVO()));
     }
 
     @Test
     void updateCompanyDetailsSuccessWithNotNull() throws CompanyTermsException {
-        when(companyTermsRepository.findById(anyLong())).thenReturn(Optional.of(mockCompanyTerms()));
+        when(companyTermsRepository.findFirstByOrderByCompanyIdAsc()).thenReturn(Optional.of(mockCompanyTerms()));
         when(companyTermsRepository.save(any())).thenReturn(mockCompanyTerms());
         Assertions.assertNotNull(companyTermsDAO.updateCompanyDetails(new CompanyTermsVO()));
     }
 
     @Test
     void updateCompanyDetailsFailure() {
-        when(companyTermsRepository.findById(anyLong())).thenThrow(new CannotAcquireLockException("DB error"));
+        when(companyTermsRepository.findFirstByOrderByCompanyIdAsc())
+                .thenThrow(new CannotAcquireLockException("DB error"));
         Assertions.assertThrows(CompanyTermsException.class,
                 () -> companyTermsDAO.updateCompanyDetails(new CompanyTermsVO()));
-    }
-
-    private List<CompanyTerms> mockCompanyTermsList() {
-        CompanyTerms companyTerms = new CompanyTerms();
-        List<CompanyTerms> companyTermsList = new ArrayList<>();
-        companyTermsList.add(companyTerms);
-        return companyTermsList;
     }
 
     private CompanyTerms mockCompanyTerms() {

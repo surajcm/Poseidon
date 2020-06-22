@@ -107,18 +107,14 @@
                         </c:forEach>
                         </tbody>
                     </table>
-                    <table class="foottable">
-                        <tr>
-                            <td>
-                                <br/>
-                                <br/>
-                                <input class="btn btn-primary" value="<spring:message code='poseidon.add' text='Add New User' />" type="button" onclick="javascript:addNewUser()" />
-                                <input class="btn btn-primary" value="<spring:message code='poseidon.edit' text='Edit User' />" type="button" onclick="javascript:editMe()" />
-                                <input class="btn btn-primary" value="<spring:message code='poseidon.delete' text='Delete User' />" type="button" onclick="javascript:deleteUser()" />
-                                <input class="btn btn-primary" value="<spring:message code='poseidon.simple.save' text='Save' />" type="button" onclick="javascript:simpleSave()" />
-                            </td>
-                        </tr>
-                    </table>
+                    <div class="form-row">
+                        <div class="form-group">
+                          <input class="btn btn-primary" value="<spring:message code='poseidon.add' text='Add New User' />" type="button" onclick="javascript:addNewUser()" />
+                          <input class="btn btn-primary" value="<spring:message code='poseidon.edit' text='Edit User' />" type="button" onclick="javascript:editMe()" />
+                          <input class="btn btn-primary" value="<spring:message code='poseidon.delete' text='Delete User' />" type="button" onclick="javascript:deleteUser()" />
+                          <input class="btn btn-primary" value="<spring:message code='poseidon.simple.save' text='Save' />" type="button" onclick="javascript:simpleSave()" />
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

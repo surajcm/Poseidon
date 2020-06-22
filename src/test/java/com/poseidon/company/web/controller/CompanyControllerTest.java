@@ -19,31 +19,31 @@ import static org.springframework.test.web.servlet.request.MockMvcRequestBuilder
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(SpringExtension.class)
-@WebMvcTest(CompanyTermsController.class)
+@WebMvcTest(CompanyController.class)
 @ContextConfiguration(classes = {CompanyTermsConfigurations.class})
-class CompanyTermsControllerTest {
+class CompanyControllerTest {
     private MockMvc mvc;
     @Autowired
-    private CompanyTermsController companyTermsController;
+    private CompanyController companyController;
     @Autowired
     private CompanyTermsService companyTermsService;
 
     @BeforeEach
     public void setup() {
-        mvc = MockMvcBuilders.standaloneSetup(companyTermsController).build();
+        mvc = MockMvcBuilders.standaloneSetup(companyController).build();
     }
 
     @Test
     void listNormal() throws Exception {
-        mvc.perform(post("/company/List.htm")).andExpect(status().isOk());
+        mvc.perform(post("/company/Company.htm")).andExpect(status().isOk());
         when(companyTermsService.listCompanyTerms()).thenThrow(new RuntimeException());
-        mvc.perform(post("/company/List.htm")).andExpect(status().isOk());
+        mvc.perform(post("/company/Company.htm")).andExpect(status().isOk());
     }
 
     @Test
     void list() throws Exception {
         when(companyTermsService.listCompanyTerms()).thenReturn(new CompanyTermsVO());
-        mvc.perform(post("/company/List.htm")).andExpect(status().isOk());
+        mvc.perform(post("/company/Company.htm")).andExpect(status().isOk());
     }
 
     @Test

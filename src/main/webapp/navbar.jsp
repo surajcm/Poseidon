@@ -12,12 +12,12 @@
                     <li class='nav-item' id='user'><a href='#' class='nav-link' onclick='javascript:listMe();' >User<span class="sr-only">(current)</span></a></li>
                 </c:when>
             </c:choose>
-            <li class="nav-item py-0" id="makeme"><a class="nav-link" href="#" onclick="javascript:MakeMe();" >Make</a></li>
-            <li class="nav-item py-0" id="customermgt"><a class="nav-link" href="#" onclick="javascript:fetchCustomers();" >Customer</a></li>
-            <li class="nav-item py-0" id="companymgt"><a class="nav-link" href="#" onclick="javascript:fetchTerms();" >Company</a></li>
-            <li class="nav-item py-0" id="txnmgt"><a class="nav-link" href="#" onclick="javascript:fetchTransactions();" >Transactions</a></li>
-            <li class="nav-item py-0" id="invmgt"><a class="nav-link" href="#" onclick="javascript:fetchInvoice();" >Invoice</a></li>
-            <li class="nav-item py-0" id="reportmgt"><a class="nav-link" href="#" onclick="javascript:fetchReport();" >Report</a></li>
+            <li class="nav-item py-0" id="make"><a class="nav-link" href="#" onclick="javascript:MakeMe();" >Make</a></li>
+            <li class="nav-item py-0" id="customer"><a class="nav-link" href="#" onclick="javascript:fetchCustomers();" >Customer</a></li>
+            <li class="nav-item py-0" id="company"><a class="nav-link" href="#" onclick="javascript:fetchCompany();" >Company</a></li>
+            <li class="nav-item py-0" id="transaction"><a class="nav-link" href="#" onclick="javascript:fetchTransactions();" >Transactions</a></li>
+            <li class="nav-item py-0" id="inventory"><a class="nav-link" href="#" onclick="javascript:fetchInvoice();" >Invoice</a></li>
+            <li class="nav-item py-0" id="report"><a class="nav-link" href="#" onclick="javascript:fetchReport();" >Report</a></li>
         </ul>
         <ul class="navbar-nav my-2 my-lg-0">
             <li class="nav-item dropdown">

@@ -253,6 +253,6 @@ function invoiceRow() {
 }
 
 function hideAlerts() {
-    document.getElementById('txnmgt').text = "Transactions <span class='sr-only'>Transactions</span>";
+    document.getElementById('transaction').text = "Transactions <span class='sr-only'>Transactions</span>";
 }
 

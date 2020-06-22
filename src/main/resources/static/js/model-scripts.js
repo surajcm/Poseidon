@@ -136,7 +136,7 @@ function checkCall(e) {
 }
 
 function hideAlerts(){
-    document.getElementById('makeme').text = "Make <span class='sr-only'>Make</span>";
+    document.getElementById('make').text = "Make <span class='sr-only'>Make</span>";
 }
 
 function simpleAdd() {

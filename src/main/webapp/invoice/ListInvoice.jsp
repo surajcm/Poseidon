@@ -31,99 +31,70 @@
                         Search Invoice
                     </div>
                     <div class="card-body">
-                        <table>
-                            <tr>
-                                <td>
-                                    <label for="id" class="control-label">
-                                        Invoice Id :
-                                    </label>
-                                </td>
-                                <td>
-                                    <form:input cssClass="form-control" path="searchInvoiceVo.id" id="invoiceId"/>
-                                </td>
-                                <td colspan="2">&nbsp;</td>
-                                <td>
-                                    <label for="Description" class="control-label">
-                                        Description :
-                                    </label>
-                                </td>
-                                <td>
-                                    <form:input cssClass="form-control" path="searchInvoiceVo.description" id="description"/>
-                                </td>
-                                <td colspan="2">&nbsp;</td>
-                                <td>
-                                    <label for="serialNo" class="control-label">
-                                        Serial No :
-                                    </label>
-                                </td>
-                                <td>
-                                    <form:input cssClass="form-control" path="searchInvoiceVo.serialNo" id="serialNo"/>
-                                </td>
-                                <td colspan="2">&nbsp;</td>
-                                <td>
-                                    <label for="tagNo" class="control-label">
-                                        Tag No :
-                                    </label>
-                                </td>
-                                <td>
-                                    <form:input cssClass="form-control" path="searchInvoiceVo.tagNo"  id="tagNo"/>
-                                </td>
-                            </tr>
-                            <tr>
-                                <td>
-                                    <label for="amount" class="control-label">
-                                        Amount :
-                                    </label>
-                                </td>
-                                <td>
+                        <div class="card-text">
+                            <div class="form-row">
+                                <div class="form-group col-md-3">
+                                  <label for="invoiceId"> Invoice Id :</label>
+                                  <form:input cssClass="form-control" path="searchInvoiceVo.id" id="invoiceId"/>
+                                </div>
+                                <div class="form-group col-md-3">
+                                  <label for="description">Description :</label>
+                                  <form:input cssClass="form-control" path="searchInvoiceVo.description" id="description"/>
+                                </div>
+                                <div class="form-group col-md-3">
+                                  <label for="serialNo">Serial No :</label>
+                                  <form:input cssClass="form-control" path="searchInvoiceVo.serialNo" id="serialNo"/>
+                                </div>
+                                <div class="form-group col-md-3">
+                                  <label for="tagNo">Tag No :</label>
+                                  <form:input cssClass="form-control" path="searchInvoiceVo.tagNo"  id="tagNo"/>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-4">
+                                    <label for="amount">Amount :</label>
                                     <form:input cssClass="form-control" path="searchInvoiceVo.amount"  id="amount"/>
-                                </td>
-                                <td colspan="3">&nbsp;</td>
-                                <td>
-                                    <label for="greater" class="control-label">
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <div class="form-check">
+                                      <form:checkbox path="searchInvoiceVo.greater" cssClass="form-check-input" id="greater" value="" />
+                                      <label class="form-check-label" for="greater">
                                         Greater than & Equal
-                                        <form:checkbox path="searchInvoiceVo.greater" id="greater" value=""/>
-                                    </label>
-                                </td>
-                                <td colspan="3">&nbsp;</td>
-                                <td>
-                                    <label for="lesser" class="control-label">
+                                      </label>
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <div class="form-check">
+                                      <form:checkbox path="searchInvoiceVo.lesser" cssClass="form-check-input" id="lesser" value="" />
+                                      <label class="form-check-label" for="lesser">
                                         Lesser than & Equal
-                                        <form:checkbox path="searchInvoiceVo.lesser" id="lesser" value=""/>
-                                    </label>
-                                </td>
-                                <td colspan="4">&nbsp;</td>
-                            </tr>
-                            <tr>
-                                <td colspan="14">&nbsp;</td>
-                            </tr>
-                            <tr>
-                                <td>&nbsp;</td>
-                                <td>
-                                    <label for="includes" class="control-label">
-                                        <spring:message code="user.includes" text="Includes"/>
-                                        <form:checkbox path="searchInvoiceVo.includes" id="includes" value=""/>
-                                    </label>
-                                </td>
-                                <td colspan="3">&nbsp;</td>
-                                <td>
-                                    <label for="startsWith" class="control-label">
-                                        <spring:message code="user.startsWith" text="Starts with"/>
-                                        <form:checkbox path="searchInvoiceVo.startsWith" id="startsWith" value=""/>
-                                    </label>
-                                </td>
-                                <td colspan="3">&nbsp;</td>
-                                <td>
-                                    <input class="btn btn-primary" value="<spring:message code="poseidon.search" text="Search" />"
-                                           type="button" onclick="search()"/>
-                                </td>
-                                <td colspan="3">&nbsp;</td>
-                                <td>
-                                    <input class="btn btn-primary" value="<spring:message code="poseidon.clear" text="Clear" />"
-                                           type="button" onclick="clearOut()"/>
-                                </td>
-                            </tr>
-                        </table>
+                                      </label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <div class="form-check">
+                                      <form:checkbox path="searchInvoiceVo.includes" cssClass="form-check-input" id="includes" value="" />
+                                      <label class="form-check-label" for="includes">
+                                        <spring:message code="user.includes" text="Includes" />
+                                      </label>
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-6">    
+                                    <div class="form-check">
+                                      <form:checkbox path="searchInvoiceVo.startsWith" cssClass="form-check-input" id="startswith" value="" />
+                                      <label class="form-check-label" for="startsWith">
+                                        <spring:message code="user.startsWith" text="Starts with" />
+                                      </label>
+                                    </div>
+                                </div>
+                            </div>        
+                        </div>
+                        <input class="btn btn-primary" value="<spring:message code='poseidon.search' text='Search' />"
+                                           type="button" onclick="search()"/>  
+                        <input class="btn btn-primary" value="<spring:message code='poseidon.clear' text='Clear' />"
+                                           type="button" onclick="clearOut()"/>      
                     </div>
                 </div>
                 <br />

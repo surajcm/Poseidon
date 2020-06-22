@@ -23,8 +23,8 @@ function fetchCustomers() {
     document.forms[0].submit();
 }
 
-function fetchTerms() {
-    document.forms[0].action="/company/List.htm";
+function fetchCompany() {
+    document.forms[0].action="/company/Company.htm";
     document.forms[0].submit();
 }
 

@@ -138,4 +138,20 @@ public class CompanyTermsVO {
     public void setModifiedBy(final String modifiedBy) {
         this.modifiedBy = modifiedBy;
     }
+
+    @Override
+    public String toString() {
+        return "CompanyTermsVO{" +
+                "companyName='" + companyName + '\'' +
+                ", companyAddress='" + companyAddress + '\'' +
+                ", companyPhoneNumber='" + companyPhoneNumber + '\'' +
+                ", companyWebsite='" + companyWebsite + '\'' +
+                ", companyEmail='" + companyEmail + '\'' +
+                ", companyTerms='" + companyTerms + '\'' +
+                ", termsAndConditions='" + termsAndConditions + '\'' +
+                ", companyDetails='" + companyDetails + '\'' +
+                ", companyVatTin='" + companyVatTin + '\'' +
+                ", companyCstTin='" + companyCstTin + '\'' +
+                '}';
+    }
 }

@@ -144,5 +144,5 @@ function stateChangeOnTxn() {
     }
 }
 function selectMenu(){
-    document.getElementById('reportmgt').text = "Report <span class='sr-only'>Report</span>";
+    document.getElementById('report').text = "Report <span class='sr-only'>Report</span>";
 }

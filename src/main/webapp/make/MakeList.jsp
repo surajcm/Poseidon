@@ -34,57 +34,44 @@
                         Search Model
                     </div>
                     <div class="card-body">
-                        <table>
-                            <tr>
-                                <td>
-                                    <label for="makeName" class="control-label">
-                                        Make Name :
-                                    </label>
-                                </td>
-                                <td>
+                        <div class="card-text">
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <label for="makeName">Make Name :</label>
                                     <form:select id="makeName" path="searchMakeAndModelVO.makeName" cssClass="form-control" tabindex="1">
                                         <form:option value="0" label="-- Select --"/>
                                         <form:options items="${makeForm.makeVOs}"
                                                       itemValue="id" itemLabel="makeName"/>
                                     </form:select>
-                                </td>
-                                <td colspan="2">&nbsp;</td>
-                                <td>
-                                    <label for="modelName" class="control-label">
-                                        Model Name :
-                                    </label>
-                                </td>
-                                <td>
+                                </div>
+                                <div class="form-group col-md-6">
+                                    <label for="modelName">Model Name :</label>
                                     <form:input path="searchMakeAndModelVO.modelName" cssClass="form-control" id="modelName"/>
-                                </td>
-                            <tr>
-                            <tr>
-                                <td colspan="2">
-                                    <label for="includes" class="control-label">
-                                        <spring:message code="user.includes" text="Includes"/>
-                                        <form:checkbox path="searchMakeAndModelVO.includes" cssStyle="vertical-align:middle"
+                                </div>
+                            </div>
+                            <div class="form-row">
+                                <div class="form-group col-md-6">
+                                    <div class="form-check">
+                                      <form:checkbox path="searchMakeAndModelVO.includes" ccssClass="form-check-input"
                                                        id="includes" value=""/>
-                                    </label>
-                                </td>
-                                <td colspan="2">&nbsp;</td>
-                                <td colspan="2">
-                                    <label for="startswith" class="control-label">
-                                        <spring:message code="user.startsWith" text="Starts with"/>
-                                        <form:checkbox path="searchMakeAndModelVO.startswith" cssStyle="vertical-align:middle"
+                                      <label class="form-check-label" for="includes">
+                                        <spring:message code="user.includes" text="Includes" />
+                                      </label>
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-6">    
+                                    <div class="form-check">
+                                      <form:checkbox path="searchMakeAndModelVO.startswith" cssClass="form-check-input"
                                                        id="startswith" value=""/>
-                                    </label>
-                                </td>
-                            <tr>
-                            <tr>
-                                <td colspan="2">
-                                    <input class="btn btn-primary" value="Search" type="button" onclick="javascript:search()"/>
-                                </td>
-                                <td colspan="2">&nbsp;</td>
-                                <td colspan="2">
-                                    <input class="btn btn-primary" value="Clear" type="button" onclick="javascript:clearOut()"/>
-                                </td>
-                            <tr>
-                        </table>
+                                      <label class="form-check-label" for="startsWith">
+                                        <spring:message code="user.startsWith" text="Starts with" />
+                                      </label>
+                                    </div>
+                                </div>
+                                <input class="btn btn-primary" value="Search" type="button" onclick="javascript:search()"/>
+                                <input class="btn btn-primary" value="Clear" type="button" onclick="javascript:clearOut()"/>
+                            </div>
+                        </div>        
                     </div>
                 </div>
                 <br/>

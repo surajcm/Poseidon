@@ -144,7 +144,7 @@ function checkCall(e) {
 }
 
 function hideAlerts() {
-    document.getElementById('customermgt').text = "Customer <span class='sr-only'>Customer</span>";
+    document.getElementById('customer').text = "Customer <span class='sr-only'>Customer</span>";
 }
 
 function viewCustomer() {

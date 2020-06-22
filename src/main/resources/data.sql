@@ -16,8 +16,12 @@ insert into user (id, name, loginid, password, role, createdOn, modifiedOn, crea
 (4, 'manager2', 'manager2', '$2a$10$mNTOvX7clxxtPcNmk1LI0.Daz5f66RyeBwijmNOT7aEpuDdn2nULK', 'ADMIN',
 '2019-10-15 00:00:00','2019-10-15 00:00:00','admin','admin');
 
-insert into companyterms (id, terms, companyAddress, createdOn, modifiedOn, createdBy, modifiedBy) values
-(1, 'terms', 'my company','2012-06-02 00:00:00','2012-06-02 00:00:00','admin','admin');
+insert into companyterms (id, companyName, companyAddress, companyPhone, companyEmail, companyWebsite, 
+	vatTin, cstTin, terms,createdOn, modifiedOn, createdBy, modifiedBy) values
+(1, 'Queen Consolidated', 'Star City; Washington', '9999993939','oliver@queen.com', 
+	'www.queen-industries.com','VAT12345TT','CST12345TT',
+	'Queen Consolidated was a company founded by Robert Queen and run primarily by the Queen family.',
+	'2012-06-02 00:00:00','2012-06-02 00:00:00','admin','admin');
 
 insert into make (id, makeName, description, createdOn, modifiedOn, createdBy, modifiedBy) values
 (1, 'Apple', 'Apple Computers','2019-08-01 00:00:00','2019-08-01 06:56:00','admin','admin');

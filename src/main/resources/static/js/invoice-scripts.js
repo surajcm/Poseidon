@@ -158,5 +158,5 @@ function checkCall(e) {
 }
 
 function hideAlerts() {
-    document.getElementById('invmgt').text = "Invoice <span class='sr-only'>Invoice</span>";
+    document.getElementById('invoice').text = "Invoice <span class='sr-only'>Invoice</span>";
 }

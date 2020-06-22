@@ -15,8 +15,8 @@ import java.time.ZoneId;
 
 @Controller
 @SuppressWarnings("unused")
-public class CompanyTermsController {
-    private static final Logger LOG = LoggerFactory.getLogger(CompanyTermsController.class);
+public class CompanyController {
+    private static final Logger LOG = LoggerFactory.getLogger(CompanyController.class);
 
     @Autowired
     private CompanyTermsService companyTermsService;
@@ -27,10 +27,9 @@ public class CompanyTermsController {
      * @param companyTermsForm companyTermsForm
      * @return on error
      */
-    @PostMapping("/company/List.htm")
+    @PostMapping("/company/Company.htm")
     public ModelAndView list(final CompanyTermsForm companyTermsForm) {
-        LOG.info(" Inside List method of CompanyTermsController ");
-        LOG.info(" form details are {}", companyTermsForm);
+        LOG.info(" Inside Company method of CompanyTermsController ");
         CompanyTermsVO companyTermsVO = null;
         try {
             companyTermsVO = companyTermsService.listCompanyTerms();
@@ -45,7 +44,7 @@ public class CompanyTermsController {
         }
         companyTermsForm.setLoggedInRole(companyTermsForm.getLoggedInRole());
         companyTermsForm.setLoggedInUser(companyTermsForm.getLoggedInUser());
-        return new ModelAndView("company/TermsList", "companyTermsForm", companyTermsForm);
+        return new ModelAndView("company/companyDetails", "companyTermsForm", companyTermsForm);
     }
 
     /**
