@@ -10,8 +10,7 @@
     <link rel="shortcut icon" href="${posIcon}" >
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Log In</title>
-    <spring:url value="/resources/css/logInStyles.css" var="logInStyles" />
-    <link href="${logInStyles}" rel="stylesheet" />
+    <link rel="stylesheet" href="/css/logInStyles.css"  type="text/css" />
     <script type="text/javascript">
         function submitLogIn() {
             document.forms[0].action="LogIn.htm";
@@ -20,7 +19,7 @@
     </script>
 </head>
 <body>
-    <div id="signin" class="content">
+    <div id="signin">
         <div class="box_wrapper">
             <table width="100%" border="0" cellpadding="0" cellspacing="0">
                 <tr>

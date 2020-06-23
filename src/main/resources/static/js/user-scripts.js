@@ -271,3 +271,51 @@ function rewriteTable(textReturned) {
     var isAddInProgress = document.getElementById("id").value;
     isAddInProgress = "FALSE";
 }
+
+function addNewUserModal() {
+    var detail = document.getElementById("userModalBody");
+    detail.innerHTML = "";
+    var divFirstRow = document.createElement("div");
+    divFirstRow.setAttribute("class","form-row align-items-left");
+    var divName = document.createElement("div");
+    divName.setAttribute("class","form-group col-md-4");
+    var lbName = document.createElement("label");
+    lbName.textContent = "Name : ";
+    divName.appendChild(lbName);
+    var txtName = document.createElement("input");
+    txtName.setAttribute("type","text");
+    txtName.setAttribute("class","form-control");
+    divName.appendChild(txtName);
+    
+    var divLoginId = document.createElement("div");
+    divLoginId.setAttribute("class","form-group col-md-4");
+    var lbloginId = document.createElement("label");
+    lbloginId.textContent = "Login Id : ";
+    divLoginId.appendChild(lbloginId);
+    var txtLoginId = document.createElement("input");
+    txtLoginId.setAttribute("type","text");
+    txtLoginId.setAttribute("class","form-control");
+    divLoginId.appendChild(txtLoginId);
+
+    var divRole = document.createElement("div");
+    divRole.setAttribute("class","form-group col-md-4");
+    var lbRole = document.createElement("label");
+    lbRole.textContent = "Role : ";
+    divRole.appendChild(lbRole);
+    var selectRole = document.createElement("select");
+    selectRole.setAttribute("class","form-control");
+    var adminOption = document.createElement("option");
+    adminOption.text = 'ADMIN';
+    adminOption.value = 'ADMIN';
+    var guestOption = document.createElement("option");
+    guestOption.text = 'GUEST';
+    guestOption.value = 'GUEST';
+    selectRole.appendChild(adminOption);
+    selectRole.appendChild(guestOption);
+    divRole.appendChild(selectRole);
+
+    divFirstRow.appendChild(divName);
+    divFirstRow.appendChild(divLoginId);
+    divFirstRow.appendChild(divRole);
+    detail.appendChild(divFirstRow);
+}

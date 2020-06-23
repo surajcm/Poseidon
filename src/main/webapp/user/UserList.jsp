@@ -27,6 +27,7 @@
         <form:hidden name="loggedInUser" path="loggedInUser" />
         <form:hidden name="loggedInRole" path="loggedInRole" />
         <%@include file="../navbar.jsp" %>
+        <br />
         <div class="container">
             <div class="wrap">
                 <div class="card">
@@ -36,16 +37,22 @@
                     <div class="card-body">
                         <div class="card-text">
                             <div class="form-row">
-                                <div class="form-group col-md-6">
-                                  <label for="name"><spring:message code="poseidon.name" text="Name" /> :</label>
-                                  <form:input cssClass="form-control" path="searchUser.name" id="name" />
+                                <div class="form-group col-md-2 text-right">
+                                    <label for="name"><spring:message code="poseidon.name" text="Name" /> :</label>
                                 </div>
                                 <div class="form-group col-md-2">
-                                  <label for="loginId"><spring:message code="poseidon.loginId" text="loginId" /> :</label>
-                                  <form:input cssClass="form-control" path="searchUser.loginId" id="loginId" />
+                                    <form:input cssClass="form-control" path="searchUser.name" id="name" />
                                 </div>
-                                <div class="form-group col-md-4">
+                                <div class="form-group col-md-2 text-right">
+                                    <label for="loginId"><spring:message code="poseidon.loginId" text="loginId" /> :</label>
+                                </div>
+                                <div class="form-group col-md-2">
+                                    <form:input cssClass="form-control" path="searchUser.loginId" id="loginId" />
+                                </div>
+                                <div class="form-group col-md-2 text-right">
                                     <label for="role"><spring:message code="poseidon.role" text="Role" /> :</label>
+                                </div>
+                                <div class="form-group col-md-2">
                                     <form:select id="role" path="searchUser.role" cssClass="form-control"
                                              onkeypress="handleEnter(event);">
                                         <form:option value=""><spring:message code="common.select" text="<-- Select -->"/></form:option>
@@ -109,11 +116,37 @@
                     </table>
                     <div class="form-row">
                         <div class="form-group">
-                          <input class="btn btn-primary" value="<spring:message code='poseidon.add' text='Add New User' />" type="button" onclick="javascript:addNewUser()" />
-                          <input class="btn btn-primary" value="<spring:message code='poseidon.edit' text='Edit User' />" type="button" onclick="javascript:editMe()" />
-                          <input class="btn btn-primary" value="<spring:message code='poseidon.delete' text='Delete User' />" type="button" onclick="javascript:deleteUser()" />
-                          <input class="btn btn-primary" value="<spring:message code='poseidon.simple.save' text='Save' />" type="button" onclick="javascript:simpleSave()" />
+                            <button type="button" class="btn btn-primary" onclick="javascript:addNewUser()">
+                                <spring:message code='poseidon.add' text='Add New User' />
+                            </button>
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#newUserModal" 
+                                onclick="javascript:addNewUserModal()">Add New User Modal</button>
+                            <button type="button" class="btn btn-primary" onclick="javascript:editMe()">
+                                <spring:message code='poseidon.edit' text='Edit User' />
+                            </button>    
+                            <button type="button" class="btn btn-primary" onclick="javascript:deleteUser()">
+                                <spring:message code='poseidon.delete' text='Delete User' />
+                            </button>    
+                            <button type="button" class="btn btn-primary" onclick="javascript:simpleSave()">
+                                <spring:message code='poseidon.simple.save' text='Save' />
+                            </button>    
                         </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="newUserModal" class="modal fade bd-example-modal-lg" role="dialog">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Add new User</h4>
+                        <button type="button" class="close" data-dismiss="modal">x</button>
+                    </div>
+                    <div id="userModalBody" class="modal-body">
+                        <p>Lets add some users....</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-default" onclick="javascript:saveFromModal()">Save</button>
                     </div>
                 </div>
             </div>
