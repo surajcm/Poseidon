@@ -12,7 +12,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="Suraj">
-    <spring:url value="/resources/images/Poseidon_Ico.ico" var="posIcon" />
+    <meta name="_csrf" content="${_csrf.token}"/>
+    <meta name="_csrf_header" content="${_csrf.headerName}"/>
+    <spring:url value="/img/Poseidon_Ico.ico" var="posIcon" />
     <link rel="shortcut icon" href="${posIcon}" />
     <link rel="stylesheet" href="/css/bootstrap.min.css"  type="text/css" />
     <link rel="stylesheet" href="/css/custom.css" type="text/css" />
@@ -146,7 +148,7 @@
                         <p>Lets add some users....</p>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-default" onclick="javascript:saveFromModal()">Save</button>
+                        <button type="button" id="saveModal" class="btn btn-default" onclick="javascript:saveFromModal()">Save</button>
                     </div>
                 </div>
             </div>

@@ -44,9 +44,8 @@ public class InvoiceDAOImpl implements InvoiceDAO {
      */
     @Override
     public void addInvoice(final InvoiceVO currentInvoiceVO) throws InvoiceException {
-        Invoice invoice = convertInvoiceVOToInvoice(currentInvoiceVO);
         try {
-            Invoice newInvoice = invoiceRepository.save(invoice);
+            invoiceRepository.save(convertInvoiceVOToInvoice(currentInvoiceVO));
         } catch (DataAccessException ex) {
             log.error(ex.getLocalizedMessage());
             throw new InvoiceException(InvoiceException.DATABASE_ERROR);

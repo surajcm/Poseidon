@@ -273,37 +273,35 @@ function rewriteTable(textReturned) {
 }
 
 function addNewUserModal() {
+    var saveModal = document.getElementById("saveModal");
+    saveModal.style.display = "block";
     var detail = document.getElementById("userModalBody");
     detail.innerHTML = "";
     var divFirstRow = document.createElement("div");
     divFirstRow.setAttribute("class","form-row align-items-left");
     var divName = document.createElement("div");
     divName.setAttribute("class","form-group col-md-4");
-    var lbName = document.createElement("label");
-    lbName.textContent = "Name : ";
-    divName.appendChild(lbName);
     var txtName = document.createElement("input");
     txtName.setAttribute("type","text");
     txtName.setAttribute("class","form-control");
+    txtName.setAttribute("placeholder","Name");
+    txtName.setAttribute("id","addName");
     divName.appendChild(txtName);
     
     var divLoginId = document.createElement("div");
     divLoginId.setAttribute("class","form-group col-md-4");
-    var lbloginId = document.createElement("label");
-    lbloginId.textContent = "Login Id : ";
-    divLoginId.appendChild(lbloginId);
     var txtLoginId = document.createElement("input");
     txtLoginId.setAttribute("type","text");
     txtLoginId.setAttribute("class","form-control");
+    txtLoginId.setAttribute("placeholder","Login Id");
+    txtLoginId.setAttribute("id","addLoginId");
     divLoginId.appendChild(txtLoginId);
 
     var divRole = document.createElement("div");
     divRole.setAttribute("class","form-group col-md-4");
-    var lbRole = document.createElement("label");
-    lbRole.textContent = "Role : ";
-    divRole.appendChild(lbRole);
     var selectRole = document.createElement("select");
     selectRole.setAttribute("class","form-control");
+    selectRole.setAttribute("id","addRole");
     var adminOption = document.createElement("option");
     adminOption.text = 'ADMIN';
     adminOption.value = 'ADMIN';
@@ -319,3 +317,60 @@ function addNewUserModal() {
     divFirstRow.appendChild(divRole);
     detail.appendChild(divFirstRow);
 }
+
+function saveFromModal() {
+    var addName = document.getElementById("addName").value;
+    var addLoginId = document.getElementById("addLoginId").value;
+    var addRole = document.getElementById("addRole").value;
+    console.log("Name is : "+addName);
+    console.log("LoginId is : "+addLoginId);
+    console.log("Role is : "+addRole);
+    // validate
+    callAjax(addName,addLoginId,addRole)
+}
+
+function callAjax(addName,addLoginId,addRole) {
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', "/user/saveUserAjax.htm",true);
+    var token = document.querySelector("meta[name='_csrf']").content;
+    var header = document.querySelector("meta[name='_csrf_header']").content;
+    xhr.setRequestHeader(header, token);
+    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    xhr.onload = function() {
+        if (xhr.status === 200) {
+            console.log('Response is ' + xhr.responseText);
+            if (xhr.responseText != null) {
+                rewriteTable(xhr.responseText);
+                showStatus(true);
+            }
+        } else if (xhr.status !== 200) {
+            console.log('Request failed.  Returned status of ' + xhr.status);
+            showStatus(false);
+        }
+    };
+    xhr.send("selectName=" + addName + "&selectLogin=" + addLoginId + "&selectRole=" + addRole );
+}
+
+function showStatus(status) {
+    console.log("show status screen for close");
+    var detail = document.getElementById("userModalBody");
+    detail.innerHTML = "";
+    var saveModal = document.getElementById("saveModal");
+    saveModal.style.display = "none";
+    var divStatus = document.createElement("div");
+    divStatus.setAttribute("class","pop-status");
+    var imgSuccess = document.createElement("img");
+    
+    divStatus.appendChild(imgSuccess);
+    var statusMessage = document.createElement("h3");
+    if(status) {
+        imgSuccess.setAttribute("src","/img/2936181.png");
+        statusMessage.innerHTML = "Successfully added a new user !!";    
+    } else {
+        imgSuccess.setAttribute("src","/img/929416.svg");
+        statusMessage.innerHTML = "Failed to save !!";
+    }
+    divStatus.appendChild(statusMessage);
+    detail.appendChild(divStatus);
+}
+

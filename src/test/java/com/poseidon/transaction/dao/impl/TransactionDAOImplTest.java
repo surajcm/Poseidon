@@ -225,10 +225,8 @@ public class TransactionDAOImplTest {
     private CustomerAdditionalDetails mockCustomerAdditionalDetails() {
         CustomerAdditionalDetails additionalDetails = new CustomerAdditionalDetails();
         additionalDetails.setNote("ABC");
-        additionalDetails.setContactPerson1("ABC");
-        additionalDetails.setContactPhone1("12321323");
-        additionalDetails.setContactPerson2("ABC");
-        additionalDetails.setContactPhone2("12321323");
+        additionalDetails.setContactPerson("ABC");
+        additionalDetails.setContactPhone("12321323");
         return additionalDetails;
     }
 

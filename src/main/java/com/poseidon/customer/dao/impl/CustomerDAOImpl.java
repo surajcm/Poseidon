@@ -166,19 +166,15 @@ public class CustomerDAOImpl implements CustomerDAO {
 
     private void updateAdditionalDetails(final CustomerVO currentCustomerVo,
                                          final CustomerAdditionalDetails customerAdditionalDetails) {
-        customerAdditionalDetails.setContactPerson1(currentCustomerVo.getContactPerson1());
-        customerAdditionalDetails.setContactPerson2(currentCustomerVo.getContactPerson2());
-        customerAdditionalDetails.setContactPhone1(currentCustomerVo.getContactMobile1());
-        customerAdditionalDetails.setContactPhone2(currentCustomerVo.getContactMobile2());
+        customerAdditionalDetails.setContactPerson(currentCustomerVo.getContactPerson1());
+        customerAdditionalDetails.setContactPhone(currentCustomerVo.getContactMobile1());
         customerAdditionalDetails.setNote(currentCustomerVo.getNotes());
     }
 
     private void updateCustomerWithAdditionalDetails(final CustomerVO customerVO,
                                                      final CustomerAdditionalDetails customerAdditionalDetails) {
-        customerVO.setContactPerson1(customerAdditionalDetails.getContactPerson1());
-        customerVO.setContactPerson2(customerAdditionalDetails.getContactPerson2());
-        customerVO.setContactMobile1(customerAdditionalDetails.getContactPhone1());
-        customerVO.setContactMobile2(customerAdditionalDetails.getContactPhone2());
+        customerVO.setContactPerson1(customerAdditionalDetails.getContactPerson());
+        customerVO.setContactMobile1(customerAdditionalDetails.getContactPhone());
         customerVO.setNotes(customerAdditionalDetails.getNote());
 
     }
@@ -297,10 +293,8 @@ public class CustomerDAOImpl implements CustomerDAO {
         CustomerAdditionalDetails additionalDetails = new CustomerAdditionalDetails();
         additionalDetails.setCustomerId(customerId);
         if (customerAdditionalDetailsVO != null) {
-            additionalDetails.setContactPerson1(customerAdditionalDetailsVO.getContactPerson1());
-            additionalDetails.setContactPerson2(customerAdditionalDetailsVO.getContactPerson2());
-            additionalDetails.setContactPhone1(customerAdditionalDetailsVO.getContactMobile1());
-            additionalDetails.setContactPhone2(customerAdditionalDetailsVO.getContactMobile2());
+            additionalDetails.setContactPerson(customerAdditionalDetailsVO.getContactPerson1());
+            additionalDetails.setContactPhone(customerAdditionalDetailsVO.getContactMobile1());
             additionalDetails.setNote(customerAdditionalDetailsVO.getNotes());
             additionalDetails.setCreatedBy(customerAdditionalDetailsVO.getCreatedBy());
             additionalDetails.setModifiedBy(customerAdditionalDetailsVO.getModifiedBy());

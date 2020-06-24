@@ -23,17 +23,11 @@ public class CustomerAdditionalDetails {
     @Column(name = "customerId")
     private Long customerId;
 
-    @Column(name = "contactPerson1")
-    private String contactPerson1;
+    @Column(name = "contactPerson")
+    private String contactPerson;
 
-    @Column(name = "contactPhone1")
-    private String contactPhone1;
-
-    @Column(name = "contactPerson2")
-    private String contactPerson2;
-
-    @Column(name = "contactPhone2")
-    private String contactPhone2;
+    @Column(name = "contactPhone")
+    private String contactPhone;
 
     @Column(name = "note")
     private String note;
@@ -66,36 +60,20 @@ public class CustomerAdditionalDetails {
         this.customerId = customerId;
     }
 
-    public String getContactPerson1() {
-        return contactPerson1;
+    public String getContactPerson() {
+        return contactPerson;
     }
 
-    public void setContactPerson1(final String contactPerson1) {
-        this.contactPerson1 = contactPerson1;
+    public void setContactPerson(final String contactPerson) {
+        this.contactPerson = contactPerson;
     }
 
-    public String getContactPhone1() {
-        return contactPhone1;
+    public String getContactPhone() {
+        return contactPhone;
     }
 
-    public void setContactPhone1(final String contactPhone1) {
-        this.contactPhone1 = contactPhone1;
-    }
-
-    public String getContactPerson2() {
-        return contactPerson2;
-    }
-
-    public void setContactPerson2(final String contactPerson2) {
-        this.contactPerson2 = contactPerson2;
-    }
-
-    public String getContactPhone2() {
-        return contactPhone2;
-    }
-
-    public void setContactPhone2(final String contactPhone2) {
-        this.contactPhone2 = contactPhone2;
+    public void setContactPhone(final String contactPhone) {
+        this.contactPhone = contactPhone;
     }
 
     public String getNote() {

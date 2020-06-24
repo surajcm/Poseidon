@@ -418,10 +418,8 @@ public class TransactionDAOImpl implements TransactionDAO {
             Optional<CustomerAdditionalDetails> additionalDetails =
                     customerAdditionalDetailsRepository.findByCustomerId(customer.getCustomerId());
             if (additionalDetails.isPresent()) {
-                txs.setContactPerson1(additionalDetails.get().getContactPerson1());
-                txs.setContactPh1(additionalDetails.get().getContactPhone1());
-                txs.setContactPerson2(additionalDetails.get().getContactPerson2());
-                txs.setContactPh2(additionalDetails.get().getContactPhone2());
+                txs.setContactPerson1(additionalDetails.get().getContactPerson());
+                txs.setContactPh1(additionalDetails.get().getContactPhone());
             }
         }
         txs.setProductCategory(transaction.getProductCategory());

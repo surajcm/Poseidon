@@ -9,7 +9,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="Suraj">
-    <spring:url value="/resources/images/Poseidon_Ico.ico" var="posIcon" />
+    <spring:url value="/img/Poseidon_Ico.ico" var="posIcon" />
     <link rel="shortcut icon" href="${posIcon}" />
     <link rel="stylesheet" href="/css/bootstrap.min.css"  type="text/css" />
     <link rel="stylesheet" href="/css/custom.css" type="text/css" />
@@ -23,7 +23,7 @@
             background-position: 10px center;
             color: #D8000C;
             background-color: #FFBABA;
-            background-image: url( '<%=request.getContextPath()%>/images/Error.png' );
+            background-image: url('/img/Error.png' );
         }
         .foottable {
             margin:auto;

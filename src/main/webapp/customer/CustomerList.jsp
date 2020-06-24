@@ -12,7 +12,7 @@
     <meta name="author" content="Suraj">
     <meta name="_csrf" content="${_csrf.token}"/>
     <meta name="_csrf_header" content="${_csrf.headerName}"/>
-    <spring:url value="/resources/images/Poseidon_Ico.ico" var="posIcon" />
+    <spring:url value="/img/Poseidon_Ico.ico" var="posIcon" />
     <link rel="shortcut icon" href="${posIcon}" />
     <link rel="stylesheet" href="/css/bootstrap.min.css"  type="text/css" />
     <link rel="stylesheet" href="/css/custom.css" type="text/css" />
@@ -35,11 +35,11 @@
                     <div class="card-body">
                         <div class="card-text">
                             <div class="form-row">
-                                <div class="form-group col-md-6">
+                                <div class="form-group col-md-2">
                                   <label for="name">Customer Id :</label>
                                   <form:input cssClass="form-control" path="searchCustomerVO.customerId" id="customerId"/>
                                 </div>
-                                <div class="form-group col-md-2">
+                                <div class="form-group col-md-6">
                                   <label for="loginId">Customer Name :</label>
                                   <form:input cssClass="form-control" path="searchCustomerVO.customerName" id="customerName"/>
                                 </div>
@@ -91,8 +91,7 @@
                             <th>&nbsp;</th>
                             <th><spring:message code="poseidon.id" text="id"/></th>
                             <th>Name</th>
-                            <th>Address Line1</th>
-                            <th>Address Line21</th>
+                            <th>Address</th>
                             <th>Phone</th>
                             <th>Mobile</th>
                             <th>Email</th>
@@ -107,7 +106,6 @@
                                 <td><c:out value="${iterationCust.customerId}"/></td>
                                 <td><c:out value="${iterationCust.customerName}"/></td>
                                 <td><c:out value="${iterationCust.address1}"/></td>
-                                <td><c:out value="${iterationCust.address2}"/></td>
                                 <td><c:out value="${iterationCust.phoneNo}"/></td>
                                 <td><c:out value="${iterationCust.mobile}"/></td>
                                 <td><c:out value="${iterationCust.email}"/></td>

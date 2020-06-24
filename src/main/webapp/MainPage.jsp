@@ -10,7 +10,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="Suraj">
-    <spring:url value="/resources/images/Poseidon_Ico.ico" var="posIcon" />
+    <spring:url value="/img/Poseidon_Ico.ico" var="posIcon" />
     <link rel="shortcut icon" href="${posIcon}" />
     <link rel="stylesheet" href="/css/bootstrap.min.css"  type="text/css" />
     <link rel="stylesheet" href="/css/custom.css" type="text/css" />
@@ -20,7 +20,7 @@
             display: flex;
             align-items: center;
             height: 600px;
-            background-image: url("/resources/images/poseidon_god_of_the_sea.jpg");
+            background-image: url("/img/poseidon_god_of_the_sea.jpg");
             background-repeat: no-repeat;
             background-size:  contain;
             background-position: center;
