@@ -118,19 +118,13 @@
                     </table>
                     <div class="form-row">
                         <div class="form-group">
-                            <button type="button" class="btn btn-primary" onclick="javascript:addNewUser()">
-                                <spring:message code='poseidon.add' text='Add New User' />
-                            </button>
                             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#newUserModal" 
-                                onclick="javascript:addNewUserModal()">Add New User Modal</button>
+                                onclick="javascript:addNewUser()">Add New User</button>
                             <button type="button" class="btn btn-primary" onclick="javascript:editMe()">
                                 <spring:message code='poseidon.edit' text='Edit User' />
                             </button>    
                             <button type="button" class="btn btn-primary" onclick="javascript:deleteUser()">
                                 <spring:message code='poseidon.delete' text='Delete User' />
-                            </button>    
-                            <button type="button" class="btn btn-primary" onclick="javascript:simpleSave()">
-                                <spring:message code='poseidon.simple.save' text='Save' />
                             </button>    
                         </div>
                     </div>

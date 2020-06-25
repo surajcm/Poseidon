@@ -122,66 +122,6 @@ function search() {
     document.forms[0].submit();
 }
 
-function addNewUser() {
-    var isAddInProgress = document.getElementById("id").value;
-    //alert(isAddInProgress);
-    if (isAddInProgress != "TRUE") {
-        document.getElementById("id").value = "TRUE";
-        addUser();
-    }
-}
-
-function addUser() {
-    //todo: add check for multiple calls
-    var myTable = document.getElementById("myTable");
-
-    var d = document.createElement("tr");
-    var dCheck = document.createElement("td");
-    d.appendChild(dCheck);
-
-    var inCheck = document.createElement("input");
-    inCheck.setAttribute("type","checkbox");
-    inCheck.setAttribute("name","checkField");
-    inCheck.setAttribute("onclick","javascript:checkCall(this)");
-    dCheck.appendChild(inCheck);
-
-    var dUser = document.createElement("td");
-    d.appendChild(dUser);
-
-    var inUser = document.createElement("input");
-    inUser.setAttribute("type","text");
-    inUser.setAttribute("class", "form-control");
-    inUser.setAttribute("id", "newName");
-    dUser.appendChild(inUser);
-
-    var dLogIn = document.createElement("td");
-    d.appendChild(dLogIn);
-
-    var inLogin = document.createElement("input");
-    inLogin.setAttribute("type","text");
-    inLogin.setAttribute("class", "form-control");
-    inLogin.setAttribute("id", "newLogin");
-    dLogIn.appendChild(inLogin);
-
-    var dRole = document.createElement("td");
-    d.appendChild(dRole);
-
-    var inRole = document.createElement("select");
-    inRole.setAttribute("class", "form-control");
-    inRole.setAttribute("id", "newRole");
-    // get these values from somewhere else
-    var op1 = new Option();
-    op1.value = "ADMIN";
-    op1.text = "ADMIN";
-    inRole.options.add(op1);
-    var op2 = new Option();
-    op2.value = "GUEST";
-    op2.text = "GUEST";
-    inRole.options.add(op2);
-    dRole.appendChild(inRole);
-    myTable.appendChild(d);
-}
-
 function clearOut(){
     document.getElementById("name").value = "";
     document.getElementById("loginId").value = "";
@@ -190,26 +130,6 @@ function clearOut(){
 
 function hideAlerts(){
     document.getElementById('user').text = "User <span class='sr-only'>User</span>";
-}
-
-function simpleSave(){
-    var selectName = document.forms[0].newName.value;
-    var selectLogin = document.forms[0].newLogin.value;
-    var selectRole = document.forms[0].newRole.value;
-    $.ajax({
-        type: "POST",
-        url: "${contextPath}/user/saveUserAjax.htm",
-        data: "selectName=" + selectName + "&selectLogin=" + selectLogin + "&selectRole=" + selectRole + "&${_csrf.parameterName}=${_csrf.token}",
-        success: function(response) {
-            //alert(response);
-            if (response != "") {
-                rewriteTable(response);
-            }
-        },error: function(e){
-            alert('Error: ' + e);
-            //alert(data.responseText);
-        }
-    });
 }
 
 function rewriteTable(textReturned) {
@@ -267,18 +187,22 @@ function rewriteTable(textReturned) {
         tbody.appendChild(trx);
     }
     myTable.appendChild(tbody);
-    //todo: optional message saving update is done !!
     var isAddInProgress = document.getElementById("id").value;
     isAddInProgress = "FALSE";
 }
 
-function addNewUserModal() {
+function addNewUser() {
     var saveModal = document.getElementById("saveModal");
     saveModal.style.display = "block";
     var detail = document.getElementById("userModalBody");
     detail.innerHTML = "";
-    var divFirstRow = document.createElement("div");
-    divFirstRow.setAttribute("class","form-row align-items-left");
+
+    var formValidUser = document.createElement("form");
+    formValidUser.setAttribute("class","needs-validation");
+    formValidUser.novalidate = true;
+
+    var divUserAdd = document.createElement("div");
+    divUserAdd.setAttribute("class","form-row align-items-left");
     var divName = document.createElement("div");
     divName.setAttribute("class","form-group col-md-4");
     var txtName = document.createElement("input");
@@ -286,8 +210,13 @@ function addNewUserModal() {
     txtName.setAttribute("class","form-control");
     txtName.setAttribute("placeholder","Name");
     txtName.setAttribute("id","addName");
+    txtName.required = true;
     divName.appendChild(txtName);
-    
+    var tt1 = document.createElement("div");
+    tt1.setAttribute("class","invalid-tooltip");
+    tt1.innerHTML = "Please provide a valid name.";
+    divName.appendChild(tt1);
+
     var divLoginId = document.createElement("div");
     divLoginId.setAttribute("class","form-group col-md-4");
     var txtLoginId = document.createElement("input");
@@ -295,7 +224,12 @@ function addNewUserModal() {
     txtLoginId.setAttribute("class","form-control");
     txtLoginId.setAttribute("placeholder","Login Id");
     txtLoginId.setAttribute("id","addLoginId");
+    txtLoginId.required = true;
     divLoginId.appendChild(txtLoginId);
+    var tt2 = document.createElement("div");
+    tt2.setAttribute("class","invalid-tooltip");
+    tt2.innerHTML = "Please provide a valid login id.";
+    divLoginId.appendChild(tt2);
 
     var divRole = document.createElement("div");
     divRole.setAttribute("class","form-group col-md-4");
@@ -312,21 +246,38 @@ function addNewUserModal() {
     selectRole.appendChild(guestOption);
     divRole.appendChild(selectRole);
 
-    divFirstRow.appendChild(divName);
-    divFirstRow.appendChild(divLoginId);
-    divFirstRow.appendChild(divRole);
-    detail.appendChild(divFirstRow);
+    divUserAdd.appendChild(divName);
+    divUserAdd.appendChild(divLoginId);
+    divUserAdd.appendChild(divRole);
+    formValidUser.appendChild(divUserAdd);
+    detail.appendChild(formValidUser);
 }
 
 function saveFromModal() {
     var addName = document.getElementById("addName").value;
     var addLoginId = document.getElementById("addLoginId").value;
     var addRole = document.getElementById("addRole").value;
-    console.log("Name is : "+addName);
-    console.log("LoginId is : "+addLoginId);
-    console.log("Role is : "+addRole);
-    // validate
-    callAjax(addName,addLoginId,addRole)
+    var forms = document.getElementsByClassName('needs-validation');
+    var allFiledsAreValid = true;
+    
+    if (forms[0].checkValidity() === false) {
+        allFiledsAreValid = false;
+        if (addName.length == 0) {
+            document.getElementById("addName").setAttribute("class","form-control is-invalid");   
+        } else {
+            document.getElementById("addName").setAttribute("class","form-control was-validated");   
+        }
+        if (addLoginId.length == 0) {
+            document.getElementById("addLoginId").setAttribute("class","form-control is-invalid");
+        } else {
+            document.getElementById("addLoginId").setAttribute("class","form-control was-validated");
+        }
+    }
+    
+
+    if(allFiledsAreValid) {
+        callAjax(addName,addLoginId,addRole);
+    }
 }
 
 function callAjax(addName,addLoginId,addRole) {
@@ -338,7 +289,6 @@ function callAjax(addName,addLoginId,addRole) {
     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     xhr.onload = function() {
         if (xhr.status === 200) {
-            console.log('Response is ' + xhr.responseText);
             if (xhr.responseText != null) {
                 rewriteTable(xhr.responseText);
                 showStatus(true);
@@ -364,10 +314,10 @@ function showStatus(status) {
     divStatus.appendChild(imgSuccess);
     var statusMessage = document.createElement("h3");
     if(status) {
-        imgSuccess.setAttribute("src","/img/2936181.png");
+        imgSuccess.setAttribute("src","/img/tick.png");
         statusMessage.innerHTML = "Successfully added a new user !!";    
     } else {
-        imgSuccess.setAttribute("src","/img/929416.svg");
+        imgSuccess.setAttribute("src","/img/cross.svg");
         statusMessage.innerHTML = "Failed to save !!";
     }
     divStatus.appendChild(statusMessage);

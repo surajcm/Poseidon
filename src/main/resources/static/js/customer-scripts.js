@@ -283,47 +283,26 @@ function fillModal(textReturned) {
     divPhoneRow.appendChild(divMobile);
     divPhoneRow.appendChild(divEmail);
 
-    var divFirstContact = document.createElement("div");
-    divFirstContact.setAttribute("class","form-row align-items-left");
-    var divP1 = document.createElement("div");
-    divP1.setAttribute("class","form-group col-md-6");
-    var lbP1 = document.createElement("label");
-    lbP1.textContent = "Contact Person 1: ";
-    divP1.appendChild(lbP1);
-    var txtP1 = document.createElement("label");
-    txtP1.textContent = customer.contactPerson1;
-    divP1.appendChild(txtP1);
-    var divP1Mobile1 = document.createElement("div");
-    divP1Mobile1.setAttribute("class","form-group col-md-6");
-    var lbP1Mobile = document.createElement("label");
-    lbP1Mobile.textContent = "Contact Mobile 1 : ";
-    divP1Mobile1.appendChild(lbP1Mobile);
-    var txtP1Mobile = document.createElement("label");
-    txtP1Mobile.textContent = customer.contactMobile1;
-    divP1Mobile1.appendChild(txtP1Mobile);
-    divFirstContact.appendChild(divP1);
-    divFirstContact.appendChild(divP1Mobile1);
-
-    var divSecondContact = document.createElement("div");
-    divSecondContact.setAttribute("class","form-row align-items-left");
-    var divP2 = document.createElement("div");
-    divP2.setAttribute("class","form-group col-md-6");
-    var lbP2 = document.createElement("label");
-    lbP2.textContent = "Contact Person 2: ";
-    divP2.appendChild(lbP2);
-    var txtP2 = document.createElement("label");
-    txtP2.textContent = customer.contactPerson2;
-    divP2.appendChild(txtP2);
-    var divP1Mobile2 = document.createElement("div");
-    divP1Mobile2.setAttribute("class","form-group col-md-6");
-    var lbP2Mobile = document.createElement("label");
-    lbP2Mobile.textContent = "Contact Mobile 2 : ";
-    divP1Mobile2.appendChild(lbP2Mobile);
-    var txtP2Mobile = document.createElement("label");
-    txtP2Mobile.textContent = customer.contactMobile2;
-    divP1Mobile2.appendChild(txtP2Mobile);
-    divSecondContact.appendChild(divP2);
-    divSecondContact.appendChild(divP1Mobile2);
+    var divContact = document.createElement("div");
+    divContact.setAttribute("class","form-row align-items-left");
+    var divPerson = document.createElement("div");
+    divPerson.setAttribute("class","form-group col-md-6");
+    var lbPerson = document.createElement("label");
+    lbPerson.textContent = "Contact Person : ";
+    divPerson.appendChild(lbPerson);
+    var txtPerson = document.createElement("label");
+    txtPerson.textContent = customer.contactPerson1;
+    divPerson.appendChild(txtPerson);
+    var divPMobile = document.createElement("div");
+    divPMobile.setAttribute("class","form-group col-md-6");
+    var lbPMobile = document.createElement("label");
+    lbPMobile.textContent = "Contact Mobile : ";
+    divPMobile.appendChild(lbPMobile);
+    var txtPMobile = document.createElement("label");
+    txtPMobile.textContent = customer.contactMobile1;
+    divPMobile.appendChild(txtPMobile);
+    divContact.appendChild(divPerson);
+    divContact.appendChild(divPMobile);
 
     var divNotes = document.createElement("div");
     divNotes.setAttribute("class","form-row align-items-left");
@@ -340,8 +319,7 @@ function fillModal(textReturned) {
     detail.appendChild(divFirstRow);
     detail.appendChild(divAddress);
     detail.appendChild(divPhoneRow);
-    detail.appendChild(divFirstContact);
-    detail.appendChild(divSecondContact);
+    detail.appendChild(divContact);
     detail.appendChild(divNotes);
 
 }
