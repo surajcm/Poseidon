@@ -123,7 +123,6 @@ public class UserController {
     @PostMapping("/user/EditUser.htm")
     public ModelAndView editUser(final UserForm userForm) {
         logger.info(" Inside EditUser method of user controller ");
-        logger.info(" user is {}", userForm);
         UserVO userVo = null;
         try {
             userVo = userService.getUserDetailsFromId(userForm.getId());
@@ -161,7 +160,6 @@ public class UserController {
         try {
             userForm.getUser().setLastModifiedBy(userForm.getLoggedInUser());
             userForm.getUser().setModifiedDate(OffsetDateTime.now(ZoneId.systemDefault()));
-            logger.info(" user instance to update {}", userForm.getUser());
             userService.updateUser(userForm.getUser());
             userForm.setStatusMessage("Successfully updated the user");
             userForm.setStatusMessageType(SUCCESS);
@@ -183,7 +181,6 @@ public class UserController {
     @PostMapping("/user/DeleteUser.htm")
     public ModelAndView deleteUser(final UserForm userForm) {
         logger.info(" Inside DeleteUser method of user controller ");
-        logger.info(" user is {}", userForm);
         try {
             userService.deleteUser(userForm.getId());
             userForm.setStatusMessage("Successfully deleted the user");
@@ -232,7 +229,6 @@ public class UserController {
     @PostMapping("/user/SearchUser.htm")
     public ModelAndView searchUser(final UserForm userForm) {
         logger.info(" Inside SearchUser method of user controller ");
-        logger.info(" user Details are {}", userForm.getSearchUser());
         List<UserVO> userList = null;
         try {
             userList = userService.searchUserDetails(userForm.getSearchUser());
@@ -290,12 +286,9 @@ public class UserController {
                         @ModelAttribute("selectRole") final String selectRole,
                         final BindingResult result) {
         logger.info("saveUserAjax method of user controller ");
-        logger.info(" At saveUserAjax, selectName is : {}", selectName);
-        logger.info(" At saveUserAjax, selectLogin : {}", selectLogin);
-        logger.info(" At saveUserAjax, selectRole : {}", selectRole);
         UserVO ajaxUserVo = new UserVO();
         ajaxUserVo.setName(selectName);
-        ajaxUserVo.setLoginId(selectName);
+        ajaxUserVo.setLoginId(selectLogin);
         ajaxUserVo.setRole(selectRole);
         //todo : find out a way to get current user
         ajaxUserVo.setPassword("password");

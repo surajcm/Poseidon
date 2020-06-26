@@ -34,6 +34,12 @@ class CompanyTermsDAOImplTest {
     }
 
     @Test
+    void listCompanyTermsEmpty() throws CompanyTermsException {
+        when(companyTermsRepository.findFirstByOrderByCompanyIdAsc()).thenReturn(Optional.empty());
+        Assertions.assertNull(companyTermsDAO.listCompanyTerms());
+    }
+
+    @Test
     void listCompanyTermsFailure() {
         when(companyTermsRepository.findFirstByOrderByCompanyIdAsc())
                 .thenThrow(new CannotAcquireLockException("DB error"));

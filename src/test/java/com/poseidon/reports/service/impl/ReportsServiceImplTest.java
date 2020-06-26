@@ -153,6 +153,16 @@ public class ReportsServiceImplTest {
     }
 
     @Test
+    public void getInvoiceReportCompanyFailure() throws JRException, TransactionException {
+        when(transactionService.fetchTransactionFromTag(any()))
+                .thenReturn(Mockito.mock(TransactionReportVO.class));
+        when(companyTermsService.listCompanyTerms()).thenReturn(null);
+        when(reportsDAO.getInvoiceReport(any(), any())).thenThrow(new JRException("ERROR"));
+        Assertions.assertNotNull(reportsService.getInvoiceReport(Mockito.mock(JasperReport.class),
+                new ReportsVO()));
+    }
+
+    @Test
     public void getInvoiceReportFailure() throws JRException, TransactionException, InvoiceException {
         when(transactionService.fetchTransactionFromTag(any()))
                 .thenReturn(Mockito.mock(TransactionReportVO.class));

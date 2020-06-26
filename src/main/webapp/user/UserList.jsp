@@ -29,7 +29,6 @@
         <form:hidden name="loggedInUser" path="loggedInUser" />
         <form:hidden name="loggedInRole" path="loggedInRole" />
         <%@include file="../navbar.jsp" %>
-        <br />
         <div class="container">
             <div class="wrap">
                 <div class="card">
