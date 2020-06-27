@@ -23,11 +23,8 @@ public class Customer {
     @Column(name = "name")
     private String name;
 
-    @Column(name = "address1")
-    private String address1;
-
-    @Column(name = "address2")
-    private String address2;
+    @Column(name = "address")
+    private String address;
 
     @Column(name = "phone")
     private String phone;
@@ -66,20 +63,12 @@ public class Customer {
         this.name = name;
     }
 
-    public String getAddress1() {
-        return address1;
+    public String getAddress() {
+        return address;
     }
 
-    public void setAddress1(final String address1) {
-        this.address1 = address1;
-    }
-
-    public String getAddress2() {
-        return address2;
-    }
-
-    public void setAddress2(final String address2) {
-        this.address2 = address2;
+    public void setAddress(final String address) {
+        this.address = address;
     }
 
     public String getPhone() {

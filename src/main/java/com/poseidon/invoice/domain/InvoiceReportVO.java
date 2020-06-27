@@ -5,8 +5,7 @@ public class InvoiceReportVO {
     private String tagNo;
     private Long customerId;
     private String customerName;
-    private String customerAddress1;
-    private String customerAddress2;
+    private String customerAddress;
     private String description;
     private String serialNo;
     private int quantity;
@@ -54,20 +53,12 @@ public class InvoiceReportVO {
         this.customerName = customerName;
     }
 
-    public String getCustomerAddress1() {
-        return customerAddress1;
+    public String getCustomerAddress() {
+        return customerAddress;
     }
 
-    public void setCustomerAddress1(final String customerAddress1) {
-        this.customerAddress1 = customerAddress1;
-    }
-
-    public String getCustomerAddress2() {
-        return customerAddress2;
-    }
-
-    public void setCustomerAddress2(final String customerAddress2) {
-        this.customerAddress2 = customerAddress2;
+    public void setCustomerAddress(final String customerAddress) {
+        this.customerAddress = customerAddress;
     }
 
     public String getDescription() {

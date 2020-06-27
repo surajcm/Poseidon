@@ -302,7 +302,6 @@ function callAjax(addName,addLoginId,addRole) {
 }
 
 function showStatus(status) {
-    console.log("show status screen for close");
     var detail = document.getElementById("userModalBody");
     detail.innerHTML = "";
     var saveModal = document.getElementById("saveModal");
@@ -322,5 +321,9 @@ function showStatus(status) {
     }
     divStatus.appendChild(statusMessage);
     detail.appendChild(divStatus);
+}
+
+function resetUser() {
+    console.log("going to reset password");
 }
 

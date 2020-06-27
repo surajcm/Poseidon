@@ -34,15 +34,12 @@
 
         function clearOut() {
             document.getElementById('customerName').value = "";
-            document.getElementById('address1').value = "";
-            document.getElementById('address2').value = "";
+            document.getElementById('address').value = "";
             document.getElementById('phoneNo').value = "";
             document.getElementById('mobile').value = "";
             document.getElementById('email').value = "";
-            document.getElementById('contactPerson1').value = "";
-            document.getElementById('contactMobile1').value = "";
-            document.getElementById('contactPerson2').value = "";
-            document.getElementById('contactMobile2').value = "";
+            document.getElementById('contactPerson').value = "";
+            document.getElementById('contactMobile').value = "";
             document.getElementById('notes').value = "";
         }
     </script>
@@ -70,24 +67,15 @@
                         </td>
                         <td colspan="2">&nbsp;</td>
                         <td>
-                            <label for="address1" class="control-label">
-                                Address Line 1
+                            <label for="address" class="control-label">
+                                Address
                             </label>
                         </td>
                         <td colspan="2">&nbsp;</td>
                         <td>
-                            <form:textarea path="currentCustomerVO.address1" cssClass="form-control" id="address1"/>
+                            <form:textarea path="currentCustomerVO.address" cssClass="form-control" id="address"/>
                         </td>
-                        <td colspan="2">&nbsp;</td>
-                        <td>
-                            <label for="address2" class="control-label">
-                                Address Line 2
-                            </label>
-                        </td>
-                        <td colspan="2">&nbsp;</td>
-                        <td>
-                            <form:textarea path="currentCustomerVO.address2" cssClass="form-control" id="address2"/>
-                        </td>
+                        <td colspan="6">&nbsp;</td>
                     </tr>
                     <tr>
                         <td colspan="14">&nbsp;</td>
@@ -128,55 +116,25 @@
                     </tr>
                     <tr>
                         <td>
-                            <label for="contactPerson1" class="control-label">
-                                Contact Person 1
+                            <label for="contactPerson" class="control-label">
+                                Contact Person
                             </label>
                         </td>
                         <td colspan="2">&nbsp;</td>
                         <td>
-                            <form:input path="currentCustomerVO.contactPerson1" cssClass="form-control" id="contactPerson1"/>
+                            <form:input path="currentCustomerVO.contactPerson" cssClass="form-control" id="contactPerson"/>
                         </td>
                         <td colspan="2">&nbsp;</td>
                         <td>
-                            <label for="contactMobile1" class="control-label">
-                                Mobile of Contact Person 1
+                            <label for="contactMobile" class="control-label">
+                                Mobile of Contact Person
                             </label>
                         </td>
                         <td colspan="2">&nbsp;</td>
                         <td style="text-align:left;">
-                            <form:input path="currentCustomerVO.contactMobile1" cssClass="form-control" id="contactMobile1"/>
-                        </td>
-                        <td colspan="6">&nbsp;</td>
-                    </tr>
-                    <tr>
-                        <td colspan="14">&nbsp;</td>
-                    </tr>
-                    <tr>
-                        <td>
-                            <label for="contactPerson2" class="control-label">
-                                Contact Person 2
-                            </label>
+                            <form:input path="currentCustomerVO.contactMobile" cssClass="form-control" id="contactMobile"/>
                         </td>
                         <td colspan="2">&nbsp;</td>
-                        <td>
-                            <form:input path="currentCustomerVO.contactPerson2" cssClass="form-control" id="contactPerson2"/>
-                        </td>
-                        <td colspan="2">&nbsp;</td>
-                        <td>
-                            <label for="contactMobile2" class="control-label">
-                                Mobile of Contact Person 2
-                            </label>
-                        </td>
-                        <td colspan="2">&nbsp;</td>
-                        <td>
-                            <form:input path="currentCustomerVO.contactMobile2" cssClass="form-control" id="contactMobile2"/>
-                        </td>
-                        <td colspan="6">&nbsp;</td>
-                    </tr>
-                    <tr>
-                        <td colspan="14">&nbsp;</td>
-                    </tr>
-                    <tr>
                         <td>
                             <label for="notes" class="control-label">
                                 Notes
@@ -186,7 +144,6 @@
                         <td>
                             <form:textarea path="currentCustomerVO.notes" cssClass="form-control" id="notes"/>
                         </td>
-                        <td colspan="12">&nbsp;</td>
                     </tr>
                     <tr>
                         <td colspan="14">&nbsp;</td>

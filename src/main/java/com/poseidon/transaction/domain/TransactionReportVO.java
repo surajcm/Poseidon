@@ -36,15 +36,10 @@ public class TransactionReportVO {
     private String notes;
     private String startDate;
     private String endDate;
-    private String address1;
-    private String address2;
+    private String address;
     private String phone;
     private String mobile;
     private String email;
-    private String contactPerson1;
-    private String contactPh1;
-    private String contactPerson2;
-    private String contactPh2;
     private String companyName;
     private String companyAddress;
     private String companyPhoneNumber;
@@ -260,20 +255,12 @@ public class TransactionReportVO {
         this.endDate = endDate;
     }
 
-    public String getAddress1() {
-        return address1;
+    public String getAddress() {
+        return address;
     }
 
-    public void setAddress1(final String address1) {
-        this.address1 = address1;
-    }
-
-    public String getAddress2() {
-        return address2;
-    }
-
-    public void setAddress2(final String address2) {
-        this.address2 = address2;
+    public void setAddress(final String address) {
+        this.address = address;
     }
 
     public String getPhone() {
@@ -298,38 +285,6 @@ public class TransactionReportVO {
 
     public void setEmail(final String email) {
         this.email = email;
-    }
-
-    public String getContactPerson1() {
-        return contactPerson1;
-    }
-
-    public void setContactPerson1(final String contactPerson1) {
-        this.contactPerson1 = contactPerson1;
-    }
-
-    public String getContactPh1() {
-        return contactPh1;
-    }
-
-    public void setContactPh1(final String contactPh1) {
-        this.contactPh1 = contactPh1;
-    }
-
-    public String getContactPerson2() {
-        return contactPerson2;
-    }
-
-    public void setContactPerson2(final String contactPerson2) {
-        this.contactPerson2 = contactPerson2;
-    }
-
-    public String getContactPh2() {
-        return contactPh2;
-    }
-
-    public void setContactPh2(final String contactPh2) {
-        this.contactPh2 = contactPh2;
     }
 
     public String getCompanyTerms() {
@@ -409,15 +364,10 @@ public class TransactionReportVO {
                 .add("notes='" + notes + "'")
                 .add("startDate='" + startDate + "'")
                 .add("endDate='" + endDate + "'")
-                .add("address1='" + address1 + "'")
-                .add("address2='" + address2 + "'")
+                .add("address='" + address + "'")
                 .add("phone='" + phone + "'")
                 .add("mobile='" + mobile + "'")
                 .add("email='" + email + "'")
-                .add("contactPerson1='" + contactPerson1 + "'")
-                .add("contactPh1='" + contactPh1 + "'")
-                .add("contactPerson2='" + contactPerson2 + "'")
-                .add("contactPh2='" + contactPh2 + "'")
                 .add("companyName='" + companyName + "'")
                 .add("companyAddress='" + companyAddress + "'")
                 .add("companyPhoneNumber='" + companyPhoneNumber + "'")

@@ -12,8 +12,7 @@
 	<field name="tagNo" class="java.lang.String"/>
 	<field name="dateReported" class="java.util.Date"/>
 	<field name="customerName" class="java.lang.String"/>
-	<field name="address1" class="java.lang.String"/>
-	<field name="address2" class="java.lang.String"/>
+	<field name="address" class="java.lang.String"/>
 	<field name="phone" class="java.lang.String"/>
 	<field name="makeName" class="java.lang.String"/>
 	<field name="modelName" class="java.lang.String"/>
@@ -237,7 +236,7 @@
 				<textElement>
 					<font fontName="Arial" size="11"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{address1}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{address}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement x="180" y="84" width="348" height="30" uuid="efa0922a-81ec-4c8b-869b-a89c89804dd1"/>

@@ -130,8 +130,7 @@ class CustomerDAOImplTest {
         customerVO.setCustomerId(1234L);
         customerVO.setCustomerName("ABC");
         customerVO.setNotes("ABC");
-        customerVO.setAddress1("ABC");
-        customerVO.setAddress2("ABC");
+        customerVO.setAddress("ABC");
         customerVOContacts(customerVO);
         customerVO.setNotes("ABC");
         customerVO.setCreatedBy("ABC");
@@ -143,10 +142,8 @@ class CustomerDAOImplTest {
         customerVO.setPhoneNo("ABC");
         customerVO.setMobile("ABC");
         customerVO.setEmail("ABC");
-        customerVO.setContactPerson1("ABC");
-        customerVO.setContactMobile1("ABC");
-        customerVO.setContactPerson2("ABC");
-        customerVO.setContactMobile2("ABC");
+        customerVO.setContactPerson("ABC");
+        customerVO.setContactMobile("ABC");
     }
 
     private List<Customer> mockCustomers() {
@@ -159,8 +156,7 @@ class CustomerDAOImplTest {
         Customer customer = new Customer();
         customer.setCustomerId(1234L);
         customer.setName("ABC");
-        customer.setAddress1("ABC");
-        customer.setAddress2("ABC");
+        customer.setAddress("ABC");
         setCustomerContacts(customer);
         customer.setCreatedBy("ABC");
         customer.setModifiedBy("ABC");

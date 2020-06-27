@@ -95,6 +95,28 @@ public class InvoiceDAOImpl implements InvoiceDAO {
     }
 
     /**
+     * fetch invoice vo from id.
+     *
+     * @param id of invoice vo
+     * @return invoice vo
+     */
+    @Override
+    public InvoiceVO fetchInvoiceVOFromTagNo(final String tagNo) throws InvoiceException {
+        InvoiceVO invoiceVO = null;
+        try {
+            Optional<Invoice> optionalInvoice = invoiceRepository.findByTagNumber(tagNo);
+            if (optionalInvoice.isPresent()) {
+                Invoice invoice = optionalInvoice.get();
+                invoiceVO = getInvoiceVoFromInvoice(invoice);
+            }
+        } catch (DataAccessException ex) {
+            log.error(ex.getLocalizedMessage());
+            throw new InvoiceException(InvoiceException.DATABASE_ERROR);
+        }
+        return invoiceVO;
+    }
+
+    /**
      * delete Invoice.
      *
      * @param id of invoice

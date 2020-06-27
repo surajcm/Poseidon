@@ -104,6 +104,25 @@ public class InvoiceServiceImpl implements InvoiceService {
     }
 
     /**
+     * fetch InvoiceVO From Id.
+     *
+     * @param tagNo tagNo
+     * @return InvoiceVO
+     * @throws InvoiceException on error
+     */
+    @Override
+    public InvoiceVO fetchInvoiceVOFromTagNo(final String tagNo) throws InvoiceException {
+        InvoiceVO invoiceVO;
+        try {
+            invoiceVO = invoiceDAO.fetchInvoiceVOFromTagNo(tagNo);
+        } catch (InvoiceException ex) {
+            LOG.error(ex.getLocalizedMessage());
+            throw new InvoiceException(ex.getMessage());
+        }
+        return invoiceVO;
+    }
+
+    /**
      * delete Invoice.
      *
      * @param id id

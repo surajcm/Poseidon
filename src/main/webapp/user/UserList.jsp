@@ -124,7 +124,10 @@
                             </button>    
                             <button type="button" class="btn btn-primary" onclick="javascript:deleteUser()">
                                 <spring:message code='poseidon.delete' text='Delete User' />
-                            </button>    
+                            </button>
+                            <button type="button" class="btn btn-primary" onclick="javascript:resetUser()">
+                                Reset Password
+                            </button>
                         </div>
                     </div>
                 </div>

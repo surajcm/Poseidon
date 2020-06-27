@@ -249,7 +249,7 @@ function fillModal(textReturned) {
     lbAddress.textContent = "Address : ";
     divAdd1.appendChild(lbAddress);
     var txtAddress = document.createElement("label");
-    txtAddress.textContent = customer.address1 + ' ' + customer.address2;
+    txtAddress.textContent = customer.address;
     divAdd1.appendChild(txtAddress);
     divAddress.appendChild(divAdd1);
 
@@ -291,7 +291,7 @@ function fillModal(textReturned) {
     lbPerson.textContent = "Contact Person : ";
     divPerson.appendChild(lbPerson);
     var txtPerson = document.createElement("label");
-    txtPerson.textContent = customer.contactPerson1;
+    txtPerson.textContent = customer.contactPerson;
     divPerson.appendChild(txtPerson);
     var divPMobile = document.createElement("div");
     divPMobile.setAttribute("class","form-group col-md-6");
@@ -299,7 +299,7 @@ function fillModal(textReturned) {
     lbPMobile.textContent = "Contact Mobile : ";
     divPMobile.appendChild(lbPMobile);
     var txtPMobile = document.createElement("label");
-    txtPMobile.textContent = customer.contactMobile1;
+    txtPMobile.textContent = customer.contactMobile;
     divPMobile.appendChild(txtPMobile);
     divContact.appendChild(divPerson);
     divContact.appendChild(divPMobile);

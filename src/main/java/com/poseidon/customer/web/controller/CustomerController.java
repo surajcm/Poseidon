@@ -196,10 +196,8 @@ public class CustomerController {
 
     private CustomerAdditionalDetailsVO populateAdditionalDetails(final CustomerVO customerVO) {
         CustomerAdditionalDetailsVO customerAdditionalDetailsVO = new CustomerAdditionalDetailsVO();
-        customerAdditionalDetailsVO.setContactMobile1(customerVO.getContactMobile1());
-        customerAdditionalDetailsVO.setContactMobile2(customerVO.getContactMobile2());
-        customerAdditionalDetailsVO.setContactPerson1(customerVO.getContactPerson1());
-        customerAdditionalDetailsVO.setContactPerson2(customerVO.getContactPerson2());
+        customerAdditionalDetailsVO.setContactPerson(customerVO.getContactPerson());
+        customerAdditionalDetailsVO.setContactMobile(customerVO.getContactMobile());
         customerAdditionalDetailsVO.setNotes(customerVO.getNotes());
         customerAdditionalDetailsVO.setCreatedBy(customerVO.getCreatedBy());
         customerAdditionalDetailsVO.setModifiedBy(customerVO.getCreatedBy());

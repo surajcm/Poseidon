@@ -1,8 +1,6 @@
 package com.poseidon.transaction.dao.impl;
 
 import com.poseidon.customer.dao.entities.Customer;
-import com.poseidon.customer.dao.entities.CustomerAdditionalDetails;
-import com.poseidon.customer.dao.impl.CustomerAdditionalDetailsRepository;
 import com.poseidon.customer.dao.impl.CustomerRepository;
 import com.poseidon.make.dao.entities.Make;
 import com.poseidon.make.dao.entities.Model;
@@ -48,8 +46,6 @@ public class TransactionDAOImpl implements TransactionDAO {
     private MakeRepository makeRepository;
     @Autowired
     private ModelRepository modelRepository;
-    @Autowired
-    private CustomerAdditionalDetailsRepository customerAdditionalDetailsRepository;
     @PersistenceContext
     private EntityManager em;
 
@@ -410,17 +406,10 @@ public class TransactionDAOImpl implements TransactionDAO {
         if (customerOpt.isPresent()) {
             Customer customer = customerOpt.get();
             txs.setCustomerName(customer.getName());
-            txs.setAddress1(customer.getAddress1());
-            txs.setAddress2(customer.getAddress2());
+            txs.setAddress(customer.getAddress());
             txs.setPhone(customer.getPhone());
             txs.setMobile(customer.getMobile());
             txs.setEmail(customer.getEmail());
-            Optional<CustomerAdditionalDetails> additionalDetails =
-                    customerAdditionalDetailsRepository.findByCustomerId(customer.getCustomerId());
-            if (additionalDetails.isPresent()) {
-                txs.setContactPerson1(additionalDetails.get().getContactPerson());
-                txs.setContactPh1(additionalDetails.get().getContactPhone());
-            }
         }
         txs.setProductCategory(transaction.getProductCategory());
         Make make = makeRepository.getOne(transaction.getMakeId());

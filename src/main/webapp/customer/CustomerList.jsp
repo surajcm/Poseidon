@@ -105,7 +105,7 @@
                                            value="<c:out value="${iterationCust.customerId}" />"/></td>
                                 <td><c:out value="${iterationCust.customerId}"/></td>
                                 <td><c:out value="${iterationCust.customerName}"/></td>
-                                <td><c:out value="${iterationCust.address1}"/></td>
+                                <td><c:out value="${iterationCust.address}"/></td>
                                 <td><c:out value="${iterationCust.phoneNo}"/></td>
                                 <td><c:out value="${iterationCust.mobile}"/></td>
                                 <td><c:out value="${iterationCust.email}"/></td>

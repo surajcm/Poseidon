@@ -12,6 +12,8 @@ public interface InvoiceService {
 
     InvoiceVO fetchInvoiceVOFromId(Long id) throws InvoiceException;
 
+    InvoiceVO fetchInvoiceVOFromTagNo(final String tagNo) throws InvoiceException;
+
     void deleteInvoice(Long id) throws InvoiceException;
 
     void updateInvoice(InvoiceVO currentInvoiceVO) throws InvoiceException;

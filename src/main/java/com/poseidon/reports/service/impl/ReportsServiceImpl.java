@@ -236,8 +236,7 @@ public class ReportsServiceImpl implements ReportsService {
         invoiceReportVO.setTagNo(transactionVO.getTagNo());
         invoiceReportVO.setCustomerId(transactionVO.getCustomerId());
         invoiceReportVO.setCustomerName(transactionVO.getCustomerName());
-        invoiceReportVO.setCustomerAddress1(transactionVO.getAddress1());
-        invoiceReportVO.setCustomerAddress2(transactionVO.getAddress2());
+        invoiceReportVO.setCustomerAddress(transactionVO.getAddress());
     }
 
     private void updateCompanyInfo(final InvoiceReportVO invoiceReportVO) {
@@ -256,24 +255,11 @@ public class ReportsServiceImpl implements ReportsService {
 
     private InvoiceVO getInvoiceVOs(final String tagNo) {
         InvoiceVO firstInvoice = null;
-        InvoiceVO searchInvoiceVO = populateSearchInvoiceVO(tagNo);
         try {
-            //todo : use findbyTagno method instead of this
-            List<InvoiceVO> invoiceVOs = invoiceService.findInvoices(searchInvoiceVO);
-            if (invoiceVOs != null && !invoiceVOs.isEmpty()) {
-                firstInvoice = invoiceVOs.get(0);
-            }
+            firstInvoice = invoiceService.fetchInvoiceVOFromTagNo(tagNo);
         } catch (InvoiceException ex) {
             LOG.error(ex.getLocalizedMessage());
         }
         return firstInvoice;
-    }
-
-    private InvoiceVO populateSearchInvoiceVO(final String tagNo) {
-        InvoiceVO searchInvoiceVO = new InvoiceVO();
-        searchInvoiceVO.setTagNo(tagNo);
-        searchInvoiceVO.setStartsWith(Boolean.FALSE);
-        searchInvoiceVO.setIncludes(Boolean.FALSE);
-        return searchInvoiceVO;
     }
 }

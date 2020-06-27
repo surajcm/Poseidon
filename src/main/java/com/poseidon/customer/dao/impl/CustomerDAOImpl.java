@@ -166,30 +166,28 @@ public class CustomerDAOImpl implements CustomerDAO {
 
     private void updateAdditionalDetails(final CustomerVO currentCustomerVo,
                                          final CustomerAdditionalDetails customerAdditionalDetails) {
-        customerAdditionalDetails.setContactPerson(currentCustomerVo.getContactPerson1());
-        customerAdditionalDetails.setContactPhone(currentCustomerVo.getContactMobile1());
+        customerAdditionalDetails.setContactPerson(currentCustomerVo.getContactPerson());
+        customerAdditionalDetails.setContactPhone(currentCustomerVo.getContactMobile());
         customerAdditionalDetails.setNote(currentCustomerVo.getNotes());
     }
 
     private void updateCustomerWithAdditionalDetails(final CustomerVO customerVO,
                                                      final CustomerAdditionalDetails customerAdditionalDetails) {
-        customerVO.setContactPerson1(customerAdditionalDetails.getContactPerson());
-        customerVO.setContactMobile1(customerAdditionalDetails.getContactPhone());
+        customerVO.setContactPerson(customerAdditionalDetails.getContactPerson());
+        customerVO.setContactMobile(customerAdditionalDetails.getContactPhone());
         customerVO.setNotes(customerAdditionalDetails.getNote());
 
     }
 
     private boolean isAdditionalDetailsPresent(final CustomerVO currentCustomerVo) {
-        return currentCustomerVo.getContactPerson1() != null || currentCustomerVo.getContactPerson2() != null
-                || currentCustomerVo.getContactMobile1() != null || currentCustomerVo.getContactMobile2() != null
+        return currentCustomerVo.getContactPerson() != null || currentCustomerVo.getContactMobile() != null
                 || currentCustomerVo.getNotes() != null;
     }
 
 
     private void updateCustomerWithCustomerVo(final CustomerVO currentCustomerVo, final Customer customer) {
         customer.setName(currentCustomerVo.getCustomerName());
-        customer.setAddress1(currentCustomerVo.getAddress1());
-        customer.setAddress2(currentCustomerVo.getAddress2());
+        customer.setAddress(currentCustomerVo.getAddress());
         customer.setPhone(currentCustomerVo.getPhoneNo());
         customer.setMobile(currentCustomerVo.getMobile());
         customer.setEmail(currentCustomerVo.getEmail());
@@ -219,8 +217,7 @@ public class CustomerDAOImpl implements CustomerDAO {
         CustomerVO customerVO = new CustomerVO();
         customerVO.setCustomerId(customer.getCustomerId());
         customerVO.setCustomerName(customer.getName());
-        customerVO.setAddress1(customer.getAddress1());
-        customerVO.setAddress2(customer.getAddress2());
+        customerVO.setAddress(customer.getAddress());
         customerVO.setPhoneNo(customer.getPhone());
         customerVO.setMobile(customer.getMobile());
         customerVO.setEmail(customer.getEmail());
@@ -232,8 +229,7 @@ public class CustomerDAOImpl implements CustomerDAO {
     private Customer convertToSingleCustomer(final CustomerVO currentCustomerVO) {
         Customer customer = new Customer();
         customer.setName(currentCustomerVO.getCustomerName());
-        customer.setAddress1(currentCustomerVO.getAddress1());
-        customer.setAddress2(currentCustomerVO.getAddress2());
+        customer.setAddress(currentCustomerVO.getAddress());
         customer.setPhone(currentCustomerVO.getPhoneNo());
         customer.setMobile(currentCustomerVO.getMobile());
         customer.setEmail(currentCustomerVO.getEmail());
@@ -248,8 +244,7 @@ public class CustomerDAOImpl implements CustomerDAO {
             CustomerVO customerVO = new CustomerVO();
             customerVO.setCustomerId(customer.getCustomerId());
             customerVO.setCustomerName(customer.getName());
-            customerVO.setAddress1(customer.getAddress1());
-            customerVO.setAddress2(customer.getAddress2());
+            customerVO.setAddress(customer.getAddress());
             customerVO.setPhoneNo(customer.getPhone());
             customerVO.setMobile(customer.getMobile());
             customerVO.setEmail(customer.getEmail());
@@ -293,8 +288,8 @@ public class CustomerDAOImpl implements CustomerDAO {
         CustomerAdditionalDetails additionalDetails = new CustomerAdditionalDetails();
         additionalDetails.setCustomerId(customerId);
         if (customerAdditionalDetailsVO != null) {
-            additionalDetails.setContactPerson(customerAdditionalDetailsVO.getContactPerson1());
-            additionalDetails.setContactPhone(customerAdditionalDetailsVO.getContactMobile1());
+            additionalDetails.setContactPerson(customerAdditionalDetailsVO.getContactPerson());
+            additionalDetails.setContactPhone(customerAdditionalDetailsVO.getContactMobile());
             additionalDetails.setNote(customerAdditionalDetailsVO.getNotes());
             additionalDetails.setCreatedBy(customerAdditionalDetailsVO.getCreatedBy());
             additionalDetails.setModifiedBy(customerAdditionalDetailsVO.getModifiedBy());
@@ -304,10 +299,8 @@ public class CustomerDAOImpl implements CustomerDAO {
 
     private void setAdditionalDetailsToVO(final CustomerVO currentCustomerVo) {
         CustomerAdditionalDetailsVO additionalDetails = new CustomerAdditionalDetailsVO();
-        additionalDetails.setContactPerson1(currentCustomerVo.getContactPerson1());
-        additionalDetails.setContactPerson2(currentCustomerVo.getContactPerson2());
-        additionalDetails.setContactMobile1(currentCustomerVo.getContactMobile1());
-        additionalDetails.setContactMobile2(currentCustomerVo.getContactMobile2());
+        additionalDetails.setContactPerson(currentCustomerVo.getContactPerson());
+        additionalDetails.setContactMobile(currentCustomerVo.getContactMobile());
         additionalDetails.setNotes(currentCustomerVo.getNotes());
         additionalDetails.setCreatedBy(currentCustomerVo.getCreatedBy());
         additionalDetails.setModifiedBy(currentCustomerVo.getModifiedBy());
