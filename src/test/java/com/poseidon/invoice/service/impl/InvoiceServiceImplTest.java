@@ -92,6 +92,19 @@ class InvoiceServiceImplTest {
     }
 
     @Test
+    void fetchInvoiceVOFromTagNoSuccess() throws InvoiceException {
+        when(invoiceDAO.fetchInvoiceVOFromTagNo(anyString())).thenReturn(new InvoiceVO());
+        Assertions.assertNotNull(invoiceService.fetchInvoiceVOFromTagNo("ABC"));
+    }
+
+    @Test
+    void fetchInvoiceVOFromTagNoFailure() throws InvoiceException {
+        when(invoiceDAO.fetchInvoiceVOFromTagNo(anyString()))
+                .thenThrow(new InvoiceException(InvoiceException.DATABASE_ERROR));
+        Assertions.assertThrows(InvoiceException.class, () -> invoiceService.fetchInvoiceVOFromTagNo("ABC"));
+    }
+
+    @Test
     void deleteInvoiceSuccess() {
         Assertions.assertAll(() -> invoiceService.deleteInvoice(1234L));
     }

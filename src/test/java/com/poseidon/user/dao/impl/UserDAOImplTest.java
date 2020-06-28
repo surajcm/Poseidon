@@ -165,7 +165,18 @@ public class UserDAOImplTest {
         user.setIncludes(Boolean.TRUE);
         Assertions.assertNotNull(userDAO.searchUserDetails(user));
         user.setIncludes(Boolean.FALSE);
+        user.setStartsWith(Boolean.FALSE);
+        Assertions.assertNotNull(userDAO.searchUserDetails(user));
         user.setStartsWith(Boolean.TRUE);
+        Assertions.assertNotNull(userDAO.searchUserDetails(user));
+    }
+
+    @Test
+    public void searchUserDetailsSuccessOnNull() throws UserException {
+        UserVO user = mockUserVO();
+        user.setName(null);
+        user.setLoginId(null);
+        user.setRole(null);
         Assertions.assertNotNull(userDAO.searchUserDetails(user));
     }
 

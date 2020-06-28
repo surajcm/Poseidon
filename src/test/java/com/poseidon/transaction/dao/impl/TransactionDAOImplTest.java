@@ -1,7 +1,6 @@
 package com.poseidon.transaction.dao.impl;
 
 import com.poseidon.customer.dao.entities.Customer;
-import com.poseidon.customer.dao.entities.CustomerAdditionalDetails;
 import com.poseidon.customer.dao.impl.CustomerRepository;
 import com.poseidon.make.dao.entities.Make;
 import com.poseidon.make.dao.entities.Model;
@@ -213,14 +212,6 @@ public class TransactionDAOImplTest {
         customer.setCustomerId(1234L);
         customer.setName("ABC");
         return customer;
-    }
-
-    private CustomerAdditionalDetails mockCustomerAdditionalDetails() {
-        CustomerAdditionalDetails additionalDetails = new CustomerAdditionalDetails();
-        additionalDetails.setNote("ABC");
-        additionalDetails.setContactPerson("ABC");
-        additionalDetails.setContactPhone("12321323");
-        return additionalDetails;
     }
 
     private Make mockMake() {

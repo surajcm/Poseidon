@@ -42,7 +42,7 @@ public class InvoiceServiceImpl implements InvoiceService {
             currentInvoiceVO.setSerialNo(transactionReportVO.getSerialNo());
             invoiceDAO.addInvoice(currentInvoiceVO);
         } catch (TransactionException | InvoiceException ex) {
-            LOG.error(ex.getMessage());
+            LOG.error(ex.getMessage(), ex);
             throw new InvoiceException(ex.getMessage());
         }
     }
@@ -62,7 +62,7 @@ public class InvoiceServiceImpl implements InvoiceService {
             try {
                 invoiceVOs = invoiceDAO.fetchInvoiceForListOfTransactions(tagNumbers);
             } catch (InvoiceException ex) {
-                LOG.error(ex.getLocalizedMessage());
+                LOG.error(ex.getLocalizedMessage(), ex);
                 throw new InvoiceException(ex.getMessage());
             }
         }
@@ -74,7 +74,7 @@ public class InvoiceServiceImpl implements InvoiceService {
         try {
             transactionVOs = transactionService.listTodaysTransactions();
         } catch (TransactionException ex) {
-            LOG.error(ex.getLocalizedMessage());
+            LOG.error(ex.getLocalizedMessage(), ex);
         }
         return transactionVOs;
     }
@@ -97,7 +97,7 @@ public class InvoiceServiceImpl implements InvoiceService {
         try {
             invoiceVO = invoiceDAO.fetchInvoiceVOFromId(id);
         } catch (InvoiceException ex) {
-            LOG.error(ex.getLocalizedMessage());
+            LOG.error(ex.getLocalizedMessage(), ex);
             throw new InvoiceException(ex.getMessage());
         }
         return invoiceVO;
@@ -116,7 +116,7 @@ public class InvoiceServiceImpl implements InvoiceService {
         try {
             invoiceVO = invoiceDAO.fetchInvoiceVOFromTagNo(tagNo);
         } catch (InvoiceException ex) {
-            LOG.error(ex.getLocalizedMessage());
+            LOG.error(ex.getLocalizedMessage(), ex);
             throw new InvoiceException(ex.getMessage());
         }
         return invoiceVO;
@@ -133,7 +133,7 @@ public class InvoiceServiceImpl implements InvoiceService {
         try {
             invoiceDAO.deleteInvoice(id);
         } catch (InvoiceException ex) {
-            LOG.error(ex.getLocalizedMessage());
+            LOG.error(ex.getLocalizedMessage(), ex);
             throw new InvoiceException(ex.getMessage());
         }
     }
@@ -154,7 +154,7 @@ public class InvoiceServiceImpl implements InvoiceService {
             currentInvoiceVO.setSerialNo(transactionReportVo.getSerialNo());
             invoiceDAO.updateInvoice(currentInvoiceVO);
         } catch (TransactionException | InvoiceException ex) {
-            LOG.error(ex.getLocalizedMessage());
+            LOG.error(ex.getLocalizedMessage(), ex);
             throw new InvoiceException(ex.getMessage());
         }
     }
@@ -172,7 +172,7 @@ public class InvoiceServiceImpl implements InvoiceService {
         try {
             invoiceVOs = invoiceDAO.findInvoices(searchInvoiceVo);
         } catch (InvoiceException ex) {
-            LOG.error(ex.getLocalizedMessage());
+            LOG.error(ex.getLocalizedMessage(), ex);
             throw new InvoiceException(ex.getMessage());
         }
         return invoiceVOs;

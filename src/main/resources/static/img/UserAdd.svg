@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Generator: Adobe Illustrator 19.0.0, SVG Export Plug-In . SVG Version: 6.00 Build 0)  -->
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" id="Layer_1" x="0px" y="0px" viewBox="0 2 98 98" style="enable-background:new 0 2 98 98;" xml:space="preserve" width="512" height="512">
+<style type="text/css">
+	.st0{fill:url(#SVGID_1_);}
+	.st1{fill:url(#SVGID_2_);}
+	.st2{fill:url(#SVGID_3_);}
+</style>
+<g>
+	
+		<linearGradient id="SVGID_1_" gradientUnits="userSpaceOnUse" x1="40.8" y1="95.6667" x2="40.8" y2="2.9784" gradientTransform="matrix(1 0 0 -1 0 104)">
+		<stop offset="0" style="stop-color:#00EFD1"/>
+		<stop offset="1" style="stop-color:#00ACEA"/>
+	</linearGradient>
+	<path class="st0" d="M40.8,46.3c10.1,0,18.4-8.3,18.4-18.4S50.9,9.5,40.8,9.5s-18.4,8.3-18.4,18.4S30.7,46.3,40.8,46.3z M40.8,15.5   c6.8,0,12.4,5.6,12.4,12.4s-5.6,12.4-12.4,12.4s-12.4-5.6-12.4-12.4S34,15.5,40.8,15.5z"/>
+	
+		<linearGradient id="SVGID_2_" gradientUnits="userSpaceOnUse" x1="49" y1="95.6667" x2="49" y2="2.9784" gradientTransform="matrix(1 0 0 -1 0 104)">
+		<stop offset="0" style="stop-color:#00EFD1"/>
+		<stop offset="1" style="stop-color:#00ACEA"/>
+	</linearGradient>
+	<path class="st1" d="M65.6,50c-3.4,0-6.6,0.7-9.4,2c-3.7-1.7-7.5-2.5-11.5-2.5H37C21.7,49.5,9.2,62,9.2,77.3v7c0,1.7,1.3,3,3,3h35   c4.2,5.5,10.9,9.1,18.4,9.1c12.8,0,23.2-10.4,23.2-23.2S78.4,50,65.6,50z M15.2,81.3v-4c0-12,9.8-21.8,21.8-21.8h7.7   c1.8,0,3.5,0.2,5.2,0.6c-4.6,4.2-7.5,10.3-7.5,17.1c0,2.8,0.5,5.6,1.5,8.1H15.2z M65.6,90.5c-9.5,0-17.2-7.7-17.2-17.2   S56.1,56,65.6,56s17.2,7.7,17.2,17.2S75.1,90.5,65.6,90.5z"/>
+	
+		<linearGradient id="SVGID_3_" gradientUnits="userSpaceOnUse" x1="65.6" y1="95.6667" x2="65.6" y2="2.9784" gradientTransform="matrix(1 0 0 -1 0 104)">
+		<stop offset="0" style="stop-color:#00EFD1"/>
+		<stop offset="1" style="stop-color:#00ACEA"/>
+	</linearGradient>
+	<path class="st2" d="M73.9,70.2h-5.3V65c0-1.7-1.3-3-3-3s-3,1.3-3,3v5.3h-5.3c-1.7,0-3,1.3-3,3s1.3,3,3,3h5.3v5.3c0,1.7,1.3,3,3,3   c1.7,0,3-1.3,3-3v-5.3h5.3c1.7,0,3-1.3,3-3S75.6,70.2,73.9,70.2z"/>
+</g>
+</svg>
