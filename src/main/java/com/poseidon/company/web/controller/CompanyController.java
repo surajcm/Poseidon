@@ -56,7 +56,6 @@ public class CompanyController {
     @PostMapping("/company/updateCompanyDetails.htm")
     public ModelAndView updateCompanyDetails(final CompanyTermsForm companyTermsForm) {
         LOG.info(" Inside editTerms method of CompanyTermsController ");
-        LOG.info(" form details are {}", companyTermsForm);
         if (companyTermsForm.getCurrentCompanyTermsVO() != null) {
             companyTermsForm.getCurrentCompanyTermsVO().setModifiedBy(companyTermsForm.getLoggedInUser());
             companyTermsForm.getCurrentCompanyTermsVO().setModifiedDate(OffsetDateTime.now(ZoneId.systemDefault()));

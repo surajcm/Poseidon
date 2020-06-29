@@ -20,7 +20,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ExtendWith(SpringExtension.class)
 @WebMvcTest(ReportsController.class)
 @ContextConfiguration(classes = {ReportsConfigurations.class})
-public class ReportsControllerTest {
+class ReportsControllerTest {
     private MockMvc mvc;
     @Autowired
     private ReportsController reportsController;
@@ -37,7 +37,7 @@ public class ReportsControllerTest {
     }
 
     @Test
-    public void list() throws Exception {
+    void list() throws Exception {
         mvc.perform(post("/reports/List.htm")).andExpect(status().isOk());
         when(reportsService.generateDailyReport()).thenThrow(new RuntimeException());
         when(makeService.fetchMakes()).thenThrow(new RuntimeException());
@@ -45,33 +45,32 @@ public class ReportsControllerTest {
     }
 
     @Test
-    public void getMakeDetailsReport() throws Exception {
+    void getMakeDetailsReport() throws Exception {
         mvc.perform(post("/reports/getMakeDetailsReport.htm")).andExpect(status().isOk());
     }
 
     @Test
-    public void getCallReport() throws Exception {
+    void getCallReport() throws Exception {
         mvc.perform(post("/reports/getCallReport.htm")).andExpect(status().isOk());
     }
 
     @Test
-    public void getTransactionsListReport() throws Exception {
+    void getTransactionsListReport() throws Exception {
         mvc.perform(post("/reports/getTransactionsListReport.htm")).andExpect(status().isOk());
     }
 
     @Test
-    public void getModelListReport() throws Exception {
+    void getModelListReport() throws Exception {
         mvc.perform(post("/reports/getModelListReport.htm")).andExpect(status().isOk());
     }
 
     @Test
-    public void getErrorReport() throws Exception {
+    void getErrorReport() throws Exception {
         mvc.perform(post("/reports/getErrorReport.htm")).andExpect(status().isOk());
     }
 
     @Test
-    public void getInvoiceReport() throws Exception {
+    void getInvoiceReport() throws Exception {
         mvc.perform(post("/reports/getInvoiceReport.htm")).andExpect(status().isOk());
     }
-
 }

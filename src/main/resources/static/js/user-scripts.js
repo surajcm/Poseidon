@@ -1,5 +1,4 @@
-// delete user
-function deleteUser() {
+function validateSelection() {
     var check ='false';
     var count = 0;
     // get all check boxes
@@ -7,7 +6,7 @@ function deleteUser() {
     if(checks){
         //if total number of rows is one
         if (checks.checked) {
-            deleteRow();
+            return true;
         } else {
             for(var i = 0 ; i < checks.length ; i++ ) {
                 if (checks[i].checked) {
@@ -18,9 +17,9 @@ function deleteUser() {
             //check for validity
             if (check = 'true') {
                 if (count == 1) {
-                    deleteRow();
+                    return true;
                 } else {
-                    alert(" Only one row can be deleted at a time, please select one row ");
+                    alert(" Only one row can be selected at a time, please select one row ");
                 }
             } else {
                 alert(" No rows selected, please select one row ");
@@ -29,29 +28,63 @@ function deleteUser() {
     }
 }
 
+function setIdForChange() {
+    var userRow;
+    var checks = document.getElementsByName('checkField');
+    if(checks.checked){
+        userRow = document.getElementById("myTable").rows[0];
+        document.getElementById("id").value = userRow.cells[0].childNodes[0].value;
+    } else {
+        for(var i = 0; i < checks.length ; i++){
+            if(checks[i].checked) {
+                userRow = document.getElementById("myTable").rows[i+1];
+            }
+        }
+        document.getElementById("id").value = userRow.cells[0].childNodes[0].value;
+    }
+}
+
+function deleteUser() {
+    rowCheck = validateSelection();
+    if (rowCheck) {
+        deleteRow();
+    }
+}
+
 //code to delete a user
 function deleteRow() {
     var answer = confirm(" Are you sure you wanted to delete the user ");
-    if (answer){
-        //if yes then delete
-        var userRow;
-        var checks = document.getElementsByName('checkField');
-        if (checks.checked){
-            userRow = document.getElementById("myTable").rows[0];
-            document.getElementById("id").value = userRow.cells[0].childNodes[0].value;
-            document.forms[0].action="DeleteUser.htm";
-            document.forms[0].submit();
-        } else {
-            for(var i = 0; i < checks.length ; i++){
-                if(checks[i].checked) {
-                    userRow = document.getElementById("myTable").rows[i+1];
-                }
-            }
-            document.getElementById("id").value = userRow.cells[0].childNodes[0].value;
-            document.forms[0].action="DeleteUser.htm";
-            document.forms[0].submit();
-        }
+    if (answer) {
+        setIdForChange();
+        document.forms[0].action="DeleteUser.htm";
+        document.forms[0].submit();
     }
+}
+
+
+//validation before edit a user
+function editMe() {
+    rowCheck = validateSelection();
+    if(rowCheck) {
+        setIdForChange();
+        document.forms[0].action="EditUser.htm";
+        document.forms[0].submit();
+    }
+}
+
+function search() {
+    document.forms[0].action="SearchUser.htm";
+    document.forms[0].submit();
+}
+
+function clearOut() {
+    document.getElementById("name").value = "";
+    document.getElementById("loginId").value = "";
+    document.getElementById("role").value = document.getElementById('role').options[0].value;
+}
+
+function hideAlerts(){
+    document.getElementById('user').text = "User <span class='sr-only'>User</span>";
 }
 
 //preventing multiple checks
@@ -63,73 +96,6 @@ function checkCall(e) {
             checks[i].checked = false;
         }
     }
-}
-
-//validation before edit a user
-function editMe(){
-    var check ='false';
-    var count = 0;
-    // get all check boxes
-    var checks = document.getElementsByName('checkField');
-    if (checks){
-        //if total number of rows is one
-        if (checks.checked){
-            editRow();
-        } else {
-            for(var i = 0 ; i < checks.length ; i++ ) {
-                if(checks[i].checked){
-                    check = 'true';
-                    count = count + 1;
-                }
-            }
-            //check for validity
-            if(check = 'true'){
-                if(count == 1){
-                    editRow();
-                } else {
-                    alert(" Only one row can be edited at a time, please select one row ");
-                }
-            } else {
-                alert(" No rows selected, please select one row ");
-            }
-        }
-    }
-}
-
-//real edit
-function editRow(){
-    var userRow;
-    var checks = document.getElementsByName('checkField');
-    if(checks.checked){
-        userRow = document.getElementById("myTable").rows[0];
-        document.getElementById("id").value = userRow.cells[0].childNodes[0].value;
-        document.forms[0].action="EditUser.htm";
-        document.forms[0].submit();
-    } else {
-        for(var i = 0; i < checks.length ; i++){
-            if(checks[i].checked) {
-                userRow = document.getElementById("myTable").rows[i+1];
-            }
-        }
-        document.getElementById("id").value = userRow.cells[0].childNodes[0].value;
-        document.forms[0].action="EditUser.htm";
-        document.forms[0].submit();
-    }
-}
-
-function search() {
-    document.forms[0].action="SearchUser.htm";
-    document.forms[0].submit();
-}
-
-function clearOut(){
-    document.getElementById("name").value = "";
-    document.getElementById("loginId").value = "";
-    document.getElementById("role").value = document.getElementById('role').options[0].value;
-}
-
-function hideAlerts(){
-    document.getElementById('user').text = "User <span class='sr-only'>User</span>";
 }
 
 function rewriteTable(textReturned) {
@@ -187,8 +153,6 @@ function rewriteTable(textReturned) {
         tbody.appendChild(trx);
     }
     myTable.appendChild(tbody);
-    var isAddInProgress = document.getElementById("id").value;
-    isAddInProgress = "FALSE";
 }
 
 function addNewUser() {
@@ -273,7 +237,6 @@ function saveFromModal() {
             document.getElementById("addLoginId").setAttribute("class","form-control was-validated");
         }
     }
-    
 
     if(allFiledsAreValid) {
         callAjax(addName,addLoginId,addRole);
@@ -324,6 +287,32 @@ function showStatus(status) {
 }
 
 function resetUser() {
-    console.log("going to reset password");
+    rowCheck = validateSelection();
+    if (rowCheck) {
+        setIdForChange();
+        //submit ajax request for resetting password !!!
+        console.log("going to reset password on : "+ document.getElementById("id").value);
+        ajaxPasswordReset();
+    }
+}
+
+function ajaxPasswordReset() {
+    var id = document.getElementById("id").value;
+    var xhr = new XMLHttpRequest();
+    xhr.open('POST', "/user/passwordReset.htm",true);
+    var token = document.querySelector("meta[name='_csrf']").content;
+    var header = document.querySelector("meta[name='_csrf_header']").content;
+    xhr.setRequestHeader(header, token);
+    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    xhr.onload = function() {
+        if (xhr.status === 200) {
+            if (xhr.responseText != null) {
+                //rewriteTable(xhr.responseText);
+            }
+        } else if (xhr.status !== 200) {
+            console.log('Request failed.  Returned status of ' + xhr.status);
+        }
+    };
+    xhr.send("id=" + id);
 }
 

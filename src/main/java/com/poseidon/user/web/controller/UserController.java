@@ -347,4 +347,11 @@ public class UserController {
         logger.info("user list json : " + response);
         return response;
     }
+
+    @PostMapping("/user/passwordReset.htm")
+    public @ResponseBody
+    String passwordReset(@ModelAttribute("id") final String id,
+                         final BindingResult result) {
+        return "hi from password reset on : " + id;
+    }
 }

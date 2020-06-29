@@ -17,7 +17,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ExtendWith(SpringExtension.class)
 @WebMvcTest(TransactionController.class)
 @ContextConfiguration(classes = {TransactionConfigurations.class})
-public class TransactionControllerTest {
+class TransactionControllerTest {
     private MockMvc mvc;
     @Autowired
     private TransactionController transactionController;
@@ -28,37 +28,37 @@ public class TransactionControllerTest {
     }
 
     @Test
-    public void listAll() throws Exception {
+    void listAll() throws Exception {
         mvc.perform(post("/txs/List.htm")).andExpect(status().isOk());
     }
 
     @Test
-    public void addTxn() throws Exception {
+    void addTxn() throws Exception {
         mvc.perform(post("/txs/AddTxn.htm")).andExpect(status().isOk());
     }
 
     @Test
-    public void saveTxn() throws Exception {
+    void saveTxn() throws Exception {
         mvc.perform(post("/txs/SaveTxn.htm")).andExpect(status().isOk());
     }
 
     @Test
-    public void searchTxn() throws Exception {
+    void searchTxn() throws Exception {
         mvc.perform(post("/txs/SearchTxn.htm")).andExpect(status().isOk());
     }
 
     @Test
-    public void editTxn() throws Exception {
+    void editTxn() throws Exception {
         mvc.perform(post("/txs/EditTxn.htm")).andExpect(status().isOk());
     }
 
     @Test
-    public void updateTxn() throws Exception {
+    void updateTxn() throws Exception {
         mvc.perform(post("/txs/updateTxn.htm")).andExpect(status().isOk());
     }
 
     @Test
-    public void deleteTxn() throws Exception {
+    void deleteTxn() throws Exception {
         mvc.perform(post("/txs/DeleteTxn.htm")).andExpect(status().isOk());
     }
 }

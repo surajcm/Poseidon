@@ -17,7 +17,7 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
-public class UserDetailsServiceImplTest {
+class UserDetailsServiceImplTest {
     private final UserDetailsServiceImpl userDetailsService = new UserDetailsServiceImpl();
     private final UserDAO userRepository = Mockito.mock(UserDAO.class);
 
@@ -27,18 +27,25 @@ public class UserDetailsServiceImplTest {
     }
 
     @Test
-    public void loadUserByNullUsername() throws UserException {
+    void loadUserByNullUsername() throws UserException {
         when(userRepository.findByUsername(anyString())).thenReturn(null);
         Assertions.assertThrows(UsernameNotFoundException.class,
                 () -> userDetailsService.loadUserByUsername("admin"));
     }
 
     @Test
-    public void loadUserByValidUsername() throws UserException {
+    void loadUserByValidUsername() throws UserException {
         String userName = "admin";
         when(userRepository.findByUsername(anyString())).thenReturn(mockUser());
         UserDetails userDetails = userDetailsService.loadUserByUsername("admin");
         Assertions.assertEquals(userName, userDetails.getUsername());
+    }
+
+    @Test
+    void loadUserOnException() throws UserException {
+        when(userRepository.findByUsername(anyString())).thenThrow(new UserException(UserException.DATABASE_ERROR));
+        Assertions.assertThrows(UsernameNotFoundException.class,
+                () -> userDetailsService.loadUserByUsername("admin"));
     }
 
     private UserVO mockUser() {

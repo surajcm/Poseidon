@@ -73,7 +73,7 @@ class MakeDaoImplTest {
     }
 
     @Test
-    public void updateMakeSuccess() {
+    void updateMakeSuccess() {
         when(makeRepository.findById(anyLong())).thenReturn(Optional.of(mockMake()));
         Assertions.assertAll(() -> makeDao.updateMake(mockMakeAndModelVO()));
     }
