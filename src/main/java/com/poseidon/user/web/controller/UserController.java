@@ -350,8 +350,15 @@ public class UserController {
 
     @PostMapping("/user/passwordReset.htm")
     public @ResponseBody
-    String passwordReset(@ModelAttribute("id") final String id,
-                         final BindingResult result) {
-        return "hi from password reset on : " + id;
+    Boolean passwordReset(@ModelAttribute("id") final String id,
+                          final BindingResult result) {
+        Boolean status = Boolean.TRUE;
+        try {
+            userService.expireUser(Long.valueOf(id));
+        } catch (Exception ex) {
+            status = Boolean.FALSE;
+            logger.error(ex.getLocalizedMessage(), ex);
+        }
+        return status;
     }
 }

@@ -54,4 +54,6 @@ public interface UserService {
      * @throws UserException on error
      */
     List<UserVO> searchUserDetails(UserVO searchUser) throws UserException;
+
+    void expireUser(Long id)  throws UserException;
 }

@@ -1,19 +1,19 @@
 
 
-insert into user (id, name, loginid, password, role, createdOn, modifiedOn, createdBy, modifiedBy) values
-(1, 'admin', 'admin', '$2a$10$swK6dfjfSwe9Ql0twZnvCecSYCu2v4Sp659pVg2DdIoWtoDcr/xMq', 'ADMIN',
+insert into user (id, name, loginid, password, role, expired, createdOn, modifiedOn, createdBy, modifiedBy) values
+(1, 'admin', 'admin', '$2a$10$swK6dfjfSwe9Ql0twZnvCecSYCu2v4Sp659pVg2DdIoWtoDcr/xMq', 'ADMIN', false,
 '2012-06-02 00:00:00','2012-06-02 00:00:00','admin','admin');
 
-insert into user (id, name, loginid, password, role, createdOn, modifiedOn, createdBy, modifiedBy) values
-(2, 'guest', 'guest', '$2a$10$mNTOvX7clxxtPcNmk1LI0.Daz5f66RyeBwijmNOT7aEpuDdn2nULK', 'GUEST',
+insert into user (id, name, loginid, password, role, expired, createdOn, modifiedOn, createdBy, modifiedBy) values
+(2, 'guest', 'guest', '$2a$10$mNTOvX7clxxtPcNmk1LI0.Daz5f66RyeBwijmNOT7aEpuDdn2nULK', 'GUEST', false,
 '2019-10-15 00:00:00','2019-10-15 00:00:00','admin','admin');
 
-insert into user (id, name, loginid, password, role, createdOn, modifiedOn, createdBy, modifiedBy) values
-(3, 'manager1', 'manager1', '$2a$10$mNTOvX7clxxtPcNmk1LI0.Daz5f66RyeBwijmNOT7aEpuDdn2nULK', 'ADMIN',
+insert into user (id, name, loginid, password, role, expired, createdOn, modifiedOn, createdBy, modifiedBy) values
+(3, 'manager1', 'manager1', '$2a$10$mNTOvX7clxxtPcNmk1LI0.Daz5f66RyeBwijmNOT7aEpuDdn2nULK', 'ADMIN', false,
 '2019-10-15 00:00:00','2019-10-15 00:00:00','admin','admin');
 
-insert into user (id, name, loginid, password, role, createdOn, modifiedOn, createdBy, modifiedBy) values
-(4, 'manager2', 'manager2', '$2a$10$mNTOvX7clxxtPcNmk1LI0.Daz5f66RyeBwijmNOT7aEpuDdn2nULK', 'ADMIN',
+insert into user (id, name, loginid, password, role, expired, createdOn, modifiedOn, createdBy, modifiedBy) values
+(4, 'manager2', 'manager2', '$2a$10$mNTOvX7clxxtPcNmk1LI0.Daz5f66RyeBwijmNOT7aEpuDdn2nULK', 'ADMIN', false,
 '2019-10-15 00:00:00','2019-10-15 00:00:00','admin','admin');
 
 insert into companyterms (id, companyName, companyAddress, companyPhone, companyEmail, companyWebsite, 

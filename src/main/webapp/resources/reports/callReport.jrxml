@@ -103,7 +103,7 @@
 			<rectangle radius="1">
 				<reportElement x="0" y="4" width="555" height="32" uuid="81d26033-afd3-41ed-ab72-cd0174e575c7"/>
 				<graphicElement>
-					<pen lineStyle="Dashed"/>
+					<pen lineStyle="Solid"/>
 				</graphicElement>
 			</rectangle>
 			<rectangle>

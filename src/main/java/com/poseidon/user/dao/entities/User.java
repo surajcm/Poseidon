@@ -33,6 +33,9 @@ public class User {
     @Column(name = "role")
     private String role;
 
+    @Column(name = "expired")
+    private Boolean expired;
+
     @Column(name = "createdOn")
     private OffsetDateTime createdOn;
 
@@ -75,6 +78,14 @@ public class User {
 
     public void setPassword(final String password) {
         this.password = password;
+    }
+
+    public Boolean getExpired() {
+        return expired;
+    }
+
+    public void setExpired(final Boolean expired) {
+        this.expired = expired;
     }
 
     public String getRole() {

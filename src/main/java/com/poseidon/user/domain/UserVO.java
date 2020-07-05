@@ -10,6 +10,7 @@ public class UserVO {
     private String loginId;
     private String password;
     private String role;
+    private Boolean expired;
     private OffsetDateTime createdDate;
     private OffsetDateTime modifiedDate;
     private String createdBy;
@@ -47,6 +48,14 @@ public class UserVO {
 
     public void setRole(final String role) {
         this.role = role;
+    }
+
+    public Boolean getExpired() {
+        return expired;
+    }
+
+    public void setExpired(final Boolean expired) {
+        this.expired = expired;
     }
 
     public OffsetDateTime getCreatedDate() {

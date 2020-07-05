@@ -126,4 +126,13 @@ public class UserServiceImpl implements UserService {
         return userList;
     }
 
+    @Override
+    public void expireUser(final Long id) {
+        try {
+            userDAO.expireUser(id);
+        } catch (UserException ex) {
+            LOG.error(ex.getMessage());
+        }
+    }
+
 }

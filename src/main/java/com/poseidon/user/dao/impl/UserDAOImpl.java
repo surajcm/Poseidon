@@ -88,6 +88,7 @@ public class UserDAOImpl implements UserDAO {
         userVO.setLoginId(user.getLogInId());
         userVO.setPassword(user.getPassword());
         userVO.setRole(user.getRole());
+        userVO.setExpired(user.getExpired());
         userVO.setCreatedBy(user.getCreatedBy());
         userVO.setLastModifiedBy(user.getModifiedBy());
         return userVO;
@@ -185,6 +186,19 @@ public class UserDAOImpl implements UserDAO {
         try {
             User user = userRepository.findByName(username);
             return convertToUserVO(user);
+        } catch (Exception ex) {
+            throw new UserException(UserException.DATABASE_ERROR);
+        }
+    }
+
+    @Override
+    public void expireUser(final Long id) throws UserException {
+        try {
+            Optional<User> user = userRepository.findById(id);
+            if (user.isPresent()) {
+                user.get().setExpired(true);
+                userRepository.save(user.get());
+            }
         } catch (Exception ex) {
             throw new UserException(UserException.DATABASE_ERROR);
         }
