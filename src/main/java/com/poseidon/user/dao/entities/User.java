@@ -27,6 +27,10 @@ public class User {
     @Column(name = "logInId")
     private String logInId;
 
+    //todo: replace email with loginId
+    @Column(name = "email")
+    private String email;
+
     @Column(name = "password")
     private String password;
 
@@ -62,6 +66,14 @@ public class User {
 
     public void setName(final String name) {
         this.name = name;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(final String email) {
+        this.email = email;
     }
 
     public String getLogInId() {
@@ -118,6 +130,14 @@ public class User {
 
     public void setModifiedBy(final String modifiedBy) {
         this.modifiedBy = modifiedBy;
+    }
+
+    public OffsetDateTime getCreatedOn() {
+        return createdOn;
+    }
+
+    public OffsetDateTime getModifiedOn() {
+        return modifiedOn;
     }
 
     /**

@@ -115,7 +115,7 @@ public class UserController {
     }
 
     /**
-     * Screen to add a new user.
+     * Screen to edit a new user.
      *
      * @param userForm userForm instance
      * @return ModelAndView to render

@@ -40,7 +40,7 @@
                                      <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                                  </p>
                                 <p>
-                                     <label class="sr-only" for="exampleInputEmail2">loginId</label>
+                                     <label class="sr-only" for="exampleInputEmail2">email</label>
                                      <input name="username" type="text" class="textboxes" placeholder="Username"
                                                         autofocus="true" required/>
                                 </p>
