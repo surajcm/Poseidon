@@ -288,7 +288,7 @@ public class UserController {
         logger.info("saveUserAjax method of user controller ");
         UserVO ajaxUserVo = new UserVO();
         ajaxUserVo.setName(selectName);
-        ajaxUserVo.setLoginId(selectLogin);
+        ajaxUserVo.setEmail(selectLogin);
         ajaxUserVo.setRole(selectRole);
         //todo : find out a way to get current user
         ajaxUserVo.setPassword("password");

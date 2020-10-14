@@ -79,7 +79,7 @@ function search() {
 
 function clearOut() {
     document.getElementById("name").value = "";
-    document.getElementById("loginId").value = "";
+    document.getElementById("email").value = "";
     document.getElementById("role").value = document.getElementById('role').options[0].value;
 }
 
@@ -114,7 +114,7 @@ function rewriteTable(textReturned) {
     tr1.appendChild(th2);
 
     var th3 = document.createElement("th");
-    th3.innerHTML = "loginId";
+    th3.innerHTML = "email";
     th3.setAttribute("class","text-center");
     tr1.appendChild(th3);
 
@@ -143,7 +143,7 @@ function rewriteTable(textReturned) {
         td2.innerHTML = singleUser.name;
         trx.appendChild(td2);
         var td3 = document.createElement("td");
-        td3.innerHTML = singleUser.loginId;
+        td3.innerHTML = singleUser.email;
         trx.appendChild(td3);
 
         var td4 = document.createElement("td");
@@ -181,19 +181,19 @@ function addNewUser() {
     tt1.innerHTML = "Please provide a valid name.";
     divName.appendChild(tt1);
 
-    var divLoginId = document.createElement("div");
-    divLoginId.setAttribute("class","form-group col-md-4");
-    var txtLoginId = document.createElement("input");
-    txtLoginId.setAttribute("type","text");
-    txtLoginId.setAttribute("class","form-control");
-    txtLoginId.setAttribute("placeholder","Login Id");
-    txtLoginId.setAttribute("id","addLoginId");
-    txtLoginId.required = true;
-    divLoginId.appendChild(txtLoginId);
+    var divEmail = document.createElement("div");
+    divEmail.setAttribute("class","form-group col-md-4");
+    var txtEmail = document.createElement("input");
+    txtEmail.setAttribute("type","text");
+    txtEmail.setAttribute("class","form-control");
+    txtEmail.setAttribute("placeholder","email");
+    txtEmail.setAttribute("id","addEmail");
+    txtEmail.required = true;
+    divEmail.appendChild(txtEmail);
     var tt2 = document.createElement("div");
     tt2.setAttribute("class","invalid-tooltip");
-    tt2.innerHTML = "Please provide a valid login id.";
-    divLoginId.appendChild(tt2);
+    tt2.innerHTML = "Please provide a valid email.";
+    divEmail.appendChild(tt2);
 
     var divRole = document.createElement("div");
     divRole.setAttribute("class","form-group col-md-4");
@@ -211,7 +211,7 @@ function addNewUser() {
     divRole.appendChild(selectRole);
 
     divUserAdd.appendChild(divName);
-    divUserAdd.appendChild(divLoginId);
+    divUserAdd.appendChild(divEmail);
     divUserAdd.appendChild(divRole);
     formValidUser.appendChild(divUserAdd);
     detail.appendChild(formValidUser);
@@ -219,31 +219,31 @@ function addNewUser() {
 
 function saveFromModal() {
     var addName = document.getElementById("addName").value;
-    var addLoginId = document.getElementById("addLoginId").value;
+    var addEmail = document.getElementById("addEmail").value;
     var addRole = document.getElementById("addRole").value;
     var forms = document.getElementsByClassName('needs-validation');
-    var allFiledsAreValid = true;
+    var allFieldsAreValid = true;
     
     if (forms[0].checkValidity() === false) {
-        allFiledsAreValid = false;
+        allFieldsAreValid = false;
         if (addName.length == 0) {
             document.getElementById("addName").setAttribute("class","form-control is-invalid");   
         } else {
             document.getElementById("addName").setAttribute("class","form-control was-validated");   
         }
-        if (addLoginId.length == 0) {
-            document.getElementById("addLoginId").setAttribute("class","form-control is-invalid");
+        if (addEmail.length == 0) {
+            document.getElementById("addEmail").setAttribute("class","form-control is-invalid");
         } else {
-            document.getElementById("addLoginId").setAttribute("class","form-control was-validated");
+            document.getElementById("addEmail").setAttribute("class","form-control was-validated");
         }
     }
 
-    if(allFiledsAreValid) {
-        callAjax(addName,addLoginId,addRole);
+    if(allFieldsAreValid) {
+        callAjax(addName,addEmail,addRole);
     }
 }
 
-function callAjax(addName,addLoginId,addRole) {
+function callAjax(addName,addEmail,addRole) {
     var xhr = new XMLHttpRequest();
     xhr.open('POST', "/user/saveUserAjax.htm",true);
     var token = document.querySelector("meta[name='_csrf']").content;
@@ -261,7 +261,7 @@ function callAjax(addName,addLoginId,addRole) {
             showStatus(false);
         }
     };
-    xhr.send("selectName=" + addName + "&selectLogin=" + addLoginId + "&selectRole=" + addRole );
+    xhr.send("selectName=" + addName + "&selectLogin=" + addEmail + "&selectRole=" + addRole );
 }
 
 function showStatus(status) {

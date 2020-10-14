@@ -45,10 +45,10 @@
                                     <form:input cssClass="form-control" path="searchUser.name" id="name" />
                                 </div>
                                 <div class="form-group col-md-2 text-right">
-                                    <label for="loginId"><spring:message code="poseidon.loginId" text="loginId" /> :</label>
+                                    <label for="email"><spring:message code="poseidon.email" text="email" /> :</label>
                                 </div>
                                 <div class="form-group col-md-2">
-                                    <form:input cssClass="form-control" path="searchUser.loginId" id="loginId" />
+                                    <form:input cssClass="form-control" path="searchUser.email" id="email" />
                                 </div>
                                 <div class="form-group col-md-2 text-right">
                                     <label for="role"><spring:message code="poseidon.role" text="Role" /> :</label>
@@ -99,7 +99,7 @@
                         <tr>
                             <th><spring:message code="poseidon.id" text="id" /></th>
                             <th><spring:message code="poseidon.name" text="Name" /></th>
-                            <th><spring:message code="poseidon.loginId" text="loginId" /></th>
+                            <th><spring:message code="poseidon.email" text="email" /></th>
                             <th><spring:message code="poseidon.role" text="Role" /></th>
                         </tr>
                         </thead>
@@ -109,7 +109,7 @@
                                 <td><input type="checkbox" name="checkField" onclick="javascript:checkCall(this)"
                                            value='<c:out value="${iterationUser.id}" />' /></td>
                                 <td><c:out value="${iterationUser.name}" /></td>
-                                <td><c:out value="${iterationUser.loginId}" /></td>
+                                <td><c:out value="${iterationUser.email}" /></td>
                                 <td><c:out value="${iterationUser.role}" /></td>
                             </tr>
                         </c:forEach>

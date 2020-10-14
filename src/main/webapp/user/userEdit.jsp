@@ -46,13 +46,13 @@
                             </tr>
                             <tr>
                                 <td>
-                                    <label for="loginId" class="control-label">
-                                        <spring:message code="poseidon.loginId" text="loginId"/> :
+                                    <label for="email" class="control-label">
+                                        <spring:message code="poseidon.email" text="email"/> :
                                     </label>
                                 </td>
                                 <td colspan="2">&nbsp;</td>
                                 <td>
-                                    <form:input path="user.loginId" cssClass="form-control" id="loginId"/>
+                                    <form:input path="user.email" cssClass="form-control" id="email"/>
                                 </td>
                             </tr>
                             <tr>

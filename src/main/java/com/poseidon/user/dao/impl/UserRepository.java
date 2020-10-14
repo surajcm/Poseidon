@@ -9,8 +9,6 @@ import org.springframework.stereotype.Repository;
 public interface UserRepository extends CrudRepository<User, Long>,
         JpaSpecificationExecutor<User> {
 
-    User findByLogInId(String logInId);
-
-    User findByName(String name);
+    User findByEmail(String email);
 
 }

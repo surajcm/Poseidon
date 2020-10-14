@@ -22,19 +22,19 @@ import java.util.Set;
 public class UserDetailsServiceImpl implements UserDetailsService {
     private static final Logger LOG = LoggerFactory.getLogger(UserDetailsServiceImpl.class);
     @Autowired
-    private UserDAO userRepository;
+    private UserDAO userDAO;
 
     @Override
     @Transactional(readOnly = true)
-    public UserDetails loadUserByUsername(final String username) {
+    public UserDetails loadUserByUsername(final String email) {
         UserVO user = null;
         try {
-            user = userRepository.findByUsername(username);
+            user = userDAO.findByEmail(email);
         } catch (UserException ex) {
             LOG.error(ex.getMessage());
         }
         if (user == null) {
-            throw new UsernameNotFoundException(username);
+            throw new UsernameNotFoundException(email);
         }
         Set<GrantedAuthority> grantedAuthorities = new HashSet<>();
         grantedAuthorities.add(new SimpleGrantedAuthority(user.getRole()));

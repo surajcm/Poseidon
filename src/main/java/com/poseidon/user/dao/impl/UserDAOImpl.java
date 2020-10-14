@@ -38,7 +38,7 @@ public class UserDAOImpl implements UserDAO {
     public UserVO logIn(final UserVO userVO) throws UserException {
         User user;
         try {
-            user = userRepository.findByLogInId(userVO.getLoginId());
+            user = userRepository.findByEmail(userVO.getEmail());
         } catch (DataAccessException ex) {
             LOG.error(ex.getLocalizedMessage());
             throw new UserException(UserException.DATABASE_ERROR);
@@ -85,7 +85,7 @@ public class UserDAOImpl implements UserDAO {
         UserVO userVO = new UserVO();
         userVO.setId(user.getUserId());
         userVO.setName(user.getName());
-        userVO.setLoginId(user.getLogInId());
+        userVO.setEmail(user.getEmail());
         userVO.setPassword(user.getPassword());
         userVO.setRole(user.getRole());
         userVO.setExpired(user.getExpired());
@@ -114,8 +114,9 @@ public class UserDAOImpl implements UserDAO {
     private User convertToUser(final UserVO userVO) {
         User user = new User();
         user.setName(userVO.getName());
-        user.setLogInId(userVO.getLoginId());
+        user.setEmail(userVO.getEmail());
         user.setPassword(userVO.getPassword());
+        user.setExpired(userVO.getExpired());
         user.setRole(userVO.getRole());
         user.setCreatedBy(userVO.getCreatedBy());
         user.setModifiedBy(userVO.getLastModifiedBy());
@@ -157,7 +158,7 @@ public class UserDAOImpl implements UserDAO {
             if (optionalUser.isPresent()) {
                 User user = optionalUser.get();
                 user.setName(userVO.getName());
-                user.setLogInId(userVO.getLoginId());
+                user.setEmail(userVO.getEmail());
                 user.setPassword(userVO.getPassword());
                 user.setRole(userVO.getRole());
                 user.setModifiedBy(userVO.getLastModifiedBy());
@@ -182,9 +183,9 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    public UserVO findByUsername(final String username) throws UserException {
+    public UserVO findByEmail(final String email) throws UserException {
         try {
-            User user = userRepository.findByName(username);
+            User user = userRepository.findByEmail(email);
             return convertToUserVO(user);
         } catch (Exception ex) {
             throw new UserException(UserException.DATABASE_ERROR);
@@ -236,8 +237,8 @@ public class UserDAOImpl implements UserDAO {
         if (!StringUtils.isEmpty(searchUser.getName())) {
             userSpec.add(new SearchCriteria("name", searchUser.getName(), search));
         }
-        if (!StringUtils.isEmpty(searchUser.getLoginId())) {
-            userSpec.add(new SearchCriteria("logInId", searchUser.getLoginId(), search));
+        if (!StringUtils.isEmpty(searchUser.getEmail())) {
+            userSpec.add(new SearchCriteria("email", searchUser.getEmail(), search));
         }
         if (!StringUtils.isEmpty(searchUser.getRole())) {
             userSpec.add(new SearchCriteria("role", searchUser.getRole(), search));

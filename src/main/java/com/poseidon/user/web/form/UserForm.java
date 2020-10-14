@@ -10,7 +10,7 @@ import java.util.StringJoiner;
 public class UserForm {
     private Long id;
     private String name;
-    private String loginId;
+    private String email;
     private String password;
     private String role;
     private String message;
@@ -39,12 +39,12 @@ public class UserForm {
         this.name = name;
     }
 
-    public String getLoginId() {
-        return loginId;
+    public String getEmail() {
+        return email;
     }
 
-    public void setLoginId(final String loginId) {
-        this.loginId = loginId;
+    public void setEmail(final String email) {
+        this.email = email;
     }
 
     public String getPassword() {
@@ -143,7 +143,7 @@ public class UserForm {
     public UserVO getCurrentUser() {
         UserVO userVo = new UserVO();
         userVo.setName(getName());
-        userVo.setLoginId(getLoginId());
+        userVo.setEmail(getEmail());
         userVo.setPassword(getPassword());
         userVo.setRole(getRole());
         return userVo;
@@ -152,7 +152,7 @@ public class UserForm {
     @Override
     public String toString() {
         return new StringJoiner(", ", UserForm.class.getSimpleName() + "[", "]")
-                .add("id=" + id).add("name='" + name + "'").add("loginId='" + loginId + "'")
+                .add("id=" + id).add("name='" + name + "'").add("email='" + email + "'")
                 .add("password='" + password + "'").add("role='" + role + "'")
                 .add("message='" + message + "'").add("user=" + user).add("userVOs=" + userVOs)
                 .add("loggedInUser='" + loggedInUser + "'").add("loggedInRole='" + loggedInRole + "'")

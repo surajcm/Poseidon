@@ -52,6 +52,7 @@ public class UserServiceImpl implements UserService {
     public void save(final UserVO user) throws UserException {
         try {
             user.setPassword(bcryptPasswordEncoder.encode(user.getPassword()));
+            user.setExpired(false);
             userDAO.save(user);
         } catch (UserException ex) {
             LOG.error(EXCEPTION_TYPE_IN_SERVICE_IMPL + ex.getExceptionType());

@@ -36,8 +36,8 @@ public class UserDAOImplTest {
     public void logInSuccess() throws UserException {
         UserVO userVO = new UserVO();
         userVO.setPassword("PASS");
-        userVO.setLoginId("ABC");
-        when(userRepository.findByLogInId(anyString())).thenReturn(mockUser());
+        userVO.setEmail("ABC");
+        when(userRepository.findByEmail(anyString())).thenReturn(mockUser());
         UserVO result = userDAO.logIn(userVO);
         Assertions.assertEquals("ABC", result.getName());
     }
@@ -46,8 +46,8 @@ public class UserDAOImplTest {
     public void logInWithDBError() {
         UserVO userVO = new UserVO();
         userVO.setPassword("PASS");
-        userVO.setLoginId("ABC");
-        when(userRepository.findByLogInId(anyString())).thenThrow(new CannotAcquireLockException("DB error"));
+        userVO.setEmail("ABC");
+        when(userRepository.findByEmail(anyString())).thenThrow(new CannotAcquireLockException("DB error"));
         Assertions.assertThrows(UserException.class, () -> userDAO.logIn(userVO));
     }
 
@@ -55,8 +55,8 @@ public class UserDAOImplTest {
     public void logInWithIncorrectPassword() {
         UserVO userVO = new UserVO();
         userVO.setPassword("PASS1");
-        userVO.setLoginId("ABC");
-        when(userRepository.findByLogInId(anyString())).thenReturn(mockUser());
+        userVO.setEmail("ABC");
+        when(userRepository.findByEmail(anyString())).thenReturn(mockUser());
         Assertions.assertThrows(UserException.class, () -> userDAO.logIn(userVO));
     }
 
@@ -64,8 +64,8 @@ public class UserDAOImplTest {
     public void logInWithUnknownUser() {
         UserVO userVO = new UserVO();
         userVO.setPassword("PASS1");
-        userVO.setLoginId("ABC");
-        when(userRepository.findByLogInId(anyString())).thenReturn(null);
+        userVO.setEmail("ABC");
+        when(userRepository.findByEmail(anyString())).thenReturn(null);
         Assertions.assertThrows(UserException.class, () -> userDAO.logIn(userVO));
     }
 
@@ -175,7 +175,7 @@ public class UserDAOImplTest {
     public void searchUserDetailsSuccessOnNull() throws UserException {
         UserVO user = mockUserVO();
         user.setName(null);
-        user.setLoginId(null);
+        user.setEmail(null);
         user.setRole(null);
         Assertions.assertNotNull(userDAO.searchUserDetails(user));
     }
@@ -200,7 +200,7 @@ public class UserDAOImplTest {
         User user = new User();
         user.setUserId(1234L);
         user.setName("ABC");
-        user.setLogInId("ABC");
+        user.setEmail("ABC");
         user.setPassword("PASS");
         user.setRole("ADMIN");
         user.setCreatedBy("ADMIN");
@@ -212,7 +212,7 @@ public class UserDAOImplTest {
         UserVO user = new UserVO();
         user.setId(1234L);
         user.setName("ABC");
-        user.setLoginId("ABC");
+        user.setEmail("ABC");
         user.setPassword("PASS");
         user.setRole("ADMIN");
         user.setCreatedBy("ADMIN");

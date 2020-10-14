@@ -7,7 +7,7 @@ import java.util.StringJoiner;
 public class UserVO {
     private Long id;
     private String name;
-    private String loginId;
+    private String email;
     private String password;
     private String role;
     private Boolean expired;
@@ -106,19 +106,19 @@ public class UserVO {
         this.includes = includes;
     }
 
-    public String getLoginId() {
-        return loginId;
+    public String getEmail() {
+        return email;
     }
 
-    public void setLoginId(final String loginId) {
-        this.loginId = loginId;
+    public void setEmail(final String email) {
+        this.email = email;
     }
 
     @Override
     public String toString() {
         return new StringJoiner(", ", UserVO.class.getSimpleName() + "[", "]")
                 .add("id=" + id).add("name='" + name + "'")
-                .add("loginId='" + loginId + "'").add("password='" + password + "'")
+                .add("email='" + email + "'").add("password='" + password + "'")
                 .add("role='" + role + "'").add("createdDate=" + createdDate)
                 .add("modifiedDate=" + modifiedDate).add("createdBy='" + createdBy + "'")
                 .add("lastModifiedBy='" + lastModifiedBy + "'")

@@ -66,7 +66,7 @@ public interface UserDAO {
      */
     List<UserVO> searchUserDetails(UserVO searchUser) throws UserException;
 
-    UserVO findByUsername(String username) throws UserException;
+    UserVO findByEmail(String email) throws UserException;
 
     void expireUser(Long id) throws UserException;
 }

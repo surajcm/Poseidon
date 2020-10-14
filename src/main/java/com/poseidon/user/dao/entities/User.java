@@ -24,10 +24,6 @@ public class User {
     @Column(name = "name")
     private String name;
 
-    @Column(name = "logInId")
-    private String logInId;
-
-    //todo: replace email with loginId
     @Column(name = "email")
     private String email;
 
@@ -74,14 +70,6 @@ public class User {
 
     public void setEmail(final String email) {
         this.email = email;
-    }
-
-    public String getLogInId() {
-        return logInId;
-    }
-
-    public void setLogInId(final String logInId) {
-        this.logInId = logInId;
     }
 
     public String getPassword() {
