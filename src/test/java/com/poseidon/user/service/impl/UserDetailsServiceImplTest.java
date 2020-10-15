@@ -19,16 +19,16 @@ import static org.mockito.Mockito.when;
 @ExtendWith(SpringExtension.class)
 class UserDetailsServiceImplTest {
     private final UserDetailsServiceImpl userDetailsService = new UserDetailsServiceImpl();
-    private final UserDAO userRepository = Mockito.mock(UserDAO.class);
+    private final UserDAO userDAO = Mockito.mock(UserDAO.class);
 
     @BeforeEach
     public void setup() {
-        Whitebox.setInternalState(userDetailsService, "userRepository", userRepository);
+        Whitebox.setInternalState(userDetailsService, "userDAO", userDAO);
     }
 
     @Test
     void loadUserByNullUsername() throws UserException {
-        when(userRepository.findByUsername(anyString())).thenReturn(null);
+        when(userDAO.findByEmail(anyString())).thenReturn(null);
         Assertions.assertThrows(UsernameNotFoundException.class,
                 () -> userDetailsService.loadUserByUsername("admin"));
     }
@@ -36,14 +36,14 @@ class UserDetailsServiceImplTest {
     @Test
     void loadUserByValidUsername() throws UserException {
         String userName = "admin";
-        when(userRepository.findByUsername(anyString())).thenReturn(mockUser());
+        when(userDAO.findByEmail(anyString())).thenReturn(mockUser());
         UserDetails userDetails = userDetailsService.loadUserByUsername("admin");
         Assertions.assertEquals(userName, userDetails.getUsername());
     }
 
     @Test
     void loadUserOnException() throws UserException {
-        when(userRepository.findByUsername(anyString())).thenThrow(new UserException(UserException.DATABASE_ERROR));
+        when(userDAO.findByEmail(anyString())).thenThrow(new UserException(UserException.DATABASE_ERROR));
         Assertions.assertThrows(UsernameNotFoundException.class,
                 () -> userDetailsService.loadUserByUsername("admin"));
     }

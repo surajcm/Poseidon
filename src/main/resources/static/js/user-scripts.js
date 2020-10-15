@@ -308,6 +308,7 @@ function ajaxPasswordReset() {
         if (xhr.status === 200) {
             if (xhr.responseText != null) {
                 //rewriteTable(xhr.responseText);
+                console.log(xhr.responseText);
             }
         } else if (xhr.status !== 200) {
             console.log('Request failed.  Returned status of ' + xhr.status);

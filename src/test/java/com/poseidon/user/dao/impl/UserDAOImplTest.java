@@ -147,14 +147,14 @@ public class UserDAOImplTest {
 
     @Test
     public void findByUsernameSuccess() throws UserException {
-        when(userRepository.findByName(anyString())).thenReturn(mockUser());
-        Assertions.assertNotNull(userDAO.findByUsername("ABC"));
+        when(userRepository.findByEmail(anyString())).thenReturn(mockUser());
+        Assertions.assertNotNull(userDAO.findByEmail("ABC"));
     }
 
     @Test
     public void findByUsernameFailure() {
-        when(userRepository.findByName(anyString())).thenThrow(new CannotAcquireLockException("DB error"));
-        Assertions.assertThrows(UserException.class, () -> userDAO.findByUsername("ABC"));
+        when(userRepository.findByEmail(anyString())).thenThrow(new CannotAcquireLockException("DB error"));
+        Assertions.assertThrows(UserException.class, () -> userDAO.findByEmail("ABC"));
     }
 
     @Test
