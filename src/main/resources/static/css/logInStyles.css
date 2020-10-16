@@ -3,7 +3,7 @@
 body {
     margin: 0;
     padding: 30px 0 30px 0;
-    background: #8c8c8c ;
+    background: #b5b5b5 ;
     font-family: 'Arsenal', cursive;
 }
 
@@ -23,7 +23,7 @@ body {
     color: #0d0d0d;
 }
 
-#signin div label {
+label {
     margin: 0 0 5px 0;
     display: block;
 }

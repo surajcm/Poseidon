@@ -11,6 +11,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Log In</title>
     <link rel="stylesheet" href="/css/logInStyles.css"  type="text/css" />
+    <link rel="stylesheet" href="/css/bootstrap.min.css"  type="text/css" />
     <script type="text/javascript">
         function submitLogIn() {
             document.forms[0].action="LogIn.htm";
@@ -40,20 +41,20 @@
                                      <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                                  </p>
                                 <p>
-                                     <label class="sr-only" for="exampleInputEmail2">email</label>
-                                     <input name="username" type="text" class="textboxes" placeholder="Username"
+                                     <label for="exampleInputEmail2">email</label>
+                                     <input name="username" type="text" class="form-control" placeholder="email"
                                                         autofocus="true" required/>
                                 </p>
                                 <p>
-                                     <label class="sr-only" for="exampleInputPassword2">Password</label>
-                                     <input name="password" type="password" class="textboxes" placeholder="Password" required/>
+                                     <label for="exampleInputPassword2">Password</label>
+                                     <input name="password" type="password" class="form-control" placeholder="Password" required/>
                                 </p>
                                 <br />
                                 <p class="button">
-                                     <button type="submit" class="btn">Sign in</button>
+                                     <button type="submit" class="btn btn-primary">Sign in</button>
                                 </p>
                                 <p class="checkbox">
-                                     <label class="sr-only" >
+                                     <label>
                                         <input type="checkbox" /> keep me logged-in
                                      </label>
                                 </p>
@@ -67,5 +68,8 @@
             </table>
         </div>
     </div>
+    <script src="/js/core/jquery-3.2.1.min.js"></script>
+    <script src="/js/core/popper.min.js"></script>
+    <script src="/js/core/bootstrap.min.js"></script>
 </body>
 </html>
