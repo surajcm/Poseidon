@@ -1,8 +1,6 @@
 @import url('https://fonts.googleapis.com/css?family=Arsenal');
 
 body {
-    margin: 0;
-    padding: 30px 0 30px 0;
     background: #b5b5b5 ;
     font-family: 'Arsenal', cursive;
 }
@@ -23,19 +21,14 @@ body {
     color: #0d0d0d;
 }
 
-label {
-    margin: 0 0 5px 0;
-    display: block;
-}
-
-#signin fieldset input {
+#signin input {
     padding: 3px;
     width: 240px;
 }
 
-#signin fieldset p.button { margin-bottom: 0; }
-#signin fieldset p.button input { width: auto; }
-#signin .sign_in fieldset input { width: 200px; }
+div.button { margin-bottom: 0; }
+#signin p.button input { width: auto; }
+#signin .sign_in input { width: 200px; }
 
 .box_wrapper {
     width:500px;

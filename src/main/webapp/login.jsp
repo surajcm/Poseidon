@@ -10,8 +10,8 @@
     <link rel="shortcut icon" href="${posIcon}" >
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Log In</title>
-    <link rel="stylesheet" href="/css/logInStyles.css"  type="text/css" />
     <link rel="stylesheet" href="/css/bootstrap.min.css"  type="text/css" />
+    <link rel="stylesheet" href="/css/logInStyles.css"  type="text/css" />
     <script type="text/javascript">
         function submitLogIn() {
             document.forms[0].action="LogIn.htm";
@@ -39,7 +39,7 @@
                                      <span>${message}</span>
                                      <span>${error}</span>
                                      <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-                                 </p>
+                                </p>
                                 <p>
                                      <label for="exampleInputEmail2">email</label>
                                      <input name="username" type="text" class="form-control" placeholder="email"
@@ -49,14 +49,13 @@
                                      <label for="exampleInputPassword2">Password</label>
                                      <input name="password" type="password" class="form-control" placeholder="Password" required/>
                                 </p>
-                                <br />
-                                <p class="button">
-                                     <button type="submit" class="btn btn-primary">Sign in</button>
-                                </p>
-                                <p class="checkbox">
-                                     <label>
-                                        <input type="checkbox" /> keep me logged-in
+                                <p>
+                                     <label class="form-check-label">
+                                        <input class="form-check-input" type="checkbox" name="remember" /> keep me logged-in
                                      </label>
+                                </p>
+                                <p>
+                                     <button type="submit" class="btn btn-primary">Sign in</button>
                                 </p>
                             </div>
                         </form>
