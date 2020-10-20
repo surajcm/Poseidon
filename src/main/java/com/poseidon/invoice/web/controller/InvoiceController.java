@@ -104,7 +104,7 @@ public class InvoiceController {
             searchTransactionVo.setTagNo(invoiceForm.getCurrentInvoiceVo().getTagNo());
             searchTransactionVo.setStartswith(Boolean.TRUE);
             searchTransactionVo.setIncludes(Boolean.TRUE);
-            List<TransactionVO> transactionVOs = null;
+            List<TransactionVO> transactionVOs;
             try {
                 transactionVOs = transactionService.searchTransactions(searchTransactionVo);
                 LOG.info("Found transactions :" + transactionVOs.size());

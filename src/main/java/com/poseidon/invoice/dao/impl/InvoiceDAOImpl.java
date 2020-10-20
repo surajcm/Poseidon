@@ -95,9 +95,9 @@ public class InvoiceDAOImpl implements InvoiceDAO {
     }
 
     /**
-     * fetch invoice vo from id.
+     * fetch invoice vo from tagNo.
      *
-     * @param id of invoice vo
+     * @param tagNo of invoice vo
      * @return invoice vo
      */
     @Override

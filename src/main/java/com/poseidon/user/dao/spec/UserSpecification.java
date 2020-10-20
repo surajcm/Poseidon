@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserSpecification implements Specification<User> {
-    private List<SearchCriteria> list;
+    private final List<SearchCriteria> list;
 
     public UserSpecification() {
         this.list = new ArrayList<>();

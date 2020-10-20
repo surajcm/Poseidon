@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MakeSpecification  implements Specification<Make> {
-    private List<SearchCriteria> list;
+    private final List<SearchCriteria> list;
 
     public MakeSpecification() {
         this.list = new ArrayList<>();

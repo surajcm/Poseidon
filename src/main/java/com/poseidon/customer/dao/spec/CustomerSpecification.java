@@ -13,7 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CustomerSpecification  implements Specification<Customer> {
-    private List<SearchCriteria> list;
+    private final List<SearchCriteria> list;
 
     public CustomerSpecification() {
         this.list = new ArrayList<>();

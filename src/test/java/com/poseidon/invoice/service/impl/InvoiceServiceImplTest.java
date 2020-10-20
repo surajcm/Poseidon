@@ -58,7 +58,7 @@ class InvoiceServiceImplTest {
     @Test
     void fetchInvoiceForListOfTransactionsSuccess() throws TransactionException, InvoiceException {
         when(transactionService.listTodaysTransactions()).thenReturn(mockListOfTransactionVOs());
-        when(invoiceDAO.fetchInvoiceForListOfTransactions(ArgumentMatchers.<List<String>>any()))
+        when(invoiceDAO.fetchInvoiceForListOfTransactions(ArgumentMatchers.any()))
                 .thenReturn(new ArrayList<>());
         Assertions.assertNotNull(invoiceService.fetchInvoiceForListOfTransactions());
     }
@@ -73,7 +73,7 @@ class InvoiceServiceImplTest {
     @Test
     void fetchInvoiceForListOfTransactionsOnInvoiceFailure() throws TransactionException, InvoiceException {
         when(transactionService.listTodaysTransactions()).thenReturn(mockListOfTransactionVOs());
-        when(invoiceDAO.fetchInvoiceForListOfTransactions(ArgumentMatchers.<List<String>>any()))
+        when(invoiceDAO.fetchInvoiceForListOfTransactions(ArgumentMatchers.any()))
                 .thenThrow(new InvoiceException(InvoiceException.DATABASE_ERROR));
         Assertions.assertThrows(InvoiceException.class, invoiceService::fetchInvoiceForListOfTransactions);
     }

@@ -26,6 +26,7 @@ import java.time.OffsetDateTime;
 import java.time.ZoneId;
 import java.util.Arrays;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 /**
@@ -270,11 +271,7 @@ public class TransactionController {
             LOG.info("transactionVO {}", transactionVO);
         }
         transactionForm.setCurrentTransaction(transactionVO);
-        if (customerVO != null) {
-            transactionForm.setCustomerVO(customerVO);
-        } else {
-            transactionForm.setCustomerVO(new CustomerVO());
-        }
+        transactionForm.setCustomerVO(Objects.requireNonNullElseGet(customerVO, CustomerVO::new));
         transactionForm.setStatusList(populateStatus());
         transactionForm.setLoggedInRole(transactionForm.getLoggedInRole());
         transactionForm.setLoggedInUser(transactionForm.getLoggedInUser());

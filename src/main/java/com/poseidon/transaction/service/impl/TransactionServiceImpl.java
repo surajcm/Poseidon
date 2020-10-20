@@ -52,7 +52,7 @@ public class TransactionServiceImpl implements TransactionService {
      */
     @Override
     public String saveTransaction(final TransactionVO currentTransaction) throws TransactionException {
-        String tagNo = null;
+        String tagNo;
         try {
             tagNo = transactionDAO.saveTransaction(currentTransaction);
         } catch (TransactionException ex) {

@@ -29,7 +29,7 @@ If you contribute please commit to a new branch and explain details in your pull
 Give a ⭐️ if this project helped you!
 
 ## Features
-* Provide a functionality to create a service ticket and a workflow based on it
+* Provide a functionality to create a service ticket, and a workflow based on it
 * Provides a final invoice to customer
 * Various reports to gain insights on improving the business
 
