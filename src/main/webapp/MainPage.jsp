@@ -24,6 +24,7 @@
             background-repeat: no-repeat;
             background-size:  contain;
             background-position: center;
+            background-color: transparent;
         }
     </style>
     <script type="text/javascript" src="/js/navbar-scripts.js"></script>
