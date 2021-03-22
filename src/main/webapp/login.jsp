@@ -10,7 +10,7 @@
     <link rel="shortcut icon" href="${posIcon}" >
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Log In</title>
-    <link rel="stylesheet" href="/css/bootstrap.min.css"  type="text/css" />
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
     <link rel="stylesheet" href="/css/logInStyles.css"  type="text/css" />
     <script type="text/javascript">
         function submitLogIn() {
@@ -50,11 +50,6 @@
                                      <input name="password" type="password" class="form-control" placeholder="Password" required/>
                                 </p>
                                 <p>
-                                     <label class="form-check-label">
-                                        <input class="form-check-input" type="checkbox" name="remember" /> keep me logged-in
-                                     </label>
-                                </p>
-                                <p>
                                      <button type="submit" class="btn btn-primary">Sign in</button>
                                 </p>
                             </div>
@@ -67,8 +62,6 @@
             </table>
         </div>
     </div>
-    <script src="/js/core/jquery-3.2.1.min.js"></script>
-    <script src="/js/core/popper.min.js"></script>
-    <script src="/js/core/bootstrap.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
 </body>
 </html>
