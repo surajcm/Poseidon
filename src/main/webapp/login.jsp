@@ -10,7 +10,7 @@
     <link rel="shortcut icon" href="${posIcon}" >
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Log In</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" crossorigin="anonymous" />
+    <link href="/css/bootstrap.5.0.0-beta2.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="/css/logInStyles.css"  type="text/css" />
     <script type="text/javascript">
         function submitLogIn() {
@@ -62,6 +62,6 @@
             </table>
         </div>
     </div>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" crossorigin="anonymous"></script>
+    <script src="/js/bootstrap.5.0.0-beta2.bundle.min.js"></script>
 </body>
 </html>
