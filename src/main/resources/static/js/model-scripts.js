@@ -15,6 +15,10 @@ function clearOut(){
     document.getElementById('startswith').checked = false;
 }
 
+function AddModel() {
+    alert("not yet implemented");
+}
+
 //validation before edit
 function editModel() {
     var check = 'false';

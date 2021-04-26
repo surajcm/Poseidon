@@ -1,12 +1,13 @@
 
 dependencies {
-    errorprone("com.google.errorprone:error_prone_core:2.3.4")
-    errorproneJavac("com.google.errorprone:javac:9+181-r4173-1")
+    errorprone("com.google.errorprone:error_prone_core:2.6.0")
+    errorproneJavac("com.google.errorprone:javac:9-dev-r4023-3")
 
     implementation("org.springframework.boot:spring-boot-starter-web")
     implementation("org.springframework.boot:spring-boot-starter-data-jpa")
     implementation("org.springframework.boot:spring-boot-starter-security")
     implementation("org.springframework.boot:spring-boot-starter-actuator")
+    implementation 'org.springframework.boot:spring-boot-starter-log4j2'
     runtimeOnly("org.springframework.boot:spring-boot-devtools")
 
     implementation("javax.xml.bind:jaxb-api:2.3.1")
@@ -19,9 +20,9 @@ dependencies {
 
     implementation("org.codehaus.jackson:jackson-mapper-asl:1.9.13")
 
-    implementation("net.sf.jasperreports:jasperreports:6.12.2")
-    implementation("net.sf.jasperreports:jasperreports-fonts:6.12.2")
-    implementation("org.apache.poi:poi:4.1.2")
+    implementation 'net.sf.jasperreports:jasperreports:6.16.0'
+    implementation 'net.sf.jasperreports:jasperreports-fonts:6.16.0'
+    implementation 'com.lowagie:itext:2.1.7'
 
 
     testImplementation('org.springframework.boot:spring-boot-starter-test') {
@@ -34,4 +35,10 @@ dependencies {
 
     testImplementation("org.mockito:mockito-core")
     testImplementation("org.powermock:powermock-api-mockito2:2.0.0")
+}
+
+configurations {
+    all {
+        exclude group: 'org.springframework.boot', module: 'spring-boot-starter-logging'
+    }
 }

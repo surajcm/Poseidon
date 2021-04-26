@@ -1,4 +1,4 @@
-
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/css/flag-icon.min.css" integrity="sha512-Cv93isQdFwaKBV+Z4X8kaVBYWHST58Xb/jVOcV9aRsGSArZsgAnFIhMpDoMDcFNoUtday1hdjn0nGp3+KZyyFw==" crossorigin="anonymous" />
 <nav class="navbar navbar-dark py-0 bg-primary navbar-expand-lg py-md-0">
     <spring:url value="/img/Poseidon_Menu.png" var="posIcon2" />
     <a class="navbar-brand" href="#" onclick="javascript:goToHome();"><span><img src="${posIcon2}" width="30" height="30" class="d-inline-block align-top" alt="Poseidon"/></span>Poseidon</a>
@@ -20,6 +20,7 @@
             <li class="nav-item py-0" id="report"><a class="nav-link" href="#" onclick="javascript:fetchReport();" >Report</a></li>
         </ul>
         <ul class="navbar-nav my-2 my-lg-0">
+            <li class="nav-item py-0" id="locale_switch"><a class="nav-link" href="#" ><span class="flag-icon flag-icon-us flag-icon-squared" aria-hidden="true"></span>&nbsp;EN</a></li>
             <li class="nav-item dropdown">
                 <c:choose>
                     <c:when test="${pageContext.request.userPrincipal.name != null}">

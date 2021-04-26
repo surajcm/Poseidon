@@ -38,7 +38,7 @@ function clearOut() {
 }
 
 function changeTheModel(){
-    var selectMakeId = document.transactionForm.makeId.value;
+    var selectMakeId = document.forms[0].makeId.value;
     var url = "${contextPath}/txs/UpdateModelAjax.htm";
     url = url + "?selectMakeId=" + selectMakeId;
     bustcacheparameter = (url.indexOf("?") != -1) ? "&" + new Date().getTime() : "?" + new Date().getTime();
@@ -84,14 +84,14 @@ function stateChange() {
                 }
             }
             var l =0;
-            document.transactionForm.modelId.options.length = resultIds.length - 1;
-            document.transactionForm.modelId.options[0] = new Option("<-- Select -->", "");
+            document.forms[0].modelId.options.length = resultIds.length - 1;
+            document.forms[0].modelId.options[0] = new Option("<-- Select -->", "");
             for (var i = 1; i <= (resultIds.length); i++) {
-                document.transactionForm.modelId.options[i] = new Option(resultNames[i - 1], resultIds[i - 1]);
+                document.forms[0].modelId.options[i] = new Option(resultNames[i - 1], resultIds[i - 1]);
             }
         } else {
-            document.transactionForm.modelId.options.length = 0;
-            document.transactionForm.modelId.options[0] = new Option("<-- Select -->", "");
+            document.forms[0].modelId.options.length = 0;
+            document.forms[0].modelId.options[0] = new Option("<-- Select -->", "");
         }
     }
 }

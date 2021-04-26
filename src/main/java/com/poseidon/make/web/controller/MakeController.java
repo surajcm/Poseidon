@@ -62,7 +62,7 @@ public class MakeController {
         }
         if (makeAndModelVOs != null) {
             for (MakeAndModelVO makeAndModelVO : makeAndModelVOs) {
-                LOG.debug(" makeAndModelVO is {}", makeAndModelVO);
+                LOG.info(" makeAndModelVO is {}", makeAndModelVO);
             }
             makeForm.setMakeAndModelVOs(makeAndModelVOs);
         }

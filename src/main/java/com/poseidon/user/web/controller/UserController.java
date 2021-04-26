@@ -368,4 +368,33 @@ public class UserController {
         }
         return status;
     }
+
+    @GetMapping("/user/getForEdit.htm")
+    public @ResponseBody
+    String getForEdit(@ModelAttribute("id") final String id,
+                      final BindingResult result) {
+        logger.info("getForEdit method of user controller : " + id);
+        String response = null;
+        try {
+            UserVO userVO = userService.getUserDetailsFromId(Long.valueOf(id));
+            logger.info(userVO.toString());
+            response = parseUserVO(userVO);
+        } catch (Exception ex) {
+            logger.error(ex.getLocalizedMessage(), ex);
+        }
+        return response;
+    }
+
+    private String parseUserVO(final UserVO userVO) {
+        String response;
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            response = mapper.writeValueAsString(userVO);
+        } catch (IOException ex) {
+            response = ERROR;
+            logger.error("error parsing to json : " + ex.getMessage());
+        }
+        logger.info("user list json : " + response);
+        return response;
+    }
 }

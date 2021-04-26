@@ -341,9 +341,9 @@ public class MakeDaoImpl implements MakeDao {
         if (searchMakeVO.getModelName() != null && searchMakeVO.getModelName().trim().length() > 0) {
             String modelName = searchMakeVO.getModelName();
             List<Model> models;
-            if (searchMakeVO.getIncludes().booleanValue()) {
+            if (searchMakeVO.getIncludes()) {
                 models = modelRepository.findByModelNameWildCard("%" + modelName + "%");
-            } else if (searchMakeVO.getStartswith().booleanValue()) {
+            } else if (searchMakeVO.getStartswith()) {
                 models = modelRepository.findByModelNameWildCard(modelName + "%");
             } else {
                 models = modelRepository.findByModelName(modelName);

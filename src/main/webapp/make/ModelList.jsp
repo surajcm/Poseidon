@@ -67,67 +67,71 @@
                                     </div>
                                 </div>
                             </div>
-                            <input class="btn btn-primary" value="Search" type="button" onclick="javascript:search()"/>
-                            <input class="btn btn-primary" value="Clear" type="button" onclick="javascript:clearOut()"/>
-                        </div>    
+                        <input class="btn btn-primary" value="Search" type="button" onclick="javascript:search()"/>
+                        <input class="btn btn-primary" value="Clear" type="button" onclick="javascript:clearOut()"/>
                     </div>
-                </div>
-                <br/>
-                <br/>
-                <c:if test="${makeForm.statusMessage!=null}">
-                    <div class="alert alert-<c:out value="${makeForm.statusMessageType}"/>">
-                        <a class="close" data-dismiss="alert" href="#" aria-hidden="true">x</a>
-                        <c:out value="${makeForm.statusMessage}"/>
-                    </div>
-                </c:if>
-                <div class="panel panel-primary">
-                    <div class="panel-heading">Model Details</div>
-                    <table id='myTable' class="table table-bordered table-striped table-hover">
-                        <thead>
-                        <tr>
-                            <th><spring:message code="poseidon.id" text="id"/></th>
-                            <th>Make Name</th>
-                            <th>Model Name</th>
-                        </tr>
-                        </thead>
-                        <tbody>
-                        <c:forEach items="${makeForm.makeAndModelVOs}" var="iterationMake">
-                            <tr>
-                                <td><input type="checkbox" name="checkField" onclick="javascript:checkCall(this)"
-                                           value="<c:out value="${iterationMake.modelId}" />"/></td>
-                                <td><c:out value="${iterationMake.makeName}"/></td>
-                                <td><c:out value="${iterationMake.modelName}"/></td>
-                            </tr>
-                        </c:forEach>
-                        </tbody>
-                    </table>
-                    <table>
-                        <tr>
-                            <td colspan="5">
-                                <br/>
-                                <br/>
-                            <td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <input class="btn btn-primary" value="Make List" type="button" onclick="javascript:listAllMake()"/>
-                            </td>
-                            <td>
-                                <input class="btn btn-primary" value="Add Model" type="button" onclick="javascript:simpleAdd()"/>
-                            </td>
-                            <td>
-                                <input class="btn btn-primary" value="Edit Model" type="button" onclick="javascript:editModel()"/>
-                            </td>
-                            <td>
-                                <input class="btn btn-primary" value="Delete Model" type="button" onclick="javascript:deleteModel()"/>
-                            </td>
-                            <td>
-                                <input class="btn btn-primary" value="Save Model" type="button" onclick="javascript:saveSimpleModel()"/>
-                            </td>
-                        </tr>
-                    </table>
                 </div>
             </div>
+        </div>
+        <br/>
+        <br/>
+        <c:if test="${makeForm.statusMessage!=null}">
+            <div class="alert alert-<c:out value="${makeForm.statusMessageType}"/>">
+                <a class="close" data-dismiss="alert" href="#" aria-hidden="true">x</a>
+                <c:out value="${makeForm.statusMessage}"/>
+            </div>
+        </c:if>
+        <div class="panel panel-primary">
+            <div class="panel-heading">Model Details</div>
+                <table id='myTable' class="table table-bordered table-striped table-hover">
+                    <thead>
+                    <tr>
+                        <th class="text-center" ><spring:message code="poseidon.id" text="id"/></th>
+                        <th class="text-center">Make Name</th>
+                        <th class="text-center">Model Name</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <c:forEach items="${makeForm.makeAndModelVOs}" var="iterationMake">
+                        <tr>
+                            <td><input type="checkbox" name="checkField" onclick="javascript:checkCall(this)"
+                                       value="<c:out value="${iterationMake.modelId}" />"/></td>
+                            <td><c:out value="${iterationMake.makeName}"/></td>
+                            <td><c:out value="${iterationMake.modelName}"/></td>
+                        </tr>
+                    </c:forEach>
+                    </tbody>
+                </table>
+                <table>
+                    <tr>
+                        <td colspan="5">
+                            <br/>
+                            <br/>
+                        <td>
+                    </tr>
+                    <tr>
+                        <td>
+                            <input class="btn btn-primary" value="Make List" type="button" onclick="javascript:listAllMake()"/>
+                        </td>
+                        <td>
+                            <input class="btn btn-primary" value="Add Model" type="button" onclick="javascript:simpleAdd()"/>
+                        </td>
+                        <td>
+                            <input class="btn btn-primary" value="Model Add2" type="button" onclick="javascript:AddModel()"/>
+                        </td>
+                        <td>
+                            <input class="btn btn-primary" value="Edit Model" type="button" onclick="javascript:editModel()"/>
+                        </td>
+                        <td>
+                            <input class="btn btn-primary" value="Delete Model" type="button" onclick="javascript:deleteModel()"/>
+                        </td>
+                        <td>
+                            <input class="btn btn-primary" value="Save Model" type="button" onclick="javascript:saveSimpleModel()"/>
+                        </td>
+                    </tr>
+                </table>
+            </div>
+        </div>
         </div>
         <script src="/js/core/jquery-3.2.1.min.js"></script>
         <script src="/js/core/popper.min.js"></script>

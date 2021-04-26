@@ -317,3 +317,125 @@ function ajaxPasswordReset() {
     xhr.send("id=" + id);
 }
 
+function validateEditModalSelection() {
+    var detail = document.getElementById("userEditModalBody");
+    detail.innerHTML = "";
+    var check ='false';
+    var count = 0;
+    // get all check boxes
+    var checks = document.getElementsByName('checkField');
+    if(checks){
+        //if total number of rows is one
+        if (checks.checked) {
+            return true;
+        } else {
+            for(var i = 0 ; i < checks.length ; i++ ) {
+                if (checks[i].checked) {
+                    check = 'true';
+                    count = count + 1;
+                }
+            }
+            //check for validity
+            if (check = 'true') {
+                if (count == 1) {
+                    return true;
+                } else {
+                detail.innerHTML = "<p>Only one row can be selected at a time, please select one row</p>";
+                }
+            } else {
+                detail.innerHTML = "<p>No rows selected, please select one row</p>";
+            }
+        }
+    }
+}
+
+function editUser() {
+    rowCheck = validateEditModalSelection();
+    if(rowCheck) {
+        editUserModal();
+        setIdForChange();
+        var user_id = document.getElementById("id").value;
+        console.log("need to call ajax for the user with id: "+user_id);
+        // also update the fields
+        getUserForEdit();
+    }
+}
+function editUserModal() {
+    var updateModal = document.getElementById("updateModal");
+    updateModal.style.display = "block";
+    var detail = document.getElementById("userEditModalBody");
+    detail.innerHTML = "";
+
+    var formValidUser = document.createElement("form");
+    formValidUser.setAttribute("class","needs-validation");
+    formValidUser.novalidate = true;
+
+    var divUserAdd = document.createElement("div");
+    divUserAdd.setAttribute("class","form-row align-items-left");
+    var divName = document.createElement("div");
+    divName.setAttribute("class","form-group col-md-4");
+    var txtName = document.createElement("input");
+    txtName.setAttribute("type","text");
+    txtName.setAttribute("class","form-control");
+    txtName.setAttribute("placeholder","Name");
+    txtName.setAttribute("id","updateName");
+    txtName.required = true;
+    divName.appendChild(txtName);
+
+    var divEmail = document.createElement("div");
+    divEmail.setAttribute("class","form-group col-md-4");
+    var txtEmail = document.createElement("input");
+    txtEmail.setAttribute("type","text");
+    txtEmail.setAttribute("class","form-control");
+    txtEmail.setAttribute("placeholder","email");
+    txtEmail.setAttribute("id","updateEmail");
+    txtEmail.required = true;
+    divEmail.appendChild(txtEmail);
+
+    var divRole = document.createElement("div");
+    divRole.setAttribute("class","form-group col-md-4");
+    var selectRole = document.createElement("select");
+    selectRole.setAttribute("class","form-control");
+    selectRole.setAttribute("id","addRole");
+    var adminOption = document.createElement("option");
+    adminOption.text = 'ADMIN';
+    adminOption.value = 'ADMIN';
+    var guestOption = document.createElement("option");
+    guestOption.text = 'GUEST';
+    guestOption.value = 'GUEST';
+    selectRole.appendChild(adminOption);
+    selectRole.appendChild(guestOption);
+    divRole.appendChild(selectRole);
+
+    divUserAdd.appendChild(divName);
+    divUserAdd.appendChild(divEmail);
+    divUserAdd.appendChild(divRole);
+    formValidUser.appendChild(divUserAdd);
+    detail.appendChild(formValidUser);
+}
+
+
+function getUserForEdit() {
+    var id = document.getElementById("id").value;
+    var xhr = new XMLHttpRequest();
+    xhr.open('GET', "/user/getForEdit.htm" + "?id=" + id,true);
+    var token = document.querySelector("meta[name='_csrf']").content;
+    var header = document.querySelector("meta[name='_csrf_header']").content;
+    xhr.setRequestHeader(header, token);
+    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    xhr.onload = function() {
+        if (xhr.status === 200) {
+            if (xhr.responseText != null) {
+                //rewriteTable(xhr.responseText);
+                console.log(xhr.responseText);
+            }
+        } else if (xhr.status !== 200) {
+            console.log('Request failed.  Returned status of ' + xhr.status);
+        }
+    };
+    xhr.send();
+}
+
+function updateFromModal() {
+    alert("Not yet implemented");
+}

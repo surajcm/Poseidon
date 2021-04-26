@@ -41,7 +41,7 @@ public class Model {
     private String modifiedBy;
 
     @ManyToOne
-    @JoinColumn(name = "id", referencedColumnName = "id", insertable = false, updatable = false)
+    @JoinColumn(name = "makeId", referencedColumnName = "id", insertable = false, updatable = false)
     private Make make;
 
     public Long getModelId() {

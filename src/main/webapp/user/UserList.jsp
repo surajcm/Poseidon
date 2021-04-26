@@ -96,23 +96,23 @@
                     <div class="panel-heading"><spring:message code="user.userDetails" text="User Details" /></div>
                     <table id='myTable' class="table table-bordered table-striped table-hover">
                         <thead>
-                        <tr>
-                            <th><spring:message code="poseidon.id" text="id" /></th>
-                            <th><spring:message code="poseidon.name" text="Name" /></th>
-                            <th><spring:message code="poseidon.email" text="email" /></th>
-                            <th><spring:message code="poseidon.role" text="Role" /></th>
-                        </tr>
+                            <tr>
+                                <th><spring:message code="poseidon.id" text="id" /></th>
+                                <th><spring:message code="poseidon.name" text="Name" /></th>
+                                <th><spring:message code="poseidon.email" text="email" /></th>
+                                <th><spring:message code="poseidon.role" text="Role" /></th>
+                            </tr>
                         </thead>
                         <tbody>
-                        <c:forEach items="${userForm.userVOs}" var="iterationUser">
-                            <tr>
-                                <td><input type="checkbox" name="checkField" onclick="javascript:checkCall(this)"
-                                           value='<c:out value="${iterationUser.id}" />' /></td>
-                                <td><c:out value="${iterationUser.name}" /></td>
-                                <td><c:out value="${iterationUser.email}" /></td>
-                                <td><c:out value="${iterationUser.role}" /></td>
-                            </tr>
-                        </c:forEach>
+                            <c:forEach items="${userForm.userVOs}" var="iterationUser">
+                                <tr>
+                                    <td><input type="checkbox" name="checkField" onclick="javascript:checkCall(this)"
+                                               value='<c:out value="${iterationUser.id}" />' /></td>
+                                    <td><c:out value="${iterationUser.name}" /></td>
+                                    <td><c:out value="${iterationUser.email}" /></td>
+                                    <td><c:out value="${iterationUser.role}" /></td>
+                                </tr>
+                            </c:forEach>
                         </tbody>
                     </table>
                     <div class="form-row">
@@ -121,7 +121,11 @@
                                 onclick="javascript:addNewUser()">Add New User</button>
                             <button type="button" class="btn btn-primary" onclick="javascript:editMe()">
                                 <spring:message code='poseidon.edit' text='Edit User' />
-                            </button>    
+                            </button>
+                            <button type="button" class="btn btn-primary"  data-toggle="modal" data-target="#editUserModal"
+                                onclick="javascript:editUser()">
+                                <spring:message code='poseidon.edit' text='Edit User 2' />
+                            </button>
                             <button type="button" class="btn btn-primary" onclick="javascript:deleteUser()">
                                 <spring:message code='poseidon.delete' text='Delete User' />
                             </button>
@@ -145,6 +149,22 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" id="saveModal" class="btn btn-default" onclick="javascript:saveFromModal()">Save</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="editUserModal" class="modal fade bd-example-modal-lg" role="dialog">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Edit User</h4>
+                        <button type="button" class="close" data-dismiss="modal">x</button>
+                    </div>
+                    <div id="userEditModalBody" class="modal-body">
+                        <p>Lets edit the user</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" id="updateModal" class="btn btn-default" onclick="javascript:updateFromModal()">Update</button>
                     </div>
                 </div>
             </div>

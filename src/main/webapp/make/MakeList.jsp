@@ -2,7 +2,6 @@
 <%@ taglib uri="http://www.springframework.org/tags/form" prefix="form" %>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring" %>
-
 <c:set var="contextPath" value="${pageContext.request.contextPath}"/>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
@@ -68,14 +67,15 @@
                                       </label>
                                     </div>
                                 </div>
-                                <input class="btn btn-primary" value="Search" type="button" onclick="javascript:search()"/>
-                                <input class="btn btn-primary" value="Clear" type="button" onclick="javascript:clearOut()"/>
                             </div>
-                        </div>        
+                            <input class="btn btn-primary" value="Search" type="button" onclick="javascript:search()"/>
+                            <input class="btn btn-primary" value="Clear" type="button" onclick="javascript:clearOut()"/>
+                        </div>
                     </div>
                 </div>
-                <br/>
-                <br/>
+            </div>
+            <br/>
+            <br/>
                 <c:if test="${makeForm.statusMessage!=null}">
                     <div class="alert alert-<c:out value="${makeForm.statusMessageType}"/>">
                         <a class="close" data-dismiss="alert" href="#" aria-hidden="true">x</a>
