@@ -85,22 +85,14 @@
                             </td>
                             <td colspan="2">&nbsp;</td>
                             <td style="text-align:right;">
-                                <label for="address1" class="control-label">
-                                    Address Line 1 :
+                                <label for="address" class="control-label">
+                                    Address Line :
                                 </label>
                             </td>
                             <td style="text-align:left;">
-                                <form:textarea path="customerVO.address1" cssClass="form-control" id="address1"/>
+                                <form:textarea path="customerVO.address" cssClass="form-control" id="address1"/>
                             </td>
-                            <td colspan="2"> &nbsp;</td>
-                            <td style="text-align:right;">
-                                <label for="address2" class="control-label">
-                                    Address Line 2 :
-                                </label>
-                            </td>
-                            <td style="text-align:left;">
-                                <form:textarea path="customerVO.address2" cssClass="form-control" id="address2"/>
-                            </td>
+                            <td colspan="4"> &nbsp;</td>
                         </tr>
                         <tr>
                             <td style="text-align:right;">

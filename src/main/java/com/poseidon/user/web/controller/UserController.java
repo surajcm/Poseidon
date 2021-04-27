@@ -17,6 +17,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -26,7 +27,9 @@ import java.io.IOException;
 import java.time.OffsetDateTime;
 import java.time.ZoneId;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
 
@@ -317,9 +320,14 @@ public class UserController {
             logger.error(e1.getLocalizedMessage());
             logger.info(UNKNOWN_ERROR);
         }
+        return allUsers();
+    }
+
+    private String allUsers() {
         List<UserVO> userList = null;
         try {
             userList = userService.getAllUserDetails();
+            // todo: return a map instead
             userList.forEach(u -> u.setPassword(""));
         } catch (UserException ex) {
             logger.error(ex.getLocalizedMessage());
@@ -377,24 +385,61 @@ public class UserController {
         String response = null;
         try {
             UserVO userVO = userService.getUserDetailsFromId(Long.valueOf(id));
-            logger.info(userVO.toString());
-            response = parseUserVO(userVO);
+            if (userVO != null) {
+                logger.info(userVO.toString());
+                Map<String, String> userEditMap = populateUserEditMap(userVO);
+                response = parseUserVO(userEditMap);
+            }
         } catch (Exception ex) {
             logger.error(ex.getLocalizedMessage(), ex);
         }
         return response;
     }
 
-    private String parseUserVO(final UserVO userVO) {
+    private Map<String, String> populateUserEditMap(final UserVO userVO) {
+        Map<String, String> userEditMap = new HashMap<>();
+        userEditMap.put("id", String.valueOf(userVO.getId()));
+        userEditMap.put("name", userVO.getName());
+        userEditMap.put("email", userVO.getEmail());
+        userEditMap.put("role", userVO.getRole());
+        return userEditMap;
+    }
+
+    private String parseUserVO(final Map<String, String> userEditMap) {
         String response;
         ObjectMapper mapper = new ObjectMapper();
         try {
-            response = mapper.writeValueAsString(userVO);
+            response = mapper.writeValueAsString(userEditMap);
         } catch (IOException ex) {
             response = ERROR;
             logger.error("error parsing to json : " + ex.getMessage());
         }
         logger.info("user list json : " + response);
         return response;
+    }
+
+    @PutMapping("/user/updateUserAjax.htm")
+    public @ResponseBody
+    String updateUserAjax(@ModelAttribute("id") final String id,
+                          @ModelAttribute("name") final String name,
+                          @ModelAttribute("email") final String email,
+                          @ModelAttribute("role") final String role,
+                      final BindingResult result) {
+        logger.info("updateUserAjax method of user controller : " + id);
+        logger.info("updateUserAjax method of user controller : " + name);
+        logger.info("updateUserAjax method of user controller : " + email);
+        logger.info("updateUserAjax method of user controller : " + role);
+        try {
+            UserVO userVO = userService.getUserDetailsFromId(Long.valueOf(id));
+            if (userVO != null) {
+                userVO.setName(name);
+                userVO.setEmail(email);
+                userVO.setRole(role);
+                userService.updateUser(userVO);
+            }
+        } catch (Exception ex) {
+            logger.error(ex.getLocalizedMessage(), ex);
+        }
+        return allUsers();
     }
 }

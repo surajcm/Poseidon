@@ -355,11 +355,11 @@ function editUser() {
         editUserModal();
         setIdForChange();
         var user_id = document.getElementById("id").value;
-        console.log("need to call ajax for the user with id: "+user_id);
         // also update the fields
         getUserForEdit();
     }
 }
+
 function editUserModal() {
     var updateModal = document.getElementById("updateModal");
     updateModal.style.display = "block";
@@ -367,11 +367,11 @@ function editUserModal() {
     detail.innerHTML = "";
 
     var formValidUser = document.createElement("form");
-    formValidUser.setAttribute("class","needs-validation");
+    formValidUser.setAttribute("class","needs-validation2");
     formValidUser.novalidate = true;
 
-    var divUserAdd = document.createElement("div");
-    divUserAdd.setAttribute("class","form-row align-items-left");
+    var divUserEdit = document.createElement("div");
+    divUserEdit.setAttribute("class","form-row align-items-left");
     var divName = document.createElement("div");
     divName.setAttribute("class","form-group col-md-4");
     var txtName = document.createElement("input");
@@ -396,7 +396,7 @@ function editUserModal() {
     divRole.setAttribute("class","form-group col-md-4");
     var selectRole = document.createElement("select");
     selectRole.setAttribute("class","form-control");
-    selectRole.setAttribute("id","addRole");
+    selectRole.setAttribute("id","updateRole");
     var adminOption = document.createElement("option");
     adminOption.text = 'ADMIN';
     adminOption.value = 'ADMIN';
@@ -407,10 +407,10 @@ function editUserModal() {
     selectRole.appendChild(guestOption);
     divRole.appendChild(selectRole);
 
-    divUserAdd.appendChild(divName);
-    divUserAdd.appendChild(divEmail);
-    divUserAdd.appendChild(divRole);
-    formValidUser.appendChild(divUserAdd);
+    divUserEdit.appendChild(divName);
+    divUserEdit.appendChild(divEmail);
+    divUserEdit.appendChild(divRole);
+    formValidUser.appendChild(divUserEdit);
     detail.appendChild(formValidUser);
 }
 
@@ -426,16 +426,108 @@ function getUserForEdit() {
     xhr.onload = function() {
         if (xhr.status === 200) {
             if (xhr.responseText != null) {
-                //rewriteTable(xhr.responseText);
                 console.log(xhr.responseText);
+                populateDataForEdit(xhr.responseText);
             }
         } else if (xhr.status !== 200) {
             console.log('Request failed.  Returned status of ' + xhr.status);
+            showEditError();
         }
     };
     xhr.send();
 }
 
+function showEditError() {
+    var detail = document.getElementById("userEditModalBody");
+    detail.innerHTML = "";
+    var updateModal = document.getElementById("updateModal");
+    updateModal.style.display = "none";
+    var divStatus = document.createElement("div");
+    divStatus.setAttribute("class","pop-status");
+    var imgSuccess = document.createElement("img");
+
+    divStatus.appendChild(imgSuccess);
+    var statusMessage = document.createElement("h3");
+    imgSuccess.setAttribute("src","/img/cross.svg");
+    statusMessage.innerHTML = "Failed to populate data !!";
+    divStatus.appendChild(statusMessage);
+    detail.appendChild(divStatus);
+}
+
+function populateDataForEdit(textReturned) {
+    var userMap = JSON.parse(textReturned);
+    document.getElementById("updateName").value = userMap.name;
+    document.getElementById("updateEmail").value = userMap.email;
+    document.getElementById("updateRole").value = userMap.role;
+}
+
 function updateFromModal() {
-    alert("Not yet implemented");
+    var updateName = document.getElementById("updateName").value;
+    var updateEmail = document.getElementById("updateEmail").value;
+    var updateRole = document.getElementById("updateRole").value;
+    var forms = document.getElementsByClassName('needs-validation2');
+    var allFieldsAreValid = true;
+
+    if (forms[0].checkValidity() === false) {
+        allFieldsAreValid = false;
+        if (updateName.length == 0) {
+            document.getElementById("updateName").setAttribute("class","form-control is-invalid");
+        } else {
+            document.getElementById("updateName").setAttribute("class","form-control was-validated");
+        }
+        if (updateEmail.length == 0) {
+            document.getElementById("updateEmail").setAttribute("class","form-control is-invalid");
+        } else {
+            document.getElementById("updateEmail").setAttribute("class","form-control was-validated");
+        }
+    }
+
+    if(allFieldsAreValid) {
+        callAjaxUpdate(updateName,updateEmail,updateRole);
+    }
+}
+
+function callAjaxUpdate(updateName,updateEmail,updateRole) {
+    var id = document.getElementById("id").value;
+    var xhr = new XMLHttpRequest();
+    xhr.open('PUT', "/user/updateUserAjax.htm",true);
+    var token = document.querySelector("meta[name='_csrf']").content;
+    var header = document.querySelector("meta[name='_csrf_header']").content;
+    xhr.setRequestHeader(header, token);
+    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    xhr.onload = function() {
+        if (xhr.status === 200) {
+            if (xhr.responseText != null) {
+                rewriteTable(xhr.responseText);
+                showUpdateStatus(true);
+            }
+        } else if (xhr.status !== 200) {
+            console.log('Request failed.  Returned status of ' + xhr.status);
+            showUpdateStatus(false);
+        }
+    };
+    xhr.send("id="+id+
+    "&name=" + updateName + "&email=" + updateEmail + "&role=" + updateRole );
+}
+
+function showUpdateStatus(status) {
+    var detail = document.getElementById("userEditModalBody");
+    detail.innerHTML = "";
+    var updateModal = document.getElementById("updateModal");
+    updateModal.style.display = "none";
+    var divStatus = document.createElement("div");
+    divStatus.setAttribute("class","pop-status");
+    var imgSuccess = document.createElement("img");
+
+    divStatus.appendChild(imgSuccess);
+    var statusMessage = document.createElement("h3");
+    if(status) {
+        imgSuccess.setAttribute("src","/img/tick.png");
+        statusMessage.innerHTML = "Successfully updated the user !!";
+    } else {
+        imgSuccess.setAttribute("src","/img/cross.svg");
+        statusMessage.innerHTML = "Failed to update !!";
+    }
+    divStatus.appendChild(statusMessage);
+    detail.appendChild(divStatus);
 }

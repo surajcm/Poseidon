@@ -13,4 +13,5 @@
 * UI enhancements (checkbox replacement, better drop-down, alert using bootstrap popup)
 * Don't invoice twice.
 * Replace home page with a Dashboard
+* Pagination
 

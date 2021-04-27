@@ -90,23 +90,14 @@
                         <td colspan="2">&nbsp;</td>
                         <td style="text-align:right;">
                             <label for="address1" class="control-label">
-                                Address Line 1 :
+                                Address:
                             </label>
                         </td>
                         <td style="text-align:left;">
-                            <form:textarea path="customerVO.address1" cssStyle="background: #A9A9A9 ;" cssClass="form-control"
-                                           id="address1" readonly="true"/>
+                            <form:textarea path="customerVO.address" cssStyle="background: #A9A9A9 ;" cssClass="form-control"
+                                           id="address" readonly="true"/>
                         </td>
-                        <td colspan="2"> &nbsp;</td>
-                        <td style="text-align:right;">
-                            <label for="address2" class="control-label">
-                                Address Line 2 :
-                            </label>
-                        </td>
-                        <td style="text-align:left;">
-                            <form:textarea path="customerVO.address2" cssStyle="background: #A9A9A9 ;" cssClass="form-control"
-                                           id="address2" readonly="true"/>
-                        </td>
+                        <td colspan="4"> &nbsp;</td>
                     </tr>
                     <tr>
                         <td style="text-align:right;">

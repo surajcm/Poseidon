@@ -162,6 +162,7 @@ public class UserDAOImpl implements UserDAO {
                 user.setPassword(userVO.getPassword());
                 user.setRole(userVO.getRole());
                 user.setModifiedBy(userVO.getLastModifiedBy());
+                userRepository.save(user);
             }
         } catch (Exception ex) {
             throw new UserException(UserException.DATABASE_ERROR);
