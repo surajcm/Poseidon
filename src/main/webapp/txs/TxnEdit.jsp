@@ -64,20 +64,7 @@
                     <tr>
                         <td colspan="10"> &nbsp;</td>
                     </tr>
-                    <tr>
-                        <td style="text-align:right;">
-                            <label for="customerId" class="control-label">Customer Id :</label>
-                            <label class="mandatory">*</label>
-                        </td>
-                        <td style="text-align:left;">
-                            <form:input path="customerVO.customerId" id="customerId" cssClass="form-control"/>
-                        </td>
-                        <td colspan="2"> &nbsp;</td>
-                        <td colspan="2">
-                            <input class="btn btn-primary" value="Edit Customer Details" type="button" onclick="javascript:editThisCustomer();"/>
-                        </td>
-                        <td colspan="4"> &nbsp;</td>
-                    </tr>
+                    
                     <tr>
                         <td style="text-align:right;">
                             <label for="customerName" class="control-label">
@@ -88,38 +75,9 @@
                             <form:input path="customerVO.customerName" id="customerName" cssStyle="background: #A9A9A9 ;" cssClass="form-control" readonly="true"/>
                         </td>
                         <td colspan="2">&nbsp;</td>
-                        <td style="text-align:right;">
-                            <label for="address1" class="control-label">
-                                Address:
-                            </label>
-                        </td>
-                        <td style="text-align:left;">
-                            <form:textarea path="customerVO.address" cssStyle="background: #A9A9A9 ;" cssClass="form-control"
-                                           id="address" readonly="true"/>
-                        </td>
-                        <td colspan="4"> &nbsp;</td>
-                    </tr>
-                    <tr>
-                        <td style="text-align:right;">
-                            <label for="phoneNo" class="control-label">
-                                Phone :
-                            </label>
-                        </td>
-                        <td style="text-align:left;">
-                            <form:input path="customerVO.phoneNo" cssStyle="background: #A9A9A9 ;" cssClass="form-control"
-                                        id="phoneNo" readonly="true"/>
-                        </td>
-                        <td colspan="2">&nbsp;</td>
-                        <td style="text-align:right;">
-                            <label for="mobile" class="control-label">
-                                Mobile :
-                            </label>
-                        </td>
-                        <td style="text-align:left;">
-                            <form:input path="customerVO.mobile" cssStyle="background: #A9A9A9 ;" cssClass="form-control"
-                                        id="mobile" readonly="true"/>
-                        </td>
-                        <td colspan="2">&nbsp;</td>
+                        
+                        
+                        
                         <td style="text-align:right;">
                             <label for="email" class="control-label">
                                 Email :
@@ -129,6 +87,13 @@
                             <form:input path="customerVO.email" cssStyle="background: #A9A9A9 ;" cssClass="form-control"
                                         id="email" readonly="true"/>
                         </td>
+                        
+                        <td colspan="2">&nbsp;</td>
+                        
+                        <td colspan="2">
+                            <input class="btn btn-primary" value="Edit Customer Details" type="button" onclick="javascript:editThisCustomer();"/>
+                        </td>
+                        
                     </tr>
                     <tr>
                         <td colspan="10">&nbsp;</td>
