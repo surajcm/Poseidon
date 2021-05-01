@@ -23,15 +23,15 @@ jobs:
 
     steps:
       - checkout
-
-      # Download and cache dependencies
-      - restore_cache:
-          keys:
-            - v1-dependencies-{{ checksum "build.gradle" }}
-            # fallback to using the latest cache if no exact match is found
-            - v1-dependencies-
-
       - run: gradle wrapper --gradle-version=7.0
+      # Download and cache dependencies
+      #- restore_cache:
+      #    keys:
+      #      - v1-dependencies-{{ checksum "build.gradle" }}
+      #      # fallback to using the latest cache if no exact match is found
+      #      - v1-dependencies-
+
+      
       - run: gradle dependencies
 
       - save_cache:
