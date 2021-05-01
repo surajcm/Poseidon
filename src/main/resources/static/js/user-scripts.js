@@ -292,14 +292,14 @@ function resetUser() {
         setIdForChange();
         //submit ajax request for resetting password !!!
         console.log("going to reset password on : "+ document.getElementById("id").value);
-        ajaxPasswordReset();
+        ajaxPasswordExpire();
     }
 }
 
-function ajaxPasswordReset() {
+function ajaxPasswordExpire() {
     var id = document.getElementById("id").value;
     var xhr = new XMLHttpRequest();
-    xhr.open('POST', "/user/passwordReset.htm",true);
+    xhr.open('POST', "/user/passwordExpire.htm",true);
     var token = document.querySelector("meta[name='_csrf']").content;
     var header = document.querySelector("meta[name='_csrf_header']").content;
     xhr.setRequestHeader(header, token);

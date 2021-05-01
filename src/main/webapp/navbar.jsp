@@ -31,6 +31,8 @@
                     </c:otherwise>
                 </c:choose>
                 <div class="dropdown-menu" aria-labelledby="dropdownMenu1">
+                    // fix alignment
+                    <a href="#" class="dropdown-item" onclick="javascript:resetPassword();">Reset Password</a>
                     <a href="#" class="dropdown-item" onclick="javascript:LogMeOut();">Log Out</a>
                 </div>
             </li>

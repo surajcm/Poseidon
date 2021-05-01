@@ -1,6 +1,5 @@
 ## Things to do
-* User edit on modal
-* Fix issues with model edit, as id is not currently selected.
+* Model edit, on Modal
 * email / phone no validation at create customer / transactions pages
 * Remove add model screen and move the logic to the listing screen
 * Combine Make & Model screen , its add /edit/updates.
@@ -14,4 +13,5 @@
 * Don't invoice twice.
 * Replace home page with a Dashboard
 * Pagination
-
+* Model search drop-down - disable it by default, enable only when make is selected
+* Search on transaction screen is partially broken

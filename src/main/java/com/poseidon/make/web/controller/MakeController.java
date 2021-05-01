@@ -118,7 +118,6 @@ public class MakeController {
         makeForm.setLoggedInRole(makeForm.getLoggedInRole());
         makeForm.setLoggedInUser(makeForm.getLoggedInUser());
         return new ModelAndView("make/MakeList", MAKE_FORM, makeForm);
-
     }
 
     /**

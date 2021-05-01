@@ -9,23 +9,25 @@ import com.poseidon.transaction.domain.TransactionVO;
 import com.poseidon.transaction.exception.TransactionException;
 import com.poseidon.transaction.service.TransactionService;
 import com.poseidon.transaction.web.form.TransactionForm;
+import org.codehaus.jackson.map.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.time.OffsetDateTime;
 import java.time.ZoneId;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
@@ -372,38 +374,42 @@ public class TransactionController {
     /**
      * update model drop down via ajax.
      *
-     * @param httpServletRequest  req
-     * @param httpServletResponse res
+     * @param selectMakeId selectMakeId
      */
-    @RequestMapping(value = "/txs/UpdateModelAjax.htm", method = {RequestMethod.GET, RequestMethod.POST})
-    public void updateModelAjax(final HttpServletRequest httpServletRequest,
-                                final HttpServletResponse httpServletResponse) {
+    @GetMapping(value = "/txs/UpdateModelAjax.htm")
+    public @ResponseBody
+    String updateModelAjax(@ModelAttribute("selectMakeId") final String selectMakeId) {
         String responseString = "";
-        String selectMakeId = httpServletRequest.getParameter("selectMakeId");
-        //get all the models for this make id
         LOG.info(" At UpdateModelAjax, selectMakeId is : {}", selectMakeId);
         List<MakeAndModelVO> makeAndModelVOs;
         try {
             makeAndModelVOs = makeService.getAllModelsFromMakeId(Long.valueOf(selectMakeId));
             if (makeAndModelVOs != null && !makeAndModelVOs.isEmpty()) {
-                responseString = makeAndModelVOs.stream()
-                        .map(makeAndModelVO -> "#start#" + "#id#" + makeAndModelVO.getModelId()
-                                + "#id#" + "#modelName#" + makeAndModelVO.getModelName()
-                                + "#modelName#" + "#start#").collect(Collectors.joining());
+                responseString = makeAndModelJson(makeAndModelVOs);
             }
         } catch (Exception ex) {
             LOG.error(ex.getLocalizedMessage());
+        }
+        return responseString;
+    }
 
+    private String makeAndModelJson(final List<MakeAndModelVO> makeAndModelVOs) {
+        String response;
+        List<Map<String, String>> makeAndModelList = new ArrayList<>();
+        for (MakeAndModelVO makeAndModelVO : makeAndModelVOs) {
+            Map<String, String> mmMap = new HashMap<>();
+            mmMap.put("id", String.valueOf(makeAndModelVO.getModelId()));
+            mmMap.put("modelName", makeAndModelVO.getModelName());
+            makeAndModelList.add(mmMap);
         }
-        // get a id-name combination, which is splittable by js
-        httpServletResponse.setContentType("text/plain");
-        PrintWriter out;
+        ObjectMapper mapper = new ObjectMapper();
         try {
-            out = httpServletResponse.getWriter();
-            out.print(responseString);
-            out.flush();
+            response = mapper.writeValueAsString(makeAndModelList);
         } catch (IOException ex) {
-            LOG.error(ex.getLocalizedMessage());
+            response = ERROR;
+            LOG.error("error parsing to json : " + ex.getMessage());
         }
+        LOG.info("response json : " + response);
+        return response;
     }
 }

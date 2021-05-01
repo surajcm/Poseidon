@@ -1,4 +1,4 @@
-# Java Gradle CircleCI 2.0 configuration file
+./# Java Gradle CircleCI 2.0 configuration file
 #
 # Check https://circleci.com/docs/2.0/language-java/ for more details
 #
@@ -7,7 +7,7 @@ jobs:
   build:
     docker:
       # specify the version you desire here
-      - image: circleci/openjdk:14-jdk-buster
+      - image: circleci/openjdk:16-jdk-buster
 
       # Specify service dependencies here if necessary
       # CircleCI maintains a library of pre-built images
@@ -31,7 +31,7 @@ jobs:
             # fallback to using the latest cache if no exact match is found
             - v1-dependencies-
 
-      - run: gradle wrapper --gradle-version=6.5
+      - run: gradle wrapper --gradle-version=7.0
       - run: gradle dependencies
 
       - save_cache:

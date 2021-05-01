@@ -363,9 +363,9 @@ public class UserController {
         return response;
     }
 
-    @PostMapping("/user/passwordReset.htm")
+    @PostMapping("/user/passwordExpire.htm")
     public @ResponseBody
-    Boolean passwordReset(@ModelAttribute("id") final String id,
+    Boolean passwordExpiry(@ModelAttribute("id") final String id,
                           final BindingResult result) {
         Boolean status = Boolean.TRUE;
         try {
@@ -441,5 +441,11 @@ public class UserController {
             logger.error(ex.getLocalizedMessage(), ex);
         }
         return allUsers();
+    }
+
+    @PostMapping("/user/PasswordReset.htm")
+    public ModelAndView makeList(final UserForm userForm) {
+        logger.info(" password reset view of user controller");
+        return new ModelAndView("user/PasswordReset", USER_FORM, userForm);
     }
 }

@@ -26,7 +26,7 @@ function cancel() {
 }
 function editThisCustomer(){
     if(document.getElementById("customerId") != null){
-        document.forms[0].action = "${contextPath}/customer/editCustomer.htm"+
+        document.forms[0].action = "/customer/editCustomer.htm"+
                 "?customerId=" +document.getElementById("customerId").value;
         document.forms[0].submit();
     }else{
@@ -36,7 +36,7 @@ function editThisCustomer(){
 
 function changeTheModel() {
     var selectMakeId = document.transactionForm.makeId.value;
-    var url = "${contextPath}/txs/UpdateModelAjax.htm";
+    var url = "/txs/UpdateModelAjax.htm";
     url = url + "?selectMakeId=" + selectMakeId;
     bustcacheparameter = (url.indexOf("?") != -1) ? "&" + new Date().getTime() : "?" + new Date().getTime();
     createAjaxRequest();

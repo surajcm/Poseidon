@@ -88,7 +88,9 @@
                                         id="email" readonly="true"/>
                         </td>
                         
-                        <td colspan="2">&nbsp;</td>
+                        <td colspan="2">
+                            <form:hidden path="customerVO.customerId" id="customerId"/>
+                        </td>
                         
                         <td colspan="2">
                             <input class="btn btn-primary" value="Edit Customer Details" type="button" onclick="javascript:editThisCustomer();"/>

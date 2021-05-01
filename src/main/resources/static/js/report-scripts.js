@@ -54,7 +54,7 @@ function changeTheTxnModel(){
 }
 
 function changeTheModel(){
-    var selectMakeId = document.forms[0].makeId.value;
+    var selectMakeId = document.getElementById('makeId').value;
     var url = "${contextPath}/txs/UpdateModelAjax.htm";
     url = url + "?selectMakeId=" + selectMakeId;
     bustcacheparameter = (url.indexOf("?") != -1) ? "&" + new Date().getTime() : "?" + new Date().getTime();

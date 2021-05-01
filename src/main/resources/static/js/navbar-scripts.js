@@ -13,6 +13,11 @@ function LogMeOut() {
     document.forms[0].submit();
 }
 
+function resetPassword() {
+    document.forms[0].action="/user/PasswordReset.htm";
+    document.forms[0].submit();
+}
+
 function MakeMe() {
     document.forms[0].action="/make/ModelList.htm";
     document.forms[0].submit();
