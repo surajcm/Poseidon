@@ -1,10 +1,11 @@
 ## Things to do
+* password reset functionality
+* password expiry functionality
 * Model edit, on Modal
 * email / phone no validation at create customer / transactions pages
 * Remove add model screen and move the logic to the listing screen
 * Combine Make & Model screen , its add /edit/updates.
 * Fix the issue with model addition, in which we can't have more than one model for a single make
-* password expiry / reset functionality
 * Better login page with customer registration.
 * Internationalization support
 * Include add image button and functionality at company details page

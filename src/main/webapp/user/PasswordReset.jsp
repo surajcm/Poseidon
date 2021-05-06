@@ -29,26 +29,50 @@
         <form:hidden name="loggedInUser" path="loggedInUser" />
         <form:hidden name="loggedInRole" path="loggedInRole" />
         <%@include file="../navbar.jsp" %>
-        <div class="container">
-            <div class="wrap">
-                <c:if test="${userForm.statusMessage!=null}">
-                    <div class="alert alert-<c:out value='${userForm.statusMessageType}'/>">
-                        <a class="close" data-dismiss="alert" href="#" aria-hidden="true">x</a>
-                        <c:out value="${userForm.statusMessage}"/>
-                    </div>
-                </c:if>
-                <div class="panel panel-primary">
-                    <div class="panel-heading">
-                    Reset Password
-                    </div>
-                    <div class="form-row">
-                        <div class="form-group">
-                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#newUserModal"
-                                onclick="javascript:addNewUser()">Reset password</button>
-                            <button type="button" class="btn btn-primary" onclick="javascript:editMe()">
-                                Cancel
-                            </button>
+        <c:if test="${userForm.statusMessage!=null}">
+            <div class="alert alert-<c:out value='${userForm.statusMessageType}'/>">
+                <a class="close" data-dismiss="alert" href="#" aria-hidden="true">x</a>
+                <c:out value="${userForm.statusMessage}"/>
+            </div>
+        </c:if>
+        <div class="row paddingBottom20">
+            <div class="container col-4">
+                <div class="row">
+                    <h6 class="text-center col-12 mb-0">Reset Password</h6>
+                    <sub class="text-right text-muted col-12"><a href="#" tabindex="-1"><i class="far fa-edit"></i></a></sub>
+                </div>
+                <div class="dropdown-divider mb-3"></div>
+                <div class="form-group row">
+                    <label for="current" class="col-4 col-form-label-sm text-right">Current Password:</label>
+                    <div class="col-8">
+                        <div class="input-group">
+                            <input id="current" name="text" type="password" class="form-control form-control-sm" />
                         </div>
+                    </div>
+                </div>
+                <div class="form-group row align-items-center">
+                    <label for="newPass" class="col-4 col-form-label-sm text-right">New Password:</label>
+                    <div class="col-8">
+                      <div class="input-group">
+                        <input id="newPass" name="text" type="password" class="form-control form-control-sm" />
+                      </div>
+                    </div>
+                </div>
+                <div class="form-group row align-items-center">
+                    <label for="repeat" class="col-4 col-form-label-sm text-right">Repeat Password:</label>
+                    <div class="col-8">
+                      <div class="input-group">
+                        <input id="repeat" name="text" type="password" class="form-control form-control-sm" />
+                      </div>
+                    </div>
+                </div>
+                <div class="form-group row align-items-center">
+                    <label for="save" class="col-4 col-form-label-sm text-right"></label>
+                    <div class="col-8">
+                      <div class="form-group">
+                        <button type="button" class="btn btn-primary" onclick="javascript:addNewUser()">Reset password</button>
+                        <button type="button" class="btn btn-primary" onclick="javascript:editMe()">Cancel</button>
+                      </div>
                     </div>
                 </div>
             </div>
