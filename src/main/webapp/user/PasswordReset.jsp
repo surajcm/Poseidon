@@ -19,7 +19,7 @@
     <link rel="stylesheet" href="/css/bootstrap.min.css"  type="text/css" />
     <link rel="stylesheet" href="/css/custom.css" type="text/css" />
     <title>Password Reset</title>
-    <script type="text/javascript" src="/js/user-scripts.js"></script>
+    <script type="text/javascript" src="/js/password-reset-scripts.js"></script>
     <script type="text/javascript" src="/js/navbar-scripts.js"></script>
 </head>
 <body onload="javascript:hideAlerts()">
@@ -70,8 +70,8 @@
                     <label for="save" class="col-4 col-form-label-sm text-right"></label>
                     <div class="col-8">
                       <div class="form-group">
-                        <button type="button" class="btn btn-primary" onclick="javascript:addNewUser()">Reset password</button>
-                        <button type="button" class="btn btn-primary" onclick="javascript:editMe()">Cancel</button>
+                        <button type="button" class="btn btn-primary" onclick="javascript:resetPassword()">Reset password</button>
+                        <button type="button" class="btn btn-primary" onclick="javascript:clearAll()">Cancel</button>
                       </div>
                     </div>
                 </div>

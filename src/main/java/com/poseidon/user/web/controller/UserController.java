@@ -10,6 +10,7 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -446,6 +447,8 @@ public class UserController {
     @PostMapping("/user/PasswordReset.htm")
     public ModelAndView makeList(final UserForm userForm) {
         logger.info(" password reset view of user controller");
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+        logger.info(auth.getDetails().toString());
         return new ModelAndView("user/PasswordReset", USER_FORM, userForm);
     }
 }
