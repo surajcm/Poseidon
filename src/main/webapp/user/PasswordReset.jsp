@@ -22,21 +22,23 @@
     <script type="text/javascript" src="/js/password-reset-scripts.js"></script>
     <script type="text/javascript" src="/js/navbar-scripts.js"></script>
 </head>
-<body onload="javascript:hideAlerts()">
+<body onload="hideAlerts()">
     <form:form method="POST" action="listAll.htm" modelAttribute="userForm">
         <input type="hidden" name="id" id="id" />
         <input type="hidden" name="addInProgress" id="addInProgress" />
         <form:hidden name="loggedInUser" path="loggedInUser" />
         <form:hidden name="loggedInRole" path="loggedInRole" />
         <%@include file="../navbar.jsp" %>
-        <c:if test="${userForm.statusMessage!=null}">
-            <div class="alert alert-<c:out value='${userForm.statusMessageType}'/>">
-                <a class="close" data-dismiss="alert" href="#" aria-hidden="true">x</a>
-                <c:out value="${userForm.statusMessage}"/>
-            </div>
-        </c:if>
         <div class="row paddingBottom20">
             <div class="container col-4">
+                <div id="status" >
+                    <c:if test="${userForm.statusMessage!=null}">
+                        <div class="alert alert-<c:out value='${userForm.statusMessageType}'/>">
+                            <a class="close" data-dismiss="alert" href="#" aria-hidden="true">x</a>
+                            <c:out value="${userForm.statusMessage}"/>
+                        </div>
+                    </c:if>
+                </div>
                 <div class="row">
                     <h6 class="text-center col-12 mb-0">Reset Password</h6>
                     <sub class="text-right text-muted col-12"><a href="#" tabindex="-1"><i class="far fa-edit"></i></a></sub>
@@ -70,7 +72,7 @@
                     <label for="save" class="col-4 col-form-label-sm text-right"></label>
                     <div class="col-8">
                       <div class="form-group">
-                        <button type="button" class="btn btn-primary" onclick="javascript:resetPassword()">Reset password</button>
+                        <button type="button" class="btn btn-primary" onclick="javascript:passwordChange()">Reset password</button>
                         <button type="button" class="btn btn-primary" onclick="javascript:clearAll()">Cancel</button>
                       </div>
                     </div>
