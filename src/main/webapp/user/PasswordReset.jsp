@@ -23,11 +23,9 @@
     <script type="text/javascript" src="/js/navbar-scripts.js"></script>
 </head>
 <body onload="hideAlerts()">
-    <form:form method="POST" action="listAll.htm" modelAttribute="userForm">
+    <form method="POST" action="listAll.htm" class="needs-validation" novalidate>
         <input type="hidden" name="id" id="id" />
         <input type="hidden" name="addInProgress" id="addInProgress" />
-        <form:hidden name="loggedInUser" path="loggedInUser" />
-        <form:hidden name="loggedInRole" path="loggedInRole" />
         <%@include file="../navbar.jsp" %>
         <div class="row paddingBottom20">
             <div class="container col-4">
@@ -48,7 +46,8 @@
                     <label for="current" class="col-4 col-form-label-sm text-right">Current Password:</label>
                     <div class="col-8">
                         <div class="input-group">
-                            <input id="current" name="text" type="password" class="form-control form-control-sm" />
+                            <input id="current" name="text" type="password" class="form-control form-control-sm" required/>
+                            <div class="invalid-tooltip">Please fill out current password</div>
                         </div>
                     </div>
                 </div>
@@ -56,7 +55,8 @@
                     <label for="newPass" class="col-4 col-form-label-sm text-right">New Password:</label>
                     <div class="col-8">
                       <div class="input-group">
-                        <input id="newPass" name="text" type="password" class="form-control form-control-sm" />
+                        <input id="newPass" name="text" type="password" class="form-control form-control-sm" required/>
+                        <div class="invalid-tooltip">Please fill out current password</div>
                       </div>
                     </div>
                 </div>
@@ -64,16 +64,17 @@
                     <label for="repeat" class="col-4 col-form-label-sm text-right">Repeat Password:</label>
                     <div class="col-8">
                       <div class="input-group">
-                        <input id="repeat" name="text" type="password" class="form-control form-control-sm" />
+                        <input id="repeat" name="text" type="password" class="form-control form-control-sm" required/>
+                        <div class="invalid-tooltip">Please fill out current password</div>
                       </div>
                     </div>
                 </div>
                 <div class="form-group row align-items-center">
-                    <label for="save" class="col-4 col-form-label-sm text-right"></label>
+                    <label for="reset" class="col-4 col-form-label-sm text-right"></label>
                     <div class="col-8">
                       <div class="form-group">
-                        <button type="button" class="btn btn-primary" onclick="javascript:passwordChange()">Reset password</button>
-                        <button type="button" class="btn btn-primary" onclick="javascript:clearAll()">Cancel</button>
+                        <button type="button" id="reset" class="btn btn-primary" onclick="passwordChange()">Reset password</button>
+                        <button type="button" class="btn btn-primary" onclick="clearAll()">Cancel</button>
                       </div>
                     </div>
                 </div>
@@ -90,6 +91,6 @@
                 });
             });
         </script>
-    </form:form>
+    </form>
 </body>
 </html>

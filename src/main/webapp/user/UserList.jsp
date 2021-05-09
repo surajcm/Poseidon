@@ -106,7 +106,7 @@
                         <tbody>
                             <c:forEach items="${userForm.userVOs}" var="iterationUser">
                                 <tr>
-                                    <td><input type="checkbox" name="checkField" onclick="javascript:checkCall(this)"
+                                    <td><input type="checkbox" name="checkField" onclick="checkCall(this)"
                                                value='<c:out value="${iterationUser.id}" />' /></td>
                                     <td><c:out value="${iterationUser.name}" /></td>
                                     <td><c:out value="${iterationUser.email}" /></td>
@@ -119,17 +119,17 @@
                         <div class="form-group">
                             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#newUserModal" 
                                 onclick="javascript:addNewUser()">Add New User</button>
-                            <button type="button" class="btn btn-primary" onclick="javascript:editMe()">
+                            <button type="button" class="btn btn-primary" onclick="editMe()">
                                 <spring:message code='poseidon.edit' text='Edit User' />
                             </button>
                             <button type="button" class="btn btn-primary"  data-toggle="modal" data-target="#editUserModal"
                                 onclick="javascript:editUser()">
                                 <spring:message code='poseidon.edit' text='Edit User 2' />
                             </button>
-                            <button type="button" class="btn btn-primary" onclick="javascript:deleteUser()">
+                            <button type="button" class="btn btn-primary" onclick="deleteUser()">
                                 <spring:message code='poseidon.delete' text='Delete User' />
                             </button>
-                            <button type="button" class="btn btn-primary" onclick="javascript:resetUser()">
+                            <button type="button" class="btn btn-primary" onclick="resetUser()">
                                 Reset Password
                             </button>
                         </div>
@@ -148,7 +148,7 @@
                         <p>Lets add some users....</p>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" id="saveModal" class="btn btn-default" onclick="javascript:saveFromModal()">Save</button>
+                        <button type="button" id="saveModal" class="btn btn-default" onclick="saveFromModal()">Save</button>
                     </div>
                 </div>
             </div>
@@ -164,7 +164,7 @@
                         <p>Lets edit the user</p>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" id="updateModal" class="btn btn-default" onclick="javascript:updateFromModal()">Update</button>
+                        <button type="button" id="updateModal" class="btn btn-default" onclick="updateFromModal()">Update</button>
                     </div>
                 </div>
             </div>
