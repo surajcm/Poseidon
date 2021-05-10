@@ -46,7 +46,7 @@
                     <label for="current" class="col-4 col-form-label-sm text-right">Current Password:</label>
                     <div class="col-8">
                         <div class="input-group">
-                            <input id="current" name="text" type="password" class="form-control form-control-sm" required/>
+                            <input id="current" name="text" type="password" class="form-control form-control-sm" onkeypress="clearMessage();" required/>
                             <div class="invalid-tooltip">Please fill out current password</div>
                         </div>
                     </div>
@@ -55,8 +55,8 @@
                     <label for="newPass" class="col-4 col-form-label-sm text-right">New Password:</label>
                     <div class="col-8">
                       <div class="input-group">
-                        <input id="newPass" name="text" type="password" class="form-control form-control-sm" required/>
-                        <div class="invalid-tooltip">Please fill out current password</div>
+                        <input id="newPass" name="text" type="password" class="form-control form-control-sm" onkeypress="clearMessage();" required/>
+                        <div id="newPass_message" class="invalid-tooltip">Please fill out new password</div>
                       </div>
                     </div>
                 </div>
@@ -64,8 +64,8 @@
                     <label for="repeat" class="col-4 col-form-label-sm text-right">Repeat Password:</label>
                     <div class="col-8">
                       <div class="input-group">
-                        <input id="repeat" name="text" type="password" class="form-control form-control-sm" required/>
-                        <div class="invalid-tooltip">Please fill out current password</div>
+                        <input id="repeat" name="text" type="password" class="form-control form-control-sm" onkeypress="clearMessage();" required/>
+                        <div id="repeat_message" class="invalid-tooltip">Please fill out repeat password</div>
                       </div>
                     </div>
                 </div>

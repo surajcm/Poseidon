@@ -57,7 +57,7 @@ public class TransactionDAOImpl implements TransactionDAO {
     @Override
     public List<TransactionVO> listAllTransactions() throws TransactionException {
         try {
-            List<Transaction> transactions = transactionRepository.findAll();
+            var transactions = transactionRepository.findAll();
             return transactions.stream().map(this::convertToVO).collect(Collectors.toList());
         } catch (Exception ex) {
             LOG.error(ex.getLocalizedMessage());
@@ -72,7 +72,7 @@ public class TransactionDAOImpl implements TransactionDAO {
     public List<TransactionVO> listTodaysTransactions() throws TransactionException {
         List<TransactionVO> transactionVOS;
         try {
-            List<Transaction> transactions = transactionRepository.todaysTransaction();
+            var transactions = transactionRepository.todaysTransaction();
             transactionVOS = transactions.stream().map(this::convertToVO).collect(Collectors.toList());
         } catch (Exception ex) {
             throw new TransactionException(TransactionException.DATABASE_ERROR);
@@ -89,9 +89,9 @@ public class TransactionDAOImpl implements TransactionDAO {
     @Override
     public String saveTransaction(final TransactionVO currentTransaction) throws TransactionException {
         try {
-            Transaction txn = getTransaction(currentTransaction);
-            Transaction newTxn = transactionRepository.save(txn);
-            String tagNo = "WON2N" + newTxn.getTransactionId();
+            var txn = getTransaction(currentTransaction);
+            var newTxn = transactionRepository.save(txn);
+            var tagNo = "WON2N" + newTxn.getTransactionId();
             newTxn.setTagno(tagNo);
             transactionRepository.save(newTxn);
             return tagNo;
@@ -110,7 +110,7 @@ public class TransactionDAOImpl implements TransactionDAO {
     public TransactionVO fetchTransactionFromId(final Long id) throws TransactionException {
         TransactionVO transactionVO = null;
         try {
-            Optional<Transaction> optionalTransaction = transactionRepository.findById(id);
+            var optionalTransaction = transactionRepository.findById(id);
             if (optionalTransaction.isPresent()) {
                 transactionVO = convertToVO(optionalTransaction.get());
             }
@@ -129,9 +129,9 @@ public class TransactionDAOImpl implements TransactionDAO {
     @Override
     public void updateTransaction(final TransactionVO currentTransaction) throws TransactionException {
         try {
-            Optional<Transaction> optionalTransaction = transactionRepository.findById(currentTransaction.getId());
+            var optionalTransaction = transactionRepository.findById(currentTransaction.getId());
             if (optionalTransaction.isPresent()) {
-                Transaction txn = convertToTXN(optionalTransaction.get(), currentTransaction);
+                var txn = convertToTXN(optionalTransaction.get(), currentTransaction);
                 transactionRepository.save(txn);
             }
         } catch (Exception ex) {
@@ -164,7 +164,7 @@ public class TransactionDAOImpl implements TransactionDAO {
     public TransactionReportVO fetchTransactionFromTag(final String tagNo) throws TransactionException {
         TransactionReportVO transactionReportVO;
         try {
-            Transaction transaction = transactionRepository.findBytagno(tagNo);
+            var transaction = transactionRepository.findBytagno(tagNo);
             transactionReportVO = convertToTransactionReportVO(transaction);
         } catch (Exception ex) {
             LOG.error(ex.getLocalizedMessage());
@@ -182,9 +182,9 @@ public class TransactionDAOImpl implements TransactionDAO {
     @Override
     public void updateTransactionStatus(final Long id, final String status) throws TransactionException {
         try {
-            Optional<Transaction> optionalTransaction = transactionRepository.findById(id);
+            var optionalTransaction = transactionRepository.findById(id);
             if (optionalTransaction.isPresent()) {
-                Transaction txn = optionalTransaction.get();
+                var txn = optionalTransaction.get();
                 txn.setStatus(status);
                 transactionRepository.save(txn);
             }
@@ -387,7 +387,7 @@ public class TransactionDAOImpl implements TransactionDAO {
     }
 
     private OffsetDateTime parseDate(final String dateReported) {
-        OffsetDateTime parsedTime = OffsetDateTime.now(ZoneId.systemDefault());
+        var parsedTime = OffsetDateTime.now(ZoneId.systemDefault());
         try {
             parsedTime = OffsetDateTime.parse(dateReported);
         } catch (Exception ex) {
@@ -397,12 +397,12 @@ public class TransactionDAOImpl implements TransactionDAO {
     }
 
     private TransactionReportVO convertToTransactionReportVO(final Transaction transaction) {
-        TransactionReportVO txs = new TransactionReportVO();
+        var txs = new TransactionReportVO();
         txs.setId(transaction.getTransactionId());
         txs.setTagNo(transaction.getTagno());
         txs.setDateReported(transaction.getDateReported());
         txs.setCustomerId(transaction.getCustomerId());
-        Optional<Customer> customerOpt = customerRepository.findById(transaction.getCustomerId());
+        var customerOpt = customerRepository.findById(transaction.getCustomerId());
         if (customerOpt.isPresent()) {
             Customer customer = customerOpt.get();
             txs.setCustomerName(customer.getName());
@@ -448,7 +448,7 @@ public class TransactionDAOImpl implements TransactionDAO {
     }
 
     private OffsetDateTime getParsedDate(final String dateReported) {
-        OffsetDateTime reported = OffsetDateTime.now(ZoneId.systemDefault());
+        var reported = OffsetDateTime.now(ZoneId.systemDefault());
         try {
             reported = LocalDate.parse(dateReported, DateTimeFormatter.ofPattern("MM/dd/yyyy"))
                     .atTime(OffsetTime.MIN);

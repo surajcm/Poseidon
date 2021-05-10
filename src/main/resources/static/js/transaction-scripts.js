@@ -6,10 +6,10 @@ function addNew() {
 }
 //preventing multiple checks
 function checkCall(e) {
-    var min = e.value;
-    var checks = document.getElementsByName('checkField');
-    for (var i = 0; i < checks.length; i++) {
-        if (checks[i].value != min) {
+    let min = e.value;
+    let checks = document.getElementsByName('checkField');
+    for (let i = 0; i < checks.length; i++) {
+        if (checks[i].value !== min) {
             checks[i].checked = false;
         }
     }
@@ -60,7 +60,7 @@ function changeTheModel() {
 
 function stateChange(textReturned) {
     console.log("Received :"+textReturned);
-    if(textReturned != "") {
+    if(textReturned !== "") {
         var mmList = JSON.parse(textReturned);
         document.forms[0].modelId.options.length = mmList - 1;
         document.forms[0].modelId.options[0] = new Option("<-- Select -->", "");

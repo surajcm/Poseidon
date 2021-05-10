@@ -15,7 +15,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -47,7 +46,7 @@ public class MakeDaoImpl implements MakeDao {
     public List<MakeAndModelVO> listAllMakes() throws MakeException {
         List<MakeAndModelVO> makeVOs;
         try {
-            List<Make> makes = makeRepository.findAll();
+            var makes = makeRepository.findAll();
             makeVOs = makeAndModelEntityConverter.convertMakeToMakeAndModelVOs(makes);
         } catch (DataAccessException ex) {
             LOG.error(ex.getLocalizedMessage());
@@ -66,7 +65,7 @@ public class MakeDaoImpl implements MakeDao {
     public List<MakeAndModelVO> listAllMakesAndModels() throws MakeException {
         List<MakeAndModelVO> makeAndModelVOS;
         try {
-            List<Model> models = modelRepository.findAll();
+            var models = modelRepository.findAll();
             //todo: better MakeAndModelVO to render things in a better way
             makeAndModelVOS = makeAndModelEntityConverter.convertModelsToMakeAndModelVOs(models);
         } catch (DataAccessException ex) {
@@ -103,7 +102,7 @@ public class MakeDaoImpl implements MakeDao {
     public void updateMake(final MakeAndModelVO currentMakeVo) throws MakeException {
         try {
             Make make = makeAndModelEntityConverter.convertToMake(currentMakeVo);
-            Optional<Make> optionalMake = makeRepository.findById(currentMakeVo.getMakeId());
+            var optionalMake = makeRepository.findById(currentMakeVo.getMakeId());
             if (optionalMake.isPresent()) {
                 Make newMake = optionalMake.get();
                 newMake.setMakeName(make.getMakeName());
@@ -128,7 +127,7 @@ public class MakeDaoImpl implements MakeDao {
     public MakeAndModelVO getMakeFromId(final Long makeId) throws MakeException {
         MakeAndModelVO makeVO = null;
         try {
-            Optional<Make> optionalMake = makeRepository.findById(makeId);
+            var optionalMake = makeRepository.findById(makeId);
             if (optionalMake.isPresent()) {
                 makeVO = makeAndModelEntityConverter.getMakeVOFromMake(optionalMake.get());
             }
@@ -165,7 +164,7 @@ public class MakeDaoImpl implements MakeDao {
     public MakeAndModelVO getModelFromId(final Long modelId) throws MakeException {
         MakeAndModelVO makeAndModelVO = null;
         try {
-            Optional<Model> optionalModel = modelRepository.findById(modelId);
+            var optionalModel = modelRepository.findById(modelId);
             if (optionalModel.isPresent()) {
                 makeAndModelVO = makeAndModelEntityConverter.convertModelToMakeAndModelVO(optionalModel.get());
             }
@@ -201,8 +200,8 @@ public class MakeDaoImpl implements MakeDao {
     @Override
     public void addNewModel(final MakeAndModelVO currentMakeVo) throws MakeException {
         try {
-            Model model = makeAndModelEntityConverter.convertMakeAndModelVOToModel(currentMakeVo);
-            Model model1 = updateModelWithMake(model);
+            var model = makeAndModelEntityConverter.convertMakeAndModelVOToModel(currentMakeVo);
+            var model1 = updateModelWithMake(model);
             modelRepository.save(model1);
         } catch (DataAccessException ex) {
             LOG.error(ex.getLocalizedMessage());
@@ -211,7 +210,7 @@ public class MakeDaoImpl implements MakeDao {
     }
 
     private Model updateModelWithMake(final Model model) {
-        Optional<Make> optionalMake = makeRepository.findById(model.getMakeId());
+        var optionalMake = makeRepository.findById(model.getMakeId());
         optionalMake.ifPresent(model::setMake);
         return model;
     }
@@ -225,11 +224,11 @@ public class MakeDaoImpl implements MakeDao {
     @Override
     public void updateModel(final MakeAndModelVO currentMakeVO) throws MakeException {
         try {
-            Optional<Model> optionalModel = modelRepository.findById(currentMakeVO.getId());
+            var optionalModel = modelRepository.findById(currentMakeVO.getId());
             if (optionalModel.isPresent()) {
                 Model model = optionalModel.get();
                 model.setModelName(currentMakeVO.getModelName());
-                Optional<Make> optionalMake = makeRepository.findById(currentMakeVO.getMakeId());
+                var optionalMake = makeRepository.findById(currentMakeVO.getMakeId());
                 optionalMake.ifPresent(model::setMake);
                 modelRepository.save(model);
             }
@@ -249,7 +248,7 @@ public class MakeDaoImpl implements MakeDao {
     public List<MakeVO> fetchMakes() throws MakeException {
         List<MakeVO> makeVOs;
         try {
-            List<Make> makes = makeRepository.findAll();
+            var makes = makeRepository.findAll();
             makeVOs = convertMakeToMakeVO(makes);
         } catch (DataAccessException ex) {
             LOG.error(ex.getLocalizedMessage());
@@ -269,7 +268,7 @@ public class MakeDaoImpl implements MakeDao {
     public List<MakeAndModelVO> getAllModelsFromMakeId(final Long makeId) throws MakeException {
         List<MakeAndModelVO> makeVOs = null;
         try {
-            Optional<Make> optionalMake = makeRepository.findById(makeId);
+            var optionalMake = makeRepository.findById(makeId);
             if (optionalMake.isPresent()) {
                 Make make = optionalMake.get();
                 List<Model> models = make.getModels();
@@ -330,10 +329,10 @@ public class MakeDaoImpl implements MakeDao {
     private List<MakeAndModelVO> searchModels(final MakeAndModelVO searchMakeVO) {
         List<MakeAndModelVO> makeAndModelVOS = new ArrayList<>();
         if (searchMakeVO.getMakeId() != null && searchMakeVO.getMakeId() > 0) {
-            Optional<Make> optionalMake = makeRepository.findById(searchMakeVO.getMakeId());
+            var optionalMake = makeRepository.findById(searchMakeVO.getMakeId());
             if (optionalMake.isPresent()) {
                 Make make = optionalMake.get();
-                List<Model> models = make.getModels();
+                var models = make.getModels();
                 makeAndModelVOS = models.stream().map(model -> getMakeAndModelVO(make, model))
                         .collect(Collectors.toList());
             }

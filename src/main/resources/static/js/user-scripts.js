@@ -226,12 +226,12 @@ function saveFromModal() {
     
     if (forms[0].checkValidity() === false) {
         allFieldsAreValid = false;
-        if (addName.length == 0) {
+        if (addName.length === 0) {
             document.getElementById("addName").setAttribute("class","form-control is-invalid");   
         } else {
             document.getElementById("addName").setAttribute("class","form-control was-validated");   
         }
-        if (addEmail.length == 0) {
+        if (addEmail.length === 0) {
             document.getElementById("addEmail").setAttribute("class","form-control is-invalid");
         } else {
             document.getElementById("addEmail").setAttribute("class","form-control was-validated");
@@ -470,12 +470,12 @@ function updateFromModal() {
 
     if (forms[0].checkValidity() === false) {
         allFieldsAreValid = false;
-        if (updateName.length == 0) {
+        if (updateName.length === 0) {
             document.getElementById("updateName").setAttribute("class","form-control is-invalid");
         } else {
             document.getElementById("updateName").setAttribute("class","form-control was-validated");
         }
-        if (updateEmail.length == 0) {
+        if (updateEmail.length === 0) {
             document.getElementById("updateEmail").setAttribute("class","form-control is-invalid");
         } else {
             document.getElementById("updateEmail").setAttribute("class","form-control was-validated");

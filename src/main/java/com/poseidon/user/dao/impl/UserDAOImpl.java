@@ -134,7 +134,7 @@ public class UserDAOImpl implements UserDAO {
     public UserVO getUserDetailsFromId(final Long id) throws UserException {
         UserVO userVO = null;
         try {
-            Optional<User> optionalUser = userRepository.findById(id);
+            var optionalUser = userRepository.findById(id);
             if (optionalUser.isPresent()) {
                 User user = optionalUser.get();
                 userVO = convertToUserVO(user);
@@ -154,7 +154,7 @@ public class UserDAOImpl implements UserDAO {
     @Override
     public void updateUser(final UserVO userVO) throws UserException {
         try {
-            Optional<User> optionalUser = userRepository.findById(userVO.getId());
+            var optionalUser = userRepository.findById(userVO.getId());
             if (optionalUser.isPresent()) {
                 User user = optionalUser.get();
                 user.setName(userVO.getName());
@@ -196,7 +196,7 @@ public class UserDAOImpl implements UserDAO {
     @Override
     public void expireUser(final Long id) throws UserException {
         try {
-            Optional<User> user = userRepository.findById(id);
+            var user = userRepository.findById(id);
             if (user.isPresent()) {
                 user.get().setExpired(true);
                 userRepository.save(user.get());
@@ -233,15 +233,15 @@ public class UserDAOImpl implements UserDAO {
      */
     @SuppressWarnings("unchecked")
     private List<UserVO> searchAllUsers(final UserVO searchUser) {
-        UserSpecification userSpec = new UserSpecification();
-        SearchOperation search = populateSearchOperation(searchUser);
-        if (!StringUtils.isEmpty(searchUser.getName())) {
+        var userSpec = new UserSpecification();
+        var search = populateSearchOperation(searchUser);
+        if (!StringUtils.hasText(searchUser.getName())) {
             userSpec.add(new SearchCriteria("name", searchUser.getName(), search));
         }
-        if (!StringUtils.isEmpty(searchUser.getEmail())) {
+        if (!StringUtils.hasText(searchUser.getEmail())) {
             userSpec.add(new SearchCriteria("email", searchUser.getEmail(), search));
         }
-        if (!StringUtils.isEmpty(searchUser.getRole())) {
+        if (!StringUtils.hasText(searchUser.getRole())) {
             userSpec.add(new SearchCriteria("role", searchUser.getRole(), search));
         }
         List<User> resultUsers = userRepository.findAll(userSpec);

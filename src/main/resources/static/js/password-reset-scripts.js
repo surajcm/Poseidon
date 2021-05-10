@@ -17,7 +17,7 @@ function passwordChange() {
         } else {
             document.getElementById("newPass").setAttribute("class","form-control was-validated");
         }
-        if (current.length === 0) {
+        if (repeat.length === 0) {
             document.getElementById("repeat").setAttribute("class","form-control is-invalid");
         } else {
             document.getElementById("repeat").setAttribute("class","form-control was-validated");
@@ -26,11 +26,48 @@ function passwordChange() {
     }
     if (newPass === repeat) {
         console.log("both passwords are equal");
-        // try submitting
+        let passRegex=  /^[A-Za-z]\w{7,14}$/;
+        if (newPass.match(passRegex)) {
+            console.log('Correct, going to save it');
+            changePasswordAndSaveIt(current,newPass);
+        } else {
+            console.log('not strong enough');
+            document.getElementById("newPass").setAttribute("class","form-control is-invalid");
+            document.getElementById("repeat").setAttribute("class","form-control is-invalid");
+            document.getElementById("newPass_message").innerHTML = "The password entered is not strong enough";
+            document.getElementById("repeat_message").innerHTML = "The password entered is not strong enough";
+        }
     } else {
-        // show error message
         console.log("both passwords are not equal");
+        document.getElementById("repeat").setAttribute("class","form-control is-invalid");
+        document.getElementById("repeat_message").innerHTML = "The password entered are not equal";
     }
+}
+
+function changePasswordAndSaveIt(current, newPass) {
+    let xhr = new XMLHttpRequest();
+    xhr.open('POST', "/user/changePasswordAndSaveIt.htm",true);
+    let token = document.querySelector("meta[name='_csrf']").content;
+    let header = document.querySelector("meta[name='_csrf_header']").content;
+    xhr.setRequestHeader(header, token);
+    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    xhr.onload = function() {
+        if (xhr.status === 200) {
+            if (xhr.responseText != null) {
+                console.log('Request succeeded.' + xhr.responseText);
+            }
+        } else if (xhr.status !== 200) {
+            console.log('Request failed.  Returned status of ' + xhr.status);
+            //showUpdateStatus(false);
+        }
+    };
+    xhr.send("current="+current+ "&newPass=" + newPass);
+}
+
+function clearMessage() {
+    document.getElementById("current").setAttribute("class","form-control form-control-sm");
+    document.getElementById("newPass").setAttribute("class","form-control form-control-sm");
+    document.getElementById("repeat").setAttribute("class","form-control form-control-sm");
 }
 
 function clearAll() {
@@ -39,6 +76,6 @@ function clearAll() {
     document.getElementById("repeat").value = "";
 }
 
-function hideAlerts(){
+function hideAlerts() {
     document.getElementById('user').text = "User <span class='sr-only'>User</span>";
 }

@@ -10,7 +10,7 @@
     <link rel="shortcut icon" href="${posIcon}" >
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Log In</title>
-    <link href="/css/bootstrap.5.0.0-beta2.min.css" rel="stylesheet" />
+    <link href="/css/bootstrap-5.min.css" rel="stylesheet" />
     <link rel="stylesheet" href="/css/logInStyles.css"  type="text/css" />
     <script type="text/javascript">
         function submitLogIn() {
@@ -41,13 +41,13 @@
                                      <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                                 </p>
                                 <p>
-                                     <label for="exampleInputEmail2">email</label>
-                                     <input name="username" type="text" class="form-control" placeholder="email"
+                                     <label for="username">email</label>
+                                     <input id="username" name="username" type="text" class="form-control" placeholder="email"
                                                         autofocus="true" required/>
                                 </p>
                                 <p>
-                                     <label for="exampleInputPassword2">Password</label>
-                                     <input name="password" type="password" class="form-control" placeholder="Password" required/>
+                                     <label for="password">Password</label>
+                                     <input id="password" name="password" type="password" class="form-control" placeholder="Password" required/>
                                 </p>
                                 <p>
                                      <button type="submit" class="btn btn-primary">Sign in</button>
@@ -62,6 +62,6 @@
             </table>
         </div>
     </div>
-    <script src="/js/bootstrap.5.0.0-beta2.bundle.min.js"></script>
+    <script src="/js/bootstrap-5.min.js"></script>
 </body>
 </html>

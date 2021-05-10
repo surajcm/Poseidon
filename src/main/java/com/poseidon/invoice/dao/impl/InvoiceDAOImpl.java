@@ -63,7 +63,7 @@ public class InvoiceDAOImpl implements InvoiceDAO {
     public List<InvoiceVO> fetchInvoiceForListOfTransactions(final List<String> tagNumbers) throws InvoiceException {
         List<InvoiceVO> invoiceVOs;
         try {
-            List<Invoice> invoices = invoiceRepository.fetchTodaysInvoices(tagNumbers);
+            var invoices = invoiceRepository.fetchTodaysInvoices(tagNumbers);
             invoiceVOs = invoices.stream().map(this::getInvoiceVoFromInvoice).collect(Collectors.toList());
         } catch (DataAccessException ex) {
             log.error(ex.getLocalizedMessage());
@@ -82,9 +82,9 @@ public class InvoiceDAOImpl implements InvoiceDAO {
     public InvoiceVO fetchInvoiceVOFromId(final Long id) throws InvoiceException {
         InvoiceVO invoiceVO = null;
         try {
-            Optional<Invoice> optionalInvoice = invoiceRepository.findById(id);
+            var optionalInvoice = invoiceRepository.findById(id);
             if (optionalInvoice.isPresent()) {
-                Invoice invoice = optionalInvoice.get();
+                var invoice = optionalInvoice.get();
                 invoiceVO = getInvoiceVoFromInvoice(invoice);
             }
         } catch (DataAccessException ex) {
@@ -104,9 +104,9 @@ public class InvoiceDAOImpl implements InvoiceDAO {
     public InvoiceVO fetchInvoiceVOFromTagNo(final String tagNo) throws InvoiceException {
         InvoiceVO invoiceVO = null;
         try {
-            Optional<Invoice> optionalInvoice = invoiceRepository.findByTagNumber(tagNo);
+            var optionalInvoice = invoiceRepository.findByTagNumber(tagNo);
             if (optionalInvoice.isPresent()) {
-                Invoice invoice = optionalInvoice.get();
+                var invoice = optionalInvoice.get();
                 invoiceVO = getInvoiceVoFromInvoice(invoice);
             }
         } catch (DataAccessException ex) {
@@ -141,9 +141,9 @@ public class InvoiceDAOImpl implements InvoiceDAO {
     @Override
     public void updateInvoice(final InvoiceVO currentInvoiceVO) throws InvoiceException {
         try {
-            Optional<Invoice> optionalInvoice = invoiceRepository.findById(currentInvoiceVO.getId());
+            var optionalInvoice = invoiceRepository.findById(currentInvoiceVO.getId());
             if (optionalInvoice.isPresent()) {
-                Invoice invoice = getInvoice(currentInvoiceVO, optionalInvoice.get());
+                var invoice = getInvoice(currentInvoiceVO, optionalInvoice.get());
                 invoiceRepository.save(invoice);
             }
         } catch (DataAccessException ex) {
@@ -172,21 +172,21 @@ public class InvoiceDAOImpl implements InvoiceDAO {
     }
 
     private List<InvoiceVO> searchInvoice(final InvoiceVO searchInvoiceVO) {
-        CriteriaBuilder builder = em.unwrap(Session.class).getCriteriaBuilder();
-        CriteriaQuery<Invoice> criteria = builder.createQuery(Invoice.class);
-        Root<Invoice> invoiceRoot = criteria.from(Invoice.class);
+        var builder = em.unwrap(Session.class).getCriteriaBuilder();
+        var criteria = builder.createQuery(Invoice.class);
+        var invoiceRoot = criteria.from(Invoice.class);
         criteria.select(invoiceRoot);
 
         if (searchInvoiceVO.getIncludes().booleanValue()) {
-            if (!StringUtils.isEmpty(searchInvoiceVO.getTagNo())) {
+            if (!StringUtils.hasText(searchInvoiceVO.getTagNo())) {
                 criteria.where(builder.like(invoiceRoot.get(TAG_NO),
                         "%" + searchInvoiceVO.getTagNo() + "%"));
             }
-            if (!StringUtils.isEmpty(searchInvoiceVO.getSerialNo())) {
+            if (!StringUtils.hasText(searchInvoiceVO.getSerialNo())) {
                 criteria.where(builder.like(invoiceRoot.get(SERIAL_NO),
                         "%" + searchInvoiceVO.getSerialNo() + "%"));
             }
-            if (!StringUtils.isEmpty(searchInvoiceVO.getDescription())) {
+            if (!StringUtils.hasText(searchInvoiceVO.getDescription())) {
                 criteria.where(builder.like(invoiceRoot.get(DESCRIPTION),
                         "%" + searchInvoiceVO.getDescription() + "%"));
             }
@@ -195,14 +195,14 @@ public class InvoiceDAOImpl implements InvoiceDAO {
             }
 
         } else if (searchInvoiceVO.getStartsWith().booleanValue()) {
-            if (!StringUtils.isEmpty(searchInvoiceVO.getTagNo())) {
+            if (!StringUtils.hasText(searchInvoiceVO.getTagNo())) {
                 criteria.where(builder.like(invoiceRoot.get(TAG_NO), searchInvoiceVO.getTagNo() + "%"));
             }
-            if (!StringUtils.isEmpty(searchInvoiceVO.getSerialNo())) {
+            if (!StringUtils.hasText(searchInvoiceVO.getSerialNo())) {
                 criteria.where(builder.like(invoiceRoot.get(SERIAL_NO),
                         searchInvoiceVO.getSerialNo() + "%"));
             }
-            if (!StringUtils.isEmpty(searchInvoiceVO.getDescription())) {
+            if (!StringUtils.hasText(searchInvoiceVO.getDescription())) {
                 criteria.where(builder.like(invoiceRoot.get(DESCRIPTION),
                         searchInvoiceVO.getDescription() + "%"));
             }
@@ -210,13 +210,13 @@ public class InvoiceDAOImpl implements InvoiceDAO {
                 criteria.where(builder.like(invoiceRoot.get("id"), searchInvoiceVO.getId() + "%"));
             }
         } else {
-            if (!StringUtils.isEmpty(searchInvoiceVO.getTagNo())) {
+            if (!StringUtils.hasText(searchInvoiceVO.getTagNo())) {
                 criteria.where(builder.like(invoiceRoot.get(TAG_NO), searchInvoiceVO.getTagNo()));
             }
-            if (!StringUtils.isEmpty(searchInvoiceVO.getSerialNo())) {
+            if (!StringUtils.hasText(searchInvoiceVO.getSerialNo())) {
                 criteria.where(builder.like(invoiceRoot.get(SERIAL_NO), searchInvoiceVO.getSerialNo()));
             }
-            if (!StringUtils.isEmpty(searchInvoiceVO.getDescription())) {
+            if (!StringUtils.hasText(searchInvoiceVO.getDescription())) {
                 criteria.where(builder.like(invoiceRoot.get(DESCRIPTION), searchInvoiceVO.getDescription()));
             }
             if (searchInvoiceVO.getId() != null && searchInvoiceVO.getId() > 0) {

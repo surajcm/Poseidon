@@ -68,11 +68,11 @@ public class CustomerDAOImpl implements CustomerDAO {
         Long id;
         Customer customer = convertToSingleCustomer(currentCustomerVo);
         try {
-            Customer newCustomer = customerRepository.save(customer);
+            var newCustomer = customerRepository.save(customer);
             id = newCustomer.getCustomerId();
             //todo: this should move to controller, and finally to page
             setAdditionalDetailsToVO(currentCustomerVo);
-            CustomerAdditionalDetails additionalDetails = convertToCustomerAdditionalDetails(
+            var additionalDetails = convertToCustomerAdditionalDetails(
                     newCustomer.getCustomerId(), currentCustomerVo.getCustomerAdditionalDetailsVO());
             customerAdditionalDetailsRepository.save(additionalDetails);
         } catch (DataAccessException ex) {
@@ -93,10 +93,10 @@ public class CustomerDAOImpl implements CustomerDAO {
     public CustomerVO getCustomerFromId(final Long id) throws CustomerException {
         CustomerVO customerVO = null;
         try {
-            Optional<Customer> customer = customerRepository.findById(id);
+            var customer = customerRepository.findById(id);
             if (customer.isPresent()) {
                 customerVO = convertToSingleCustomerVO(customer.get());
-                Optional<CustomerAdditionalDetails> additionalDetails =
+                var additionalDetails =
                         customerAdditionalDetailsRepository.findByCustomerId(customer.get().getCustomerId());
                 if (additionalDetails.isPresent()) {
                     updateCustomerWithAdditionalDetails(customerVO, additionalDetails.get());
@@ -118,7 +118,7 @@ public class CustomerDAOImpl implements CustomerDAO {
     @Override
     public void deleteCustomerFromId(final Long id) throws CustomerException {
         try {
-            Optional<CustomerAdditionalDetails> additionalDetails =
+            var additionalDetails =
                     customerAdditionalDetailsRepository.findByCustomerId(id);
             additionalDetails.ifPresent(customerAdditionalDetails ->
                     customerAdditionalDetailsRepository.deleteById(customerAdditionalDetails.getId()));
@@ -138,14 +138,14 @@ public class CustomerDAOImpl implements CustomerDAO {
     @Override
     public void updateCustomer(final CustomerVO currentCustomerVo) throws CustomerException {
         try {
-            Optional<Customer> optionalCustomer = customerRepository.findById(
+            var optionalCustomer = customerRepository.findById(
                     currentCustomerVo.getCustomerId());
             if (optionalCustomer.isPresent()) {
                 Customer customer = optionalCustomer.get();
                 updateCustomerWithCustomerVo(currentCustomerVo, customer);
                 customerRepository.save(customer);
                 if (isAdditionalDetailsPresent(currentCustomerVo)) {
-                    Optional<CustomerAdditionalDetails> additionalDetails =
+                    var additionalDetails =
                             customerAdditionalDetailsRepository.findByCustomerId(customer.getCustomerId());
                     CustomerAdditionalDetails customerAdditionalDetails;
                     if (additionalDetails.isPresent()) {
@@ -256,15 +256,15 @@ public class CustomerDAOImpl implements CustomerDAO {
     }
 
     private List<CustomerVO> searchCustomerInDetail(final CustomerVO searchVO) {
-        CustomerSpecification customerSpec = new CustomerSpecification();
-        SearchOperation search = populateSearchOperation(searchVO);
+        var customerSpec = new CustomerSpecification();
+        var search = populateSearchOperation(searchVO);
         if (!StringUtils.isEmpty(searchVO.getCustomerId())) {
             customerSpec.add(new SearchCriteria("customerId", searchVO.getCustomerId(), search));
         }
-        if (!StringUtils.isEmpty(searchVO.getCustomerName())) {
+        if (!StringUtils.hasText(searchVO.getCustomerName())) {
             customerSpec.add(new SearchCriteria("name", searchVO.getCustomerName(), search));
         }
-        if (!StringUtils.isEmpty(searchVO.getMobile())) {
+        if (!StringUtils.hasText(searchVO.getMobile())) {
             customerSpec.add(new SearchCriteria(MOBILE, searchVO.getMobile(), search));
         }
         List<Customer> resultCustomers = customerRepository.findAll(customerSpec);
@@ -285,7 +285,7 @@ public class CustomerDAOImpl implements CustomerDAO {
 
     private CustomerAdditionalDetails convertToCustomerAdditionalDetails(
             final Long customerId, final CustomerAdditionalDetailsVO customerAdditionalDetailsVO) {
-        CustomerAdditionalDetails additionalDetails = new CustomerAdditionalDetails();
+        var additionalDetails = new CustomerAdditionalDetails();
         additionalDetails.setCustomerId(customerId);
         if (customerAdditionalDetailsVO != null) {
             additionalDetails.setContactPerson(customerAdditionalDetailsVO.getContactPerson());
@@ -298,7 +298,7 @@ public class CustomerDAOImpl implements CustomerDAO {
     }
 
     private void setAdditionalDetailsToVO(final CustomerVO currentCustomerVo) {
-        CustomerAdditionalDetailsVO additionalDetails = new CustomerAdditionalDetailsVO();
+        var additionalDetails = new CustomerAdditionalDetailsVO();
         additionalDetails.setContactPerson(currentCustomerVo.getContactPerson());
         additionalDetails.setContactMobile(currentCustomerVo.getContactMobile());
         additionalDetails.setNotes(currentCustomerVo.getNotes());

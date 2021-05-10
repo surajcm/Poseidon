@@ -1,10 +1,10 @@
-function addCustomer(){
+function addCustomer() {
     document.forms[0].action = "addCustomer.htm";
     document.forms[0].submit();
 }
 
 function search() {
-    if(document.getElementById("customerId").value == ""
+    if(document.getElementById("customerId").value === ""
             || isNumber(document.getElementById("customerId").value)) {
         document.forms[0].action = "searchCustomer.htm";
         document.forms[0].submit();

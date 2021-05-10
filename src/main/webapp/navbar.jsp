@@ -9,15 +9,15 @@
         <ul class="navbar-nav mr-auto">
             <c:choose>
                 <c:when test="${pageContext.request.userPrincipal.name != null}">
-                    <li class='nav-item' id='user'><a href='#' class='nav-link' onclick='javascript:listMe();' >User<span class="sr-only">(current)</span></a></li>
+                    <li class='nav-item' id='user'><a href='#' class='nav-link' onclick='listMe();' >User<span class="sr-only">(current)</span></a></li>
                 </c:when>
             </c:choose>
-            <li class="nav-item py-0" id="make"><a class="nav-link" href="#" onclick="javascript:MakeMe();" >Make</a></li>
-            <li class="nav-item py-0" id="customer"><a class="nav-link" href="#" onclick="javascript:fetchCustomers();" >Customer</a></li>
-            <li class="nav-item py-0" id="company"><a class="nav-link" href="#" onclick="javascript:fetchCompany();" >Company</a></li>
-            <li class="nav-item py-0" id="transaction"><a class="nav-link" href="#" onclick="javascript:fetchTransactions();" >Transactions</a></li>
-            <li class="nav-item py-0" id="inventory"><a class="nav-link" href="#" onclick="javascript:fetchInvoice();" >Invoice</a></li>
-            <li class="nav-item py-0" id="report"><a class="nav-link" href="#" onclick="javascript:fetchReport();" >Report</a></li>
+            <li class="nav-item py-0" id="make"><a class="nav-link" href="#" onclick="MakeMe();" >Make</a></li>
+            <li class="nav-item py-0" id="customer"><a class="nav-link" href="#" onclick="fetchCustomers();" >Customer</a></li>
+            <li class="nav-item py-0" id="company"><a class="nav-link" href="#" onclick="fetchCompany();" >Company</a></li>
+            <li class="nav-item py-0" id="transaction"><a class="nav-link" href="#" onclick="fetchTransactions();" >Transactions</a></li>
+            <li class="nav-item py-0" id="inventory"><a class="nav-link" href="#" onclick="fetchInvoice();" >Invoice</a></li>
+            <li class="nav-item py-0" id="report"><a class="nav-link" href="#" onclick="fetchReport();" >Report</a></li>
         </ul>
         <ul class="navbar-nav my-2 my-lg-0">
             <li class="nav-item py-0" id="locale_switch"><a class="nav-link" href="#" ><span class="flag-icon flag-icon-us flag-icon-squared" aria-hidden="true"></span>&nbsp;EN</a></li>
@@ -30,10 +30,9 @@
                         <a href='#' id='dropdownMenu1' class='nav-link dropdown-toggle' role="button" data-toggle='dropdown' aria-haspopup='true' aria-expanded='false'>Unknown User</a>
                     </c:otherwise>
                 </c:choose>
-                <div class="dropdown-menu" aria-labelledby="dropdownMenu1">
-                    // fix alignment
-                    <a href="#" class="dropdown-item" onclick="javascript:resetPassword();">Reset Password</a>
-                    <a href="#" class="dropdown-item" onclick="javascript:LogMeOut();">Log Out</a>
+                <div class="dropdown-menu dropdown-menu-right text-right" aria-labelledby="dropdownMenu1">
+                    <a href="#" class="dropdown-item" onclick="resetPassword();">Reset Password</a>
+                    <a href="#" class="dropdown-item" onclick="LogMeOut();">Log Out</a>
                 </div>
             </li>
         </ul>

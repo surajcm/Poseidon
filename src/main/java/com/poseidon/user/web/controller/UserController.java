@@ -102,12 +102,6 @@ public class UserController {
             userForm.setStatusMessage("Unable to list the Users due to an error");
             userForm.setStatusMessageType(ERROR);
             logger.error(ex.getLocalizedMessage());
-            logger.error(EXCEPTION_IN_CONTROLLER, ex.exceptionType);
-            if (ex.getExceptionType().equalsIgnoreCase(UserException.DATABASE_ERROR)) {
-                logger.info(DB_ERROR);
-            } else {
-                logger.error(UNKNOWN_ERROR);
-            }
         } catch (Exception e1) {
             logger.error(e1.getLocalizedMessage());
             logger.info(UNKNOWN_ERROR);
@@ -135,12 +129,6 @@ public class UserController {
             userVo = userService.getUserDetailsFromId(userForm.getId());
         } catch (UserException ex) {
             logger.error(ex.getLocalizedMessage());
-            logger.error(EXCEPTION_IN_CONTROLLER, ex.exceptionType);
-            if (ex.getExceptionType().equalsIgnoreCase(UserException.DATABASE_ERROR)) {
-                logger.info(DB_ERROR);
-            } else {
-                logger.info(UNKNOWN_ERROR);
-            }
         } catch (Exception e1) {
             logger.error(e1.getLocalizedMessage());
             logger.info(UNKNOWN_ERROR);
@@ -223,7 +211,7 @@ public class UserController {
     @PostMapping("/user/LogMeOut.htm")
     public ModelAndView logMeOut(final HttpServletRequest request) {
         logger.info(" Inside LogMeOut method of user controller ");
-        HttpSession session = request.getSession(false);
+        var session = request.getSession(false);
         SecurityContextHolder.clearContext();
         if (session != null) {
             session.invalidate();
@@ -251,17 +239,10 @@ public class UserController {
             userForm.setStatusMessage("Unable to search due to a database error");
             userForm.setStatusMessageType(ERROR);
             logger.error(ex.getLocalizedMessage());
-            logger.error(EXCEPTION_IN_CONTROLLER, ex.exceptionType);
-            if (ex.getExceptionType().equalsIgnoreCase(UserException.DATABASE_ERROR)) {
-                logger.info(DB_ERROR);
-            } else {
-                logger.info(UNKNOWN_ERROR);
-            }
         } catch (Exception e1) {
             userForm.setStatusMessage("Unable to search due to an error");
             userForm.setStatusMessageType(ERROR);
             logger.error(e1.getLocalizedMessage());
-            logger.info(UNKNOWN_ERROR);
         }
         if (userList != null) {
             userList.stream().map(userIteration -> " user detail " + userIteration.toString()).forEach(logger::info);
@@ -426,12 +407,10 @@ public class UserController {
                           @ModelAttribute("email") final String email,
                           @ModelAttribute("role") final String role,
                       final BindingResult result) {
-        logger.info("updateUserAjax method of user controller : " + id);
-        logger.info("updateUserAjax method of user controller : " + name);
-        logger.info("updateUserAjax method of user controller : " + email);
-        logger.info("updateUserAjax method of user controller : " + role);
+        logger.info("updateUserAjax method of user controller with id {}, name {}, email {}, role {}",
+                id, name, email, role);
         try {
-            UserVO userVO = userService.getUserDetailsFromId(Long.valueOf(id));
+            var userVO = userService.getUserDetailsFromId(Long.valueOf(id));
             if (userVO != null) {
                 userVO.setName(name);
                 userVO.setEmail(email);
@@ -445,10 +424,18 @@ public class UserController {
     }
 
     @PostMapping("/user/PasswordReset.htm")
-    public ModelAndView makeList(final UserForm userForm) {
+    public ModelAndView reset(final UserForm userForm) {
         logger.info(" password reset view of user controller");
-        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
-        logger.info(auth.getDetails().toString());
         return new ModelAndView("user/PasswordReset", USER_FORM, userForm);
+    }
+
+    @PostMapping("/user/changePasswordAndSaveIt.htm")
+    public @ResponseBody String changePass(@ModelAttribute("current") final String current,
+                                           @ModelAttribute("newPass") final String newPass,
+                                           final BindingResult result) {
+        logger.info("changePass of user controller from {} to {}", current, newPass);
+        var auth = SecurityContextHolder.getContext().getAuthentication();
+        logger.info(auth.getName());
+        return "hi";
     }
 }

@@ -61,9 +61,7 @@ public class MakeController {
             LOG.error(ex.getLocalizedMessage());
         }
         if (makeAndModelVOs != null) {
-            for (MakeAndModelVO makeAndModelVO : makeAndModelVOs) {
-                LOG.info(" makeAndModelVO is {}", makeAndModelVO);
-            }
+            makeAndModelVOs.forEach(makeAndModelVO -> LOG.info(" makeAndModelVO is {}", makeAndModelVO));
             makeForm.setMakeAndModelVOs(makeAndModelVOs);
         }
         List<MakeVO> makeVOs = null;
@@ -360,17 +358,6 @@ public class MakeController {
     }
 
     /**
-     * print make.
-     *
-     * @param makeForm makeForm
-     * @return view
-     */
-    @PostMapping("/make/printMake.htm")
-    public ModelAndView printMake(final MakeForm makeForm) {
-        return null;
-    }
-
-    /**
      * save make via ajax.
      *
      * @param selectMakeName selectMakeName
@@ -413,7 +400,7 @@ public class MakeController {
             }
             try {
                 //get all the make and pass it as a json object
-                List<MakeVO> makes = makeService.fetchMakes();
+                var makes = makeService.fetchMakes();
                 responseString.append(fetchJsonMakeList(makes));
             } catch (Exception e1) {
                 LOG.error(e1.getMessage());
@@ -427,7 +414,7 @@ public class MakeController {
 
     private String fetchJsonMakeList(final List<MakeVO> makeVOS) {
         String response;
-        ObjectMapper mapper = new ObjectMapper();
+        var mapper = new ObjectMapper();
         try {
             response = mapper.writeValueAsString(makeVOS);
         } catch (IOException ex) {
@@ -494,7 +481,7 @@ public class MakeController {
 
     private String fetchJsonModelList(final List<MakeAndModelVO> makeAndModelVOs) {
         String response;
-        ObjectMapper mapper = new ObjectMapper();
+        var mapper = new ObjectMapper();
         try {
             response = mapper.writeValueAsString(makeAndModelVOs);
         } catch (IOException ex) {

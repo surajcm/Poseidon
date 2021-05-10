@@ -1,6 +1,7 @@
 package com.poseidon.transaction.web.controller;
 
 import com.poseidon.customer.domain.CustomerVO;
+import com.poseidon.customer.exception.CustomerException;
 import com.poseidon.customer.service.CustomerService;
 import com.poseidon.make.domain.MakeAndModelVO;
 import com.poseidon.make.domain.MakeVO;
@@ -111,7 +112,7 @@ public class TransactionController {
     public ModelAndView addTxn(final TransactionForm transactionForm) {
         LOG.info(" Inside AddTxn method of TransactionController ");
         //get all the make list for displaying in search
-        List<MakeVO> makeVOs = getMakeVOS();
+        var makeVOs = getMakeVOS();
         List<MakeAndModelVO> makeAndModelVOs = null;
         if (makeVOs != null && !makeVOs.isEmpty()) {
             transactionForm.setMakeVOs(makeVOs);
@@ -138,7 +139,7 @@ public class TransactionController {
     public ModelAndView saveTxn(final TransactionForm transactionForm) {
         LOG.info(" Inside SaveTxn method of TransactionController ");
         LOG.info(" form details are {} ", transactionForm);
-        TransactionVO transactionVO = transactionForm.getCurrentTransaction();
+        var transactionVO = transactionForm.getCurrentTransaction();
         if (transactionForm.getCurrentTransaction() != null) {
             transactionVO.setCreatedOn(OffsetDateTime.now(ZoneId.systemDefault()));
             transactionVO.setModifiedOn(OffsetDateTime.now(ZoneId.systemDefault()));
@@ -146,9 +147,7 @@ public class TransactionController {
             transactionVO.setModifiedBy(transactionForm.getLoggedInUser());
             transactionVO.setStatus("NEW");
         }
-        if (transactionForm.getCustomerVO() != null
-                && transactionForm.getCustomerVO().getCustomerId() != null
-                && transactionForm.getCustomerVO().getCustomerId() > 0) {
+        if (hasValidCustomerId(transactionForm)) {
             transactionVO.setCustomerId(transactionForm.getCustomerVO().getCustomerId());
         }
         try {
@@ -165,27 +164,21 @@ public class TransactionController {
             String tagNo = transactionService.saveTransaction(transactionVO);
             transactionForm.setStatusMessage("Successfully added the transaction, Tag Number is " + tagNo);
             transactionForm.setStatusMessageType(SUCCESS);
-        } catch (TransactionException ex) {
+        } catch (TransactionException | CustomerException ex) {
             transactionForm.setStatusMessage("Unable to create a new transaction due to a Data base error");
             transactionForm.setStatusMessageType(ERROR);
             LOG.error(ex.getLocalizedMessage());
-            LOG.error(EXCEPTION_IN_CONTROLLER, ex.exceptionType);
-            if (ex.getExceptionType().equalsIgnoreCase(TransactionException.DATABASE_ERROR)) {
-                LOG.info(DATA_FROM_DATABASE);
-            } else {
-                LOG.info(UNKNOWN_ERROR);
-            }
-
-        } catch (Exception ex) {
-            transactionForm.setStatusMessage("Unable to create the new transaction");
-            transactionForm.setStatusMessageType(ERROR);
-            LOG.error(ex.getLocalizedMessage());
-            LOG.info(UNKNOWN_ERROR);
         }
         transactionForm.setLoggedInUser(transactionForm.getLoggedInUser());
         transactionForm.setLoggedInRole(transactionForm.getLoggedInRole());
         transactionForm.setCurrentTransaction(new TransactionVO());
         return list(transactionForm);
+    }
+
+    private boolean hasValidCustomerId(TransactionForm transactionForm) {
+        return transactionForm.getCustomerVO() != null
+                && transactionForm.getCustomerVO().getCustomerId() != null
+                && transactionForm.getCustomerVO().getCustomerId() > 0;
     }
 
     /**
@@ -208,17 +201,6 @@ public class TransactionController {
             transactionForm.setStatusMessage("Unable to search due to a data base error");
             transactionForm.setStatusMessageType(ERROR);
             LOG.error(ex.getLocalizedMessage());
-            LOG.error(EXCEPTION_IN_CONTROLLER, ex.exceptionType);
-            if (ex.getExceptionType().equalsIgnoreCase(TransactionException.DATABASE_ERROR)) {
-                LOG.info(DATA_FROM_DATABASE);
-            } else {
-                LOG.info(UNKNOWN_ERROR);
-            }
-        } catch (Exception e1) {
-            transactionForm.setStatusMessage("Unable to search ");
-            transactionForm.setStatusMessageType(ERROR);
-            LOG.error(e1.getLocalizedMessage());
-            LOG.info(UNKNOWN_ERROR);
         }
         if (transactionVOs != null) {
             transactionVOs.forEach(transactionVO -> LOG.debug(TRANSACTION_VO, transactionVO));
@@ -257,17 +239,8 @@ public class TransactionController {
                     makeAndModelVOs.forEach(makeAndModelVO -> LOG.info("makeAndModel vo is {}", makeAndModelVO));
                 }
             }
-        } catch (TransactionException ex) {
+        } catch (TransactionException | CustomerException ex) {
             LOG.error(ex.getLocalizedMessage());
-            LOG.error(EXCEPTION_IN_CONTROLLER, ex.exceptionType);
-            if (ex.getExceptionType().equalsIgnoreCase(TransactionException.DATABASE_ERROR)) {
-                LOG.info(DATA_FROM_DATABASE);
-            } else {
-                LOG.info(UNKNOWN_ERROR);
-            }
-        } catch (Exception e1) {
-            LOG.error(e1.getLocalizedMessage());
-            LOG.info(UNKNOWN_ERROR);
         }
         if (transactionVO != null) {
             LOG.info("transactionVO {}", transactionVO);
