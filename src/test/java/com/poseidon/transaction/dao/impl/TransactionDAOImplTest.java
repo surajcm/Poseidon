@@ -20,7 +20,6 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.time.OffsetDateTime;
 import java.time.ZoneId;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -178,13 +177,11 @@ public class TransactionDAOImplTest {
     }
 
     private List<Transaction> mockListOfTransactions() {
-        List<Transaction> transactions = new ArrayList<>();
-        transactions.add(mockTransaction());
-        return transactions;
+        return List.of(mockTransaction());
     }
 
     private Transaction mockTransaction() {
-        Transaction transaction = new Transaction();
+        var transaction = new Transaction();
         transaction.setTransactionId(1234L);
         transaction.setTagno("ABC");
         transaction.setDateReported(OffsetDateTime.now(ZoneId.systemDefault()));
@@ -208,21 +205,21 @@ public class TransactionDAOImplTest {
     }
 
     private Customer mockCustomer() {
-        Customer customer = new Customer();
+        var customer = new Customer();
         customer.setCustomerId(1234L);
         customer.setName("ABC");
         return customer;
     }
 
     private Make mockMake() {
-        Make make = new Make();
+        var make = new Make();
         make.setMakeId(1234L);
         make.setMakeName("ABC");
         return make;
     }
 
     private Model mockModel() {
-        Model model = new Model();
+        var model = new Model();
         model.setModelId(1234L);
         model.setModelName("ABC");
         return model;

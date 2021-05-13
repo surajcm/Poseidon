@@ -12,7 +12,6 @@ import org.powermock.reflect.Whitebox;
 import org.springframework.dao.CannotAcquireLockException;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -34,17 +33,17 @@ public class UserDAOImplTest {
 
     @Test
     public void logInSuccess() throws UserException {
-        UserVO userVO = new UserVO();
+        var userVO = new UserVO();
         userVO.setPassword("PASS");
         userVO.setEmail("ABC");
         when(userRepository.findByEmail(anyString())).thenReturn(mockUser());
-        UserVO result = userDAO.logIn(userVO);
+        var result = userDAO.logIn(userVO);
         Assertions.assertEquals("ABC", result.getName());
     }
 
     @Test
     public void logInWithDBError() {
-        UserVO userVO = new UserVO();
+        var userVO = new UserVO();
         userVO.setPassword("PASS");
         userVO.setEmail("ABC");
         when(userRepository.findByEmail(anyString())).thenThrow(new CannotAcquireLockException("DB error"));
@@ -53,7 +52,7 @@ public class UserDAOImplTest {
 
     @Test
     public void logInWithIncorrectPassword() {
-        UserVO userVO = new UserVO();
+        var userVO = new UserVO();
         userVO.setPassword("PASS1");
         userVO.setEmail("ABC");
         when(userRepository.findByEmail(anyString())).thenReturn(mockUser());
@@ -62,7 +61,7 @@ public class UserDAOImplTest {
 
     @Test
     public void logInWithUnknownUser() {
-        UserVO userVO = new UserVO();
+        var userVO = new UserVO();
         userVO.setPassword("PASS1");
         userVO.setEmail("ABC");
         when(userRepository.findByEmail(anyString())).thenReturn(null);
@@ -113,7 +112,7 @@ public class UserDAOImplTest {
     @Test
     public void updateEmpty() {
         when(userRepository.findById(anyLong())).thenReturn(Optional.empty());
-        UserVO vo = new UserVO();
+        var vo = new UserVO();
         vo.setId(1234L);
         Assertions.assertAll(() -> userDAO.updateUser(vo));
     }
@@ -121,7 +120,7 @@ public class UserDAOImplTest {
     @Test
     public void updateSuccess() {
         when(userRepository.findById(anyLong())).thenReturn(mockOptionalUser());
-        UserVO vo = new UserVO();
+        var vo = new UserVO();
         vo.setId(1234L);
         Assertions.assertAll(() -> userDAO.updateUser(vo));
     }
@@ -129,7 +128,7 @@ public class UserDAOImplTest {
     @Test
     public void updateFailure() {
         when(userRepository.findById(anyLong())).thenThrow(new CannotAcquireLockException("DB error"));
-        UserVO vo = new UserVO();
+        var vo = new UserVO();
         vo.setId(1234L);
         Assertions.assertThrows(UserException.class, () -> userDAO.updateUser(vo));
     }
@@ -160,7 +159,7 @@ public class UserDAOImplTest {
     @Test
     public void searchUserDetailsSuccess() throws UserException {
         when(userRepository.findAll(any())).thenReturn(mockUsers());
-        UserVO user = mockUserVO();
+        var user = mockUserVO();
         Assertions.assertNotNull(userDAO.searchUserDetails(user));
         user.setIncludes(Boolean.TRUE);
         Assertions.assertNotNull(userDAO.searchUserDetails(user));
@@ -173,7 +172,7 @@ public class UserDAOImplTest {
 
     @Test
     public void searchUserDetailsSuccessOnNull() throws UserException {
-        UserVO user = mockUserVO();
+        var user = mockUserVO();
         user.setName(null);
         user.setEmail(null);
         user.setRole(null);
@@ -191,13 +190,11 @@ public class UserDAOImplTest {
     }
 
     private List<User> mockUsers() {
-        List<User> users = new ArrayList<>();
-        users.add(mockUser());
-        return users;
+        return List.of(mockUser());
     }
 
     private User mockUser() {
-        User user = new User();
+        var user = new User();
         user.setUserId(1234L);
         user.setName("ABC");
         user.setEmail("ABC");
@@ -209,7 +206,7 @@ public class UserDAOImplTest {
     }
 
     private UserVO mockUserVO() {
-        UserVO user = new UserVO();
+        var user = new UserVO();
         user.setId(1234L);
         user.setName("ABC");
         user.setEmail("ABC");

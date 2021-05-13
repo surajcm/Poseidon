@@ -110,7 +110,7 @@ class CustomerDAOImplTest {
     @Test
     void searchCustomerSuccess() throws CustomerException {
         when(customerRepository.findAll(any())).thenReturn(mockCustomers());
-        CustomerVO mockCustomerVO = mockCustomerVO();
+        var mockCustomerVO = mockCustomerVO();
         Assertions.assertNotNull(customerDAO.searchCustomer(mockCustomerVO));
         mockCustomerVO.setIncludes(Boolean.TRUE);
         Assertions.assertNotNull(customerDAO.searchCustomer(mockCustomerVO));
@@ -126,7 +126,7 @@ class CustomerDAOImplTest {
     }
 
     private CustomerVO mockCustomerVO() {
-        CustomerVO customerVO = new CustomerVO();
+        var customerVO = new CustomerVO();
         customerVO.setCustomerId(1234L);
         customerVO.setCustomerName("ABC");
         customerVO.setNotes("ABC");
@@ -153,7 +153,7 @@ class CustomerDAOImplTest {
     }
 
     private Customer mockCustomer() {
-        Customer customer = new Customer();
+        var customer = new Customer();
         customer.setCustomerId(1234L);
         customer.setName("ABC");
         customer.setAddress("ABC");

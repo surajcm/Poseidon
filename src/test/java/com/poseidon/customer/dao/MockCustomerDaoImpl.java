@@ -14,7 +14,7 @@ public class MockCustomerDaoImpl implements CustomerDAO {
     @Override
     public List<CustomerVO> listAllCustomerDetails() throws CustomerException {
         List<CustomerVO> customerVOs = new ArrayList<>();
-        CustomerVO customerVo = new CustomerVO();
+        var customerVo = new CustomerVO();
         customerVo.setCustomerName("Tester");
         return customerVOs;
     }

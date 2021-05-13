@@ -68,7 +68,7 @@ class CompanyTermsDAOImplTest {
     }
 
     private CompanyTerms mockCompanyTerms() {
-        CompanyTerms companyTerms = new CompanyTerms();
+        var companyTerms = new CompanyTerms();
         companyTerms.setCompanyName("ABC");
         companyTerms.setTerms("ABC");
         companyTerms.setCompanyAddress("ABC");

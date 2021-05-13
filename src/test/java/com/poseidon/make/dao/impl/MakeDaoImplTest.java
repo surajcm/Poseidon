@@ -14,7 +14,6 @@ import org.powermock.reflect.Whitebox;
 import org.springframework.dao.CannotAcquireLockException;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -164,30 +163,21 @@ class MakeDaoImplTest {
     void updateModelSuccess() {
         when(modelRepository.findById(anyLong())).thenReturn(Optional.of(mockModel()));
         when(makeRepository.findById(anyLong())).thenReturn(Optional.of(mockMake()));
-        MakeAndModelVO makeAndModelVO = new MakeAndModelVO();
-        makeAndModelVO.setId(1234L);
-        makeAndModelVO.setModelName("Macbook");
-        makeAndModelVO.setMakeId(1234L);
+        var makeAndModelVO = getMakeAndModelVO();
         Assertions.assertAll(() -> makeDao.updateModel(makeAndModelVO));
     }
 
     @Test
     void updateModelSuccessOnEmpty() {
         when(modelRepository.findById(anyLong())).thenReturn(Optional.empty());
-        MakeAndModelVO makeAndModelVO = new MakeAndModelVO();
-        makeAndModelVO.setId(1234L);
-        makeAndModelVO.setModelName("Macbook");
-        makeAndModelVO.setMakeId(1234L);
+        var makeAndModelVO = getMakeAndModelVO();
         Assertions.assertAll(() -> makeDao.updateModel(makeAndModelVO));
     }
 
     @Test
     void updateModelFailure() {
         when(modelRepository.findById(anyLong())).thenThrow(new CannotAcquireLockException("DB error"));
-        MakeAndModelVO makeAndModelVO = new MakeAndModelVO();
-        makeAndModelVO.setId(1234L);
-        makeAndModelVO.setModelName("Macbook");
-        makeAndModelVO.setMakeId(1234L);
+        var makeAndModelVO = getMakeAndModelVO();
         Assertions.assertThrows(MakeException.class, () -> makeDao.updateModel(makeAndModelVO));
     }
 
@@ -205,7 +195,7 @@ class MakeDaoImplTest {
 
     @Test
     void getAllModelsFromMakeIdSuccess() throws MakeException {
-        Make mockMake = mockMake();
+        var mockMake = mockMake();
         mockMake.setModels(mockModels());
         when(makeRepository.findById(anyLong())).thenReturn(Optional.of(mockMake));
         Assertions.assertNotNull(makeDao.getAllModelsFromMakeId(1234L));
@@ -230,34 +220,38 @@ class MakeDaoImplTest {
     }
 
     private List<Make> mockMakes() {
-        List<Make> makes = new ArrayList<>();
-        makes.add(mockMake());
-        return makes;
+        return List.of(mockMake());
     }
 
     private List<Model> mockModels() {
-        List<Model> models = new ArrayList<>();
-        models.add(mockModel());
-        return models;
+        return List.of(mockModel());
     }
 
     private Make mockMake() {
-        Make make = new Make();
+        var make = new Make();
         make.setMakeId(1234L);
         make.setMakeName("HP");
         return make;
     }
 
     private Model mockModel() {
-        Model model = new Model();
+        var model = new Model();
         model.setModelId(1234L);
         model.setModelName("Macbook Pro");
         model.setMake(mockMake());
         return model;
     }
 
+    private MakeAndModelVO getMakeAndModelVO() {
+        var makeAndModelVO = new MakeAndModelVO();
+        makeAndModelVO.setId(1234L);
+        makeAndModelVO.setModelName("Macbook");
+        makeAndModelVO.setMakeId(1234L);
+        return makeAndModelVO;
+    }
+
     private MakeAndModelVO mockMakeAndModelVO() {
-        MakeAndModelVO makeAndModelVO = new MakeAndModelVO();
+        var makeAndModelVO = new MakeAndModelVO();
         makeAndModelVO.setMakeId(1234L);
         makeAndModelVO.setMakeName("Apple");
         makeAndModelVO.setDescription("Apple computers");

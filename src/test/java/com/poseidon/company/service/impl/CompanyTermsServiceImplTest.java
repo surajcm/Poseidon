@@ -27,7 +27,7 @@ class CompanyTermsServiceImplTest {
     @Test
     void listCompanyTermsSuccess() throws CompanyTermsException {
         when(companyTermsDAO.listCompanyTerms()).thenReturn(mockCompanyTermsVO());
-        CompanyTermsVO companyTermsVO = companyTermsService.listCompanyTerms();
+        var companyTermsVO = companyTermsService.listCompanyTerms();
         Assertions.assertEquals("ABC", companyTermsVO.getCompanyName());
     }
 
@@ -41,7 +41,7 @@ class CompanyTermsServiceImplTest {
     @Test
     void updateCompanyDetailsSuccess() throws CompanyTermsException {
         when(companyTermsDAO.updateCompanyDetails(any())).thenReturn(mockCompanyTermsVO());
-        CompanyTermsVO companyTermsVO = companyTermsService.updateCompanyDetails(new CompanyTermsVO());
+        var companyTermsVO = companyTermsService.updateCompanyDetails(new CompanyTermsVO());
         Assertions.assertEquals("ABC", companyTermsVO.getCompanyName());
     }
 
@@ -53,7 +53,7 @@ class CompanyTermsServiceImplTest {
     }
 
     private CompanyTermsVO mockCompanyTermsVO() {
-        CompanyTermsVO companyTermsVO = new CompanyTermsVO();
+        var companyTermsVO = new CompanyTermsVO();
         companyTermsVO.setCompanyName("ABC");
         return companyTermsVO;
     }

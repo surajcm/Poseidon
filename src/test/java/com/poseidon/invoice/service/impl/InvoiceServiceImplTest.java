@@ -41,7 +41,7 @@ class InvoiceServiceImplTest {
     void addInvoiceSuccess() throws TransactionException {
         when(transactionService.fetchTransactionFromTag(anyString()))
                 .thenReturn(Mockito.mock(TransactionReportVO.class));
-        InvoiceVO invoiceVO = new InvoiceVO();
+        var invoiceVO = new InvoiceVO();
         invoiceVO.setTagNo("1234");
         Assertions.assertAll(() -> invoiceService.addInvoice(invoiceVO));
     }
@@ -50,7 +50,7 @@ class InvoiceServiceImplTest {
     void addInvoiceFailure() throws TransactionException {
         when(transactionService.fetchTransactionFromTag(anyString()))
                 .thenThrow(new TransactionException(TransactionException.DATABASE_ERROR));
-        InvoiceVO invoiceVO = new InvoiceVO();
+        var invoiceVO = new InvoiceVO();
         invoiceVO.setTagNo("1234");
         Assertions.assertThrows(InvoiceException.class, () -> invoiceService.addInvoice(invoiceVO));
     }
@@ -119,7 +119,7 @@ class InvoiceServiceImplTest {
     void updateInvoiceSuccess() throws TransactionException {
         when(transactionService.fetchTransactionFromTag(anyString()))
                 .thenReturn(Mockito.mock(TransactionReportVO.class));
-        InvoiceVO invoiceVO = new InvoiceVO();
+        var invoiceVO = new InvoiceVO();
         invoiceVO.setTagNo("1234");
         Assertions.assertAll(() -> invoiceService.updateInvoice(invoiceVO));
     }
@@ -128,7 +128,7 @@ class InvoiceServiceImplTest {
     void updateInvoiceFailure() throws TransactionException {
         when(transactionService.fetchTransactionFromTag(anyString()))
                 .thenThrow(new TransactionException(TransactionException.DATABASE_ERROR));
-        InvoiceVO invoiceVO = new InvoiceVO();
+        var invoiceVO = new InvoiceVO();
         invoiceVO.setTagNo("1234");
         Assertions.assertThrows(InvoiceException.class, () -> invoiceService.updateInvoice(invoiceVO));
     }
@@ -147,14 +147,11 @@ class InvoiceServiceImplTest {
     }
 
     private List<TransactionVO> mockListOfTransactionVOs() {
-        TransactionVO transactionVO1 = new TransactionVO();
+        var transactionVO1 = new TransactionVO();
         transactionVO1.setTagNo("1234");
         TransactionVO transactionVO2 = new TransactionVO();
         transactionVO2.setTagNo("5678");
-        List<TransactionVO> transactionVOS = new ArrayList<>();
-        transactionVOS.add(transactionVO1);
-        transactionVOS.add(transactionVO2);
-        return transactionVOS;
+        return List.of(transactionVO1, transactionVO2);
     }
 
 }

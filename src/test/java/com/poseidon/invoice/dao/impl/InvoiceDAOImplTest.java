@@ -12,7 +12,6 @@ import org.powermock.reflect.Whitebox;
 import org.springframework.dao.CannotAcquireLockException;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -46,14 +45,14 @@ class InvoiceDAOImplTest {
     @Test
     void fetchInvoiceForListOfTransactionsSuccess() throws InvoiceException {
         when(invoiceRepository.fetchTodaysInvoices(any())).thenReturn(mockListOfInvoices());
-        List<String> tagNumbers = List.of("ABC", "CDE");
+        var tagNumbers = List.of("ABC", "CDE");
         Assertions.assertNotNull(invoiceDAO.fetchInvoiceForListOfTransactions(tagNumbers));
     }
 
     @Test
     void fetchInvoiceForListOfTransactionsFailure() {
         when(invoiceRepository.fetchTodaysInvoices(any())).thenThrow(new CannotAcquireLockException("DB error"));
-        List<String> tagNumbers = List.of("ABC", "CDE");
+        var tagNumbers = List.of("ABC", "CDE");
         Assertions.assertThrows(InvoiceException.class,
                 () -> invoiceDAO.fetchInvoiceForListOfTransactions(tagNumbers));
     }
@@ -100,15 +99,13 @@ class InvoiceDAOImplTest {
     }
 
     private Invoice mockInvoice() {
-        Invoice invoice = new Invoice();
+        var invoice = new Invoice();
         invoice.setInvoiceId(1234L);
         return invoice;
     }
 
     private List<Invoice> mockListOfInvoices() {
-        List<Invoice> invoices = new ArrayList<>();
-        invoices.add(mockInvoice());
-        return invoices;
+        return List.of(mockInvoice());
     }
 
 }

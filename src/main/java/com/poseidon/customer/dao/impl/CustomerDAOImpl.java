@@ -20,7 +20,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 @Service
 @SuppressWarnings("unused")
@@ -66,7 +65,7 @@ public class CustomerDAOImpl implements CustomerDAO {
     @Override
     public long saveCustomer(final CustomerVO currentCustomerVo) throws CustomerException {
         Long id;
-        Customer customer = convertToSingleCustomer(currentCustomerVo);
+        var customer = convertToSingleCustomer(currentCustomerVo);
         try {
             var newCustomer = customerRepository.save(customer);
             id = newCustomer.getCustomerId();
@@ -214,7 +213,7 @@ public class CustomerDAOImpl implements CustomerDAO {
     }
 
     private CustomerVO convertToSingleCustomerVO(final Customer customer) {
-        CustomerVO customerVO = new CustomerVO();
+        var customerVO = new CustomerVO();
         customerVO.setCustomerId(customer.getCustomerId());
         customerVO.setCustomerName(customer.getName());
         customerVO.setAddress(customer.getAddress());
@@ -227,7 +226,7 @@ public class CustomerDAOImpl implements CustomerDAO {
     }
 
     private Customer convertToSingleCustomer(final CustomerVO currentCustomerVO) {
-        Customer customer = new Customer();
+        var customer = new Customer();
         customer.setName(currentCustomerVO.getCustomerName());
         customer.setAddress(currentCustomerVO.getAddress());
         customer.setPhone(currentCustomerVO.getPhoneNo());
@@ -241,7 +240,7 @@ public class CustomerDAOImpl implements CustomerDAO {
     private List<CustomerVO> convertToCustomerVO(final List<Customer> customers) {
         List<CustomerVO> customerVOS = new ArrayList<>();
         for (Customer customer : customers) {
-            CustomerVO customerVO = new CustomerVO();
+            var customerVO = new CustomerVO();
             customerVO.setCustomerId(customer.getCustomerId());
             customerVO.setCustomerName(customer.getName());
             customerVO.setAddress(customer.getAddress());

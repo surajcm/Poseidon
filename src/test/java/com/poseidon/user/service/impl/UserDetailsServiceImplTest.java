@@ -9,7 +9,6 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
 import org.powermock.reflect.Whitebox;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
@@ -35,9 +34,9 @@ class UserDetailsServiceImplTest {
 
     @Test
     void loadUserByValidUsername() throws UserException {
-        String userName = "admin";
+        var userName = "admin";
         when(userDAO.findByEmail(anyString())).thenReturn(mockUser());
-        UserDetails userDetails = userDetailsService.loadUserByUsername("admin");
+        var userDetails = userDetailsService.loadUserByUsername("admin");
         Assertions.assertEquals(userName, userDetails.getUsername());
     }
 
@@ -49,7 +48,7 @@ class UserDetailsServiceImplTest {
     }
 
     private UserVO mockUser() {
-        UserVO user = new UserVO();
+        var user = new UserVO();
         user.setName("admin");
         user.setPassword("pass");
         user.setRole("admin");

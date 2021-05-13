@@ -175,7 +175,7 @@ public class TransactionController {
         return list(transactionForm);
     }
 
-    private boolean hasValidCustomerId(TransactionForm transactionForm) {
+    private boolean hasValidCustomerId(final TransactionForm transactionForm) {
         return transactionForm.getCustomerVO() != null
                 && transactionForm.getCustomerVO().getCustomerId() != null
                 && transactionForm.getCustomerVO().getCustomerId() > 0;

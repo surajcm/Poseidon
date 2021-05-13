@@ -10,8 +10,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
-
 @Service
 @SuppressWarnings("unused")
 public class CompanyTermsDAOImpl implements CompanyTermsDAO {
@@ -31,7 +29,7 @@ public class CompanyTermsDAOImpl implements CompanyTermsDAO {
     public CompanyTermsVO listCompanyTerms() throws CompanyTermsException {
         CompanyTermsVO companyTermsVO = null;
         try {
-            Optional<CompanyTerms> companyTerms = companyTermsRepository.findFirstByOrderByCompanyIdAsc();
+            var companyTerms = companyTermsRepository.findFirstByOrderByCompanyIdAsc();
             if (companyTerms.isPresent()) {
                 companyTermsVO = convertToCompanyTermsVO(companyTerms.get());
             }
@@ -42,7 +40,7 @@ public class CompanyTermsDAOImpl implements CompanyTermsDAO {
     }
 
     private CompanyTermsVO convertToCompanyTermsVO(final CompanyTerms companyTerms) {
-        CompanyTermsVO companyTermsVO = new CompanyTermsVO();
+        var companyTermsVO = new CompanyTermsVO();
         companyTermsVO.setCompanyName(companyTerms.getCompanyName());
         companyTermsVO.setCompanyAddress(companyTerms.getCompanyAddress());
         companyTermsVO.setCompanyPhoneNumber(companyTerms.getCompanyPhone());
@@ -65,10 +63,10 @@ public class CompanyTermsDAOImpl implements CompanyTermsDAO {
     public CompanyTermsVO updateCompanyDetails(final CompanyTermsVO companyTermsVO) throws CompanyTermsException {
         CompanyTermsVO termsVO = null;
         try {
-            Optional<CompanyTerms> optionalCompanyTerms = companyTermsRepository.findFirstByOrderByCompanyIdAsc();
+            var optionalCompanyTerms = companyTermsRepository.findFirstByOrderByCompanyIdAsc();
             if (optionalCompanyTerms.isPresent()) {
-                CompanyTerms companyTerms = getCompanyTerms(companyTermsVO, optionalCompanyTerms.get());
-                CompanyTerms updatedCompanyTerms = companyTermsRepository.save(companyTerms);
+                var companyTerms = getCompanyTerms(companyTermsVO, optionalCompanyTerms.get());
+                var updatedCompanyTerms = companyTermsRepository.save(companyTerms);
                 termsVO = convertToCompanyTermsVO(updatedCompanyTerms);
             }
         } catch (DataAccessException ex) {
@@ -78,7 +76,8 @@ public class CompanyTermsDAOImpl implements CompanyTermsDAO {
         return termsVO;
     }
 
-    private CompanyTerms getCompanyTerms(final CompanyTermsVO companyTermsVO, final CompanyTerms companyTerms) {
+    private CompanyTerms getCompanyTerms(final CompanyTermsVO companyTermsVO,
+                                         final CompanyTerms companyTerms) {
         companyTerms.setCompanyName(companyTermsVO.getCompanyName());
         companyTerms.setTerms(companyTermsVO.getCompanyTerms());
         companyTerms.setCompanyAddress(companyTermsVO.getCompanyAddress());

@@ -15,7 +15,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
@@ -45,7 +44,7 @@ class CustomerServiceImplTest {
 
     @Test
     void verifyListAllCustomerDetailsSuccess() {
-        List<CustomerVO> customerVOs = customerService.listAllCustomerDetails();
+        var customerVOs = customerService.listAllCustomerDetails();
         Assertions.assertEquals(0, customerVOs.size());
     }
 

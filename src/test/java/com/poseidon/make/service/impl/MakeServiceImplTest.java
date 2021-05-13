@@ -12,7 +12,6 @@ import org.mockito.Mockito;
 import org.powermock.reflect.Whitebox;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -33,7 +32,7 @@ public class MakeServiceImplTest {
     public void listAllMakesAndModelsSuccess() {
         try {
             when(makeDAO.listAllMakesAndModels()).thenReturn(mockListOfMakeAndModelVO());
-            List<MakeAndModelVO> makeVOs = makeService.listAllMakesAndModels();
+            var makeVOs = makeService.listAllMakesAndModels();
             Assertions.assertEquals(1234L, makeVOs.get(0).getId());
         } catch (MakeException exception) {
             Assertions.fail("Exception occurred");
@@ -50,7 +49,7 @@ public class MakeServiceImplTest {
     public void listAllMakesSuccess() {
         try {
             when(makeDAO.listAllMakes()).thenReturn(mockListOfMakeAndModelVO());
-            List<MakeAndModelVO> makeVOs = makeService.listAllMakes();
+            var makeVOs = makeService.listAllMakes();
             Assertions.assertEquals(1234L, makeVOs.get(0).getId());
         } catch (MakeException exception) {
             Assertions.fail("Exception occurred");
@@ -157,7 +156,7 @@ public class MakeServiceImplTest {
     public void searchMakeVOsSuccess() {
         try {
             when(makeDAO.searchMakeVOs(any(MakeAndModelVO.class))).thenReturn(mockListOfMakeAndModelVO());
-            List<MakeAndModelVO> makeVOs = makeService.searchMakeVOs(Mockito.mock(MakeAndModelVO.class));
+            var makeVOs = makeService.searchMakeVOs(Mockito.mock(MakeAndModelVO.class));
             Assertions.assertEquals(1234L, makeVOs.get(0).getId());
         } catch (MakeException exception) {
             Assertions.fail("Exception occurred");
@@ -175,7 +174,7 @@ public class MakeServiceImplTest {
     public void fetchMakesSuccess() {
         try {
             when(makeDAO.fetchMakes()).thenReturn(mockMakeVOs());
-            List<MakeVO> makeVOs = makeService.fetchMakes();
+            var makeVOs = makeService.fetchMakes();
             Assertions.assertEquals(1234L, makeVOs.get(0).getId());
         } catch (MakeException exception) {
             Assertions.fail("Exception occurred");
@@ -192,7 +191,7 @@ public class MakeServiceImplTest {
     public void getAllModelsFromMakeIdSuccess() {
         try {
             when(makeDAO.getAllModelsFromMakeId(anyLong())).thenReturn(mockListOfMakeAndModelVO());
-            List<MakeAndModelVO> makeVOs = makeService.getAllModelsFromMakeId(1234L);
+            var makeVOs = makeService.getAllModelsFromMakeId(1234L);
             Assertions.assertEquals(1234L, makeVOs.get(0).getId());
         } catch (MakeException exception) {
             Assertions.fail("Exception occurred");
@@ -206,18 +205,14 @@ public class MakeServiceImplTest {
     }
 
     private List<MakeAndModelVO> mockListOfMakeAndModelVO() {
-        MakeAndModelVO makeAndModelVO = new MakeAndModelVO();
+        var makeAndModelVO = new MakeAndModelVO();
         makeAndModelVO.setId(1234L);
-        List<MakeAndModelVO> makeAndModels = new ArrayList<>();
-        makeAndModels.add(makeAndModelVO);
-        return makeAndModels;
+        return List.of(makeAndModelVO);
     }
 
     private List<MakeVO> mockMakeVOs() {
-        List<MakeVO> makeVOS = new ArrayList<>();
-        MakeVO makeVO = new MakeVO();
+        var makeVO = new MakeVO();
         makeVO.setId(1234L);
-        makeVOS.add(makeVO);
-        return makeVOS;
+        return List.of(makeVO);
     }
 }
