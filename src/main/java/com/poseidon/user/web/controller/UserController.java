@@ -392,9 +392,9 @@ public class UserController {
             response = mapper.writeValueAsString(userEditMap);
         } catch (IOException ex) {
             response = ERROR;
-            logger.error("error parsing to json : " + ex.getMessage());
+            logger.error("Error parsing to json : " + ex.getMessage());
         }
-        logger.info("user list json : " + response);
+        logger.info("User list json : " + response);
         return response;
     }
 
@@ -423,7 +423,7 @@ public class UserController {
 
     @PostMapping("/user/PasswordReset.htm")
     public ModelAndView reset(final UserForm userForm) {
-        logger.info(" password reset view of user controller");
+        logger.info("Password reset view of user controller");
         return new ModelAndView("user/PasswordReset", USER_FORM, userForm);
     }
 
@@ -431,9 +431,24 @@ public class UserController {
     public @ResponseBody String changePass(@ModelAttribute("current") final String current,
                                            @ModelAttribute("newPass") final String newPass,
                                            final BindingResult result) {
-        logger.info("changePass of user controller from {} to {}", current, newPass);
+        logger.info("ChangePass of user controller from {} to {}", current, newPass);
         var auth = SecurityContextHolder.getContext().getAuthentication();
         logger.info(auth.getName());
+        // get the user info
+        try {
+            var userList = userService.searchUserDetails(formSearch(auth.getName()));
+            logger.info(userList.get(0).getName());
+            logger.info(userList.get(0).getPassword());
+        } catch (UserException e) {
+            e.printStackTrace();
+        }
+        // check whether the existing password is
         return "hi";
+    }
+
+    private UserVO formSearch(String name) {
+        var userVO = new UserVO();
+        userVO.setName(name);
+        return userVO;
     }
 }

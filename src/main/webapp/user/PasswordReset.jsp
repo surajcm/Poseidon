@@ -83,7 +83,7 @@
         <script src="/js/core/jquery-3.2.1.min.js"></script>
         <script src="/js/core/popper.min.js"></script>
         <script src="/js/core/bootstrap.min.js"></script>
-        <script>
+        <script type="text/javascript">
             $(document).ready(function() {
                 //Handles menu drop down
                 $('.dropdown-menu').find('form').click(function (e) {

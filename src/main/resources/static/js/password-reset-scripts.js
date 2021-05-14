@@ -24,6 +24,11 @@ function passwordChange() {
         }
         return;
     }
+    if(newPass === current) {
+        console.log("Password entered in both current and new fields are equal");
+        // show error
+        return;
+    }
     if (newPass === repeat) {
         console.log("both passwords are equal");
         let passRegex=  /^[A-Za-z]\w{7,14}$/;
