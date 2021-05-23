@@ -234,13 +234,13 @@ public class UserDAOImpl implements UserDAO {
     private List<UserVO> searchAllUsers(final UserVO searchUser) {
         var userSpec = new UserSpecification();
         var search = populateSearchOperation(searchUser);
-        if (!StringUtils.hasText(searchUser.getName())) {
+        if (StringUtils.hasText(searchUser.getName())) {
             userSpec.add(new SearchCriteria("name", searchUser.getName(), search));
         }
-        if (!StringUtils.hasText(searchUser.getEmail())) {
+        if (StringUtils.hasText(searchUser.getEmail())) {
             userSpec.add(new SearchCriteria("email", searchUser.getEmail(), search));
         }
-        if (!StringUtils.hasText(searchUser.getRole())) {
+        if (StringUtils.hasText(searchUser.getRole())) {
             userSpec.add(new SearchCriteria("role", searchUser.getRole(), search));
         }
         List<User> resultUsers = userRepository.findAll(userSpec);

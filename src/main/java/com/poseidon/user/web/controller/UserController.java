@@ -439,14 +439,14 @@ public class UserController {
             var userList = userService.searchUserDetails(formSearch(auth.getName()));
             logger.info(userList.get(0).getName());
             logger.info(userList.get(0).getPassword());
-        } catch (UserException e) {
-            e.printStackTrace();
+        } catch (UserException ex) {
+            logger.error(ex.getLocalizedMessage(), ex);
         }
         // check whether the existing password is
         return "hi";
     }
 
-    private UserVO formSearch(String name) {
+    private UserVO formSearch(final String name) {
         var userVO = new UserVO();
         userVO.setName(name);
         return userVO;
