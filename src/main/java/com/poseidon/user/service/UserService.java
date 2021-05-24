@@ -56,4 +56,8 @@ public interface UserService {
     List<UserVO> searchUserDetails(UserVO searchUser) throws UserException;
 
     void expireUser(Long id)  throws UserException;
+
+    boolean comparePasswords(String passedIn, String currentUserPass);
+
+    void updateWithNewPassword(UserVO userVO, String newPass);
 }

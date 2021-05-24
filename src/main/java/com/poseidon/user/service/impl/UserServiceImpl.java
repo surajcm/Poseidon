@@ -136,4 +136,20 @@ public class UserServiceImpl implements UserService {
         }
     }
 
+    @Override
+    public boolean comparePasswords(final String passedIn, final String currentUserPass) {
+        String encoded = bcryptPasswordEncoder.encode(passedIn);
+        return currentUserPass.equalsIgnoreCase(encoded);
+    }
+
+    @Override
+    public void updateWithNewPassword(final UserVO userVO, final String newPass) {
+        userVO.setPassword(bcryptPasswordEncoder.encode(newPass));
+        try {
+            userDAO.save(userVO);
+        } catch (UserException ex) {
+            LOG.error(ex.getMessage());
+        }
+    }
+
 }

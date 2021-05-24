@@ -346,7 +346,7 @@ public class UserController {
     @PostMapping("/user/passwordExpire.htm")
     public @ResponseBody
     Boolean passwordExpiry(@ModelAttribute("id") final String id,
-                          final BindingResult result) {
+                           final BindingResult result) {
         Boolean status = Boolean.TRUE;
         try {
             userService.expireUser(Long.valueOf(id));
@@ -404,7 +404,7 @@ public class UserController {
                           @ModelAttribute("name") final String name,
                           @ModelAttribute("email") final String email,
                           @ModelAttribute("role") final String role,
-                      final BindingResult result) {
+                          final BindingResult result) {
         logger.info("updateUserAjax method of user controller with id {}, name {}, email {}, role {}",
                 id, name, email, role);
         try {
@@ -428,27 +428,46 @@ public class UserController {
     }
 
     @PostMapping("/user/changePasswordAndSaveIt.htm")
-    public @ResponseBody String changePass(@ModelAttribute("current") final String current,
-                                           @ModelAttribute("newPass") final String newPass,
-                                           final BindingResult result) {
+    public @ResponseBody
+    String changePass(@ModelAttribute("current") final String current,
+                      @ModelAttribute("newPass") final String newPass,
+                      final BindingResult result) {
         logger.info("ChangePass of user controller from {} to {}", current, newPass);
+        String message;
         var auth = SecurityContextHolder.getContext().getAuthentication();
-        logger.info(auth.getName());
         // get the user info
         try {
             var userList = userService.searchUserDetails(formSearch(auth.getName()));
-            logger.info(userList.get(0).getName());
-            logger.info(userList.get(0).getPassword());
+            if (userService.comparePasswords(current, userList.get(0).getPassword())) {
+                var userVO = userList.get(0);
+                userService.updateWithNewPassword(userVO, newPass);
+                message = messageJSON("The password has been reset !!");
+            } else {
+                message = messageJSON("The password didnt match with the previously entered one");
+            }
         } catch (UserException ex) {
+            message = messageJSON("Unknown error occurred !!");
             logger.error(ex.getLocalizedMessage(), ex);
         }
-        // check whether the existing password is
-        return "hi";
+        return message;
     }
 
     private UserVO formSearch(final String name) {
         var userVO = new UserVO();
         userVO.setName(name);
         return userVO;
+    }
+
+    private String messageJSON(final String message) {
+        String response;
+        Map messageMap = Map.of("message", message);
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            response = mapper.writeValueAsString(messageMap);
+        } catch (IOException ex) {
+            response = ERROR;
+            logger.error("Error parsing to json : " + ex.getMessage());
+        }
+        return response;
     }
 }
