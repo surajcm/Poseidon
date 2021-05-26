@@ -138,8 +138,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public boolean comparePasswords(final String passedIn, final String currentUserPass) {
-        String encoded = bcryptPasswordEncoder.encode(passedIn);
-        return currentUserPass.equalsIgnoreCase(encoded);
+        return bcryptPasswordEncoder.matches(passedIn, currentUserPass);
     }
 
     @Override
