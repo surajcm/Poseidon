@@ -1,8 +1,8 @@
 function validateSelection() {
-    var check ='false';
-    var count = 0;
+    let check ='false';
+    let count = 0;
     // get all check boxes
-    var checks = document.getElementsByName('checkField');
+    let checks = document.getElementsByName('checkField');
     if(checks){
         //if total number of rows is one
         if (checks.checked) {
@@ -15,8 +15,8 @@ function validateSelection() {
                 }
             }
             //check for validity
-            if (check = 'true') {
-                if (count == 1) {
+            if (check === 'true') {
+                if (count === 1) {
                     return true;
                 } else {
                     alert(" Only one row can be selected at a time, please select one row ");
@@ -29,13 +29,13 @@ function validateSelection() {
 }
 
 function setIdForChange() {
-    var userRow;
-    var checks = document.getElementsByName('checkField');
+    let userRow;
+    let checks = document.getElementsByName('checkField');
     if(checks.checked){
         userRow = document.getElementById("myTable").rows[0];
         document.getElementById("id").value = userRow.cells[0].childNodes[0].value;
     } else {
-        for(var i = 0; i < checks.length ; i++){
+        for(let i = 0; i < checks.length ; i++){
             if(checks[i].checked) {
                 userRow = document.getElementById("myTable").rows[i+1];
             }
@@ -89,10 +89,10 @@ function hideAlerts(){
 
 //preventing multiple checks
 function checkCall(e) {
-    var min = e.value;
-    var checks = document.getElementsByName('checkField');
-    for(var i = 0; i < checks.length ; i++){
-        if(checks[i].value != min) {
+    let min = e.value;
+    let checks = document.getElementsByName('checkField');
+    for(let i = 0; i < checks.length ; i++){
+        if(checks[i].value !== min) {
             checks[i].checked = false;
         }
     }
@@ -100,53 +100,53 @@ function checkCall(e) {
 
 function rewriteTable(textReturned) {
     document.getElementById('myTable').innerHTML = "";
-    var myTable = document.getElementById("myTable");
-    var thead = document.createElement("thead");
-    var tr1 = document.createElement("tr");
-    var th1 = document.createElement("th");
+    let myTable = document.getElementById("myTable");
+    let thead = document.createElement("thead");
+    let tr1 = document.createElement("tr");
+    let th1 = document.createElement("th");
     th1.innerHTML = "#";
     th1.setAttribute("class","text-center");
     tr1.appendChild(th1);
 
-    var th2 = document.createElement("th");
+    let th2 = document.createElement("th");
     th2.innerHTML = "Name";
     th2.setAttribute("class","text-center");
     tr1.appendChild(th2);
 
-    var th3 = document.createElement("th");
+    let th3 = document.createElement("th");
     th3.innerHTML = "email";
     th3.setAttribute("class","text-center");
     tr1.appendChild(th3);
 
 
-    var th4 = document.createElement("th");
+    let th4 = document.createElement("th");
     th4.innerHTML = "Role";
     th4.setAttribute("class","text-center");
     tr1.appendChild(th4);
 
     thead.appendChild(tr1);
     myTable.appendChild(thead);
-    var userList = JSON.parse(textReturned);
-    var tbody = document.createElement("tbody");
-    for (var i = 0; i < userList.length; i++) {
-        var singleUser = userList[i];
-        var trx = document.createElement("tr");
-        var td1 = document.createElement("td");
-        var inCheck = document.createElement("input");
+    let userList = JSON.parse(textReturned);
+    let tbody = document.createElement("tbody");
+    for (let i = 0; i < userList.length; i++) {
+        let singleUser = userList[i];
+        let trx = document.createElement("tr");
+        let td1 = document.createElement("td");
+        let inCheck = document.createElement("input");
         inCheck.setAttribute("type","checkbox");
         inCheck.setAttribute("name","checkField");
         inCheck.setAttribute("onclick","javascript:checkCall(this)");
         inCheck.setAttribute("value",singleUser.id);
         td1.appendChild(inCheck);
         trx.appendChild(td1);
-        var td2 = document.createElement("td");
+        let td2 = document.createElement("td");
         td2.innerHTML = singleUser.name;
         trx.appendChild(td2);
-        var td3 = document.createElement("td");
+        let td3 = document.createElement("td");
         td3.innerHTML = singleUser.email;
         trx.appendChild(td3);
 
-        var td4 = document.createElement("td");
+        let td4 = document.createElement("td");
         td4.innerHTML = singleUser.role;
         trx.appendChild(td4);
 
@@ -156,54 +156,54 @@ function rewriteTable(textReturned) {
 }
 
 function addNewUser() {
-    var saveModal = document.getElementById("saveModal");
+    let saveModal = document.getElementById("saveModal");
     saveModal.style.display = "block";
-    var detail = document.getElementById("userModalBody");
+    let detail = document.getElementById("userModalBody");
     detail.innerHTML = "";
 
-    var formValidUser = document.createElement("form");
+    let formValidUser = document.createElement("form");
     formValidUser.setAttribute("class","needs-validation");
     formValidUser.novalidate = true;
 
-    var divUserAdd = document.createElement("div");
+    let divUserAdd = document.createElement("div");
     divUserAdd.setAttribute("class","form-row align-items-left");
-    var divName = document.createElement("div");
+    let divName = document.createElement("div");
     divName.setAttribute("class","form-group col-md-4");
-    var txtName = document.createElement("input");
+    let txtName = document.createElement("input");
     txtName.setAttribute("type","text");
     txtName.setAttribute("class","form-control");
     txtName.setAttribute("placeholder","Name");
     txtName.setAttribute("id","addName");
     txtName.required = true;
     divName.appendChild(txtName);
-    var tt1 = document.createElement("div");
+    let tt1 = document.createElement("div");
     tt1.setAttribute("class","invalid-tooltip");
     tt1.innerHTML = "Please provide a valid name.";
     divName.appendChild(tt1);
 
-    var divEmail = document.createElement("div");
+    let divEmail = document.createElement("div");
     divEmail.setAttribute("class","form-group col-md-4");
-    var txtEmail = document.createElement("input");
+    let txtEmail = document.createElement("input");
     txtEmail.setAttribute("type","text");
     txtEmail.setAttribute("class","form-control");
     txtEmail.setAttribute("placeholder","email");
     txtEmail.setAttribute("id","addEmail");
     txtEmail.required = true;
     divEmail.appendChild(txtEmail);
-    var tt2 = document.createElement("div");
+    let tt2 = document.createElement("div");
     tt2.setAttribute("class","invalid-tooltip");
     tt2.innerHTML = "Please provide a valid email.";
     divEmail.appendChild(tt2);
 
-    var divRole = document.createElement("div");
+    let divRole = document.createElement("div");
     divRole.setAttribute("class","form-group col-md-4");
-    var selectRole = document.createElement("select");
+    let selectRole = document.createElement("select");
     selectRole.setAttribute("class","form-control");
     selectRole.setAttribute("id","addRole");
-    var adminOption = document.createElement("option");
+    let adminOption = document.createElement("option");
     adminOption.text = 'ADMIN';
     adminOption.value = 'ADMIN';
-    var guestOption = document.createElement("option");
+    let guestOption = document.createElement("option");
     guestOption.text = 'GUEST';
     guestOption.value = 'GUEST';
     selectRole.appendChild(adminOption);
@@ -218,11 +218,11 @@ function addNewUser() {
 }
 
 function saveFromModal() {
-    var addName = document.getElementById("addName").value;
-    var addEmail = document.getElementById("addEmail").value;
-    var addRole = document.getElementById("addRole").value;
-    var forms = document.getElementsByClassName('needs-validation');
-    var allFieldsAreValid = true;
+    let addName = document.getElementById("addName").value;
+    let addEmail = document.getElementById("addEmail").value;
+    let addRole = document.getElementById("addRole").value;
+    let forms = document.getElementsByClassName('needs-validation');
+    let allFieldsAreValid = true;
     
     if (forms[0].checkValidity() === false) {
         allFieldsAreValid = false;
@@ -244,10 +244,10 @@ function saveFromModal() {
 }
 
 function callAjax(addName,addEmail,addRole) {
-    var xhr = new XMLHttpRequest();
+    let xhr = new XMLHttpRequest();
     xhr.open('POST', "/user/saveUserAjax.htm",true);
-    var token = document.querySelector("meta[name='_csrf']").content;
-    var header = document.querySelector("meta[name='_csrf_header']").content;
+    let token = document.querySelector("meta[name='_csrf']").content;
+    let header = document.querySelector("meta[name='_csrf_header']").content;
     xhr.setRequestHeader(header, token);
     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     xhr.onload = function() {
@@ -265,16 +265,16 @@ function callAjax(addName,addEmail,addRole) {
 }
 
 function showStatus(status) {
-    var detail = document.getElementById("userModalBody");
+    let detail = document.getElementById("userModalBody");
     detail.innerHTML = "";
-    var saveModal = document.getElementById("saveModal");
+    let saveModal = document.getElementById("saveModal");
     saveModal.style.display = "none";
-    var divStatus = document.createElement("div");
+    let divStatus = document.createElement("div");
     divStatus.setAttribute("class","pop-status");
-    var imgSuccess = document.createElement("img");
+    let imgSuccess = document.createElement("img");
     
     divStatus.appendChild(imgSuccess);
-    var statusMessage = document.createElement("h3");
+    let statusMessage = document.createElement("h3");
     if(status) {
         imgSuccess.setAttribute("src","/img/tick.png");
         statusMessage.innerHTML = "Successfully added a new user !!";    

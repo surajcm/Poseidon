@@ -441,12 +441,12 @@ public class UserController {
             if (userService.comparePasswords(current, userList.get(0).getPassword())) {
                 var userVO = userList.get(0);
                 userService.updateWithNewPassword(userVO, newPass);
-                message = messageJSON("The password has been reset !!");
+                message = messageJSON("message", "The password has been reset !!");
             } else {
-                message = messageJSON("The password didnt match with the previously entered one");
+                message = messageJSON("error", "The password didnt match with the previously entered one");
             }
         } catch (UserException ex) {
-            message = messageJSON("Unknown error occurred !!");
+            message = messageJSON("error", "Unknown error occurred !!");
             logger.error(ex.getLocalizedMessage(), ex);
         }
         return message;
@@ -458,9 +458,9 @@ public class UserController {
         return userVO;
     }
 
-    private String messageJSON(final String message) {
+    private String messageJSON(final String type, final String message) {
         String response;
-        Map messageMap = Map.of("message", message);
+        Map<String, String> messageMap = Map.of(type, message);
         ObjectMapper mapper = new ObjectMapper();
         try {
             response = mapper.writeValueAsString(messageMap);
