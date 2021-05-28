@@ -441,9 +441,9 @@ public class UserController {
             if (userService.comparePasswords(current, userList.get(0).getPassword())) {
                 var userVO = userList.get(0);
                 userService.updateWithNewPassword(userVO, newPass);
-                message = messageJSON("message", "The password has been reset !!");
+                message = messageJSON("success", "The password has been reset !!");
             } else {
-                message = messageJSON("error", "The password didnt match with the previously entered one");
+                message = messageJSON("message", "The password didnt match with the previously entered one");
             }
         } catch (UserException ex) {
             message = messageJSON("error", "Unknown error occurred !!");

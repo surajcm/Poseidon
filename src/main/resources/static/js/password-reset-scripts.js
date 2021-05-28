@@ -60,6 +60,7 @@ function changePasswordAndSaveIt(current, newPass) {
         if (xhr.status === 200) {
             if (xhr.responseText != null) {
                 console.log('Request succeeded.' + xhr.responseText);
+                setMessagesAfterSave(xhr.responseText);
             }
         } else if (xhr.status !== 200) {
             console.log('Request failed.  Returned status of ' + xhr.status);
@@ -67,6 +68,10 @@ function changePasswordAndSaveIt(current, newPass) {
         }
     };
     xhr.send("current="+current+ "&newPass=" + newPass);
+}
+
+function setMessagesAfterSave(responseText) {
+    console.log('Response is ' + responseText);
 }
 
 function clearMessage() {

@@ -297,11 +297,11 @@ function resetUser() {
 }
 
 function ajaxPasswordExpire() {
-    var id = document.getElementById("id").value;
-    var xhr = new XMLHttpRequest();
+    let id = document.getElementById("id").value;
+    let xhr = new XMLHttpRequest();
     xhr.open('POST', "/user/passwordExpire.htm",true);
-    var token = document.querySelector("meta[name='_csrf']").content;
-    var header = document.querySelector("meta[name='_csrf_header']").content;
+    let token = document.querySelector("meta[name='_csrf']").content;
+    let header = document.querySelector("meta[name='_csrf_header']").content;
     xhr.setRequestHeader(header, token);
     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     xhr.onload = function() {
@@ -320,24 +320,24 @@ function ajaxPasswordExpire() {
 function validateEditModalSelection() {
     var detail = document.getElementById("userEditModalBody");
     detail.innerHTML = "";
-    var check ='false';
-    var count = 0;
+    let check ='false';
+    let count = 0;
     // get all check boxes
-    var checks = document.getElementsByName('checkField');
+    let checks = document.getElementsByName('checkField');
     if(checks){
         //if total number of rows is one
         if (checks.checked) {
             return true;
         } else {
-            for(var i = 0 ; i < checks.length ; i++ ) {
+            for(let i = 0 ; i < checks.length ; i++ ) {
                 if (checks[i].checked) {
                     check = 'true';
                     count = count + 1;
                 }
             }
             //check for validity
-            if (check = 'true') {
-                if (count == 1) {
+            if (check === 'true') {
+                if (count === 1) {
                     return true;
                 } else {
                 detail.innerHTML = "<p>Only one row can be selected at a time, please select one row</p>";
@@ -354,27 +354,27 @@ function editUser() {
     if(rowCheck) {
         editUserModal();
         setIdForChange();
-        var user_id = document.getElementById("id").value;
+        let user_id = document.getElementById("id").value;
         // also update the fields
         getUserForEdit();
     }
 }
 
 function editUserModal() {
-    var updateModal = document.getElementById("updateModal");
+    let updateModal = document.getElementById("updateModal");
     updateModal.style.display = "block";
-    var detail = document.getElementById("userEditModalBody");
+    let detail = document.getElementById("userEditModalBody");
     detail.innerHTML = "";
 
-    var formValidUser = document.createElement("form");
+    let formValidUser = document.createElement("form");
     formValidUser.setAttribute("class","needs-validation2");
     formValidUser.novalidate = true;
 
-    var divUserEdit = document.createElement("div");
+    let divUserEdit = document.createElement("div");
     divUserEdit.setAttribute("class","form-row align-items-left");
-    var divName = document.createElement("div");
+    let divName = document.createElement("div");
     divName.setAttribute("class","form-group col-md-4");
-    var txtName = document.createElement("input");
+    let txtName = document.createElement("input");
     txtName.setAttribute("type","text");
     txtName.setAttribute("class","form-control");
     txtName.setAttribute("placeholder","Name");
@@ -382,9 +382,9 @@ function editUserModal() {
     txtName.required = true;
     divName.appendChild(txtName);
 
-    var divEmail = document.createElement("div");
+    let divEmail = document.createElement("div");
     divEmail.setAttribute("class","form-group col-md-4");
-    var txtEmail = document.createElement("input");
+    let txtEmail = document.createElement("input");
     txtEmail.setAttribute("type","text");
     txtEmail.setAttribute("class","form-control");
     txtEmail.setAttribute("placeholder","email");
@@ -392,15 +392,15 @@ function editUserModal() {
     txtEmail.required = true;
     divEmail.appendChild(txtEmail);
 
-    var divRole = document.createElement("div");
+    let divRole = document.createElement("div");
     divRole.setAttribute("class","form-group col-md-4");
-    var selectRole = document.createElement("select");
+    let selectRole = document.createElement("select");
     selectRole.setAttribute("class","form-control");
     selectRole.setAttribute("id","updateRole");
-    var adminOption = document.createElement("option");
+    let adminOption = document.createElement("option");
     adminOption.text = 'ADMIN';
     adminOption.value = 'ADMIN';
-    var guestOption = document.createElement("option");
+    let guestOption = document.createElement("option");
     guestOption.text = 'GUEST';
     guestOption.value = 'GUEST';
     selectRole.appendChild(adminOption);
@@ -416,11 +416,11 @@ function editUserModal() {
 
 
 function getUserForEdit() {
-    var id = document.getElementById("id").value;
-    var xhr = new XMLHttpRequest();
+    let id = document.getElementById("id").value;
+    let xhr = new XMLHttpRequest();
     xhr.open('GET', "/user/getForEdit.htm" + "?id=" + id,true);
-    var token = document.querySelector("meta[name='_csrf']").content;
-    var header = document.querySelector("meta[name='_csrf_header']").content;
+    let token = document.querySelector("meta[name='_csrf']").content;
+    let header = document.querySelector("meta[name='_csrf_header']").content;
     xhr.setRequestHeader(header, token);
     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     xhr.onload = function() {
@@ -438,16 +438,16 @@ function getUserForEdit() {
 }
 
 function showEditError() {
-    var detail = document.getElementById("userEditModalBody");
+    let detail = document.getElementById("userEditModalBody");
     detail.innerHTML = "";
-    var updateModal = document.getElementById("updateModal");
+    let updateModal = document.getElementById("updateModal");
     updateModal.style.display = "none";
-    var divStatus = document.createElement("div");
+    let divStatus = document.createElement("div");
     divStatus.setAttribute("class","pop-status");
-    var imgSuccess = document.createElement("img");
+    let imgSuccess = document.createElement("img");
 
     divStatus.appendChild(imgSuccess);
-    var statusMessage = document.createElement("h3");
+    let statusMessage = document.createElement("h3");
     imgSuccess.setAttribute("src","/img/cross.svg");
     statusMessage.innerHTML = "Failed to populate data !!";
     divStatus.appendChild(statusMessage);
@@ -455,18 +455,18 @@ function showEditError() {
 }
 
 function populateDataForEdit(textReturned) {
-    var userMap = JSON.parse(textReturned);
+    let userMap = JSON.parse(textReturned);
     document.getElementById("updateName").value = userMap.name;
     document.getElementById("updateEmail").value = userMap.email;
     document.getElementById("updateRole").value = userMap.role;
 }
 
 function updateFromModal() {
-    var updateName = document.getElementById("updateName").value;
-    var updateEmail = document.getElementById("updateEmail").value;
-    var updateRole = document.getElementById("updateRole").value;
-    var forms = document.getElementsByClassName('needs-validation2');
-    var allFieldsAreValid = true;
+    let updateName = document.getElementById("updateName").value;
+    let updateEmail = document.getElementById("updateEmail").value;
+    let updateRole = document.getElementById("updateRole").value;
+    let forms = document.getElementsByClassName('needs-validation2');
+    let allFieldsAreValid = true;
 
     if (forms[0].checkValidity() === false) {
         allFieldsAreValid = false;
@@ -488,11 +488,11 @@ function updateFromModal() {
 }
 
 function callAjaxUpdate(updateName,updateEmail,updateRole) {
-    var id = document.getElementById("id").value;
-    var xhr = new XMLHttpRequest();
+    let id = document.getElementById("id").value;
+    let xhr = new XMLHttpRequest();
     xhr.open('PUT', "/user/updateUserAjax.htm",true);
-    var token = document.querySelector("meta[name='_csrf']").content;
-    var header = document.querySelector("meta[name='_csrf_header']").content;
+    let token = document.querySelector("meta[name='_csrf']").content;
+    let header = document.querySelector("meta[name='_csrf_header']").content;
     xhr.setRequestHeader(header, token);
     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     xhr.onload = function() {
@@ -511,16 +511,16 @@ function callAjaxUpdate(updateName,updateEmail,updateRole) {
 }
 
 function showUpdateStatus(status) {
-    var detail = document.getElementById("userEditModalBody");
+    let detail = document.getElementById("userEditModalBody");
     detail.innerHTML = "";
-    var updateModal = document.getElementById("updateModal");
+    let updateModal = document.getElementById("updateModal");
     updateModal.style.display = "none";
-    var divStatus = document.createElement("div");
+    let divStatus = document.createElement("div");
     divStatus.setAttribute("class","pop-status");
-    var imgSuccess = document.createElement("img");
+    let imgSuccess = document.createElement("img");
 
     divStatus.appendChild(imgSuccess);
-    var statusMessage = document.createElement("h3");
+    let statusMessage = document.createElement("h3");
     if(status) {
         imgSuccess.setAttribute("src","/img/tick.png");
         statusMessage.innerHTML = "Successfully updated the user !!";
