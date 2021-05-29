@@ -47,7 +47,7 @@
                     <div class="col-8">
                         <div class="input-group">
                             <input id="current" name="text" type="password" class="form-control form-control-sm" onkeypress="clearMessage();" required/>
-                            <div class="invalid-tooltip">Please fill out current password</div>
+                            <div id="current_message" class="invalid-tooltip">Please fill out current password</div>
                         </div>
                     </div>
                 </div>

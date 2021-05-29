@@ -3,12 +3,12 @@ function validateSelection() {
     let count = 0;
     // get all check boxes
     let checks = document.getElementsByName('checkField');
-    if(checks){
+    if (checks) {
         //if total number of rows is one
         if (checks.checked) {
             return true;
         } else {
-            for(var i = 0 ; i < checks.length ; i++ ) {
+            for (let i = 0 ; i < checks.length ; i++ ) {
                 if (checks[i].checked) {
                     check = 'true';
                     count = count + 1;
@@ -45,7 +45,7 @@ function setIdForChange() {
 }
 
 function deleteUser() {
-    rowCheck = validateSelection();
+    let rowCheck = validateSelection();
     if (rowCheck) {
         deleteRow();
     }
@@ -53,7 +53,7 @@ function deleteUser() {
 
 //code to delete a user
 function deleteRow() {
-    var answer = confirm(" Are you sure you wanted to delete the user ");
+    let answer = confirm("Are you sure you wanted to delete the user ");
     if (answer) {
         setIdForChange();
         document.forms[0].action="DeleteUser.htm";
@@ -64,7 +64,7 @@ function deleteRow() {
 
 //validation before edit a user
 function editMe() {
-    rowCheck = validateSelection();
+    let rowCheck = validateSelection();
     if(rowCheck) {
         setIdForChange();
         document.forms[0].action="EditUser.htm";
@@ -91,7 +91,7 @@ function hideAlerts(){
 function checkCall(e) {
     let min = e.value;
     let checks = document.getElementsByName('checkField');
-    for(let i = 0; i < checks.length ; i++){
+    for (let i = 0; i < checks.length ; i++) {
         if(checks[i].value !== min) {
             checks[i].checked = false;
         }
@@ -287,7 +287,7 @@ function showStatus(status) {
 }
 
 function resetUser() {
-    rowCheck = validateSelection();
+    let rowCheck = validateSelection();
     if (rowCheck) {
         setIdForChange();
         //submit ajax request for resetting password !!!
@@ -318,7 +318,7 @@ function ajaxPasswordExpire() {
 }
 
 function validateEditModalSelection() {
-    var detail = document.getElementById("userEditModalBody");
+    let detail = document.getElementById("userEditModalBody");
     detail.innerHTML = "";
     let check ='false';
     let count = 0;
@@ -350,7 +350,7 @@ function validateEditModalSelection() {
 }
 
 function editUser() {
-    rowCheck = validateEditModalSelection();
+    let rowCheck = validateEditModalSelection();
     if(rowCheck) {
         editUserModal();
         setIdForChange();

@@ -443,7 +443,7 @@ public class UserController {
                 userService.updateWithNewPassword(userVO, newPass);
                 message = messageJSON("success", "The password has been reset !!");
             } else {
-                message = messageJSON("message", "The password didnt match with the previously entered one");
+                message = messageJSON("message", "The password didnt match with the one already saved !!");
             }
         } catch (UserException ex) {
             message = messageJSON("error", "Unknown error occurred !!");

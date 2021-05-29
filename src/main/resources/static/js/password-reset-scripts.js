@@ -72,6 +72,15 @@ function changePasswordAndSaveIt(current, newPass) {
 
 function setMessagesAfterSave(responseText) {
     console.log('Response is ' + responseText);
+    let userMap = JSON.parse(responseText);
+    if (userMap.message !== null) {
+        document.getElementById("current").setAttribute("class","form-control is-invalid");
+        document.getElementById("current_message").innerHTML = userMap.message;
+    }
+
+    if (userMap.success !== null) {
+
+    }
 }
 
 function clearMessage() {
