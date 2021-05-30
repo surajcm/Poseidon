@@ -73,13 +73,37 @@ function changePasswordAndSaveIt(current, newPass) {
 function setMessagesAfterSave(responseText) {
     console.log('Response is ' + responseText);
     let userMap = JSON.parse(responseText);
-    if (userMap.message !== null) {
+    if (userMap.message != null) {
         document.getElementById("current").setAttribute("class","form-control is-invalid");
         document.getElementById("current_message").innerHTML = userMap.message;
     }
 
-    if (userMap.success !== null) {
+    if (userMap.success != null) {
+        let detail = document.getElementById("passwordResetModal");
+        detail.innerHTML = "";
+        let divStatus = document.createElement("div");
+        divStatus.setAttribute("class","pop-status");
+        let imgSuccess = document.createElement("img");
+        divStatus.appendChild(imgSuccess);
+        let statusMessage = document.createElement("h3");
+        imgSuccess.setAttribute("src","/img/tick.png");
+        statusMessage.innerHTML = userMap.success;
+        divStatus.appendChild(statusMessage);
+        detail.appendChild(divStatus);
+    }
 
+    if (userMap.error != null) {
+        let detail = document.getElementById("passwordResetModal");
+        detail.innerHTML = "";
+        let divStatus = document.createElement("div");
+        divStatus.setAttribute("class","pop-status");
+        let imgSuccess = document.createElement("img");
+        divStatus.appendChild(imgSuccess);
+        let statusMessage = document.createElement("h3");
+        imgSuccess.setAttribute("src","/img/cross.svg");
+        statusMessage.innerHTML = userMap.error;
+        divStatus.appendChild(statusMessage);
+        detail.appendChild(divStatus);
     }
 }
 

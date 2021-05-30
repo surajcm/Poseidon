@@ -506,8 +506,7 @@ function callAjaxUpdate(updateName,updateEmail,updateRole) {
             showUpdateStatus(false);
         }
     };
-    xhr.send("id="+id+
-    "&name=" + updateName + "&email=" + updateEmail + "&role=" + updateRole );
+    xhr.send("id="+id+ "&name=" + updateName + "&email=" + updateEmail + "&role=" + updateRole );
 }
 
 function showUpdateStatus(status) {

@@ -28,7 +28,7 @@
         <input type="hidden" name="addInProgress" id="addInProgress" />
         <%@include file="../navbar.jsp" %>
         <div class="row paddingBottom20">
-            <div class="container col-4">
+            <div id="passwordResetModal" class="container col-4">
                 <div id="status" >
                     <c:if test="${userForm.statusMessage!=null}">
                         <div class="alert alert-<c:out value='${userForm.statusMessageType}'/>">
