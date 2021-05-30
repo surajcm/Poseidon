@@ -145,7 +145,7 @@ public class UserServiceImpl implements UserService {
     public void updateWithNewPassword(final UserVO userVO, final String newPass) {
         userVO.setPassword(bcryptPasswordEncoder.encode(newPass));
         try {
-            userDAO.save(userVO);
+            userDAO.updateUser(userVO);
         } catch (UserException ex) {
             LOG.error(ex.getMessage());
         }

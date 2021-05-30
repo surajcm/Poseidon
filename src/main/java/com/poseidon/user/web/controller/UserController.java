@@ -112,35 +112,7 @@ public class UserController {
         userForm.setRoleList(populateRoles());
         return new ModelAndView(USER_LIST, USER_FORM, userForm);
     }
-
-    /**
-     * Screen to edit a new user.
-     *
-     * @param userForm userForm instance
-     * @return ModelAndView to render
-     */
-    @PostMapping("/user/EditUser.htm")
-    public ModelAndView editUser(final UserForm userForm) {
-        logger.info(" Inside EditUser method of user controller ");
-        UserVO userVo = null;
-        try {
-            userVo = userService.getUserDetailsFromId(userForm.getId());
-        } catch (UserException ex) {
-            logger.error(ex.getLocalizedMessage());
-        } catch (Exception e1) {
-            logger.error(e1.getLocalizedMessage());
-            logger.info(UNKNOWN_ERROR);
-        }
-        if (userVo == null) {
-            logger.error(" No details found for current user !!");
-        } else {
-            logger.info(" user details are {}", userVo);
-        }
-        userForm.setUser(userVo);
-        userForm.setRoleList(populateRoles());
-        return new ModelAndView("user/userEdit", USER_FORM, userForm);
-    }
-
+    
     /**
      * updates the user.
      *

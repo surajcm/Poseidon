@@ -61,17 +61,6 @@ function deleteRow() {
     }
 }
 
-
-//validation before edit a user
-function editMe() {
-    let rowCheck = validateSelection();
-    if(rowCheck) {
-        setIdForChange();
-        document.forms[0].action="EditUser.htm";
-        document.forms[0].submit();
-    }
-}
-
 function search() {
     document.forms[0].action="SearchUser.htm";
     document.forms[0].submit();
