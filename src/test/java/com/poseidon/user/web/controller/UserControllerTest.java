@@ -42,11 +42,6 @@ public class UserControllerTest {
     }
 
     @Test
-    public void editUser() throws Exception {
-        mvc.perform(post("/user/EditUser.htm")).andExpect(status().isOk());
-    }
-
-    @Test
     public void updateUser() throws Exception {
         mvc.perform(post("/user/UpdateUser.htm")).andExpect(status().isOk());
     }

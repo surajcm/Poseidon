@@ -112,7 +112,7 @@ public class UserController {
         userForm.setRoleList(populateRoles());
         return new ModelAndView(USER_LIST, USER_FORM, userForm);
     }
-    
+
     /**
      * updates the user.
      *
