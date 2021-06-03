@@ -118,9 +118,9 @@
                     <div class="form-row">
                         <div class="form-group">
                             <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#newUserModal" 
-                                onclick="javascript:addNewUser()">Add New User</button>
+                                onclick="addNewUser();">Add New User</button>
                             <button type="button" class="btn btn-primary"  data-toggle="modal" data-target="#editUserModal"
-                                onclick="javascript:editUser()">
+                                onclick="editUser();">
                                 <spring:message code='poseidon.edit' text='Edit User' />
                             </button>
                             <button type="button" class="btn btn-primary" onclick="deleteUser()">

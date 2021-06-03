@@ -117,7 +117,8 @@
                                 <input class="btn btn-primary" value="Add Model" type="button" onclick="simpleAdd();"/>
                             </td>
                             <td>
-                                <input class="btn btn-primary" value="Model Add2" type="button" onclick="AddModel();"/>
+                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#newModelModal"
+                                onclick="AddModel();">Model Add2</button>
                             </td>
                             <td>
                                 <input class="btn btn-primary" value="Edit Model" type="button" onclick="editModel();"/>
@@ -130,6 +131,22 @@
                             </td>
                         </tr>
                     </table>
+                </div>
+            </div>
+        </div>
+        <div id="newModelModal" class="modal fade bd-example-modal-lg" role="dialog">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Add new Model</h4>
+                        <button type="button" class="close" data-dismiss="modal">x</button>
+                    </div>
+                    <div id="modelModalBody" class="modal-body">
+                        <p>Lets add some models....</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" id="saveModal" class="btn btn-default" onclick="saveFromModal();">Save</button>
+                    </div>
                 </div>
             </div>
         </div>

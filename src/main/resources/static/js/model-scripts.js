@@ -8,7 +8,8 @@ function search() {
     document.forms[0].action = "searchModel.htm";
     document.forms[0].submit();
 }
-function clearOut(){
+
+function clearOut() {
     document.getElementById("makeName").value = document.getElementById('makeName').options[0].value;
     document.getElementById('modelName').value ="";
     document.getElementById('includes').checked = false;
@@ -16,7 +17,66 @@ function clearOut(){
 }
 
 function AddModel() {
-    alert("not yet implemented");
+    let saveModal = document.getElementById("saveModal");
+    saveModal.style.display = "block";
+    let detail = document.getElementById("modelModalBody");
+    detail.innerHTML = "";
+
+    let formValidModel = document.createElement("form");
+    formValidModel.setAttribute("class","needs-validation");
+    formValidModel.novalidate = true;
+
+    let divModelAdd = document.createElement("div");
+    divModelAdd.setAttribute("class","form-row align-items-left");
+    let divName = document.createElement("div");
+    divName.setAttribute("class","form-group col-md-4");
+    let selectMakeName = document.createElement("select");
+    selectMakeName.setAttribute("class","form-control");
+    selectMakeName.setAttribute("id","makeName");
+    divName.appendChild(selectMakeName);
+    //ajax and add
+
+    getAllMakeIdsAndNames();
+
+    let divModelName = document.createElement("div");
+    divModelName.setAttribute("class","form-group col-md-4");
+    let txtModelName = document.createElement("input");
+    txtModelName.setAttribute("type","text");
+    txtModelName.setAttribute("class","form-control");
+    txtModelName.setAttribute("placeholder","Model Name");
+    txtModelName.setAttribute("id","modelName");
+    txtModelName.required = true;
+    divModelName.appendChild(txtModelName);
+    let tt2 = document.createElement("div");
+    tt2.setAttribute("class","invalid-tooltip");
+    tt2.innerHTML = "Please provide a valid modelName.";
+    divModelName.appendChild(tt2);
+
+    divModelAdd.appendChild(divName);
+    divModelAdd.appendChild(divModelName);
+    formValidModel.appendChild(divModelAdd);
+    detail.appendChild(formValidModel);
+}
+
+function getAllMakeIdsAndNames() {
+    let xhr = new XMLHttpRequest();
+    xhr.open('GET', "/make/getAllMakeIdsAndNames.htm",true);
+    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    xhr.onload = function() {
+        if (xhr.status === 200) {
+            if (xhr.responseText != null) {
+                console.log("Response is "+ xhr.responseText)
+                addMakesToSelect(xhr.responseText);
+            }
+        } else if (xhr.status !== 200) {
+            console.log('Request failed.  Returned status of ' + xhr.status);
+        }
+    };
+    xhr.send();
+}
+
+function addMakesToSelect(response) {
+    console.log("Response is "+ response);
 }
 
 //validation before edit

@@ -10,6 +10,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,6 +22,8 @@ import java.io.IOException;
 import java.time.OffsetDateTime;
 import java.time.ZoneId;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 /**
  * user: Suraj.
@@ -491,4 +494,31 @@ public class MakeController {
         LOG.info(response);
         return response;
     }
+
+    @GetMapping("/make/getAllMakeIdsAndNames.htm")
+    public @ResponseBody
+    String getAllMakeIdsAndNames() {
+        LOG.info("getAllMakeIdsAndNames method of MakeController ");
+        var makes = makeService.fetchMakes();
+        return fetchJsonMakeList(makes);
+    }
+
+    private String fetchJsonAllMakes(final List<MakeVO> makeVOS) {
+        String response;
+        var mapper = new ObjectMapper();
+        Map<Long, String> idNameMap = idNameMap(makeVOS);
+        try {
+            response = mapper.writeValueAsString(idNameMap);
+        } catch (IOException ex) {
+            response = ERROR;
+            LOG.error(ex.getMessage());
+        }
+        LOG.info(response);
+        return response;
+    }
+
+    private Map<Long, String> idNameMap(final List<MakeVO> makeVOS) {
+        return makeVOS.stream().collect(Collectors.toMap(MakeVO::getId, MakeVO::getMakeName, (a, b) -> b));
+    }
+
 }
