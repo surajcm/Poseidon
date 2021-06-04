@@ -32,7 +32,7 @@ function AddModel() {
     divName.setAttribute("class","form-group col-md-4");
     let selectMakeName = document.createElement("select");
     selectMakeName.setAttribute("class","form-control");
-    selectMakeName.setAttribute("id","makeName");
+    selectMakeName.setAttribute("id","selectMakeName");
     divName.appendChild(selectMakeName);
     //ajax and add
 
@@ -77,6 +77,14 @@ function getAllMakeIdsAndNames() {
 
 function addMakesToSelect(response) {
     console.log("Response is "+ response);
+    let modelMap = JSON.parse(response);
+    let selectMakeName = document.getElementById('selectMakeName');
+    for (const [key, value] of Object.entries(modelMap)) {
+        let mainOption = document.createElement("option");
+        mainOption.text = value;
+        mainOption.value = key;
+        selectMakeName.appendChild(mainOption);
+    }
 }
 
 //validation before edit

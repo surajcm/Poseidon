@@ -500,7 +500,7 @@ public class MakeController {
     String getAllMakeIdsAndNames() {
         LOG.info("getAllMakeIdsAndNames method of MakeController ");
         var makes = makeService.fetchMakes();
-        return fetchJsonMakeList(makes);
+        return fetchJsonAllMakes(makes);
     }
 
     private String fetchJsonAllMakes(final List<MakeVO> makeVOS) {
