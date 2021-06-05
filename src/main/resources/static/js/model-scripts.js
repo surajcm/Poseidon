@@ -375,5 +375,149 @@ function rewriteTable(textReturned) {
     }
     myTable.appendChild(tbody);
     //todo: optional message saving update is done !!
+}
 
+function editModel2() {
+    let rowCheck = validateEditModalSelection();
+    if (rowCheck) {
+        editModelModal();
+        setIdForChange();
+        getModelForEdit();
+    }
+}
+
+function setIdForChange() {
+    let userRow;
+    let checks = document.getElementsByName('checkField');
+    if (checks.checked) {
+        userRow = document.getElementById("myTable").rows[0];
+        document.getElementById("id").value = userRow.cells[0].childNodes[0].value;
+    } else {
+        for (let i = 0; i < checks.length ; i++){
+            if(checks[i].checked) {
+                userRow = document.getElementById("myTable").rows[i+1];
+            }
+        }
+        document.getElementById("id").value = userRow.cells[0].childNodes[0].value;
+    }
+}
+
+function editModelModal() {
+    let modelEditModalBody = document.getElementById("editModelModal");
+    modelEditModalBody.style.display = "block";
+    let detail = document.getElementById("modelEditModalBody");
+    detail.innerHTML = "";
+
+    let formValidModel = document.createElement("form");
+    formValidModel.setAttribute("class","needs-validation2");
+    formValidModel.novalidate = true;
+
+    let divModelAdd = document.createElement("div");
+    divModelAdd.setAttribute("class","form-row align-items-left");
+    let divName = document.createElement("div");
+    divName.setAttribute("class","form-group col-md-4");
+    let selectMakeName = document.createElement("select");
+    selectMakeName.setAttribute("class","form-control");
+    selectMakeName.setAttribute("id","modalMakeName");
+    divName.appendChild(selectMakeName);
+    //ajax and add
+
+    getAllMakeIdsAndNames();
+
+    let divModelName = document.createElement("div");
+    divModelName.setAttribute("class","form-group col-md-4");
+    let txtModelName = document.createElement("input");
+    txtModelName.setAttribute("type","text");
+    txtModelName.setAttribute("class","form-control");
+    txtModelName.setAttribute("placeholder","Model Name");
+    txtModelName.setAttribute("id","modalModelName");
+    txtModelName.required = true;
+    divModelName.appendChild(txtModelName);
+    let tt2 = document.createElement("div");
+    tt2.setAttribute("class","invalid-tooltip");
+    tt2.innerHTML = "Please provide a valid modelName.";
+    divModelName.appendChild(tt2);
+
+    divModelAdd.appendChild(divName);
+    divModelAdd.appendChild(divModelName);
+    formValidModel.appendChild(divModelAdd);
+    detail.appendChild(formValidModel);
+}
+
+function validateEditModalSelection() {
+    let check ='false';
+    let count = 0;
+    // get all check boxes
+    let checks = document.getElementsByName('checkField');
+    if (checks) {
+        //if total number of rows is one
+        if (checks.checked) {
+            return true;
+        } else {
+            for(let i = 0 ; i < checks.length ; i++ ) {
+                if (checks[i].checked) {
+                    check = 'true';
+                    count = count + 1;
+                }
+            }
+            //check for validity
+            let detail = document.getElementById("modelEditModalBody");
+            if (check === 'true') {
+                if (count === 1) {
+                    return true;
+                } else {
+                    detail.innerHTML = "<p>Only one row can be selected at a time, please select one row</p>";
+                }
+            } else {
+                detail.innerHTML = "<p>No rows selected, please select one row</p>";
+            }
+        }
+    }
+}
+
+function getModelForEdit() {
+    let id = document.getElementById("id").value;
+    let xhr = new XMLHttpRequest();
+    xhr.open('GET', "/make/getForEdit.htm" + "?id=" + id,true);
+    let token = document.querySelector("meta[name='_csrf']").content;
+    let header = document.querySelector("meta[name='_csrf_header']").content;
+    xhr.setRequestHeader(header, token);
+    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    xhr.onload = function() {
+        if (xhr.status === 200) {
+            if (xhr.responseText != null) {
+                console.log(xhr.responseText);
+                populateDataForEdit(xhr.responseText);
+            }
+        } else if (xhr.status !== 200) {
+            console.log('Request failed.  Returned status of ' + xhr.status);
+            showEditError();
+        }
+    };
+    xhr.send();
+}
+
+function populateDataForEdit(textReturned) {
+    let modelMap = JSON.parse(textReturned);
+    for (const [key, value] of Object.entries(modelMap)) {
+        document.getElementById("modalMakeName").value = key;
+        document.getElementById("modalModelName").value = value;
+    }
+}
+
+function showEditError() {
+    let detail = document.getElementById("editModelModal");
+    detail.innerHTML = "";
+    let updateModal = document.getElementById("updateModal");
+    updateModal.style.display = "none";
+    let divStatus = document.createElement("div");
+    divStatus.setAttribute("class","pop-status");
+    let imgSuccess = document.createElement("img");
+
+    divStatus.appendChild(imgSuccess);
+    let statusMessage = document.createElement("h3");
+    imgSuccess.setAttribute("src","/img/cross.svg");
+    statusMessage.innerHTML = "Failed to populate data !!";
+    divStatus.appendChild(statusMessage);
+    detail.appendChild(divStatus);
 }

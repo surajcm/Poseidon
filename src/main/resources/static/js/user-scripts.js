@@ -31,7 +31,7 @@ function validateSelection() {
 function setIdForChange() {
     let userRow;
     let checks = document.getElementsByName('checkField');
-    if(checks.checked){
+    if (checks.checked) {
         userRow = document.getElementById("myTable").rows[0];
         document.getElementById("id").value = userRow.cells[0].childNodes[0].value;
     } else {

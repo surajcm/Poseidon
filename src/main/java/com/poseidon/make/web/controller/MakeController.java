@@ -150,6 +150,42 @@ public class MakeController {
         return new ModelAndView("make/MakeEdit", MAKE_FORM, makeForm);
     }
 
+    @GetMapping("/make/getForEdit.htm")
+    public @ResponseBody
+    String getForEdit(@ModelAttribute("id") final String id,
+                      final BindingResult result) {
+        LOG.info("getForEdit method of make controller : " + id);
+        String response = null;
+        try {
+            var makeVO = makeService.getModelFromId(Long.valueOf(id));
+            if (makeVO != null) {
+                LOG.info(makeVO.toString());
+                Map<Long, String> modelEditMap = populateModelEditMap(makeVO);
+                response = parseMakeAndModelVO(modelEditMap);
+            }
+        } catch (Exception ex) {
+            LOG.error(ex.getLocalizedMessage(), ex);
+        }
+        return response;
+    }
+
+    private String parseMakeAndModelVO(final Map<Long, String> modelEditMap) {
+        String response;
+        var mapper = new ObjectMapper();
+        try {
+            response = mapper.writeValueAsString(modelEditMap);
+        } catch (IOException ex) {
+            response = ERROR;
+            LOG.error(ex.getMessage());
+        }
+        LOG.info(response);
+        return response;
+    }
+
+    private Map<Long, String> populateModelEditMap(final MakeAndModelVO makeVO) {
+        return Map.of(makeVO.getMakeId(), makeVO.getModelName());
+    }
+
     /**
      * delete a make.
      *
