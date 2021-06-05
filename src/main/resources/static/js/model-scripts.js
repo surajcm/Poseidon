@@ -32,7 +32,7 @@ function AddModel() {
     divName.setAttribute("class","form-group col-md-4");
     let selectMakeName = document.createElement("select");
     selectMakeName.setAttribute("class","form-control");
-    selectMakeName.setAttribute("id","selectMakeName");
+    selectMakeName.setAttribute("id","modalMakeName");
     divName.appendChild(selectMakeName);
     //ajax and add
 
@@ -44,7 +44,7 @@ function AddModel() {
     txtModelName.setAttribute("type","text");
     txtModelName.setAttribute("class","form-control");
     txtModelName.setAttribute("placeholder","Model Name");
-    txtModelName.setAttribute("id","modelName");
+    txtModelName.setAttribute("id","modalModelName");
     txtModelName.required = true;
     divModelName.appendChild(txtModelName);
     let tt2 = document.createElement("div");
@@ -78,14 +78,78 @@ function getAllMakeIdsAndNames() {
 function addMakesToSelect(response) {
     console.log("Response is "+ response);
     let modelMap = JSON.parse(response);
-    let selectMakeName = document.getElementById('selectMakeName');
+    let modalMakeName = document.getElementById('modalMakeName');
     for (const [key, value] of Object.entries(modelMap)) {
         let mainOption = document.createElement("option");
         mainOption.text = value;
         mainOption.value = key;
-        selectMakeName.appendChild(mainOption);
+        modalMakeName.appendChild(mainOption);
     }
 }
+
+function saveFromModal() {
+    let modalMakeName = document.getElementById("modalMakeName").value;
+    let modalModelName = document.getElementById("modalModelName").value;
+    let forms = document.getElementsByClassName('needs-validation');
+    let allFieldsAreValid = true;
+
+    if (forms[0].checkValidity() === false) {
+        allFieldsAreValid = false;
+        if (modalModelName.length === 0) {
+            document.getElementById("modalModelName").setAttribute("class","form-control is-invalid");
+        } else {
+            document.getElementById("modalModelName").setAttribute("class","form-control was-validated");
+        }
+    }
+    if(allFieldsAreValid) {
+        ajaxSaveFromModal(modalMakeName,modalModelName);
+    }
+}
+
+
+function ajaxSaveFromModal(modalMakeName, modalModelName) {
+    let xhr = new XMLHttpRequest();
+    xhr.open('POST', "/make/saveModelAjax.htm",true);
+    let token = document.querySelector("meta[name='_csrf']").content;
+    let header = document.querySelector("meta[name='_csrf_header']").content;
+    xhr.setRequestHeader(header, token);
+    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    xhr.onload = function() {
+        if (xhr.status === 200) {
+            if (xhr.responseText != null) {
+                rewriteTable(xhr.responseText);
+                showStatus(true);
+            }
+        } else if (xhr.status !== 200) {
+            console.log('Request failed.  Returned status of ' + xhr.status);
+            showStatus(false);
+        }
+    };
+    xhr.send("selectMakeId=" + modalMakeName + "&selectModelName=" + modalModelName);
+}
+
+function showStatus(status) {
+    let detail = document.getElementById("modelModalBody");
+    detail.innerHTML = "";
+    let saveModal = document.getElementById("saveModal");
+    saveModal.style.display = "none";
+    let divStatus = document.createElement("div");
+    divStatus.setAttribute("class","pop-status");
+    let imgSuccess = document.createElement("img");
+
+    divStatus.appendChild(imgSuccess);
+    let statusMessage = document.createElement("h3");
+    if(status) {
+        imgSuccess.setAttribute("src","/img/tick.png");
+        statusMessage.innerHTML = "Successfully added a new model !!";
+    } else {
+        imgSuccess.setAttribute("src","/img/cross.svg");
+        statusMessage.innerHTML = "Failed to save !!";
+    }
+    divStatus.appendChild(statusMessage);
+    detail.appendChild(divStatus);
+}
+
 
 //validation before edit
 function editModel() {
@@ -98,7 +162,7 @@ function editModel() {
         if (checks.checked) {
             editRow();
         } else {
-            for (var i = 0; i < checks.length; i++) {
+            for (let i = 0; i < checks.length; i++) {
                 if (checks[i].checked) {
                     check = 'true';
                     count = count + 1;
