@@ -486,7 +486,7 @@ function getModelForEdit() {
     xhr.onload = function() {
         if (xhr.status === 200) {
             if (xhr.responseText != null) {
-                console.log(xhr.responseText);
+                console.log("/make/getForEdit.htm response is "+xhr.responseText);
                 populateDataForEdit(xhr.responseText);
             }
         } else if (xhr.status !== 200) {
@@ -499,8 +499,15 @@ function getModelForEdit() {
 
 function populateDataForEdit(textReturned) {
     let modelMap = JSON.parse(textReturned);
+    let makeDropDown = document.getElementById("modalMakeName");
     for (const [key, value] of Object.entries(modelMap)) {
-        document.getElementById("modalMakeName").value = key;
+        console.log("key and value are "+key + " "+ value);
+        for (let option of makeDropDown.options) {
+            if (option.value === key) {
+                option.selected = true;
+            }
+        }
+        //document.getElementById("modalMakeName").value = key;
         document.getElementById("modalModelName").value = value;
     }
 }
@@ -520,4 +527,46 @@ function showEditError() {
     statusMessage.innerHTML = "Failed to populate data !!";
     divStatus.appendChild(statusMessage);
     detail.appendChild(divStatus);
+}
+
+function updateFromModal() {
+    let modalMakeName = document.getElementById("modalMakeName").value;
+    let modalModelName = document.getElementById("modalModelName").value;
+    let forms = document.getElementsByClassName('needs-validation2');
+    let allFieldsAreValid = true;
+
+    if (forms[0].checkValidity() === false) {
+        allFieldsAreValid = false;
+        if (modalModelName.length === 0) {
+            document.getElementById("modalModelName").setAttribute("class","form-control is-invalid");
+        } else {
+            document.getElementById("modalModelName").setAttribute("class","form-control was-validated");
+        }
+    }
+    if(allFieldsAreValid) {
+        console.log("All fields are valid, calling callAjaxUpdate")
+        callAjaxUpdate(modalMakeName,modalModelName);
+    }
+}
+
+function callAjaxUpdate(modalMakeName,modalModelName) {
+    let xhr = new XMLHttpRequest();
+    xhr.open('PUT', "/make/updateModelAjax.htm",true);
+    let token = document.querySelector("meta[name='_csrf']").content;
+    let header = document.querySelector("meta[name='_csrf_header']").content;
+    xhr.setRequestHeader(header, token);
+    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    xhr.onload = function() {
+        if (xhr.status === 200) {
+            if (xhr.responseText != null) {
+                console.log("callAjaxUpdate success :"+xhr.responseText);
+                //rewriteTable("callAjaxUpdate success :"+xhr.responseText);
+                //showUpdateStatus(true);
+            }
+        } else if (xhr.status !== 200) {
+            console.log('Request failed.  Returned status of ' + xhr.status);
+            //showUpdateStatus(false);
+        }
+    };
+    xhr.send("modalMakeName="+modalMakeName+ "&modalModelName=" + modalModelName);
 }

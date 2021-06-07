@@ -13,6 +13,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -555,6 +556,18 @@ public class MakeController {
 
     private Map<Long, String> idNameMap(final List<MakeVO> makeVOS) {
         return makeVOS.stream().collect(Collectors.toMap(MakeVO::getId, MakeVO::getMakeName, (a, b) -> b));
+    }
+
+    @PutMapping("/make/updateModelAjax.htm")
+    public @ResponseBody
+    String updateModelAjax(@ModelAttribute("modalMakeName") final String modalMakeName,
+                          @ModelAttribute("modalModelName") final String modalModelName,
+                          final BindingResult result) {
+        LOG.info("updateModelAjax method of make controller with modalMakeName {}, modalModelName {}",
+                modalMakeName, modalModelName);
+        //makeService.updateModel();
+        return "hi";
+
     }
 
 }
