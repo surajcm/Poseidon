@@ -20,6 +20,9 @@ public class Model {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
+    private Long id;
+
+    @Column(name = "modelId")
     private Long modelId;
 
     @Column(name = "modelName")
@@ -43,6 +46,14 @@ public class Model {
     @ManyToOne
     @JoinColumn(name = "makeId", referencedColumnName = "id", insertable = false, updatable = false)
     private Make make;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(final Long id) {
+        this.id = id;
+    }
 
     public Long getModelId() {
         return modelId;

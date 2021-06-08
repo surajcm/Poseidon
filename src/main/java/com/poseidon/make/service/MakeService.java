@@ -32,6 +32,8 @@ public interface MakeService {
 
     void updateModel(MakeAndModelVO currentMakeVO);
 
+    void updateModel(Long id, Long makeId, String modalModelName);
+
     List<MakeAndModelVO> searchMakeVOs(MakeAndModelVO searchMakeVO);
 
     List<MakeVO> fetchMakes();

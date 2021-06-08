@@ -560,12 +560,17 @@ public class MakeController {
 
     @PutMapping("/make/updateModelAjax.htm")
     public @ResponseBody
-    String updateModelAjax(@ModelAttribute("modalMakeName") final String modalMakeName,
+    String updateModelAjax(@ModelAttribute("id") final Long id,
+                           @ModelAttribute("modalMakeName") final Long makeId,
                           @ModelAttribute("modalModelName") final String modalModelName,
                           final BindingResult result) {
-        LOG.info("updateModelAjax method of make controller with modalMakeName {}, modalModelName {}",
-                modalMakeName, modalModelName);
-        //makeService.updateModel();
+        LOG.info("updateModelAjax method of make controller with id {}, makeId {}, modalModelName {}",
+                id, makeId, modalModelName);
+        try {
+            makeService.updateModel(id, makeId, modalModelName);
+        } catch (Exception e1) {
+            LOG.error(e1.getLocalizedMessage());
+        }
         return "hi";
 
     }

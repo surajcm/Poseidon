@@ -38,17 +38,17 @@ insert into make (id, makeName, description, createdOn, modifiedOn, createdBy, m
 insert into make (id, makeName, description, createdOn, modifiedOn, createdBy, modifiedBy) values
 (5, 'Toshiba', 'Toshiba','2019-08-01 00:00:00','2019-08-01 09:21:00','admin','admin');
 
-insert into model (id, modelName, makeId, createdOn, modifiedOn, createdBy, modifiedBy) values
-(1, 'MacBook Pro', 1 ,'2019-08-01 00:00:00','2019-08-01 06:56:00','admin','admin');
+insert into model (id, modelId, modelName, makeId, createdOn, modifiedOn, createdBy, modifiedBy) values
+(1, 1, 'MacBook Pro', 1 ,'2019-08-01 00:00:00','2019-08-01 06:56:00','admin','admin');
 
-insert into model (id, modelName, makeId, createdOn, modifiedOn, createdBy, modifiedBy) values
-(2, 'MacBook Air', 1 ,'2019-08-01 00:00:00','2019-08-01 09:23:00','admin','admin');
+insert into model (id, modelId, modelName, makeId, createdOn, modifiedOn, createdBy, modifiedBy) values
+(2, 2, 'MacBook Air', 1 ,'2019-08-01 00:00:00','2019-08-01 09:23:00','admin','admin');
 
-insert into model (id, modelName, makeId, createdOn, modifiedOn, createdBy, modifiedBy) values
-(3, 'Inspiron', 2 ,'2019-08-01 00:00:00','2019-08-01 09:23:00','admin','admin');
+insert into model (id, modelId, modelName, makeId, createdOn, modifiedOn, createdBy, modifiedBy) values
+(3, 3, 'Inspiron', 2 ,'2019-08-01 00:00:00','2019-08-01 09:23:00','admin','admin');
 
-insert into model (id, modelName, makeId, createdOn, modifiedOn, createdBy, modifiedBy) values
-(4, 'ThinkPad', 3 ,'2019-08-01 00:00:00','2019-08-01 09:25:00','admin','admin');
+insert into model (id, modelId, modelName, makeId, createdOn, modifiedOn, createdBy, modifiedBy) values
+(4, 4, 'ThinkPad', 3 ,'2019-08-01 00:00:00','2019-08-01 09:25:00','admin','admin');
 
 insert into customer (id, name, address, phone, mobile, email,createdBy, createdOn, modifiedBy, modifiedOn)
 values (1, 'John Wick', '5630 N Sheridan, Chicago', '0404 232323', '555888999', 'test@testmail.com',

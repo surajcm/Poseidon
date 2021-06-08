@@ -238,6 +238,24 @@ public class MakeDaoImpl implements MakeDao {
         }
     }
 
+    @Override
+    public void updateModel(final Long id, final Long makeId, final String modalModelName)
+            throws MakeException {
+        try {
+            var optionalModel = modelRepository.findById(id);
+            if (optionalModel.isPresent()) {
+                Model model = optionalModel.get();
+                model.setModelName(modalModelName);
+                var optionalMake = makeRepository.findById(makeId);
+                optionalMake.ifPresent(model::setMake);
+                modelRepository.save(model);
+            }
+        } catch (DataAccessException ex) {
+            LOG.error(ex.getMessage());
+            throw new MakeException(MakeException.DATABASE_ERROR);
+        }
+    }
+
     /**
      * fetch all makes.
      *

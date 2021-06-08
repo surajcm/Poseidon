@@ -505,6 +505,7 @@ function populateDataForEdit(textReturned) {
         for (let option of makeDropDown.options) {
             if (option.value === key) {
                 option.selected = true;
+                console.log("option set to "+option.value);
             }
         }
         //document.getElementById("modalMakeName").value = key;
@@ -544,12 +545,13 @@ function updateFromModal() {
         }
     }
     if(allFieldsAreValid) {
-        console.log("All fields are valid, calling callAjaxUpdate")
-        callAjaxUpdate(modalMakeName,modalModelName);
+        console.log("All fields are valid, calling callAjaxUpdate");
+        let productId = document.getElementById("id").value
+        callAjaxUpdate(productId, modalMakeName, modalModelName);
     }
 }
 
-function callAjaxUpdate(modalMakeName,modalModelName) {
+function callAjaxUpdate(productId, modalMakeName,modalModelName) {
     let xhr = new XMLHttpRequest();
     xhr.open('PUT', "/make/updateModelAjax.htm",true);
     let token = document.querySelector("meta[name='_csrf']").content;
@@ -568,5 +570,5 @@ function callAjaxUpdate(modalMakeName,modalModelName) {
             //showUpdateStatus(false);
         }
     };
-    xhr.send("modalMakeName="+modalMakeName+ "&modalModelName=" + modalModelName);
+    xhr.send("id="+productId+ "&modalMakeName="+modalMakeName+ "&modalModelName=" + modalModelName);
 }

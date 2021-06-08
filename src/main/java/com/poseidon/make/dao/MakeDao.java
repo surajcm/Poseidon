@@ -32,6 +32,8 @@ public interface MakeDao {
 
     void updateModel(MakeAndModelVO currentMakeVo) throws MakeException;
 
+    void updateModel(Long id, Long makeId, String modalModelName) throws MakeException;
+
     List<MakeAndModelVO> searchMakeVOs(MakeAndModelVO searchMakeVo) throws MakeException;
 
     List<MakeVO> fetchMakes() throws MakeException;

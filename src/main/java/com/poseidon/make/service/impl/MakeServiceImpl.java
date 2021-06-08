@@ -176,6 +176,16 @@ public class MakeServiceImpl implements MakeService {
         }
     }
 
+
+    @Override
+    public void updateModel(final Long id, final Long makeId, final String modalModelName) {
+        try {
+            makeDAO.updateModel(id, makeId, modalModelName);
+        } catch (MakeException makeException) {
+            LOG.info(MAKE_EXCEPTION_OCCURRED + makeException.getMessage());
+        }
+    }
+
     /**
      * search for a make.
      *

@@ -20,6 +20,7 @@ public class MakeAndModelEntityConverter {
         List<MakeAndModelVO> makeAndModelVOS = new ArrayList<>();
         for (Model model : models) {
             MakeAndModelVO makeAndModelVO = new MakeAndModelVO();
+            makeAndModelVO.setId(model.getId());
             makeAndModelVO.setModelId(model.getModelId());
             makeAndModelVO.setModelName(model.getModelName());
             makeAndModelVO.setMakeId(model.getMake().getMakeId());
