@@ -566,13 +566,21 @@ public class MakeController {
                           final BindingResult result) {
         LOG.info("updateModelAjax method of make controller with id {}, makeId {}, modalModelName {}",
                 id, makeId, modalModelName);
+        StringBuilder responseString = new StringBuilder();
         try {
             makeService.updateModel(id, makeId, modalModelName);
         } catch (Exception e1) {
             LOG.error(e1.getLocalizedMessage());
         }
-        return "hi";
 
+        try {
+            //get all the make and pass it as a json object
+            List<MakeAndModelVO> makeAndModelVOs = makeService.listAllMakesAndModels();
+            responseString.append(fetchJsonModelList(makeAndModelVOs));
+        } catch (Exception ex) {
+            LOG.error(ex.getMessage());
+        }
+        return responseString.toString();
     }
 
 }

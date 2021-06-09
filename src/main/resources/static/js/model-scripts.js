@@ -405,6 +405,8 @@ function setIdForChange() {
 function editModelModal() {
     let modelEditModalBody = document.getElementById("editModelModal");
     modelEditModalBody.style.display = "block";
+    let updateModal = document.getElementById("updateModal");
+    updateModal.style.display = "block";
     let detail = document.getElementById("modelEditModalBody");
     detail.innerHTML = "";
 
@@ -503,7 +505,7 @@ function populateDataForEdit(textReturned) {
     for (const [key, value] of Object.entries(modelMap)) {
         console.log("key and value are "+key + " "+ value);
         for (let option of makeDropDown.options) {
-            if (option.value === key) {
+            if (option.value == key) {
                 option.selected = true;
                 console.log("option set to "+option.value);
             }
@@ -562,13 +564,35 @@ function callAjaxUpdate(productId, modalMakeName,modalModelName) {
         if (xhr.status === 200) {
             if (xhr.responseText != null) {
                 console.log("callAjaxUpdate success :"+xhr.responseText);
-                //rewriteTable("callAjaxUpdate success :"+xhr.responseText);
-                //showUpdateStatus(true);
+                rewriteTable(xhr.responseText);
+                showUpdateStatus(true);
             }
         } else if (xhr.status !== 200) {
             console.log('Request failed.  Returned status of ' + xhr.status);
-            //showUpdateStatus(false);
+            showUpdateStatus(false);
         }
     };
     xhr.send("id="+productId+ "&modalMakeName="+modalMakeName+ "&modalModelName=" + modalModelName);
+}
+
+function showUpdateStatus(status) {
+    let detail = document.getElementById("modelEditModalBody");
+    detail.innerHTML = "";
+    let updateModal = document.getElementById("updateModal");
+    updateModal.style.display = "none";
+    let divStatus = document.createElement("div");
+    divStatus.setAttribute("class","pop-status");
+    let imgSuccess = document.createElement("img");
+
+    divStatus.appendChild(imgSuccess);
+    let statusMessage = document.createElement("h3");
+    if(status) {
+        imgSuccess.setAttribute("src","/img/tick.png");
+        statusMessage.innerHTML = "Successfully updated the user !!";
+    } else {
+        imgSuccess.setAttribute("src","/img/cross.svg");
+        statusMessage.innerHTML = "Failed to update !!";
+    }
+    divStatus.appendChild(statusMessage);
+    detail.appendChild(divStatus);
 }
