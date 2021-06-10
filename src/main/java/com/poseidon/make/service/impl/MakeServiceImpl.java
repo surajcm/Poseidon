@@ -154,12 +154,8 @@ public class MakeServiceImpl implements MakeService {
      * @param currentMakeVO currentMakeVO
      */
     @Override
-    public void addNewModel(final MakeAndModelVO currentMakeVO) {
-        try {
-            makeDAO.addNewModel(currentMakeVO);
-        } catch (MakeException makeException) {
-            LOG.info(MAKE_EXCEPTION_OCCURRED + makeException.getMessage());
-        }
+    public void addNewModel(final MakeAndModelVO currentMakeVO) throws MakeException {
+        makeDAO.addNewModel(currentMakeVO);
     }
 
     /**

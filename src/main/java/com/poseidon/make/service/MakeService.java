@@ -2,6 +2,7 @@ package com.poseidon.make.service;
 
 import com.poseidon.make.domain.MakeAndModelVO;
 import com.poseidon.make.domain.MakeVO;
+import com.poseidon.make.exception.MakeException;
 
 import java.util.List;
 
@@ -28,7 +29,7 @@ public interface MakeService {
 
     void updateMake(MakeAndModelVO currentMakeVO);
 
-    void addNewModel(MakeAndModelVO currentMakeVO);
+    void addNewModel(MakeAndModelVO currentMakeVO) throws MakeException;
 
     void updateModel(MakeAndModelVO currentMakeVO);
 

@@ -93,8 +93,11 @@ public class MakeAndModelEntityConverter {
         Model model = new Model();
         model.setModelName(makeAndModelVO.getModelName());
         model.setMakeId(makeAndModelVO.getMakeId());
+        model.setModelId(makeAndModelVO.getMakeId());
         model.setCreatedBy(makeAndModelVO.getCreatedBy());
+        model.setCreatedOn(makeAndModelVO.getCreatedDate());
         model.setModifiedBy(makeAndModelVO.getModifiedBy());
+        model.setModifiedOn(makeAndModelVO.getModifiedDate());
         return model;
     }
 }

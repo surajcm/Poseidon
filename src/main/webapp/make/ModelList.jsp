@@ -116,16 +116,12 @@
                                 <input class="btn btn-primary" value="Make List" type="button" onclick="listAllMake();"/>
                             </td>
                             <td>
-                                <input class="btn btn-primary" value="Add Model" type="button" onclick="simpleAdd();"/>
-                            </td>
-                            <td>
                                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#newModelModal"
-                                onclick="AddModel();">Model Add2</button>
+                                onclick="AddModel();">Add Model</button>
                             </td>
                             <td>
-                                <input class="btn btn-primary" value="Edit Model" type="button" onclick="editModel();"/>
                                 <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editModelModal"
-                                    onclick="editModel2();">Edit Model2</button>
+                                    onclick="editModel();">Edit Model</button>
                             </td>
                             <td>
                                 <input class="btn btn-primary" value="Delete Model" type="button" onclick="deleteModel();"/>

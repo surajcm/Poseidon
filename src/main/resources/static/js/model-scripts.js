@@ -151,58 +151,6 @@ function showStatus(status) {
 }
 
 
-//validation before edit
-function editModel() {
-    let check = 'false';
-    let count = 0;
-    // get all check boxes
-    let checks = document.getElementsByName('checkField');
-    if (checks) {
-        //if total number of rows is one
-        if (checks.checked) {
-            editRow();
-        } else {
-            for (let i = 0; i < checks.length; i++) {
-                if (checks[i].checked) {
-                    check = 'true';
-                    count = count + 1;
-                }
-            }
-            //check for validity
-            if (check === 'true') {
-                if (count === 1) {
-                    editRow();
-                } else {
-                    alert(" Only one row can be edited at a time, please select one row ");
-                }
-            } else {
-                alert(" No rows selected, please select one row ");
-            }
-        }
-    }
-}
-
-//real edit
-function editRow() {
-    let userRow;
-    let checks = document.getElementsByName('checkField');
-    if (checks.checked) {
-        userRow = document.getElementById("myTable").rows[0];
-        document.getElementById("id").value = userRow.cells[0].childNodes[0].value;
-        document.forms[0].action = "editModel.htm";
-        document.forms[0].submit();
-    } else {
-        for (let i = 0; i < checks.length; i++) {
-            if (checks[i].checked) {
-                userRow = document.getElementById("myTable").rows[i + 1];
-            }
-        }
-        document.getElementById("id").value = userRow.cells[0].childNodes[0].value;
-        document.forms[0].action = "editModel.htm";
-        document.forms[0].submit();
-    }
-}
-
 // delete
 function deleteModel() {
     let check = 'false';
@@ -275,45 +223,6 @@ function hideAlerts(){
     document.getElementById('make').text = "Make <span class='sr-only'>Make</span>";
 }
 
-function simpleAdd() {
-    let myTable = document.getElementById("myTable");
-    let d = document.createElement("tr");
-    let dCheck = document.createElement("td");
-    d.appendChild(dCheck);
-
-    let inCheck = document.createElement("input");
-    inCheck.setAttribute("type","checkbox");
-    inCheck.setAttribute("name","checkField");
-    inCheck.setAttribute("onclick","javascript:checkCall(this)");
-    dCheck.appendChild(inCheck);
-
-    let dMake = document.createElement("td");
-    d.appendChild(dMake);
-
-    let inMake = document.createElement("select");
-    inMake.setAttribute("class", "form-control");
-    inMake.setAttribute("id", "newMakeName");
-    let opLength = document.getElementById("makeName").options.length;
-    for(let i = 1; i <= opLength; i++) {
-        let newOption = document.createElement("option");
-        newOption.text = document.getElementById("makeName").options[i-1].text;
-        newOption.value = document.getElementById("makeName").options[i-1].value;
-        inMake.appendChild(newOption);
-    }
-    dMake.appendChild(inMake);
-
-    let dModel = document.createElement("td");
-    d.appendChild(dModel);
-
-    let inModel = document.createElement("input");
-    inModel.setAttribute("type","text");
-    inModel.setAttribute("class", "form-control");
-    inModel.setAttribute("id", "newModelName");
-    dModel.appendChild(inModel);
-
-    myTable.appendChild(d);
-}
-
 function saveSimpleModel() {
     let e = document.forms[0].newMakeName;
     let selectMakeId = e.options[e.selectedIndex].value;
@@ -377,7 +286,7 @@ function rewriteTable(textReturned) {
     //todo: optional message saving update is done !!
 }
 
-function editModel2() {
+function editModel() {
     let rowCheck = validateEditModalSelection();
     if (rowCheck) {
         editModelModal();

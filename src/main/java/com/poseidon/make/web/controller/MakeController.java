@@ -2,6 +2,7 @@ package com.poseidon.make.web.controller;
 
 import com.poseidon.make.domain.MakeAndModelVO;
 import com.poseidon.make.domain.MakeVO;
+import com.poseidon.make.exception.MakeException;
 import com.poseidon.make.service.MakeService;
 import com.poseidon.make.web.form.MakeForm;
 import org.codehaus.jackson.map.ObjectMapper;
@@ -208,46 +209,6 @@ public class MakeController {
         makeForm.setLoggedInRole(makeForm.getLoggedInRole());
         makeForm.setCurrentMakeAndModeVO(new MakeAndModelVO());
         return makeList(makeForm);
-    }
-
-    /**
-     * edit model.
-     *
-     * @param makeForm makeForm
-     * @return view
-     */
-    @PostMapping("/make/editModel.htm")
-    @SuppressWarnings("unused")
-    public ModelAndView editModel(final MakeForm makeForm) {
-        LOG.debug(" editModel method of MakeController ");
-        LOG.debug(MAKE_FORM_IS, makeForm);
-        MakeAndModelVO makeVO = null;
-        try {
-            makeVO = makeService.getModelFromId(makeForm.getId());
-        } catch (Exception e1) {
-            LOG.error(e1.getLocalizedMessage());
-            LOG.error(UNKNOWN_ERROR);
-        }
-        if (makeVO == null) {
-            LOG.error(" No details found for current makeVO !!");
-        } else {
-            LOG.info(" makeVO details are {}", makeVO);
-        }
-
-        makeForm.setCurrentMakeAndModeVO(makeVO);
-        List<MakeAndModelVO> makeVOs = null;
-        try {
-            makeVOs = makeService.listAllMakes();
-        } catch (Exception ex) {
-            LOG.error(ex.getLocalizedMessage());
-        }
-        if (makeVOs != null) {
-            makeVOs.forEach(makeVONew -> LOG.debug(MAKE_VO_IS, makeVONew));
-            makeForm.setMakeAndModelVOs(makeVOs);
-        }
-        makeForm.setLoggedInUser(makeForm.getLoggedInUser());
-        makeForm.setLoggedInRole(makeForm.getLoggedInRole());
-        return new ModelAndView("make/ModelEdit", MAKE_FORM, makeForm);
     }
 
     /**
@@ -477,7 +438,7 @@ public class MakeController {
     public @ResponseBody
     String saveModelAjax(@ModelAttribute("selectMakeId") final Long selectMakeId,
                          @ModelAttribute("selectModelName") final String selectModelName,
-                         final BindingResult result) {
+                         final BindingResult result) throws MakeException {
         LOG.info("saveModelAjax method of MakeController ");
         StringBuilder responseString = new StringBuilder();
         if (!result.hasErrors()) {
@@ -493,18 +454,7 @@ public class MakeController {
             makeAndModelVO.setModifiedDate(OffsetDateTime.now(ZoneId.systemDefault()));
             makeAndModelVO.setCreatedBy("-ajax-");
             makeAndModelVO.setModifiedBy("-ajax-");
-            MakeForm makeForm = new MakeForm();
-            makeForm.setCurrentMakeAndModeVO(makeAndModelVO);
-            try {
-                makeService.addNewModel(makeForm.getCurrentMakeAndModeVO());
-                makeForm.setStatusMessage("Successfully saved the new make Detail");
-                makeForm.setStatusMessageType(SUCCESS);
-            } catch (Exception e1) {
-                makeForm.setStatusMessage("Unable to save the make Detail due to an error");
-                makeForm.setStatusMessageType(ERROR);
-                LOG.error(e1.getLocalizedMessage());
-                LOG.info(UNKNOWN_ERROR);
-            }
+            makeService.addNewModel(makeAndModelVO);
             try {
                 //get all the make and pass it as a json object
                 List<MakeAndModelVO> makeAndModelVOs = makeService.listAllMakesAndModels();
@@ -512,7 +462,6 @@ public class MakeController {
             } catch (Exception ex) {
                 LOG.error(ex.getMessage());
             }
-
         } else {
             LOG.info("errors {}", result);
         }
