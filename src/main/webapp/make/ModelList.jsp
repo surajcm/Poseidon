@@ -126,9 +126,6 @@
                             <td>
                                 <input class="btn btn-primary" value="Delete Model" type="button" onclick="deleteModel();"/>
                             </td>
-                            <td>
-                                <input class="btn btn-primary" value="Save Model" type="button" onclick="saveSimpleModel();"/>
-                            </td>
                         </tr>
                     </table>
                 </div>

@@ -223,25 +223,6 @@ function hideAlerts(){
     document.getElementById('make').text = "Make <span class='sr-only'>Make</span>";
 }
 
-function saveSimpleModel() {
-    let e = document.forms[0].newMakeName;
-    let selectMakeId = e.options[e.selectedIndex].value;
-    let selectModelName = document.forms[0].newModelName.value;
-    $.ajax({
-        type: "POST",
-        url: "${contextPath}/make/saveModelAjax.htm",
-        data: "selectMakeId=" + selectMakeId + "&selectModelName=" + selectModelName + "&${_csrf.parameterName}=${_csrf.token}",
-        success: function(response) {
-            //alert(response);
-            if (response !== "") {
-                rewriteTable(response);
-            }
-        },error: function(e){
-            alert('Error: ' + e);
-        }
-    });
-}
-
 function rewriteTable(textReturned) {
     document.getElementById('myTable').innerHTML = "";
     let myTable = document.getElementById("myTable");

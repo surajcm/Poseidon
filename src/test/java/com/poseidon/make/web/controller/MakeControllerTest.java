@@ -74,14 +74,6 @@ public class MakeControllerTest {
     }
 
     @Test
-    public void editModel() throws Exception {
-        mvc.perform(post("/make/editModel.htm")).andExpect(status().isOk());
-        when(makeService.getModelFromId(null)).thenThrow(new RuntimeException());
-        when(makeService.listAllMakes()).thenThrow(new RuntimeException());
-        mvc.perform(post("/make/editModel.htm")).andExpect(status().isOk());
-    }
-
-    @Test
     public void testDeleteModel() throws Exception {
         mvc.perform(post("/make/deleteModel.htm")).andExpect(status().isOk());
         doThrow(new RuntimeException()).when(makeService).deleteModel(null);
