@@ -131,10 +131,5 @@ public class MakeControllerTest {
                 .param("selectMakeId", selectMakeId)
                 .param("selectModelName", selectModelName))
                 .andExpect(status().isOk());
-        doThrow(new RuntimeException()).when(makeService).addNewModel(any());
-        mvc.perform(post("/make/saveModelAjax.htm")
-                .param("selectMakeId", selectMakeId)
-                .param("selectModelName", selectModelName))
-                .andExpect(status().isOk());
     }
 }

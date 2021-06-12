@@ -41,7 +41,7 @@ public class MakeServiceImplTest {
 
     @Test
     public void listAllMakesAndModelsFailure() throws MakeException {
-        when(makeDAO.listAllMakesAndModels()).thenThrow(new MakeException(MakeException.DATABASE_ERROR));
+        when(makeDAO.listAllMakesAndModels()).thenThrow(new MakeException(MakeException.DATABASE_ERROR, "DB Error"));
         Assertions.assertNull(makeService.listAllMakesAndModels());
     }
 
@@ -58,7 +58,7 @@ public class MakeServiceImplTest {
 
     @Test
     public void listAllMakesFailure() throws MakeException {
-        when(makeDAO.listAllMakes()).thenThrow(new MakeException(MakeException.DATABASE_ERROR));
+        when(makeDAO.listAllMakes()).thenThrow(new MakeException(MakeException.DATABASE_ERROR, "DB Error"));
         Assertions.assertNull(makeService.listAllMakes());
     }
 
@@ -136,12 +136,6 @@ public class MakeServiceImplTest {
     }
 
     @Test
-    public void addNewModelFailure() throws MakeException {
-        Mockito.doThrow(MakeException.class).when(makeDAO).addNewModel(any());
-        Assertions.assertAll(() -> makeService.addNewModel(new MakeAndModelVO()));
-    }
-
-    @Test
     public void updateModelSuccess() {
         Assertions.assertAll(() -> makeService.updateModel(new MakeAndModelVO()));
     }
@@ -166,7 +160,7 @@ public class MakeServiceImplTest {
     @Test
     public void searchMakeVOsFailure() throws MakeException {
         when(makeDAO.searchMakeVOs(any(MakeAndModelVO.class)))
-                .thenThrow(new MakeException(MakeException.DATABASE_ERROR));
+                .thenThrow(new MakeException(MakeException.DATABASE_ERROR, "DB Error"));
         Assertions.assertNull(makeService.searchMakeVOs(Mockito.mock(MakeAndModelVO.class)));
     }
 
@@ -183,7 +177,7 @@ public class MakeServiceImplTest {
 
     @Test
     public void fetchMakesFailure() throws MakeException {
-        when(makeDAO.fetchMakes()).thenThrow(new MakeException(MakeException.DATABASE_ERROR));
+        when(makeDAO.fetchMakes()).thenThrow(new MakeException(MakeException.DATABASE_ERROR, "DB Error"));
         Assertions.assertNull(makeService.fetchMakes());
     }
 
@@ -200,7 +194,8 @@ public class MakeServiceImplTest {
 
     @Test
     public void getAllModelsFromMakeIdFailure() throws MakeException {
-        when(makeDAO.getAllModelsFromMakeId(anyLong())).thenThrow(new MakeException(MakeException.DATABASE_ERROR));
+        when(makeDAO.getAllModelsFromMakeId(anyLong())).thenThrow(
+                new MakeException(MakeException.DATABASE_ERROR, "DB Error"));
         Assertions.assertNull(makeService.getAllModelsFromMakeId(1234L));
     }
 

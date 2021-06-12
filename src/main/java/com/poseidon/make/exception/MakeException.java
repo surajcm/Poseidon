@@ -12,11 +12,13 @@ public class MakeException extends Exception {
     public static final String DATABASE_ERROR = "DATABASE_ERROR";
 
     public final String exceptionType;
+    public final String message;
     public static final long serialVersionUID = 4328746;
 
-    public MakeException(final String exceptionType) {
+    public MakeException(final String exceptionType, final String message) {
         super();
         this.exceptionType = exceptionType;
+        this.message = message;
     }
 
     public String getExceptionType() {

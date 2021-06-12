@@ -50,7 +50,7 @@ public class MakeDaoImpl implements MakeDao {
             makeVOs = makeAndModelEntityConverter.convertMakeToMakeAndModelVOs(makes);
         } catch (DataAccessException ex) {
             LOG.error(ex.getLocalizedMessage());
-            throw new MakeException(MakeException.DATABASE_ERROR);
+            throw new MakeException(MakeException.DATABASE_ERROR, ex.getMessage());
         }
         return makeVOs;
     }
@@ -70,7 +70,7 @@ public class MakeDaoImpl implements MakeDao {
             makeAndModelVOS = makeAndModelEntityConverter.convertModelsToMakeAndModelVOs(models);
         } catch (DataAccessException ex) {
             LOG.error(ex.getLocalizedMessage());
-            throw new MakeException(MakeException.DATABASE_ERROR);
+            throw new MakeException(MakeException.DATABASE_ERROR, ex.getMessage());
         }
         return makeAndModelVOS;
     }
@@ -88,7 +88,7 @@ public class MakeDaoImpl implements MakeDao {
             makeRepository.save(make);
         } catch (DataAccessException ex) {
             LOG.error(ex.getLocalizedMessage());
-            throw new MakeException(MakeException.DATABASE_ERROR);
+            throw new MakeException(MakeException.DATABASE_ERROR, ex.getMessage());
         }
     }
 
@@ -112,7 +112,7 @@ public class MakeDaoImpl implements MakeDao {
             }
         } catch (DataAccessException ex) {
             LOG.error(ex.getLocalizedMessage());
-            throw new MakeException(MakeException.DATABASE_ERROR);
+            throw new MakeException(MakeException.DATABASE_ERROR, ex.getMessage());
         }
     }
 
@@ -133,7 +133,7 @@ public class MakeDaoImpl implements MakeDao {
             }
         } catch (DataAccessException ex) {
             LOG.error(ex.getLocalizedMessage());
-            throw new MakeException(MakeException.DATABASE_ERROR);
+            throw new MakeException(MakeException.DATABASE_ERROR, ex.getMessage());
         }
         return makeVO;
     }
@@ -150,7 +150,7 @@ public class MakeDaoImpl implements MakeDao {
             makeRepository.deleteById(makeId);
         } catch (DataAccessException ex) {
             LOG.error(ex.getLocalizedMessage());
-            throw new MakeException(MakeException.DATABASE_ERROR);
+            throw new MakeException(MakeException.DATABASE_ERROR, ex.getMessage());
         }
     }
 
@@ -170,7 +170,7 @@ public class MakeDaoImpl implements MakeDao {
             }
         } catch (DataAccessException ex) {
             LOG.error(ex.getLocalizedMessage());
-            throw new MakeException(MakeException.DATABASE_ERROR);
+            throw new MakeException(MakeException.DATABASE_ERROR, ex.getMessage());
         }
         return makeAndModelVO;
     }
@@ -187,7 +187,7 @@ public class MakeDaoImpl implements MakeDao {
             modelRepository.deleteById(modelId);
         } catch (DataAccessException ex) {
             LOG.error(ex.getLocalizedMessage());
-            throw new MakeException(MakeException.DATABASE_ERROR);
+            throw new MakeException(MakeException.DATABASE_ERROR, ex.getMessage());
         }
     }
 
@@ -205,7 +205,7 @@ public class MakeDaoImpl implements MakeDao {
             modelRepository.save(model1);
         } catch (DataAccessException ex) {
             LOG.error(ex.getLocalizedMessage());
-            throw new MakeException(MakeException.DATABASE_ERROR);
+            throw new MakeException(MakeException.DATABASE_ERROR, ex.getMessage());
         }
     }
 
@@ -234,7 +234,7 @@ public class MakeDaoImpl implements MakeDao {
             }
         } catch (DataAccessException ex) {
             LOG.error(ex.getLocalizedMessage());
-            throw new MakeException(MakeException.DATABASE_ERROR);
+            throw new MakeException(MakeException.DATABASE_ERROR, ex.getMessage());
         }
     }
 
@@ -252,7 +252,7 @@ public class MakeDaoImpl implements MakeDao {
             }
         } catch (DataAccessException ex) {
             LOG.error(ex.getMessage());
-            throw new MakeException(MakeException.DATABASE_ERROR);
+            throw new MakeException(MakeException.DATABASE_ERROR, ex.getMessage());
         }
     }
 
@@ -270,7 +270,7 @@ public class MakeDaoImpl implements MakeDao {
             makeVOs = convertMakeToMakeVO(makes);
         } catch (DataAccessException ex) {
             LOG.error(ex.getLocalizedMessage());
-            throw new MakeException(MakeException.DATABASE_ERROR);
+            throw new MakeException(MakeException.DATABASE_ERROR, ex.getMessage());
         }
         return makeVOs;
     }
@@ -297,7 +297,7 @@ public class MakeDaoImpl implements MakeDao {
             }
         } catch (DataAccessException ex) {
             LOG.error(ex.getMessage());
-            throw new MakeException(MakeException.DATABASE_ERROR);
+            throw new MakeException(MakeException.DATABASE_ERROR, ex.getMessage());
         }
         return makeVOs;
     }
@@ -339,7 +339,7 @@ public class MakeDaoImpl implements MakeDao {
             makeVOs = searchModels(searchMakeVo);
         } catch (DataAccessException ex) {
             LOG.error(ex.getLocalizedMessage());
-            throw new MakeException(MakeException.DATABASE_ERROR);
+            throw new MakeException(MakeException.DATABASE_ERROR, ex.getMessage());
         }
         return makeVOs;
     }
