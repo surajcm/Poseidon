@@ -145,7 +145,7 @@
                             </td>
                             <td style="text-align:left;">
                                 <form:select id="modelId" path="currentTransaction.modelId" tabindex="2" cssClass="form-control"
-                                             onkeypress="handleEnter(event);">
+                                             onkeypress="handleEnter(event);" disabled="true">
                                     <form:option value=""><spring:message code="common.select" text="<-- Select -->"/></form:option>
                                     <form:options items="${transactionForm.makeAndModelVOs}"
                                                   itemValue="modelId" itemLabel="modelName"/>
@@ -237,6 +237,9 @@
                     });
                     $(function() {
                         $("#dateReported").datepicker();
+                    });
+                    $('#makeId').change(function() {
+                        $("#modelId").prop("disabled", false);
                     });
                 });
             </script>
