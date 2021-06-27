@@ -69,7 +69,7 @@
                                 </div>
                                 <div class="form-group col-md-3">
                                     <label for="modelId">Model Name :</label>
-                                    <form:select id="modelId" cssClass="form-control" path="searchTransaction.modelId" tabindex="2">
+                                    <form:select id="modelId" cssClass="form-control" path="searchTransaction.modelId" tabindex="2" disabled="true">
                                         <form:option value=""><spring:message code="common.select" text="<-- Select -->"/></form:option>
                                         <form:options items="${transactionForm.makeAndModelVOs}"
                                                       itemValue="modelId" itemLabel="modelName"/>
@@ -177,6 +177,9 @@
                 $(function() {
                     $("#startDate").datepicker();
                      $("#endDate").datepicker();
+                });
+                $('#makeId').change(function() {
+                    $("#modelId").prop("disabled", false);
                 });
             });
         </script>
