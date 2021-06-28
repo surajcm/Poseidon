@@ -32,6 +32,7 @@ jobs:
       #      - v1-dependencies-
 
 
+      - run: gradle wrapper --gradle-version=7.0.2
       - run: gradle dependencies
 
       - save_cache:
