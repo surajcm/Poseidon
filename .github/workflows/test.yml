@@ -20,4 +20,4 @@ jobs:
       - name: Generate reports
         run: ./gradlew build jacocoTestReport
       - name: Analyze on SonarCloud
-        run: ./gradlew gradle build sonarqube
+        run: ./gradlew build sonarqube
