@@ -126,8 +126,7 @@ public class ReportsController {
                 reportsForm.getCurrentReport().setLocale(Locale.US);
                 String reportFileName = "makeListReport";
                 reportsForm.getCurrentReport().setRptfilename(reportFileName);
-                String path = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest()
-                        .getSession().getServletContext().getRealPath(REPORTS);
+                String path = getReportPath();
                 LOG.info(COMPILE_REPORT);
                 jasperReport = JasperCompileManager.compileReport(path + '/' + reportFileName + JRXML);
                 jasperPrint = reportsService.getMakeDetailsChart(jasperReport,
@@ -140,6 +139,15 @@ public class ReportsController {
             LOG.error(ex.getLocalizedMessage());
         }
         return null;
+    }
+
+    private String getReportPath() {
+        String path = "";
+        ServletRequestAttributes attr = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes());
+        if (attr != null) {
+            path = attr.getRequest().getSession().getServletContext().getRealPath(REPORTS);
+        }
+        return path;
     }
 
     /**
@@ -169,8 +177,7 @@ public class ReportsController {
             reportFileName = "callReport";
             reportType = reportsForm.getCurrentReport().getExportTo();
             reportsForm.getCurrentReport().setRptfilename(reportFileName);
-            String path = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest()
-                    .getSession().getServletContext().getRealPath(REPORTS);
+            String path = getReportPath();
             LOG.info(" going to compile report, at getCallReport");
             jasperReport = JasperCompileManager.compileReport(path + '/' + reportFileName + JRXML);
 
@@ -211,8 +218,7 @@ public class ReportsController {
             reportFileName = "transactionsListReport";
             reportType = reportsForm.getCurrentReport().getExportTo();
             reportsForm.getCurrentReport().setRptfilename(reportFileName);
-            String path = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest()
-                    .getSession().getServletContext().getRealPath(REPORTS);
+            String path = getReportPath();
             LOG.info(COMPILE_REPORT);
             jasperReport = JasperCompileManager.compileReport(path + '/' + reportFileName + JRXML);
 
@@ -251,8 +257,7 @@ public class ReportsController {
 
             String reportFileName = "modelListReport";
             reportsForm.getCurrentReport().setRptfilename(reportFileName);
-            String path = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest()
-                    .getSession().getServletContext().getRealPath(REPORTS);
+            String path = getReportPath();
             LOG.info(COMPILE_REPORT);
             jasperReport = JasperCompileManager.compileReport(path + '/' + reportFileName + JRXML);
 
@@ -292,8 +297,7 @@ public class ReportsController {
 
             String reportFileName = "errorReport";
             reportsForm.getCurrentReport().setRptfilename(reportFileName);
-            String path = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest()
-                    .getSession().getServletContext().getRealPath(REPORTS);
+            String path = getReportPath();
             LOG.info(COMPILE_REPORT);
             jasperReport = JasperCompileManager.compileReport(path + '/' + reportFileName + JRXML);
             jasperPrint = reportsService.getErrorReport(jasperReport, reportsForm.getCurrentReport());
@@ -330,8 +334,7 @@ public class ReportsController {
 
             String reportFileName = "serviceBillReport";
             reportsForm.getCurrentReport().setRptfilename(reportFileName);
-            String path = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes()).getRequest()
-                    .getSession().getServletContext().getRealPath(REPORTS);
+            String path = getReportPath();
             LOG.info(COMPILE_REPORT);
             jasperReport = JasperCompileManager.compileReport(path + '/' + reportFileName + JRXML);
             jasperPrint = reportsService.getInvoiceReport(jasperReport, reportsForm.getCurrentReport());
