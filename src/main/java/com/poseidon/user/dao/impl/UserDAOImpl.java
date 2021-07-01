@@ -81,7 +81,7 @@ public class UserDAOImpl implements UserDAO {
     }
 
     private UserVO convertToUserVO(final User user) {
-        UserVO userVO = new UserVO();
+        var userVO = new UserVO();
         userVO.setId(user.getUserId());
         userVO.setName(user.getName());
         userVO.setEmail(user.getEmail());
@@ -101,7 +101,7 @@ public class UserDAOImpl implements UserDAO {
      */
     @Override
     public void save(final UserVO userVO) throws UserException {
-        User user = convertToUser(userVO);
+        var user = convertToUser(userVO);
         try {
             userRepository.save(user);
         } catch (Exception ex) {
@@ -111,7 +111,7 @@ public class UserDAOImpl implements UserDAO {
     }
 
     private User convertToUser(final UserVO userVO) {
-        User user = new User();
+        var user = new User();
         user.setName(userVO.getName());
         user.setEmail(userVO.getEmail());
         user.setPassword(userVO.getPassword());
@@ -135,7 +135,7 @@ public class UserDAOImpl implements UserDAO {
         try {
             var optionalUser = userRepository.findById(id);
             if (optionalUser.isPresent()) {
-                User user = optionalUser.get();
+                var user = optionalUser.get();
                 userVO = convertToUserVO(user);
             }
         } catch (Exception ex) {
@@ -155,7 +155,7 @@ public class UserDAOImpl implements UserDAO {
         try {
             var optionalUser = userRepository.findById(userVO.getId());
             if (optionalUser.isPresent()) {
-                User user = optionalUser.get();
+                var user = optionalUser.get();
                 user.setName(userVO.getName());
                 user.setEmail(userVO.getEmail());
                 user.setPassword(userVO.getPassword());
@@ -185,7 +185,7 @@ public class UserDAOImpl implements UserDAO {
     @Override
     public UserVO findByEmail(final String email) throws UserException {
         try {
-            User user = userRepository.findByEmail(email);
+            var user = userRepository.findByEmail(email);
             return convertToUserVO(user);
         } catch (Exception ex) {
             throw new UserException(UserException.DATABASE_ERROR);

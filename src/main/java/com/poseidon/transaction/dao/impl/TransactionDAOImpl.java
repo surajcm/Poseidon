@@ -18,7 +18,6 @@ import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import javax.persistence.Query;
 import java.time.LocalDate;
 import java.time.OffsetDateTime;
 import java.time.OffsetTime;
@@ -234,8 +233,8 @@ public class TransactionDAOImpl implements TransactionDAO {
             hqlQuery.append(" where");
         }
 
-        boolean first = false;
-        String tag = "";
+        var first = false;
+        var tag = "";
         if (hasTagNo) {
             first = true;
             hqlQuery.append(" tr.tagno like :tag ");
@@ -247,7 +246,7 @@ public class TransactionDAOImpl implements TransactionDAO {
                 tag = searchTransaction.getTagNo();
             }
         }
-        String customer = "";
+        var customer = "";
         if (hasCustomerName) {
             if (first) {
                 hqlQuery.append(" and ");
@@ -261,7 +260,7 @@ public class TransactionDAOImpl implements TransactionDAO {
                 customer = searchTransaction.getCustomerName();
             }
         }
-        String serial = "";
+        var serial = "";
         if (hasSerialNo) {
             if (first) {
                 hqlQuery.append(" and ");
@@ -275,7 +274,7 @@ public class TransactionDAOImpl implements TransactionDAO {
                 serial = searchTransaction.getSerialNo();
             }
         }
-        Long make = 0L;
+        var make = 0L;
         if (hasMake) {
             if (first) {
                 hqlQuery.append(" and ");
@@ -283,7 +282,7 @@ public class TransactionDAOImpl implements TransactionDAO {
             hqlQuery.append(" mk.id like :make ");
             make = searchTransaction.getMakeId();
         }
-        Long model = 0L;
+        var model = 0L;
         if (hasModel) {
             if (first) {
                 hqlQuery.append(" and ");
@@ -291,7 +290,7 @@ public class TransactionDAOImpl implements TransactionDAO {
             hqlQuery.append(" mdl.id like :model ");
             model = searchTransaction.getModelId();
         }
-        String status = "";
+        var status = "";
         if (hasStatus) {
             if (first) {
                 hqlQuery.append(" and ");
@@ -305,8 +304,8 @@ public class TransactionDAOImpl implements TransactionDAO {
                 status = searchTransaction.getStatus();
             }
         }
-        OffsetDateTime start = OffsetDateTime.now(ZoneId.systemDefault());
-        OffsetDateTime end = OffsetDateTime.now(ZoneId.systemDefault());
+        var start = OffsetDateTime.now(ZoneId.systemDefault());
+        var end = OffsetDateTime.now(ZoneId.systemDefault());
         if (hasStartDateAndEndDate) {
             if (first) {
                 hqlQuery.append(" and ");
@@ -315,7 +314,7 @@ public class TransactionDAOImpl implements TransactionDAO {
             end = getParsedDate(searchTransaction.getEndDate());
             hqlQuery.append(" tr.dateReported between :start and :end ");
         }
-        Query query = em.createQuery(hqlQuery.toString());
+        var query = em.createQuery(hqlQuery.toString());
         if (hasTagNo) {
             query.setParameter("tag", tag);
         }
@@ -344,9 +343,9 @@ public class TransactionDAOImpl implements TransactionDAO {
 
     private TransactionVO convertToVO(final Transaction txn) {
         final Optional<Customer> customer = customerRepository.findById(txn.getCustomerId());
-        final Make make = makeRepository.getOne(txn.getMakeId());
-        final Model model = modelRepository.getOne(txn.getModelId());
-        TransactionVO transactionVO = new TransactionVO();
+        final Make make = makeRepository.getById(txn.getMakeId());
+        final Model model = modelRepository.getById(txn.getModelId());
+        var transactionVO = new TransactionVO();
         transactionVO.setId(txn.getTransactionId());
         transactionVO.setTagNo(txn.getTagno());
         transactionVO.setDateReported(txn.getDateReported().toString());
@@ -370,18 +369,7 @@ public class TransactionDAOImpl implements TransactionDAO {
 
     private Transaction convertToTXN(final Transaction txn, final TransactionVO currentTransaction) {
         txn.setDateReported(parseDate(currentTransaction.getDateReported()));
-        txn.setProductCategory(currentTransaction.getProductCategory());
-        txn.setCustomerId(currentTransaction.getCustomerId());
-        txn.setMakeId(currentTransaction.getMakeId());
-        txn.setModelId(currentTransaction.getModelId());
-        txn.setSerialNumber(currentTransaction.getSerialNo());
-        txn.setAccessories(currentTransaction.getAccessories());
-        txn.setComplaintReported(currentTransaction.getComplaintReported());
-        txn.setComplaintDiagnosed(currentTransaction.getComplaintDiagonsed());
-        txn.setEngineerRemarks(currentTransaction.getEnggRemark());
-        txn.setRepairAction(currentTransaction.getRepairAction());
-        txn.setNote(currentTransaction.getNotes());
-        txn.setStatus(currentTransaction.getStatus());
+        setTxn(currentTransaction, txn);
         txn.setModifiedBy(currentTransaction.getModifiedBy());
         return txn;
     }
@@ -404,7 +392,7 @@ public class TransactionDAOImpl implements TransactionDAO {
         txs.setCustomerId(transaction.getCustomerId());
         var customerOpt = customerRepository.findById(transaction.getCustomerId());
         if (customerOpt.isPresent()) {
-            Customer customer = customerOpt.get();
+            var customer = customerOpt.get();
             txs.setCustomerName(customer.getName());
             txs.setAddress(customer.getAddress());
             txs.setPhone(customer.getPhone());
@@ -412,9 +400,9 @@ public class TransactionDAOImpl implements TransactionDAO {
             txs.setEmail(customer.getEmail());
         }
         txs.setProductCategory(transaction.getProductCategory());
-        Make make = makeRepository.getOne(transaction.getMakeId());
+        var make = makeRepository.getById(transaction.getMakeId());
         txs.setMakeName(make.getMakeName());
-        Model model = modelRepository.getOne(transaction.getModelId());
+        var model = modelRepository.getById(transaction.getModelId());
         txs.setModelName(model.getModelName());
         txs.setSerialNo(transaction.getSerialNumber());
         txs.setAccessories(transaction.getAccessories());
@@ -428,8 +416,15 @@ public class TransactionDAOImpl implements TransactionDAO {
     }
 
     private Transaction getTransaction(final TransactionVO currentTransaction) {
-        Transaction txn = new Transaction();
+        var txn = new Transaction();
         txn.setDateReported(getParsedDate(currentTransaction.getDateReported()));
+        setTxn(currentTransaction, txn);
+        txn.setCreatedBy(currentTransaction.getCreatedBy());
+        txn.setModifiedBy(currentTransaction.getModifiedBy());
+        return txn;
+    }
+
+    private void setTxn(final TransactionVO currentTransaction, final Transaction txn) {
         txn.setProductCategory(currentTransaction.getProductCategory());
         txn.setCustomerId(currentTransaction.getCustomerId());
         txn.setMakeId(currentTransaction.getMakeId());
@@ -442,9 +437,6 @@ public class TransactionDAOImpl implements TransactionDAO {
         txn.setRepairAction(currentTransaction.getRepairAction());
         txn.setNote(currentTransaction.getNotes());
         txn.setStatus(currentTransaction.getStatus());
-        txn.setCreatedBy(currentTransaction.getCreatedBy());
-        txn.setModifiedBy(currentTransaction.getModifiedBy());
-        return txn;
     }
 
     private OffsetDateTime getParsedDate(final String dateReported) {

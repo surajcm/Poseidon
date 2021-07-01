@@ -1,6 +1,5 @@
 package com.poseidon.reports.service.impl;
 
-import com.poseidon.company.domain.CompanyTermsVO;
 import com.poseidon.company.service.CompanyTermsService;
 import com.poseidon.invoice.domain.InvoiceReportVO;
 import com.poseidon.invoice.domain.InvoiceVO;
@@ -71,7 +70,7 @@ public class ReportsServiceImpl implements ReportsService {
     @Override
     public JasperPrint getMakeDetailsChart(final JasperReport jasperReport, final ReportsVO currentReport) {
         currentReport.setMakeVOList(makeService.fetchMakes());
-        JasperPrint jasperPrint = new JasperPrint();
+        var jasperPrint = new JasperPrint();
         try {
             jasperPrint = reportsDAO.getMakeDetailsChart(jasperReport, currentReport);
         } catch (JRException ex) {
@@ -89,10 +88,10 @@ public class ReportsServiceImpl implements ReportsService {
      */
     @Override
     public JasperPrint getCallReport(final JasperReport jasperReport, final ReportsVO currentReport) {
-        CompanyTermsVO companyTermsVO = companyTermsService.listCompanyTerms();
-        TransactionReportVO transactionVO = getTransactionReportVO(currentReport.getTagNo());
+        var companyTermsVO = companyTermsService.listCompanyTerms();
+        var transactionVO = getTransactionReportVO(currentReport.getTagNo());
         currentReport.setTransactionReportVO(transactionVO);
-        JasperPrint jasperPrint = new JasperPrint();
+        var jasperPrint = new JasperPrint();
         try {
             jasperPrint = reportsDAO.getCallReport(jasperReport, currentReport, companyTermsVO);
         } catch (JRException ex) {
@@ -124,7 +123,7 @@ public class ReportsServiceImpl implements ReportsService {
                                                  final ReportsVO currentReport,
                                                  final TransactionVO searchTransaction) {
         currentReport.setTransactionsList(getTransactionVOS(searchTransaction));
-        JasperPrint jasperPrint = new JasperPrint();
+        var jasperPrint = new JasperPrint();
         try {
             jasperPrint = reportsDAO.getTransactionsListReport(jasperReport, currentReport);
         } catch (JRException ex) {
@@ -156,7 +155,7 @@ public class ReportsServiceImpl implements ReportsService {
                                           final ReportsVO currentReport,
                                           final MakeAndModelVO searchMakeAndModelVO) {
         currentReport.setMakeAndModelVOs(makeService.searchMakeVOs(searchMakeAndModelVO));
-        JasperPrint jasperPrint = new JasperPrint();
+        var jasperPrint = new JasperPrint();
         try {
             jasperPrint = reportsDAO.getModelListReport(jasperReport, currentReport);
         } catch (JRException ex) {
@@ -174,7 +173,7 @@ public class ReportsServiceImpl implements ReportsService {
      */
     @Override
     public JasperPrint getErrorReport(final JasperReport jasperReport, final ReportsVO currentReport) {
-        JasperPrint jasperPrint = new JasperPrint();
+        var jasperPrint = new JasperPrint();
         try {
             jasperPrint = reportsDAO.getErrorReport(jasperReport, currentReport);
         } catch (JRException ex) {
@@ -192,12 +191,12 @@ public class ReportsServiceImpl implements ReportsService {
      */
     @Override
     public JasperPrint getInvoiceReport(final JasperReport jasperReport, final ReportsVO currentReport) {
-        TransactionReportVO transaction = getTransactionReportVO(currentReport.getTagNo());
-        InvoiceVO invoiceVO = getInvoiceVOFromTag(transaction);
+        var transaction = getTransactionReportVO(currentReport.getTagNo());
+        var invoiceVO = getInvoiceVOFromTag(transaction);
         if (invoiceVO != null) {
             currentReport.setInvoiceReportVO(getInvoiceReportVO(transaction, invoiceVO));
         }
-        JasperPrint jasperPrint = new JasperPrint();
+        var jasperPrint = new JasperPrint();
         try {
             jasperPrint = reportsDAO.getInvoiceReport(jasperReport, currentReport);
         } catch (JRException ex) {
@@ -215,7 +214,7 @@ public class ReportsServiceImpl implements ReportsService {
     }
 
     private InvoiceReportVO getInvoiceReportVO(final TransactionReportVO transactionVO, final InvoiceVO invoiceVO) {
-        InvoiceReportVO invoiceReportVO = new InvoiceReportVO();
+        var invoiceReportVO = new InvoiceReportVO();
         updateInvoiceInfo(invoiceReportVO, invoiceVO);
         updateTransactionInfo(invoiceReportVO, transactionVO);
         updateCompanyInfo(invoiceReportVO);
@@ -240,7 +239,7 @@ public class ReportsServiceImpl implements ReportsService {
     }
 
     private void updateCompanyInfo(final InvoiceReportVO invoiceReportVO) {
-        CompanyTermsVO companyTermsVO = companyTermsService.listCompanyTerms();
+        var companyTermsVO = companyTermsService.listCompanyTerms();
         if (companyTermsVO != null) {
             invoiceReportVO.setCompanyName(companyTermsVO.getCompanyName());
             invoiceReportVO.setCompanyAddress(companyTermsVO.getCompanyAddress());

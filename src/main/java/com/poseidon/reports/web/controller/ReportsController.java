@@ -19,6 +19,8 @@ import net.sf.jasperreports.engine.export.JRXlsExporter;
 import net.sf.jasperreports.engine.export.JRXlsExporterParameter;
 import net.sf.jasperreports.engine.export.ooxml.JRDocxExporter;
 import net.sf.jasperreports.engine.export.ooxml.JRDocxExporterParameter;
+import net.sf.jasperreports.export.SimpleXlsxReportConfiguration;
+import net.sf.jasperreports.export.XlsReportConfiguration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,7 +36,6 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.ByteArrayOutputStream;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Locale;
 
@@ -52,6 +53,7 @@ public class ReportsController {
     private static final String REPORTS = "/resources/reports";
     private static final String COMPILE_REPORT = " going to compile report";
     private static final String JRXML = ".jrxml";
+    private static final String FILENAME = "attachment;filename=";
     @Autowired
     private ReportsService reportsService;
 
@@ -124,15 +126,15 @@ public class ReportsController {
             }
             if (reportsForm.getCurrentReport() != null) {
                 reportsForm.getCurrentReport().setLocale(Locale.US);
-                String reportFileName = "makeListReport";
+                var reportFileName = "makeListReport";
                 reportsForm.getCurrentReport().setRptfilename(reportFileName);
-                String path = getReportPath();
+                var path = getReportPath();
                 LOG.info(COMPILE_REPORT);
                 jasperReport = JasperCompileManager.compileReport(path + '/' + reportFileName + JRXML);
                 jasperPrint = reportsService.getMakeDetailsChart(jasperReport,
                         reportsForm.getCurrentReport());
                 LOG.info(jasperPrint.toString());
-                String reportType = reportsForm.getCurrentReport().getExportTo();
+                var reportType = reportsForm.getCurrentReport().getExportTo();
                 generateJasperReport(httpServletResponse, jasperPrint, reportFileName, reportType);
             }
         } catch (Exception ex) {
@@ -142,7 +144,7 @@ public class ReportsController {
     }
 
     private String getReportPath() {
-        String path = "";
+        var path = "";
         ServletRequestAttributes attr = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes());
         if (attr != null) {
             path = attr.getRequest().getSession().getServletContext().getRealPath(REPORTS);
@@ -177,7 +179,7 @@ public class ReportsController {
             reportFileName = "callReport";
             reportType = reportsForm.getCurrentReport().getExportTo();
             reportsForm.getCurrentReport().setRptfilename(reportFileName);
-            String path = getReportPath();
+            var path = getReportPath();
             LOG.info(" going to compile report, at getCallReport");
             jasperReport = JasperCompileManager.compileReport(path + '/' + reportFileName + JRXML);
 
@@ -214,11 +216,10 @@ public class ReportsController {
                 reportsForm.setCurrentReport(new ReportsVO());
             }
             reportsForm.getCurrentReport().setLocale(Locale.US);
-
             reportFileName = "transactionsListReport";
             reportType = reportsForm.getCurrentReport().getExportTo();
             reportsForm.getCurrentReport().setRptfilename(reportFileName);
-            String path = getReportPath();
+            var path = getReportPath();
             LOG.info(COMPILE_REPORT);
             jasperReport = JasperCompileManager.compileReport(path + '/' + reportFileName + JRXML);
 
@@ -255,17 +256,16 @@ public class ReportsController {
             }
             reportsForm.getCurrentReport().setLocale(Locale.US);
 
-            String reportFileName = "modelListReport";
+            var reportFileName = "modelListReport";
             reportsForm.getCurrentReport().setRptfilename(reportFileName);
-            String path = getReportPath();
+            var path = getReportPath();
             LOG.info(COMPILE_REPORT);
             jasperReport = JasperCompileManager.compileReport(path + '/' + reportFileName + JRXML);
-
             jasperPrint = reportsService.getModelListReport(jasperReport,
                     reportsForm.getCurrentReport(),
                     reportsForm.getModelReportMakeAndModelVO());
             LOG.info(jasperPrint.toString());
-            String reportType = reportsForm.getCurrentReport().getExportTo();
+            var reportType = reportsForm.getCurrentReport().getExportTo();
             generateJasperReport(httpServletResponse, jasperPrint, reportFileName, reportType);
         } catch (Exception ex) {
             LOG.error(ex.getLocalizedMessage());
@@ -295,14 +295,14 @@ public class ReportsController {
             }
             reportsForm.getCurrentReport().setLocale(Locale.US);
 
-            String reportFileName = "errorReport";
+            var reportFileName = "errorReport";
             reportsForm.getCurrentReport().setRptfilename(reportFileName);
-            String path = getReportPath();
+            var path = getReportPath();
             LOG.info(COMPILE_REPORT);
             jasperReport = JasperCompileManager.compileReport(path + '/' + reportFileName + JRXML);
             jasperPrint = reportsService.getErrorReport(jasperReport, reportsForm.getCurrentReport());
             LOG.info(jasperPrint.toString());
-            String reportType = reportsForm.getCurrentReport().getExportTo();
+            var reportType = reportsForm.getCurrentReport().getExportTo();
             generateJasperReport(httpServletResponse, jasperPrint, reportFileName, reportType);
         } catch (Exception ex) {
             LOG.error(ex.getLocalizedMessage());
@@ -324,22 +324,22 @@ public class ReportsController {
                                          final ReportsForm reportsForm) {
         LOG.info(" Inside getInvoiceReport method of ReportsController ");
         LOG.info(FORM_DETAILS, reportsForm);
-        JasperReport jasperReport;
         JasperPrint jasperPrint;
+        JasperReport jasperReport;
         try {
             if (reportsForm.getCurrentReport() == null) {
                 reportsForm.setCurrentReport(new ReportsVO());
             }
             reportsForm.getCurrentReport().setLocale(Locale.US);
 
-            String reportFileName = "serviceBillReport";
+            var reportFileName = "serviceBillReport";
             reportsForm.getCurrentReport().setRptfilename(reportFileName);
-            String path = getReportPath();
+            var path = getReportPath();
             LOG.info(COMPILE_REPORT);
             jasperReport = JasperCompileManager.compileReport(path + '/' + reportFileName + JRXML);
             jasperPrint = reportsService.getInvoiceReport(jasperReport, reportsForm.getCurrentReport());
             LOG.info(jasperPrint.toString());
-            String reportType = reportsForm.getCurrentReport().getExportTo();
+            var reportType = reportsForm.getCurrentReport().getExportTo();
             generateJasperReport(httpServletResponse, jasperPrint, reportFileName, reportType);
         } catch (Exception ex) {
             LOG.error(ex.getLocalizedMessage());
@@ -364,16 +364,17 @@ public class ReportsController {
         ServletOutputStream outputStream;
         try {
             LOG.info("In generateJasperReport method");
-            ByteArrayOutputStream baos = new ByteArrayOutputStream();
+            var baos = new ByteArrayOutputStream();
             httpServletResponse.setHeader("X-Frame-Options", "SAMEORIGIN");
             if ("EXCEL".equalsIgnoreCase(reportType)) {
                 LOG.info("ExcelReport -- > reportFileName ---> " + reportFileName + reportType);
                 httpServletResponse.setContentType("application/vnd.ms-excel");
-                httpServletResponse.setHeader("Content-Disposition",
-                        "attachment;filename=" + reportFileName + ";");
+                httpServletResponse.setHeader("Content-Disposition", FILENAME + reportFileName + ";");
                 jrExporter = new JRXlsExporter();
+                XlsReportConfiguration config = new SimpleXlsxReportConfiguration();
+                //config.isDetectCellType()
+                //jrExporter.setConfiguration();
                 jrExporter.setParameter(JRXlsExporterParameter.IS_DETECT_CELL_TYPE, true);
-                jrExporter.setParameter(JRXlsExporterParameter.JASPER_PRINT, jasperPrint);
                 jrExporter.setParameter(JRXlsExporterParameter.OUTPUT_STREAM, baos);
                 jrExporter.setParameter(JRXlsExporterParameter.JASPER_PRINT, jasperPrint);
                 jrExporter.setParameter(JRXlsExporterParameter.IS_REMOVE_EMPTY_SPACE_BETWEEN_ROWS,
@@ -396,10 +397,10 @@ public class ReportsController {
                 outputStream.close();
             } else if ("PDF".equalsIgnoreCase(reportType)) {
                 LOG.info("PDF -- > reportFileName ---> " + reportFileName + reportType);
-                String mimetype = httpServletResponse.getContentType();
+                var mimetype = httpServletResponse.getContentType();
                 httpServletResponse.setContentType((mimetype != null) ? mimetype : "application/pdf");
                 httpServletResponse.setHeader("Content-Disposition",
-                        "attachment;filename=" + reportFileName + ";");
+                        FILENAME + reportFileName + ";");
                 JRExporter jrPdfExporter = new net.sf.jasperreports.engine.export.JRPdfExporter();
                 jrPdfExporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
                 jrPdfExporter.setParameter(JRXlsExporterParameter.IS_REMOVE_EMPTY_SPACE_BETWEEN_ROWS, Boolean.TRUE);
@@ -415,18 +416,17 @@ public class ReportsController {
                 outputStream.close();
             } else if ("WORD".equalsIgnoreCase(reportType)) {
                 LOG.info("WORD -- > reportFileName ---> " + reportFileName + reportType);
-                ByteArrayOutputStream docxReport = new ByteArrayOutputStream();
-                JRDocxExporter exporter = new JRDocxExporter();
+                var docxReport = new ByteArrayOutputStream();
+                var exporter = new JRDocxExporter();
                 exporter.setParameter(JRDocxExporterParameter.JASPER_PRINT, jasperPrint);
                 exporter.setParameter(JRDocxExporterParameter.OUTPUT_STREAM, docxReport);
                 exporter.setParameter(JRDocxExporterParameter.FLEXIBLE_ROW_HEIGHT, Boolean.TRUE);
                 exporter.setParameter(JRDocxExporterParameter.CHARACTER_ENCODING, "UTF-8");
-
                 exporter.exportReport();
                 // Send response
                 byte[] bytes = docxReport.toByteArray();
                 httpServletResponse.addHeader("Content-disposition",
-                        "attachment;filename=" + reportFileName + ".doc;");
+                        FILENAME + reportFileName + ".doc;");
                 httpServletResponse.setContentType("application/vnd.ms-word");
                 httpServletResponse.setContentLength(bytes.length);
                 httpServletResponse.getOutputStream().write(bytes, 0, bytes.length);
@@ -460,34 +460,24 @@ public class ReportsController {
     }
 
     private TransactionVO getSearchTransaction() {
-        TransactionVO searchVO = new TransactionVO();
+        var searchVO = new TransactionVO();
         searchVO.setModelId(0L);
         searchVO.setMakeId(0L);
         return searchVO;
     }
 
     private MakeAndModelVO getSearchMakeAndModelVO() {
-        MakeAndModelVO searchVO = new MakeAndModelVO();
+        var searchVO = new MakeAndModelVO();
         searchVO.setMakeId(0L);
         searchVO.setModelId(0L);
         return searchVO;
     }
 
     private List<String> populateStatus() {
-        List<String> statusList = new ArrayList<>();
-        statusList.add("NEW");
-        statusList.add("ACCEPTED");
-        statusList.add("VERIFIED");
-        statusList.add("CLOSED");
-        statusList.add("REJECTED");
-        return statusList;
+        return List.of("NEW", "ACCEPTED", "VERIFIED", "CLOSED", "REJECTED");
     }
 
     private List<String> populateExportToList() {
-        List<String> exportToList = new ArrayList<>();
-        exportToList.add("EXCEL");
-        exportToList.add("WORD");
-        exportToList.add("PDF");
-        return exportToList;
+        return List.of("EXCEL", "WORD", "PDF");
     }
 }

@@ -275,7 +275,7 @@ public class InvoiceDAOImpl implements InvoiceDAO {
     }
 
     private InvoiceVO convertInvoiceToInvoiceVO(final Invoice invoice) {
-        InvoiceVO invoiceVO = new InvoiceVO();
+        var invoiceVO = new InvoiceVO();
         invoiceVO.setId(invoice.getInvoiceId());
         invoiceVO.setCustomerName(invoice.getCustomerName());
         invoiceVO.setTagNo(invoice.getTagNumber());
@@ -286,7 +286,7 @@ public class InvoiceDAOImpl implements InvoiceDAO {
     }
 
     private Invoice convertInvoiceVOToInvoice(final InvoiceVO currentInvoiceVO) {
-        Invoice invoice = new Invoice();
+        var invoice = new Invoice();
         invoice.setTransactionId(currentInvoiceVO.getTransactionId());
         invoice.setTagNumber(currentInvoiceVO.getTagNo());
         invoice.setDescription(currentInvoiceVO.getDescription());

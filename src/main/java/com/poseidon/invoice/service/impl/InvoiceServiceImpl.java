@@ -4,7 +4,6 @@ import com.poseidon.invoice.dao.InvoiceDAO;
 import com.poseidon.invoice.domain.InvoiceVO;
 import com.poseidon.invoice.exception.InvoiceException;
 import com.poseidon.invoice.service.InvoiceService;
-import com.poseidon.transaction.domain.TransactionReportVO;
 import com.poseidon.transaction.domain.TransactionVO;
 import com.poseidon.transaction.exception.TransactionException;
 import com.poseidon.transaction.service.TransactionService;
@@ -35,7 +34,7 @@ public class InvoiceServiceImpl implements InvoiceService {
     @Override
     public void addInvoice(final InvoiceVO currentInvoiceVO) throws InvoiceException {
         try {
-            TransactionReportVO transactionReportVO = transactionService
+            var transactionReportVO = transactionService
                     .fetchTransactionFromTag(currentInvoiceVO.getTagNo());
             currentInvoiceVO.setCustomerId(transactionReportVO.getCustomerId());
             currentInvoiceVO.setCustomerName(transactionReportVO.getCustomerName());
@@ -147,7 +146,7 @@ public class InvoiceServiceImpl implements InvoiceService {
     @Override
     public void updateInvoice(final InvoiceVO currentInvoiceVO) throws InvoiceException {
         try {
-            TransactionReportVO transactionReportVo = transactionService
+            var transactionReportVo = transactionService
                     .fetchTransactionFromTag(currentInvoiceVO.getTagNo());
             currentInvoiceVO.setCustomerId(transactionReportVo.getCustomerId());
             currentInvoiceVO.setCustomerName(transactionReportVo.getCustomerName());

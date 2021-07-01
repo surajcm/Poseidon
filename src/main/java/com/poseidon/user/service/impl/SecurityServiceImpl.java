@@ -31,17 +31,17 @@ public class SecurityServiceImpl implements SecurityService {
 
     @Override
     public void autologin(final String username, final String password) {
-        UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-        UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =
-                new UsernamePasswordAuthenticationToken(userDetails, password, userDetails.getAuthorities());
+        var userDetails = userDetailsService.loadUserByUsername(username);
+        var token = new UsernamePasswordAuthenticationToken(
+                userDetails, password, userDetails.getAuthorities());
         try {
             webSecurityConfigurerAdapter.authenticationManagerBean()
-                    .authenticate(usernamePasswordAuthenticationToken);
+                    .authenticate(token);
         } catch (Exception ex) {
             logger.error(ex.getMessage());
         }
-        if (usernamePasswordAuthenticationToken.isAuthenticated()) {
-            SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
+        if (token.isAuthenticated()) {
+            SecurityContextHolder.getContext().setAuthentication(token);
         }
     }
 }

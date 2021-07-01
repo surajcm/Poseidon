@@ -14,6 +14,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
+import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
 
 import javax.persistence.EntityManager;
@@ -140,7 +141,7 @@ public class CustomerDAOImpl implements CustomerDAO {
             var optionalCustomer = customerRepository.findById(
                     currentCustomerVo.getCustomerId());
             if (optionalCustomer.isPresent()) {
-                Customer customer = optionalCustomer.get();
+                var customer = optionalCustomer.get();
                 updateCustomerWithCustomerVo(currentCustomerVo, customer);
                 customerRepository.save(customer);
                 if (isAdditionalDetailsPresent(currentCustomerVo)) {
@@ -257,7 +258,7 @@ public class CustomerDAOImpl implements CustomerDAO {
     private List<CustomerVO> searchCustomerInDetail(final CustomerVO searchVO) {
         var customerSpec = new CustomerSpecification();
         var search = populateSearchOperation(searchVO);
-        if (!StringUtils.isEmpty(searchVO.getCustomerId())) {
+        if (!ObjectUtils.isEmpty(searchVO.getCustomerId())) {
             customerSpec.add(new SearchCriteria("customerId", searchVO.getCustomerId(), search));
         }
         if (!StringUtils.hasText(searchVO.getCustomerName())) {

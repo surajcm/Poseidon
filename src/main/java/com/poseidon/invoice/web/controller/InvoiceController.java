@@ -34,6 +34,7 @@ public class InvoiceController {
     private static final String INVOICE_FORM = "invoiceForm";
     private static final String INVOICE_FORM_DETAILS =
             "Inside saveInvoice method of InvoiceController, invoice Form details are %s";
+    private static final String SUCCESS = "success";
 
     @Autowired
     private InvoiceService invoiceService;
@@ -79,7 +80,7 @@ public class InvoiceController {
     @PostMapping("/invoice/addInvoice.htm")
     public ModelAndView addInvoice(final InvoiceForm invoiceForm) {
         LOG.info(" Inside addInvoice method of InvoiceController ");
-        InvoiceVO vo = new InvoiceVO();
+        var vo = new InvoiceVO();
         vo.setQuantity(1);
         invoiceForm.setCurrentInvoiceVo(vo);
         return new ModelAndView("invoice/AddInvoice", INVOICE_FORM, invoiceForm);
@@ -100,7 +101,7 @@ public class InvoiceController {
         }
         TransactionVO transactionVo = null;
         try {
-            TransactionVO searchTransactionVo = new TransactionVO();
+            var searchTransactionVo = new TransactionVO();
             searchTransactionVo.setTagNo(invoiceForm.getCurrentInvoiceVo().getTagNo());
             searchTransactionVo.setStartswith(Boolean.TRUE);
             searchTransactionVo.setIncludes(Boolean.TRUE);
@@ -120,9 +121,9 @@ public class InvoiceController {
                 invoiceService.addInvoice(invoiceForm.getCurrentInvoiceVo());
                 LOG.info("Successfully saved the new invoice Detail");
                 invoiceForm.setStatusMessage("Successfully saved the new invoice Detail");
-                invoiceForm.setStatusMessageType("success");
+                invoiceForm.setStatusMessageType(SUCCESS);
                 //update the transaction
-                String status = "INVOICED";
+                var status = "INVOICED";
                 transactionService.updateTransactionStatus(transactionVo.getId(), status);
             }
         } catch (Exception ex) {
@@ -173,14 +174,14 @@ public class InvoiceController {
     public ModelAndView deleteInvoice(final InvoiceForm invoiceForm) {
         LOG.info(String.format(INVOICE_FORM_DETAILS, invoiceForm));
         try {
-            InvoiceVO invoiceVo = invoiceService.fetchInvoiceVOFromId(invoiceForm.getId());
+            var invoiceVo = invoiceService.fetchInvoiceVOFromId(invoiceForm.getId());
             invoiceService.deleteInvoice(invoiceForm.getId());
             TransactionReportVO reportVo = transactionService.fetchTransactionFromTag(invoiceVo.getTagNo());
             //get the tag no of it
             // update the status to closed
             transactionService.updateTransactionStatus(reportVo.getId(), "CLOSED");
             invoiceForm.setStatusMessage("Successfully deleted the new invoice Detail");
-            invoiceForm.setStatusMessageType("success");
+            invoiceForm.setStatusMessageType(SUCCESS);
         } catch (Exception ex) {
             invoiceForm.setStatusMessage("Unable to delete the invoice due to an error");
             invoiceForm.setStatusMessageType(ERROR);
@@ -240,7 +241,7 @@ public class InvoiceController {
         try {
             invoiceService.updateInvoice(invoiceForm.getCurrentInvoiceVo());
             invoiceForm.setStatusMessage("Successfully updated the new invoice Detail");
-            invoiceForm.setStatusMessageType("success");
+            invoiceForm.setStatusMessageType(SUCCESS);
         } catch (Exception ex) {
             invoiceForm.setStatusMessage("Unable to update the invoice due to an error");
             invoiceForm.setStatusMessageType(ERROR);
@@ -268,8 +269,8 @@ public class InvoiceController {
     @PostMapping("/invoice/InvoiceTxn.htm")
     public ModelAndView invoiceTxn(final TransactionForm transactionForm) {
         TransactionVO transactionVo = null;
-        String makeName = "";
-        String modelName = "";
+        var makeName = "";
+        var modelName = "";
         try {
             transactionVo = transactionService.fetchTransactionFromId(transactionForm.getId());
             if (transactionVo != null && transactionVo.getMakeId() != null && transactionVo.getMakeId() > 0) {
@@ -289,10 +290,10 @@ public class InvoiceController {
             LOG.info(" An Unknown Error has been occurred !!");
         }
         // find tag no  and.. thus the description
-        InvoiceForm invoiceForm = new InvoiceForm();
+        var invoiceForm = new InvoiceForm();
         invoiceForm.setLoggedInUser(transactionForm.getLoggedInUser());
         invoiceForm.setLoggedInRole(transactionForm.getLoggedInRole());
-        InvoiceVO invoiceVo = new InvoiceVO();
+        var invoiceVo = new InvoiceVO();
         if (transactionVo != null) {
             invoiceVo.setTagNo(transactionVo.getTagNo());
             invoiceVo.setDescription("SERVICE CHARGES FOR " + makeName + " " + modelName);

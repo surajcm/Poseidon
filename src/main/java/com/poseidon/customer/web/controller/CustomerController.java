@@ -155,7 +155,7 @@ public class CustomerController {
         LOG.info(" saveCustomer method of CustomerController ");
         LOG.info(CUSTOMER_FORM_IS, customerForm);
         try {
-            CustomerVO customerVO = customerForm.getCurrentCustomerVO();
+            var customerVO = customerForm.getCurrentCustomerVO();
             customerVO.setCreatedBy(customerForm.getLoggedInUser());
             customerVO.setModifiedBy(customerForm.getLoggedInUser());
             //populate customer additional details

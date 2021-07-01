@@ -42,7 +42,7 @@ public class CustomerServiceImpl implements CustomerService {
      */
     @Override
     public long saveCustomer(final CustomerVO currentCustomerVO) {
-        long customerId = 0L;
+        var customerId = 0L;
         try {
             customerId = customerDAO.saveCustomer(currentCustomerVO);
         } catch (CustomerException ex) {

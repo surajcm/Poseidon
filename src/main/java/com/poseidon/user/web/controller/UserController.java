@@ -59,7 +59,7 @@ public class UserController {
     @GetMapping("/")
     public ModelAndView index() {
         logger.info(" Inside Index method of user controller ");
-        UserForm userForm = new UserForm();
+        var userForm = new UserForm();
         userForm.setUser(new UserVO());
         return new ModelAndView("MainPage", USER_FORM, userForm);
     }
@@ -248,7 +248,7 @@ public class UserController {
                         @ModelAttribute("selectRole") final String selectRole,
                         final BindingResult result) {
         logger.info("saveUserAjax method of user controller ");
-        UserVO ajaxUserVo = new UserVO();
+        var ajaxUserVo = new UserVO();
         ajaxUserVo.setName(selectName);
         ajaxUserVo.setEmail(selectLogin);
         ajaxUserVo.setRole(selectRole);
@@ -413,12 +413,12 @@ public class UserController {
             if (userService.comparePasswords(current, userList.get(0).getPassword())) {
                 var userVO = userList.get(0);
                 userService.updateWithNewPassword(userVO, newPass);
-                message = messageJSON("success", "The password has been reset !!");
+                message = messageJSON(SUCCESS, "The password has been reset !!");
             } else {
                 message = messageJSON("message", "The password didnt match with the one already saved !!");
             }
         } catch (UserException ex) {
-            message = messageJSON("error", "Unknown error occurred !!");
+            message = messageJSON(ERROR, "Unknown error occurred !!");
             logger.error(ex.getLocalizedMessage(), ex);
         }
         return message;

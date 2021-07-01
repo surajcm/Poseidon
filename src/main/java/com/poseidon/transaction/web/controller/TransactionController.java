@@ -352,11 +352,10 @@ public class TransactionController {
     @GetMapping(value = "/txs/UpdateModelAjax.htm")
     public @ResponseBody
     String updateModelAjax(@ModelAttribute("selectMakeId") final String selectMakeId) {
-        String responseString = "";
+        var responseString = "";
         LOG.info(" At UpdateModelAjax, selectMakeId is : {}", selectMakeId);
-        List<MakeAndModelVO> makeAndModelVOs;
         try {
-            makeAndModelVOs = makeService.getAllModelsFromMakeId(Long.valueOf(selectMakeId));
+            var makeAndModelVOs = makeService.getAllModelsFromMakeId(Long.valueOf(selectMakeId));
             if (makeAndModelVOs != null && !makeAndModelVOs.isEmpty()) {
                 responseString = makeAndModelJson(makeAndModelVOs);
             }
