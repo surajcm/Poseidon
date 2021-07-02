@@ -5,8 +5,7 @@
 <p align="center">
     <a href="https://github.com/surajcm/Poseidon/commits/" title="Last Commit"><img src="https://img.shields.io/github/last-commit/surajcm/Poseidon?style=flat"></a>
     <a href="https://github.com/surajcm/Poseidon/issues" title="Open Issues"><img src="https://img.shields.io/github/issues/surajcm/Poseidon?style=flat"></a>
-    <a href="https://travis-ci.org/surajcm/Poseidon" title="Build Status"><img src="https://travis-ci.org/surajcm/Poseidon.svg?branch=master"></a>
-    <a href="https://circleci.com/gh/surajcm/Poseidon"><img src="https://circleci.com/gh/surajcm/Poseidon.svg?style=svg"></a>
+    <a href="https://github.com/surajcm/Poseidon/actions/workflows/test.yml" title="Tests"><img src="https://github.com/surajcm/Poseidon/actions/workflows/test.yml/badge.svg"></a>
     <a href="https://sonarcloud.io/dashboard?id=surajcm_Poseidon" title="Quality Gate"><img src="https://sonarcloud.io/api/project_badges/measure?project=surajcm_Poseidon&metric=alert_status"></a>
     <a href="https://sonarcloud.io/dashboard?id=surajcm_Poseidon&metric=Coverage&view=list" title="Coverage"><img src="https://sonarcloud.io/api/project_badges/measure?project=surajcm_Poseidon&metric=coverage"></a>
     <a href="https://github.com/surajcm/Poseidon/blob/master/LICENSE" title="License"><img src="https://img.shields.io/badge/License-MIT-green.svg?style=flat"></a>

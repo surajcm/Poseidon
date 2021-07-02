@@ -5,8 +5,8 @@ import com.poseidon.make.dao.entities.Model;
 import com.poseidon.make.domain.MakeAndModelVO;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Component
 public class MakeAndModelEntityConverter {
@@ -17,17 +17,17 @@ public class MakeAndModelEntityConverter {
      * @return list of make and model vos
      */
     public List<MakeAndModelVO> convertModelsToMakeAndModelVOs(final List<Model> models) {
-        List<MakeAndModelVO> makeAndModelVOS = new ArrayList<>();
-        for (Model model : models) {
-            MakeAndModelVO makeAndModelVO = new MakeAndModelVO();
-            makeAndModelVO.setId(model.getId());
-            makeAndModelVO.setModelId(model.getModelId());
-            makeAndModelVO.setModelName(model.getModelName());
-            makeAndModelVO.setMakeId(model.getMake().getMakeId());
-            makeAndModelVO.setMakeName(model.getMake().getMakeName());
-            makeAndModelVOS.add(makeAndModelVO);
-        }
-        return makeAndModelVOS;
+        return models.stream().map(this::createMakeAndModelVO).collect(Collectors.toList());
+    }
+
+    private MakeAndModelVO createMakeAndModelVO(final Model model) {
+        var makeAndModelVO = new MakeAndModelVO();
+        makeAndModelVO.setId(model.getId());
+        makeAndModelVO.setModelId(model.getModelId());
+        makeAndModelVO.setModelName(model.getModelName());
+        makeAndModelVO.setMakeId(model.getMake().getMakeId());
+        makeAndModelVO.setMakeName(model.getMake().getMakeName());
+        return makeAndModelVO;
     }
 
     /**
@@ -37,17 +37,17 @@ public class MakeAndModelEntityConverter {
      * @return list of make and model vos
      */
     public List<MakeAndModelVO> convertMakeToMakeAndModelVOs(final List<Make> makes) {
-        List<MakeAndModelVO> makeAndModelVOS = new ArrayList<>();
-        makes.forEach(make -> {
-            MakeAndModelVO makeAndModelVO = new MakeAndModelVO();
-            makeAndModelVO.setMakeId(make.getMakeId());
-            makeAndModelVO.setMakeName(make.getMakeName());
-            makeAndModelVO.setDescription(make.getDescription());
-            makeAndModelVO.setCreatedBy(make.getCreatedBy());
-            makeAndModelVO.setModifiedBy(make.getModifiedBy());
-            makeAndModelVOS.add(makeAndModelVO);
-        });
-        return makeAndModelVOS;
+        return makes.stream().map(this::createMakeAndModelVO).collect(Collectors.toList());
+    }
+
+    private MakeAndModelVO createMakeAndModelVO(final Make make) {
+        var makeAndModelVO = new MakeAndModelVO();
+        makeAndModelVO.setMakeId(make.getMakeId());
+        makeAndModelVO.setMakeName(make.getMakeName());
+        makeAndModelVO.setDescription(make.getDescription());
+        makeAndModelVO.setCreatedBy(make.getCreatedBy());
+        makeAndModelVO.setModifiedBy(make.getModifiedBy());
+        return makeAndModelVO;
     }
 
     /**
@@ -57,7 +57,7 @@ public class MakeAndModelEntityConverter {
      * @return make
      */
     public Make convertToMake(final MakeAndModelVO currentMakeVO) {
-        Make make = new Make();
+        var make = new Make();
         make.setMakeId(currentMakeVO.getMakeId());
         make.setMakeName(currentMakeVO.getMakeName());
         make.setDescription(currentMakeVO.getDescription());
@@ -73,7 +73,7 @@ public class MakeAndModelEntityConverter {
      * @return make and model vo
      */
     public MakeAndModelVO getMakeVOFromMake(final Make make) {
-        MakeAndModelVO makeAndModelVO = new MakeAndModelVO();
+        var makeAndModelVO = new MakeAndModelVO();
         makeAndModelVO.setMakeId(make.getMakeId());
         makeAndModelVO.setMakeName(make.getMakeName());
         makeAndModelVO.setDescription(make.getDescription());
@@ -81,7 +81,7 @@ public class MakeAndModelEntityConverter {
     }
 
     public MakeAndModelVO convertModelToMakeAndModelVO(final Model model) {
-        MakeAndModelVO makeAndModelVO = new MakeAndModelVO();
+        var makeAndModelVO = new MakeAndModelVO();
         makeAndModelVO.setModelId(model.getModelId());
         makeAndModelVO.setModelName(model.getModelName());
         makeAndModelVO.setMakeId(model.getMake().getMakeId());
@@ -90,7 +90,7 @@ public class MakeAndModelEntityConverter {
     }
 
     public Model convertMakeAndModelVOToModel(final MakeAndModelVO makeAndModelVO) {
-        Model model = new Model();
+        var model = new Model();
         model.setModelName(makeAndModelVO.getModelName());
         model.setMakeId(makeAndModelVO.getMakeId());
         model.setModelId(makeAndModelVO.getMakeId());

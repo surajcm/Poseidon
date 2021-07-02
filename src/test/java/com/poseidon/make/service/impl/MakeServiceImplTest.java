@@ -19,7 +19,7 @@ import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
-public class MakeServiceImplTest {
+class MakeServiceImplTest {
     private final MakeServiceImpl makeService = new MakeServiceImpl();
     private final MakeDao makeDAO = Mockito.mock(MakeDao.class);
 
@@ -29,7 +29,7 @@ public class MakeServiceImplTest {
     }
 
     @Test
-    public void listAllMakesAndModelsSuccess() {
+    void listAllMakesAndModelsSuccess() {
         try {
             when(makeDAO.listAllMakesAndModels()).thenReturn(mockListOfMakeAndModelVO());
             var makeVOs = makeService.listAllMakesAndModels();
@@ -40,13 +40,13 @@ public class MakeServiceImplTest {
     }
 
     @Test
-    public void listAllMakesAndModelsFailure() throws MakeException {
+    void listAllMakesAndModelsFailure() throws MakeException {
         when(makeDAO.listAllMakesAndModels()).thenThrow(new MakeException(MakeException.DATABASE_ERROR, "DB Error"));
         Assertions.assertNull(makeService.listAllMakesAndModels());
     }
 
     @Test
-    public void listAllMakesSuccess() {
+    void listAllMakesSuccess() {
         try {
             when(makeDAO.listAllMakes()).thenReturn(mockListOfMakeAndModelVO());
             var makeVOs = makeService.listAllMakes();
@@ -57,97 +57,97 @@ public class MakeServiceImplTest {
     }
 
     @Test
-    public void listAllMakesFailure() throws MakeException {
+    void listAllMakesFailure() throws MakeException {
         when(makeDAO.listAllMakes()).thenThrow(new MakeException(MakeException.DATABASE_ERROR, "DB Error"));
         Assertions.assertNull(makeService.listAllMakes());
     }
 
     @Test
-    public void addNewMakeSuccess() {
+    void addNewMakeSuccess() {
         Assertions.assertAll(() -> makeService.addNewMake(new MakeAndModelVO()));
     }
 
     @Test
-    public void addNewMakeFailure() throws MakeException {
+    void addNewMakeFailure() throws MakeException {
         Mockito.doThrow(MakeException.class).when(makeDAO).addNewMake(any());
         Assertions.assertAll(() -> makeService.addNewMake(new MakeAndModelVO()));
     }
 
     @Test
-    public void getMakeFromIdSuccess() throws MakeException {
+    void getMakeFromIdSuccess() throws MakeException {
         when(makeDAO.getMakeFromId(anyLong())).thenReturn(Mockito.mock(MakeAndModelVO.class));
         Assertions.assertNotNull(makeService.getMakeFromId(1234L));
     }
 
     @Test
-    public void getMakeFromIdFailure() throws MakeException {
+    void getMakeFromIdFailure() throws MakeException {
         Mockito.doThrow(MakeException.class).when(makeDAO).getMakeFromId(anyLong());
         Assertions.assertNull(makeService.getMakeFromId(1234L));
     }
 
     @Test
-    public void deleteMakeSuccess() {
+    void deleteMakeSuccess() {
         Assertions.assertAll(() -> makeService.deleteMake(1234L));
     }
 
     @Test
-    public void deleteMakeFailure() throws MakeException {
+    void deleteMakeFailure() throws MakeException {
         Mockito.doThrow(MakeException.class).when(makeDAO).deleteMake(any());
         Assertions.assertAll(() -> makeService.deleteMake(1234L));
     }
 
     @Test
-    public void getModelFromIdSuccess() throws MakeException {
+    void getModelFromIdSuccess() throws MakeException {
         when(makeDAO.getModelFromId(anyLong())).thenReturn(Mockito.mock(MakeAndModelVO.class));
         Assertions.assertNotNull(makeService.getModelFromId(1234L));
     }
 
     @Test
-    public void getModelFromIdFailure() throws MakeException {
+    void getModelFromIdFailure() throws MakeException {
         Mockito.doThrow(MakeException.class).when(makeDAO).getModelFromId(anyLong());
         Assertions.assertNull(makeService.getModelFromId(1234L));
     }
 
     @Test
-    public void deleteModelSuccess() {
+    void deleteModelSuccess() {
         Assertions.assertAll(() -> makeService.deleteModel(1234L));
     }
 
     @Test
-    public void deleteModelFailure() throws MakeException {
+    void deleteModelFailure() throws MakeException {
         Mockito.doThrow(MakeException.class).when(makeDAO).deleteModel(any());
         Assertions.assertAll(() -> makeService.deleteModel(1234L));
     }
 
     @Test
-    public void updateMakeSuccess() {
+    void updateMakeSuccess() {
         Assertions.assertAll(() -> makeService.updateMake(new MakeAndModelVO()));
     }
 
     @Test
-    public void updateMakeFailure() throws MakeException {
+    void updateMakeFailure() throws MakeException {
         Mockito.doThrow(MakeException.class).when(makeDAO).updateMake(any());
         Assertions.assertAll(() -> makeService.updateMake(new MakeAndModelVO()));
     }
 
     @Test
-    public void addNewModelSuccess() {
+    void addNewModelSuccess() {
         Assertions.assertAll(() -> makeService.addNewModel(new MakeAndModelVO()));
     }
 
     @Test
-    public void updateModelSuccess() {
+    void updateModelSuccess() {
         Assertions.assertAll(() -> makeService.updateModel(new MakeAndModelVO()));
     }
 
     @Test
-    public void updateModelFailure() throws MakeException {
+    void updateModelFailure() throws MakeException {
         Mockito.doThrow(MakeException.class).when(makeDAO).updateModel(any());
         Assertions.assertAll(() -> makeService.updateModel(new MakeAndModelVO()));
     }
 
     @Test
-    public void searchMakeVOsSuccess() {
+    void searchMakeVOsSuccess() {
         try {
             when(makeDAO.searchMakeVOs(any(MakeAndModelVO.class))).thenReturn(mockListOfMakeAndModelVO());
             var makeVOs = makeService.searchMakeVOs(Mockito.mock(MakeAndModelVO.class));
@@ -158,14 +158,14 @@ public class MakeServiceImplTest {
     }
 
     @Test
-    public void searchMakeVOsFailure() throws MakeException {
+    void searchMakeVOsFailure() throws MakeException {
         when(makeDAO.searchMakeVOs(any(MakeAndModelVO.class)))
                 .thenThrow(new MakeException(MakeException.DATABASE_ERROR, "DB Error"));
         Assertions.assertNull(makeService.searchMakeVOs(Mockito.mock(MakeAndModelVO.class)));
     }
 
     @Test
-    public void fetchMakesSuccess() {
+    void fetchMakesSuccess() {
         try {
             when(makeDAO.fetchMakes()).thenReturn(mockMakeVOs());
             var makeVOs = makeService.fetchMakes();
@@ -176,13 +176,13 @@ public class MakeServiceImplTest {
     }
 
     @Test
-    public void fetchMakesFailure() throws MakeException {
+    void fetchMakesFailure() throws MakeException {
         when(makeDAO.fetchMakes()).thenThrow(new MakeException(MakeException.DATABASE_ERROR, "DB Error"));
         Assertions.assertNull(makeService.fetchMakes());
     }
 
     @Test
-    public void getAllModelsFromMakeIdSuccess() {
+    void getAllModelsFromMakeIdSuccess() {
         try {
             when(makeDAO.getAllModelsFromMakeId(anyLong())).thenReturn(mockListOfMakeAndModelVO());
             var makeVOs = makeService.getAllModelsFromMakeId(1234L);

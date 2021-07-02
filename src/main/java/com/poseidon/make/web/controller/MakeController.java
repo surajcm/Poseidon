@@ -372,14 +372,14 @@ public class MakeController {
                         @ModelAttribute("selectMakeDesc") final String selectMakeDesc,
                         final BindingResult result) {
         LOG.info("saveMakeAjax1 method of MakeController ");
-        StringBuilder responseString = new StringBuilder();
+        var responseString = new StringBuilder();
         if (!result.hasErrors()) {
             LOG.info("selectMakeName : {}", selectMakeName);
             LOG.info("selectMakeDesc : {}", selectMakeDesc);
             // todo: how to get this ??
             //makeForm.getCurrentMakeAndModeVO().setCreatedBy(makeForm.getLoggedInUser());
             //makeForm.getCurrentMakeAndModeVO().setModifiedBy(makeForm.getLoggedInUser());
-            MakeAndModelVO makeAndModelVO = new MakeAndModelVO();
+            var makeAndModelVO = new MakeAndModelVO();
             makeAndModelVO.setMakeName(selectMakeName);
             makeAndModelVO.setDescription(selectMakeDesc);
             makeAndModelVO.setCreatedDate(OffsetDateTime.now(ZoneId.systemDefault()));
@@ -387,7 +387,7 @@ public class MakeController {
             makeAndModelVO.setCreatedBy("-ajax-");
             makeAndModelVO.setModifiedBy("-ajax-");
 
-            MakeForm makeForm = new MakeForm();
+            var makeForm = new MakeForm();
             makeForm.setCurrentMakeAndModeVO(makeAndModelVO);
             try {
                 makeService.addNewMake(makeForm.getCurrentMakeAndModeVO());
@@ -440,14 +440,14 @@ public class MakeController {
                          @ModelAttribute("selectModelName") final String selectModelName,
                          final BindingResult result) throws MakeException {
         LOG.info("saveModelAjax method of MakeController ");
-        StringBuilder responseString = new StringBuilder();
+        var responseString = new StringBuilder();
         if (!result.hasErrors()) {
             LOG.info("selectMakeId : {}", selectMakeId);
             LOG.info("selectModelName : {}", selectModelName);
             // todo: how to get this ??
             //makeForm.getCurrentMakeAndModeVO().setCreatedBy(makeForm.getLoggedInUser());
             //makeForm.getCurrentMakeAndModeVO().setModifiedBy(makeForm.getLoggedInUser());
-            MakeAndModelVO makeAndModelVO = new MakeAndModelVO();
+            var makeAndModelVO = new MakeAndModelVO();
             makeAndModelVO.setMakeId(selectMakeId);
             makeAndModelVO.setModelName(selectModelName);
             makeAndModelVO.setCreatedDate(OffsetDateTime.now(ZoneId.systemDefault()));
@@ -515,7 +515,7 @@ public class MakeController {
                           final BindingResult result) {
         LOG.info("updateModelAjax method of make controller with id {}, makeId {}, modalModelName {}",
                 id, makeId, modalModelName);
-        StringBuilder responseString = new StringBuilder();
+        var responseString = new StringBuilder();
         try {
             makeService.updateModel(id, makeId, modalModelName);
         } catch (Exception e1) {

@@ -31,7 +31,8 @@ pmd {
 }
 
 jacoco {
-    toolVersion = "0.8.6+"
+    //toolVersion = "0.8.6+"
+    reportsDir = file("build/reports/jacoco/")
 }
 
 jacocoTestReport {
@@ -91,4 +92,12 @@ sonarqube {
         property "sonar.java.codeCoveragePlugin", "jacoco"
         property "sonar.junit.reportPaths", "${project.buildDir}/test-results"
    }
+}
+
+test {
+    finalizedBy jacocoTestReport
+}
+
+jacocoTestReport {
+    dependsOn test
 }
