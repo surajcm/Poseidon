@@ -22,7 +22,7 @@ import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
-public class UserDAOImplTest {
+class UserDAOImplTest {
     private final UserDAOImpl userDAO = new UserDAOImpl();
     private final UserRepository userRepository = Mockito.mock(UserRepository.class);
 
@@ -32,7 +32,7 @@ public class UserDAOImplTest {
     }
 
     @Test
-    public void logInSuccess() throws UserException {
+    void logInSuccess() throws UserException {
         var userVO = new UserVO();
         userVO.setPassword("PASS");
         userVO.setEmail("ABC");
@@ -42,7 +42,7 @@ public class UserDAOImplTest {
     }
 
     @Test
-    public void logInWithDBError() {
+    void logInWithDBError() {
         var userVO = new UserVO();
         userVO.setPassword("PASS");
         userVO.setEmail("ABC");
@@ -51,7 +51,7 @@ public class UserDAOImplTest {
     }
 
     @Test
-    public void logInWithIncorrectPassword() {
+    void logInWithIncorrectPassword() {
         var userVO = new UserVO();
         userVO.setPassword("PASS1");
         userVO.setEmail("ABC");
@@ -60,7 +60,7 @@ public class UserDAOImplTest {
     }
 
     @Test
-    public void logInWithUnknownUser() {
+    void logInWithUnknownUser() {
         var userVO = new UserVO();
         userVO.setPassword("PASS1");
         userVO.setEmail("ABC");
@@ -69,48 +69,48 @@ public class UserDAOImplTest {
     }
 
     @Test
-    public void getAllUserDetailsSuccess() throws UserException {
+    void getAllUserDetailsSuccess() throws UserException {
         when(userRepository.findAll()).thenReturn(mockUsers());
         Assertions.assertTrue(userDAO.getAllUserDetails().size() > 0);
     }
 
     @Test
-    public void getAllUserDetailsFailure() {
+    void getAllUserDetailsFailure() {
         when(userRepository.findAll()).thenThrow(new CannotAcquireLockException("DB error"));
         Assertions.assertThrows(UserException.class, userDAO::getAllUserDetails);
     }
 
     @Test
-    public void saveSuccess() {
+    void saveSuccess() {
         Assertions.assertAll(() -> userDAO.save(new UserVO()));
     }
 
     @Test
-    public void saveFailure() {
+    void saveFailure() {
         when(userRepository.save(any())).thenThrow(new CannotAcquireLockException("DB error"));
         Assertions.assertThrows(UserException.class, () -> userDAO.save(new UserVO()));
     }
 
     @Test
-    public void getUserDetailsFromIdSuccess() throws UserException {
+    void getUserDetailsFromIdSuccess() throws UserException {
         when(userRepository.findById(anyLong())).thenReturn(mockOptionalUser());
         Assertions.assertNotNull(userDAO.getUserDetailsFromId(1234L));
     }
 
     @Test
-    public void getUserDetailsFromIdSuccessOnEmpty() throws UserException {
+    void getUserDetailsFromIdSuccessOnEmpty() throws UserException {
         when(userRepository.findById(anyLong())).thenReturn(Optional.empty());
         Assertions.assertNull(userDAO.getUserDetailsFromId(1234L));
     }
 
     @Test
-    public void getUserDetailsFromIdFailure() {
+    void getUserDetailsFromIdFailure() {
         when(userRepository.findById(anyLong())).thenThrow(new CannotAcquireLockException("DB error"));
         Assertions.assertThrows(UserException.class, () -> userDAO.getUserDetailsFromId(1234L));
     }
 
     @Test
-    public void updateEmpty() {
+    void updateEmpty() {
         when(userRepository.findById(anyLong())).thenReturn(Optional.empty());
         var vo = new UserVO();
         vo.setId(1234L);
@@ -118,7 +118,7 @@ public class UserDAOImplTest {
     }
 
     @Test
-    public void updateSuccess() {
+    void updateSuccess() {
         when(userRepository.findById(anyLong())).thenReturn(mockOptionalUser());
         var vo = new UserVO();
         vo.setId(1234L);
@@ -126,7 +126,7 @@ public class UserDAOImplTest {
     }
 
     @Test
-    public void updateFailure() {
+    void updateFailure() {
         when(userRepository.findById(anyLong())).thenThrow(new CannotAcquireLockException("DB error"));
         var vo = new UserVO();
         vo.setId(1234L);
@@ -134,30 +134,30 @@ public class UserDAOImplTest {
     }
 
     @Test
-    public void deleteUserSuccess() {
+    void deleteUserSuccess() {
         Assertions.assertAll(() -> userDAO.deleteUser(1234L));
     }
 
     @Test
-    public void deleteUserFailure() {
+    void deleteUserFailure() {
         doThrow(new CannotAcquireLockException("DB error")).when(userRepository).deleteById(anyLong());
         Assertions.assertThrows(UserException.class, () -> userDAO.deleteUser(1234L));
     }
 
     @Test
-    public void findByUsernameSuccess() throws UserException {
+    void findByUsernameSuccess() throws UserException {
         when(userRepository.findByEmail(anyString())).thenReturn(mockUser());
         Assertions.assertNotNull(userDAO.findByEmail("ABC"));
     }
 
     @Test
-    public void findByUsernameFailure() {
+    void findByUsernameFailure() {
         when(userRepository.findByEmail(anyString())).thenThrow(new CannotAcquireLockException("DB error"));
         Assertions.assertThrows(UserException.class, () -> userDAO.findByEmail("ABC"));
     }
 
     @Test
-    public void searchUserDetailsSuccess() throws UserException {
+    void searchUserDetailsSuccess() throws UserException {
         when(userRepository.findAll(any())).thenReturn(mockUsers());
         var user = mockUserVO();
         Assertions.assertNotNull(userDAO.searchUserDetails(user));
@@ -171,7 +171,7 @@ public class UserDAOImplTest {
     }
 
     @Test
-    public void searchUserDetailsSuccessOnNull() throws UserException {
+    void searchUserDetailsSuccessOnNull() throws UserException {
         var user = mockUserVO();
         user.setName(null);
         user.setEmail(null);
@@ -180,7 +180,7 @@ public class UserDAOImplTest {
     }
 
     @Test
-    public void searchUserDetailsFailure() {
+    void searchUserDetailsFailure() {
         when(userRepository.findAll(any())).thenThrow(new CannotAcquireLockException("DB error"));
         Assertions.assertThrows(UserException.class, () -> userDAO.searchUserDetails(mockUserVO()));
     }

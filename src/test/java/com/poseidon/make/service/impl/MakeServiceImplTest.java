@@ -193,7 +193,7 @@ class MakeServiceImplTest {
     }
 
     @Test
-    public void getAllModelsFromMakeIdFailure() throws MakeException {
+    void getAllModelsFromMakeIdFailure() throws MakeException {
         when(makeDAO.getAllModelsFromMakeId(anyLong())).thenThrow(
                 new MakeException(MakeException.DATABASE_ERROR, "DB Error"));
         Assertions.assertNull(makeService.getAllModelsFromMakeId(1234L));

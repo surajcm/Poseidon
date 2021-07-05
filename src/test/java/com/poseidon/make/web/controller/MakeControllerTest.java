@@ -26,7 +26,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ExtendWith(SpringExtension.class)
 @WebMvcTest(MakeController.class)
 @ContextConfiguration(classes = {MakeConfigurations.class})
-public class MakeControllerTest {
+class MakeControllerTest {
     private MockMvc mvc;
     @Autowired
     private MakeController makeController;
@@ -39,7 +39,7 @@ public class MakeControllerTest {
     }
 
     @Test
-    public void modelList() throws Exception {
+    void modelList() throws Exception {
         when(makeService.listAllMakesAndModels()).thenReturn(mockMakeAndModelVOs());
         mvc.perform(post("/make/ModelList.htm")).andExpect(status().isOk());
         when(makeService.listAllMakesAndModels()).thenThrow(new RuntimeException());
@@ -55,40 +55,40 @@ public class MakeControllerTest {
     }
 
     @Test
-    public void makeList() throws Exception {
+    void makeList() throws Exception {
         mvc.perform(post("/make/MakeList.htm")).andExpect(status().isOk());
     }
 
     @Test
-    public void editMake() throws Exception {
+    void editMake() throws Exception {
         mvc.perform(post("/make/editMake.htm")).andExpect(status().isOk());
         when(makeService.getMakeFromId(null)).thenThrow(new RuntimeException());
         mvc.perform(post("/make/editMake.htm")).andExpect(status().isOk());
     }
 
     @Test
-    public void deleteMake() throws Exception {
+    void deleteMake() throws Exception {
         mvc.perform(post("/make/deleteMake.htm")).andExpect(status().isOk());
         doThrow(new RuntimeException()).when(makeService).deleteMake(null);
         mvc.perform(post("/make/deleteMake.htm")).andExpect(status().isOk());
     }
 
     @Test
-    public void testDeleteModel() throws Exception {
+    void testDeleteModel() throws Exception {
         mvc.perform(post("/make/deleteModel.htm")).andExpect(status().isOk());
         doThrow(new RuntimeException()).when(makeService).deleteModel(null);
         mvc.perform(post("/make/deleteModel.htm")).andExpect(status().isOk());
     }
 
     @Test
-    public void testUpdateMake() throws Exception {
+    void testUpdateMake() throws Exception {
         mvc.perform(post("/make/updateMake.htm")).andExpect(status().isOk());
         doThrow(new RuntimeException()).when(makeService).updateMake(null);
         mvc.perform(post("/make/updateMake.htm")).andExpect(status().isOk());
     }
 
     @Test
-    public void testUpdateModel() throws Exception {
+    void testUpdateModel() throws Exception {
         mvc.perform(post("/make/updateModel.htm")).andExpect(status().isOk());
         doThrow(new RuntimeException()).when(makeService).updateModel(any());
         mvc.perform(post("/make/updateModel.htm")).andExpect(status().isOk());
@@ -109,7 +109,7 @@ public class MakeControllerTest {
     }
 
     @Test
-    public void saveMakeAjax() throws Exception {
+    void saveMakeAjax() throws Exception {
         String selectMakeName = "Apple";
         String selectMakeDesc = "Mac book";
         mvc.perform(post("/make/saveMakeAjax.htm")
@@ -124,7 +124,7 @@ public class MakeControllerTest {
     }
 
     @Test
-    public void saveModelAjax() throws Exception {
+    void saveModelAjax() throws Exception {
         String selectMakeId = "1234";
         String selectModelName = "Mac book";
         mvc.perform(post("/make/saveModelAjax.htm")

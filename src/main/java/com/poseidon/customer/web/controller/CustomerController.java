@@ -6,6 +6,7 @@ import com.poseidon.customer.exception.CustomerException;
 import com.poseidon.customer.service.CustomerService;
 import com.poseidon.customer.web.form.CustomerForm;
 import com.poseidon.transaction.web.form.TransactionForm;
+import com.poseidon.util.CommonUtils;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -48,7 +49,7 @@ public class CustomerController {
     @PostMapping("/customer/List.htm")
     public ModelAndView list(final CustomerForm customerForm) {
         LOG.info("Inside list method of CustomerController ");
-        LOG.info("Form details are {}", customerForm);
+        LOG.info("Form details are {}", CommonUtils.sanitizedString(customerForm.toString()));
         List<CustomerVO> customerVOs = null;
         try {
             customerVOs = customerService.listAllCustomerDetails();
@@ -73,7 +74,8 @@ public class CustomerController {
      */
     @PostMapping("/customer/addCustomer.htm")
     public ModelAndView addCustomer(final CustomerForm customerForm) {
-        LOG.info("AddCustomer method of CustomerController {}", customerForm);
+        LOG.info("AddCustomer method of CustomerController {}",
+                CommonUtils.sanitizedString(customerForm.toString()));
         customerForm.setLoggedInUser(customerForm.getLoggedInUser());
         customerForm.setLoggedInRole(customerForm.getLoggedInRole());
         customerForm.setCurrentCustomerVO(new CustomerVO());
@@ -89,8 +91,12 @@ public class CustomerController {
     @PostMapping("/customer/editCust.htm")
     public ModelAndView editCustomer(final CustomerForm customerForm) {
         LOG.info("EditCustomer method of CustomerController ");
-        LOG.info("customerForm is {}", customerForm);
-        LOG.info("customerForm is {}", customerForm.getCurrentCustomerVO());
+        LOG.info("customerForm is {}", CommonUtils.sanitizedString(customerForm.toString()));
+        if (customerForm.getCurrentCustomerVO() != null) {
+            LOG.info("customerForm is {}",
+                    CommonUtils.sanitizedString(customerForm.getCurrentCustomerVO().toString()));
+
+        }
         var customerVO = getCustomerVOFromId(customerForm.getId());
         if (customerVO == null) {
             LOG.error(" No details found for current makeVO !!");
@@ -112,7 +118,7 @@ public class CustomerController {
     @PostMapping("/customer/editCustomer.htm")
     public ModelAndView editCustomerOnTransaction(final TransactionForm transactionForm) {
         LOG.info("EditCustomer method of TransactionController ");
-        LOG.info("TransactionForm values are {}", transactionForm);
+        LOG.info("TransactionForm values are {}", CommonUtils.sanitizedString(transactionForm.toString()));
         var customerForm = new CustomerForm();
         if (transactionForm.getCustomerVO() != null && transactionForm.getCustomerVO().getCustomerId() > 0) {
             customerForm.setId(transactionForm.getCustomerVO().getCustomerId());
@@ -131,7 +137,7 @@ public class CustomerController {
     @PostMapping("/customer/deleteCust.htm")
     public ModelAndView deleteCustomer(final CustomerForm customerForm) {
         LOG.info("DeleteCustomer method of CustomerController ");
-        LOG.info(CUSTOMER_FORM_IS, customerForm);
+        LOG.info(CUSTOMER_FORM_IS, CommonUtils.sanitizedString(customerForm.toString()));
         try {
             customerService.deleteCustomerFromId(customerForm.getId());
             customerForm.setStatusMessage("Deleted the customer details successfully");
@@ -152,8 +158,8 @@ public class CustomerController {
      */
     @PostMapping("/customer/saveCustomer.htm")
     public ModelAndView saveCustomer(final CustomerForm customerForm) {
-        LOG.info(" saveCustomer method of CustomerController ");
-        LOG.info(CUSTOMER_FORM_IS, customerForm);
+        LOG.info("SaveCustomer method of CustomerController ");
+        LOG.info(CUSTOMER_FORM_IS, CommonUtils.sanitizedString(customerForm.toString()));
         try {
             var customerVO = customerForm.getCurrentCustomerVO();
             customerVO.setCreatedBy(customerForm.getLoggedInUser());
@@ -201,8 +207,8 @@ public class CustomerController {
      */
     @PostMapping("/customer/updateCustomer.htm")
     public ModelAndView updateCustomer(final CustomerForm customerForm) {
-        LOG.info(" updateCustomer method of CustomerController ");
-        LOG.info(CUSTOMER_FORM_IS, customerForm);
+        LOG.info("UpdateCustomer method of CustomerController ");
+        LOG.info(CUSTOMER_FORM_IS, CommonUtils.sanitizedString(customerForm.toString()));
         try {
             var customerVO = customerForm.getCurrentCustomerVO();
             customerVO.setModifiedOn(OffsetDateTime.now(ZoneId.systemDefault()));
@@ -237,8 +243,8 @@ public class CustomerController {
      */
     @PostMapping("/customer/searchCustomer.htm")
     public ModelAndView searchCustomer(final CustomerForm customerForm) {
-        LOG.info(" searchCustomer method of CustomerController ");
-        LOG.info(CUSTOMER_FORM_IS, customerForm);
+        LOG.info("SearchCustomer method of CustomerController ");
+        LOG.info(CUSTOMER_FORM_IS, CommonUtils.sanitizedString(customerForm.toString()));
         List<CustomerVO> customerVOs = null;
         try {
             customerVOs = customerService.searchCustomer(customerForm.getSearchCustomerVO());

@@ -10,6 +10,7 @@ import com.poseidon.transaction.domain.TransactionVO;
 import com.poseidon.transaction.exception.TransactionException;
 import com.poseidon.transaction.service.TransactionService;
 import com.poseidon.transaction.web.form.TransactionForm;
+import com.poseidon.util.CommonUtils;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -24,7 +25,6 @@ import org.springframework.web.servlet.ModelAndView;
 import java.io.IOException;
 import java.time.OffsetDateTime;
 import java.time.ZoneId;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -110,7 +110,7 @@ public class TransactionController {
      */
     @PostMapping("/txs/AddTxn.htm")
     public ModelAndView addTxn(final TransactionForm transactionForm) {
-        LOG.info(" Inside AddTxn method of TransactionController ");
+        LOG.info("AddTxn method of TransactionController ");
         //get all the make list for displaying in search
         var makeVOs = getMakeVOS();
         List<MakeAndModelVO> makeAndModelVOs = null;
@@ -137,15 +137,15 @@ public class TransactionController {
      */
     @PostMapping("/txs/SaveTxn.htm")
     public ModelAndView saveTxn(final TransactionForm transactionForm) {
-        LOG.info(" Inside SaveTxn method of TransactionController ");
-        LOG.info(" form details are {} ", transactionForm);
+        LOG.info("SaveTxn method of TransactionController ");
+        LOG.info("form details are {} ", CommonUtils.sanitizedString(transactionForm.toString()));
         var transactionVO = transactionForm.getCurrentTransaction();
         if (transactionForm.getCurrentTransaction() != null) {
             transactionVO.setCreatedOn(OffsetDateTime.now(ZoneId.systemDefault()));
             transactionVO.setModifiedOn(OffsetDateTime.now(ZoneId.systemDefault()));
             transactionVO.setCreatedBy(transactionForm.getLoggedInUser());
             transactionVO.setModifiedBy(transactionForm.getLoggedInUser());
-            transactionVO.setStatus("NEW");
+            transactionVO.setStatus(TransactionStatus.NEW.name());
         }
         if (hasValidCustomerId(transactionForm)) {
             transactionVO.setCustomerId(transactionForm.getCustomerVO().getCustomerId());
@@ -189,9 +189,12 @@ public class TransactionController {
      */
     @PostMapping("/txs/SearchTxn.htm")
     public ModelAndView searchTxn(final TransactionForm transactionForm) {
-        LOG.info(" Inside SearchTxn method of TransactionController ");
-        LOG.info(" form details are {}", transactionForm);
-        LOG.info(" form search details are {}", transactionForm.getSearchTransaction());
+        LOG.info("SearchTxn method of TransactionController ");
+        LOG.info("form details are {}", CommonUtils.sanitizedString(transactionForm.toString()));
+        if (transactionForm.getSearchTransaction() != null) {
+            LOG.info("form search details are {}",
+                    CommonUtils.sanitizedString(transactionForm.getSearchTransaction().toString()));
+        }
         List<TransactionVO> transactionVOs = null;
         try {
             transactionVOs = transactionService.searchTransactions(transactionForm.getSearchTransaction());
@@ -221,8 +224,8 @@ public class TransactionController {
      */
     @PostMapping("/txs/EditTxn.htm")
     public ModelAndView editTxn(final TransactionForm transactionForm) {
-        LOG.info(" EditTxn method of TransactionController ");
-        LOG.info(" transactionForm is {}", transactionForm);
+        LOG.info("EditTxn method of TransactionController ");
+        LOG.info("transactionForm is {}", CommonUtils.sanitizedString(transactionForm.toString()));
         TransactionVO transactionVO = null;
         CustomerVO customerVO = null;
         try {
@@ -261,13 +264,14 @@ public class TransactionController {
      */
     @PostMapping("/txs/updateTxn.htm")
     public ModelAndView updateTxn(final TransactionForm transactionForm) {
-        LOG.info(" updateTxn method of TransactionController ");
-        LOG.info("TransactionForm values are {}", transactionForm);
+        LOG.info("UpdateTxn method of TransactionController ");
+        LOG.info("TransactionForm values are {}", CommonUtils.sanitizedString(transactionForm.toString()));
         if (transactionForm.getCurrentTransaction() != null) {
             transactionForm.getCurrentTransaction().setModifiedBy(transactionForm.getLoggedInUser());
             transactionForm.getCurrentTransaction().setModifiedOn(OffsetDateTime.now(ZoneId.systemDefault()));
+            LOG.info("TransactionForm, current transactions are values are {}",
+                    CommonUtils.sanitizedString(transactionForm.getCurrentTransaction().toString()));
         }
-        LOG.info("TransactionForm, current transactions are values are {}", transactionForm.getCurrentTransaction());
         try {
             transactionService.updateTransaction(transactionForm.getCurrentTransaction());
             transactionForm.setStatusMessage("Successfully updated the transaction");
@@ -304,8 +308,8 @@ public class TransactionController {
      */
     @PostMapping("/txs/DeleteTxn.htm")
     public ModelAndView deleteTxn(final TransactionForm transactionForm) {
-        LOG.info(" DeleteTxn method of TransactionController ");
-        LOG.info("TransactionForm values are {}", transactionForm);
+        LOG.info("DeleteTxn method of TransactionController ");
+        LOG.info("TransactionForm values are {}", CommonUtils.sanitizedString(transactionForm.toString()));
         try {
             transactionService.deleteTransaction(transactionForm.getId());
             transactionForm.setStatusMessage("Successfully deleted the transaction");
@@ -353,7 +357,7 @@ public class TransactionController {
     public @ResponseBody
     String updateModelAjax(@ModelAttribute("selectMakeId") final String selectMakeId) {
         var responseString = "";
-        LOG.info(" At UpdateModelAjax, selectMakeId is : {}", selectMakeId);
+        LOG.info("At UpdateModelAjax, selectMakeId is : {}", CommonUtils.sanitizedString(selectMakeId));
         try {
             var makeAndModelVOs = makeService.getAllModelsFromMakeId(Long.valueOf(selectMakeId));
             if (makeAndModelVOs != null && !makeAndModelVOs.isEmpty()) {
@@ -367,13 +371,8 @@ public class TransactionController {
 
     private String makeAndModelJson(final List<MakeAndModelVO> makeAndModelVOs) {
         String response;
-        List<Map<String, String>> makeAndModelList = new ArrayList<>();
-        for (MakeAndModelVO makeAndModelVO : makeAndModelVOs) {
-            Map<String, String> mmMap = new HashMap<>();
-            mmMap.put("id", String.valueOf(makeAndModelVO.getModelId()));
-            mmMap.put("modelName", makeAndModelVO.getModelName());
-            makeAndModelList.add(mmMap);
-        }
+        List<Map<String, String>> makeAndModelList =
+                makeAndModelVOs.stream().map(this::getMakeModelMap).collect(Collectors.toList());
         ObjectMapper mapper = new ObjectMapper();
         try {
             response = mapper.writeValueAsString(makeAndModelList);
@@ -383,5 +382,12 @@ public class TransactionController {
         }
         LOG.info("response json : " + response);
         return response;
+    }
+
+    private Map<String, String> getMakeModelMap(final MakeAndModelVO makeAndModelVO) {
+        Map<String, String> mmMap = new HashMap<>();
+        mmMap.put("id", String.valueOf(makeAndModelVO.getModelId()));
+        mmMap.put("modelName", makeAndModelVO.getModelName());
+        return mmMap;
     }
 }

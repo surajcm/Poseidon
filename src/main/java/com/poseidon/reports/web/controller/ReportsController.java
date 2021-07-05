@@ -7,6 +7,7 @@ import com.poseidon.reports.domain.ReportsVO;
 import com.poseidon.reports.service.ReportsService;
 import com.poseidon.reports.web.form.ReportsForm;
 import com.poseidon.transaction.domain.TransactionVO;
+import com.poseidon.util.CommonUtils;
 import net.sf.jasperreports.engine.JRAbstractExporter;
 import net.sf.jasperreports.engine.JRExporter;
 import net.sf.jasperreports.engine.JRExporterParameter;
@@ -68,9 +69,8 @@ public class ReportsController {
      */
     @PostMapping("/reports/List.htm")
     public ModelAndView list(final ReportsForm reportsForm) {
-        LOG.info(" Inside List method of ReportsController ");
-        LOG.info(" form details are : {}", reportsForm);
-
+        LOG.info("List method of ReportsController, form details are : {}",
+                CommonUtils.sanitizedString(reportsForm.toString()));
         List<ReportsVO> reportsVOs = null;
         try {
             reportsVOs = reportsService.generateDailyReport();
@@ -116,8 +116,8 @@ public class ReportsController {
     public ModelAndView getMakeDetailsReport(final HttpServletRequest httpServletRequest,
                                              final HttpServletResponse httpServletResponse,
                                              final ReportsForm reportsForm) {
-        LOG.info(" Inside getMakeDetailsReport method of ReportsController ");
-        LOG.info(FORM_DETAILS, reportsForm);
+        LOG.info("GetMakeDetailsReport method of ReportsController ");
+        LOG.info(FORM_DETAILS, CommonUtils.sanitizedString(reportsForm.toString()));
         JasperReport jasperReport;
         JasperPrint jasperPrint;
         try {
@@ -164,8 +164,8 @@ public class ReportsController {
     public ModelAndView getCallReport(final HttpServletRequest httpServletRequest,
                                       final HttpServletResponse httpServletResponse,
                                       final ReportsForm reportsForm) {
-        LOG.info(" Inside getCallReport method of ReportsController ");
-        LOG.info(FORM_DETAILS, reportsForm);
+        LOG.info("GetCallReport method of ReportsController ");
+        LOG.info(FORM_DETAILS, CommonUtils.sanitizedString(reportsForm.toString()));
         JasperReport jasperReport;
         JasperPrint jasperPrint;
         String reportType;
@@ -175,14 +175,12 @@ public class ReportsController {
                 reportsForm.setCurrentReport(new ReportsVO());
             }
             reportsForm.getCurrentReport().setLocale(Locale.US);
-
             reportFileName = "callReport";
             reportType = reportsForm.getCurrentReport().getExportTo();
             reportsForm.getCurrentReport().setRptfilename(reportFileName);
             var path = getReportPath();
             LOG.info(" going to compile report, at getCallReport");
             jasperReport = JasperCompileManager.compileReport(path + '/' + reportFileName + JRXML);
-
             jasperPrint = reportsService.getCallReport(jasperReport, reportsForm.getCurrentReport());
             LOG.info(jasperPrint.toString());
             generateJasperReport(httpServletResponse, jasperPrint, reportFileName, reportType);
@@ -205,8 +203,8 @@ public class ReportsController {
     public ModelAndView getTransactionsListReport(final HttpServletRequest httpServletRequest,
                                                   final HttpServletResponse httpServletResponse,
                                                   final ReportsForm reportsForm) {
-        LOG.info(" Inside getTransactionsListReport method of ReportsController ");
-        LOG.info(FORM_DETAILS, reportsForm);
+        LOG.info("GetTransactionsListReport method of ReportsController ");
+        LOG.info(FORM_DETAILS, CommonUtils.sanitizedString(reportsForm.toString()));
         JasperReport jasperReport;
         JasperPrint jasperPrint;
         String reportType;
@@ -246,8 +244,8 @@ public class ReportsController {
     public ModelAndView getModelListReport(final HttpServletRequest httpServletRequest,
                                            final HttpServletResponse httpServletResponse,
                                            final ReportsForm reportsForm) {
-        LOG.info(" Inside getModelListReport method of ReportsController ");
-        LOG.info(FORM_DETAILS, reportsForm);
+        LOG.info("GetModelListReport method of ReportsController ");
+        LOG.info(FORM_DETAILS, CommonUtils.sanitizedString(reportsForm.toString()));
         JasperReport jasperReport;
         JasperPrint jasperPrint;
         try {
@@ -285,8 +283,8 @@ public class ReportsController {
     public ModelAndView getErrorReport(final HttpServletRequest httpServletRequest,
                                        final HttpServletResponse httpServletResponse,
                                        final ReportsForm reportsForm) {
-        LOG.info(" Inside getErrorReport method of ReportsController ");
-        LOG.info(FORM_DETAILS, reportsForm);
+        LOG.info("GetErrorReport method of ReportsController ");
+        LOG.info(FORM_DETAILS, CommonUtils.sanitizedString(reportsForm.toString()));
         JasperReport jasperReport;
         JasperPrint jasperPrint;
         try {
@@ -322,8 +320,8 @@ public class ReportsController {
     public ModelAndView getInvoiceReport(final HttpServletRequest httpServletRequest,
                                          final HttpServletResponse httpServletResponse,
                                          final ReportsForm reportsForm) {
-        LOG.info(" Inside getInvoiceReport method of ReportsController ");
-        LOG.info(FORM_DETAILS, reportsForm);
+        LOG.info("GetInvoiceReport method of ReportsController ");
+        LOG.info(FORM_DETAILS, CommonUtils.sanitizedString(reportsForm.toString()));
         JasperPrint jasperPrint;
         JasperReport jasperReport;
         try {
@@ -331,7 +329,6 @@ public class ReportsController {
                 reportsForm.setCurrentReport(new ReportsVO());
             }
             reportsForm.getCurrentReport().setLocale(Locale.US);
-
             var reportFileName = "serviceBillReport";
             reportsForm.getCurrentReport().setRptfilename(reportFileName);
             var path = getReportPath();

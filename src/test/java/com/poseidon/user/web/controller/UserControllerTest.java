@@ -19,7 +19,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 @ExtendWith(SpringExtension.class)
 @WebMvcTest(UserController.class)
 @ContextConfiguration(classes = {UserConfigurations.class})
-public class UserControllerTest {
+class UserControllerTest {
     private MockMvc mvc;
     @Autowired
     private UserController userController;
@@ -32,42 +32,42 @@ public class UserControllerTest {
     }
 
     @Test
-    public void index() throws Exception {
+    void index() throws Exception {
         mvc.perform(MockMvcRequestBuilders.get("/")).andExpect(status().isOk());
     }
 
     @Test
-    public void listAll() throws Exception {
+    void listAll() throws Exception {
         mvc.perform(post("/user/ListAll.htm")).andExpect(status().isOk());
     }
 
     @Test
-    public void updateUser() throws Exception {
+    void updateUser() throws Exception {
         mvc.perform(post("/user/UpdateUser.htm")).andExpect(status().isOk());
     }
 
     @Test
-    public void deleteUser() throws Exception {
+    void deleteUser() throws Exception {
         mvc.perform(post("/user/DeleteUser.htm")).andExpect(status().isOk());
     }
 
     @Test
-    public void toHome() throws Exception {
+    void toHome() throws Exception {
         mvc.perform(post("/user/ToHome.htm")).andExpect(status().isOk());
     }
 
     @Test
-    public void logMeOut() throws Exception {
+    void logMeOut() throws Exception {
         mvc.perform(post("/user/LogMeOut.htm")).andExpect(status().isOk());
     }
 
     @Test
-    public void searchUser() throws Exception {
+    void searchUser() throws Exception {
         mvc.perform(post("/user/SearchUser.htm")).andExpect(status().isOk());
     }
 
     @Test
-    public void saveMakeAjax() throws Exception {
+    void saveMakeAjax() throws Exception {
         String selectName = "Apple";
         String selectLogin = "apple";
         String selectRole = "admin";

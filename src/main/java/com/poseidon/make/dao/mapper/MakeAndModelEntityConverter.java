@@ -20,16 +20,6 @@ public class MakeAndModelEntityConverter {
         return models.stream().map(this::createMakeAndModelVO).collect(Collectors.toList());
     }
 
-    private MakeAndModelVO createMakeAndModelVO(final Model model) {
-        var makeAndModelVO = new MakeAndModelVO();
-        makeAndModelVO.setId(model.getId());
-        makeAndModelVO.setModelId(model.getModelId());
-        makeAndModelVO.setModelName(model.getModelName());
-        makeAndModelVO.setMakeId(model.getMake().getMakeId());
-        makeAndModelVO.setMakeName(model.getMake().getMakeName());
-        return makeAndModelVO;
-    }
-
     /**
      * convert list of make to make and model vo list.
      *
@@ -38,6 +28,16 @@ public class MakeAndModelEntityConverter {
      */
     public List<MakeAndModelVO> convertMakeToMakeAndModelVOs(final List<Make> makes) {
         return makes.stream().map(this::createMakeAndModelVO).collect(Collectors.toList());
+    }
+
+    private MakeAndModelVO createMakeAndModelVO(final Model model) {
+        var makeAndModelVO = new MakeAndModelVO();
+        makeAndModelVO.setId(model.getId());
+        makeAndModelVO.setModelId(model.getModelId());
+        makeAndModelVO.setModelName(model.getModelName());
+        makeAndModelVO.setMakeId(model.getMake().getMakeId());
+        makeAndModelVO.setMakeName(model.getMake().getMakeName());
+        return makeAndModelVO;
     }
 
     private MakeAndModelVO createMakeAndModelVO(final Make make) {

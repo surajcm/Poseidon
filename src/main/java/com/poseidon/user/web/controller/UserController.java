@@ -6,6 +6,7 @@ import com.poseidon.user.service.UserService;
 import com.poseidon.user.service.impl.SecurityService;
 import com.poseidon.user.web.form.Role;
 import com.poseidon.user.web.form.UserForm;
+import com.poseidon.util.CommonUtils;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -58,7 +59,7 @@ public class UserController {
      */
     @GetMapping("/")
     public ModelAndView index() {
-        logger.info(" Inside Index method of user controller ");
+        logger.info("Index method of user controller ");
         var userForm = new UserForm();
         userForm.setUser(new UserVO());
         return new ModelAndView("MainPage", USER_FORM, userForm);
@@ -92,7 +93,7 @@ public class UserController {
      */
     @PostMapping("/user/ListAll.htm")
     public ModelAndView listAll(final UserForm userForm) {
-        logger.info(" Inside ListAll method of user controller ");
+        logger.info("ListAll method of user controller ");
         List<UserVO> userList = null;
         try {
             userList = userService.getAllUserDetails();
@@ -333,7 +334,7 @@ public class UserController {
     public @ResponseBody
     String getForEdit(@ModelAttribute("id") final String id,
                       final BindingResult result) {
-        logger.info("getForEdit method of user controller : " + id);
+        logger.info("getForEdit method of user controller : {}" , CommonUtils.sanitizedString(id));
         String response = null;
         try {
             UserVO userVO = userService.getUserDetailsFromId(Long.valueOf(id));
@@ -378,7 +379,8 @@ public class UserController {
                           @ModelAttribute("role") final String role,
                           final BindingResult result) {
         logger.info("updateUserAjax method of user controller with id {}, name {}, email {}, role {}",
-                id, name, email, role);
+                CommonUtils.sanitizedString(id), CommonUtils.sanitizedString(name),
+                CommonUtils.sanitizedString(email), CommonUtils.sanitizedString(role));
         try {
             var userVO = userService.getUserDetailsFromId(Long.valueOf(id));
             if (userVO != null) {
@@ -404,7 +406,8 @@ public class UserController {
     String changePass(@ModelAttribute("current") final String current,
                       @ModelAttribute("newPass") final String newPass,
                       final BindingResult result) {
-        logger.info("ChangePass of user controller from {} to {}", current, newPass);
+        logger.info("ChangePass of user controller from {} to {}", CommonUtils.sanitizedString(current),
+                CommonUtils.sanitizedString(newPass));
         String message;
         var auth = SecurityContextHolder.getContext().getAuthentication();
         // get the user info

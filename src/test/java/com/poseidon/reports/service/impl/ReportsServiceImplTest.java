@@ -33,7 +33,7 @@ import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
-public class ReportsServiceImplTest {
+class ReportsServiceImplTest {
     private final ReportsServiceImpl reportsService = new ReportsServiceImpl();
     private final ReportsDAO reportsDAO = Mockito.mock(ReportsDAO.class);
     private final MakeService makeService = Mockito.mock(MakeService.class);
@@ -51,39 +51,39 @@ public class ReportsServiceImplTest {
     }
 
     @Test
-    public void generateDailyReportSuccess() {
+    void generateDailyReportSuccess() {
         Assertions.assertNotNull(reportsService.generateDailyReport());
     }
 
     @Test
-    public void generateDailyReportFailure() throws ReportsException {
+    void generateDailyReportFailure() throws ReportsException {
         doThrow(new ReportsException(ReportsException.DATABASE_ERROR)).when(reportsDAO).generateDailyReport();
         Assertions.assertNull(reportsService.generateDailyReport());
     }
 
     @Test
-    public void getMakeDetailsChartSuccess() throws JRException {
+    void getMakeDetailsChartSuccess() throws JRException {
         when(reportsDAO.getMakeDetailsChart(any(), any())).thenReturn(Mockito.mock(JasperPrint.class));
         Assertions.assertNotNull(reportsService.getMakeDetailsChart(
                 Mockito.mock(JasperReport.class), new ReportsVO()));
     }
 
     @Test
-    public void getMakeDetailsChartFailure() throws JRException {
+    void getMakeDetailsChartFailure() throws JRException {
         when(reportsDAO.getMakeDetailsChart(any(), any())).thenThrow(new JRException("ERROR"));
         Assertions.assertNotNull(reportsService.getMakeDetailsChart(
                 Mockito.mock(JasperReport.class), new ReportsVO()));
     }
 
     @Test
-    public void getCallReportSuccess() throws JRException {
+    void getCallReportSuccess() throws JRException {
         when(reportsDAO.getCallReport(any(), any(), any())).thenReturn(Mockito.mock(JasperPrint.class));
         Assertions.assertNotNull(reportsService.getCallReport(
                 Mockito.mock(JasperReport.class), new ReportsVO()));
     }
 
     @Test
-    public void getCallReportFailure() throws TransactionException, JRException {
+    void getCallReportFailure() throws TransactionException, JRException {
         when(transactionService.fetchTransactionFromTag(any()))
                 .thenThrow(new TransactionException(TransactionException.DATABASE_ERROR));
         when(reportsDAO.getCallReport(any(), any(), any())).thenThrow(new JRException("ERROR"));
@@ -92,14 +92,14 @@ public class ReportsServiceImplTest {
     }
 
     @Test
-    public void getTransactionsListReportSuccess() throws JRException {
+    void getTransactionsListReportSuccess() throws JRException {
         when(reportsDAO.getTransactionsListReport(any(), any())).thenReturn(Mockito.mock(JasperPrint.class));
         Assertions.assertNotNull(reportsService.getTransactionsListReport(
                 Mockito.mock(JasperReport.class), new ReportsVO(), new TransactionVO()));
     }
 
     @Test
-    public void getTransactionsListReportFailure() throws TransactionException, JRException {
+    void getTransactionsListReportFailure() throws TransactionException, JRException {
         when(transactionService.searchTransactions(any()))
                 .thenThrow(new TransactionException(TransactionException.DATABASE_ERROR));
         when(reportsDAO.getTransactionsListReport(any(), any())).thenThrow(new JRException("ERROR"));
@@ -108,42 +108,42 @@ public class ReportsServiceImplTest {
     }
 
     @Test
-    public void getModelListReportSuccess() throws JRException {
+    void getModelListReportSuccess() throws JRException {
         when(reportsDAO.getModelListReport(any(), any())).thenReturn(Mockito.mock(JasperPrint.class));
         Assertions.assertNotNull(reportsService.getModelListReport(
                 Mockito.mock(JasperReport.class), new ReportsVO(), new MakeAndModelVO()));
     }
 
     @Test
-    public void getModelListReportFailure() throws JRException {
+    void getModelListReportFailure() throws JRException {
         when(reportsDAO.getModelListReport(any(), any())).thenThrow(new JRException("ERROR"));
         Assertions.assertNotNull(reportsService.getModelListReport(
                 Mockito.mock(JasperReport.class), new ReportsVO(), new MakeAndModelVO()));
     }
 
     @Test
-    public void getErrorReportSuccess() throws JRException {
+    void getErrorReportSuccess() throws JRException {
         when(reportsDAO.getErrorReport(any(), any())).thenReturn(Mockito.mock(JasperPrint.class));
         Assertions.assertNotNull(reportsService.getErrorReport(Mockito.mock(JasperReport.class),
                 new ReportsVO()));
     }
 
     @Test
-    public void getErrorReportFailure() throws JRException {
+    void getErrorReportFailure() throws JRException {
         when(reportsDAO.getErrorReport(any(), any())).thenThrow(new JRException("ERROR"));
         Assertions.assertNotNull(reportsService.getErrorReport(Mockito.mock(JasperReport.class),
                 new ReportsVO()));
     }
 
     @Test
-    public void getInvoiceReportSuccess() throws JRException {
+    void getInvoiceReportSuccess() throws JRException {
         when(reportsDAO.getInvoiceReport(any(), any())).thenReturn(Mockito.mock(JasperPrint.class));
         Assertions.assertNotNull(reportsService.getInvoiceReport(Mockito.mock(JasperReport.class),
                 new ReportsVO()));
     }
 
     @Test
-    public void getInvoiceReportInvoiceFailure() throws JRException, TransactionException, InvoiceException {
+    void getInvoiceReportInvoiceFailure() throws JRException, TransactionException, InvoiceException {
         when(transactionService.fetchTransactionFromTag(any()))
                 .thenReturn(Mockito.mock(TransactionReportVO.class));
         when(invoiceService.findInvoices(any())).thenThrow(new InvoiceException(InvoiceException.DATABASE_ERROR));
@@ -153,7 +153,7 @@ public class ReportsServiceImplTest {
     }
 
     @Test
-    public void getInvoiceReportCompanyFailure() throws JRException, TransactionException {
+    void getInvoiceReportCompanyFailure() throws JRException, TransactionException {
         when(transactionService.fetchTransactionFromTag(any()))
                 .thenReturn(Mockito.mock(TransactionReportVO.class));
         when(companyTermsService.listCompanyTerms()).thenReturn(null);
@@ -163,7 +163,7 @@ public class ReportsServiceImplTest {
     }
 
     @Test
-    public void getInvoiceReportFailure() throws JRException, TransactionException, InvoiceException {
+    void getInvoiceReportFailure() throws JRException, TransactionException, InvoiceException {
         when(transactionService.fetchTransactionFromTag(any()))
                 .thenReturn(Mockito.mock(TransactionReportVO.class));
         List<InvoiceVO> invoiceVO = new ArrayList<>();

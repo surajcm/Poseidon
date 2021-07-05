@@ -18,7 +18,7 @@ import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
-public class UserServiceImplTest {
+class UserServiceImplTest {
     private final UserServiceImpl userService = new UserServiceImpl();
     private final UserDAO userDAO = Mockito.mock(UserDAO.class);
     private final BCryptPasswordEncoder bcryptPasswordEncoder = Mockito.mock(BCryptPasswordEncoder.class);
@@ -30,68 +30,68 @@ public class UserServiceImplTest {
     }
 
     @Test
-    public void getAllUserDetailsSuccess() throws UserException {
+    void getAllUserDetailsSuccess() throws UserException {
         Assertions.assertNotNull(userService.getAllUserDetails());
     }
 
     @Test
-    public void getAllUserDetailsFailure() throws UserException {
+    void getAllUserDetailsFailure() throws UserException {
         when(userDAO.getAllUserDetails()).thenThrow(new UserException(UserException.DATABASE_ERROR));
         Assertions.assertThrows(UserException.class, userService::getAllUserDetails);
     }
 
     @Test
-    public void saveSuccess() {
+    void saveSuccess() {
         Assertions.assertAll(() -> userService.save(new UserVO()));
     }
 
     @Test
-    public void saveFailure() throws UserException {
+    void saveFailure() throws UserException {
         doThrow(new UserException(UserException.DATABASE_ERROR)).when(userDAO).save(any());
         Assertions.assertThrows(UserException.class, () -> userService.save(new UserVO()));
     }
 
     @Test
-    public void getUserDetailsFromIdSuccess() throws UserException {
+    void getUserDetailsFromIdSuccess() throws UserException {
         when(userDAO.getUserDetailsFromId(anyLong())).thenReturn(new UserVO());
         Assertions.assertNotNull(userService.getUserDetailsFromId(1234L));
     }
 
     @Test
-    public void getUserDetailsFromIdFailure() throws UserException {
+    void getUserDetailsFromIdFailure() throws UserException {
         when(userDAO.getUserDetailsFromId(anyLong())).thenThrow(new UserException(UserException.DATABASE_ERROR));
         Assertions.assertThrows(UserException.class, () -> userService.getUserDetailsFromId(1234L));
     }
 
     @Test
-    public void updateUserSuccess() {
+    void updateUserSuccess() {
         Assertions.assertAll(() -> userService.updateUser(new UserVO()));
     }
 
     @Test
-    public void updateUserFailure() throws UserException {
+    void updateUserFailure() throws UserException {
         doThrow(new UserException(UserException.DATABASE_ERROR)).when(userDAO).updateUser(any());
         Assertions.assertAll(() -> userService.updateUser(new UserVO()));
     }
 
     @Test
-    public void deleteUserSuccess() {
+    void deleteUserSuccess() {
         Assertions.assertAll(() -> userService.deleteUser(1234L));
     }
 
     @Test
-    public void deleteUserFailure() throws UserException {
+    void deleteUserFailure() throws UserException {
         doThrow(new UserException(UserException.DATABASE_ERROR)).when(userDAO).deleteUser(anyLong());
         Assertions.assertAll(() -> userService.deleteUser(1234L));
     }
 
     @Test
-    public void searchUserDetailsSuccess() throws UserException {
+    void searchUserDetailsSuccess() throws UserException {
         Assertions.assertNotNull(userService.searchUserDetails(new UserVO()));
     }
 
     @Test
-    public void searchUserDetailsFailure() throws UserException {
+    void searchUserDetailsFailure() throws UserException {
         doThrow(new UserException(UserException.DATABASE_ERROR)).when(userDAO).searchUserDetails(any());
         Assertions.assertThrows(UserException.class, () -> userService.searchUserDetails(new UserVO()));
     }
