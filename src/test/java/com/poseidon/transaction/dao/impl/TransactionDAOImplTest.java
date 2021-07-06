@@ -30,7 +30,7 @@ import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
-public class TransactionDAOImplTest {
+class TransactionDAOImplTest {
     private final TransactionDAOImpl transactionDAO = new TransactionDAOImpl();
     private final TransactionRepository transactionRepository = Mockito.mock(TransactionRepository.class);
     private final CustomerRepository customerRepository = Mockito.mock(CustomerRepository.class);
@@ -46,7 +46,7 @@ public class TransactionDAOImplTest {
     }
 
     @Test
-    public void listTodaysTransactionsSuccess() throws TransactionException {
+    void listTodaysTransactionsSuccess() throws TransactionException {
         when(customerRepository.findById(anyLong())).thenReturn(Optional.of(mockCustomer()));
         when(makeRepository.getById(anyLong())).thenReturn(mockMake());
         when(modelRepository.getById(anyLong())).thenReturn(mockModel());
@@ -55,25 +55,25 @@ public class TransactionDAOImplTest {
     }
 
     @Test
-    public void listTodaysTransactionsFailure() {
+    void listTodaysTransactionsFailure() {
         when(transactionRepository.todaysTransaction()).thenThrow(new CannotAcquireLockException("DB error"));
         Assertions.assertThrows(TransactionException.class, transactionDAO::listTodaysTransactions);
     }
 
     @Test
-    public void saveTransactionSuccess() {
+    void saveTransactionSuccess() {
         when(transactionRepository.save(any())).thenReturn(mockTransaction());
         Assertions.assertAll(() -> transactionDAO.saveTransaction(new TransactionVO()));
     }
 
     @Test
-    public void saveTransactionFailure() {
+    void saveTransactionFailure() {
         when(transactionRepository.save(any())).thenThrow(new CannotAcquireLockException("DB error"));
         Assertions.assertThrows(TransactionException.class, () -> transactionDAO.saveTransaction(new TransactionVO()));
     }
 
     @Test
-    public void fetchTransactionFromIdSuccess() throws TransactionException {
+    void fetchTransactionFromIdSuccess() throws TransactionException {
         when(customerRepository.findById(anyLong())).thenReturn(Optional.of(mockCustomer()));
         when(makeRepository.getById(anyLong())).thenReturn(mockMake());
         when(modelRepository.getById(anyLong())).thenReturn(mockModel());
@@ -82,19 +82,19 @@ public class TransactionDAOImplTest {
     }
 
     @Test
-    public void fetchTransactionFromIdEmpty() throws TransactionException {
+    void fetchTransactionFromIdEmpty() throws TransactionException {
         when(transactionRepository.findById(anyLong())).thenReturn(Optional.empty());
         Assertions.assertNull(transactionDAO.fetchTransactionFromId(1234L));
     }
 
     @Test
-    public void fetchTransactionFromIdFailure() {
+    void fetchTransactionFromIdFailure() {
         when(transactionRepository.findById(anyLong())).thenThrow(new CannotAcquireLockException("DB error"));
         Assertions.assertThrows(TransactionException.class, () -> transactionDAO.fetchTransactionFromId(1234L));
     }
 
     @Test
-    public void updateTransactionSuccess() {
+    void updateTransactionSuccess() {
         when(transactionRepository.findById(null)).thenReturn(Optional.of(mockTransaction()));
         when(customerRepository.findById(anyLong())).thenReturn(Optional.of(mockCustomer()));
         when(makeRepository.getById(anyLong())).thenReturn(mockMake());
@@ -104,31 +104,31 @@ public class TransactionDAOImplTest {
     }
 
     @Test
-    public void updateTransactionEmpty() {
+    void updateTransactionEmpty() {
         when(transactionRepository.findById(null)).thenReturn(Optional.empty());
         Assertions.assertAll(() -> transactionDAO.updateTransaction(new TransactionVO()));
     }
 
     @Test
-    public void updateTransactionFailure() {
+    void updateTransactionFailure() {
         when(transactionRepository.findById(null)).thenThrow(new CannotAcquireLockException("DB error"));
         Assertions.assertThrows(TransactionException.class,
                 () -> transactionDAO.updateTransaction(new TransactionVO()));
     }
 
     @Test
-    public void deleteTransactionSuccess() {
+    void deleteTransactionSuccess() {
         Assertions.assertAll(() -> transactionDAO.deleteTransaction(1234L));
     }
 
     @Test
-    public void deleteTransactionFailure() {
+    void deleteTransactionFailure() {
         doThrow(new CannotAcquireLockException("DB error")).when(transactionRepository).deleteById(anyLong());
         Assertions.assertThrows(TransactionException.class, () -> transactionDAO.deleteTransaction(1234L));
     }
 
     @Test
-    public void fetchTransactionFromTagSuccess() throws TransactionException {
+    void fetchTransactionFromTagSuccess() throws TransactionException {
         when(customerRepository.findById(anyLong())).thenReturn(Optional.of(mockCustomer()));
         when(makeRepository.getById(anyLong())).thenReturn(mockMake());
         when(modelRepository.getById(anyLong())).thenReturn(mockModel());
@@ -137,32 +137,32 @@ public class TransactionDAOImplTest {
     }
 
     @Test
-    public void fetchTransactionFromTagFailure() {
+    void fetchTransactionFromTagFailure() {
         when(transactionRepository.findBytagno(anyString())).thenThrow(new CannotAcquireLockException("DB error"));
         Assertions.assertThrows(TransactionException.class, () -> transactionDAO.fetchTransactionFromTag("ABC"));
     }
 
     @Test
-    public void updateTransactionStatusSuccess() {
+    void updateTransactionStatusSuccess() {
         when(transactionRepository.findById(anyLong())).thenReturn(Optional.of(mockTransaction()));
         Assertions.assertAll(() -> transactionDAO.updateTransactionStatus(1234L, "SUCCESS"));
     }
 
     @Test
-    public void updateTransactionStatusEmpty() {
+    void updateTransactionStatusEmpty() {
         when(transactionRepository.findById(anyLong())).thenReturn(Optional.empty());
         Assertions.assertAll(() -> transactionDAO.updateTransactionStatus(1234L, "SUCCESS"));
     }
 
     @Test
-    public void updateTransactionStatusFailure() {
+    void updateTransactionStatusFailure() {
         when(transactionRepository.findById(anyLong())).thenThrow(new CannotAcquireLockException("DB error"));
         Assertions.assertThrows(TransactionException.class,
                 () -> transactionDAO.updateTransactionStatus(1234L, "SUCCESS"));
     }
 
     @Test
-    public void listAllTransactionsSuccess() throws TransactionException {
+    void listAllTransactionsSuccess() throws TransactionException {
         when(customerRepository.findById(anyLong())).thenReturn(Optional.of(mockCustomer()));
         when(makeRepository.getById(anyLong())).thenReturn(mockMake());
         when(modelRepository.getById(anyLong())).thenReturn(mockModel());
@@ -171,7 +171,7 @@ public class TransactionDAOImplTest {
     }
 
     @Test
-    public void listAllTransactionsFailure() {
+    void listAllTransactionsFailure() {
         when(transactionRepository.findAll()).thenThrow(new CannotAcquireLockException("DB error"));
         Assertions.assertThrows(TransactionException.class, transactionDAO::listAllTransactions);
     }

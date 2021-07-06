@@ -22,7 +22,6 @@ import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-
 @ExtendWith(SpringExtension.class)
 @WebMvcTest(MakeController.class)
 @ContextConfiguration(classes = {MakeConfigurations.class})
@@ -45,13 +44,6 @@ class MakeControllerTest {
         when(makeService.listAllMakesAndModels()).thenThrow(new RuntimeException());
         when(makeService.fetchMakes()).thenThrow(new RuntimeException());
         mvc.perform(post("/make/ModelList.htm")).andExpect(status().isOk());
-    }
-
-    private List<MakeAndModelVO> mockMakeAndModelVOs() {
-        List<MakeAndModelVO> makeAndModelVOs = new ArrayList<>();
-        makeAndModelVOs.add(new MakeAndModelVO());
-        makeAndModelVOs.add(new MakeAndModelVO());
-        return makeAndModelVOs;
     }
 
     @Test
@@ -95,14 +87,14 @@ class MakeControllerTest {
     }
 
     @Test
-    public void testSaveModel() throws Exception {
+    void testSaveModel() throws Exception {
         mvc.perform(post("/make/saveModel.htm")).andExpect(status().isOk());
         doThrow(new RuntimeException()).when(makeService).addNewModel(any());
         mvc.perform(post("/make/saveModel.htm")).andExpect(status().isOk());
     }
 
     @Test
-    public void testSearchModel() throws Exception {
+    void testSearchModel() throws Exception {
         mvc.perform(post("/make/searchModel.htm")).andExpect(status().isOk());
         when(makeService.searchMakeVOs(any())).thenThrow(new RuntimeException());
         mvc.perform(post("/make/searchModel.htm")).andExpect(status().isOk());
@@ -131,5 +123,12 @@ class MakeControllerTest {
                 .param("selectMakeId", selectMakeId)
                 .param("selectModelName", selectModelName))
                 .andExpect(status().isOk());
+    }
+
+    private List<MakeAndModelVO> mockMakeAndModelVOs() {
+        List<MakeAndModelVO> makeAndModelVOs = new ArrayList<>();
+        makeAndModelVOs.add(new MakeAndModelVO());
+        makeAndModelVOs.add(new MakeAndModelVO());
+        return makeAndModelVOs;
     }
 }

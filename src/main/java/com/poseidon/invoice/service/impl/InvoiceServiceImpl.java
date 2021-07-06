@@ -41,7 +41,7 @@ public class InvoiceServiceImpl implements InvoiceService {
             currentInvoiceVO.setSerialNo(transactionReportVO.getSerialNo());
             invoiceDAO.addInvoice(currentInvoiceVO);
         } catch (TransactionException | InvoiceException ex) {
-            LOG.error(ex.getMessage(), ex);
+            LOG.error("Error occurred ", ex);
             throw new InvoiceException(ex.getMessage());
         }
     }
@@ -55,9 +55,9 @@ public class InvoiceServiceImpl implements InvoiceService {
     @Override
     public List<InvoiceVO> fetchInvoiceForListOfTransactions() throws InvoiceException {
         List<InvoiceVO> invoiceVOs = null;
-        List<TransactionVO> transactionVOs = getTransactionVOS();
+        var transactionVOs = getTransactionVOS();
         if (transactionVOs != null) {
-            List<String> tagNumbers = fetchTagNoFromListOfTransactionVOs(transactionVOs);
+            var tagNumbers = fetchTagNoFromListOfTransactionVOs(transactionVOs);
             try {
                 invoiceVOs = invoiceDAO.fetchInvoiceForListOfTransactions(tagNumbers);
             } catch (InvoiceException ex) {
