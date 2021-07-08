@@ -6,15 +6,15 @@ public class InvoiceException extends Exception {
      */
     public static final String DATABASE_ERROR = "DATABASE_ERROR";
 
-    private final String exceptionType;
+    private final Exception exceptionType;
     public static final long serialVersionUID = 4328744;
 
-    public InvoiceException(final String exceptionType) {
+    public InvoiceException(final Exception exceptionType) {
         super();
         this.exceptionType = exceptionType;
     }
 
-    public String getExceptionType() {
+    public Exception getExceptionType() {
         return exceptionType;
     }
 }

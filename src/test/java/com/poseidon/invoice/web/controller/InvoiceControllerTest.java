@@ -47,7 +47,7 @@ class InvoiceControllerTest {
     @Test
     void listInvoiceError() throws Exception {
         when(invoiceService.fetchInvoiceForListOfTransactions())
-                .thenThrow(new InvoiceException(InvoiceException.DATABASE_ERROR));
+                .thenThrow(new InvoiceException(new RuntimeException()));
         mvc.perform(post("/invoice/ListInvoice.htm")).andExpect(status().isOk());
     }
 
@@ -69,7 +69,7 @@ class InvoiceControllerTest {
     @Test
     void editInvoiceFailure() throws Exception {
         when(invoiceService.fetchInvoiceVOFromId(null))
-                .thenThrow(new InvoiceException(InvoiceException.DATABASE_ERROR));
+                .thenThrow(new InvoiceException(new RuntimeException()));
         mvc.perform(post("/invoice/EditInvoice.htm")).andExpect(status().isOk());
     }
 
@@ -86,7 +86,7 @@ class InvoiceControllerTest {
     @Test
     void searchInvoiceFailure() throws Exception {
         when(invoiceService.findInvoices(null))
-                .thenThrow(new InvoiceException(InvoiceException.DATABASE_ERROR));
+                .thenThrow(new InvoiceException(new RuntimeException()));
         mvc.perform(post("/invoice/SearchInvoice.htm")).andExpect(status().isOk());
     }
 
@@ -97,7 +97,7 @@ class InvoiceControllerTest {
 
     @Test
     void updateInvoiceFailure() throws Exception {
-        doThrow(new InvoiceException(InvoiceException.DATABASE_ERROR))
+        doThrow(new InvoiceException(new RuntimeException()))
                 .when(invoiceService).updateInvoice(null);
         mvc.perform(post("/invoice/updateInvoice.htm")).andExpect(status().isOk());
     }

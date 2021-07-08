@@ -44,7 +44,7 @@ public class InvoiceDAOImpl implements InvoiceDAO {
             invoiceRepository.save(convertInvoiceVOToInvoice(currentInvoiceVO));
         } catch (DataAccessException ex) {
             log.error(ex.getLocalizedMessage());
-            throw new InvoiceException(InvoiceException.DATABASE_ERROR);
+            throw new InvoiceException(ex);
         }
     }
 
@@ -63,7 +63,7 @@ public class InvoiceDAOImpl implements InvoiceDAO {
             invoiceVOs = invoices.stream().map(this::getInvoiceVoFromInvoice).collect(Collectors.toList());
         } catch (DataAccessException ex) {
             log.error(ex.getLocalizedMessage());
-            throw new InvoiceException(InvoiceException.DATABASE_ERROR);
+            throw new InvoiceException(ex);
         }
         return invoiceVOs;
     }
@@ -85,7 +85,7 @@ public class InvoiceDAOImpl implements InvoiceDAO {
             }
         } catch (DataAccessException ex) {
             log.error(ex.getLocalizedMessage());
-            throw new InvoiceException(InvoiceException.DATABASE_ERROR);
+            throw new InvoiceException(ex);
         }
         return invoiceVO;
     }
@@ -107,7 +107,7 @@ public class InvoiceDAOImpl implements InvoiceDAO {
             }
         } catch (DataAccessException ex) {
             log.error(ex.getLocalizedMessage());
-            throw new InvoiceException(InvoiceException.DATABASE_ERROR);
+            throw new InvoiceException(ex);
         }
         return invoiceVO;
     }
@@ -124,7 +124,7 @@ public class InvoiceDAOImpl implements InvoiceDAO {
             invoiceRepository.deleteById(id);
         } catch (DataAccessException ex) {
             log.error(ex.getLocalizedMessage());
-            throw new InvoiceException(InvoiceException.DATABASE_ERROR);
+            throw new InvoiceException(ex);
         }
     }
 
@@ -144,7 +144,7 @@ public class InvoiceDAOImpl implements InvoiceDAO {
             }
         } catch (DataAccessException ex) {
             log.error(ex.getLocalizedMessage());
-            throw new InvoiceException(InvoiceException.DATABASE_ERROR);
+            throw new InvoiceException(ex);
         }
     }
 
@@ -162,7 +162,7 @@ public class InvoiceDAOImpl implements InvoiceDAO {
             invoiceVOs = searchInvoice(searchInvoiceVO);
         } catch (DataAccessException ex) {
             log.error(ex.getLocalizedMessage());
-            throw new InvoiceException(InvoiceException.DATABASE_ERROR);
+            throw new InvoiceException(ex);
         }
         return invoiceVOs;
     }
@@ -173,7 +173,7 @@ public class InvoiceDAOImpl implements InvoiceDAO {
         var invoiceRoot = criteria.from(Invoice.class);
         criteria.select(invoiceRoot);
 
-        if (searchInvoiceVO.getIncludes().booleanValue()) {
+        if (Boolean.TRUE.equals(searchInvoiceVO.getIncludes())) {
             if (!StringUtils.hasText(searchInvoiceVO.getTagNo())) {
                 criteria.where(builder.like(invoiceRoot.get(TAG_NO),
                         "%" + searchInvoiceVO.getTagNo() + "%"));
@@ -190,7 +190,7 @@ public class InvoiceDAOImpl implements InvoiceDAO {
                 criteria.where(builder.like(invoiceRoot.get("id"), "%" + searchInvoiceVO.getId() + "%"));
             }
 
-        } else if (searchInvoiceVO.getStartsWith().booleanValue()) {
+        } else if (Boolean.TRUE.equals(searchInvoiceVO.getStartsWith())) {
             if (!StringUtils.hasText(searchInvoiceVO.getTagNo())) {
                 criteria.where(builder.like(invoiceRoot.get(TAG_NO), searchInvoiceVO.getTagNo() + "%"));
             }
@@ -220,14 +220,14 @@ public class InvoiceDAOImpl implements InvoiceDAO {
             }
         }
         if (searchInvoiceVO.getAmount() != null && searchInvoiceVO.getAmount() > 0) {
-            if (searchInvoiceVO.getGreater().booleanValue()
-                    && !searchInvoiceVO.getLesser().booleanValue()) {
+            if (Boolean.TRUE.equals(searchInvoiceVO.getGreater())
+                    && Boolean.FALSE.equals(searchInvoiceVO.getLesser())) {
                 criteria.where(builder.greaterThanOrEqualTo(invoiceRoot.get(AMOUNT), searchInvoiceVO.getAmount()));
-            } else if (searchInvoiceVO.getLesser().booleanValue()
-                    && !searchInvoiceVO.getGreater().booleanValue()) {
+            } else if (Boolean.TRUE.equals(searchInvoiceVO.getLesser())
+                    && Boolean.FALSE.equals(searchInvoiceVO.getGreater())) {
                 criteria.where(builder.lessThanOrEqualTo(invoiceRoot.get(AMOUNT), searchInvoiceVO.getAmount()));
-            } else if (!searchInvoiceVO.getLesser().booleanValue()
-                    && !searchInvoiceVO.getGreater().booleanValue()) {
+            } else if (Boolean.FALSE.equals(searchInvoiceVO.getLesser())
+                    && Boolean.FALSE.equals(searchInvoiceVO.getGreater())) {
                 criteria.where(builder.equal(invoiceRoot.get(AMOUNT), searchInvoiceVO.getAmount()));
             }
         }
@@ -256,6 +256,17 @@ public class InvoiceDAOImpl implements InvoiceDAO {
         return invoiceVO;
     }
 
+    private InvoiceVO convertInvoiceToInvoiceVO(final Invoice invoice) {
+        var invoiceVO = new InvoiceVO();
+        invoiceVO.setId(invoice.getInvoiceId());
+        invoiceVO.setCustomerName(invoice.getCustomerName());
+        invoiceVO.setTagNo(invoice.getTagNumber());
+        invoiceVO.setDescription(invoice.getDescription());
+        invoiceVO.setSerialNo(invoice.getSerialNumber());
+        invoiceVO.setAmount(Double.valueOf(invoice.getAmount()));
+        return invoiceVO;
+    }
+
     private Invoice getInvoice(final InvoiceVO currentInvoiceVO, final Invoice invoice) {
         invoice.setTagNumber(currentInvoiceVO.getTagNo());
         invoice.setDescription(currentInvoiceVO.getDescription());
@@ -274,34 +285,7 @@ public class InvoiceDAOImpl implements InvoiceDAO {
         return invoice;
     }
 
-    private InvoiceVO convertInvoiceToInvoiceVO(final Invoice invoice) {
-        var invoiceVO = new InvoiceVO();
-        invoiceVO.setId(invoice.getInvoiceId());
-        invoiceVO.setCustomerName(invoice.getCustomerName());
-        invoiceVO.setTagNo(invoice.getTagNumber());
-        invoiceVO.setDescription(invoice.getDescription());
-        invoiceVO.setSerialNo(invoice.getSerialNumber());
-        invoiceVO.setAmount(Double.valueOf(invoice.getAmount()));
-        return invoiceVO;
-    }
-
     private Invoice convertInvoiceVOToInvoice(final InvoiceVO currentInvoiceVO) {
-        var invoice = new Invoice();
-        invoice.setTransactionId(currentInvoiceVO.getTransactionId());
-        invoice.setTagNumber(currentInvoiceVO.getTagNo());
-        invoice.setDescription(currentInvoiceVO.getDescription());
-        invoice.setSerialNumber(currentInvoiceVO.getSerialNo());
-        if (currentInvoiceVO.getAmount() != null) {
-            invoice.setAmount(currentInvoiceVO.getAmount().longValue());
-        }
-        invoice.setQuantity(currentInvoiceVO.getQuantity());
-        if (currentInvoiceVO.getRate() != null) {
-            invoice.setRate(currentInvoiceVO.getRate().longValue());
-        }
-        invoice.setCustomerId(currentInvoiceVO.getCustomerId());
-        invoice.setCustomerName(currentInvoiceVO.getCustomerName());
-        invoice.setCreatedBy(currentInvoiceVO.getCreatedBy());
-        invoice.setModifiedBy(currentInvoiceVO.getModifiedBy());
-        return invoice;
+        return getInvoice(currentInvoiceVO, new Invoice());
     }
 }

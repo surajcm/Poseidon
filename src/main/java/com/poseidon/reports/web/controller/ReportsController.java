@@ -9,6 +9,7 @@ import com.poseidon.reports.web.form.ReportsForm;
 import com.poseidon.transaction.domain.TransactionVO;
 import com.poseidon.util.CommonUtils;
 import net.sf.jasperreports.engine.JRAbstractExporter;
+import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JRExporter;
 import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JasperCompileManager;
@@ -37,6 +38,7 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.ByteArrayOutputStream;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
@@ -52,7 +54,7 @@ public class ReportsController {
     private static final Logger LOG = LoggerFactory.getLogger(ReportsController.class);
     private static final String FORM_DETAILS = " form details are {}";
     private static final String REPORTS = "/resources/reports";
-    private static final String COMPILE_REPORT = " going to compile report";
+    private static final String COMPILE_REPORT = "Going to compile report";
     private static final String JRXML = ".jrxml";
     private static final String FILENAME = "attachment;filename=";
     @Autowired
@@ -95,8 +97,8 @@ public class ReportsController {
         reportsForm.setSearchReports(new ReportsVO());
         reportsForm.setLoggedInRole(reportsForm.getLoggedInRole());
         reportsForm.setLoggedInUser(reportsForm.getLoggedInUser());
-        reportsForm.setExportList(populateExportToList());
-        reportsForm.setStatusList(populateStatus());
+        reportsForm.setExportList(ExportList.asList());
+        reportsForm.setStatusList(InvoiceStatus.asList());
         reportsForm.setCurrentReport(new ReportsVO());
         reportsForm.setModelReportMakeAndModelVO(getSearchMakeAndModelVO());
         reportsForm.setTxnReportTransactionVO(getSearchTransaction());
@@ -118,8 +120,6 @@ public class ReportsController {
                                              final ReportsForm reportsForm) {
         LOG.info("GetMakeDetailsReport method of ReportsController ");
         LOG.info(FORM_DETAILS, CommonUtils.sanitizedString(reportsForm.toString()));
-        JasperReport jasperReport;
-        JasperPrint jasperPrint;
         try {
             if (reportsForm.getCurrentReport() == null) {
                 reportsForm.setCurrentReport(new ReportsVO());
@@ -128,10 +128,8 @@ public class ReportsController {
                 reportsForm.getCurrentReport().setLocale(Locale.US);
                 var reportFileName = "makeListReport";
                 reportsForm.getCurrentReport().setRptfilename(reportFileName);
-                var path = getReportPath();
-                LOG.info(COMPILE_REPORT);
-                jasperReport = JasperCompileManager.compileReport(path + '/' + reportFileName + JRXML);
-                jasperPrint = reportsService.getMakeDetailsChart(jasperReport,
+                var jasperReport = createJasperReport(reportFileName);
+                var jasperPrint = reportsService.getMakeDetailsChart(jasperReport,
                         reportsForm.getCurrentReport());
                 LOG.info(jasperPrint.toString());
                 var reportType = reportsForm.getCurrentReport().getExportTo();
@@ -141,15 +139,6 @@ public class ReportsController {
             LOG.error(ex.getLocalizedMessage());
         }
         return null;
-    }
-
-    private String getReportPath() {
-        var path = "";
-        ServletRequestAttributes attr = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes());
-        if (attr != null) {
-            path = attr.getRequest().getSession().getServletContext().getRealPath(REPORTS);
-        }
-        return path;
     }
 
     /**
@@ -166,23 +155,17 @@ public class ReportsController {
                                       final ReportsForm reportsForm) {
         LOG.info("GetCallReport method of ReportsController ");
         LOG.info(FORM_DETAILS, CommonUtils.sanitizedString(reportsForm.toString()));
-        JasperReport jasperReport;
-        JasperPrint jasperPrint;
-        String reportType;
-        String reportFileName;
         try {
             if (reportsForm.getCurrentReport() == null) {
                 reportsForm.setCurrentReport(new ReportsVO());
             }
             reportsForm.getCurrentReport().setLocale(Locale.US);
-            reportFileName = "callReport";
-            reportType = reportsForm.getCurrentReport().getExportTo();
+            var reportFileName = "callReport";
             reportsForm.getCurrentReport().setRptfilename(reportFileName);
-            var path = getReportPath();
-            LOG.info(" going to compile report, at getCallReport");
-            jasperReport = JasperCompileManager.compileReport(path + '/' + reportFileName + JRXML);
-            jasperPrint = reportsService.getCallReport(jasperReport, reportsForm.getCurrentReport());
+            var jasperReport = createJasperReport(reportFileName);
+            var jasperPrint = reportsService.getCallReport(jasperReport, reportsForm.getCurrentReport());
             LOG.info(jasperPrint.toString());
+            var reportType = reportsForm.getCurrentReport().getExportTo();
             generateJasperReport(httpServletResponse, jasperPrint, reportFileName, reportType);
         } catch (Exception ex) {
             LOG.error(ex.getLocalizedMessage());
@@ -205,23 +188,16 @@ public class ReportsController {
                                                   final ReportsForm reportsForm) {
         LOG.info("GetTransactionsListReport method of ReportsController ");
         LOG.info(FORM_DETAILS, CommonUtils.sanitizedString(reportsForm.toString()));
-        JasperReport jasperReport;
-        JasperPrint jasperPrint;
-        String reportType;
-        String reportFileName;
         try {
             if (reportsForm.getCurrentReport() == null) {
                 reportsForm.setCurrentReport(new ReportsVO());
             }
             reportsForm.getCurrentReport().setLocale(Locale.US);
-            reportFileName = "transactionsListReport";
-            reportType = reportsForm.getCurrentReport().getExportTo();
+            var reportFileName = "transactionsListReport";
+            var reportType = reportsForm.getCurrentReport().getExportTo();
             reportsForm.getCurrentReport().setRptfilename(reportFileName);
-            var path = getReportPath();
-            LOG.info(COMPILE_REPORT);
-            jasperReport = JasperCompileManager.compileReport(path + '/' + reportFileName + JRXML);
-
-            jasperPrint = reportsService.getTransactionsListReport(jasperReport,
+            var jasperReport = createJasperReport(reportFileName);
+            var jasperPrint = reportsService.getTransactionsListReport(jasperReport,
                     reportsForm.getCurrentReport(),
                     reportsForm.getTxnReportTransactionVO());
             LOG.info(jasperPrint.toString());
@@ -246,20 +222,15 @@ public class ReportsController {
                                            final ReportsForm reportsForm) {
         LOG.info("GetModelListReport method of ReportsController ");
         LOG.info(FORM_DETAILS, CommonUtils.sanitizedString(reportsForm.toString()));
-        JasperReport jasperReport;
-        JasperPrint jasperPrint;
         try {
             if (reportsForm.getCurrentReport() == null) {
                 reportsForm.setCurrentReport(new ReportsVO());
             }
             reportsForm.getCurrentReport().setLocale(Locale.US);
-
             var reportFileName = "modelListReport";
             reportsForm.getCurrentReport().setRptfilename(reportFileName);
-            var path = getReportPath();
-            LOG.info(COMPILE_REPORT);
-            jasperReport = JasperCompileManager.compileReport(path + '/' + reportFileName + JRXML);
-            jasperPrint = reportsService.getModelListReport(jasperReport,
+            var jasperReport = createJasperReport(reportFileName);
+            var jasperPrint = reportsService.getModelListReport(jasperReport,
                     reportsForm.getCurrentReport(),
                     reportsForm.getModelReportMakeAndModelVO());
             LOG.info(jasperPrint.toString());
@@ -285,20 +256,15 @@ public class ReportsController {
                                        final ReportsForm reportsForm) {
         LOG.info("GetErrorReport method of ReportsController ");
         LOG.info(FORM_DETAILS, CommonUtils.sanitizedString(reportsForm.toString()));
-        JasperReport jasperReport;
-        JasperPrint jasperPrint;
         try {
             if (reportsForm.getCurrentReport() == null) {
                 reportsForm.setCurrentReport(new ReportsVO());
             }
             reportsForm.getCurrentReport().setLocale(Locale.US);
-
             var reportFileName = "errorReport";
             reportsForm.getCurrentReport().setRptfilename(reportFileName);
-            var path = getReportPath();
-            LOG.info(COMPILE_REPORT);
-            jasperReport = JasperCompileManager.compileReport(path + '/' + reportFileName + JRXML);
-            jasperPrint = reportsService.getErrorReport(jasperReport, reportsForm.getCurrentReport());
+            var jasperReport = createJasperReport(reportFileName);
+            var jasperPrint = reportsService.getErrorReport(jasperReport, reportsForm.getCurrentReport());
             LOG.info(jasperPrint.toString());
             var reportType = reportsForm.getCurrentReport().getExportTo();
             generateJasperReport(httpServletResponse, jasperPrint, reportFileName, reportType);
@@ -322,8 +288,6 @@ public class ReportsController {
                                          final ReportsForm reportsForm) {
         LOG.info("GetInvoiceReport method of ReportsController ");
         LOG.info(FORM_DETAILS, CommonUtils.sanitizedString(reportsForm.toString()));
-        JasperPrint jasperPrint;
-        JasperReport jasperReport;
         try {
             if (reportsForm.getCurrentReport() == null) {
                 reportsForm.setCurrentReport(new ReportsVO());
@@ -331,10 +295,8 @@ public class ReportsController {
             reportsForm.getCurrentReport().setLocale(Locale.US);
             var reportFileName = "serviceBillReport";
             reportsForm.getCurrentReport().setRptfilename(reportFileName);
-            var path = getReportPath();
-            LOG.info(COMPILE_REPORT);
-            jasperReport = JasperCompileManager.compileReport(path + '/' + reportFileName + JRXML);
-            jasperPrint = reportsService.getInvoiceReport(jasperReport, reportsForm.getCurrentReport());
+            var jasperReport = createJasperReport(reportFileName);
+            var jasperPrint = reportsService.getInvoiceReport(jasperReport, reportsForm.getCurrentReport());
             LOG.info(jasperPrint.toString());
             var reportType = reportsForm.getCurrentReport().getExportTo();
             generateJasperReport(httpServletResponse, jasperPrint, reportFileName, reportType);
@@ -342,6 +304,21 @@ public class ReportsController {
             LOG.error(ex.getLocalizedMessage());
         }
         return getErrorReport(httpServletRequest, httpServletResponse, reportsForm);
+    }
+
+    private JasperReport createJasperReport(final String reportFileName) throws JRException {
+        var path = getReportPath();
+        LOG.info(COMPILE_REPORT);
+        return JasperCompileManager.compileReport(path + '/' + reportFileName + JRXML);
+    }
+
+    private String getReportPath() {
+        var path = "";
+        ServletRequestAttributes attr = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes());
+        if (attr != null) {
+            path = attr.getRequest().getSession().getServletContext().getRealPath(REPORTS);
+        }
+        return path;
     }
 
     /**
@@ -470,11 +447,25 @@ public class ReportsController {
         return searchVO;
     }
 
-    private List<String> populateStatus() {
-        return List.of("NEW", "ACCEPTED", "VERIFIED", "CLOSED", "REJECTED");
+    private enum InvoiceStatus {
+        NEW,
+        ACCEPTED,
+        VERIFIED,
+        CLOSED,
+        REJECTED;
+
+        public static List<String> asList() {
+            return Arrays.stream(InvoiceStatus.values()).map(Enum::name).toList();
+        }
     }
 
-    private List<String> populateExportToList() {
-        return List.of("EXCEL", "WORD", "PDF");
+    private enum ExportList {
+        EXCEL,
+        WORD,
+        PDF;
+
+        public static List<String> asList() {
+            return Arrays.stream(ExportList.values()).map(Enum::name).toList();
+        }
     }
 }

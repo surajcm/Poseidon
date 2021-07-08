@@ -146,7 +146,7 @@ class ReportsServiceImplTest {
     void getInvoiceReportInvoiceFailure() throws JRException, TransactionException, InvoiceException {
         when(transactionService.fetchTransactionFromTag(any()))
                 .thenReturn(Mockito.mock(TransactionReportVO.class));
-        when(invoiceService.findInvoices(any())).thenThrow(new InvoiceException(InvoiceException.DATABASE_ERROR));
+        when(invoiceService.findInvoices(any())).thenThrow(new InvoiceException(new RuntimeException()));
         when(reportsDAO.getInvoiceReport(any(), any())).thenThrow(new JRException("ERROR"));
         Assertions.assertNotNull(reportsService.getInvoiceReport(Mockito.mock(JasperReport.class),
                 new ReportsVO()));

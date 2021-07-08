@@ -74,7 +74,7 @@ class InvoiceServiceImplTest {
     void fetchInvoiceForListOfTransactionsOnInvoiceFailure() throws TransactionException, InvoiceException {
         when(transactionService.listTodaysTransactions()).thenReturn(mockListOfTransactionVOs());
         when(invoiceDAO.fetchInvoiceForListOfTransactions(ArgumentMatchers.any()))
-                .thenThrow(new InvoiceException(InvoiceException.DATABASE_ERROR));
+                .thenThrow(new InvoiceException(new RuntimeException()));
         Assertions.assertThrows(InvoiceException.class, invoiceService::fetchInvoiceForListOfTransactions);
     }
 
@@ -87,7 +87,7 @@ class InvoiceServiceImplTest {
     @Test
     void fetchInvoiceVOFromIdFailure() throws InvoiceException {
         when(invoiceDAO.fetchInvoiceVOFromId(anyLong()))
-                .thenThrow(new InvoiceException(InvoiceException.DATABASE_ERROR));
+                .thenThrow(new InvoiceException(new RuntimeException()));
         Assertions.assertThrows(InvoiceException.class, () -> invoiceService.fetchInvoiceVOFromId(1234L));
     }
 
@@ -100,7 +100,7 @@ class InvoiceServiceImplTest {
     @Test
     void fetchInvoiceVOFromTagNoFailure() throws InvoiceException {
         when(invoiceDAO.fetchInvoiceVOFromTagNo(anyString()))
-                .thenThrow(new InvoiceException(InvoiceException.DATABASE_ERROR));
+                .thenThrow(new InvoiceException(new RuntimeException()));
         Assertions.assertThrows(InvoiceException.class, () -> invoiceService.fetchInvoiceVOFromTagNo("ABC"));
     }
 
@@ -111,7 +111,7 @@ class InvoiceServiceImplTest {
 
     @Test
     void deleteInvoiceFailure() throws InvoiceException {
-        doThrow(new InvoiceException(InvoiceException.DATABASE_ERROR)).when(invoiceDAO).deleteInvoice(anyLong());
+        doThrow(new InvoiceException(new RuntimeException())).when(invoiceDAO).deleteInvoice(anyLong());
         Assertions.assertThrows(InvoiceException.class, () -> invoiceService.deleteInvoice(1234L));
     }
 
@@ -141,7 +141,7 @@ class InvoiceServiceImplTest {
 
     @Test
     void findInvoicesFailure() throws InvoiceException {
-        when(invoiceDAO.findInvoices(any())).thenThrow(new InvoiceException(InvoiceException.DATABASE_ERROR));
+        when(invoiceDAO.findInvoices(any())).thenThrow(new InvoiceException(new RuntimeException()));
         Assertions.assertThrows(InvoiceException.class,
                 () -> invoiceService.findInvoices(Mockito.mock(InvoiceVO.class)));
     }

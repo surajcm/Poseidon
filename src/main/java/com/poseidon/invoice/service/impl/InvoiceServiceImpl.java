@@ -42,7 +42,7 @@ public class InvoiceServiceImpl implements InvoiceService {
             invoiceDAO.addInvoice(currentInvoiceVO);
         } catch (TransactionException | InvoiceException ex) {
             LOG.error("Error occurred ", ex);
-            throw new InvoiceException(ex.getMessage());
+            throw new InvoiceException(ex);
         }
     }
 
@@ -62,7 +62,7 @@ public class InvoiceServiceImpl implements InvoiceService {
                 invoiceVOs = invoiceDAO.fetchInvoiceForListOfTransactions(tagNumbers);
             } catch (InvoiceException ex) {
                 LOG.error(ex.getLocalizedMessage(), ex);
-                throw new InvoiceException(ex.getMessage());
+                throw new InvoiceException(ex);
             }
         }
         return invoiceVOs;
@@ -97,7 +97,7 @@ public class InvoiceServiceImpl implements InvoiceService {
             invoiceVO = invoiceDAO.fetchInvoiceVOFromId(id);
         } catch (InvoiceException ex) {
             LOG.error(ex.getLocalizedMessage(), ex);
-            throw new InvoiceException(ex.getMessage());
+            throw new InvoiceException(ex);
         }
         return invoiceVO;
     }
@@ -116,7 +116,7 @@ public class InvoiceServiceImpl implements InvoiceService {
             invoiceVO = invoiceDAO.fetchInvoiceVOFromTagNo(tagNo);
         } catch (InvoiceException ex) {
             LOG.error(ex.getLocalizedMessage(), ex);
-            throw new InvoiceException(ex.getMessage());
+            throw new InvoiceException(ex);
         }
         return invoiceVO;
     }
@@ -133,7 +133,7 @@ public class InvoiceServiceImpl implements InvoiceService {
             invoiceDAO.deleteInvoice(id);
         } catch (InvoiceException ex) {
             LOG.error(ex.getLocalizedMessage(), ex);
-            throw new InvoiceException(ex.getMessage());
+            throw new InvoiceException(ex);
         }
     }
 
@@ -154,7 +154,7 @@ public class InvoiceServiceImpl implements InvoiceService {
             invoiceDAO.updateInvoice(currentInvoiceVO);
         } catch (TransactionException | InvoiceException ex) {
             LOG.error(ex.getLocalizedMessage(), ex);
-            throw new InvoiceException(ex.getMessage());
+            throw new InvoiceException(ex);
         }
     }
 
@@ -172,7 +172,7 @@ public class InvoiceServiceImpl implements InvoiceService {
             invoiceVOs = invoiceDAO.findInvoices(searchInvoiceVo);
         } catch (InvoiceException ex) {
             LOG.error(ex.getLocalizedMessage(), ex);
-            throw new InvoiceException(ex.getMessage());
+            throw new InvoiceException(ex);
         }
         return invoiceVOs;
     }
