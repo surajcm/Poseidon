@@ -21,6 +21,7 @@ import net.sf.jasperreports.engine.export.JRXlsExporter;
 import net.sf.jasperreports.engine.export.JRXlsExporterParameter;
 import net.sf.jasperreports.engine.export.ooxml.JRDocxExporter;
 import net.sf.jasperreports.engine.export.ooxml.JRDocxExporterParameter;
+import net.sf.jasperreports.export.SimpleHtmlReportConfiguration;
 import net.sf.jasperreports.export.SimpleXlsxReportConfiguration;
 import net.sf.jasperreports.export.XlsReportConfiguration;
 import org.slf4j.Logger;
@@ -38,6 +39,7 @@ import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.ByteArrayOutputStream;
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
@@ -333,104 +335,131 @@ public class ReportsController {
                                       final JasperPrint jasperPrint,
                                       final String reportFileName,
                                       final String reportType) {
-        JRAbstractExporter jrExporter;
-        byte[] output;
-        ServletOutputStream outputStream;
         try {
             LOG.info("In generateJasperReport method");
-            var baos = new ByteArrayOutputStream();
             httpServletResponse.setHeader("X-Frame-Options", "SAMEORIGIN");
-            if ("EXCEL".equalsIgnoreCase(reportType)) {
-                LOG.info("ExcelReport -- > reportFileName ---> " + reportFileName + reportType);
-                httpServletResponse.setContentType("application/vnd.ms-excel");
-                httpServletResponse.setHeader("Content-Disposition", FILENAME + reportFileName + ";");
-                jrExporter = new JRXlsExporter();
-                XlsReportConfiguration config = new SimpleXlsxReportConfiguration();
-                //config.isDetectCellType()
-                //jrExporter.setConfiguration();
-                jrExporter.setParameter(JRXlsExporterParameter.IS_DETECT_CELL_TYPE, true);
-                jrExporter.setParameter(JRXlsExporterParameter.OUTPUT_STREAM, baos);
-                jrExporter.setParameter(JRXlsExporterParameter.JASPER_PRINT, jasperPrint);
-                jrExporter.setParameter(JRXlsExporterParameter.IS_REMOVE_EMPTY_SPACE_BETWEEN_ROWS,
-                        Boolean.TRUE);
-                jrExporter.setParameter(JRXlsExporterParameter.IS_IGNORE_CELL_BORDER,
-                        Boolean.TRUE);
-                jrExporter.setParameter(JRXlsExporterParameter.IS_ONE_PAGE_PER_SHEET,
-                        Boolean.FALSE);
-                jrExporter.setParameter(JRXlsExporterParameter.IS_REMOVE_EMPTY_SPACE_BETWEEN_COLUMNS, Boolean.TRUE);
-                jrExporter.setParameter(JRXlsExporterParameter.IS_WHITE_PAGE_BACKGROUND,
-                        Boolean.TRUE);
-                jrExporter.setParameter(JRXlsExporterParameter.OFFSET_X, 1);
-                jrExporter.setParameter(JRXlsExporterParameter.OFFSET_Y, 1);
-                jrExporter.exportReport();
-                output = baos.toByteArray();
-                httpServletResponse.setContentLength(output.length);
-                outputStream = httpServletResponse.getOutputStream();
-                outputStream.write(output, 0, output.length);
-                outputStream.flush();
-                outputStream.close();
-            } else if ("PDF".equalsIgnoreCase(reportType)) {
-                LOG.info("PDF -- > reportFileName ---> " + reportFileName + reportType);
-                var mimetype = httpServletResponse.getContentType();
-                httpServletResponse.setContentType((mimetype != null) ? mimetype : "application/pdf");
-                httpServletResponse.setHeader("Content-Disposition",
-                        FILENAME + reportFileName + ";");
-                JRExporter jrPdfExporter = new net.sf.jasperreports.engine.export.JRPdfExporter();
-                jrPdfExporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
-                jrPdfExporter.setParameter(JRXlsExporterParameter.IS_REMOVE_EMPTY_SPACE_BETWEEN_ROWS, Boolean.TRUE);
-                jrPdfExporter.setParameter(JRXlsExporterParameter.IS_ONE_PAGE_PER_SHEET, Boolean.FALSE);
-                jrPdfExporter.setParameter(JRXlsExporterParameter.IS_REMOVE_EMPTY_SPACE_BETWEEN_COLUMNS, Boolean.TRUE);
-                jrPdfExporter.setParameter(JRExporterParameter.OUTPUT_STREAM, baos);
-                jrPdfExporter.exportReport();
-                output = baos.toByteArray();
-                httpServletResponse.setContentLength(output.length);
-                outputStream = httpServletResponse.getOutputStream();
-                outputStream.write(output, 0, output.length);
-                outputStream.flush();
-                outputStream.close();
-            } else if ("WORD".equalsIgnoreCase(reportType)) {
-                LOG.info("WORD -- > reportFileName ---> " + reportFileName + reportType);
-                var docxReport = new ByteArrayOutputStream();
-                var exporter = new JRDocxExporter();
-                exporter.setParameter(JRDocxExporterParameter.JASPER_PRINT, jasperPrint);
-                exporter.setParameter(JRDocxExporterParameter.OUTPUT_STREAM, docxReport);
-                exporter.setParameter(JRDocxExporterParameter.FLEXIBLE_ROW_HEIGHT, Boolean.TRUE);
-                exporter.setParameter(JRDocxExporterParameter.CHARACTER_ENCODING, "UTF-8");
-                exporter.exportReport();
-                // Send response
-                byte[] bytes = docxReport.toByteArray();
-                httpServletResponse.addHeader("Content-disposition",
-                        FILENAME + reportFileName + ".doc;");
-                httpServletResponse.setContentType("application/vnd.ms-word");
-                httpServletResponse.setContentLength(bytes.length);
-                httpServletResponse.getOutputStream().write(bytes, 0, bytes.length);
-                httpServletResponse.getOutputStream().flush();
-                httpServletResponse.getOutputStream().close();
+            if (ExportList.EXCEL.name().equalsIgnoreCase(reportType)) {
+                generateExcelReport(httpServletResponse, jasperPrint, reportFileName, reportType);
+            } else if (ExportList.PDF.name().equalsIgnoreCase(reportType)) {
+                generatePDFReport(httpServletResponse, jasperPrint, reportFileName, reportType);
+            } else if (ExportList.WORD.name().equalsIgnoreCase(reportType)) {
+                generateWordReport(httpServletResponse, jasperPrint, reportFileName, reportType);
             } else {
-                httpServletResponse.setContentType("text/html");
-                jrExporter = new HtmlExporter();
-                jrExporter.setParameter(JRHtmlExporterParameter.JASPER_PRINT, jasperPrint);
-                jrExporter.setParameter(JRHtmlExporterParameter.OUTPUT_STREAM, baos);
-                jrExporter.setParameter(JRHtmlExporterParameter.IS_REMOVE_EMPTY_SPACE_BETWEEN_ROWS,
-                        Boolean.TRUE);
-                jrExporter.setParameter(JRXlsExporterParameter.IS_REMOVE_EMPTY_SPACE_BETWEEN_COLUMNS, Boolean.TRUE);
-                jrExporter.setParameter(JRXlsExporterParameter.IS_ONE_PAGE_PER_SHEET,
-                        Boolean.FALSE);
-                /*jrExporter.setParameter(JRHtmlExporterParameter.IS_USING_IMAGES_TO_ALIGN,
-                        Boolean.FALSE);*/
-                jrExporter.setParameter(JRHtmlExporterParameter.IS_WHITE_PAGE_BACKGROUND,
-                        Boolean.TRUE);
-                jrExporter.exportReport();
-                output = baos.toByteArray();
-                httpServletResponse.setContentLength(output.length);
-                outputStream = httpServletResponse.getOutputStream();
-                outputStream.write(output, 0, output.length);
-                outputStream.flush();
-                outputStream.close();
+                generateHTMLReport(httpServletResponse, jasperPrint);
             }
         } catch (Exception ex) {
             LOG.error(ex.getLocalizedMessage());
         }
+    }
+
+    private void generateHTMLReport(final HttpServletResponse httpServletResponse,
+                                    final JasperPrint jasperPrint) throws JRException, IOException {
+        httpServletResponse.setContentType("text/html");
+        SimpleHtmlReportConfiguration configuration = new SimpleHtmlReportConfiguration();
+        //configuration.se
+        JRAbstractExporter jrExporter = new HtmlExporter();
+        jrExporter.setParameter(JRHtmlExporterParameter.JASPER_PRINT, jasperPrint);
+        var baos = new ByteArrayOutputStream();
+        jrExporter.setParameter(JRHtmlExporterParameter.OUTPUT_STREAM, baos);
+        jrExporter.setParameter(JRHtmlExporterParameter.IS_REMOVE_EMPTY_SPACE_BETWEEN_ROWS,
+                Boolean.TRUE);
+        jrExporter.setParameter(JRXlsExporterParameter.IS_REMOVE_EMPTY_SPACE_BETWEEN_COLUMNS, Boolean.TRUE);
+        jrExporter.setParameter(JRXlsExporterParameter.IS_ONE_PAGE_PER_SHEET,
+                Boolean.FALSE);
+        /*jrExporter.setParameter(JRHtmlExporterParameter.IS_USING_IMAGES_TO_ALIGN,
+                        Boolean.FALSE);*/
+        jrExporter.setParameter(JRHtmlExporterParameter.IS_WHITE_PAGE_BACKGROUND,
+                Boolean.TRUE);
+        jrExporter.exportReport();
+        byte[] output = baos.toByteArray();
+        httpServletResponse.setContentLength(output.length);
+        ServletOutputStream outputStream = httpServletResponse.getOutputStream();
+        outputStream.write(output, 0, output.length);
+        outputStream.flush();
+        outputStream.close();
+    }
+
+    private void generateWordReport(final HttpServletResponse httpServletResponse,
+                                    final JasperPrint jasperPrint,
+                                    final String reportFileName,
+                                    final String reportType) throws JRException, IOException {
+        LOG.info("WORD -- > reportFileName ---> " + reportFileName + reportType);
+        var docxReport = new ByteArrayOutputStream();
+        var exporter = new JRDocxExporter();
+        exporter.setParameter(JRDocxExporterParameter.JASPER_PRINT, jasperPrint);
+        exporter.setParameter(JRDocxExporterParameter.OUTPUT_STREAM, docxReport);
+        exporter.setParameter(JRDocxExporterParameter.FLEXIBLE_ROW_HEIGHT, Boolean.TRUE);
+        exporter.setParameter(JRDocxExporterParameter.CHARACTER_ENCODING, "UTF-8");
+        exporter.exportReport();
+        // Send response
+        byte[] bytes = docxReport.toByteArray();
+        httpServletResponse.addHeader("Content-disposition",
+                FILENAME + reportFileName + ".doc;");
+        httpServletResponse.setContentType("application/vnd.ms-word");
+        httpServletResponse.setContentLength(bytes.length);
+        httpServletResponse.getOutputStream().write(bytes, 0, bytes.length);
+        httpServletResponse.getOutputStream().flush();
+        httpServletResponse.getOutputStream().close();
+    }
+
+    private void generatePDFReport(final HttpServletResponse httpServletResponse,
+                                   final JasperPrint jasperPrint,
+                                   final String reportFileName,
+                                   final String reportType) throws JRException, IOException {
+        LOG.info("PDF -- > reportFileName ---> " + reportFileName + reportType);
+        var mimetype = httpServletResponse.getContentType();
+        httpServletResponse.setContentType((mimetype != null) ? mimetype : "application/pdf");
+        httpServletResponse.setHeader("Content-Disposition",
+                FILENAME + reportFileName + ";");
+        JRExporter jrPdfExporter = new net.sf.jasperreports.engine.export.JRPdfExporter();
+        jrPdfExporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
+        jrPdfExporter.setParameter(JRXlsExporterParameter.IS_REMOVE_EMPTY_SPACE_BETWEEN_ROWS, Boolean.TRUE);
+        jrPdfExporter.setParameter(JRXlsExporterParameter.IS_ONE_PAGE_PER_SHEET, Boolean.FALSE);
+        jrPdfExporter.setParameter(JRXlsExporterParameter.IS_REMOVE_EMPTY_SPACE_BETWEEN_COLUMNS, Boolean.TRUE);
+        var baos = new ByteArrayOutputStream();
+        jrPdfExporter.setParameter(JRExporterParameter.OUTPUT_STREAM, baos);
+        jrPdfExporter.exportReport();
+        byte[] output = baos.toByteArray();
+        httpServletResponse.setContentLength(output.length);
+        ServletOutputStream outputStream = httpServletResponse.getOutputStream();
+        outputStream.write(output, 0, output.length);
+        outputStream.flush();
+        outputStream.close();
+    }
+
+    private void generateExcelReport(final HttpServletResponse httpServletResponse,
+                                     final JasperPrint jasperPrint,
+                                     final String reportFileName,
+                                     final String reportType) throws JRException, IOException {
+        LOG.info("ExcelReport -- > reportFileName ---> " + reportFileName + reportType);
+        httpServletResponse.setContentType("application/vnd.ms-excel");
+        httpServletResponse.setHeader("Content-Disposition", FILENAME + reportFileName + ";");
+        JRAbstractExporter jrExporter = new JRXlsExporter();
+        XlsReportConfiguration config = new SimpleXlsxReportConfiguration();
+        //config.isDetectCellType()
+        //jrExporter.setConfiguration();
+        jrExporter.setParameter(JRXlsExporterParameter.IS_DETECT_CELL_TYPE, true);
+        var baos = new ByteArrayOutputStream();
+        jrExporter.setParameter(JRXlsExporterParameter.OUTPUT_STREAM, baos);
+        jrExporter.setParameter(JRXlsExporterParameter.JASPER_PRINT, jasperPrint);
+        jrExporter.setParameter(JRXlsExporterParameter.IS_REMOVE_EMPTY_SPACE_BETWEEN_ROWS,
+                Boolean.TRUE);
+        jrExporter.setParameter(JRXlsExporterParameter.IS_IGNORE_CELL_BORDER,
+                Boolean.TRUE);
+        jrExporter.setParameter(JRXlsExporterParameter.IS_ONE_PAGE_PER_SHEET,
+                Boolean.FALSE);
+        jrExporter.setParameter(JRXlsExporterParameter.IS_REMOVE_EMPTY_SPACE_BETWEEN_COLUMNS, Boolean.TRUE);
+        jrExporter.setParameter(JRXlsExporterParameter.IS_WHITE_PAGE_BACKGROUND,
+                Boolean.TRUE);
+        jrExporter.setParameter(JRXlsExporterParameter.OFFSET_X, 1);
+        jrExporter.setParameter(JRXlsExporterParameter.OFFSET_Y, 1);
+        jrExporter.exportReport();
+        byte[] output = baos.toByteArray();
+        httpServletResponse.setContentLength(output.length);
+        ServletOutputStream outputStream = httpServletResponse.getOutputStream();
+        outputStream.write(output, 0, output.length);
+        outputStream.flush();
+        outputStream.close();
     }
 
     private TransactionVO getSearchTransaction() {
