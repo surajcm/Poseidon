@@ -3,27 +3,22 @@ package com.poseidon.reports.web.controller;
 import com.poseidon.make.domain.MakeAndModelVO;
 import com.poseidon.make.domain.MakeVO;
 import com.poseidon.make.service.MakeService;
+import com.poseidon.reports.domain.ExportList;
+import com.poseidon.reports.domain.InvoiceStatus;
 import com.poseidon.reports.domain.ReportsVO;
 import com.poseidon.reports.service.ReportsService;
+import com.poseidon.reports.util.ReportingConfigurations;
 import com.poseidon.reports.web.form.ReportsForm;
 import com.poseidon.transaction.domain.TransactionVO;
 import com.poseidon.util.CommonUtils;
-import net.sf.jasperreports.engine.JRAbstractExporter;
 import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JRExporter;
-import net.sf.jasperreports.engine.JRExporterParameter;
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.export.HtmlExporter;
-import net.sf.jasperreports.engine.export.JRHtmlExporterParameter;
+import net.sf.jasperreports.engine.export.JRPdfExporter;
 import net.sf.jasperreports.engine.export.JRXlsExporter;
-import net.sf.jasperreports.engine.export.JRXlsExporterParameter;
 import net.sf.jasperreports.engine.export.ooxml.JRDocxExporter;
-import net.sf.jasperreports.engine.export.ooxml.JRDocxExporterParameter;
-import net.sf.jasperreports.export.SimpleHtmlReportConfiguration;
-import net.sf.jasperreports.export.SimpleXlsxReportConfiguration;
-import net.sf.jasperreports.export.XlsReportConfiguration;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,7 +35,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Locale;
 
@@ -59,6 +53,9 @@ public class ReportsController {
     private static final String COMPILE_REPORT = "Going to compile report";
     private static final String JRXML = ".jrxml";
     private static final String FILENAME = "attachment;filename=";
+    private static final String X_FRAME_OPTIONS = "X-Frame-Options";
+    private static final String SAMEORIGIN = "SAMEORIGIN";
+    private static final String TEXT_HTML = "text/html";
     @Autowired
     private ReportsService reportsService;
 
@@ -86,12 +83,7 @@ public class ReportsController {
             reportsForm.setReportsVOs(reportsVOs);
         }
         //get all the make list for displaying in search
-        List<MakeVO> makeVOs = null;
-        try {
-            makeVOs = makeService.fetchMakes();
-        } catch (Exception ex) {
-            LOG.error(ex.getLocalizedMessage());
-        }
+        List<MakeVO> makeVOs = fetchMakeVOS();
         if (makeVOs != null) {
             makeVOs.forEach(makeVO -> LOG.info("make vo is {}", makeVO));
             reportsForm.setMakeVOs(makeVOs);
@@ -106,6 +98,16 @@ public class ReportsController {
         reportsForm.setTxnReportTransactionVO(getSearchTransaction());
         reportsForm.setInvoiceListReportTransactionVO(getSearchTransaction());
         return new ModelAndView("reports/List", "reportsForm", reportsForm);
+    }
+
+    private List<MakeVO> fetchMakeVOS() {
+        List<MakeVO> makeVOs = null;
+        try {
+            makeVOs = makeService.fetchMakes();
+        } catch (Exception ex) {
+            LOG.error(ex.getLocalizedMessage());
+        }
+        return makeVOs;
     }
 
     /**
@@ -134,7 +136,7 @@ public class ReportsController {
                 var jasperPrint = reportsService.getMakeDetailsChart(jasperReport,
                         reportsForm.getCurrentReport());
                 LOG.info(jasperPrint.toString());
-                var reportType = reportsForm.getCurrentReport().getExportTo();
+                var reportType = ExportList.fromName(reportsForm.getCurrentReport().getExportTo());
                 generateJasperReport(httpServletResponse, jasperPrint, reportFileName, reportType);
             }
         } catch (Exception ex) {
@@ -167,7 +169,7 @@ public class ReportsController {
             var jasperReport = createJasperReport(reportFileName);
             var jasperPrint = reportsService.getCallReport(jasperReport, reportsForm.getCurrentReport());
             LOG.info(jasperPrint.toString());
-            var reportType = reportsForm.getCurrentReport().getExportTo();
+            var reportType = ExportList.fromName(reportsForm.getCurrentReport().getExportTo());
             generateJasperReport(httpServletResponse, jasperPrint, reportFileName, reportType);
         } catch (Exception ex) {
             LOG.error(ex.getLocalizedMessage());
@@ -196,13 +198,13 @@ public class ReportsController {
             }
             reportsForm.getCurrentReport().setLocale(Locale.US);
             var reportFileName = "transactionsListReport";
-            var reportType = reportsForm.getCurrentReport().getExportTo();
             reportsForm.getCurrentReport().setRptfilename(reportFileName);
             var jasperReport = createJasperReport(reportFileName);
             var jasperPrint = reportsService.getTransactionsListReport(jasperReport,
                     reportsForm.getCurrentReport(),
                     reportsForm.getTxnReportTransactionVO());
             LOG.info(jasperPrint.toString());
+            var reportType = ExportList.fromName(reportsForm.getCurrentReport().getExportTo());
             generateJasperReport(httpServletResponse, jasperPrint, reportFileName, reportType);
         } catch (Exception ex) {
             LOG.error(ex.getLocalizedMessage());
@@ -236,7 +238,7 @@ public class ReportsController {
                     reportsForm.getCurrentReport(),
                     reportsForm.getModelReportMakeAndModelVO());
             LOG.info(jasperPrint.toString());
-            var reportType = reportsForm.getCurrentReport().getExportTo();
+            var reportType = ExportList.fromName(reportsForm.getCurrentReport().getExportTo());
             generateJasperReport(httpServletResponse, jasperPrint, reportFileName, reportType);
         } catch (Exception ex) {
             LOG.error(ex.getLocalizedMessage());
@@ -268,7 +270,7 @@ public class ReportsController {
             var jasperReport = createJasperReport(reportFileName);
             var jasperPrint = reportsService.getErrorReport(jasperReport, reportsForm.getCurrentReport());
             LOG.info(jasperPrint.toString());
-            var reportType = reportsForm.getCurrentReport().getExportTo();
+            var reportType = ExportList.fromName(reportsForm.getCurrentReport().getExportTo());
             generateJasperReport(httpServletResponse, jasperPrint, reportFileName, reportType);
         } catch (Exception ex) {
             LOG.error(ex.getLocalizedMessage());
@@ -300,7 +302,7 @@ public class ReportsController {
             var jasperReport = createJasperReport(reportFileName);
             var jasperPrint = reportsService.getInvoiceReport(jasperReport, reportsForm.getCurrentReport());
             LOG.info(jasperPrint.toString());
-            var reportType = reportsForm.getCurrentReport().getExportTo();
+            var reportType = ExportList.fromName(reportsForm.getCurrentReport().getExportTo());
             generateJasperReport(httpServletResponse, jasperPrint, reportFileName, reportType);
         } catch (Exception ex) {
             LOG.error(ex.getLocalizedMessage());
@@ -316,7 +318,7 @@ public class ReportsController {
 
     private String getReportPath() {
         var path = "";
-        ServletRequestAttributes attr = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes());
+        var attr = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes());
         if (attr != null) {
             path = attr.getRequest().getSession().getServletContext().getRealPath(REPORTS);
         }
@@ -334,18 +336,24 @@ public class ReportsController {
     private void generateJasperReport(final HttpServletResponse httpServletResponse,
                                       final JasperPrint jasperPrint,
                                       final String reportFileName,
-                                      final String reportType) {
+                                      final ExportList reportType) {
         try {
             LOG.info("In generateJasperReport method");
-            httpServletResponse.setHeader("X-Frame-Options", "SAMEORIGIN");
-            if (ExportList.EXCEL.name().equalsIgnoreCase(reportType)) {
-                generateExcelReport(httpServletResponse, jasperPrint, reportFileName, reportType);
-            } else if (ExportList.PDF.name().equalsIgnoreCase(reportType)) {
-                generatePDFReport(httpServletResponse, jasperPrint, reportFileName, reportType);
-            } else if (ExportList.WORD.name().equalsIgnoreCase(reportType)) {
-                generateWordReport(httpServletResponse, jasperPrint, reportFileName, reportType);
-            } else {
-                generateHTMLReport(httpServletResponse, jasperPrint);
+            httpServletResponse.setHeader(X_FRAME_OPTIONS, SAMEORIGIN);
+            switch (reportType) {
+                case EXCEL -> {
+                    LOG.info("ExcelReport -- > reportFileName ---> " + reportFileName + reportType);
+                    generateExcelReport(httpServletResponse, jasperPrint, reportFileName);
+                }
+                case PDF -> {
+                    LOG.info("PDF -- > reportFileName ---> " + reportFileName + reportType);
+                    generatePDFReport(httpServletResponse, jasperPrint, reportFileName);
+                }
+                case WORD -> {
+                    LOG.info("WORD -- > reportFileName ---> " + reportFileName + reportType);
+                    generateWordReport(httpServletResponse, jasperPrint, reportFileName);
+                }
+                default -> generateHTMLReport(httpServletResponse, jasperPrint);
             }
         } catch (Exception ex) {
             LOG.error(ex.getLocalizedMessage());
@@ -354,23 +362,13 @@ public class ReportsController {
 
     private void generateHTMLReport(final HttpServletResponse httpServletResponse,
                                     final JasperPrint jasperPrint) throws JRException, IOException {
-        httpServletResponse.setContentType("text/html");
-        SimpleHtmlReportConfiguration configuration = new SimpleHtmlReportConfiguration();
-        //configuration.se
-        JRAbstractExporter jrExporter = new HtmlExporter();
-        jrExporter.setParameter(JRHtmlExporterParameter.JASPER_PRINT, jasperPrint);
+        httpServletResponse.setContentType(TEXT_HTML);
+        var htmlExporter = new HtmlExporter();
+        htmlExporter.setExporterInput(ReportingConfigurations.exporter(jasperPrint));
+        htmlExporter.setConfiguration(ReportingConfigurations.configurationForHTML());
         var baos = new ByteArrayOutputStream();
-        jrExporter.setParameter(JRHtmlExporterParameter.OUTPUT_STREAM, baos);
-        jrExporter.setParameter(JRHtmlExporterParameter.IS_REMOVE_EMPTY_SPACE_BETWEEN_ROWS,
-                Boolean.TRUE);
-        jrExporter.setParameter(JRXlsExporterParameter.IS_REMOVE_EMPTY_SPACE_BETWEEN_COLUMNS, Boolean.TRUE);
-        jrExporter.setParameter(JRXlsExporterParameter.IS_ONE_PAGE_PER_SHEET,
-                Boolean.FALSE);
-        /*jrExporter.setParameter(JRHtmlExporterParameter.IS_USING_IMAGES_TO_ALIGN,
-                        Boolean.FALSE);*/
-        jrExporter.setParameter(JRHtmlExporterParameter.IS_WHITE_PAGE_BACKGROUND,
-                Boolean.TRUE);
-        jrExporter.exportReport();
+        htmlExporter.setExporterOutput(ReportingConfigurations.exportHTML(baos));
+        htmlExporter.exportReport();
         byte[] output = baos.toByteArray();
         httpServletResponse.setContentLength(output.length);
         ServletOutputStream outputStream = httpServletResponse.getOutputStream();
@@ -381,44 +379,36 @@ public class ReportsController {
 
     private void generateWordReport(final HttpServletResponse httpServletResponse,
                                     final JasperPrint jasperPrint,
-                                    final String reportFileName,
-                                    final String reportType) throws JRException, IOException {
-        LOG.info("WORD -- > reportFileName ---> " + reportFileName + reportType);
-        var docxReport = new ByteArrayOutputStream();
-        var exporter = new JRDocxExporter();
-        exporter.setParameter(JRDocxExporterParameter.JASPER_PRINT, jasperPrint);
-        exporter.setParameter(JRDocxExporterParameter.OUTPUT_STREAM, docxReport);
-        exporter.setParameter(JRDocxExporterParameter.FLEXIBLE_ROW_HEIGHT, Boolean.TRUE);
-        exporter.setParameter(JRDocxExporterParameter.CHARACTER_ENCODING, "UTF-8");
-        exporter.exportReport();
-        // Send response
-        byte[] bytes = docxReport.toByteArray();
+                                    final String reportFileName) throws JRException, IOException {
         httpServletResponse.addHeader("Content-disposition",
                 FILENAME + reportFileName + ".doc;");
         httpServletResponse.setContentType("application/vnd.ms-word");
-        httpServletResponse.setContentLength(bytes.length);
-        httpServletResponse.getOutputStream().write(bytes, 0, bytes.length);
+        var exporter = new JRDocxExporter();
+        exporter.setExporterInput(ReportingConfigurations.exporter(jasperPrint));
+        exporter.setConfiguration(ReportingConfigurations.docxReportConfiguration());
+        var baos = new ByteArrayOutputStream();
+        exporter.setExporterOutput(ReportingConfigurations.exporterOutput(baos));
+        exporter.exportReport();
+        byte[] output = baos.toByteArray();
+        httpServletResponse.setContentLength(output.length);
+        httpServletResponse.getOutputStream().write(output, 0, output.length);
         httpServletResponse.getOutputStream().flush();
         httpServletResponse.getOutputStream().close();
     }
 
     private void generatePDFReport(final HttpServletResponse httpServletResponse,
                                    final JasperPrint jasperPrint,
-                                   final String reportFileName,
-                                   final String reportType) throws JRException, IOException {
-        LOG.info("PDF -- > reportFileName ---> " + reportFileName + reportType);
+                                   final String reportFileName) throws JRException, IOException {
         var mimetype = httpServletResponse.getContentType();
         httpServletResponse.setContentType((mimetype != null) ? mimetype : "application/pdf");
         httpServletResponse.setHeader("Content-Disposition",
                 FILENAME + reportFileName + ";");
-        JRExporter jrPdfExporter = new net.sf.jasperreports.engine.export.JRPdfExporter();
-        jrPdfExporter.setParameter(JRExporterParameter.JASPER_PRINT, jasperPrint);
-        jrPdfExporter.setParameter(JRXlsExporterParameter.IS_REMOVE_EMPTY_SPACE_BETWEEN_ROWS, Boolean.TRUE);
-        jrPdfExporter.setParameter(JRXlsExporterParameter.IS_ONE_PAGE_PER_SHEET, Boolean.FALSE);
-        jrPdfExporter.setParameter(JRXlsExporterParameter.IS_REMOVE_EMPTY_SPACE_BETWEEN_COLUMNS, Boolean.TRUE);
+        var pdfExporter = new JRPdfExporter();
+        pdfExporter.setExporterInput(ReportingConfigurations.exporter(jasperPrint));
+        pdfExporter.setConfiguration(ReportingConfigurations.pdfReportConfiguration());
         var baos = new ByteArrayOutputStream();
-        jrPdfExporter.setParameter(JRExporterParameter.OUTPUT_STREAM, baos);
-        jrPdfExporter.exportReport();
+        pdfExporter.setExporterOutput(ReportingConfigurations.exporterOutput(baos));
+        pdfExporter.exportReport();
         byte[] output = baos.toByteArray();
         httpServletResponse.setContentLength(output.length);
         ServletOutputStream outputStream = httpServletResponse.getOutputStream();
@@ -429,31 +419,15 @@ public class ReportsController {
 
     private void generateExcelReport(final HttpServletResponse httpServletResponse,
                                      final JasperPrint jasperPrint,
-                                     final String reportFileName,
-                                     final String reportType) throws JRException, IOException {
-        LOG.info("ExcelReport -- > reportFileName ---> " + reportFileName + reportType);
+                                     final String reportFileName) throws JRException, IOException {
         httpServletResponse.setContentType("application/vnd.ms-excel");
         httpServletResponse.setHeader("Content-Disposition", FILENAME + reportFileName + ";");
-        JRAbstractExporter jrExporter = new JRXlsExporter();
-        XlsReportConfiguration config = new SimpleXlsxReportConfiguration();
-        //config.isDetectCellType()
-        //jrExporter.setConfiguration();
-        jrExporter.setParameter(JRXlsExporterParameter.IS_DETECT_CELL_TYPE, true);
+        var xlsExporter = new JRXlsExporter();
+        xlsExporter.setExporterInput(ReportingConfigurations.exporter(jasperPrint));
+        xlsExporter.setConfiguration(ReportingConfigurations.configurationReportXls());
         var baos = new ByteArrayOutputStream();
-        jrExporter.setParameter(JRXlsExporterParameter.OUTPUT_STREAM, baos);
-        jrExporter.setParameter(JRXlsExporterParameter.JASPER_PRINT, jasperPrint);
-        jrExporter.setParameter(JRXlsExporterParameter.IS_REMOVE_EMPTY_SPACE_BETWEEN_ROWS,
-                Boolean.TRUE);
-        jrExporter.setParameter(JRXlsExporterParameter.IS_IGNORE_CELL_BORDER,
-                Boolean.TRUE);
-        jrExporter.setParameter(JRXlsExporterParameter.IS_ONE_PAGE_PER_SHEET,
-                Boolean.FALSE);
-        jrExporter.setParameter(JRXlsExporterParameter.IS_REMOVE_EMPTY_SPACE_BETWEEN_COLUMNS, Boolean.TRUE);
-        jrExporter.setParameter(JRXlsExporterParameter.IS_WHITE_PAGE_BACKGROUND,
-                Boolean.TRUE);
-        jrExporter.setParameter(JRXlsExporterParameter.OFFSET_X, 1);
-        jrExporter.setParameter(JRXlsExporterParameter.OFFSET_Y, 1);
-        jrExporter.exportReport();
+        xlsExporter.setExporterOutput(ReportingConfigurations.exporterOutput(baos));
+        xlsExporter.exportReport();
         byte[] output = baos.toByteArray();
         httpServletResponse.setContentLength(output.length);
         ServletOutputStream outputStream = httpServletResponse.getOutputStream();
@@ -476,25 +450,4 @@ public class ReportsController {
         return searchVO;
     }
 
-    private enum InvoiceStatus {
-        NEW,
-        ACCEPTED,
-        VERIFIED,
-        CLOSED,
-        REJECTED;
-
-        public static List<String> asList() {
-            return Arrays.stream(InvoiceStatus.values()).map(Enum::name).toList();
-        }
-    }
-
-    private enum ExportList {
-        EXCEL,
-        WORD,
-        PDF;
-
-        public static List<String> asList() {
-            return Arrays.stream(ExportList.values()).map(Enum::name).toList();
-        }
-    }
 }

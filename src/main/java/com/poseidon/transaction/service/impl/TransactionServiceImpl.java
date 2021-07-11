@@ -21,6 +21,7 @@ import java.util.List;
 @SuppressWarnings("unused")
 public class TransactionServiceImpl implements TransactionService {
     private static final Logger LOG = LoggerFactory.getLogger(TransactionServiceImpl.class);
+    private static final String EXCEPTION_TYPE_IN_SERVICE_IMPL = "Exception type in service impl {}";
 
     @Autowired
     private TransactionDAO transactionDAO;
@@ -37,7 +38,7 @@ public class TransactionServiceImpl implements TransactionService {
         try {
             transactionVOs = transactionDAO.listTodaysTransactions();
         } catch (TransactionException ex) {
-            LOG.error(" Exception type in service impl " + ex.getMessage());
+            LOG.error(EXCEPTION_TYPE_IN_SERVICE_IMPL, ex.getMessage());
             throw new TransactionException(ex.getMessage());
         }
         return transactionVOs;
@@ -56,7 +57,7 @@ public class TransactionServiceImpl implements TransactionService {
         try {
             tagNo = transactionDAO.saveTransaction(currentTransaction);
         } catch (TransactionException ex) {
-            LOG.error(" Exception type in service impl " + ex.getExceptionType());
+            LOG.error(EXCEPTION_TYPE_IN_SERVICE_IMPL, ex.getExceptionType());
             throw new TransactionException(ex.getExceptionType());
         }
         return tagNo;
@@ -76,7 +77,7 @@ public class TransactionServiceImpl implements TransactionService {
         try {
             transactionVOs = transactionDAO.searchTransactions(searchTransaction);
         } catch (TransactionException ex) {
-            LOG.error(" Exception type in service impl " + ex.getExceptionType());
+            LOG.error(EXCEPTION_TYPE_IN_SERVICE_IMPL, ex.getExceptionType());
             throw new TransactionException(ex.getExceptionType());
         }
         return transactionVOs;
@@ -95,7 +96,7 @@ public class TransactionServiceImpl implements TransactionService {
         try {
             transactionVO = transactionDAO.fetchTransactionFromId(id);
         } catch (TransactionException ex) {
-            LOG.error(" Exception type in service impl " + ex.getExceptionType());
+            LOG.error(EXCEPTION_TYPE_IN_SERVICE_IMPL, ex.getExceptionType());
             throw new TransactionException(ex.getExceptionType());
         }
         return transactionVO;
@@ -114,7 +115,7 @@ public class TransactionServiceImpl implements TransactionService {
         try {
             transactionVO = transactionDAO.fetchTransactionFromTag(tagNo);
         } catch (TransactionException ex) {
-            LOG.error(" Exception type in service impl " + ex.getExceptionType());
+            LOG.error(EXCEPTION_TYPE_IN_SERVICE_IMPL, ex.getExceptionType());
             throw new TransactionException(ex.getExceptionType());
         }
         return transactionVO;
@@ -145,7 +146,7 @@ public class TransactionServiceImpl implements TransactionService {
         try {
             transactionDAO.deleteTransaction(id);
         } catch (TransactionException ex) {
-            LOG.error(" Exception type in service impl " + ex.getExceptionType());
+            LOG.error(EXCEPTION_TYPE_IN_SERVICE_IMPL, ex.getExceptionType());
             throw new TransactionException(ex.getExceptionType());
         }
     }
@@ -162,7 +163,7 @@ public class TransactionServiceImpl implements TransactionService {
         try {
             transactionDAO.updateTransactionStatus(id, status);
         } catch (TransactionException ex) {
-            LOG.error(" Exception type in service impl " + ex.getExceptionType());
+            LOG.error(EXCEPTION_TYPE_IN_SERVICE_IMPL, ex.getExceptionType());
             throw new TransactionException(ex.getExceptionType());
         }
     }
@@ -179,7 +180,7 @@ public class TransactionServiceImpl implements TransactionService {
         try {
             transactionVOs = transactionDAO.listAllTransactions();
         } catch (TransactionException ex) {
-            LOG.error(" Exception type in service impl " + ex.getExceptionType());
+            LOG.error(EXCEPTION_TYPE_IN_SERVICE_IMPL, ex.getExceptionType());
             throw new TransactionException(ex.getExceptionType());
         }
         return transactionVOs;

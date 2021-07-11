@@ -237,8 +237,7 @@ public class InvoiceDAOImpl implements InvoiceDAO {
     }
 
     private InvoiceVO getInvoiceVoFromInvoice(final Invoice invoice) {
-        InvoiceVO invoiceVO;
-        invoiceVO = new InvoiceVO();
+        var invoiceVO = new InvoiceVO();
         invoiceVO.setId(invoice.getInvoiceId());
         invoiceVO.setCustomerName(invoice.getCustomerName());
         invoiceVO.setTagNo(invoice.getTagNumber());

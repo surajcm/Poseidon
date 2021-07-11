@@ -43,6 +43,7 @@ public class MakeController {
     private static final String UNKNOWN_ERROR = " An Unknown Error has been occurred !!";
     private static final String MAKE_FORM_IS = " makeForm is {}";
     private static final String MAKE_VO_IS = " makeVO is {}";
+    private static final String AJAX = "-ajax-";
 
     @Autowired
     private MakeService makeService;
@@ -386,8 +387,8 @@ public class MakeController {
             makeAndModelVO.setDescription(selectMakeDesc);
             makeAndModelVO.setCreatedDate(OffsetDateTime.now(ZoneId.systemDefault()));
             makeAndModelVO.setModifiedDate(OffsetDateTime.now(ZoneId.systemDefault()));
-            makeAndModelVO.setCreatedBy("-ajax-");
-            makeAndModelVO.setModifiedBy("-ajax-");
+            makeAndModelVO.setCreatedBy(AJAX);
+            makeAndModelVO.setModifiedBy(AJAX);
 
             var makeForm = new MakeForm();
             makeForm.setCurrentMakeAndModeVO(makeAndModelVO);
@@ -454,8 +455,8 @@ public class MakeController {
             makeAndModelVO.setModelName(selectModelName);
             makeAndModelVO.setCreatedDate(OffsetDateTime.now(ZoneId.systemDefault()));
             makeAndModelVO.setModifiedDate(OffsetDateTime.now(ZoneId.systemDefault()));
-            makeAndModelVO.setCreatedBy("-ajax-");
-            makeAndModelVO.setModifiedBy("-ajax-");
+            makeAndModelVO.setCreatedBy(AJAX);
+            makeAndModelVO.setModifiedBy(AJAX);
             makeService.addNewModel(makeAndModelVO);
             try {
                 //get all the make and pass it as a json object
