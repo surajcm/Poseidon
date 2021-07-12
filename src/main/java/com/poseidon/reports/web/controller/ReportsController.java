@@ -36,7 +36,6 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.List;
-import java.util.Locale;
 
 /**
  * user: Suraj.
@@ -56,6 +55,8 @@ public class ReportsController {
     private static final String X_FRAME_OPTIONS = "X-Frame-Options";
     private static final String SAMEORIGIN = "SAMEORIGIN";
     private static final String TEXT_HTML = "text/html";
+    private static final String CONTENT_DISPOSITION = "Content-disposition";
+    private static final String CONTENT_DISPOSITION1 = "Content-Disposition";
     @Autowired
     private ReportsService reportsService;
 
@@ -116,10 +117,9 @@ public class ReportsController {
      * @param httpServletRequest  HttpServletRequest
      * @param httpServletResponse HttpServletResponse
      * @param reportsForm         ReportsForm
-     * @return ModelAndView
      */
     @RequestMapping(value = "/reports/getMakeDetailsReport.htm", method = {RequestMethod.GET, RequestMethod.POST})
-    public ModelAndView getMakeDetailsReport(final HttpServletRequest httpServletRequest,
+    public void getMakeDetailsReport(final HttpServletRequest httpServletRequest,
                                              final HttpServletResponse httpServletResponse,
                                              final ReportsForm reportsForm) {
         LOG.info("GetMakeDetailsReport method of ReportsController ");
@@ -129,20 +129,16 @@ public class ReportsController {
                 reportsForm.setCurrentReport(new ReportsVO());
             }
             if (reportsForm.getCurrentReport() != null) {
-                reportsForm.getCurrentReport().setLocale(Locale.US);
                 var reportFileName = "makeListReport";
-                reportsForm.getCurrentReport().setRptfilename(reportFileName);
                 var jasperReport = createJasperReport(reportFileName);
                 var jasperPrint = reportsService.getMakeDetailsChart(jasperReport,
                         reportsForm.getCurrentReport());
-                LOG.info(jasperPrint.toString());
                 var reportType = ExportList.fromName(reportsForm.getCurrentReport().getExportTo());
                 generateJasperReport(httpServletResponse, jasperPrint, reportFileName, reportType);
             }
         } catch (Exception ex) {
             LOG.error(ex.getLocalizedMessage());
         }
-        return null;
     }
 
     /**
@@ -151,10 +147,9 @@ public class ReportsController {
      * @param httpServletRequest  HttpServletRequest
      * @param httpServletResponse HttpServletResponse
      * @param reportsForm         ReportsForm
-     * @return ModelAndView
      */
     @RequestMapping(value = "/reports/getCallReport.htm", method = {RequestMethod.GET, RequestMethod.POST})
-    public ModelAndView getCallReport(final HttpServletRequest httpServletRequest,
+    public void getCallReport(final HttpServletRequest httpServletRequest,
                                       final HttpServletResponse httpServletResponse,
                                       final ReportsForm reportsForm) {
         LOG.info("GetCallReport method of ReportsController ");
@@ -163,19 +158,15 @@ public class ReportsController {
             if (reportsForm.getCurrentReport() == null) {
                 reportsForm.setCurrentReport(new ReportsVO());
             }
-            reportsForm.getCurrentReport().setLocale(Locale.US);
             var reportFileName = "callReport";
-            reportsForm.getCurrentReport().setRptfilename(reportFileName);
             var jasperReport = createJasperReport(reportFileName);
             var jasperPrint = reportsService.getCallReport(jasperReport, reportsForm.getCurrentReport());
-            LOG.info(jasperPrint.toString());
             var reportType = ExportList.fromName(reportsForm.getCurrentReport().getExportTo());
             generateJasperReport(httpServletResponse, jasperPrint, reportFileName, reportType);
         } catch (Exception ex) {
             LOG.error(ex.getLocalizedMessage());
-            return getErrorReport(httpServletRequest, httpServletResponse, reportsForm);
+            getErrorReport(httpServletRequest, httpServletResponse, reportsForm);
         }
-        return null;
     }
 
     /**
@@ -184,10 +175,9 @@ public class ReportsController {
      * @param httpServletRequest  HttpServletRequest
      * @param httpServletResponse HttpServletResponse
      * @param reportsForm         ReportsForm
-     * @return ModelAndView
      */
     @RequestMapping(value = "/reports/getTransactionsListReport.htm", method = {RequestMethod.GET, RequestMethod.POST})
-    public ModelAndView getTransactionsListReport(final HttpServletRequest httpServletRequest,
+    public void getTransactionsListReport(final HttpServletRequest httpServletRequest,
                                                   final HttpServletResponse httpServletResponse,
                                                   final ReportsForm reportsForm) {
         LOG.info("GetTransactionsListReport method of ReportsController ");
@@ -196,20 +186,16 @@ public class ReportsController {
             if (reportsForm.getCurrentReport() == null) {
                 reportsForm.setCurrentReport(new ReportsVO());
             }
-            reportsForm.getCurrentReport().setLocale(Locale.US);
             var reportFileName = "transactionsListReport";
-            reportsForm.getCurrentReport().setRptfilename(reportFileName);
             var jasperReport = createJasperReport(reportFileName);
             var jasperPrint = reportsService.getTransactionsListReport(jasperReport,
                     reportsForm.getCurrentReport(),
                     reportsForm.getTxnReportTransactionVO());
-            LOG.info(jasperPrint.toString());
             var reportType = ExportList.fromName(reportsForm.getCurrentReport().getExportTo());
             generateJasperReport(httpServletResponse, jasperPrint, reportFileName, reportType);
         } catch (Exception ex) {
             LOG.error(ex.getLocalizedMessage());
         }
-        return null;
     }
 
     /**
@@ -218,10 +204,9 @@ public class ReportsController {
      * @param httpServletRequest  HttpServletRequest
      * @param httpServletResponse HttpServletResponse
      * @param reportsForm         ReportsForm
-     * @return ModelAndView
-     */
+    */
     @RequestMapping(value = "/reports/getModelListReport.htm", method = {RequestMethod.GET, RequestMethod.POST})
-    public ModelAndView getModelListReport(final HttpServletRequest httpServletRequest,
+    public void getModelListReport(final HttpServletRequest httpServletRequest,
                                            final HttpServletResponse httpServletResponse,
                                            final ReportsForm reportsForm) {
         LOG.info("GetModelListReport method of ReportsController ");
@@ -230,52 +215,16 @@ public class ReportsController {
             if (reportsForm.getCurrentReport() == null) {
                 reportsForm.setCurrentReport(new ReportsVO());
             }
-            reportsForm.getCurrentReport().setLocale(Locale.US);
             var reportFileName = "modelListReport";
-            reportsForm.getCurrentReport().setRptfilename(reportFileName);
             var jasperReport = createJasperReport(reportFileName);
             var jasperPrint = reportsService.getModelListReport(jasperReport,
                     reportsForm.getCurrentReport(),
                     reportsForm.getModelReportMakeAndModelVO());
-            LOG.info(jasperPrint.toString());
             var reportType = ExportList.fromName(reportsForm.getCurrentReport().getExportTo());
             generateJasperReport(httpServletResponse, jasperPrint, reportFileName, reportType);
         } catch (Exception ex) {
             LOG.error(ex.getLocalizedMessage());
         }
-        return null;
-    }
-
-    /**
-     * getErrorReport.
-     *
-     * @param httpServletRequest  HttpServletRequest
-     * @param httpServletResponse HttpServletResponse
-     * @param reportsForm         ReportsForm
-     * @return ModelAndView
-     */
-    @RequestMapping(value = "/reports/getErrorReport.htm", method = {RequestMethod.GET, RequestMethod.POST})
-    public ModelAndView getErrorReport(final HttpServletRequest httpServletRequest,
-                                       final HttpServletResponse httpServletResponse,
-                                       final ReportsForm reportsForm) {
-        LOG.info("GetErrorReport method of ReportsController ");
-        LOG.info(FORM_DETAILS, CommonUtils.sanitizedString(reportsForm.toString()));
-        try {
-            if (reportsForm.getCurrentReport() == null) {
-                reportsForm.setCurrentReport(new ReportsVO());
-            }
-            reportsForm.getCurrentReport().setLocale(Locale.US);
-            var reportFileName = "errorReport";
-            reportsForm.getCurrentReport().setRptfilename(reportFileName);
-            var jasperReport = createJasperReport(reportFileName);
-            var jasperPrint = reportsService.getErrorReport(jasperReport, reportsForm.getCurrentReport());
-            LOG.info(jasperPrint.toString());
-            var reportType = ExportList.fromName(reportsForm.getCurrentReport().getExportTo());
-            generateJasperReport(httpServletResponse, jasperPrint, reportFileName, reportType);
-        } catch (Exception ex) {
-            LOG.error(ex.getLocalizedMessage());
-        }
-        return null;
     }
 
     /**
@@ -284,10 +233,9 @@ public class ReportsController {
      * @param httpServletRequest  HttpServletRequest
      * @param httpServletResponse HttpServletResponse
      * @param reportsForm         ReportsForm
-     * @return ModelAndView
      */
     @RequestMapping(value = "/reports/getInvoiceReport.htm", method = {RequestMethod.GET, RequestMethod.POST})
-    public ModelAndView getInvoiceReport(final HttpServletRequest httpServletRequest,
+    public void getInvoiceReport(final HttpServletRequest httpServletRequest,
                                          final HttpServletResponse httpServletResponse,
                                          final ReportsForm reportsForm) {
         LOG.info("GetInvoiceReport method of ReportsController ");
@@ -296,18 +244,42 @@ public class ReportsController {
             if (reportsForm.getCurrentReport() == null) {
                 reportsForm.setCurrentReport(new ReportsVO());
             }
-            reportsForm.getCurrentReport().setLocale(Locale.US);
             var reportFileName = "serviceBillReport";
-            reportsForm.getCurrentReport().setRptfilename(reportFileName);
             var jasperReport = createJasperReport(reportFileName);
             var jasperPrint = reportsService.getInvoiceReport(jasperReport, reportsForm.getCurrentReport());
-            LOG.info(jasperPrint.toString());
+            var reportType = ExportList.fromName(reportsForm.getCurrentReport().getExportTo());
+            generateJasperReport(httpServletResponse, jasperPrint, reportFileName, reportType);
+        } catch (Exception ex) {
+            LOG.error(ex.getLocalizedMessage());
+            getErrorReport(httpServletRequest, httpServletResponse, reportsForm);
+        }
+    }
+
+    /**
+     * getErrorReport.
+     *
+     * @param httpServletRequest  HttpServletRequest
+     * @param httpServletResponse HttpServletResponse
+     * @param reportsForm         ReportsForm
+     */
+    @RequestMapping(value = "/reports/getErrorReport.htm", method = {RequestMethod.GET, RequestMethod.POST})
+    public void getErrorReport(final HttpServletRequest httpServletRequest,
+                               final HttpServletResponse httpServletResponse,
+                               final ReportsForm reportsForm) {
+        LOG.info("GetErrorReport method of ReportsController ");
+        LOG.info(FORM_DETAILS, CommonUtils.sanitizedString(reportsForm.toString()));
+        try {
+            if (reportsForm.getCurrentReport() == null) {
+                reportsForm.setCurrentReport(new ReportsVO());
+            }
+            var reportFileName = "errorReport";
+            var jasperReport = createJasperReport(reportFileName);
+            var jasperPrint = reportsService.getErrorReport(jasperReport, reportsForm.getCurrentReport());
             var reportType = ExportList.fromName(reportsForm.getCurrentReport().getExportTo());
             generateJasperReport(httpServletResponse, jasperPrint, reportFileName, reportType);
         } catch (Exception ex) {
             LOG.error(ex.getLocalizedMessage());
         }
-        return getErrorReport(httpServletRequest, httpServletResponse, reportsForm);
     }
 
     private JasperReport createJasperReport(final String reportFileName) throws JRException {
@@ -340,20 +312,30 @@ public class ReportsController {
         try {
             LOG.info("In generateJasperReport method");
             httpServletResponse.setHeader(X_FRAME_OPTIONS, SAMEORIGIN);
+            LOG.info("ReportFileName : {} , ReportType {} ", reportFileName , reportType);
             switch (reportType) {
                 case EXCEL -> {
-                    LOG.info("ExcelReport -- > reportFileName ---> " + reportFileName + reportType);
-                    generateExcelReport(httpServletResponse, jasperPrint, reportFileName);
+                    httpServletResponse.setContentType("application/vnd.ms-excel");
+                    httpServletResponse.setHeader(CONTENT_DISPOSITION1, FILENAME + reportFileName + ";");
+                    generateExcelReport(httpServletResponse, jasperPrint);
                 }
                 case PDF -> {
-                    LOG.info("PDF -- > reportFileName ---> " + reportFileName + reportType);
-                    generatePDFReport(httpServletResponse, jasperPrint, reportFileName);
+                    var mimetype = httpServletResponse.getContentType();
+                    httpServletResponse.setContentType((mimetype != null) ? mimetype : "application/pdf");
+                    httpServletResponse.setHeader(CONTENT_DISPOSITION1,
+                            FILENAME + reportFileName + ";");
+                    generatePDFReport(httpServletResponse, jasperPrint);
                 }
                 case WORD -> {
-                    LOG.info("WORD -- > reportFileName ---> " + reportFileName + reportType);
-                    generateWordReport(httpServletResponse, jasperPrint, reportFileName);
+                    httpServletResponse.addHeader(CONTENT_DISPOSITION,
+                            FILENAME + reportFileName + ".doc;");
+                    httpServletResponse.setContentType("application/vnd.ms-word");
+                    generateWordReport(httpServletResponse, jasperPrint);
                 }
-                default -> generateHTMLReport(httpServletResponse, jasperPrint);
+                default -> {
+                    httpServletResponse.setContentType(TEXT_HTML);
+                    generateHTMLReport(httpServletResponse, jasperPrint);
+                }
             }
         } catch (Exception ex) {
             LOG.error(ex.getLocalizedMessage());
@@ -362,79 +344,59 @@ public class ReportsController {
 
     private void generateHTMLReport(final HttpServletResponse httpServletResponse,
                                     final JasperPrint jasperPrint) throws JRException, IOException {
-        httpServletResponse.setContentType(TEXT_HTML);
         var htmlExporter = new HtmlExporter();
         htmlExporter.setExporterInput(ReportingConfigurations.exporter(jasperPrint));
         htmlExporter.setConfiguration(ReportingConfigurations.configurationForHTML());
         var baos = new ByteArrayOutputStream();
         htmlExporter.setExporterOutput(ReportingConfigurations.exportHTML(baos));
         htmlExporter.exportReport();
-        byte[] output = baos.toByteArray();
-        httpServletResponse.setContentLength(output.length);
-        ServletOutputStream outputStream = httpServletResponse.getOutputStream();
-        outputStream.write(output, 0, output.length);
-        outputStream.flush();
-        outputStream.close();
+        writeBytesToStream(httpServletResponse, baos);
     }
 
     private void generateWordReport(final HttpServletResponse httpServletResponse,
-                                    final JasperPrint jasperPrint,
-                                    final String reportFileName) throws JRException, IOException {
-        httpServletResponse.addHeader("Content-disposition",
-                FILENAME + reportFileName + ".doc;");
-        httpServletResponse.setContentType("application/vnd.ms-word");
+                                    final JasperPrint jasperPrint) throws JRException, IOException {
         var exporter = new JRDocxExporter();
         exporter.setExporterInput(ReportingConfigurations.exporter(jasperPrint));
         exporter.setConfiguration(ReportingConfigurations.docxReportConfiguration());
         var baos = new ByteArrayOutputStream();
         exporter.setExporterOutput(ReportingConfigurations.exporterOutput(baos));
         exporter.exportReport();
-        byte[] output = baos.toByteArray();
-        httpServletResponse.setContentLength(output.length);
-        httpServletResponse.getOutputStream().write(output, 0, output.length);
-        httpServletResponse.getOutputStream().flush();
-        httpServletResponse.getOutputStream().close();
+        writeBytesToStream(httpServletResponse, baos);
     }
 
     private void generatePDFReport(final HttpServletResponse httpServletResponse,
-                                   final JasperPrint jasperPrint,
-                                   final String reportFileName) throws JRException, IOException {
-        var mimetype = httpServletResponse.getContentType();
-        httpServletResponse.setContentType((mimetype != null) ? mimetype : "application/pdf");
-        httpServletResponse.setHeader("Content-Disposition",
-                FILENAME + reportFileName + ";");
+                                   final JasperPrint jasperPrint) throws JRException, IOException {
+
         var pdfExporter = new JRPdfExporter();
         pdfExporter.setExporterInput(ReportingConfigurations.exporter(jasperPrint));
         pdfExporter.setConfiguration(ReportingConfigurations.pdfReportConfiguration());
         var baos = new ByteArrayOutputStream();
         pdfExporter.setExporterOutput(ReportingConfigurations.exporterOutput(baos));
         pdfExporter.exportReport();
-        byte[] output = baos.toByteArray();
-        httpServletResponse.setContentLength(output.length);
-        ServletOutputStream outputStream = httpServletResponse.getOutputStream();
-        outputStream.write(output, 0, output.length);
-        outputStream.flush();
-        outputStream.close();
+        writeBytesToStream(httpServletResponse, baos);
     }
 
     private void generateExcelReport(final HttpServletResponse httpServletResponse,
-                                     final JasperPrint jasperPrint,
-                                     final String reportFileName) throws JRException, IOException {
-        httpServletResponse.setContentType("application/vnd.ms-excel");
-        httpServletResponse.setHeader("Content-Disposition", FILENAME + reportFileName + ";");
+                                     final JasperPrint jasperPrint) throws JRException, IOException {
         var xlsExporter = new JRXlsExporter();
         xlsExporter.setExporterInput(ReportingConfigurations.exporter(jasperPrint));
         xlsExporter.setConfiguration(ReportingConfigurations.configurationReportXls());
         var baos = new ByteArrayOutputStream();
         xlsExporter.setExporterOutput(ReportingConfigurations.exporterOutput(baos));
         xlsExporter.exportReport();
+        writeBytesToStream(httpServletResponse, baos);
+    }
+
+    private void writeBytesToStream(final HttpServletResponse httpServletResponse,
+                                    final ByteArrayOutputStream baos) throws IOException {
         byte[] output = baos.toByteArray();
-        httpServletResponse.setContentLength(output.length);
         ServletOutputStream outputStream = httpServletResponse.getOutputStream();
+        httpServletResponse.setContentLength(output.length);
         outputStream.write(output, 0, output.length);
         outputStream.flush();
         outputStream.close();
     }
+
 
     private TransactionVO getSearchTransaction() {
         var searchVO = new TransactionVO();
