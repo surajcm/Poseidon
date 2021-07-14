@@ -347,10 +347,10 @@ public class ReportsController {
         var htmlExporter = new HtmlExporter();
         htmlExporter.setExporterInput(ReportingConfigurations.exporter(jasperPrint));
         htmlExporter.setConfiguration(ReportingConfigurations.configurationForHTML());
-        var baos = new ByteArrayOutputStream();
-        htmlExporter.setExporterOutput(ReportingConfigurations.exportHTML(baos));
+        var outputStream = new ByteArrayOutputStream();
+        htmlExporter.setExporterOutput(ReportingConfigurations.exportHTML(outputStream));
         htmlExporter.exportReport();
-        writeBytesToStream(httpServletResponse, baos);
+        writeBytesToStream(httpServletResponse, outputStream);
     }
 
     private void generateWordReport(final HttpServletResponse httpServletResponse,
@@ -358,10 +358,10 @@ public class ReportsController {
         var exporter = new JRDocxExporter();
         exporter.setExporterInput(ReportingConfigurations.exporter(jasperPrint));
         exporter.setConfiguration(ReportingConfigurations.docxReportConfiguration());
-        var baos = new ByteArrayOutputStream();
-        exporter.setExporterOutput(ReportingConfigurations.exporterOutput(baos));
+        var outputStream = new ByteArrayOutputStream();
+        exporter.setExporterOutput(ReportingConfigurations.exporterOutput(outputStream));
         exporter.exportReport();
-        writeBytesToStream(httpServletResponse, baos);
+        writeBytesToStream(httpServletResponse, outputStream);
     }
 
     private void generatePDFReport(final HttpServletResponse httpServletResponse,
@@ -370,10 +370,10 @@ public class ReportsController {
         var pdfExporter = new JRPdfExporter();
         pdfExporter.setExporterInput(ReportingConfigurations.exporter(jasperPrint));
         pdfExporter.setConfiguration(ReportingConfigurations.pdfReportConfiguration());
-        var baos = new ByteArrayOutputStream();
-        pdfExporter.setExporterOutput(ReportingConfigurations.exporterOutput(baos));
+        var outputStream = new ByteArrayOutputStream();
+        pdfExporter.setExporterOutput(ReportingConfigurations.exporterOutput(outputStream));
         pdfExporter.exportReport();
-        writeBytesToStream(httpServletResponse, baos);
+        writeBytesToStream(httpServletResponse, outputStream);
     }
 
     private void generateExcelReport(final HttpServletResponse httpServletResponse,
@@ -381,15 +381,15 @@ public class ReportsController {
         var xlsExporter = new JRXlsExporter();
         xlsExporter.setExporterInput(ReportingConfigurations.exporter(jasperPrint));
         xlsExporter.setConfiguration(ReportingConfigurations.configurationReportXls());
-        var baos = new ByteArrayOutputStream();
-        xlsExporter.setExporterOutput(ReportingConfigurations.exporterOutput(baos));
+        var outputStream = new ByteArrayOutputStream();
+        xlsExporter.setExporterOutput(ReportingConfigurations.exporterOutput(outputStream));
         xlsExporter.exportReport();
-        writeBytesToStream(httpServletResponse, baos);
+        writeBytesToStream(httpServletResponse, outputStream);
     }
 
     private void writeBytesToStream(final HttpServletResponse httpServletResponse,
-                                    final ByteArrayOutputStream baos) throws IOException {
-        byte[] output = baos.toByteArray();
+                                    final ByteArrayOutputStream outputStream1) throws IOException {
+        byte[] output = outputStream1.toByteArray();
         ServletOutputStream outputStream = httpServletResponse.getOutputStream();
         httpServletResponse.setContentLength(output.length);
         outputStream.write(output, 0, output.length);

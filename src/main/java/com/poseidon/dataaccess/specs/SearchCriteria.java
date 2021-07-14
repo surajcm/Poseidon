@@ -1,6 +1,8 @@
 package com.poseidon.dataaccess.specs;
 
-public class SearchCriteria {
+import java.io.Serializable;
+
+public class SearchCriteria implements Serializable {
     private String key;
     private Object value;
     private SearchOperation operation;
