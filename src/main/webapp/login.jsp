@@ -1,13 +1,9 @@
 <%@ page language="java" contentType="text/html; charset=UTF-8" %>
-<%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
-<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 
-<c:set var="contextPath" value="${pageContext.request.contextPath}"/>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml1-strict.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <spring:url value="/resources/images/Poseidon_Ico.ico" var="posIcon" />
-    <link rel="shortcut icon" href="${posIcon}" >
+    <link rel="shortcut icon" href="/resources/images/Poseidon_Ico.ico" >
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Log In</title>
     <link href="/css/bootstrap-5.min.css" rel="stylesheet" />

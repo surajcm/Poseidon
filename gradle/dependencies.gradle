@@ -1,5 +1,6 @@
 
 dependencies {
+    //todo: update this version
     errorprone("com.google.errorprone:error_prone_core:2.6.0")
     errorproneJavac("com.google.errorprone:javac:9-dev-r4023-3")
 
@@ -12,21 +13,22 @@ dependencies {
 
     implementation("javax.xml.bind:jaxb-api:2.3.1")
     implementation("org.apache.commons:commons-collections4:4.2")
+    implementation("org.codehaus.jackson:jackson-mapper-asl:1.9.13")
     implementation("org.slf4j:jcl-over-slf4j:1.7.25")
-    implementation("org.apache.poi:poi:4.1.2")
-    implementation 'org.apache.poi:poi-ooxml:4.1.2'
 
     implementation("com.h2database:h2:1.4.200")
     implementation("org.apache.tomcat.embed:tomcat-embed-jasper")
-    implementation("jstl:jstl:+")
+    implementation("jstl:jstl:1.2")
 
-    implementation("org.codehaus.jackson:jackson-mapper-asl:1.9.13")
+    //todo: update this
+    implementation("org.apache.poi:poi:4.1.2")
+    implementation("org.apache.poi:poi-ooxml:4.1.2")
 
-    implementation 'net.sf.jasperreports:jasperreports:6.16.0'
-    implementation 'net.sf.jasperreports:jasperreports-fonts:6.16.0'
-    implementation 'com.lowagie:itext:2.1.7'
+    implementation("net.sf.jasperreports:jasperreports:6.16.0")
+    implementation("net.sf.jasperreports:jasperreports-fonts:6.16.0")
+    implementation("com.lowagie:itext:2.1.7")
 
-    testImplementation('org.springframework.boot:spring-boot-starter-test') {
+    testImplementation("org.springframework.boot:spring-boot-starter-test") {
         exclude module: "junit"
         exclude group: "org.junit.vintage", module: "junit-vintage-engine"
         exclude group: "com.vaadin.external.google", module: "android-json"
