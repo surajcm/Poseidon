@@ -25,11 +25,6 @@
             background-color: #FFBABA;
             background-image: url('/img/Error.png' );
         }
-        .foottable {
-            margin:auto;
-            top:50%;
-            left:50%;
-        }
     </style>
     <script type="text/javascript" src="/js/navbar-scripts.js"></script>
 </head>

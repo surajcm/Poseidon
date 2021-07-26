@@ -13,6 +13,9 @@
             document.forms[0].action="LogIn.htm";
             document.forms[0].submit();
         }
+        function popupForget() {
+            console.log("popupForget clicked");
+        }
     </script>
 </head>
 <body>
@@ -45,7 +48,7 @@
                                             <input class="form-check-input" type="checkbox" value="" id="remember"> <label class="form-check-label mb-0" for="remember">Remember me</label>
                                         </div>
                                         <div>
-                                            <a href="./forgot-password.html" class="small text-right">Lost password?</a>
+                                            <a data-bs-toggle="modal" data-bs-target="#forgetPass" class="small text-right">Lost password?</a>
                                         </div>
                                     </div>
                                 </div>
@@ -65,6 +68,22 @@
             </div>
         </section>
     </main>
+    <div class="modal fade" id="forgetPass" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Forget Password?</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <p>Relax and try to remember your password.</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Thanks</button>
+                </div>
+            </div>
+        </div>
+    </div>
     <script src="/js/bootstrap-5.min.js"></script>
 </body>
 </html>
