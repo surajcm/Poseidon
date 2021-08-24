@@ -6,7 +6,6 @@ import com.poseidon.company.domain.CompanyTermsVO;
 import com.poseidon.company.exception.CompanyTermsException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
@@ -16,8 +15,11 @@ public class CompanyTermsDAOImpl implements CompanyTermsDAO {
 
     private static final Logger logger = LoggerFactory.getLogger(CompanyTermsDAOImpl.class);
 
-    @Autowired
-    private CompanyTermsRepository companyTermsRepository;
+    private final CompanyTermsRepository companyTermsRepository;
+
+    public CompanyTermsDAOImpl(final CompanyTermsRepository companyTermsRepository) {
+        this.companyTermsRepository = companyTermsRepository;
+    }
 
     /**
      * list company terms.

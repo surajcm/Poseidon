@@ -1,21 +1,22 @@
 package com.poseidon.company.service.impl;
 
-import com.poseidon.company.service.CompanyTermsService;
-import com.poseidon.company.domain.CompanyTermsVO;
 import com.poseidon.company.dao.CompanyTermsDAO;
+import com.poseidon.company.domain.CompanyTermsVO;
 import com.poseidon.company.exception.CompanyTermsException;
-
+import com.poseidon.company.service.CompanyTermsService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
 public class CompanyTermsServiceImpl implements CompanyTermsService {
     private static final Logger LOG = LoggerFactory.getLogger(CompanyTermsServiceImpl.class);
 
-    @Autowired
-    private CompanyTermsDAO companyTermsDAO;
+    private final CompanyTermsDAO companyTermsDAO;
+
+    public CompanyTermsServiceImpl(final CompanyTermsDAO companyTermsDAO) {
+        this.companyTermsDAO = companyTermsDAO;
+    }
 
     /**
      * list company terms.

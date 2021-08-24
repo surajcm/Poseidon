@@ -13,7 +13,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Service
 public class InvoiceServiceImpl implements InvoiceService {
@@ -79,7 +78,7 @@ public class InvoiceServiceImpl implements InvoiceService {
     }
 
     private List<String> fetchTagNoFromListOfTransactionVOs(final List<TransactionVO> transactionVOs) {
-        return transactionVOs.stream().map(TransactionVO::getTagNo).collect(Collectors.toList());
+        return transactionVOs.stream().map(TransactionVO::getTagNo).toList();
     }
 
 

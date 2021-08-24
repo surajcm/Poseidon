@@ -60,7 +60,7 @@ public class InvoiceDAOImpl implements InvoiceDAO {
         List<InvoiceVO> invoiceVOs;
         try {
             var invoices = invoiceRepository.fetchTodaysInvoices(tagNumbers);
-            invoiceVOs = invoices.stream().map(this::getInvoiceVoFromInvoice).collect(Collectors.toList());
+            invoiceVOs = invoices.stream().map(this::getInvoiceVoFromInvoice).toList();
         } catch (DataAccessException ex) {
             log.error(ex.getLocalizedMessage());
             throw new InvoiceException(ex);

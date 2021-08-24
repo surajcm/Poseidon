@@ -6,5 +6,4 @@ public interface CompanyTermsService {
     CompanyTermsVO listCompanyTerms();
 
     CompanyTermsVO updateCompanyDetails(CompanyTermsVO companyTermsVO);
-
 }

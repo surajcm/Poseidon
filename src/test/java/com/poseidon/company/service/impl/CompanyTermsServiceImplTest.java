@@ -4,11 +4,9 @@ import com.poseidon.company.dao.CompanyTermsDAO;
 import com.poseidon.company.domain.CompanyTermsVO;
 import com.poseidon.company.exception.CompanyTermsException;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
-import org.powermock.reflect.Whitebox;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -16,13 +14,8 @@ import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
 class CompanyTermsServiceImplTest {
-    private final CompanyTermsServiceImpl companyTermsService = new CompanyTermsServiceImpl();
     private final CompanyTermsDAO companyTermsDAO = Mockito.mock(CompanyTermsDAO.class);
-
-    @BeforeEach
-    public void setup() {
-        Whitebox.setInternalState(companyTermsService, "companyTermsDAO", companyTermsDAO);
-    }
+    private final CompanyTermsServiceImpl companyTermsService = new CompanyTermsServiceImpl(companyTermsDAO);
 
     @Test
     void listCompanyTermsSuccess() throws CompanyTermsException {

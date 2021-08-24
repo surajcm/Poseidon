@@ -10,7 +10,7 @@ import org.springframework.test.context.ContextConfiguration;
 public class CompanyTermsConfigurations {
     @Bean
     public CompanyController companyTermsController() {
-        return new CompanyController();
+        return new CompanyController(Mockito.mock(CompanyTermsService.class));
     }
 
     @Bean

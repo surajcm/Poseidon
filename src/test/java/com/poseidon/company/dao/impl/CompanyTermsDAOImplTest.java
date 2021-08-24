@@ -4,11 +4,9 @@ import com.poseidon.company.dao.entities.CompanyTerms;
 import com.poseidon.company.domain.CompanyTermsVO;
 import com.poseidon.company.exception.CompanyTermsException;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
-import org.powermock.reflect.Whitebox;
 import org.springframework.dao.CannotAcquireLockException;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
@@ -19,13 +17,8 @@ import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
 class CompanyTermsDAOImplTest {
-    private final CompanyTermsDAOImpl companyTermsDAO = new CompanyTermsDAOImpl();
     private final CompanyTermsRepository companyTermsRepository = Mockito.mock(CompanyTermsRepository.class);
-
-    @BeforeEach
-    public void setup() {
-        Whitebox.setInternalState(companyTermsDAO, "companyTermsRepository", companyTermsRepository);
-    }
+    private final CompanyTermsDAOImpl companyTermsDAO = new CompanyTermsDAOImpl(companyTermsRepository);
 
     @Test
     void listCompanyTermsSuccess() throws CompanyTermsException {

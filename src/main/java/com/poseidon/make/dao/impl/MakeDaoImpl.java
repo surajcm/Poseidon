@@ -15,7 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
+import java.util.function.Function;
 
 /**
  * user: Suraj.
@@ -292,7 +292,7 @@ public class MakeDaoImpl implements MakeDao {
                 var models = make.getModels();
                 if (models != null && !models.isEmpty()) {
                     makeVOs = models.stream().map(model -> getMakeAndModelVO(make, model))
-                            .collect(Collectors.toList());
+                            .toList();
                 }
             }
         } catch (DataAccessException ex) {
@@ -303,7 +303,7 @@ public class MakeDaoImpl implements MakeDao {
     }
 
     private List<MakeVO> convertMakeToMakeVO(final List<Make> makes) {
-        return makes.stream().map(this::createMakeVO).collect(Collectors.toList());
+        return makes.stream().map(this::createMakeVO).toList();
     }
 
     private MakeVO createMakeVO(final Make make) {
@@ -351,17 +351,23 @@ public class MakeDaoImpl implements MakeDao {
             if (optionalMake.isPresent()) {
                 var make = optionalMake.get();
                 var models = make.getModels();
-                makeAndModelVOS = models.stream().map(model -> getMakeAndModelVO(make, model))
-                        .collect(Collectors.toList());
+                Function<Model, MakeAndModelVO> converter = model -> getMakeAndModelVO(make, model);
+                makeAndModelVOS = mapItOut(models, converter);
             }
         }
         if (hasModelName(searchMakeVO)) {
             var models = getModels(searchMakeVO, searchMakeVO.getModelName());
-            makeAndModelVOS = models.stream()
-                    .map(model -> getMakeAndModelVO(model.getMake(), model))
-                    .collect(Collectors.toList());
+            Function<Model, MakeAndModelVO> converter = model -> getMakeAndModelVO(model.getMake(), model);
+            makeAndModelVOS = mapItOut(models, converter);
         }
         return makeAndModelVOS;
+    }
+
+    private List<MakeAndModelVO> mapItOut(final List<Model> models,
+                                          final Function<Model, MakeAndModelVO> converter) {
+        return models.stream()
+                .map(converter)
+                .toList();
     }
 
     private List<Model> getModels(final MakeAndModelVO searchMakeVO, final String modelName) {
