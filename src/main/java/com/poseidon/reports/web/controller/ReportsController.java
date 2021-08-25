@@ -30,7 +30,6 @@ import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.ByteArrayOutputStream;
@@ -71,8 +70,9 @@ public class ReportsController {
      */
     @PostMapping("/reports/List.htm")
     public ModelAndView list(final ReportsForm reportsForm) {
+        var sanitizedReportsForm = CommonUtils.sanitizedString(reportsForm.toString());
         LOG.info("List method of ReportsController, form details are : {}",
-                CommonUtils.sanitizedString(reportsForm.toString()));
+                sanitizedReportsForm);
         List<ReportsVO> reportsVOs = null;
         try {
             reportsVOs = reportsService.generateDailyReport();
@@ -123,7 +123,8 @@ public class ReportsController {
                                              final HttpServletResponse httpServletResponse,
                                              final ReportsForm reportsForm) {
         LOG.info("GetMakeDetailsReport method of ReportsController ");
-        LOG.info(FORM_DETAILS, CommonUtils.sanitizedString(reportsForm.toString()));
+        var sanitizedReportsForm = CommonUtils.sanitizedString(reportsForm.toString());
+        LOG.info(FORM_DETAILS, sanitizedReportsForm);
         try {
             if (reportsForm.getCurrentReport() == null) {
                 reportsForm.setCurrentReport(new ReportsVO());
@@ -153,7 +154,8 @@ public class ReportsController {
                                       final HttpServletResponse httpServletResponse,
                                       final ReportsForm reportsForm) {
         LOG.info("GetCallReport method of ReportsController ");
-        LOG.info(FORM_DETAILS, CommonUtils.sanitizedString(reportsForm.toString()));
+        var sanitizedReportsForm = CommonUtils.sanitizedString(reportsForm.toString());
+        LOG.info(FORM_DETAILS, sanitizedReportsForm);
         try {
             if (reportsForm.getCurrentReport() == null) {
                 reportsForm.setCurrentReport(new ReportsVO());
@@ -181,7 +183,8 @@ public class ReportsController {
                                                   final HttpServletResponse httpServletResponse,
                                                   final ReportsForm reportsForm) {
         LOG.info("GetTransactionsListReport method of ReportsController ");
-        LOG.info(FORM_DETAILS, CommonUtils.sanitizedString(reportsForm.toString()));
+        var sanitizedReportsForm = CommonUtils.sanitizedString(reportsForm.toString());
+        LOG.info(FORM_DETAILS, sanitizedReportsForm);
         try {
             if (reportsForm.getCurrentReport() == null) {
                 reportsForm.setCurrentReport(new ReportsVO());
@@ -210,7 +213,8 @@ public class ReportsController {
                                            final HttpServletResponse httpServletResponse,
                                            final ReportsForm reportsForm) {
         LOG.info("GetModelListReport method of ReportsController ");
-        LOG.info(FORM_DETAILS, CommonUtils.sanitizedString(reportsForm.toString()));
+        var sanitizedReportsForm = CommonUtils.sanitizedString(reportsForm.toString());
+        LOG.info(FORM_DETAILS, sanitizedReportsForm);
         try {
             if (reportsForm.getCurrentReport() == null) {
                 reportsForm.setCurrentReport(new ReportsVO());
@@ -239,7 +243,8 @@ public class ReportsController {
                                          final HttpServletResponse httpServletResponse,
                                          final ReportsForm reportsForm) {
         LOG.info("GetInvoiceReport method of ReportsController ");
-        LOG.info(FORM_DETAILS, CommonUtils.sanitizedString(reportsForm.toString()));
+        var sanitizedReportsForm = CommonUtils.sanitizedString(reportsForm.toString());
+        LOG.info(FORM_DETAILS, sanitizedReportsForm);
         try {
             if (reportsForm.getCurrentReport() == null) {
                 reportsForm.setCurrentReport(new ReportsVO());
@@ -267,7 +272,8 @@ public class ReportsController {
                                final HttpServletResponse httpServletResponse,
                                final ReportsForm reportsForm) {
         LOG.info("GetErrorReport method of ReportsController ");
-        LOG.info(FORM_DETAILS, CommonUtils.sanitizedString(reportsForm.toString()));
+        var sanitizedReportsForm = CommonUtils.sanitizedString(reportsForm.toString());
+        LOG.info(FORM_DETAILS, sanitizedReportsForm);
         try {
             if (reportsForm.getCurrentReport() == null) {
                 reportsForm.setCurrentReport(new ReportsVO());
@@ -390,7 +396,7 @@ public class ReportsController {
     private void writeBytesToStream(final HttpServletResponse httpServletResponse,
                                     final ByteArrayOutputStream outputStream1) throws IOException {
         byte[] output = outputStream1.toByteArray();
-        ServletOutputStream outputStream = httpServletResponse.getOutputStream();
+        var outputStream = httpServletResponse.getOutputStream();
         httpServletResponse.setContentLength(output.length);
         outputStream.write(output, 0, output.length);
         outputStream.flush();

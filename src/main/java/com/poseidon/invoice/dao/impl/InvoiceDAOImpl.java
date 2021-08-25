@@ -15,7 +15,6 @@ import org.springframework.util.StringUtils;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @SuppressWarnings("unused")
 @Service
@@ -233,7 +232,7 @@ public class InvoiceDAOImpl implements InvoiceDAO {
         }
 
         List<Invoice> resultList = em.unwrap(Session.class).createQuery(criteria).getResultList();
-        return resultList.stream().map(this::convertInvoiceToInvoiceVO).collect(Collectors.toList());
+        return resultList.stream().map(this::convertInvoiceToInvoiceVO).toList();
     }
 
     private InvoiceVO getInvoiceVoFromInvoice(final Invoice invoice) {

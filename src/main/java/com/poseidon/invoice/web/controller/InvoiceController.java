@@ -12,7 +12,6 @@ import com.poseidon.transaction.service.TransactionService;
 import com.poseidon.transaction.web.form.TransactionForm;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.propertyeditors.CustomNumberEditor;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.WebDataBinder;
@@ -36,14 +35,19 @@ public class InvoiceController {
             "Inside saveInvoice method of InvoiceController, invoice Form details are %s";
     private static final String SUCCESS = "success";
 
-    @Autowired
-    private InvoiceService invoiceService;
+    private final InvoiceService invoiceService;
 
-    @Autowired
-    private TransactionService transactionService;
+    private final TransactionService transactionService;
 
-    @Autowired
-    private MakeService makeService;
+    private final MakeService makeService;
+
+    public InvoiceController(final InvoiceService invoiceService,
+                             final TransactionService transactionService,
+                             final MakeService makeService) {
+        this.invoiceService = invoiceService;
+        this.transactionService = transactionService;
+        this.makeService = makeService;
+    }
 
     /**
      * list invoice.
@@ -105,14 +109,7 @@ public class InvoiceController {
             searchTransactionVo.setTagNo(invoiceForm.getCurrentInvoiceVo().getTagNo());
             searchTransactionVo.setStartswith(Boolean.TRUE);
             searchTransactionVo.setIncludes(Boolean.TRUE);
-            List<TransactionVO> transactionVOs;
-            try {
-                transactionVOs = transactionService.searchTransactions(searchTransactionVo);
-                LOG.info("Found transactions :" + transactionVOs.size());
-                transactionVo = transactionVOs.get(0);
-            } catch (TransactionException ex) {
-                LOG.error(ex.getLocalizedMessage());
-            }
+            transactionVo = fetchTransactionVO(searchTransactionVo);
             if (transactionVo != null) {
                 invoiceForm.getCurrentInvoiceVo().setTransactionId(transactionVo.getId());
                 invoiceForm.getCurrentInvoiceVo().setSerialNo(transactionVo.getSerialNo());
@@ -143,6 +140,19 @@ public class InvoiceController {
         }
         invoiceForm.setSearchInvoiceVo(new InvoiceVO());
         return new ModelAndView(LIST_INVOICE, INVOICE_FORM, invoiceForm);
+    }
+
+    private TransactionVO fetchTransactionVO(final TransactionVO searchTransactionVo) {
+        TransactionVO transactionVo = null;
+        List<TransactionVO> transactionVOs;
+        try {
+            transactionVOs = transactionService.searchTransactions(searchTransactionVo);
+            LOG.info("Found transactions :  " + Integer.toString(transactionVOs.size()));
+            transactionVo = transactionVOs.get(0);
+        } catch (TransactionException ex) {
+            LOG.error(ex.getLocalizedMessage());
+        }
+        return transactionVo;
     }
 
     /**

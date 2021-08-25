@@ -57,8 +57,9 @@ public class MakeController {
      */
     @RequestMapping(value = "/make/ModelList.htm", method = {RequestMethod.POST, RequestMethod.GET})
     public ModelAndView modelList(final MakeForm makeForm) {
-        LOG.info(" Inside List method of MakeController, form details are  {}",
-                CommonUtils.sanitizedString(makeForm.toString()));
+        var sanitizedMakeForm = CommonUtils.sanitizedString(makeForm.toString());
+        LOG.info("Inside List method of MakeController, form details are  {}",
+                sanitizedMakeForm);
         List<MakeAndModelVO> makeAndModelVOs = null;
         try {
             makeAndModelVOs = makeService.listAllMakesAndModels();
@@ -134,7 +135,8 @@ public class MakeController {
     @PostMapping("/make/editMake.htm")
     public ModelAndView editMake(final MakeForm makeForm) {
         LOG.debug("EditMake method of MakeController ");
-        LOG.debug(MAKE_FORM_IS, CommonUtils.sanitizedString(makeForm.toString()));
+        var sanitizedMakeForm = CommonUtils.sanitizedString(makeForm.toString());
+        LOG.debug(MAKE_FORM_IS, sanitizedMakeForm);
         MakeAndModelVO makeVO = null;
         try {
             makeVO = makeService.getMakeFromId(makeForm.getId());
@@ -158,7 +160,8 @@ public class MakeController {
     public @ResponseBody
     String getForEdit(@ModelAttribute("id") final String id,
                       final BindingResult result) {
-        LOG.info("getForEdit method of make controller {}}", CommonUtils.sanitizedString(id));
+        var sanitizedId = CommonUtils.sanitizedString(id);
+        LOG.info("getForEdit method of make controller {}}", sanitizedId);
         String response = null;
         try {
             var makeVO = makeService.getModelFromId(Long.valueOf(id));
@@ -195,7 +198,8 @@ public class MakeController {
     @SuppressWarnings("unused")
     public ModelAndView deleteMake(final MakeForm makeForm) {
         LOG.debug("DeleteMake method of MakeController ");
-        LOG.debug(MAKE_FORM_IS, CommonUtils.sanitizedString(makeForm.toString()));
+        var sanitizedMakeForm = CommonUtils.sanitizedString(makeForm.toString());
+        LOG.debug(MAKE_FORM_IS, sanitizedMakeForm);
         try {
             makeService.deleteMake(makeForm.getId());
         } catch (Exception e1) {
@@ -218,7 +222,8 @@ public class MakeController {
     @SuppressWarnings("unused")
     public ModelAndView deleteModel(final MakeForm makeForm) {
         LOG.debug("DeleteModel method of MakeController ");
-        LOG.debug(MAKE_FORM_IS, CommonUtils.sanitizedString(makeForm.toString()));
+        var sanitizedMakeForm = CommonUtils.sanitizedString(makeForm.toString());
+        LOG.debug(MAKE_FORM_IS, sanitizedMakeForm);
         try {
             makeService.deleteModel(makeForm.getId());
             makeForm.setStatusMessage("Successfully deleted the selected Model");
@@ -243,8 +248,9 @@ public class MakeController {
      */
     @PostMapping("/make/updateMake.htm")
     public ModelAndView updateMake(final MakeForm makeForm) {
+        var sanitizedMakeForm = CommonUtils.sanitizedString(makeForm.toString());
         LOG.info("updateMake method of MakeController, makeForm instance to add to database  {}",
-                CommonUtils.sanitizedString(makeForm.toString()));
+                sanitizedMakeForm);
         if (makeForm.getCurrentMakeAndModeVO() != null) {
             makeForm.getCurrentMakeAndModeVO().setModifiedDate(OffsetDateTime.now(ZoneId.systemDefault()));
             makeForm.getCurrentMakeAndModeVO().setModifiedBy(makeForm.getLoggedInUser());
@@ -270,8 +276,9 @@ public class MakeController {
      */
     @PostMapping("/make/updateModel.htm")
     public ModelAndView updateModel(final MakeForm makeForm) {
+        var sanitizedMakeForm = CommonUtils.sanitizedString(makeForm.toString());
         LOG.debug(" updateModel method of MakeController , makeForm instance to add to database {}",
-                CommonUtils.sanitizedString(makeForm.toString()));
+                sanitizedMakeForm);
         if (makeForm.getCurrentMakeAndModeVO() != null) {
             makeForm.getCurrentMakeAndModeVO().setModifiedDate(OffsetDateTime.now(ZoneId.systemDefault()));
             makeForm.getCurrentMakeAndModeVO().setModifiedBy(makeForm.getLoggedInUser());
@@ -297,8 +304,9 @@ public class MakeController {
      */
     @PostMapping("/make/saveModel.htm")
     public ModelAndView saveModel(final MakeForm makeForm) {
+        var sanitizedMakeForm = CommonUtils.sanitizedString(makeForm.toString());
         LOG.info("SaveModel makeForm instance to add to database {}",
-                CommonUtils.sanitizedString(makeForm.toString()));
+                sanitizedMakeForm);
         if (makeForm.getCurrentMakeAndModeVO() != null) {
             makeForm.getCurrentMakeAndModeVO().setCreatedDate(OffsetDateTime.now(ZoneId.systemDefault()));
             makeForm.getCurrentMakeAndModeVO().setModifiedDate(OffsetDateTime.now(ZoneId.systemDefault()));
@@ -327,10 +335,12 @@ public class MakeController {
     @PostMapping("/make/searchModel.htm")
     public ModelAndView searchModel(final MakeForm makeForm) {
         LOG.debug("SearchModel method of MakeController ");
-        LOG.debug("MakeForm instance to search {}", CommonUtils.sanitizedString(makeForm.toString()));
+        var sanitizedMakeForm = CommonUtils.sanitizedString(makeForm.toString());
+        LOG.debug("MakeForm instance to search {}", sanitizedMakeForm);
         if (makeForm.getSearchMakeAndModelVO() != null) {
-            LOG.debug("SearchVO instance to search {}",
-                    CommonUtils.sanitizedString(makeForm.getSearchMakeAndModelVO().toString()));
+            var sanitizedSearchModel = CommonUtils.sanitizedString(
+                    makeForm.getSearchMakeAndModelVO().toString());
+            LOG.debug("SearchVO instance to search {}", sanitizedSearchModel);
         }
         List<MakeAndModelVO> makeVOs = null;
         try {
@@ -377,8 +387,10 @@ public class MakeController {
         LOG.info("SaveMakeAjax1 method of MakeController ");
         var responseString = new StringBuilder();
         if (!result.hasErrors()) {
-            LOG.info("selectMakeName : {}", CommonUtils.sanitizedString(selectMakeName));
-            LOG.info("selectMakeDesc : {}", CommonUtils.sanitizedString(selectMakeDesc));
+            var sanitizedSelectMakeName = CommonUtils.sanitizedString(selectMakeName);
+            var sanitizedSelectMakeDesc = CommonUtils.sanitizedString(selectMakeDesc);
+            LOG.info("selectMakeName : {}", sanitizedSelectMakeName);
+            LOG.info("selectMakeDesc : {}", sanitizedSelectMakeDesc);
             // todo: how to get this ??
             //makeForm.getCurrentMakeAndModeVO().setCreatedBy(makeForm.getLoggedInUser());
             //makeForm.getCurrentMakeAndModeVO().setModifiedBy(makeForm.getLoggedInUser());
@@ -445,8 +457,10 @@ public class MakeController {
         LOG.info("SaveModelAjax method of MakeController ");
         var responseString = new StringBuilder();
         if (!result.hasErrors()) {
-            LOG.info("selectMakeId : {}", CommonUtils.sanitizedString(selectMakeId.toString()));
-            LOG.info("selectModelName : {}", CommonUtils.sanitizedString(selectModelName));
+            var sanitizedSelectMakeId = CommonUtils.sanitizedString(selectMakeId.toString());
+            var sanitizedSelectModelName = CommonUtils.sanitizedString(selectModelName);
+            LOG.info("selectMakeId : {}", sanitizedSelectMakeId);
+            LOG.info("selectModelName : {}", sanitizedSelectModelName);
             // todo: how to get this ??
             //makeForm.getCurrentMakeAndModeVO().setCreatedBy(makeForm.getLoggedInUser());
             //makeForm.getCurrentMakeAndModeVO().setModifiedBy(makeForm.getLoggedInUser());
@@ -513,10 +527,11 @@ public class MakeController {
                            @ModelAttribute("modalMakeName") final Long makeId,
                            @ModelAttribute("modalModelName") final String modalModelName,
                            final BindingResult result) {
+        var sanitizedId = CommonUtils.sanitizedString(id.toString());
+        var sanitizedMakeId = CommonUtils.sanitizedString(makeId.toString());
+        var sanitizedModelName = CommonUtils.sanitizedString(modalModelName);
         LOG.info("UpdateModelAjax method of make controller with id {}, makeId {}, modalModelName {}",
-                CommonUtils.sanitizedString(id.toString()),
-                CommonUtils.sanitizedString(makeId.toString()),
-                CommonUtils.sanitizedString(modalModelName));
+                sanitizedId, sanitizedMakeId, sanitizedModelName);
         var responseString = new StringBuilder();
         try {
             makeService.updateModel(id, makeId, modalModelName);

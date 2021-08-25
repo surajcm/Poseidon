@@ -57,7 +57,7 @@ public class TransactionDAOImpl implements TransactionDAO {
     public List<TransactionVO> listAllTransactions() throws TransactionException {
         try {
             var transactions = transactionRepository.findAll();
-            return transactions.stream().map(this::convertToVO).collect(Collectors.toList());
+            return transactions.stream().map(this::convertToVO).toList();
         } catch (Exception ex) {
             LOG.error(ex.getLocalizedMessage());
             throw new TransactionException(TransactionException.DATABASE_ERROR);
@@ -72,7 +72,7 @@ public class TransactionDAOImpl implements TransactionDAO {
         List<TransactionVO> transactionVOS;
         try {
             var transactions = transactionRepository.todaysTransaction();
-            transactionVOS = transactions.stream().map(this::convertToVO).collect(Collectors.toList());
+            transactionVOS = transactions.stream().map(this::convertToVO).toList();
         } catch (Exception ex) {
             throw new TransactionException(TransactionException.DATABASE_ERROR);
         }

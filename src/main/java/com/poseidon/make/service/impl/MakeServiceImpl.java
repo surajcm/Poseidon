@@ -168,7 +168,7 @@ public class MakeServiceImpl implements MakeService {
         try {
             makeDAO.updateModel(currentMakeVO);
         } catch (MakeException makeException) {
-            LOG.info(MAKE_EXCEPTION_OCCURRED + makeException.getMessage());
+            LOG.info(MAKE_EXCEPTION_OCCURRED , makeException.getMessage());
         }
     }
 

@@ -6,7 +6,6 @@ import com.poseidon.make.domain.MakeAndModelVO;
 import org.springframework.stereotype.Component;
 
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Component
 public class MakeAndModelEntityConverter {
@@ -17,7 +16,7 @@ public class MakeAndModelEntityConverter {
      * @return list of make and model vos
      */
     public List<MakeAndModelVO> convertModelsToMakeAndModelVOs(final List<Model> models) {
-        return models.stream().map(this::createMakeAndModelVO).collect(Collectors.toList());
+        return models.stream().map(this::createMakeAndModelVO).toList();
     }
 
     /**
@@ -27,7 +26,7 @@ public class MakeAndModelEntityConverter {
      * @return list of make and model vos
      */
     public List<MakeAndModelVO> convertMakeToMakeAndModelVOs(final List<Make> makes) {
-        return makes.stream().map(this::createMakeAndModelVO).collect(Collectors.toList());
+        return makes.stream().map(this::createMakeAndModelVO).toList();
     }
 
     private MakeAndModelVO createMakeAndModelVO(final Model model) {

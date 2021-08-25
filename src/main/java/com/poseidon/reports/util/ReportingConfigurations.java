@@ -12,6 +12,11 @@ import net.sf.jasperreports.export.SimpleXlsReportConfiguration;
 import java.io.OutputStream;
 
 public class ReportingConfigurations {
+
+    private ReportingConfigurations() {
+
+    }
+
     public static SimpleXlsReportConfiguration configurationReportXls() {
         SimpleXlsReportConfiguration xlsReportConfiguration = new SimpleXlsReportConfiguration();
         xlsReportConfiguration.setOnePagePerSheet(false);

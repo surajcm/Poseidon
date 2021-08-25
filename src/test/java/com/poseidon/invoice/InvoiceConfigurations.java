@@ -12,7 +12,9 @@ import org.springframework.test.context.ContextConfiguration;
 public class InvoiceConfigurations {
     @Bean
     public InvoiceController invoiceController() {
-        return new InvoiceController();
+        return new InvoiceController(Mockito.mock(InvoiceService.class),
+                Mockito.mock(TransactionService.class),
+                Mockito.mock(MakeService.class));
     }
 
     @Bean

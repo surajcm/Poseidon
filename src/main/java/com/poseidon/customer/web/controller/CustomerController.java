@@ -10,7 +10,6 @@ import com.poseidon.util.CommonUtils;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -37,8 +36,11 @@ public class CustomerController {
     private static final String EXCEPTION_TYPE_IN_CONTROLLER = " Exception type in controller {}";
     private static final String CUSTOMER_FORM_IS = " CustomerForm is {}";
 
-    @Autowired
-    private CustomerService customerService;
+    private final CustomerService customerService;
+
+    public CustomerController(final CustomerService customerService) {
+        this.customerService = customerService;
+    }
 
     /**
      * list the customers.
@@ -80,7 +82,7 @@ public class CustomerController {
     @PostMapping("/customer/addCustomer.htm")
     public ModelAndView addCustomer(final CustomerForm customerForm) {
         var sanitizedForm = CommonUtils.sanitizedString(customerForm.toString());
-        LOG.info("AddCustomer method of CustomerController {}",sanitizedForm);
+        LOG.info("AddCustomer method of CustomerController {}", sanitizedForm);
         customerForm.setLoggedInUser(customerForm.getLoggedInUser());
         customerForm.setLoggedInRole(customerForm.getLoggedInRole());
         customerForm.setCurrentCustomerVO(new CustomerVO());
@@ -108,7 +110,7 @@ public class CustomerController {
         return new ModelAndView("customer/EditCustomer", CUSTOMER_FORM, customerForm);
     }
 
-    private void logIncomingEdit(CustomerForm customerForm) {
+    private void logIncomingEdit(final CustomerForm customerForm) {
         var sanitizedForm = CommonUtils.sanitizedString(customerForm.toString());
         LOG.info("EditCustomer method of CustomerController ");
         LOG.info("customerForm is {}", sanitizedForm);

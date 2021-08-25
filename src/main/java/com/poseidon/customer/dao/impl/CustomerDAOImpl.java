@@ -11,7 +11,6 @@ import com.poseidon.dataaccess.specs.SearchCriteria;
 import com.poseidon.dataaccess.specs.SearchOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
@@ -28,14 +27,18 @@ public class CustomerDAOImpl implements CustomerDAO {
     private static final Logger LOG = LoggerFactory.getLogger(CustomerDAOImpl.class);
     private static final String MOBILE = "mobile";
 
-    @Autowired
-    private CustomerRepository customerRepository;
+    private final CustomerRepository customerRepository;
 
-    @Autowired
-    private CustomerAdditionalDetailsRepository customerAdditionalDetailsRepository;
+    private final CustomerAdditionalDetailsRepository customerAdditionalDetailsRepository;
 
     @PersistenceContext
     private EntityManager em;
+
+    public CustomerDAOImpl(final CustomerRepository customerRepository,
+                           final CustomerAdditionalDetailsRepository customerAdditionalDetailsRepository) {
+        this.customerRepository = customerRepository;
+        this.customerAdditionalDetailsRepository = customerAdditionalDetailsRepository;
+    }
 
     /**
      * list all customer details.

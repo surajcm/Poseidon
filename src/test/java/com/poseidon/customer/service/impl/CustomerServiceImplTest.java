@@ -9,7 +9,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
-import org.powermock.reflect.Whitebox;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
@@ -33,13 +32,9 @@ class CustomerServiceImplTest {
     @Autowired
     private CustomerDAOImpl customerDAO;
 
-    /**
-     * initial set up.
-     */
     @BeforeEach
     public void setup() {
-        customerService = new CustomerServiceImpl();
-        Whitebox.setInternalState(customerService, "customerDAO", customerDAO);
+        customerService = new CustomerServiceImpl(customerDAO);
     }
 
     @Test

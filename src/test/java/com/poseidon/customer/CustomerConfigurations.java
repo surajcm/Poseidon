@@ -10,7 +10,7 @@ import org.springframework.test.context.ContextConfiguration;
 public class CustomerConfigurations {
     @Bean
     public CustomerController customerController() {
-        return new CustomerController();
+        return new CustomerController(Mockito.mock(CustomerService.class));
     }
 
     @Bean

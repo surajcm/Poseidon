@@ -4,11 +4,9 @@ import com.poseidon.customer.dao.entities.Customer;
 import com.poseidon.customer.domain.CustomerVO;
 import com.poseidon.customer.exception.CustomerException;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
-import org.powermock.reflect.Whitebox;
 import org.springframework.dao.CannotAcquireLockException;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
@@ -23,17 +21,11 @@ import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
 class CustomerDAOImplTest {
-    private final CustomerDAOImpl customerDAO = new CustomerDAOImpl();
     private final CustomerRepository customerRepository = Mockito.mock(CustomerRepository.class);
     private final CustomerAdditionalDetailsRepository customerAdditionalDetailsRepository =
             Mockito.mock(CustomerAdditionalDetailsRepository.class);
-
-    @BeforeEach
-    public void setup() {
-        Whitebox.setInternalState(customerDAO, "customerRepository", customerRepository);
-        Whitebox.setInternalState(customerDAO,
-                "customerAdditionalDetailsRepository", customerAdditionalDetailsRepository);
-    }
+    private final CustomerDAOImpl customerDAO = new CustomerDAOImpl(
+            customerRepository, customerAdditionalDetailsRepository);
 
     @Test
     void listAllCustomerDetailsSuccess() throws CustomerException {
