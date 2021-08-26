@@ -25,7 +25,6 @@ import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 /**
  * user: Suraj.
@@ -37,6 +36,7 @@ import java.util.stream.Collectors;
 public class TransactionDAOImpl implements TransactionDAO {
 
     private static final Logger LOG = LoggerFactory.getLogger(TransactionDAOImpl.class);
+    public static final String AND = " and ";
     @Autowired
     private TransactionRepository transactionRepository;
     @Autowired
@@ -212,24 +212,25 @@ public class TransactionDAOImpl implements TransactionDAO {
         return transactionVOList;
     }
 
+    private String searchQuery() {
+        return """
+                SELECT tr FROM Transaction tr inner join Make mk on tr.makeId=mk.id inner join Model mdl
+                 on tr.modelId=mdl.id inner join Customer cust on cust.id=tr.customerId """;
+    }
+
     private List<TransactionVO> searchTxs(final TransactionVO searchTransaction) {
-        StringBuilder hqlQuery = new StringBuilder()
-                .append("SELECT tr FROM Transaction tr inner join Make mk on tr.makeId=mk.id inner join Model mdl")
-                .append(" on tr.modelId=mdl.id inner join Customer cust on cust.id=tr.customerId ");
-        boolean hasTagNo = searchTransaction.getTagNo() != null && searchTransaction.getTagNo().trim().length() > 0;
-        boolean hasCustomerName = searchTransaction.getCustomerName() != null
-                && searchTransaction.getCustomerName().trim().length() > 0;
-        boolean hasSerialNo = searchTransaction.getSerialNo() != null
-                && searchTransaction.getSerialNo().trim().length() > 0;
+        StringBuilder hqlQuery = new StringBuilder().append(searchQuery());
+        boolean hasTagNo = hasElement(searchTransaction.getTagNo());
+        boolean hasCustomerName = hasElement(searchTransaction.getCustomerName());
+        boolean hasSerialNo = hasElement(searchTransaction.getSerialNo());
         boolean hasMake = searchTransaction.getMakeId() != null && searchTransaction.getMakeId() > 0;
         boolean hasModel = searchTransaction.getModelId() != null && searchTransaction.getModelId() > 0;
-        boolean hasStatus = searchTransaction.getStatus() != null && searchTransaction.getStatus().trim().length() > 0;
-        boolean hasStartDateAndEndDate = searchTransaction.getStartDate() != null
-                && searchTransaction.getStartDate().trim().length() > 0
-                && searchTransaction.getEndDate() != null
-                && searchTransaction.getEndDate().trim().length() > 0;
+        boolean hasStatus = hasElement(searchTransaction.getStatus());
+        boolean hasStartDateAndEndDate = hasStartDateAndEndDate(searchTransaction);
+        boolean whereAtStart = whereAtStart(hasTagNo, hasCustomerName, hasSerialNo, hasMake,
+                hasModel, hasStatus, hasStartDateAndEndDate);
 
-        if (hasTagNo || hasCustomerName || hasSerialNo || hasMake || hasModel || hasStatus || hasStartDateAndEndDate) {
+        if (whereAtStart) {
             hqlQuery.append(" where");
         }
 
@@ -249,7 +250,7 @@ public class TransactionDAOImpl implements TransactionDAO {
         var customer = "";
         if (hasCustomerName) {
             if (first) {
-                hqlQuery.append(" and ");
+                hqlQuery.append(AND);
             }
             hqlQuery.append(" cust.name like :customer ");
             if (searchTransaction.getIncludes() != null && searchTransaction.getIncludes()) {
@@ -263,7 +264,7 @@ public class TransactionDAOImpl implements TransactionDAO {
         var serial = "";
         if (hasSerialNo) {
             if (first) {
-                hqlQuery.append(" and ");
+                hqlQuery.append(AND);
             }
             hqlQuery.append(" tr.serialno like :serial ");
             if (searchTransaction.getIncludes() != null && searchTransaction.getIncludes()) {
@@ -277,7 +278,7 @@ public class TransactionDAOImpl implements TransactionDAO {
         var make = 0L;
         if (hasMake) {
             if (first) {
-                hqlQuery.append(" and ");
+                hqlQuery.append(AND);
             }
             hqlQuery.append(" mk.id like :make ");
             make = searchTransaction.getMakeId();
@@ -285,7 +286,7 @@ public class TransactionDAOImpl implements TransactionDAO {
         var model = 0L;
         if (hasModel) {
             if (first) {
-                hqlQuery.append(" and ");
+                hqlQuery.append(AND);
             }
             hqlQuery.append(" mdl.id like :model ");
             model = searchTransaction.getModelId();
@@ -293,7 +294,7 @@ public class TransactionDAOImpl implements TransactionDAO {
         var status = "";
         if (hasStatus) {
             if (first) {
-                hqlQuery.append(" and ");
+                hqlQuery.append(AND);
             }
             hqlQuery.append(" tr.status like :status ");
             if (searchTransaction.getIncludes() != null && searchTransaction.getIncludes()) {
@@ -308,7 +309,7 @@ public class TransactionDAOImpl implements TransactionDAO {
         var end = OffsetDateTime.now(ZoneId.systemDefault());
         if (hasStartDateAndEndDate) {
             if (first) {
-                hqlQuery.append(" and ");
+                hqlQuery.append(AND);
             }
             start = getParsedDate(searchTransaction.getStartDate());
             end = getParsedDate(searchTransaction.getEndDate());
@@ -338,7 +339,27 @@ public class TransactionDAOImpl implements TransactionDAO {
             query.setParameter("end", end);
         }
         List<Transaction> transactions = query.getResultList();
-        return transactions.stream().map(this::convertToVO).collect(Collectors.toList());
+        return transactions.stream().map(this::convertToVO).toList();
+    }
+
+    private boolean whereAtStart(final boolean hasTagNo, final boolean hasCustomerName,
+                                 final boolean hasSerialNo, final boolean hasMake,
+                                 final boolean hasModel, final boolean hasStatus,
+                                 final boolean hasStartDateAndEndDate) {
+        return hasTagNo || hasCustomerName || hasSerialNo || hasMake ||
+                hasModel || hasStatus || hasStartDateAndEndDate;
+    }
+
+    private boolean hasElement(final String serialNo) {
+        return serialNo != null
+                && serialNo.trim().length() > 0;
+    }
+
+    private boolean hasStartDateAndEndDate(final TransactionVO searchTransaction) {
+        return searchTransaction.getStartDate() != null
+                && searchTransaction.getStartDate().trim().length() > 0
+                && searchTransaction.getEndDate() != null
+                && searchTransaction.getEndDate().trim().length() > 0;
     }
 
     private TransactionVO convertToVO(final Transaction txn) {

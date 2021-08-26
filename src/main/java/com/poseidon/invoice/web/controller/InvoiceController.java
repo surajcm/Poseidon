@@ -129,7 +129,13 @@ public class InvoiceController {
             LOG.error(ex.getLocalizedMessage());
         }
         LOG.info("fetching invoice for listing....");
-        List<InvoiceVO> invoiceVOs;
+        List<InvoiceVO> invoiceVOs = fetchInvoices(invoiceForm);
+        invoiceForm.setSearchInvoiceVo(new InvoiceVO());
+        return new ModelAndView(LIST_INVOICE, INVOICE_FORM, invoiceForm);
+    }
+
+    private List<InvoiceVO> fetchInvoices(final InvoiceForm invoiceForm) {
+        List<InvoiceVO> invoiceVOs = null;
         try {
             invoiceVOs = invoiceService.fetchInvoiceForListOfTransactions();
             if (invoiceVOs != null && !invoiceVOs.isEmpty()) {
@@ -138,8 +144,7 @@ public class InvoiceController {
         } catch (InvoiceException ex) {
             LOG.error(ex.getLocalizedMessage());
         }
-        invoiceForm.setSearchInvoiceVo(new InvoiceVO());
-        return new ModelAndView(LIST_INVOICE, INVOICE_FORM, invoiceForm);
+        return invoiceVOs;
     }
 
     private TransactionVO fetchTransactionVO(final TransactionVO searchTransactionVo) {
@@ -197,15 +202,7 @@ public class InvoiceController {
             invoiceForm.setStatusMessageType(ERROR);
             LOG.error(ex.getLocalizedMessage());
         }
-        List<InvoiceVO> invoiceVOs;
-        try {
-            invoiceVOs = invoiceService.fetchInvoiceForListOfTransactions();
-            if (invoiceVOs != null && !invoiceVOs.isEmpty()) {
-                invoiceForm.setInvoiceVos(invoiceVOs);
-            }
-        } catch (InvoiceException ex) {
-            LOG.error(ex.getLocalizedMessage());
-        }
+        List<InvoiceVO> invoiceVOs = fetchInvoices(invoiceForm);
         invoiceForm.setSearchInvoiceVo(new InvoiceVO());
         return new ModelAndView(LIST_INVOICE, INVOICE_FORM, invoiceForm);
     }
@@ -257,15 +254,7 @@ public class InvoiceController {
             invoiceForm.setStatusMessageType(ERROR);
             LOG.error(ex.getLocalizedMessage());
         }
-        List<InvoiceVO> invoiceVOs;
-        try {
-            invoiceVOs = invoiceService.fetchInvoiceForListOfTransactions();
-            if (invoiceVOs != null && !invoiceVOs.isEmpty()) {
-                invoiceForm.setInvoiceVos(invoiceVOs);
-            }
-        } catch (InvoiceException ex) {
-            LOG.error(ex.getLocalizedMessage());
-        }
+        List<InvoiceVO> invoiceVOs = fetchInvoices(invoiceForm);
         invoiceForm.setSearchInvoiceVo(new InvoiceVO());
         return new ModelAndView(LIST_INVOICE, INVOICE_FORM, invoiceForm);
     }

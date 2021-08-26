@@ -52,7 +52,7 @@ public class ReportsController {
     private static final String JRXML = ".jrxml";
     private static final String FILENAME = "attachment;filename=";
     private static final String X_FRAME_OPTIONS = "X-Frame-Options";
-    private static final String SAMEORIGIN = "SAMEORIGIN";
+    private static final String SAME_ORIGIN = "SAMEORIGIN";
     private static final String TEXT_HTML = "text/html";
     private static final String CONTENT_DISPOSITION = "Content-disposition";
     private static final String CONTENT_DISPOSITION1 = "Content-Disposition";
@@ -317,7 +317,7 @@ public class ReportsController {
                                       final ExportList reportType) {
         try {
             LOG.info("In generateJasperReport method");
-            httpServletResponse.setHeader(X_FRAME_OPTIONS, SAMEORIGIN);
+            httpServletResponse.setHeader(X_FRAME_OPTIONS, SAME_ORIGIN);
             LOG.info("ReportFileName : {} , ReportType {} ", reportFileName , reportType);
             switch (reportType) {
                 case EXCEL -> {
