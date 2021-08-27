@@ -16,7 +16,6 @@ import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @Repository
 @SuppressWarnings("unused")
@@ -77,7 +76,7 @@ public class UserDAOImpl implements UserDAO {
     }
 
     private List<UserVO> convertUsersToUserVOs(final List<User> users) {
-        return users.stream().map(this::convertToUserVO).collect(Collectors.toList());
+        return users.stream().map(this::convertToUserVO).toList();
     }
 
     private UserVO convertToUserVO(final User user) {
@@ -249,9 +248,9 @@ public class UserDAOImpl implements UserDAO {
 
     private SearchOperation populateSearchOperation(final UserVO searchUser) {
         SearchOperation searchOperation;
-        if (searchUser.getIncludes() != null && searchUser.getIncludes().booleanValue()) {
+        if (searchUser.getIncludes() != null && Boolean.TRUE.equals(searchUser.getIncludes())) {
             searchOperation = SearchOperation.MATCH;
-        } else if (searchUser.getStartsWith() != null && searchUser.getStartsWith().booleanValue()) {
+        } else if (searchUser.getStartsWith() != null && Boolean.TRUE.equals(searchUser.getStartsWith())) {
             searchOperation = SearchOperation.MATCH_START;
         } else {
             searchOperation = SearchOperation.EQUAL;

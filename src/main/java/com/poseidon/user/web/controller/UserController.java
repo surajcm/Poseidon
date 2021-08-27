@@ -30,7 +30,6 @@ import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 
 @Controller
@@ -230,7 +229,7 @@ public class UserController {
      * @return List of String
      */
     private List<String> populateRoles() {
-        return Arrays.stream(Role.values()).map(Enum::name).collect(Collectors.toList());
+        return Arrays.stream(Role.values()).map(Enum::name).toList();
     }
 
     /**
@@ -310,9 +309,9 @@ public class UserController {
             response = mapper.writeValueAsString(userList);
         } catch (IOException ex) {
             response = ERROR;
-            logger.error("error parsing to json : " + ex.getMessage());
+            logger.error("error parsing to json : {}" , ex.getMessage());
         }
-        logger.info("user list json : " + response);
+        logger.info("user list json : {}" , response);
         return response;
     }
 
@@ -334,13 +333,13 @@ public class UserController {
     public @ResponseBody
     String getForEdit(@ModelAttribute("id") final String id,
                       final BindingResult result) {
-        logger.info("getForEdit method of user controller : {}" , CommonUtils.sanitizedString(id));
+        var sanitizedId = CommonUtils.sanitizedString(id);
+        logger.info("getForEdit method of user controller : {}" , sanitizedId);
         String response = null;
         try {
             UserVO userVO = userService.getUserDetailsFromId(Long.valueOf(id));
             if (userVO != null) {
-                logger.info(userVO.toString());
-                Map<String, String> userEditMap = populateUserEditMap(userVO);
+                var userEditMap = populateUserEditMap(userVO);
                 response = parseUserVO(userEditMap);
             }
         } catch (Exception ex) {
@@ -365,9 +364,9 @@ public class UserController {
             response = mapper.writeValueAsString(userEditMap);
         } catch (IOException ex) {
             response = ERROR;
-            logger.error("Error parsing to json : " + ex.getMessage());
+            logger.error("Error parsing to json : {}" , ex.getMessage());
         }
-        logger.info("User list json : " + response);
+        logger.info("User list json : {}" , response);
         return response;
     }
 
@@ -378,9 +377,13 @@ public class UserController {
                           @ModelAttribute("email") final String email,
                           @ModelAttribute("role") final String role,
                           final BindingResult result) {
+        var sanitizedId = CommonUtils.sanitizedString(id);
+        var sanitizedName = CommonUtils.sanitizedString(name);
+        var sanitizedEmail = CommonUtils.sanitizedString(email);
+        var sanitizedRole = CommonUtils.sanitizedString(role);
         logger.info("updateUserAjax method of user controller with id {}, name {}, email {}, role {}",
-                CommonUtils.sanitizedString(id), CommonUtils.sanitizedString(name),
-                CommonUtils.sanitizedString(email), CommonUtils.sanitizedString(role));
+                sanitizedId, sanitizedName,
+                sanitizedEmail, sanitizedRole);
         try {
             var userVO = userService.getUserDetailsFromId(Long.valueOf(id));
             if (userVO != null) {
@@ -406,8 +409,10 @@ public class UserController {
     String changePass(@ModelAttribute("current") final String current,
                       @ModelAttribute("newPass") final String newPass,
                       final BindingResult result) {
-        logger.info("ChangePass of user controller from {} to {}", CommonUtils.sanitizedString(current),
-                CommonUtils.sanitizedString(newPass));
+        var sanitizedCurrent = CommonUtils.sanitizedString(current);
+        var sanitizedPass = CommonUtils.sanitizedString(newPass);
+        logger.info("ChangePass of user controller from {} to {}", sanitizedCurrent,
+                sanitizedPass);
         String message;
         var auth = SecurityContextHolder.getContext().getAuthentication();
         // get the user info
@@ -441,7 +446,7 @@ public class UserController {
             response = mapper.writeValueAsString(messageMap);
         } catch (IOException ex) {
             response = ERROR;
-            logger.error("Error parsing to json : " + ex.getMessage());
+            logger.error("Error parsing to json : {}" , ex.getMessage());
         }
         return response;
     }

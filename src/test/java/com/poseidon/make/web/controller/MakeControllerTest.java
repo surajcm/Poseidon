@@ -102,8 +102,8 @@ class MakeControllerTest {
 
     @Test
     void saveMakeAjax() throws Exception {
-        String selectMakeName = "Apple";
-        String selectMakeDesc = "Mac book";
+        var selectMakeName = "Apple";
+        var selectMakeDesc = "Mac book";
         mvc.perform(post("/make/saveMakeAjax.htm")
                 .param("selectMakeName", selectMakeName)
                 .param("selectMakeDesc", selectMakeDesc))
@@ -117,8 +117,8 @@ class MakeControllerTest {
 
     @Test
     void saveModelAjax() throws Exception {
-        String selectMakeId = "1234";
-        String selectModelName = "Mac book";
+        var selectMakeId = "1234";
+        var selectModelName = "Mac book";
         mvc.perform(post("/make/saveModelAjax.htm")
                 .param("selectMakeId", selectMakeId)
                 .param("selectModelName", selectModelName))

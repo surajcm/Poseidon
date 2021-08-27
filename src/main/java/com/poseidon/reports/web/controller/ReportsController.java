@@ -21,7 +21,6 @@ import net.sf.jasperreports.engine.export.JRXlsExporter;
 import net.sf.jasperreports.engine.export.ooxml.JRDocxExporter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -56,11 +55,14 @@ public class ReportsController {
     private static final String TEXT_HTML = "text/html";
     private static final String CONTENT_DISPOSITION = "Content-disposition";
     private static final String CONTENT_DISPOSITION1 = "Content-Disposition";
-    @Autowired
-    private ReportsService reportsService;
+    private final ReportsService reportsService;
 
-    @Autowired
-    private MakeService makeService;
+    private final MakeService makeService;
+
+    public ReportsController(final ReportsService reportsService, final MakeService makeService) {
+        this.reportsService = reportsService;
+        this.makeService = makeService;
+    }
 
     /**
      * list reports.
@@ -120,8 +122,8 @@ public class ReportsController {
      */
     @RequestMapping(value = "/reports/getMakeDetailsReport.htm", method = {RequestMethod.GET, RequestMethod.POST})
     public void getMakeDetailsReport(final HttpServletRequest httpServletRequest,
-                                             final HttpServletResponse httpServletResponse,
-                                             final ReportsForm reportsForm) {
+                                     final HttpServletResponse httpServletResponse,
+                                     final ReportsForm reportsForm) {
         LOG.info("GetMakeDetailsReport method of ReportsController ");
         var sanitizedReportsForm = CommonUtils.sanitizedString(reportsForm.toString());
         LOG.info(FORM_DETAILS, sanitizedReportsForm);
@@ -151,8 +153,8 @@ public class ReportsController {
      */
     @RequestMapping(value = "/reports/getCallReport.htm", method = {RequestMethod.GET, RequestMethod.POST})
     public void getCallReport(final HttpServletRequest httpServletRequest,
-                                      final HttpServletResponse httpServletResponse,
-                                      final ReportsForm reportsForm) {
+                              final HttpServletResponse httpServletResponse,
+                              final ReportsForm reportsForm) {
         LOG.info("GetCallReport method of ReportsController ");
         var sanitizedReportsForm = CommonUtils.sanitizedString(reportsForm.toString());
         LOG.info(FORM_DETAILS, sanitizedReportsForm);
@@ -180,8 +182,8 @@ public class ReportsController {
      */
     @RequestMapping(value = "/reports/getTransactionsListReport.htm", method = {RequestMethod.GET, RequestMethod.POST})
     public void getTransactionsListReport(final HttpServletRequest httpServletRequest,
-                                                  final HttpServletResponse httpServletResponse,
-                                                  final ReportsForm reportsForm) {
+                                          final HttpServletResponse httpServletResponse,
+                                          final ReportsForm reportsForm) {
         LOG.info("GetTransactionsListReport method of ReportsController ");
         var sanitizedReportsForm = CommonUtils.sanitizedString(reportsForm.toString());
         LOG.info(FORM_DETAILS, sanitizedReportsForm);
@@ -207,11 +209,11 @@ public class ReportsController {
      * @param httpServletRequest  HttpServletRequest
      * @param httpServletResponse HttpServletResponse
      * @param reportsForm         ReportsForm
-    */
+     */
     @RequestMapping(value = "/reports/getModelListReport.htm", method = {RequestMethod.GET, RequestMethod.POST})
     public void getModelListReport(final HttpServletRequest httpServletRequest,
-                                           final HttpServletResponse httpServletResponse,
-                                           final ReportsForm reportsForm) {
+                                   final HttpServletResponse httpServletResponse,
+                                   final ReportsForm reportsForm) {
         LOG.info("GetModelListReport method of ReportsController ");
         var sanitizedReportsForm = CommonUtils.sanitizedString(reportsForm.toString());
         LOG.info(FORM_DETAILS, sanitizedReportsForm);
@@ -240,8 +242,8 @@ public class ReportsController {
      */
     @RequestMapping(value = "/reports/getInvoiceReport.htm", method = {RequestMethod.GET, RequestMethod.POST})
     public void getInvoiceReport(final HttpServletRequest httpServletRequest,
-                                         final HttpServletResponse httpServletResponse,
-                                         final ReportsForm reportsForm) {
+                                 final HttpServletResponse httpServletResponse,
+                                 final ReportsForm reportsForm) {
         LOG.info("GetInvoiceReport method of ReportsController ");
         var sanitizedReportsForm = CommonUtils.sanitizedString(reportsForm.toString());
         LOG.info(FORM_DETAILS, sanitizedReportsForm);
@@ -318,7 +320,7 @@ public class ReportsController {
         try {
             LOG.info("In generateJasperReport method");
             httpServletResponse.setHeader(X_FRAME_OPTIONS, SAME_ORIGIN);
-            LOG.info("ReportFileName : {} , ReportType {} ", reportFileName , reportType);
+            LOG.info("ReportFileName : {} , ReportType {} ", reportFileName, reportType);
             switch (reportType) {
                 case EXCEL -> {
                     httpServletResponse.setContentType("application/vnd.ms-excel");

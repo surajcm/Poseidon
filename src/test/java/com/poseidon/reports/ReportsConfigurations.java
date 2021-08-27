@@ -11,7 +11,8 @@ import org.springframework.test.context.ContextConfiguration;
 public class ReportsConfigurations {
     @Bean
     public ReportsController reportsController() {
-        return new ReportsController();
+        return new ReportsController(Mockito.mock(ReportsService.class),
+                Mockito.mock(MakeService.class));
     }
 
     @Bean

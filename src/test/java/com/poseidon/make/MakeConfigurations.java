@@ -11,7 +11,7 @@ import org.springframework.test.context.ContextConfiguration;
 public class MakeConfigurations {
     @Bean
     public MakeController makeController() {
-        return new MakeController();
+        return new MakeController(Mockito.mock(MakeService.class));
     }
 
     @Bean

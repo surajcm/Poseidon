@@ -6,11 +6,9 @@ import com.poseidon.make.dao.mapper.MakeAndModelEntityConverter;
 import com.poseidon.make.domain.MakeAndModelVO;
 import com.poseidon.make.exception.MakeException;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
-import org.powermock.reflect.Whitebox;
 import org.springframework.dao.CannotAcquireLockException;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
@@ -24,17 +22,11 @@ import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
 class MakeDaoImplTest {
-    private final MakeDaoImpl makeDao = new MakeDaoImpl();
     private final MakeRepository makeRepository = Mockito.mock(MakeRepository.class);
     private final ModelRepository modelRepository = Mockito.mock(ModelRepository.class);
     private final MakeAndModelEntityConverter makeAndModelEntityConverter = new MakeAndModelEntityConverter();
-
-    @BeforeEach
-    public void setup() {
-        Whitebox.setInternalState(makeDao, "makeRepository", makeRepository);
-        Whitebox.setInternalState(makeDao, "modelRepository", modelRepository);
-        Whitebox.setInternalState(makeDao, "makeAndModelEntityConverter", makeAndModelEntityConverter);
-    }
+    private final MakeDaoImpl makeDao = new MakeDaoImpl(makeRepository, modelRepository,
+            makeAndModelEntityConverter);
 
     @Test
     void listAllMakesSuccess() throws MakeException {

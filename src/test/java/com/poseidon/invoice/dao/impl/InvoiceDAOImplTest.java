@@ -4,11 +4,9 @@ import com.poseidon.invoice.dao.entities.Invoice;
 import com.poseidon.invoice.domain.InvoiceVO;
 import com.poseidon.invoice.exception.InvoiceException;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
-import org.powermock.reflect.Whitebox;
 import org.springframework.dao.CannotAcquireLockException;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
@@ -22,13 +20,8 @@ import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
 class InvoiceDAOImplTest {
-    private final InvoiceDAOImpl invoiceDAO = new InvoiceDAOImpl();
     private final InvoiceRepository invoiceRepository = Mockito.mock(InvoiceRepository.class);
-
-    @BeforeEach
-    public void setup() {
-        Whitebox.setInternalState(invoiceDAO, "invoiceRepository", invoiceRepository);
-    }
+    private final InvoiceDAOImpl invoiceDAO = new InvoiceDAOImpl(invoiceRepository);
 
     @Test
     void addInvoiceSuccess() {

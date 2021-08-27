@@ -5,11 +5,9 @@ import com.poseidon.make.domain.MakeAndModelVO;
 import com.poseidon.make.domain.MakeVO;
 import com.poseidon.make.exception.MakeException;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
-import org.powermock.reflect.Whitebox;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.List;
@@ -20,13 +18,8 @@ import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
 class MakeServiceImplTest {
-    private final MakeServiceImpl makeService = new MakeServiceImpl();
     private final MakeDao makeDAO = Mockito.mock(MakeDao.class);
-
-    @BeforeEach
-    public void setup() {
-        Whitebox.setInternalState(makeService, "makeDAO", makeDAO);
-    }
+    private final MakeServiceImpl makeService = new MakeServiceImpl(makeDAO);
 
     @Test
     void listAllMakesAndModelsSuccess() {

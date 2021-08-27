@@ -18,11 +18,9 @@ import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
-import org.powermock.reflect.Whitebox;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.ArrayList;
@@ -34,21 +32,14 @@ import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
 class ReportsServiceImplTest {
-    private final ReportsServiceImpl reportsService = new ReportsServiceImpl();
     private final ReportsDAO reportsDAO = Mockito.mock(ReportsDAO.class);
     private final MakeService makeService = Mockito.mock(MakeService.class);
     private final TransactionService transactionService = Mockito.mock(TransactionService.class);
     private final CompanyTermsService companyTermsService = Mockito.mock(CompanyTermsService.class);
     private final InvoiceService invoiceService = Mockito.mock(InvoiceService.class);
-
-    @BeforeEach
-    public void setup() {
-        Whitebox.setInternalState(reportsService, "reportsDAO", reportsDAO);
-        Whitebox.setInternalState(reportsService, "makeService", makeService);
-        Whitebox.setInternalState(reportsService, "transactionService", transactionService);
-        Whitebox.setInternalState(reportsService, "companyTermsService", companyTermsService);
-        Whitebox.setInternalState(reportsService, "invoiceService", invoiceService);
-    }
+    private final ReportsServiceImpl reportsService = new ReportsServiceImpl(reportsDAO,
+            makeService, transactionService,
+            companyTermsService, invoiceService);
 
     @Test
     void generateDailyReportSuccess() {

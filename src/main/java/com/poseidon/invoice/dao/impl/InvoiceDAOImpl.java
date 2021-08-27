@@ -7,7 +7,6 @@ import com.poseidon.invoice.exception.InvoiceException;
 import org.hibernate.Session;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
@@ -23,13 +22,16 @@ public class InvoiceDAOImpl implements InvoiceDAO {
     private static final String SERIAL_NO = "serialno";
     private static final String DESCRIPTION = "description";
     private static final String AMOUNT = "amount";
-    @Autowired
-    private InvoiceRepository invoiceRepository;
+    private final InvoiceRepository invoiceRepository;
 
     @PersistenceContext
     private EntityManager em;
 
     private static final Logger log = LoggerFactory.getLogger(InvoiceDAOImpl.class);
+
+    public InvoiceDAOImpl(final InvoiceRepository invoiceRepository) {
+        this.invoiceRepository = invoiceRepository;
+    }
 
     /**
      * add invoice.

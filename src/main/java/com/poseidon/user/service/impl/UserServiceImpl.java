@@ -17,7 +17,7 @@ import java.util.List;
 @SuppressWarnings("unused")
 public class UserServiceImpl implements UserService {
     private static final Logger LOG = LoggerFactory.getLogger(UserServiceImpl.class);
-    private static final String EXCEPTION_TYPE_IN_SERVICE_IMPL = "Exception type in service impl ";
+    private static final String EXCEPTION_TYPE_IN_SERVICE_IMPL = "Exception type in service impl {}";
 
     @Autowired
     private UserDAO userDAO;
@@ -36,7 +36,7 @@ public class UserServiceImpl implements UserService {
         try {
             userList = userDAO.getAllUserDetails();
         } catch (UserException ex) {
-            LOG.error(EXCEPTION_TYPE_IN_SERVICE_IMPL + ex.getExceptionType());
+            LOG.error(EXCEPTION_TYPE_IN_SERVICE_IMPL, ex.getExceptionType());
             throw new UserException(ex.getExceptionType());
         }
         return userList;
@@ -55,7 +55,7 @@ public class UserServiceImpl implements UserService {
             user.setExpired(false);
             userDAO.save(user);
         } catch (UserException ex) {
-            LOG.error(EXCEPTION_TYPE_IN_SERVICE_IMPL + ex.getExceptionType());
+            LOG.error(EXCEPTION_TYPE_IN_SERVICE_IMPL, ex.getExceptionType());
             throw new UserException(ex.getExceptionType());
         }
     }
@@ -73,7 +73,7 @@ public class UserServiceImpl implements UserService {
         try {
             userVO = userDAO.getUserDetailsFromId(id);
         } catch (UserException ex) {
-            LOG.error(EXCEPTION_TYPE_IN_SERVICE_IMPL + ex.getExceptionType());
+            LOG.error(EXCEPTION_TYPE_IN_SERVICE_IMPL, ex.getExceptionType());
             throw new UserException(ex.getExceptionType());
         }
         return userVO;
@@ -121,7 +121,7 @@ public class UserServiceImpl implements UserService {
         try {
             userList = userDAO.searchUserDetails(searchUser);
         } catch (UserException ex) {
-            LOG.error(EXCEPTION_TYPE_IN_SERVICE_IMPL + ex.getExceptionType());
+            LOG.error(EXCEPTION_TYPE_IN_SERVICE_IMPL, ex.getExceptionType());
             throw new UserException(ex.getExceptionType());
         }
         return userList;

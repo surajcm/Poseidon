@@ -30,7 +30,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
-import java.util.stream.Collectors;
 
 /**
  * user: Suraj.
@@ -99,7 +98,7 @@ public class TransactionController {
     }
 
     private List<String> populateStatus() {
-        return Arrays.stream(TransactionStatus.values()).map(Enum::name).collect(Collectors.toList());
+        return Arrays.stream(TransactionStatus.values()).map(Enum::name).toList();
     }
 
     /**
@@ -138,7 +137,8 @@ public class TransactionController {
     @PostMapping("/txs/SaveTxn.htm")
     public ModelAndView saveTxn(final TransactionForm transactionForm) {
         LOG.info("SaveTxn method of TransactionController ");
-        LOG.info("form details are {} ", CommonUtils.sanitizedString(transactionForm.toString()));
+        var sanitizedForm = CommonUtils.sanitizedString(transactionForm.toString());
+        LOG.info("form details are {} ", sanitizedForm);
         var transactionVO = transactionForm.getCurrentTransaction();
         if (transactionForm.getCurrentTransaction() != null) {
             transactionVO.setCreatedOn(OffsetDateTime.now(ZoneId.systemDefault()));
@@ -190,10 +190,12 @@ public class TransactionController {
     @PostMapping("/txs/SearchTxn.htm")
     public ModelAndView searchTxn(final TransactionForm transactionForm) {
         LOG.info("SearchTxn method of TransactionController ");
-        LOG.info("form details are {}", CommonUtils.sanitizedString(transactionForm.toString()));
+        var sanitizedForm = CommonUtils.sanitizedString(transactionForm.toString());
+        LOG.info("form details are {}", sanitizedForm);
         if (transactionForm.getSearchTransaction() != null) {
-            LOG.info("form search details are {}",
-                    CommonUtils.sanitizedString(transactionForm.getSearchTransaction().toString()));
+            var sanitizedSearch = CommonUtils.sanitizedString(
+                    transactionForm.getSearchTransaction().toString());
+            LOG.info("form search details are {}", sanitizedSearch);
         }
         List<TransactionVO> transactionVOs = null;
         try {
@@ -225,7 +227,8 @@ public class TransactionController {
     @PostMapping("/txs/EditTxn.htm")
     public ModelAndView editTxn(final TransactionForm transactionForm) {
         LOG.info("EditTxn method of TransactionController ");
-        LOG.info("transactionForm is {}", CommonUtils.sanitizedString(transactionForm.toString()));
+        var sanitizedForm = CommonUtils.sanitizedString(transactionForm.toString());
+        LOG.info("transactionForm is {}", sanitizedForm);
         TransactionVO transactionVO = null;
         CustomerVO customerVO = null;
         try {
@@ -265,12 +268,14 @@ public class TransactionController {
     @PostMapping("/txs/updateTxn.htm")
     public ModelAndView updateTxn(final TransactionForm transactionForm) {
         LOG.info("UpdateTxn method of TransactionController ");
-        LOG.info("TransactionForm values are {}", CommonUtils.sanitizedString(transactionForm.toString()));
+        var sanitizedForm = CommonUtils.sanitizedString(transactionForm.toString());
+        LOG.info("TransactionForm values are {}", sanitizedForm);
         if (transactionForm.getCurrentTransaction() != null) {
             transactionForm.getCurrentTransaction().setModifiedBy(transactionForm.getLoggedInUser());
             transactionForm.getCurrentTransaction().setModifiedOn(OffsetDateTime.now(ZoneId.systemDefault()));
-            LOG.info("TransactionForm, current transactions are values are {}",
-                    CommonUtils.sanitizedString(transactionForm.getCurrentTransaction().toString()));
+            var sanitizedCurrent = CommonUtils.sanitizedString(
+                    transactionForm.getCurrentTransaction().toString());
+            LOG.info("TransactionForm, current transactions are values are {}", sanitizedCurrent);
         }
         try {
             transactionService.updateTransaction(transactionForm.getCurrentTransaction());
@@ -282,12 +287,7 @@ public class TransactionController {
             LOG.error(ex.getLocalizedMessage());
             LOG.info(UNKNOWN_ERROR);
         }
-        List<TransactionVO> transactionVOs = null;
-        try {
-            transactionVOs = transactionService.listTodaysTransactions();
-        } catch (Exception ex) {
-            LOG.error(ex.getLocalizedMessage());
-        }
+        List<TransactionVO> transactionVOs = getTodaysTransactionVOS();
         if (transactionVOs != null) {
             transactionVOs.forEach(transactionVO -> LOG.info(TRANSACTION_VO, transactionVO));
             transactionForm.setTransactionsList(transactionVOs);
@@ -300,6 +300,16 @@ public class TransactionController {
         return new ModelAndView(TRANSACTION_LIST, TRANSACTION_FORM, transactionForm);
     }
 
+    private List<TransactionVO> getTodaysTransactionVOS() {
+        List<TransactionVO> transactionVOs = null;
+        try {
+            transactionVOs = transactionService.listTodaysTransactions();
+        } catch (Exception ex) {
+            LOG.error(ex.getLocalizedMessage());
+        }
+        return transactionVOs;
+    }
+
     /**
      * delete transaction.
      *
@@ -309,7 +319,8 @@ public class TransactionController {
     @PostMapping("/txs/DeleteTxn.htm")
     public ModelAndView deleteTxn(final TransactionForm transactionForm) {
         LOG.info("DeleteTxn method of TransactionController ");
-        LOG.info("TransactionForm values are {}", CommonUtils.sanitizedString(transactionForm.toString()));
+        var sanitizedForm = CommonUtils.sanitizedString(transactionForm.toString());
+        LOG.info("TransactionForm values are {}", sanitizedForm);
         try {
             transactionService.deleteTransaction(transactionForm.getId());
             transactionForm.setStatusMessage("Successfully deleted the transaction");
@@ -330,12 +341,7 @@ public class TransactionController {
             LOG.error(ex.getLocalizedMessage());
             LOG.info(UNKNOWN_ERROR);
         }
-        List<TransactionVO> transactionVOs = null;
-        try {
-            transactionVOs = transactionService.listTodaysTransactions();
-        } catch (Exception ex) {
-            LOG.error(ex.getLocalizedMessage());
-        }
+        List<TransactionVO> transactionVOs = getTodaysTransactionVOS();
         if (transactionVOs != null) {
             transactionVOs.forEach(transactionVO -> LOG.info(TRANSACTION_VO, transactionVO));
             transactionForm.setTransactionsList(transactionVOs);
@@ -357,7 +363,8 @@ public class TransactionController {
     public @ResponseBody
     String updateModelAjax(@ModelAttribute("selectMakeId") final String selectMakeId) {
         var responseString = "";
-        LOG.info("At UpdateModelAjax, selectMakeId is : {}", CommonUtils.sanitizedString(selectMakeId));
+        var sanitizedMakeId = CommonUtils.sanitizedString(selectMakeId);
+        LOG.info("At UpdateModelAjax, selectMakeId is : {}", sanitizedMakeId);
         try {
             var makeAndModelVOs = makeService.getAllModelsFromMakeId(Long.valueOf(selectMakeId));
             if (makeAndModelVOs != null && !makeAndModelVOs.isEmpty()) {
@@ -371,16 +378,16 @@ public class TransactionController {
 
     private String makeAndModelJson(final List<MakeAndModelVO> makeAndModelVOs) {
         String response;
-        List<Map<String, String>> makeAndModelList =
-                makeAndModelVOs.stream().map(this::getMakeModelMap).collect(Collectors.toList());
-        ObjectMapper mapper = new ObjectMapper();
+        var makeAndModelList =
+                makeAndModelVOs.stream().map(this::getMakeModelMap).toList();
+        var mapper = new ObjectMapper();
         try {
             response = mapper.writeValueAsString(makeAndModelList);
         } catch (IOException ex) {
             response = ERROR;
-            LOG.error("error parsing to json : " + ex.getMessage());
+            LOG.error("error parsing to json : {} " , ex.getMessage());
         }
-        LOG.info("response json : " + response);
+        LOG.info("response json : {}" , response);
         return response;
     }
 

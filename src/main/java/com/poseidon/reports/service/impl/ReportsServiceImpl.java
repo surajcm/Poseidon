@@ -20,7 +20,6 @@ import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -33,16 +32,23 @@ import java.util.List;
 @Service
 public class ReportsServiceImpl implements ReportsService {
     private static final Logger LOG = LoggerFactory.getLogger(ReportsServiceImpl.class);
-    @Autowired
-    private ReportsDAO reportsDAO;
-    @Autowired
-    private MakeService makeService;
-    @Autowired
-    private TransactionService transactionService;
-    @Autowired
-    private CompanyTermsService companyTermsService;
-    @Autowired
-    private InvoiceService invoiceService;
+    private final ReportsDAO reportsDAO;
+    private final MakeService makeService;
+    private final TransactionService transactionService;
+    private final CompanyTermsService companyTermsService;
+    private final InvoiceService invoiceService;
+
+    public ReportsServiceImpl(final ReportsDAO reportsDAO,
+                              final MakeService makeService,
+                              final TransactionService transactionService,
+                              final CompanyTermsService companyTermsService,
+                              final InvoiceService invoiceService) {
+        this.reportsDAO = reportsDAO;
+        this.makeService = makeService;
+        this.transactionService = transactionService;
+        this.companyTermsService = companyTermsService;
+        this.invoiceService = invoiceService;
+    }
 
     /**
      * daily report.

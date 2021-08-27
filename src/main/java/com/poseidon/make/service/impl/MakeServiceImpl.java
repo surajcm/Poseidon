@@ -7,7 +7,6 @@ import com.poseidon.make.exception.MakeException;
 import com.poseidon.make.service.MakeService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,10 +20,13 @@ import java.util.List;
 @SuppressWarnings("unused")
 public class MakeServiceImpl implements MakeService {
     private static final String MAKE_EXCEPTION_OCCURRED = "make Exception occurred {}";
-    @Autowired
-    private MakeDao makeDAO;
+    private final MakeDao makeDAO;
 
     private static final Logger LOG = LoggerFactory.getLogger(MakeServiceImpl.class);
+
+    public MakeServiceImpl(final MakeDao makeDAO) {
+        this.makeDAO = makeDAO;
+    }
 
     /**
      * list all makes and models.
@@ -168,7 +170,7 @@ public class MakeServiceImpl implements MakeService {
         try {
             makeDAO.updateModel(currentMakeVO);
         } catch (MakeException makeException) {
-            LOG.info(MAKE_EXCEPTION_OCCURRED , makeException.getMessage());
+            LOG.info(MAKE_EXCEPTION_OCCURRED, makeException.getMessage());
         }
     }
 

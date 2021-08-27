@@ -9,7 +9,6 @@ import com.poseidon.make.domain.MakeVO;
 import com.poseidon.make.exception.MakeException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
@@ -27,14 +26,19 @@ import java.util.function.Function;
 public class MakeDaoImpl implements MakeDao {
     private static final Logger LOG = LoggerFactory.getLogger(MakeDaoImpl.class);
 
-    @Autowired
-    private MakeRepository makeRepository;
+    private final MakeRepository makeRepository;
 
-    @Autowired
-    private ModelRepository modelRepository;
+    private final ModelRepository modelRepository;
 
-    @Autowired
-    private MakeAndModelEntityConverter makeAndModelEntityConverter;
+    private final MakeAndModelEntityConverter makeAndModelEntityConverter;
+
+    public MakeDaoImpl(final MakeRepository makeRepository,
+                       final ModelRepository modelRepository,
+                       final MakeAndModelEntityConverter makeAndModelEntityConverter) {
+        this.makeRepository = makeRepository;
+        this.modelRepository = modelRepository;
+        this.makeAndModelEntityConverter = makeAndModelEntityConverter;
+    }
 
     /**
      * list all makes.
