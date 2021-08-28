@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 public class SearchCriteria implements Serializable {
     private String key;
-    private Object value;
+    private transient Object value;
     private SearchOperation operation;
 
     public SearchCriteria() {

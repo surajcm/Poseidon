@@ -4,11 +4,9 @@ import com.poseidon.user.dao.UserDAO;
 import com.poseidon.user.domain.UserVO;
 import com.poseidon.user.exception.UserException;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
-import org.powermock.reflect.Whitebox;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
@@ -17,13 +15,8 @@ import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
 class UserDetailsServiceImplTest {
-    private final UserDetailsServiceImpl userDetailsService = new UserDetailsServiceImpl();
     private final UserDAO userDAO = Mockito.mock(UserDAO.class);
-
-    @BeforeEach
-    public void setup() {
-        Whitebox.setInternalState(userDetailsService, "userDAO", userDAO);
-    }
+    private final UserDetailsServiceImpl userDetailsService = new UserDetailsServiceImpl(userDAO);
 
     @Test
     void loadUserByNullUsername() throws UserException {

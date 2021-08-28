@@ -14,7 +14,6 @@ import com.poseidon.util.CommonUtils;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -51,14 +50,19 @@ public class TransactionController {
     private static final String TRANSACTION_LIST = "txs/TransactionList";
     private static final String TRANSACTION_FORM = "transactionForm";
 
-    @Autowired
-    private TransactionService transactionService;
+    private final TransactionService transactionService;
 
-    @Autowired
-    private MakeService makeService;
+    private final MakeService makeService;
 
-    @Autowired
-    private CustomerService customerService;
+    private final CustomerService customerService;
+
+    public TransactionController(final TransactionService transactionService,
+                                 final MakeService makeService,
+                                 final CustomerService customerService) {
+        this.transactionService = transactionService;
+        this.makeService = makeService;
+        this.customerService = customerService;
+    }
 
     /**
      * List all transactions.
@@ -385,9 +389,9 @@ public class TransactionController {
             response = mapper.writeValueAsString(makeAndModelList);
         } catch (IOException ex) {
             response = ERROR;
-            LOG.error("error parsing to json : {} " , ex.getMessage());
+            LOG.error("error parsing to json : {} ", ex.getMessage());
         }
-        LOG.info("response json : {}" , response);
+        LOG.info("response json : {}", response);
         return response;
     }
 

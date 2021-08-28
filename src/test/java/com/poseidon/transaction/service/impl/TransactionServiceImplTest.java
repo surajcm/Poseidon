@@ -4,11 +4,9 @@ import com.poseidon.transaction.dao.TransactionDAO;
 import com.poseidon.transaction.domain.TransactionVO;
 import com.poseidon.transaction.exception.TransactionException;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
-import org.powermock.reflect.Whitebox;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.ArrayList;
@@ -21,13 +19,8 @@ import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
 class TransactionServiceImplTest {
-    private final TransactionServiceImpl transactionService = new TransactionServiceImpl();
     private final TransactionDAO transactionDAO = Mockito.mock(TransactionDAO.class);
-
-    @BeforeEach
-    public void setup() {
-        Whitebox.setInternalState(transactionService, "transactionDAO", transactionDAO);
-    }
+    private final TransactionServiceImpl transactionService = new TransactionServiceImpl(transactionDAO);
 
     @Test
     void listTodayTransactionsSuccess() throws TransactionException {

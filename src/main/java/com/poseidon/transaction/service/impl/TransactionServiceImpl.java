@@ -7,7 +7,6 @@ import com.poseidon.transaction.exception.TransactionException;
 import com.poseidon.transaction.service.TransactionService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -23,8 +22,11 @@ public class TransactionServiceImpl implements TransactionService {
     private static final Logger LOG = LoggerFactory.getLogger(TransactionServiceImpl.class);
     private static final String EXCEPTION_TYPE_IN_SERVICE_IMPL = "Exception type in service impl {}";
 
-    @Autowired
-    private TransactionDAO transactionDAO;
+    private final TransactionDAO transactionDAO;
+
+    public TransactionServiceImpl(final TransactionDAO transactionDAO) {
+        this.transactionDAO = transactionDAO;
+    }
 
     /**
      * list today's transactions.

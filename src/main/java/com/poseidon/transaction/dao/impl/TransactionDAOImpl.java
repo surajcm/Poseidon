@@ -13,7 +13,6 @@ import com.poseidon.transaction.domain.TransactionVO;
 import com.poseidon.transaction.exception.TransactionException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 
 import javax.persistence.EntityManager;
@@ -37,16 +36,22 @@ public class TransactionDAOImpl implements TransactionDAO {
 
     private static final Logger LOG = LoggerFactory.getLogger(TransactionDAOImpl.class);
     public static final String AND = " and ";
-    @Autowired
-    private TransactionRepository transactionRepository;
-    @Autowired
-    private CustomerRepository customerRepository;
-    @Autowired
-    private MakeRepository makeRepository;
-    @Autowired
-    private ModelRepository modelRepository;
+    private final TransactionRepository transactionRepository;
+    private final CustomerRepository customerRepository;
+    private final MakeRepository makeRepository;
+    private final ModelRepository modelRepository;
     @PersistenceContext
     private EntityManager em;
+
+    public TransactionDAOImpl(final TransactionRepository transactionRepository,
+                              final CustomerRepository customerRepository,
+                              final MakeRepository makeRepository,
+                              final ModelRepository modelRepository) {
+        this.transactionRepository = transactionRepository;
+        this.customerRepository = customerRepository;
+        this.makeRepository = makeRepository;
+        this.modelRepository = modelRepository;
+    }
 
     /**
      * list all transactions.
@@ -315,7 +320,7 @@ public class TransactionDAOImpl implements TransactionDAO {
             end = getParsedDate(searchTransaction.getEndDate());
             hqlQuery.append(" tr.dateReported between :start and :end ");
         }
-        var query = em.createQuery(hqlQuery.toString());
+        var query = em.createQuery(hqlQuery.toString(), Transaction.class);
         if (hasTagNo) {
             query.setParameter("tag", tag);
         }

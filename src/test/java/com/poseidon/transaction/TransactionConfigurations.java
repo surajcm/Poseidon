@@ -12,7 +12,10 @@ import org.springframework.test.context.ContextConfiguration;
 public class TransactionConfigurations {
     @Bean
     public TransactionController transactionController() {
-        return new TransactionController();
+        return new TransactionController(
+                Mockito.mock(TransactionService.class),
+                Mockito.mock(MakeService.class),
+                Mockito.mock(CustomerService.class));
     }
 
     @Bean

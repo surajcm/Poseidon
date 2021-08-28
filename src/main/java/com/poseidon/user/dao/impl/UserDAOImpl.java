@@ -9,7 +9,6 @@ import com.poseidon.user.domain.UserVO;
 import com.poseidon.user.exception.UserException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
@@ -22,8 +21,11 @@ import java.util.List;
 public class UserDAOImpl implements UserDAO {
     private static final Logger LOG = LoggerFactory.getLogger(UserDAOImpl.class);
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
+
+    public UserDAOImpl(final UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
     /**
      * LOG in.

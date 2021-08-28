@@ -11,7 +11,9 @@ import org.springframework.test.context.ContextConfiguration;
 public class UserConfigurations {
     @Bean
     public UserController userController() {
-        return new UserController();
+        return new UserController(
+                Mockito.mock(UserService.class),
+                Mockito.mock(SecurityService.class));
     }
 
     @Bean

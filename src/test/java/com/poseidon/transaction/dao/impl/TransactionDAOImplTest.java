@@ -10,11 +10,9 @@ import com.poseidon.transaction.dao.entities.Transaction;
 import com.poseidon.transaction.domain.TransactionVO;
 import com.poseidon.transaction.exception.TransactionException;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
-import org.powermock.reflect.Whitebox;
 import org.springframework.dao.CannotAcquireLockException;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
@@ -31,19 +29,15 @@ import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
 class TransactionDAOImplTest {
-    private final TransactionDAOImpl transactionDAO = new TransactionDAOImpl();
     private final TransactionRepository transactionRepository = Mockito.mock(TransactionRepository.class);
     private final CustomerRepository customerRepository = Mockito.mock(CustomerRepository.class);
     private final MakeRepository makeRepository = Mockito.mock(MakeRepository.class);
     private final ModelRepository modelRepository = Mockito.mock(ModelRepository.class);
-
-    @BeforeEach
-    public void setup() {
-        Whitebox.setInternalState(transactionDAO, "transactionRepository", transactionRepository);
-        Whitebox.setInternalState(transactionDAO, "customerRepository", customerRepository);
-        Whitebox.setInternalState(transactionDAO, "makeRepository", makeRepository);
-        Whitebox.setInternalState(transactionDAO, "modelRepository", modelRepository);
-    }
+    private final TransactionDAOImpl transactionDAO = new TransactionDAOImpl(
+            transactionRepository,
+            customerRepository,
+            makeRepository,
+            modelRepository);
 
     @Test
     void listTodaysTransactionsSuccess() throws TransactionException {

@@ -2,7 +2,6 @@ package com.poseidon.user.service.impl;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -15,10 +14,14 @@ import org.springframework.stereotype.Service;
 public class SecurityServiceImpl implements SecurityService {
 
     private static final Logger logger = LoggerFactory.getLogger(SecurityServiceImpl.class);
-    @Autowired
-    private WebSecurityConfigurerAdapter webSecurityConfigurerAdapter;
-    @Autowired
-    private UserDetailsService userDetailsService;
+    private final WebSecurityConfigurerAdapter webSecurityConfigurerAdapter;
+    private final UserDetailsService userDetailsService;
+
+    public SecurityServiceImpl(final WebSecurityConfigurerAdapter webSecurityConfigurerAdapter,
+                               final UserDetailsService userDetailsService) {
+        this.webSecurityConfigurerAdapter = webSecurityConfigurerAdapter;
+        this.userDetailsService = userDetailsService;
+    }
 
     @Override
     public String findLoggedInUsername() {

@@ -1,7 +1,6 @@
 package com.poseidon.user.web.controller;
 
 import com.poseidon.user.UserConfigurations;
-import com.poseidon.user.service.UserService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -23,8 +22,6 @@ class UserControllerTest {
     private MockMvc mvc;
     @Autowired
     private UserController userController;
-    @Autowired
-    private UserService userService;
 
     @BeforeEach
     public void setup() {

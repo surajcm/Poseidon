@@ -5,7 +5,6 @@ import com.poseidon.user.domain.UserVO;
 import com.poseidon.user.exception.UserException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -21,8 +20,11 @@ import java.util.Set;
 @SuppressWarnings("unused")
 public class UserDetailsServiceImpl implements UserDetailsService {
     private static final Logger LOG = LoggerFactory.getLogger(UserDetailsServiceImpl.class);
-    @Autowired
-    private UserDAO userDAO;
+    private final UserDAO userDAO;
+
+    public UserDetailsServiceImpl(final UserDAO userDAO) {
+        this.userDAO = userDAO;
+    }
 
     @Override
     @Transactional(readOnly = true)

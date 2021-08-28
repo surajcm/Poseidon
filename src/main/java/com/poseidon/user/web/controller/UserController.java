@@ -10,7 +10,6 @@ import com.poseidon.util.CommonUtils;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -45,11 +44,14 @@ public class UserController {
     private static final String DB_ERROR = " An error occurred while fetching data from database. !! ";
     private static final String EXCEPTION_IN_CONTROLLER = " Exception type in controller {}";
 
-    @Autowired
-    private UserService userService;
+    private final UserService userService;
 
-    @Autowired
-    private SecurityService securityService;
+    private final SecurityService securityService;
+
+    public UserController(final UserService userService, final SecurityService securityService) {
+        this.userService = userService;
+        this.securityService = securityService;
+    }
 
     /**
      * Used in automatic redirect to Log in screen.

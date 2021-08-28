@@ -4,11 +4,9 @@ import com.poseidon.user.dao.entities.User;
 import com.poseidon.user.domain.UserVO;
 import com.poseidon.user.exception.UserException;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
-import org.powermock.reflect.Whitebox;
 import org.springframework.dao.CannotAcquireLockException;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
@@ -23,13 +21,8 @@ import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
 class UserDAOImplTest {
-    private final UserDAOImpl userDAO = new UserDAOImpl();
     private final UserRepository userRepository = Mockito.mock(UserRepository.class);
-
-    @BeforeEach
-    public void setup() {
-        Whitebox.setInternalState(userDAO, "userRepository", userRepository);
-    }
+    private final UserDAOImpl userDAO = new UserDAOImpl(userRepository);
 
     @Test
     void logInSuccess() throws UserException {

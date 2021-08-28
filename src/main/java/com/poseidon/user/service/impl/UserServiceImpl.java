@@ -6,7 +6,6 @@ import com.poseidon.user.exception.UserException;
 import com.poseidon.user.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -19,11 +18,14 @@ public class UserServiceImpl implements UserService {
     private static final Logger LOG = LoggerFactory.getLogger(UserServiceImpl.class);
     private static final String EXCEPTION_TYPE_IN_SERVICE_IMPL = "Exception type in service impl {}";
 
-    @Autowired
-    private UserDAO userDAO;
+    private final UserDAO userDAO;
 
-    @Autowired
-    private BCryptPasswordEncoder bcryptPasswordEncoder;
+    private final BCryptPasswordEncoder bcryptPasswordEncoder;
+
+    public UserServiceImpl(final UserDAO userDAO, final BCryptPasswordEncoder bcryptPasswordEncoder) {
+        this.userDAO = userDAO;
+        this.bcryptPasswordEncoder = bcryptPasswordEncoder;
+    }
 
     /**
      * getAllUserDetails to list all user details.
