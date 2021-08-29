@@ -8,6 +8,8 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 @Service
 public class CompanyTermsServiceImpl implements CompanyTermsService {
     private static final Logger LOG = LoggerFactory.getLogger(CompanyTermsServiceImpl.class);
@@ -25,13 +27,13 @@ public class CompanyTermsServiceImpl implements CompanyTermsService {
      */
     @Override
     public CompanyTermsVO listCompanyTerms() {
-        CompanyTermsVO companyTermsVO = null;
+        Optional<CompanyTermsVO> companyTermsVO = Optional.empty();
         try {
             companyTermsVO = companyTermsDAO.listCompanyTerms();
         } catch (CompanyTermsException ex) {
             LOG.error(ex.getLocalizedMessage());
         }
-        return companyTermsVO;
+        return companyTermsVO.get();
     }
 
     /**
@@ -44,7 +46,7 @@ public class CompanyTermsServiceImpl implements CompanyTermsService {
     public CompanyTermsVO updateCompanyDetails(final CompanyTermsVO companyTermsVO) {
         CompanyTermsVO termsVO = null;
         try {
-            termsVO = companyTermsDAO.updateCompanyDetails(companyTermsVO);
+            termsVO = companyTermsDAO.updateCompanyDetails(companyTermsVO).get();
         } catch (CompanyTermsException ex) {
             LOG.error(ex.getLocalizedMessage());
         }

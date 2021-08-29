@@ -6,8 +6,11 @@ import com.poseidon.company.domain.CompanyTermsVO;
 import com.poseidon.company.exception.CompanyTermsException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
+
+import java.util.Optional;
+
+import static com.rainerhahnekamp.sneakythrow.Sneaky.sneak;
 
 @Service
 @SuppressWarnings("unused")
@@ -28,17 +31,27 @@ public class CompanyTermsDAOImpl implements CompanyTermsDAO {
      * @throws CompanyTermsException on error
      */
     @Override
-    public CompanyTermsVO listCompanyTerms() throws CompanyTermsException {
-        CompanyTermsVO companyTermsVO = null;
-        try {
-            var companyTerms = companyTermsRepository.findFirstByOrderByCompanyIdAsc();
-            if (companyTerms.isPresent()) {
-                companyTermsVO = convertToCompanyTermsVO(companyTerms.get());
-            }
-        } catch (DataAccessException ex) {
-            throw new CompanyTermsException(CompanyTermsException.DATABASE_ERROR);
-        }
-        return companyTermsVO;
+    public Optional<CompanyTermsVO> listCompanyTerms() throws CompanyTermsException {
+        var companyTerms = sneak(companyTermsRepository::findFirstByOrderByCompanyIdAsc);
+        return companyTerms.map(this::convertToCompanyTermsVO);
+    }
+
+    /**
+     * update company details.
+     *
+     * @param companyTermsVO companyTermsVO
+     * @return CompanyTermsVO
+     * @throws CompanyTermsException on error
+     */
+    @Override
+    public Optional<CompanyTermsVO> updateCompanyDetails(final CompanyTermsVO companyTermsVO)
+            throws CompanyTermsException {
+        var optionalCompanyTerms =
+                sneak(companyTermsRepository::findFirstByOrderByCompanyIdAsc);
+        return optionalCompanyTerms
+                .map(terms -> getCompanyTerms(companyTermsVO, terms))
+                .map(companyTermsRepository::save)
+                .map(this::convertToCompanyTermsVO);
     }
 
     private CompanyTermsVO convertToCompanyTermsVO(final CompanyTerms companyTerms) {
@@ -52,30 +65,6 @@ public class CompanyTermsDAOImpl implements CompanyTermsDAO {
         companyTermsVO.setCompanyCstTin(companyTerms.getCstTin());
         companyTermsVO.setCompanyTerms(companyTerms.getTerms());
         return companyTermsVO;
-    }
-
-    /**
-     * update company details.
-     *
-     * @param companyTermsVO companyTermsVO
-     * @return CompanyTermsVO
-     * @throws CompanyTermsException on error
-     */
-    @Override
-    public CompanyTermsVO updateCompanyDetails(final CompanyTermsVO companyTermsVO) throws CompanyTermsException {
-        CompanyTermsVO termsVO = null;
-        try {
-            var optionalCompanyTerms = companyTermsRepository.findFirstByOrderByCompanyIdAsc();
-            if (optionalCompanyTerms.isPresent()) {
-                var companyTerms = getCompanyTerms(companyTermsVO, optionalCompanyTerms.get());
-                var updatedCompanyTerms = companyTermsRepository.save(companyTerms);
-                termsVO = convertToCompanyTermsVO(updatedCompanyTerms);
-            }
-        } catch (DataAccessException ex) {
-            logger.error(ex.getMessage());
-            throw new CompanyTermsException(CompanyTermsException.DATABASE_ERROR);
-        }
-        return termsVO;
     }
 
     private CompanyTerms getCompanyTerms(final CompanyTermsVO companyTermsVO,

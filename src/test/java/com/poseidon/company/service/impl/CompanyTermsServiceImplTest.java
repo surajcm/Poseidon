@@ -9,6 +9,8 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import java.util.Optional;
+
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
@@ -45,9 +47,9 @@ class CompanyTermsServiceImplTest {
         Assertions.assertNull(companyTermsService.updateCompanyDetails(new CompanyTermsVO()));
     }
 
-    private CompanyTermsVO mockCompanyTermsVO() {
+    private Optional<CompanyTermsVO> mockCompanyTermsVO() {
         var companyTermsVO = new CompanyTermsVO();
         companyTermsVO.setCompanyName("ABC");
-        return companyTermsVO;
+        return Optional.of(companyTermsVO);
     }
 }
