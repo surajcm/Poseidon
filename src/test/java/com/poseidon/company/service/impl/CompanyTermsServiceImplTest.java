@@ -2,7 +2,6 @@ package com.poseidon.company.service.impl;
 
 import com.poseidon.company.dao.CompanyTermsDAO;
 import com.poseidon.company.domain.CompanyTermsVO;
-import com.poseidon.company.exception.CompanyTermsException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -20,31 +19,17 @@ class CompanyTermsServiceImplTest {
     private final CompanyTermsServiceImpl companyTermsService = new CompanyTermsServiceImpl(companyTermsDAO);
 
     @Test
-    void listCompanyTermsSuccess() throws CompanyTermsException {
+    void listCompanyTermsSuccess() {
         when(companyTermsDAO.listCompanyTerms()).thenReturn(mockCompanyTermsVO());
         var companyTermsVO = companyTermsService.listCompanyTerms();
-        Assertions.assertEquals("ABC", companyTermsVO.getCompanyName());
+        Assertions.assertEquals("ABC", companyTermsVO.get().getCompanyName());
     }
 
     @Test
-    void listCompanyTermsFailure() throws CompanyTermsException {
-        when(companyTermsDAO.listCompanyTerms())
-                .thenThrow(new CompanyTermsException(CompanyTermsException.DATABASE_ERROR));
-        Assertions.assertNull(companyTermsService.listCompanyTerms());
-    }
-
-    @Test
-    void updateCompanyDetailsSuccess() throws CompanyTermsException {
+    void updateCompanyDetailsSuccess() {
         when(companyTermsDAO.updateCompanyDetails(any())).thenReturn(mockCompanyTermsVO());
         var companyTermsVO = companyTermsService.updateCompanyDetails(new CompanyTermsVO());
-        Assertions.assertEquals("ABC", companyTermsVO.getCompanyName());
-    }
-
-    @Test
-    void updateCompanyDetailsFailure() throws CompanyTermsException {
-        when(companyTermsDAO.updateCompanyDetails(any()))
-                .thenThrow(new CompanyTermsException(CompanyTermsException.DATABASE_ERROR));
-        Assertions.assertNull(companyTermsService.updateCompanyDetails(new CompanyTermsVO()));
+        Assertions.assertEquals("ABC", companyTermsVO.get().getCompanyName());
     }
 
     private Optional<CompanyTermsVO> mockCompanyTermsVO() {

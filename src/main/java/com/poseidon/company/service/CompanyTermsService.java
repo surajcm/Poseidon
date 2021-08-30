@@ -2,8 +2,10 @@ package com.poseidon.company.service;
 
 import com.poseidon.company.domain.CompanyTermsVO;
 
-public interface CompanyTermsService {
-    CompanyTermsVO listCompanyTerms();
+import java.util.Optional;
 
-    CompanyTermsVO updateCompanyDetails(CompanyTermsVO companyTermsVO);
+public interface CompanyTermsService {
+    Optional<CompanyTermsVO> listCompanyTerms();
+
+    Optional<CompanyTermsVO> updateCompanyDetails(CompanyTermsVO companyTermsVO);
 }

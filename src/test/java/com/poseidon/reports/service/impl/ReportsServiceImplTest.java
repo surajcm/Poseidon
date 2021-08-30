@@ -25,6 +25,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doThrow;
@@ -147,7 +148,7 @@ class ReportsServiceImplTest {
     void getInvoiceReportCompanyFailure() throws JRException, TransactionException {
         when(transactionService.fetchTransactionFromTag(any()))
                 .thenReturn(Mockito.mock(TransactionReportVO.class));
-        when(companyTermsService.listCompanyTerms()).thenReturn(null);
+        when(companyTermsService.listCompanyTerms()).thenReturn(Optional.empty());
         when(reportsDAO.getInvoiceReport(any(), any())).thenThrow(new JRException("ERROR"));
         Assertions.assertNotNull(reportsService.getInvoiceReport(Mockito.mock(JasperReport.class),
                 new ReportsVO()));
@@ -160,7 +161,7 @@ class ReportsServiceImplTest {
         List<InvoiceVO> invoiceVO = new ArrayList<>();
         invoiceVO.add(Mockito.mock(InvoiceVO.class));
         when(invoiceService.findInvoices(any())).thenReturn(invoiceVO);
-        when(companyTermsService.listCompanyTerms()).thenReturn(Mockito.mock(CompanyTermsVO.class));
+        when(companyTermsService.listCompanyTerms()).thenReturn(Optional.of(Mockito.mock(CompanyTermsVO.class)));
         when(reportsDAO.getInvoiceReport(any(), any())).thenThrow(new JRException("ERROR"));
         Assertions.assertNotNull(reportsService.getInvoiceReport(Mockito.mock(JasperReport.class),
                 new ReportsVO()));

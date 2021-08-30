@@ -11,6 +11,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import java.time.OffsetDateTime;
 import java.time.ZoneId;
+import java.util.Optional;
 
 @Controller
 @SuppressWarnings("unused")
@@ -33,7 +34,7 @@ public class CompanyController {
     public ModelAndView list(final CompanyTermsForm companyTermsForm) {
         LOG.info(" Inside Company method of CompanyTermsController ");
         var companyTermsVO = fetchCompanyTerms();
-        setCompanyTerms(companyTermsForm, companyTermsVO);
+        companyTermsVO.ifPresent(termsVO -> setCompanyTerms(companyTermsForm, termsVO));
         return new ModelAndView("company/companyDetails", "companyTermsForm", companyTermsForm);
     }
 
@@ -47,18 +48,12 @@ public class CompanyController {
     public ModelAndView updateCompanyDetails(final CompanyTermsForm companyTermsForm) {
         LOG.info(" Inside editTerms method of CompanyTermsController ");
         var companyTermsVO = updateCompanyTermsVO(companyTermsForm);
-        setCompanyTerms(companyTermsForm, companyTermsVO);
+        companyTermsVO.ifPresent(termsVO -> setCompanyTerms(companyTermsForm, termsVO));
         return new ModelAndView("company/companyDetails", "companyTermsForm", companyTermsForm);
     }
 
-    private CompanyTermsVO fetchCompanyTerms() {
-        CompanyTermsVO companyTermsVO = null;
-        try {
-            companyTermsVO = companyTermsService.listCompanyTerms();
-        } catch (Exception ex) {
-            LOG.error(ex.getLocalizedMessage());
-        }
-        return companyTermsVO;
+    private Optional<CompanyTermsVO> fetchCompanyTerms() {
+        return companyTermsService.listCompanyTerms();
     }
 
     private void setCompanyTerms(final CompanyTermsForm companyTermsForm, final CompanyTermsVO companyTermsVO) {
@@ -70,20 +65,13 @@ public class CompanyController {
         }
     }
 
-    private CompanyTermsVO updateCompanyTermsVO(final CompanyTermsForm companyTermsForm) {
+    private Optional<CompanyTermsVO> updateCompanyTermsVO(final CompanyTermsForm companyTermsForm) {
         if (companyTermsForm.getCurrentCompanyTermsVO() != null) {
             companyTermsForm.getCurrentCompanyTermsVO().setModifiedBy(
                     companyTermsForm.getLoggedInUser());
             companyTermsForm.getCurrentCompanyTermsVO().setModifiedDate(
                     OffsetDateTime.now(ZoneId.systemDefault()));
         }
-        CompanyTermsVO companyTermsVO = null;
-        try {
-            companyTermsVO = companyTermsService.updateCompanyDetails(
-                    companyTermsForm.getCurrentCompanyTermsVO());
-        } catch (Exception ex) {
-            LOG.error(ex.getLocalizedMessage());
-        }
-        return companyTermsVO;
+        return companyTermsService.updateCompanyDetails(companyTermsForm.getCurrentCompanyTermsVO());
     }
 }

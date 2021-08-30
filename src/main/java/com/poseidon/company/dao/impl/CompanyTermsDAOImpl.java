@@ -3,7 +3,6 @@ package com.poseidon.company.dao.impl;
 import com.poseidon.company.dao.CompanyTermsDAO;
 import com.poseidon.company.dao.entities.CompanyTerms;
 import com.poseidon.company.domain.CompanyTermsVO;
-import com.poseidon.company.exception.CompanyTermsException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -28,10 +27,9 @@ public class CompanyTermsDAOImpl implements CompanyTermsDAO {
      * list company terms.
      *
      * @return CompanyTermsVO
-     * @throws CompanyTermsException on error
      */
     @Override
-    public Optional<CompanyTermsVO> listCompanyTerms() throws CompanyTermsException {
+    public Optional<CompanyTermsVO> listCompanyTerms() {
         var companyTerms = sneak(companyTermsRepository::findFirstByOrderByCompanyIdAsc);
         return companyTerms.map(this::convertToCompanyTermsVO);
     }
@@ -41,11 +39,9 @@ public class CompanyTermsDAOImpl implements CompanyTermsDAO {
      *
      * @param companyTermsVO companyTermsVO
      * @return CompanyTermsVO
-     * @throws CompanyTermsException on error
      */
     @Override
-    public Optional<CompanyTermsVO> updateCompanyDetails(final CompanyTermsVO companyTermsVO)
-            throws CompanyTermsException {
+    public Optional<CompanyTermsVO> updateCompanyDetails(final CompanyTermsVO companyTermsVO) {
         var optionalCompanyTerms =
                 sneak(companyTermsRepository::findFirstByOrderByCompanyIdAsc);
         return optionalCompanyTerms

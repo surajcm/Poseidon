@@ -2,17 +2,13 @@ package com.poseidon.company.service.impl;
 
 import com.poseidon.company.dao.CompanyTermsDAO;
 import com.poseidon.company.domain.CompanyTermsVO;
-import com.poseidon.company.exception.CompanyTermsException;
 import com.poseidon.company.service.CompanyTermsService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
 @Service
 public class CompanyTermsServiceImpl implements CompanyTermsService {
-    private static final Logger LOG = LoggerFactory.getLogger(CompanyTermsServiceImpl.class);
 
     private final CompanyTermsDAO companyTermsDAO;
 
@@ -26,14 +22,8 @@ public class CompanyTermsServiceImpl implements CompanyTermsService {
      * @return CompanyTermsVO
      */
     @Override
-    public CompanyTermsVO listCompanyTerms() {
-        Optional<CompanyTermsVO> companyTermsVO = Optional.empty();
-        try {
-            companyTermsVO = companyTermsDAO.listCompanyTerms();
-        } catch (CompanyTermsException ex) {
-            LOG.error(ex.getLocalizedMessage());
-        }
-        return companyTermsVO.get();
+    public Optional<CompanyTermsVO> listCompanyTerms() {
+        return companyTermsDAO.listCompanyTerms();
     }
 
     /**
@@ -43,14 +33,8 @@ public class CompanyTermsServiceImpl implements CompanyTermsService {
      * @return company terms vo
      */
     @Override
-    public CompanyTermsVO updateCompanyDetails(final CompanyTermsVO companyTermsVO) {
-        CompanyTermsVO termsVO = null;
-        try {
-            termsVO = companyTermsDAO.updateCompanyDetails(companyTermsVO).get();
-        } catch (CompanyTermsException ex) {
-            LOG.error(ex.getLocalizedMessage());
-        }
-        return termsVO;
+    public Optional<CompanyTermsVO> updateCompanyDetails(final CompanyTermsVO companyTermsVO) {
+        return companyTermsDAO.updateCompanyDetails(companyTermsVO);
     }
 
 }

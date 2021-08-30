@@ -1,5 +1,6 @@
 package com.poseidon.reports.service.impl;
 
+import com.poseidon.company.domain.CompanyTermsVO;
 import com.poseidon.company.service.CompanyTermsService;
 import com.poseidon.invoice.domain.InvoiceReportVO;
 import com.poseidon.invoice.domain.InvoiceVO;
@@ -94,16 +95,25 @@ public class ReportsServiceImpl implements ReportsService {
      */
     @Override
     public JasperPrint getCallReport(final JasperReport jasperReport, final ReportsVO currentReport) {
-        var companyTermsVO = companyTermsService.listCompanyTerms();
         var transactionVO = getTransactionReportVO(currentReport.getTagNo());
         currentReport.setTransactionReportVO(transactionVO);
         var jasperPrint = new JasperPrint();
+        CompanyTermsVO companyTerms = companyTerms();
         try {
-            jasperPrint = reportsDAO.getCallReport(jasperReport, currentReport, companyTermsVO);
+            jasperPrint = reportsDAO.getCallReport(jasperReport, currentReport, companyTerms);
         } catch (JRException ex) {
             LOG.error(ex.getLocalizedMessage());
         }
         return jasperPrint;
+    }
+
+    private CompanyTermsVO companyTerms() {
+        var companyTermsVO = companyTermsService.listCompanyTerms();
+        CompanyTermsVO companyTerms = null;
+        if (companyTermsVO.isPresent()) {
+            companyTerms = companyTermsVO.get();
+        }
+        return companyTerms;
     }
 
     private TransactionReportVO getTransactionReportVO(final String tagNo) {
@@ -246,15 +256,15 @@ public class ReportsServiceImpl implements ReportsService {
 
     private void updateCompanyInfo(final InvoiceReportVO invoiceReportVO) {
         var companyTermsVO = companyTermsService.listCompanyTerms();
-        if (companyTermsVO != null) {
-            invoiceReportVO.setCompanyName(companyTermsVO.getCompanyName());
-            invoiceReportVO.setCompanyAddress(companyTermsVO.getCompanyAddress());
-            invoiceReportVO.setCompanyPhoneNumber(companyTermsVO.getCompanyPhoneNumber());
-            invoiceReportVO.setCompanyWebsite(companyTermsVO.getCompanyWebsite());
-            invoiceReportVO.setCompanyEmail(companyTermsVO.getCompanyEmail());
-            invoiceReportVO.setCompanyTerms(companyTermsVO.getCompanyTerms());
-            invoiceReportVO.setCompanyVatTin(companyTermsVO.getCompanyVatTin());
-            invoiceReportVO.setCompanyCstTin(companyTermsVO.getCompanyCstTin());
+        if (companyTermsVO.isPresent()) {
+            invoiceReportVO.setCompanyName(companyTermsVO.get().getCompanyName());
+            invoiceReportVO.setCompanyAddress(companyTermsVO.get().getCompanyAddress());
+            invoiceReportVO.setCompanyPhoneNumber(companyTermsVO.get().getCompanyPhoneNumber());
+            invoiceReportVO.setCompanyWebsite(companyTermsVO.get().getCompanyWebsite());
+            invoiceReportVO.setCompanyEmail(companyTermsVO.get().getCompanyEmail());
+            invoiceReportVO.setCompanyTerms(companyTermsVO.get().getCompanyTerms());
+            invoiceReportVO.setCompanyVatTin(companyTermsVO.get().getCompanyVatTin());
+            invoiceReportVO.setCompanyCstTin(companyTermsVO.get().getCompanyCstTin());
         }
     }
 

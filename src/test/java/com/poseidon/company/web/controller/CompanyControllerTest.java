@@ -13,6 +13,8 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+import java.util.Optional;
+
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -42,7 +44,7 @@ class CompanyControllerTest {
 
     @Test
     void list() throws Exception {
-        when(companyTermsService.listCompanyTerms()).thenReturn(new CompanyTermsVO());
+        when(companyTermsService.listCompanyTerms()).thenReturn(Optional.of(new CompanyTermsVO()));
         mvc.perform(post("/company/Company.htm")).andExpect(status().isOk());
     }
 
@@ -55,7 +57,7 @@ class CompanyControllerTest {
 
     @Test
     void updateCompanyDetails() throws Exception {
-        when(companyTermsService.updateCompanyDetails(any())).thenReturn(new CompanyTermsVO());
+        when(companyTermsService.updateCompanyDetails(any())).thenReturn(Optional.of(new CompanyTermsVO()));
         mvc.perform(post("/company/updateCompanyDetails.htm")).andExpect(status().isOk());
     }
 }
