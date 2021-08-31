@@ -50,8 +50,7 @@ public class CustomerDAOImpl implements CustomerDAO {
     public List<CustomerVO> listAllCustomerDetails() throws CustomerException {
         List<CustomerVO> customerVOs;
         try {
-            List<Customer> customers = new ArrayList<>();
-            customerRepository.findAll().forEach(customers::add);
+            List<Customer> customers = customerRepository.findAll();
             customerVOs = convertToCustomerVO(customers);
         } catch (DataAccessException ex) {
             throw new CustomerException(CustomerException.DATABASE_ERROR);

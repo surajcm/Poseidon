@@ -20,8 +20,6 @@
 </head>
 <body onload="hideUpdate()">
     <form:form method="POST" modelAttribute="companyTermsForm">
-        <form:hidden name="loggedInUser" path="loggedInUser"/>
-        <form:hidden name="loggedInRole" path="loggedInRole"/>
         <%@include file="../navbar.jsp" %>
         <div class="container">
             <div class="wrap">

@@ -1,6 +1,7 @@
 package com.poseidon.customer.dao.impl;
 
 import com.poseidon.customer.dao.entities.Customer;
+import com.poseidon.customer.dao.spec.CustomerSpecification;
 import com.poseidon.customer.domain.CustomerVO;
 import com.poseidon.customer.exception.CustomerException;
 import org.junit.jupiter.api.Assertions;
@@ -101,7 +102,7 @@ class CustomerDAOImplTest {
 
     @Test
     void searchCustomerSuccess() throws CustomerException {
-        when(customerRepository.findAll(any())).thenReturn(mockCustomers());
+        when(customerRepository.findAll(any(CustomerSpecification.class))).thenReturn(mockCustomers());
         var mockCustomerVO = mockCustomerVO();
         Assertions.assertNotNull(customerDAO.searchCustomer(mockCustomerVO));
         mockCustomerVO.setIncludes(Boolean.TRUE);
@@ -113,7 +114,8 @@ class CustomerDAOImplTest {
 
     @Test
     void searchCustomerFailure() {
-        when(customerRepository.findAll(any())).thenThrow(new CannotAcquireLockException("DB error"));
+        when(customerRepository.findAll(any(CustomerSpecification.class)))
+                .thenThrow(new CannotAcquireLockException("DB error"));
         Assertions.assertThrows(CustomerException.class, () -> customerDAO.searchCustomer(mockCustomerVO()));
     }
 

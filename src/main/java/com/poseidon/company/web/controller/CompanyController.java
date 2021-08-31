@@ -5,6 +5,7 @@ import com.poseidon.company.service.CompanyTermsService;
 import com.poseidon.company.web.form.CompanyTermsForm;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -27,14 +28,14 @@ public class CompanyController {
     /**
      * list company details.
      *
-     * @param companyTermsForm companyTermsForm
      * @return on error
      */
     @PostMapping("/company/Company.htm")
-    public ModelAndView list(final CompanyTermsForm companyTermsForm) {
-        LOG.info(" Inside Company method of CompanyTermsController ");
+    public ModelAndView list() {
+        LOG.info("Inside Company method of CompanyTermsController");
         var companyTermsVO = fetchCompanyTerms();
-        companyTermsVO.ifPresent(termsVO -> setCompanyTerms(companyTermsForm, termsVO));
+        CompanyTermsForm companyTermsForm = new CompanyTermsForm();
+        companyTermsVO.ifPresent(companyTermsForm::setCurrentCompanyTermsVO);
         return new ModelAndView("company/companyDetails", "companyTermsForm", companyTermsForm);
     }
 
@@ -46,9 +47,9 @@ public class CompanyController {
      */
     @PostMapping("/company/updateCompanyDetails.htm")
     public ModelAndView updateCompanyDetails(final CompanyTermsForm companyTermsForm) {
-        LOG.info(" Inside editTerms method of CompanyTermsController ");
+        LOG.info(" Inside editTerms method of CompanyTermsController");
         var companyTermsVO = updateCompanyTermsVO(companyTermsForm);
-        companyTermsVO.ifPresent(termsVO -> setCompanyTerms(companyTermsForm, termsVO));
+        companyTermsVO.ifPresent(companyTermsForm::setCurrentCompanyTermsVO);
         return new ModelAndView("company/companyDetails", "companyTermsForm", companyTermsForm);
     }
 
@@ -67,8 +68,9 @@ public class CompanyController {
 
     private Optional<CompanyTermsVO> updateCompanyTermsVO(final CompanyTermsForm companyTermsForm) {
         if (companyTermsForm.getCurrentCompanyTermsVO() != null) {
-            companyTermsForm.getCurrentCompanyTermsVO().setModifiedBy(
-                    companyTermsForm.getLoggedInUser());
+            var auth = SecurityContextHolder.getContext().getAuthentication();
+            var username = auth.getName();
+            companyTermsForm.getCurrentCompanyTermsVO().setModifiedBy(username);
             companyTermsForm.getCurrentCompanyTermsVO().setModifiedDate(
                     OffsetDateTime.now(ZoneId.systemDefault()));
         }
