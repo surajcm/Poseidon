@@ -44,12 +44,6 @@ class CustomerServiceImplTest {
     }
 
     @Test
-    void verifyListAllCustomerDetailsFailure() throws CustomerException {
-        when(customerDAO.listAllCustomerDetails()).thenThrow(new CustomerException(CustomerException.DATABASE_ERROR));
-        Assertions.assertNull(customerService.listAllCustomerDetails());
-    }
-
-    @Test
     void saveCustomerSuccess() {
         Assertions.assertEquals(0, customerService.saveCustomer(Mockito.mock(CustomerVO.class)));
     }

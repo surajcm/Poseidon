@@ -21,6 +21,8 @@ import javax.persistence.PersistenceContext;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.rainerhahnekamp.sneakythrow.Sneaky.sneak;
+
 @Service
 @SuppressWarnings("unused")
 public class CustomerDAOImpl implements CustomerDAO {
@@ -44,18 +46,11 @@ public class CustomerDAOImpl implements CustomerDAO {
      * list all customer details.
      *
      * @return list customer vo
-     * @throws CustomerException on error
      */
     @Override
-    public List<CustomerVO> listAllCustomerDetails() throws CustomerException {
-        List<CustomerVO> customerVOs;
-        try {
-            List<Customer> customers = customerRepository.findAll();
-            customerVOs = convertToCustomerVO(customers);
-        } catch (DataAccessException ex) {
-            throw new CustomerException(CustomerException.DATABASE_ERROR);
-        }
-        return customerVOs;
+    public List<CustomerVO> listAllCustomerDetails() {
+        List<Customer> customers = sneak(customerRepository::findAll);
+        return convertToCustomerVO(customers);
     }
 
     /**
@@ -67,20 +62,14 @@ public class CustomerDAOImpl implements CustomerDAO {
      */
     @Override
     public long saveCustomer(final CustomerVO currentCustomerVo) throws CustomerException {
-        Long id;
         var customer = convertToSingleCustomer(currentCustomerVo);
-        try {
-            var newCustomer = customerRepository.save(customer);
-            id = newCustomer.getCustomerId();
-            //todo: this should move to controller, and finally to page
-            setAdditionalDetailsToVO(currentCustomerVo);
-            var additionalDetails = convertToCustomerAdditionalDetails(
-                    newCustomer.getCustomerId(), currentCustomerVo.getCustomerAdditionalDetailsVO());
-            customerAdditionalDetailsRepository.save(additionalDetails);
-        } catch (DataAccessException ex) {
-            LOG.error(ex.getLocalizedMessage());
-            throw new CustomerException(CustomerException.DATABASE_ERROR);
-        }
+        var newCustomer = sneak(() -> customerRepository.save(customer));
+        Long id = newCustomer.getCustomerId();
+        //todo: this should move to controller, and finally to page
+        setAdditionalDetailsToVO(currentCustomerVo);
+        var additionalDetails = convertToCustomerAdditionalDetails(
+                newCustomer.getCustomerId(), currentCustomerVo.getCustomerAdditionalDetailsVO());
+        sneak(() -> customerAdditionalDetailsRepository.save(additionalDetails));
         return id;
     }
 
@@ -94,19 +83,14 @@ public class CustomerDAOImpl implements CustomerDAO {
     @Override
     public CustomerVO getCustomerFromId(final Long id) throws CustomerException {
         CustomerVO customerVO = null;
-        try {
-            var customer = customerRepository.findById(id);
-            if (customer.isPresent()) {
-                customerVO = convertToSingleCustomerVO(customer.get());
-                var additionalDetails =
-                        customerAdditionalDetailsRepository.findByCustomerId(customer.get().getCustomerId());
-                if (additionalDetails.isPresent()) {
-                    updateCustomerWithAdditionalDetails(customerVO, additionalDetails.get());
-                }
+        var customer = sneak(() -> customerRepository.findById(id));
+        if (customer.isPresent()) {
+            customerVO = convertToSingleCustomerVO(customer.get());
+            var additionalDetails =
+                    sneak(() -> customerAdditionalDetailsRepository.findByCustomerId(customer.get().getCustomerId()));
+            if (additionalDetails.isPresent()) {
+                updateCustomerWithAdditionalDetails(customerVO, additionalDetails.get());
             }
-        } catch (DataAccessException ex) {
-            LOG.error(ex.getLocalizedMessage());
-            throw new CustomerException(CustomerException.DATABASE_ERROR);
         }
         return customerVO;
     }
@@ -119,9 +103,9 @@ public class CustomerDAOImpl implements CustomerDAO {
      */
     @Override
     public void deleteCustomerFromId(final Long id) throws CustomerException {
+        var additionalDetails =
+                sneak(() -> customerAdditionalDetailsRepository.findByCustomerId(id));
         try {
-            var additionalDetails =
-                    customerAdditionalDetailsRepository.findByCustomerId(id);
             additionalDetails.ifPresent(customerAdditionalDetails ->
                     customerAdditionalDetailsRepository.deleteById(customerAdditionalDetails.getId()));
             customerRepository.deleteById(id);
@@ -139,13 +123,13 @@ public class CustomerDAOImpl implements CustomerDAO {
      */
     @Override
     public void updateCustomer(final CustomerVO currentCustomerVo) throws CustomerException {
+        var optionalCustomer = sneak(() -> customerRepository.findById(
+                currentCustomerVo.getCustomerId()));
         try {
-            var optionalCustomer = customerRepository.findById(
-                    currentCustomerVo.getCustomerId());
             if (optionalCustomer.isPresent()) {
                 var customer = optionalCustomer.get();
                 updateCustomerWithCustomerVo(currentCustomerVo, customer);
-                customerRepository.save(customer);
+                sneak(() -> customerRepository.save(customer));
                 if (isAdditionalDetailsPresent(currentCustomerVo)) {
                     var additionalDetails =
                             customerAdditionalDetailsRepository.findByCustomerId(customer.getCustomerId());

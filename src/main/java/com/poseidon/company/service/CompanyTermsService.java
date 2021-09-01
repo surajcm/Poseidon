@@ -1,11 +1,38 @@
 package com.poseidon.company.service;
 
+
+import com.poseidon.company.dao.CompanyTermsDAO;
 import com.poseidon.company.domain.CompanyTermsVO;
+import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
-public interface CompanyTermsService {
-    Optional<CompanyTermsVO> listCompanyTerms();
+@Service
+public class CompanyTermsService {
 
-    Optional<CompanyTermsVO> updateCompanyDetails(CompanyTermsVO companyTermsVO);
+    private final CompanyTermsDAO companyTermsDAO;
+
+    public CompanyTermsService(final CompanyTermsDAO companyTermsDAO) {
+        this.companyTermsDAO = companyTermsDAO;
+    }
+
+    /**
+     * list company terms.
+     *
+     * @return CompanyTermsVO
+     */
+    public Optional<CompanyTermsVO> listCompanyTerms() {
+        return companyTermsDAO.listCompanyTerms();
+    }
+
+    /**
+     * update company details.
+     *
+     * @param companyTermsVO companyTermsVO
+     * @return company terms vo
+     */
+    public Optional<CompanyTermsVO> updateCompanyDetails(final CompanyTermsVO companyTermsVO) {
+        return companyTermsDAO.updateCompanyDetails(companyTermsVO);
+    }
+
 }

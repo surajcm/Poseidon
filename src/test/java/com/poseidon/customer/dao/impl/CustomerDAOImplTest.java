@@ -35,22 +35,10 @@ class CustomerDAOImplTest {
     }
 
     @Test
-    void listAllCustomerDetailsFailure() {
-        when(customerRepository.findAll()).thenThrow(new CannotAcquireLockException("DB error"));
-        Assertions.assertThrows(CustomerException.class, customerDAO::listAllCustomerDetails);
-    }
-
-    @Test
     void saveCustomerSuccess() throws CustomerException {
         when(customerRepository.save(any())).thenReturn(mockCustomer());
         Long id = customerDAO.saveCustomer(mockCustomerVO());
         Assertions.assertEquals(1234L, id);
-    }
-
-    @Test
-    void saveCustomerFailure() {
-        when(customerRepository.save(any())).thenThrow(new CannotAcquireLockException("DB error"));
-        Assertions.assertThrows(CustomerException.class, () -> customerDAO.saveCustomer(mockCustomerVO()));
     }
 
     @Test
@@ -63,12 +51,6 @@ class CustomerDAOImplTest {
     void getCustomerFromIdEmptySuccess() throws CustomerException {
         when(customerRepository.findById(anyLong())).thenReturn(Optional.empty());
         Assertions.assertNull(customerDAO.getCustomerFromId(1234L));
-    }
-
-    @Test
-    void getCustomerFromIdFailure() {
-        when(customerRepository.findById(anyLong())).thenThrow(new CannotAcquireLockException("DB error"));
-        Assertions.assertThrows(CustomerException.class, () -> customerDAO.getCustomerFromId(1234L));
     }
 
     @Test
@@ -92,12 +74,6 @@ class CustomerDAOImplTest {
     void updateCustomerEmptySuccess() {
         when(customerRepository.findById(anyLong())).thenReturn(Optional.empty());
         Assertions.assertAll(() -> customerDAO.updateCustomer(mockCustomerVO()));
-    }
-
-    @Test
-    void updateCustomerFailure() {
-        when(customerRepository.findById(anyLong())).thenThrow(new CannotAcquireLockException("DB error"));
-        Assertions.assertThrows(CustomerException.class, () -> customerDAO.updateCustomer(mockCustomerVO()));
     }
 
     @Test

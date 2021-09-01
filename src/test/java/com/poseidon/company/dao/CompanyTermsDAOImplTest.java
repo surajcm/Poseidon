@@ -1,6 +1,7 @@
-package com.poseidon.company.dao.impl;
+package com.poseidon.company.dao;
 
 import com.poseidon.company.dao.entities.CompanyTerms;
+import com.poseidon.company.dao.repo.CompanyTermsRepository;
 import com.poseidon.company.domain.CompanyTermsVO;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -16,7 +17,7 @@ import static org.mockito.Mockito.when;
 @ExtendWith(SpringExtension.class)
 class CompanyTermsDAOImplTest {
     private final CompanyTermsRepository companyTermsRepository = Mockito.mock(CompanyTermsRepository.class);
-    private final CompanyTermsDAOImpl companyTermsDAO = new CompanyTermsDAOImpl(companyTermsRepository);
+    private final CompanyTermsDAO companyTermsDAO = new CompanyTermsDAO(companyTermsRepository);
 
     @Test
     void listCompanyTermsSuccess() {

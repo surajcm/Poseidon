@@ -1,4 +1,4 @@
-package com.poseidon.company.dao.impl;
+package com.poseidon.company.dao.repo;
 
 import com.poseidon.company.dao.entities.CompanyTerms;
 import org.springframework.data.jpa.repository.JpaRepository;

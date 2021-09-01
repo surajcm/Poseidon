@@ -1,4 +1,4 @@
-package com.poseidon.company.service.impl;
+package com.poseidon.company.service;
 
 import com.poseidon.company.dao.CompanyTermsDAO;
 import com.poseidon.company.domain.CompanyTermsVO;
@@ -16,7 +16,7 @@ import static org.mockito.Mockito.when;
 @ExtendWith(SpringExtension.class)
 class CompanyTermsServiceImplTest {
     private final CompanyTermsDAO companyTermsDAO = Mockito.mock(CompanyTermsDAO.class);
-    private final CompanyTermsServiceImpl companyTermsService = new CompanyTermsServiceImpl(companyTermsDAO);
+    private final CompanyTermsService companyTermsService = new CompanyTermsService(companyTermsDAO);
 
     @Test
     void listCompanyTermsSuccess() {
