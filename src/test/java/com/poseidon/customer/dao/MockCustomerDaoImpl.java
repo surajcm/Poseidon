@@ -5,6 +5,7 @@ import com.poseidon.customer.exception.CustomerException;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * Created by smuraleedharan
@@ -12,7 +13,7 @@ import java.util.List;
  */
 public class MockCustomerDaoImpl implements CustomerDAO {
     @Override
-    public List<CustomerVO> listAllCustomerDetails() throws CustomerException {
+    public List<CustomerVO> listAllCustomerDetails() {
         List<CustomerVO> customerVOs = new ArrayList<>();
         var customerVo = new CustomerVO();
         customerVo.setCustomerName("Tester");
@@ -20,13 +21,13 @@ public class MockCustomerDaoImpl implements CustomerDAO {
     }
 
     @Override
-    public long saveCustomer(final CustomerVO currentCustomerVo) throws CustomerException {
-        return 0;
+    public CustomerVO saveCustomer(final CustomerVO currentCustomerVo) {
+        return new CustomerVO();
     }
 
     @Override
-    public CustomerVO getCustomerFromId(final Long id) throws CustomerException {
-        return null;
+    public Optional<CustomerVO> getCustomerFromId(final Long id) {
+        return Optional.empty();
     }
 
     @Override

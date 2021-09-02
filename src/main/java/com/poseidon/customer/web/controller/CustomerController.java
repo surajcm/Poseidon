@@ -20,6 +20,7 @@ import java.io.IOException;
 import java.time.OffsetDateTime;
 import java.time.ZoneId;
 import java.util.List;
+import java.util.Optional;
 
 
 @Controller
@@ -99,12 +100,12 @@ public class CustomerController {
     public ModelAndView editCustomer(final CustomerForm customerForm) {
         logIncomingEdit(customerForm);
         var customerVO = getCustomerVOFromId(customerForm.getId());
-        if (customerVO == null) {
-            LOG.error(" No details found for current makeVO !!");
+        if (customerVO.isPresent()) {
+            LOG.info(" customerVO details are {}", customerVO.get());
+            customerForm.setCurrentCustomerVO(customerVO.get());
         } else {
-            LOG.info(" customerVO details are {}", customerVO);
+            LOG.error(" No details found for current makeVO !!");
         }
-        customerForm.setCurrentCustomerVO(customerVO);
         customerForm.setLoggedInUser(customerForm.getLoggedInUser());
         customerForm.setLoggedInRole(customerForm.getLoggedInRole());
         return new ModelAndView("customer/EditCustomer", CUSTOMER_FORM, customerForm);
@@ -286,7 +287,7 @@ public class CustomerController {
     String viewCustomer(@ModelAttribute("customerId") final String customerId) {
         var id = Long.parseLong(customerId);
         var customerVO = getCustomerVOFromId(id);
-        return convertToJson(customerVO);
+        return convertToJson(customerVO.get());
     }
 
     private String convertToJson(final CustomerVO customerVO) {
@@ -302,14 +303,8 @@ public class CustomerController {
         return response;
     }
 
-    private CustomerVO getCustomerVOFromId(final Long id) {
-        CustomerVO customerVO = null;
-        try {
-            customerVO = customerService.getCustomerFromId(id);
-        } catch (CustomerException ex) {
-            LOG.error(ex.getLocalizedMessage());
-        }
-        return customerVO;
+    private Optional<CustomerVO> getCustomerVOFromId(final Long id) {
+        return customerService.getCustomerFromId(id);
     }
 
 }

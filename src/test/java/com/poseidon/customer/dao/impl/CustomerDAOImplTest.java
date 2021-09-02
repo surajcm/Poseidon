@@ -37,20 +37,20 @@ class CustomerDAOImplTest {
     @Test
     void saveCustomerSuccess() throws CustomerException {
         when(customerRepository.save(any())).thenReturn(mockCustomer());
-        Long id = customerDAO.saveCustomer(mockCustomerVO());
-        Assertions.assertEquals(1234L, id);
+        CustomerVO customer = customerDAO.saveCustomer(mockCustomerVO());
+        Assertions.assertEquals(1234L, customer.getCustomerId());
     }
 
     @Test
-    void getCustomerFromIdSuccess() throws CustomerException {
+    void getCustomerFromIdSuccess() {
         when(customerRepository.findById(anyLong())).thenReturn(Optional.of(mockCustomer()));
         Assertions.assertNotNull(customerDAO.getCustomerFromId(1234L));
     }
 
     @Test
-    void getCustomerFromIdEmptySuccess() throws CustomerException {
+    void getCustomerFromIdEmptySuccess() {
         when(customerRepository.findById(anyLong())).thenReturn(Optional.empty());
-        Assertions.assertNull(customerDAO.getCustomerFromId(1234L));
+        Assertions.assertTrue(customerDAO.getCustomerFromId(1234L).isEmpty());
     }
 
     @Test

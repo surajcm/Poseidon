@@ -29,6 +29,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 
 /**
  * user: Suraj.
@@ -160,7 +161,8 @@ public class TransactionController {
                 transactionForm.getCustomerVO().setModifiedOn(OffsetDateTime.now(ZoneId.systemDefault()));
                 transactionForm.getCustomerVO().setCreatedBy(transactionForm.getLoggedInUser());
                 transactionForm.getCustomerVO().setModifiedBy(transactionForm.getLoggedInUser());
-                long customerId = customerService.saveCustomer(transactionForm.getCustomerVO());
+                var customer = customerService.saveCustomer(transactionForm.getCustomerVO());
+                var customerId = customer.getCustomerId();
                 transactionForm.getCustomerVO().setCustomerId(customerId);
                 transactionVO.setCustomerId(customerId);
                 LOG.info("the customer id from db is  {}", customerId);
@@ -234,7 +236,7 @@ public class TransactionController {
         var sanitizedForm = CommonUtils.sanitizedString(transactionForm.toString());
         LOG.info("transactionForm is {}", sanitizedForm);
         TransactionVO transactionVO = null;
-        CustomerVO customerVO = null;
+        Optional<CustomerVO> customerVO = Optional.empty();
         try {
             transactionVO = transactionService.fetchTransactionFromId(transactionForm.getId());
             if (transactionVO != null && transactionVO.getCustomerId() != null && transactionVO.getCustomerId() > 0) {
@@ -249,14 +251,14 @@ public class TransactionController {
                     makeAndModelVOs.forEach(makeAndModelVO -> LOG.info("makeAndModel vo is {}", makeAndModelVO));
                 }
             }
-        } catch (TransactionException | CustomerException ex) {
+        } catch (TransactionException ex) {
             LOG.error(ex.getLocalizedMessage());
         }
         if (transactionVO != null) {
             LOG.info("transactionVO {}", transactionVO);
         }
         transactionForm.setCurrentTransaction(transactionVO);
-        transactionForm.setCustomerVO(Objects.requireNonNullElseGet(customerVO, CustomerVO::new));
+        customerVO.ifPresent(vo -> transactionForm.setCustomerVO(Objects.requireNonNullElseGet(vo, CustomerVO::new)));
         transactionForm.setStatusList(populateStatus());
         transactionForm.setLoggedInRole(transactionForm.getLoggedInRole());
         transactionForm.setLoggedInUser(transactionForm.getLoggedInUser());

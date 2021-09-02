@@ -4,13 +4,14 @@ import com.poseidon.customer.domain.CustomerVO;
 import com.poseidon.customer.exception.CustomerException;
 
 import java.util.List;
+import java.util.Optional;
 
 public interface CustomerDAO {
-    List<CustomerVO> listAllCustomerDetails() throws CustomerException;
+    List<CustomerVO> listAllCustomerDetails();
 
-    long saveCustomer(CustomerVO currentCustomerVo) throws CustomerException;
+    CustomerVO saveCustomer(CustomerVO currentCustomerVo);
 
-    CustomerVO getCustomerFromId(Long id) throws CustomerException;
+    Optional<CustomerVO> getCustomerFromId(Long id);
 
     void deleteCustomerFromId(Long id) throws CustomerException;
 

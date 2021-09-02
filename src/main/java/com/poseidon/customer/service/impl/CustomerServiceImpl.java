@@ -9,6 +9,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class CustomerServiceImpl implements CustomerService {
@@ -27,30 +28,17 @@ public class CustomerServiceImpl implements CustomerService {
      */
     @Override
     public List<CustomerVO> listAllCustomerDetails() {
-        List<CustomerVO> customerVOs = null;
-        try {
-            customerVOs = customerDAO.listAllCustomerDetails();
-        } catch (CustomerException ex) {
-            LOG.error(ex.getMessage());
-        }
-        return customerVOs;
+        return customerDAO.listAllCustomerDetails();
     }
 
     /**
      * save a customer.
      *
      * @param currentCustomerVO currentCustomerVO
-     * @return view
      */
     @Override
-    public long saveCustomer(final CustomerVO currentCustomerVO) {
-        var customerId = 0L;
-        try {
-            customerId = customerDAO.saveCustomer(currentCustomerVO);
-        } catch (CustomerException ex) {
-            LOG.error(ex.getMessage());
-        }
-        return customerId;
+    public CustomerVO saveCustomer(final CustomerVO currentCustomerVO) {
+        return customerDAO.saveCustomer(currentCustomerVO);
     }
 
     /**
@@ -60,14 +48,8 @@ public class CustomerServiceImpl implements CustomerService {
      * @return customer vo
      */
     @Override
-    public CustomerVO getCustomerFromId(final Long id) {
-        CustomerVO customerVO = null;
-        try {
-            customerVO = customerDAO.getCustomerFromId(id);
-        } catch (CustomerException ex) {
-            LOG.error(ex.getMessage());
-        }
-        return customerVO;
+    public Optional<CustomerVO> getCustomerFromId(final Long id) {
+        return customerDAO.getCustomerFromId(id);
     }
 
     /**

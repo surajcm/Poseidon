@@ -20,6 +20,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static com.rainerhahnekamp.sneakythrow.Sneaky.sneak;
 
@@ -58,19 +59,21 @@ public class CustomerDAOImpl implements CustomerDAO {
      *
      * @param currentCustomerVo currentCustomerVo
      * @return long
-     * @throws CustomerException on error
      */
     @Override
-    public long saveCustomer(final CustomerVO currentCustomerVo) throws CustomerException {
+    public CustomerVO saveCustomer(final CustomerVO currentCustomerVo) {
         var customer = convertToSingleCustomer(currentCustomerVo);
         var newCustomer = sneak(() -> customerRepository.save(customer));
-        Long id = newCustomer.getCustomerId();
-        //todo: this should move to controller, and finally to page
-        setAdditionalDetailsToVO(currentCustomerVo);
-        var additionalDetails = convertToCustomerAdditionalDetails(
+        saveAdditionalDetails(currentCustomerVo, newCustomer);
+        return convertToSingleCustomerVO(newCustomer);
+    }
+
+    private void saveAdditionalDetails(final CustomerVO currentCustomerVo, final Customer newCustomer) {
+        var additionalDetails = setAdditionalDetailsToVO(currentCustomerVo);
+        currentCustomerVo.setCustomerAdditionalDetailsVO(additionalDetails);
+        var newAdditionalDetails = convertToCustomerAdditionalDetails(
                 newCustomer.getCustomerId(), currentCustomerVo.getCustomerAdditionalDetailsVO());
-        sneak(() -> customerAdditionalDetailsRepository.save(additionalDetails));
-        return id;
+        sneak(() -> customerAdditionalDetailsRepository.save(newAdditionalDetails));
     }
 
     /**
@@ -78,22 +81,26 @@ public class CustomerDAOImpl implements CustomerDAO {
      *
      * @param id of customer
      * @return customer vo
-     * @throws CustomerException on error
      */
     @Override
-    public CustomerVO getCustomerFromId(final Long id) throws CustomerException {
-        CustomerVO customerVO = null;
-        var customer = sneak(() -> customerRepository.findById(id));
-        if (customer.isPresent()) {
-            customerVO = convertToSingleCustomerVO(customer.get());
-            var additionalDetails =
-                    sneak(() -> customerAdditionalDetailsRepository.findByCustomerId(customer.get().getCustomerId()));
-            if (additionalDetails.isPresent()) {
-                updateCustomerWithAdditionalDetails(customerVO, additionalDetails.get());
-            }
-        }
+    public Optional<CustomerVO> getCustomerFromId(final Long id) {
+        return sneak(() -> customerRepository.findById(id))
+                .map(this::convertToSingleCustomerVO)
+                .map(this::getAdditionalDetailsToVO);
+    }
+
+    private Optional<CustomerAdditionalDetails> getAdditionalDetailsOfCustomerId(final Long id) {
+        return sneak(() -> customerAdditionalDetailsRepository.findByCustomerId(id));
+    }
+
+    private CustomerVO getAdditionalDetailsToVO(final CustomerVO customerVO) {
+        var additionalDetails =
+                getAdditionalDetailsOfCustomerId(customerVO.getCustomerId());
+        additionalDetails.ifPresent(customerAdditionalDetails ->
+                updateCustomerWithAdditionalDetails(customerVO, customerAdditionalDetails));
         return customerVO;
     }
+
 
     /**
      * delete a customer from id.
@@ -283,13 +290,13 @@ public class CustomerDAOImpl implements CustomerDAO {
         return additionalDetails;
     }
 
-    private void setAdditionalDetailsToVO(final CustomerVO currentCustomerVo) {
+    private CustomerAdditionalDetailsVO setAdditionalDetailsToVO(final CustomerVO currentCustomerVo) {
         var additionalDetails = new CustomerAdditionalDetailsVO();
         additionalDetails.setContactPerson(currentCustomerVo.getContactPerson());
         additionalDetails.setContactMobile(currentCustomerVo.getContactMobile());
         additionalDetails.setNotes(currentCustomerVo.getNotes());
         additionalDetails.setCreatedBy(currentCustomerVo.getCreatedBy());
         additionalDetails.setModifiedBy(currentCustomerVo.getModifiedBy());
-        currentCustomerVo.setCustomerAdditionalDetailsVO(additionalDetails);
+        return additionalDetails;
     }
 }
