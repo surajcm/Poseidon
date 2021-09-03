@@ -1,6 +1,8 @@
-package com.poseidon.customer.dao.impl;
+package com.poseidon.customer.dao;
 
 import com.poseidon.customer.dao.entities.Customer;
+import com.poseidon.customer.dao.repo.CustomerAdditionalDetailsRepository;
+import com.poseidon.customer.dao.repo.CustomerRepository;
 import com.poseidon.customer.dao.spec.CustomerSpecification;
 import com.poseidon.customer.domain.CustomerVO;
 import com.poseidon.customer.exception.CustomerException;
@@ -25,7 +27,7 @@ class CustomerDAOImplTest {
     private final CustomerRepository customerRepository = Mockito.mock(CustomerRepository.class);
     private final CustomerAdditionalDetailsRepository customerAdditionalDetailsRepository =
             Mockito.mock(CustomerAdditionalDetailsRepository.class);
-    private final CustomerDAOImpl customerDAO = new CustomerDAOImpl(
+    private final CustomerDAO customerDAO = new CustomerDAO(
             customerRepository, customerAdditionalDetailsRepository);
 
     @Test

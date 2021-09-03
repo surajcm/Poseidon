@@ -1,4 +1,4 @@
-package com.poseidon.customer.dao.impl;
+package com.poseidon.customer.dao.repo;
 
 import com.poseidon.customer.dao.entities.CustomerAdditionalDetails;
 import org.springframework.data.jpa.repository.JpaRepository;

@@ -1,7 +1,7 @@
 package com.poseidon.transaction.dao.impl;
 
 import com.poseidon.customer.dao.entities.Customer;
-import com.poseidon.customer.dao.impl.CustomerRepository;
+import com.poseidon.customer.dao.repo.CustomerRepository;
 import com.poseidon.make.dao.entities.Make;
 import com.poseidon.make.dao.entities.Model;
 import com.poseidon.make.dao.impl.MakeRepository;

@@ -1,6 +1,6 @@
 package com.poseidon.customer.service.impl;
 
-import com.poseidon.customer.dao.impl.CustomerDAOImpl;
+import com.poseidon.customer.dao.CustomerDAO;
 import com.poseidon.customer.domain.CustomerVO;
 import com.poseidon.customer.exception.CustomerException;
 import com.poseidon.customer.service.CustomerServiceConfiguration;
@@ -28,14 +28,14 @@ import static org.mockito.Mockito.when;
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = {CustomerServiceConfiguration.class})
 class CustomerServiceImplTest {
-    private CustomerServiceImpl customerService;
+    private CustomerService customerService;
 
     @Autowired
-    private CustomerDAOImpl customerDAO;
+    private CustomerDAO customerDAO;
 
     @BeforeEach
     public void setup() {
-        customerService = new CustomerServiceImpl(customerDAO);
+        customerService = new CustomerService(customerDAO);
     }
 
     @Test

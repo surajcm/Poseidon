@@ -1,8 +1,7 @@
 package com.poseidon.transaction.web.controller;
 
 import com.poseidon.customer.domain.CustomerVO;
-import com.poseidon.customer.exception.CustomerException;
-import com.poseidon.customer.service.CustomerService;
+import com.poseidon.customer.service.impl.CustomerService;
 import com.poseidon.make.domain.MakeAndModelVO;
 import com.poseidon.make.domain.MakeVO;
 import com.poseidon.make.service.MakeService;
@@ -170,7 +169,7 @@ public class TransactionController {
             String tagNo = transactionService.saveTransaction(transactionVO);
             transactionForm.setStatusMessage("Successfully added the transaction, Tag Number is " + tagNo);
             transactionForm.setStatusMessageType(SUCCESS);
-        } catch (TransactionException | CustomerException ex) {
+        } catch (TransactionException ex) {
             transactionForm.setStatusMessage("Unable to create a new transaction due to a Data base error");
             transactionForm.setStatusMessageType(ERROR);
             LOG.error(ex.getLocalizedMessage());

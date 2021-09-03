@@ -2,8 +2,7 @@ package com.poseidon.customer.web.controller;
 
 import com.poseidon.customer.domain.CustomerAdditionalDetailsVO;
 import com.poseidon.customer.domain.CustomerVO;
-import com.poseidon.customer.exception.CustomerException;
-import com.poseidon.customer.service.CustomerService;
+import com.poseidon.customer.service.impl.CustomerService;
 import com.poseidon.customer.web.form.CustomerForm;
 import com.poseidon.transaction.web.form.TransactionForm;
 import com.poseidon.util.CommonUtils;
@@ -157,7 +156,7 @@ public class CustomerController {
             customerService.deleteCustomerFromId(customerForm.getId());
             customerForm.setStatusMessage("Deleted the customer details successfully");
             customerForm.setStatusMessageType(SUCCESS);
-        } catch (CustomerException ex) {
+        } catch (Exception ex) {
             customerForm.setStatusMessage("Unable to delete the selected customer details due to a Data base error");
             customerForm.setStatusMessageType(ERROR);
             LOG.error(ex.getLocalizedMessage());
@@ -186,21 +185,10 @@ public class CustomerController {
             customerService.saveCustomer(customerVO);
             customerForm.setStatusMessage("Added the new customer details successfully");
             customerForm.setStatusMessageType(SUCCESS);
-        } catch (CustomerException ex) {
+        } catch (Exception ex) {
             customerForm.setStatusMessage("Unable to add the new customer details due to a Data base error");
             customerForm.setStatusMessageType(ERROR);
             LOG.error(ex.getLocalizedMessage());
-            LOG.error(EXCEPTION_TYPE_IN_CONTROLLER, ex.getExceptionType());
-            if (ex.getExceptionType().equalsIgnoreCase(CustomerException.DATABASE_ERROR)) {
-                LOG.info(DB_ERROR_OCCURRED);
-            } else {
-                LOG.info(UNKNOWN_ERROR);
-            }
-        } catch (Exception e1) {
-            customerForm.setStatusMessage("Unable to add the new customer details");
-            customerForm.setStatusMessageType(ERROR);
-            LOG.error(e1.getLocalizedMessage());
-            LOG.info(UNKNOWN_ERROR);
         }
         return list(customerForm);
     }
@@ -233,21 +221,10 @@ public class CustomerController {
             customerService.updateCustomer(customerVO);
             customerForm.setStatusMessage("Updated the selected customer details successfully");
             customerForm.setStatusMessageType(SUCCESS);
-        } catch (CustomerException ex) {
+        } catch (Exception ex) {
             customerForm.setStatusMessage("Unable to update the selected customer details due to a Data base error");
             customerForm.setStatusMessageType(ERROR);
             LOG.error(ex.getLocalizedMessage());
-            LOG.error(EXCEPTION_TYPE_IN_CONTROLLER, ex.getExceptionType());
-            if (ex.getExceptionType().equalsIgnoreCase(CustomerException.DATABASE_ERROR)) {
-                LOG.info(DB_ERROR_OCCURRED);
-            } else {
-                LOG.info(UNKNOWN_ERROR);
-            }
-        } catch (Exception e1) {
-            customerForm.setStatusMessage("Unable to update the selected customer details");
-            customerForm.setStatusMessageType(ERROR);
-            LOG.error(e1.getLocalizedMessage());
-            LOG.info(UNKNOWN_ERROR);
         }
         return list(customerForm);
     }
@@ -268,7 +245,7 @@ public class CustomerController {
             customerVOs = customerService.searchCustomer(customerForm.getSearchCustomerVO());
             customerForm.setStatusMessage("Found " + customerVOs.size() + " customer details");
             customerForm.setStatusMessageType("info");
-        } catch (CustomerException ex) {
+        } catch (Exception ex) {
             customerForm.setStatusMessage("Unable to fetch customer details due to a Data base error");
             customerForm.setStatusMessageType(ERROR);
             LOG.error(ex.getLocalizedMessage());

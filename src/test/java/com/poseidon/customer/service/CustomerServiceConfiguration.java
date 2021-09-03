@@ -1,8 +1,8 @@
 package com.poseidon.customer.service;
 
-import com.poseidon.customer.dao.impl.CustomerAdditionalDetailsRepository;
-import com.poseidon.customer.dao.impl.CustomerDAOImpl;
-import com.poseidon.customer.dao.impl.CustomerRepository;
+import com.poseidon.customer.dao.repo.CustomerAdditionalDetailsRepository;
+import com.poseidon.customer.dao.CustomerDAO;
+import com.poseidon.customer.dao.repo.CustomerRepository;
 import org.mockito.Mockito;
 import org.springframework.context.annotation.Bean;
 import org.springframework.test.context.ContextConfiguration;
@@ -12,8 +12,8 @@ import javax.persistence.EntityManagerFactory;
 @ContextConfiguration
 public class CustomerServiceConfiguration {
     @Bean
-    public CustomerDAOImpl customerDAO() {
-        return Mockito.mock(CustomerDAOImpl.class);
+    public CustomerDAO customerDAO() {
+        return Mockito.mock(CustomerDAO.class);
     }
 
     @Bean
