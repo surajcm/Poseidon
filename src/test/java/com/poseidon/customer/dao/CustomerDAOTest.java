@@ -5,12 +5,10 @@ import com.poseidon.customer.dao.repo.CustomerAdditionalDetailsRepository;
 import com.poseidon.customer.dao.repo.CustomerRepository;
 import com.poseidon.customer.dao.spec.CustomerSpecification;
 import com.poseidon.customer.domain.CustomerVO;
-import com.poseidon.customer.exception.CustomerException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
-import org.springframework.dao.CannotAcquireLockException;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.ArrayList;
@@ -19,11 +17,10 @@ import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
-class CustomerDAOImplTest {
+class CustomerDAOTest {
     private final CustomerRepository customerRepository = Mockito.mock(CustomerRepository.class);
     private final CustomerAdditionalDetailsRepository customerAdditionalDetailsRepository =
             Mockito.mock(CustomerAdditionalDetailsRepository.class);
@@ -31,13 +28,13 @@ class CustomerDAOImplTest {
             customerRepository, customerAdditionalDetailsRepository);
 
     @Test
-    void listAllCustomerDetailsSuccess() throws CustomerException {
+    void listAllCustomerDetailsSuccess() {
         when(customerRepository.findAll()).thenReturn(mockCustomers());
         Assertions.assertNotNull(customerDAO.listAllCustomerDetails());
     }
 
     @Test
-    void saveCustomerSuccess() throws CustomerException {
+    void saveCustomerSuccess() {
         when(customerRepository.save(any())).thenReturn(mockCustomer());
         CustomerVO customer = customerDAO.saveCustomer(mockCustomerVO());
         Assertions.assertEquals(1234L, customer.getCustomerId());
@@ -61,12 +58,6 @@ class CustomerDAOImplTest {
     }
 
     @Test
-    void deleteCustomerFromIdFailure() {
-        doThrow(new CannotAcquireLockException("DB error")).when(customerRepository).deleteById(anyLong());
-        Assertions.assertThrows(CustomerException.class, () -> customerDAO.deleteCustomerFromId(1234L));
-    }
-
-    @Test
     void updateCustomerSuccess() {
         when(customerRepository.findById(anyLong())).thenReturn(Optional.of(mockCustomer()));
         Assertions.assertAll(() -> customerDAO.updateCustomer(mockCustomerVO()));
@@ -79,7 +70,7 @@ class CustomerDAOImplTest {
     }
 
     @Test
-    void searchCustomerSuccess() throws CustomerException {
+    void searchCustomerSuccess() {
         when(customerRepository.findAll(any(CustomerSpecification.class))).thenReturn(mockCustomers());
         var mockCustomerVO = mockCustomerVO();
         Assertions.assertNotNull(customerDAO.searchCustomer(mockCustomerVO));
@@ -88,13 +79,6 @@ class CustomerDAOImplTest {
         mockCustomerVO.setIncludes(Boolean.FALSE);
         mockCustomerVO.setStartsWith(Boolean.TRUE);
         Assertions.assertNotNull(customerDAO.searchCustomer(mockCustomerVO));
-    }
-
-    @Test
-    void searchCustomerFailure() {
-        when(customerRepository.findAll(any(CustomerSpecification.class)))
-                .thenThrow(new CannotAcquireLockException("DB error"));
-        Assertions.assertThrows(CustomerException.class, () -> customerDAO.searchCustomer(mockCustomerVO()));
     }
 
     private CustomerVO mockCustomerVO() {

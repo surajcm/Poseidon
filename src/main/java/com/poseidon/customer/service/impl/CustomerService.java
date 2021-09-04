@@ -54,11 +54,7 @@ public class CustomerService {
      * @param id of customer to be deleted
      */
     public void deleteCustomerFromId(final Long id) {
-        try {
-            customerDAO.deleteCustomerFromId(id);
-        } catch (CustomerException ex) {
-            LOG.error(ex.getMessage());
-        }
+        customerDAO.deleteCustomerFromId(id);
     }
 
     /**
@@ -81,12 +77,6 @@ public class CustomerService {
      * @return list of customer vo
      */
     public List<CustomerVO> searchCustomer(final CustomerVO searchCustomerVO) {
-        List<CustomerVO> customerVOs = null;
-        try {
-            customerVOs = customerDAO.searchCustomer(searchCustomerVO);
-        } catch (CustomerException ex) {
-            LOG.error(ex.getMessage());
-        }
-        return customerVOs;
+        return customerDAO.searchCustomer(searchCustomerVO);
     }
 }

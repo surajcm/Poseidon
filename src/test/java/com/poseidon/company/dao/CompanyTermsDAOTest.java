@@ -15,7 +15,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
-class CompanyTermsDAOImplTest {
+class CompanyTermsDAOTest {
     private final CompanyTermsRepository companyTermsRepository = Mockito.mock(CompanyTermsRepository.class);
     private final CompanyTermsDAO companyTermsDAO = new CompanyTermsDAO(companyTermsRepository);
 

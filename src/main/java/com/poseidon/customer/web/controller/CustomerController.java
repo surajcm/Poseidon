@@ -51,13 +51,8 @@ public class CustomerController {
     @PostMapping("/customer/List.htm")
     public ModelAndView list(final CustomerForm customerForm) {
         logIncoming(customerForm);
-        List<CustomerVO> customerVOs = null;
-        try {
-            customerVOs = customerService.listAllCustomerDetails();
-        } catch (Exception ex) {
-            LOG.error(ex.getLocalizedMessage());
-        }
-        if (customerVOs != null) {
+        List<CustomerVO> customerVOs = customerService.listAllCustomerDetails();
+        if (!customerVOs.isEmpty()) {
             customerVOs.forEach(customerVO -> LOG.info("customerVO is {}", customerVO));
             customerForm.setCustomerVOs(customerVOs);
         }

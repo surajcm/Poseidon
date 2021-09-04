@@ -1,9 +1,9 @@
-package com.poseidon.customer.service.impl;
+package com.poseidon.customer.service;
 
 import com.poseidon.customer.dao.CustomerDAO;
 import com.poseidon.customer.domain.CustomerVO;
 import com.poseidon.customer.exception.CustomerException;
-import com.poseidon.customer.service.CustomerServiceConfiguration;
+import com.poseidon.customer.service.impl.CustomerService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -27,7 +27,7 @@ import static org.mockito.Mockito.when;
  */
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = {CustomerServiceConfiguration.class})
-class CustomerServiceImplTest {
+class CustomerServiceTest {
     private CustomerService customerService;
 
     @Autowired
@@ -62,13 +62,6 @@ class CustomerServiceImplTest {
     }
 
     @Test
-    void deleteCustomerFromIdFailure() throws CustomerException {
-        doThrow(new CustomerException(CustomerException.DATABASE_ERROR))
-                .when(customerDAO).deleteCustomerFromId(anyLong());
-        Assertions.assertAll(() -> customerService.deleteCustomerFromId(1234L));
-    }
-
-    @Test
     void updateCustomerSuccess() {
         Assertions.assertAll(() -> customerService.updateCustomer(Mockito.mock(CustomerVO.class)));
     }
@@ -85,12 +78,4 @@ class CustomerServiceImplTest {
         when(customerDAO.searchCustomer(Mockito.mock(CustomerVO.class))).thenReturn(new ArrayList<>());
         Assertions.assertNotNull(customerService.searchCustomer(Mockito.mock(CustomerVO.class)));
     }
-
-    @Test
-    void searchCustomerFailure() throws CustomerException {
-        doThrow(new CustomerException(CustomerException.DATABASE_ERROR))
-                .when(customerDAO).searchCustomer(any());
-        Assertions.assertNull(customerService.searchCustomer(Mockito.mock(CustomerVO.class)));
-    }
-
 }

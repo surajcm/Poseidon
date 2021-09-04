@@ -12,7 +12,6 @@ import com.poseidon.dataaccess.specs.SearchCriteria;
 import com.poseidon.dataaccess.specs.SearchOperation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 import org.springframework.util.StringUtils;
@@ -39,7 +38,7 @@ public class CustomerDAO {
     private EntityManager em;
 
     public CustomerDAO(final CustomerRepository customerRepository,
-                           final CustomerAdditionalDetailsRepository customerAdditionalDetailsRepository) {
+                       final CustomerAdditionalDetailsRepository customerAdditionalDetailsRepository) {
         this.customerRepository = customerRepository;
         this.customerAdditionalDetailsRepository = customerAdditionalDetailsRepository;
     }
@@ -104,19 +103,20 @@ public class CustomerDAO {
      * delete a customer from id.
      *
      * @param id of customer
-     * @throws CustomerException on error
      */
-    public void deleteCustomerFromId(final Long id) throws CustomerException {
-        var additionalDetails =
-                sneak(() -> customerAdditionalDetailsRepository.findByCustomerId(id));
-        try {
-            additionalDetails.ifPresent(customerAdditionalDetails ->
-                    customerAdditionalDetailsRepository.deleteById(customerAdditionalDetails.getId()));
-            customerRepository.deleteById(id);
-        } catch (DataAccessException ex) {
-            LOG.error(ex.getLocalizedMessage());
-            throw new CustomerException(CustomerException.DATABASE_ERROR);
-        }
+    public void deleteCustomerFromId(final Long id) {
+        deleteAdditionalDetails(id);
+        customerRepository.deleteById(id);
+    }
+
+    private void deleteAdditionalDetails(final Long id) {
+        var additionalDetails = getAdditionalDetailsOfCustomerId(id);
+        additionalDetails.ifPresent(details ->
+                customerAdditionalDetailsRepository.deleteById(details.getId()));
+    }
+
+    private Optional<Customer> getCustomer(final Long id) {
+        return sneak(() -> customerRepository.findById(id));
     }
 
     /**
@@ -126,31 +126,30 @@ public class CustomerDAO {
      * @throws CustomerException on error
      */
     public void updateCustomer(final CustomerVO currentCustomerVo) throws CustomerException {
-        var optionalCustomer = sneak(() -> customerRepository.findById(
-                currentCustomerVo.getCustomerId()));
-        try {
-            if (optionalCustomer.isPresent()) {
-                var customer = optionalCustomer.get();
-                updateCustomerWithCustomerVo(currentCustomerVo, customer);
-                sneak(() -> customerRepository.save(customer));
-                if (isAdditionalDetailsPresent(currentCustomerVo)) {
-                    var additionalDetails =
-                            customerAdditionalDetailsRepository.findByCustomerId(customer.getCustomerId());
-                    CustomerAdditionalDetails customerAdditionalDetails;
-                    if (additionalDetails.isPresent()) {
-                        customerAdditionalDetails = additionalDetails.get();
-                    } else {
-                        customerAdditionalDetails = new CustomerAdditionalDetails();
-                        customerAdditionalDetails.setCustomerId(customer.getCustomerId());
-                    }
-                    updateAdditionalDetails(currentCustomerVo, customerAdditionalDetails);
-                    customerAdditionalDetailsRepository.save(customerAdditionalDetails);
-                }
+        var optionalCustomer = getCustomer(currentCustomerVo.getCustomerId());
+        if (optionalCustomer.isPresent()) {
+            var customer = optionalCustomer.get();
+            updateCustomerWithCustomerVo(currentCustomerVo, customer);
+            sneak(() -> customerRepository.save(customer));
+            if (isAdditionalDetailsPresent(currentCustomerVo)) {
+                CustomerAdditionalDetails customerAdditionalDetails = populateDetails(customer);
+                updateAdditionalDetails(currentCustomerVo, customerAdditionalDetails);
+                sneak(() -> customerAdditionalDetailsRepository.save(customerAdditionalDetails));
             }
-        } catch (DataAccessException ex) {
-            LOG.error(ex.getLocalizedMessage());
-            throw new CustomerException(CustomerException.DATABASE_ERROR);
         }
+    }
+
+    private CustomerAdditionalDetails populateDetails(final Customer customer) {
+        var additionalDetails =
+                getAdditionalDetailsOfCustomerId(customer.getCustomerId());
+        CustomerAdditionalDetails customerAdditionalDetails;
+        if (additionalDetails.isPresent()) {
+            customerAdditionalDetails = additionalDetails.get();
+        } else {
+            customerAdditionalDetails = new CustomerAdditionalDetails();
+            customerAdditionalDetails.setCustomerId(customer.getCustomerId());
+        }
+        return customerAdditionalDetails;
     }
 
     private void updateAdditionalDetails(final CustomerVO currentCustomerVo,
@@ -188,17 +187,9 @@ public class CustomerDAO {
      *
      * @param searchCustomerVo searchCustomerVo
      * @return list of customer vo
-     * @throws CustomerException on error
      */
-    public List<CustomerVO> searchCustomer(final CustomerVO searchCustomerVo) throws CustomerException {
-        List<CustomerVO> customerVOs;
-        try {
-            customerVOs = searchCustomerInDetail(searchCustomerVo);
-        } catch (DataAccessException ex) {
-            LOG.error(ex.getLocalizedMessage());
-            throw new CustomerException(CustomerException.DATABASE_ERROR);
-        }
-        return customerVOs;
+    public List<CustomerVO> searchCustomer(final CustomerVO searchCustomerVo) {
+        return searchCustomerInDetail(searchCustomerVo);
     }
 
     private CustomerVO convertToSingleCustomerVO(final Customer customer) {
@@ -229,15 +220,7 @@ public class CustomerDAO {
     private List<CustomerVO> convertToCustomerVO(final List<Customer> customers) {
         List<CustomerVO> customerVOS = new ArrayList<>();
         for (Customer customer : customers) {
-            var customerVO = new CustomerVO();
-            customerVO.setCustomerId(customer.getCustomerId());
-            customerVO.setCustomerName(customer.getName());
-            customerVO.setAddress(customer.getAddress());
-            customerVO.setPhoneNo(customer.getPhone());
-            customerVO.setMobile(customer.getMobile());
-            customerVO.setEmail(customer.getEmail());
-            customerVO.setCreatedBy(customer.getCreatedBy());
-            customerVO.setModifiedBy(customer.getModifiedBy());
+            var customerVO = convertToSingleCustomerVO(customer);
             customerVOS.add(customerVO);
         }
         return customerVOS;
@@ -255,15 +238,15 @@ public class CustomerDAO {
         if (!StringUtils.hasText(searchVO.getMobile())) {
             customerSpec.add(new SearchCriteria(MOBILE, searchVO.getMobile(), search));
         }
-        List<Customer> resultCustomers = customerRepository.findAll(customerSpec);
+        List<Customer> resultCustomers = sneak(() -> customerRepository.findAll(customerSpec));
         return convertToCustomerVO(resultCustomers);
     }
 
     private SearchOperation populateSearchOperation(final CustomerVO searchVO) {
         SearchOperation searchOperation;
-        if (searchVO.getIncludes() != null && searchVO.getIncludes().booleanValue()) {
+        if (searchVO.getIncludes() != null && Boolean.TRUE.equals(searchVO.getIncludes())) {
             searchOperation = SearchOperation.MATCH;
-        } else if (searchVO.getStartsWith() != null && searchVO.getStartsWith().booleanValue()) {
+        } else if (searchVO.getStartsWith() != null && Boolean.TRUE.equals(searchVO.getStartsWith())) {
             searchOperation = SearchOperation.MATCH_START;
         } else {
             searchOperation = SearchOperation.EQUAL;

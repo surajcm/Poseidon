@@ -10,14 +10,12 @@ Refer to Checkstyle Filters page given below to learn more abour suppression fil
 http://checkstyle.sourceforge.net/config_filters.html#SuppressionFilter
 WHAT AND WHY CHECKS SUPPRESSED
 ==============================
- - Indentation: Google style guide uses 2 spaces for identation, we use 4
+ - Indentation: Google style guide uses 2 spaces for indentation, we use 4
  - LineLength: Google style guice states to limit lines to 100, we prefer 120
  - JavadocParagraph: IDEs cannot put <p> immediately before the first word of the new paragraph
 -->
 
 <suppressions>
-    <suppress files="CompanyController.java" checks="MethodLength"/>
-    <suppress files="CustomerDAO.java" checks="MethodLength"/>
     <suppress files="CustomerVO.java" checks="MethodLength"/>
     <suppress files="CustomerController.java" checks="MethodLength"/>
     <suppress files="InvoiceDAOImpl.java" checks="MethodLength"/>
