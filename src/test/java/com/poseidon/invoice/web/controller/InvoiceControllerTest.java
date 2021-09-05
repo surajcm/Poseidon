@@ -2,7 +2,7 @@ package com.poseidon.invoice.web.controller;
 
 import com.poseidon.invoice.InvoiceConfigurations;
 import com.poseidon.invoice.exception.InvoiceException;
-import com.poseidon.invoice.service.InvoiceService;
+import com.poseidon.invoice.service.impl.InvoiceService;
 import com.poseidon.transaction.exception.TransactionException;
 import com.poseidon.transaction.service.TransactionService;
 import org.junit.jupiter.api.BeforeEach;

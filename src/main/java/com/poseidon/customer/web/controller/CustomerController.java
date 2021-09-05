@@ -257,9 +257,13 @@ public class CustomerController {
     @PostMapping("/customer/viewCustomer.htm")
     public @ResponseBody
     String viewCustomer(@ModelAttribute("customerId") final String customerId) {
+        String response = null;
         var id = Long.parseLong(customerId);
         var customerVO = getCustomerVOFromId(id);
-        return convertToJson(customerVO.get());
+        if (customerVO.isPresent()) {
+            response = convertToJson(customerVO.get());
+        }
+        return response;
     }
 
     private String convertToJson(final CustomerVO customerVO) {

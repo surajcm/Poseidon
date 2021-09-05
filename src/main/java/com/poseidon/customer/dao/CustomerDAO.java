@@ -18,9 +18,9 @@ import org.springframework.util.StringUtils;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import static com.rainerhahnekamp.sneakythrow.Sneaky.sneak;
 
@@ -142,13 +142,12 @@ public class CustomerDAO {
     private CustomerAdditionalDetails populateDetails(final Customer customer) {
         var additionalDetails =
                 getAdditionalDetailsOfCustomerId(customer.getCustomerId());
-        CustomerAdditionalDetails customerAdditionalDetails;
-        if (additionalDetails.isPresent()) {
-            customerAdditionalDetails = additionalDetails.get();
-        } else {
-            customerAdditionalDetails = new CustomerAdditionalDetails();
-            customerAdditionalDetails.setCustomerId(customer.getCustomerId());
-        }
+        return additionalDetails.orElseGet(() -> this.buildNew(customer.getCustomerId()));
+    }
+
+    private CustomerAdditionalDetails buildNew(final Long id) {
+        CustomerAdditionalDetails customerAdditionalDetails = new CustomerAdditionalDetails();
+        customerAdditionalDetails.setCustomerId(id);
         return customerAdditionalDetails;
     }
 
@@ -218,12 +217,7 @@ public class CustomerDAO {
     }
 
     private List<CustomerVO> convertToCustomerVO(final List<Customer> customers) {
-        List<CustomerVO> customerVOS = new ArrayList<>();
-        for (Customer customer : customers) {
-            var customerVO = convertToSingleCustomerVO(customer);
-            customerVOS.add(customerVO);
-        }
-        return customerVOS;
+        return customers.stream().map(this::convertToSingleCustomerVO).collect(Collectors.toList());
     }
 
     private List<CustomerVO> searchCustomerInDetail(final CustomerVO searchVO) {

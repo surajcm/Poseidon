@@ -3,7 +3,6 @@ package com.poseidon.invoice.service.impl;
 import com.poseidon.invoice.dao.InvoiceDAO;
 import com.poseidon.invoice.domain.InvoiceVO;
 import com.poseidon.invoice.exception.InvoiceException;
-import com.poseidon.invoice.service.InvoiceService;
 import com.poseidon.transaction.domain.TransactionVO;
 import com.poseidon.transaction.exception.TransactionException;
 import com.poseidon.transaction.service.TransactionService;
@@ -14,14 +13,14 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class InvoiceServiceImpl implements InvoiceService {
-    private static final Logger LOG = LoggerFactory.getLogger(InvoiceServiceImpl.class);
+public class InvoiceService {
+    private static final Logger LOG = LoggerFactory.getLogger(InvoiceService.class);
 
     private final InvoiceDAO invoiceDAO;
 
     private final TransactionService transactionService;
 
-    public InvoiceServiceImpl(final InvoiceDAO invoiceDAO, final TransactionService transactionService) {
+    public InvoiceService(final InvoiceDAO invoiceDAO, final TransactionService transactionService) {
         this.invoiceDAO = invoiceDAO;
         this.transactionService = transactionService;
     }
@@ -32,7 +31,6 @@ public class InvoiceServiceImpl implements InvoiceService {
      * @param currentInvoiceVO currentInvoiceVO
      * @throws InvoiceException on error
      */
-    @Override
     public void addInvoice(final InvoiceVO currentInvoiceVO) throws InvoiceException {
         try {
             var transactionReportVO = transactionService
@@ -53,7 +51,6 @@ public class InvoiceServiceImpl implements InvoiceService {
      * @return list of invoice vo
      * @throws InvoiceException on error
      */
-    @Override
     public List<InvoiceVO> fetchInvoiceForListOfTransactions() throws InvoiceException {
         List<InvoiceVO> invoiceVOs = null;
         var transactionVOs = getTransactionVOS();
@@ -91,7 +88,6 @@ public class InvoiceServiceImpl implements InvoiceService {
      * @return InvoiceVO
      * @throws InvoiceException on error
      */
-    @Override
     public InvoiceVO fetchInvoiceVOFromId(final Long id) throws InvoiceException {
         InvoiceVO invoiceVO;
         try {
@@ -110,7 +106,6 @@ public class InvoiceServiceImpl implements InvoiceService {
      * @return InvoiceVO
      * @throws InvoiceException on error
      */
-    @Override
     public InvoiceVO fetchInvoiceVOFromTagNo(final String tagNo) throws InvoiceException {
         InvoiceVO invoiceVO;
         try {
@@ -128,7 +123,6 @@ public class InvoiceServiceImpl implements InvoiceService {
      * @param id id
      * @throws InvoiceException on error
      */
-    @Override
     public void deleteInvoice(final Long id) throws InvoiceException {
         try {
             invoiceDAO.deleteInvoice(id);
@@ -144,7 +138,6 @@ public class InvoiceServiceImpl implements InvoiceService {
      * @param currentInvoiceVO currentInvoiceVO
      * @throws InvoiceException on error
      */
-    @Override
     public void updateInvoice(final InvoiceVO currentInvoiceVO) throws InvoiceException {
         try {
             var transactionReportVo = transactionService
@@ -166,7 +159,6 @@ public class InvoiceServiceImpl implements InvoiceService {
      * @return List of InvoiceVO
      * @throws InvoiceException on error
      */
-    @Override
     public List<InvoiceVO> findInvoices(final InvoiceVO searchInvoiceVo) throws InvoiceException {
         List<InvoiceVO> invoiceVOs;
         try {

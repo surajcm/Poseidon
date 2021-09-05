@@ -27,7 +27,7 @@ import static org.mockito.Mockito.when;
 class InvoiceServiceImplTest {
     private final InvoiceDAO invoiceDAO = Mockito.mock(InvoiceDAO.class);
     private final TransactionService transactionService = Mockito.mock(TransactionService.class);
-    private final InvoiceServiceImpl invoiceService = new InvoiceServiceImpl(invoiceDAO, transactionService);
+    private final InvoiceService invoiceService = new InvoiceService(invoiceDAO, transactionService);
 
     @Test
     void addInvoiceSuccess() throws TransactionException {

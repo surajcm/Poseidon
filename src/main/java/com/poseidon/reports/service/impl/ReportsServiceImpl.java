@@ -5,7 +5,7 @@ import com.poseidon.company.service.CompanyTermsService;
 import com.poseidon.invoice.domain.InvoiceReportVO;
 import com.poseidon.invoice.domain.InvoiceVO;
 import com.poseidon.invoice.exception.InvoiceException;
-import com.poseidon.invoice.service.InvoiceService;
+import com.poseidon.invoice.service.impl.InvoiceService;
 import com.poseidon.make.domain.MakeAndModelVO;
 import com.poseidon.make.service.MakeService;
 import com.poseidon.reports.dao.ReportsDAO;

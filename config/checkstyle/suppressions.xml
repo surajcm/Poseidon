@@ -18,7 +18,7 @@ WHAT AND WHY CHECKS SUPPRESSED
 <suppressions>
     <suppress files="CustomerVO.java" checks="MethodLength"/>
     <suppress files="CustomerController.java" checks="MethodLength"/>
-    <suppress files="InvoiceDAOImpl.java" checks="MethodLength"/>
+    <suppress files="InvoiceDAO.java" checks="MethodLength"/>
     <suppress files="InvoiceVO.java" checks="MethodLength"/>
     <suppress files="InvoiceController.java" checks="MethodLength"/>
     <suppress files="InvoiceForm.java" checks="MethodLength"/>

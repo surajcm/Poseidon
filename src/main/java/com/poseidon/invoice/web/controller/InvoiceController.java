@@ -2,7 +2,7 @@ package com.poseidon.invoice.web.controller;
 
 import com.poseidon.invoice.domain.InvoiceVO;
 import com.poseidon.invoice.exception.InvoiceException;
-import com.poseidon.invoice.service.InvoiceService;
+import com.poseidon.invoice.service.impl.InvoiceService;
 import com.poseidon.invoice.web.form.InvoiceForm;
 import com.poseidon.make.service.MakeService;
 import com.poseidon.transaction.domain.TransactionReportVO;

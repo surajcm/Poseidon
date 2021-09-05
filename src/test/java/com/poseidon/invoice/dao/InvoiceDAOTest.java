@@ -1,6 +1,7 @@
-package com.poseidon.invoice.dao.impl;
+package com.poseidon.invoice.dao;
 
 import com.poseidon.invoice.dao.entities.Invoice;
+import com.poseidon.invoice.dao.impl.InvoiceRepository;
 import com.poseidon.invoice.domain.InvoiceVO;
 import com.poseidon.invoice.exception.InvoiceException;
 import org.junit.jupiter.api.Assertions;
@@ -19,9 +20,9 @@ import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
-class InvoiceDAOImplTest {
+class InvoiceDAOTest {
     private final InvoiceRepository invoiceRepository = Mockito.mock(InvoiceRepository.class);
-    private final InvoiceDAOImpl invoiceDAO = new InvoiceDAOImpl(invoiceRepository);
+    private final InvoiceDAO invoiceDAO = new InvoiceDAO(invoiceRepository);
 
     @Test
     void addInvoiceSuccess() {
