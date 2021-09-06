@@ -16,6 +16,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
@@ -63,37 +64,15 @@ class InvoiceServiceImplTest {
     }
 
     @Test
-    void fetchInvoiceForListOfTransactionsOnInvoiceFailure() throws TransactionException, InvoiceException {
-        when(transactionService.listTodaysTransactions()).thenReturn(mockListOfTransactionVOs());
-        when(invoiceDAO.fetchInvoiceForListOfTransactions(ArgumentMatchers.any()))
-                .thenThrow(new InvoiceException(new RuntimeException()));
-        Assertions.assertThrows(InvoiceException.class, invoiceService::fetchInvoiceForListOfTransactions);
-    }
-
-    @Test
-    void fetchInvoiceVOFromIdSuccess() throws InvoiceException {
-        when(invoiceDAO.fetchInvoiceVOFromId(anyLong())).thenReturn(new InvoiceVO());
+    void fetchInvoiceVOFromIdSuccess() {
+        when(invoiceDAO.fetchInvoiceVOFromId(anyLong())).thenReturn(Optional.empty());
         Assertions.assertNotNull(invoiceService.fetchInvoiceVOFromId(1234L));
     }
 
     @Test
-    void fetchInvoiceVOFromIdFailure() throws InvoiceException {
-        when(invoiceDAO.fetchInvoiceVOFromId(anyLong()))
-                .thenThrow(new InvoiceException(new RuntimeException()));
-        Assertions.assertThrows(InvoiceException.class, () -> invoiceService.fetchInvoiceVOFromId(1234L));
-    }
-
-    @Test
-    void fetchInvoiceVOFromTagNoSuccess() throws InvoiceException {
-        when(invoiceDAO.fetchInvoiceVOFromTagNo(anyString())).thenReturn(new InvoiceVO());
+    void fetchInvoiceVOFromTagNoSuccess() {
+        when(invoiceDAO.fetchInvoiceVOFromTagNo(anyString())).thenReturn(Optional.empty());
         Assertions.assertNotNull(invoiceService.fetchInvoiceVOFromTagNo("ABC"));
-    }
-
-    @Test
-    void fetchInvoiceVOFromTagNoFailure() throws InvoiceException {
-        when(invoiceDAO.fetchInvoiceVOFromTagNo(anyString()))
-                .thenThrow(new InvoiceException(new RuntimeException()));
-        Assertions.assertThrows(InvoiceException.class, () -> invoiceService.fetchInvoiceVOFromTagNo("ABC"));
     }
 
     @Test

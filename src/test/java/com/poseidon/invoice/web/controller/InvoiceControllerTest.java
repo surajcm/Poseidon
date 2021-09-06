@@ -67,13 +67,6 @@ class InvoiceControllerTest {
     }
 
     @Test
-    void editInvoiceFailure() throws Exception {
-        when(invoiceService.fetchInvoiceVOFromId(null))
-                .thenThrow(new InvoiceException(new RuntimeException()));
-        mvc.perform(post("/invoice/EditInvoice.htm")).andExpect(status().isOk());
-    }
-
-    @Test
     void deleteInvoice() throws Exception {
         mvc.perform(post("/invoice/DeleteInvoice.htm")).andExpect(status().isOk());
     }

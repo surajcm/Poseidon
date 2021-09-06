@@ -14,6 +14,9 @@ import org.springframework.util.StringUtils;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.List;
+import java.util.Optional;
+
+import static com.rainerhahnekamp.sneakythrow.Sneaky.sneak;
 
 @SuppressWarnings("unused")
 @Service
@@ -37,15 +40,9 @@ public class InvoiceDAO {
      * add invoice.
      *
      * @param currentInvoiceVO currentInvoiceVO
-     * @throws InvoiceException on error
      */
-    public void addInvoice(final InvoiceVO currentInvoiceVO) throws InvoiceException {
-        try {
-            invoiceRepository.save(convertInvoiceVOToInvoice(currentInvoiceVO));
-        } catch (DataAccessException ex) {
-            log.error(ex.getLocalizedMessage());
-            throw new InvoiceException(ex);
-        }
+    public void addInvoice(final InvoiceVO currentInvoiceVO) {
+        sneak(() -> invoiceRepository.save(convertInvoiceVOToInvoice(currentInvoiceVO)));
     }
 
     /**
@@ -53,18 +50,10 @@ public class InvoiceDAO {
      *
      * @param tagNumbers tagNumbers as list
      * @return list of invoice vo
-     * @throws InvoiceException on error
      */
-    public List<InvoiceVO> fetchInvoiceForListOfTransactions(final List<String> tagNumbers) throws InvoiceException {
-        List<InvoiceVO> invoiceVOs;
-        try {
-            var invoices = invoiceRepository.fetchTodaysInvoices(tagNumbers);
-            invoiceVOs = invoices.stream().map(this::getInvoiceVoFromInvoice).toList();
-        } catch (DataAccessException ex) {
-            log.error(ex.getLocalizedMessage());
-            throw new InvoiceException(ex);
-        }
-        return invoiceVOs;
+    public List<InvoiceVO> fetchInvoiceForListOfTransactions(final List<String> tagNumbers) {
+        var invoices = sneak(() -> invoiceRepository.fetchTodaysInvoices(tagNumbers));
+        return invoices.stream().map(this::getInvoiceVoFromInvoice).toList();
     }
 
     /**
@@ -73,19 +62,9 @@ public class InvoiceDAO {
      * @param id of invoice vo
      * @return invoice vo
      */
-    public InvoiceVO fetchInvoiceVOFromId(final Long id) throws InvoiceException {
-        InvoiceVO invoiceVO = null;
-        try {
-            var optionalInvoice = invoiceRepository.findById(id);
-            if (optionalInvoice.isPresent()) {
-                var invoice = optionalInvoice.get();
-                invoiceVO = getInvoiceVoFromInvoice(invoice);
-            }
-        } catch (DataAccessException ex) {
-            log.error(ex.getLocalizedMessage());
-            throw new InvoiceException(ex);
-        }
-        return invoiceVO;
+    public Optional<InvoiceVO> fetchInvoiceVOFromId(final Long id) {
+        var optionalInvoice = sneak(() -> invoiceRepository.findById(id));
+        return optionalInvoice.map(this::getInvoiceVoFromInvoice);
     }
 
     /**
@@ -94,19 +73,9 @@ public class InvoiceDAO {
      * @param tagNo of invoice vo
      * @return invoice vo
      */
-    public InvoiceVO fetchInvoiceVOFromTagNo(final String tagNo) throws InvoiceException {
-        InvoiceVO invoiceVO = null;
-        try {
-            var optionalInvoice = invoiceRepository.findByTagNumber(tagNo);
-            if (optionalInvoice.isPresent()) {
-                var invoice = optionalInvoice.get();
-                invoiceVO = getInvoiceVoFromInvoice(invoice);
-            }
-        } catch (DataAccessException ex) {
-            log.error(ex.getLocalizedMessage());
-            throw new InvoiceException(ex);
-        }
-        return invoiceVO;
+    public Optional<InvoiceVO> fetchInvoiceVOFromTagNo(final String tagNo) {
+        var optionalInvoice = sneak(() -> invoiceRepository.findByTagNumber(tagNo));
+        return optionalInvoice.map(this::getInvoiceVoFromInvoice);
     }
 
     /**

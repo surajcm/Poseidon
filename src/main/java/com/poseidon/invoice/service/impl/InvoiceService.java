@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class InvoiceService {
@@ -39,7 +40,7 @@ public class InvoiceService {
             currentInvoiceVO.setCustomerName(transactionReportVO.getCustomerName());
             currentInvoiceVO.setSerialNo(transactionReportVO.getSerialNo());
             invoiceDAO.addInvoice(currentInvoiceVO);
-        } catch (TransactionException | InvoiceException ex) {
+        } catch (TransactionException ex) {
             LOG.error("Error occurred ", ex);
             throw new InvoiceException(ex);
         }
@@ -56,12 +57,7 @@ public class InvoiceService {
         var transactionVOs = getTransactionVOS();
         if (transactionVOs != null) {
             var tagNumbers = fetchTagNoFromListOfTransactionVOs(transactionVOs);
-            try {
-                invoiceVOs = invoiceDAO.fetchInvoiceForListOfTransactions(tagNumbers);
-            } catch (InvoiceException ex) {
-                LOG.error(ex.getLocalizedMessage(), ex);
-                throw new InvoiceException(ex);
-            }
+            invoiceVOs = invoiceDAO.fetchInvoiceForListOfTransactions(tagNumbers);
         }
         return invoiceVOs;
     }
@@ -86,17 +82,9 @@ public class InvoiceService {
      *
      * @param id id
      * @return InvoiceVO
-     * @throws InvoiceException on error
      */
-    public InvoiceVO fetchInvoiceVOFromId(final Long id) throws InvoiceException {
-        InvoiceVO invoiceVO;
-        try {
-            invoiceVO = invoiceDAO.fetchInvoiceVOFromId(id);
-        } catch (InvoiceException ex) {
-            LOG.error(ex.getLocalizedMessage(), ex);
-            throw new InvoiceException(ex);
-        }
-        return invoiceVO;
+    public Optional<InvoiceVO> fetchInvoiceVOFromId(final Long id) {
+        return invoiceDAO.fetchInvoiceVOFromId(id);
     }
 
     /**
@@ -104,17 +92,9 @@ public class InvoiceService {
      *
      * @param tagNo tagNo
      * @return InvoiceVO
-     * @throws InvoiceException on error
      */
-    public InvoiceVO fetchInvoiceVOFromTagNo(final String tagNo) throws InvoiceException {
-        InvoiceVO invoiceVO;
-        try {
-            invoiceVO = invoiceDAO.fetchInvoiceVOFromTagNo(tagNo);
-        } catch (InvoiceException ex) {
-            LOG.error(ex.getLocalizedMessage(), ex);
-            throw new InvoiceException(ex);
-        }
-        return invoiceVO;
+    public Optional<InvoiceVO> fetchInvoiceVOFromTagNo(final String tagNo) {
+        return invoiceDAO.fetchInvoiceVOFromTagNo(tagNo);
     }
 
     /**

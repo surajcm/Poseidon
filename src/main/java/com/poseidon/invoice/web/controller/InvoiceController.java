@@ -22,6 +22,7 @@ import org.springframework.web.servlet.ModelAndView;
 import java.time.OffsetDateTime;
 import java.time.ZoneId;
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 //@RequestMapping("/invoice")
@@ -169,13 +170,8 @@ public class InvoiceController {
     @PostMapping("/invoice/EditInvoice.htm")
     public ModelAndView editInvoice(final InvoiceForm invoiceForm) {
         LOG.info(String.format(INVOICE_FORM_DETAILS, invoiceForm));
-        InvoiceVO invoiceVo;
-        try {
-            invoiceVo = invoiceService.fetchInvoiceVOFromId(invoiceForm.getId());
-            invoiceForm.setCurrentInvoiceVo(invoiceVo);
-        } catch (InvoiceException ex) {
-            LOG.error(ex.getLocalizedMessage());
-        }
+        Optional<InvoiceVO> invoiceVo = invoiceService.fetchInvoiceVOFromId(invoiceForm.getId());
+        invoiceVo.ifPresent(invoiceForm::setCurrentInvoiceVo);
         return new ModelAndView("invoice/EditInvoice", INVOICE_FORM, invoiceForm);
     }
 
@@ -191,10 +187,12 @@ public class InvoiceController {
         try {
             var invoiceVo = invoiceService.fetchInvoiceVOFromId(invoiceForm.getId());
             invoiceService.deleteInvoice(invoiceForm.getId());
-            TransactionReportVO reportVo = transactionService.fetchTransactionFromTag(invoiceVo.getTagNo());
-            //get the tag no of it
-            // update the status to closed
-            transactionService.updateTransactionStatus(reportVo.getId(), "CLOSED");
+            if (invoiceVo.isPresent()) {
+                TransactionReportVO reportVo = transactionService.fetchTransactionFromTag(invoiceVo.get().getTagNo());
+                //get the tag no of it
+                // update the status to closed
+                transactionService.updateTransactionStatus(reportVo.getId(), "CLOSED");
+            }
             invoiceForm.setStatusMessage("Successfully deleted the new invoice Detail");
             invoiceForm.setStatusMessageType(SUCCESS);
         } catch (Exception ex) {

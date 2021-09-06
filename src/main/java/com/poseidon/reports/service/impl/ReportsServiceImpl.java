@@ -4,7 +4,6 @@ import com.poseidon.company.domain.CompanyTermsVO;
 import com.poseidon.company.service.CompanyTermsService;
 import com.poseidon.invoice.domain.InvoiceReportVO;
 import com.poseidon.invoice.domain.InvoiceVO;
-import com.poseidon.invoice.exception.InvoiceException;
 import com.poseidon.invoice.service.impl.InvoiceService;
 import com.poseidon.make.domain.MakeAndModelVO;
 import com.poseidon.make.service.MakeService;
@@ -24,6 +23,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * user: Suraj.
@@ -269,12 +269,8 @@ public class ReportsServiceImpl implements ReportsService {
     }
 
     private InvoiceVO getInvoiceVOs(final String tagNo) {
-        InvoiceVO firstInvoice = null;
-        try {
-            firstInvoice = invoiceService.fetchInvoiceVOFromTagNo(tagNo);
-        } catch (InvoiceException ex) {
-            LOG.error(ex.getLocalizedMessage());
-        }
-        return firstInvoice;
+        Optional<InvoiceVO> firstInvoice = invoiceService.fetchInvoiceVOFromTagNo(tagNo);
+        //todo:this is not the right way
+        return firstInvoice.orElse(null);
     }
 }
