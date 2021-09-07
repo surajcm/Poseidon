@@ -50,9 +50,8 @@ public class InvoiceService {
      * fetch Invoice For List Of Transactions.
      *
      * @return list of invoice vo
-     * @throws InvoiceException on error
      */
-    public List<InvoiceVO> fetchInvoiceForListOfTransactions() throws InvoiceException {
+    public List<InvoiceVO> fetchInvoiceForListOfTransactions() {
         List<InvoiceVO> invoiceVOs = null;
         var transactionVOs = getTransactionVOS();
         if (transactionVOs != null) {
@@ -126,7 +125,7 @@ public class InvoiceService {
             currentInvoiceVO.setCustomerName(transactionReportVo.getCustomerName());
             currentInvoiceVO.setSerialNo(transactionReportVo.getSerialNo());
             invoiceDAO.updateInvoice(currentInvoiceVO);
-        } catch (TransactionException | InvoiceException ex) {
+        } catch (TransactionException ex) {
             LOG.error(ex.getLocalizedMessage(), ex);
             throw new InvoiceException(ex);
         }

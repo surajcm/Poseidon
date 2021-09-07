@@ -45,13 +45,6 @@ class InvoiceControllerTest {
     }
 
     @Test
-    void listInvoiceError() throws Exception {
-        when(invoiceService.fetchInvoiceForListOfTransactions())
-                .thenThrow(new InvoiceException(new RuntimeException()));
-        mvc.perform(post("/invoice/ListInvoice.htm")).andExpect(status().isOk());
-    }
-
-    @Test
     void addInvoice() throws Exception {
         mvc.perform(post("/invoice/addInvoice.htm")).andExpect(status().isOk());
     }

@@ -1,7 +1,7 @@
 package com.poseidon.invoice.dao;
 
 import com.poseidon.invoice.dao.entities.Invoice;
-import com.poseidon.invoice.dao.impl.InvoiceRepository;
+import com.poseidon.invoice.dao.repo.InvoiceRepository;
 import com.poseidon.invoice.domain.InvoiceVO;
 import com.poseidon.invoice.exception.InvoiceException;
 import org.junit.jupiter.api.Assertions;
@@ -64,12 +64,6 @@ class InvoiceDAOTest {
     void updateInvoiceEmpty() {
         when(invoiceRepository.findById(null)).thenReturn(Optional.empty());
         Assertions.assertAll(() -> invoiceDAO.updateInvoice(new InvoiceVO()));
-    }
-
-    @Test
-    void updateInvoiceFailure() {
-        when(invoiceRepository.findById(null)).thenThrow(new CannotAcquireLockException("DB error"));
-        Assertions.assertThrows(InvoiceException.class, () -> invoiceDAO.updateInvoice(new InvoiceVO()));
     }
 
     private Invoice mockInvoice() {

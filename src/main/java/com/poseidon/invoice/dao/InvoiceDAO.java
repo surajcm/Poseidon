@@ -1,7 +1,7 @@
 package com.poseidon.invoice.dao;
 
 import com.poseidon.invoice.dao.entities.Invoice;
-import com.poseidon.invoice.dao.impl.InvoiceRepository;
+import com.poseidon.invoice.dao.repo.InvoiceRepository;
 import com.poseidon.invoice.domain.InvoiceVO;
 import com.poseidon.invoice.exception.InvoiceException;
 import org.hibernate.Session;
@@ -97,18 +97,12 @@ public class InvoiceDAO {
      * update an invoice.
      *
      * @param currentInvoiceVO currentInvoiceVO
-     * @throws InvoiceException on error
      */
-    public void updateInvoice(final InvoiceVO currentInvoiceVO) throws InvoiceException {
-        try {
-            var optionalInvoice = invoiceRepository.findById(currentInvoiceVO.getId());
-            if (optionalInvoice.isPresent()) {
-                var invoice = getInvoice(currentInvoiceVO, optionalInvoice.get());
-                invoiceRepository.save(invoice);
-            }
-        } catch (DataAccessException ex) {
-            log.error(ex.getLocalizedMessage());
-            throw new InvoiceException(ex);
+    public void updateInvoice(final InvoiceVO currentInvoiceVO) {
+        var optionalInvoice = sneak(() -> invoiceRepository.findById(currentInvoiceVO.getId()));
+        if (optionalInvoice.isPresent()) {
+            var invoice = getInvoice(currentInvoiceVO, optionalInvoice.get());
+            sneak(() -> invoiceRepository.save(invoice));
         }
     }
 

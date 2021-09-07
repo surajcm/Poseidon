@@ -1,4 +1,4 @@
-package com.poseidon.transaction.dao.impl;
+package com.poseidon.transaction.dao.repo;
 
 import com.poseidon.transaction.dao.entities.Transaction;
 import org.springframework.data.jpa.repository.JpaRepository;

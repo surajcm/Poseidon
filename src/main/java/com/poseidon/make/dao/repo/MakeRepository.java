@@ -1,4 +1,4 @@
-package com.poseidon.make.dao.impl;
+package com.poseidon.make.dao.repo;
 
 import com.poseidon.make.dao.entities.Make;
 import org.springframework.data.jpa.repository.JpaRepository;

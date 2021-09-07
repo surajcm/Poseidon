@@ -20,7 +20,6 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import static com.rainerhahnekamp.sneakythrow.Sneaky.sneak;
 
@@ -163,14 +162,12 @@ public class CustomerDAO {
         customerVO.setContactPerson(customerAdditionalDetails.getContactPerson());
         customerVO.setContactMobile(customerAdditionalDetails.getContactPhone());
         customerVO.setNotes(customerAdditionalDetails.getNote());
-
     }
 
     private boolean isAdditionalDetailsPresent(final CustomerVO currentCustomerVo) {
         return currentCustomerVo.getContactPerson() != null || currentCustomerVo.getContactMobile() != null
                 || currentCustomerVo.getNotes() != null;
     }
-
 
     private void updateCustomerWithCustomerVo(final CustomerVO currentCustomerVo, final Customer customer) {
         customer.setName(currentCustomerVo.getCustomerName());
@@ -217,7 +214,7 @@ public class CustomerDAO {
     }
 
     private List<CustomerVO> convertToCustomerVO(final List<Customer> customers) {
-        return customers.stream().map(this::convertToSingleCustomerVO).collect(Collectors.toList());
+        return customers.stream().map(this::convertToSingleCustomerVO).toList();
     }
 
     private List<CustomerVO> searchCustomerInDetail(final CustomerVO searchVO) {
@@ -249,7 +246,8 @@ public class CustomerDAO {
     }
 
     private CustomerAdditionalDetails convertToCustomerAdditionalDetails(
-            final Long customerId, final CustomerAdditionalDetailsVO customerAdditionalDetailsVO) {
+            final Long customerId,
+            final CustomerAdditionalDetailsVO customerAdditionalDetailsVO) {
         var additionalDetails = new CustomerAdditionalDetails();
         additionalDetails.setCustomerId(customerId);
         if (customerAdditionalDetailsVO != null) {

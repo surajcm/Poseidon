@@ -3,6 +3,7 @@ package com.poseidon.transaction.service.impl;
 import com.poseidon.transaction.dao.TransactionDAO;
 import com.poseidon.transaction.domain.TransactionVO;
 import com.poseidon.transaction.exception.TransactionException;
+import com.poseidon.transaction.service.TransactionService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -20,7 +21,7 @@ import static org.mockito.Mockito.when;
 @ExtendWith(SpringExtension.class)
 class TransactionServiceImplTest {
     private final TransactionDAO transactionDAO = Mockito.mock(TransactionDAO.class);
-    private final TransactionServiceImpl transactionService = new TransactionServiceImpl(transactionDAO);
+    private final TransactionService transactionService = new TransactionService(transactionDAO);
 
     @Test
     void listTodayTransactionsSuccess() throws TransactionException {

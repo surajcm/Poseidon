@@ -4,6 +4,7 @@ import com.poseidon.make.dao.MakeDao;
 import com.poseidon.make.domain.MakeAndModelVO;
 import com.poseidon.make.domain.MakeVO;
 import com.poseidon.make.exception.MakeException;
+import com.poseidon.make.service.MakeService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -19,7 +20,7 @@ import static org.mockito.Mockito.when;
 @ExtendWith(SpringExtension.class)
 class MakeServiceImplTest {
     private final MakeDao makeDAO = Mockito.mock(MakeDao.class);
-    private final MakeServiceImpl makeService = new MakeServiceImpl(makeDAO);
+    private final MakeService makeService = new MakeService(makeDAO);
 
     @Test
     void listAllMakesAndModelsSuccess() {

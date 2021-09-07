@@ -1,4 +1,4 @@
-package com.poseidon.invoice.dao.impl;
+package com.poseidon.invoice.dao.repo;
 
 import com.poseidon.invoice.dao.entities.Invoice;
 import org.springframework.data.jpa.repository.JpaRepository;

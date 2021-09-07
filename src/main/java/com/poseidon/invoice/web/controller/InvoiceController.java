@@ -65,7 +65,7 @@ public class InvoiceController {
             if (invoiceVOs != null && !invoiceVOs.isEmpty()) {
                 invoiceForm.setInvoiceVos(invoiceVOs);
             }
-        } catch (InvoiceException ex) {
+        } catch (Exception ex) {
             invoiceForm.setStatusMessage("Unable to list the Invoices due to an error");
             invoiceForm.setStatusMessageType(ERROR);
             LOG.error(ex.getLocalizedMessage());
@@ -142,7 +142,7 @@ public class InvoiceController {
             if (invoiceVOs != null && !invoiceVOs.isEmpty()) {
                 invoiceForm.setInvoiceVos(invoiceVOs);
             }
-        } catch (InvoiceException ex) {
+        } catch (Exception ex) {
             LOG.error(ex.getLocalizedMessage());
         }
         return invoiceVOs;

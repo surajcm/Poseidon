@@ -1,5 +1,6 @@
-package com.poseidon.make.dao.impl;
+package com.poseidon.make.dao.repo;
 
+import com.poseidon.make.dao.MakeDao;
 import com.poseidon.make.dao.entities.Make;
 import com.poseidon.make.dao.entities.Model;
 import com.poseidon.make.dao.mapper.MakeAndModelEntityConverter;
@@ -25,7 +26,7 @@ class MakeDaoImplTest {
     private final MakeRepository makeRepository = Mockito.mock(MakeRepository.class);
     private final ModelRepository modelRepository = Mockito.mock(ModelRepository.class);
     private final MakeAndModelEntityConverter makeAndModelEntityConverter = new MakeAndModelEntityConverter();
-    private final MakeDaoImpl makeDao = new MakeDaoImpl(makeRepository, modelRepository,
+    private final MakeDao makeDao = new MakeDao(makeRepository, modelRepository,
             makeAndModelEntityConverter);
 
     @Test

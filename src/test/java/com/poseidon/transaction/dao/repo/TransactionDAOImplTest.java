@@ -1,11 +1,12 @@
-package com.poseidon.transaction.dao.impl;
+package com.poseidon.transaction.dao.repo;
 
 import com.poseidon.customer.dao.entities.Customer;
 import com.poseidon.customer.dao.repo.CustomerRepository;
 import com.poseidon.make.dao.entities.Make;
 import com.poseidon.make.dao.entities.Model;
-import com.poseidon.make.dao.impl.MakeRepository;
-import com.poseidon.make.dao.impl.ModelRepository;
+import com.poseidon.make.dao.repo.MakeRepository;
+import com.poseidon.make.dao.repo.ModelRepository;
+import com.poseidon.transaction.dao.TransactionDAO;
 import com.poseidon.transaction.dao.entities.Transaction;
 import com.poseidon.transaction.domain.TransactionVO;
 import com.poseidon.transaction.exception.TransactionException;
@@ -33,7 +34,7 @@ class TransactionDAOImplTest {
     private final CustomerRepository customerRepository = Mockito.mock(CustomerRepository.class);
     private final MakeRepository makeRepository = Mockito.mock(MakeRepository.class);
     private final ModelRepository modelRepository = Mockito.mock(ModelRepository.class);
-    private final TransactionDAOImpl transactionDAO = new TransactionDAOImpl(
+    private final TransactionDAO transactionDAO = new TransactionDAO(
             transactionRepository,
             customerRepository,
             makeRepository,
