@@ -1,6 +1,7 @@
-package com.poseidon.user.dao.impl;
+package com.poseidon.user.dao;
 
 import com.poseidon.user.dao.entities.User;
+import com.poseidon.user.dao.repo.UserRepository;
 import com.poseidon.user.domain.UserVO;
 import com.poseidon.user.exception.UserException;
 import org.junit.jupiter.api.Assertions;
@@ -20,9 +21,9 @@ import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
-class UserDAOImplTest {
+class UserDAOTest {
     private final UserRepository userRepository = Mockito.mock(UserRepository.class);
-    private final UserDAOImpl userDAO = new UserDAOImpl(userRepository);
+    private final UserDAO userDAO = new UserDAO(userRepository);
 
     @Test
     void logInSuccess() throws UserException {

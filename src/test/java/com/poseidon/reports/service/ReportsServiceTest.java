@@ -1,4 +1,4 @@
-package com.poseidon.reports.service.impl;
+package com.poseidon.reports.service;
 
 import com.poseidon.company.domain.CompanyTermsVO;
 import com.poseidon.company.service.CompanyTermsService;
@@ -32,13 +32,13 @@ import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
-class ReportsServiceImplTest {
+class ReportsServiceTest {
     private final ReportsDAO reportsDAO = Mockito.mock(ReportsDAO.class);
     private final MakeService makeService = Mockito.mock(MakeService.class);
     private final TransactionService transactionService = Mockito.mock(TransactionService.class);
     private final CompanyTermsService companyTermsService = Mockito.mock(CompanyTermsService.class);
     private final InvoiceService invoiceService = Mockito.mock(InvoiceService.class);
-    private final ReportsServiceImpl reportsService = new ReportsServiceImpl(reportsDAO,
+    private final ReportsService reportsService = new ReportsService(reportsDAO,
             makeService, transactionService,
             companyTermsService, invoiceService);
 

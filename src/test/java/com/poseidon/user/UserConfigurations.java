@@ -1,7 +1,7 @@
 package com.poseidon.user;
 
 import com.poseidon.user.service.UserService;
-import com.poseidon.user.service.impl.SecurityService;
+import com.poseidon.user.service.SecurityService;
 import com.poseidon.user.web.controller.UserController;
 import org.mockito.Mockito;
 import org.springframework.context.annotation.Bean;

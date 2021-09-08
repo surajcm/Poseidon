@@ -1,4 +1,4 @@
-package com.poseidon.user.service.impl;
+package com.poseidon.user.service;
 
 import com.poseidon.user.dao.UserDAO;
 import com.poseidon.user.domain.UserVO;

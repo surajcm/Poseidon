@@ -1,4 +1,4 @@
-package com.poseidon.user.service.impl;
+package com.poseidon.user.service;
 
 import com.poseidon.user.dao.UserDAO;
 import com.poseidon.user.domain.UserVO;
@@ -16,10 +16,10 @@ import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
-class UserServiceImplTest {
+class UserServiceTest {
     private final UserDAO userDAO = Mockito.mock(UserDAO.class);
     private final BCryptPasswordEncoder bcryptPasswordEncoder = Mockito.mock(BCryptPasswordEncoder.class);
-    private final UserServiceImpl userService = new UserServiceImpl(userDAO, bcryptPasswordEncoder);
+    private final UserService userService = new UserService(userDAO, bcryptPasswordEncoder);
 
     @Test
     void getAllUserDetailsSuccess() throws UserException {

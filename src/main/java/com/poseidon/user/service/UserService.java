@@ -1,19 +1,46 @@
 package com.poseidon.user.service;
 
+import com.poseidon.user.dao.UserDAO;
 import com.poseidon.user.domain.UserVO;
 import com.poseidon.user.exception.UserException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-public interface UserService {
+
+@Service
+@SuppressWarnings("unused")
+public class UserService {
+    private static final Logger LOG = LoggerFactory.getLogger(UserService.class);
+    private static final String EXCEPTION_TYPE_IN_SERVICE_IMPL = "Exception type in service impl {}";
+
+    private final UserDAO userDAO;
+
+    private final BCryptPasswordEncoder bcryptPasswordEncoder;
+
+    public UserService(final UserDAO userDAO, final BCryptPasswordEncoder bcryptPasswordEncoder) {
+        this.userDAO = userDAO;
+        this.bcryptPasswordEncoder = bcryptPasswordEncoder;
+    }
 
     /**
      * getAllUserDetails to list all user details.
      *
      * @return List of user
-     * @throws UserException on error
      */
-    List<UserVO> getAllUserDetails() throws UserException;
+    public List<UserVO> getAllUserDetails() throws UserException {
+        List<UserVO> userList;
+        try {
+            userList = userDAO.getAllUserDetails();
+        } catch (UserException ex) {
+            LOG.error(EXCEPTION_TYPE_IN_SERVICE_IMPL, ex.getExceptionType());
+            throw new UserException(ex.getExceptionType());
+        }
+        return userList;
+    }
 
     /**
      * create new user.
@@ -21,7 +48,16 @@ public interface UserService {
      * @param user user
      * @throws UserException on error
      */
-    void save(UserVO user) throws UserException;
+    public void save(final UserVO user) throws UserException {
+        try {
+            user.setPassword(bcryptPasswordEncoder.encode(user.getPassword()));
+            user.setExpired(false);
+            userDAO.save(user);
+        } catch (UserException ex) {
+            LOG.error(EXCEPTION_TYPE_IN_SERVICE_IMPL, ex.getExceptionType());
+            throw new UserException(ex.getExceptionType());
+        }
+    }
 
     /**
      * getUserDetailsFromId to get the single user details from its id.
@@ -30,21 +66,43 @@ public interface UserService {
      * @return UserVO
      * @throws UserException on error
      */
-    UserVO getUserDetailsFromId(Long id) throws UserException;
+    public UserVO getUserDetailsFromId(final Long id) throws UserException {
+        UserVO userVO;
+        try {
+            userVO = userDAO.getUserDetailsFromId(id);
+        } catch (UserException ex) {
+            LOG.error(EXCEPTION_TYPE_IN_SERVICE_IMPL, ex.getExceptionType());
+            throw new UserException(ex.getExceptionType());
+        }
+        return userVO;
+    }
+
 
     /**
-     * updates the current user.
+     * updates the current user details.
      *
      * @param user user
      */
-    void updateUser(UserVO user);
+    public void updateUser(final UserVO user) {
+        try {
+            userDAO.updateUser(user);
+        } catch (UserException ex) {
+            LOG.error(ex.getMessage());
+        }
+    }
 
     /**
      * deletes the selected user.
      *
      * @param id id of the user
      */
-    void deleteUser(Long id);
+    public void deleteUser(final Long id) {
+        try {
+            userDAO.deleteUser(id);
+        } catch (UserException ex) {
+            LOG.error(ex.getMessage());
+        }
+    }
 
     /**
      * search for a list of users.
@@ -53,11 +111,36 @@ public interface UserService {
      * @return List of user
      * @throws UserException on error
      */
-    List<UserVO> searchUserDetails(UserVO searchUser) throws UserException;
+    public List<UserVO> searchUserDetails(final UserVO searchUser) throws UserException {
+        List<UserVO> userList;
+        try {
+            userList = userDAO.searchUserDetails(searchUser);
+        } catch (UserException ex) {
+            LOG.error(EXCEPTION_TYPE_IN_SERVICE_IMPL, ex.getExceptionType());
+            throw new UserException(ex.getExceptionType());
+        }
+        return userList;
+    }
 
-    void expireUser(Long id)  throws UserException;
+    public void expireUser(final Long id) {
+        try {
+            userDAO.expireUser(id);
+        } catch (UserException ex) {
+            LOG.error(ex.getMessage());
+        }
+    }
 
-    boolean comparePasswords(String passedIn, String currentUserPass);
+    public boolean comparePasswords(final String passedIn, final String currentUserPass) {
+        return bcryptPasswordEncoder.matches(passedIn, currentUserPass);
+    }
 
-    void updateWithNewPassword(UserVO userVO, String newPass);
+    public void updateWithNewPassword(final UserVO userVO, final String newPass) {
+        userVO.setPassword(bcryptPasswordEncoder.encode(newPass));
+        try {
+            userDAO.updateUser(userVO);
+        } catch (UserException ex) {
+            LOG.error(ex.getMessage());
+        }
+    }
+
 }

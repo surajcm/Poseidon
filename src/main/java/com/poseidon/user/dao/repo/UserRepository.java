@@ -1,4 +1,4 @@
-package com.poseidon.user.dao.impl;
+package com.poseidon.user.dao.repo;
 
 import com.poseidon.user.dao.entities.User;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;

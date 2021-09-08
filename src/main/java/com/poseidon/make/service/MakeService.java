@@ -19,9 +19,9 @@ import java.util.List;
 @SuppressWarnings("unused")
 public class MakeService {
     private static final String MAKE_EXCEPTION_OCCURRED = "make Exception occurred {}";
-    private final MakeDao makeDAO;
-
     private static final Logger LOG = LoggerFactory.getLogger(MakeService.class);
+
+    private final MakeDao makeDAO;
 
     public MakeService(final MakeDao makeDAO) {
         this.makeDAO = makeDAO;

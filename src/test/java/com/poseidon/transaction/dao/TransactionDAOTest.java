@@ -1,4 +1,4 @@
-package com.poseidon.transaction.dao.repo;
+package com.poseidon.transaction.dao;
 
 import com.poseidon.customer.dao.entities.Customer;
 import com.poseidon.customer.dao.repo.CustomerRepository;
@@ -6,8 +6,8 @@ import com.poseidon.make.dao.entities.Make;
 import com.poseidon.make.dao.entities.Model;
 import com.poseidon.make.dao.repo.MakeRepository;
 import com.poseidon.make.dao.repo.ModelRepository;
-import com.poseidon.transaction.dao.TransactionDAO;
 import com.poseidon.transaction.dao.entities.Transaction;
+import com.poseidon.transaction.dao.repo.TransactionRepository;
 import com.poseidon.transaction.domain.TransactionVO;
 import com.poseidon.transaction.exception.TransactionException;
 import org.junit.jupiter.api.Assertions;
@@ -29,7 +29,7 @@ import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
-class TransactionDAOImplTest {
+class TransactionDAOTest {
     private final TransactionRepository transactionRepository = Mockito.mock(TransactionRepository.class);
     private final CustomerRepository customerRepository = Mockito.mock(CustomerRepository.class);
     private final MakeRepository makeRepository = Mockito.mock(MakeRepository.class);

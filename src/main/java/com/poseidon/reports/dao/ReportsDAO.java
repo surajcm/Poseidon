@@ -1,33 +1,153 @@
 package com.poseidon.reports.dao;
 
 import com.poseidon.company.domain.CompanyTermsVO;
+import com.poseidon.invoice.domain.InvoiceReportVO;
 import com.poseidon.reports.domain.ReportsVO;
 import com.poseidon.reports.exception.ReportsException;
+import com.poseidon.transaction.domain.TransactionReportVO;
 import net.sf.jasperreports.engine.JRException;
+import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
+import net.sf.jasperreports.engine.data.JRBeanCollectionDataSource;
+import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * user: Suraj.
  * Date: Jun 3, 2012
- * Time: 10:38:44 AM
+ * Time: 10:40:06 AM
  */
-public interface ReportsDAO {
-    List<ReportsVO> generateDailyReport() throws ReportsException;
+@Repository
+public class ReportsDAO {
 
-    JasperPrint getMakeDetailsChart(JasperReport jasperReport, ReportsVO currentReport) throws  JRException;
+    /**
+     * generate daily report.
+     *
+     * @return list of reports vo
+     * @throws ReportsException on error
+     */
+    public List<ReportsVO> generateDailyReport() throws ReportsException {
+        return Collections.emptyList();
+    }
 
-    JasperPrint getCallReport(JasperReport jasperReport,
-                                     ReportsVO currentReport,
-                                     CompanyTermsVO companyTermsVO) throws JRException;
+    /**
+     * get make details report.
+     *
+     * @param jasperReport  jasperReport
+     * @param currentReport currentReport
+     * @return JasperPrint
+     * @throws JRException on error
+     */
+    public JasperPrint getMakeDetailsChart(final JasperReport jasperReport, final ReportsVO currentReport)
+            throws JRException {
+        JasperPrint jasperPrint;
+        Map<String, Object> params = new HashMap<>();
+        jasperPrint = JasperFillManager.fillReport(jasperReport, params,
+                new JRBeanCollectionDataSource(currentReport.getMakeVOList()));
+        return jasperPrint;
+    }
 
-    JasperPrint getTransactionsListReport(JasperReport jasperReport, ReportsVO currentReport) throws JRException;
+    /**
+     * get call report.
+     *
+     * @param jasperReport   jasperReport
+     * @param currentReport  currentReport
+     * @param companyTermsVO companyTermsVO
+     * @return JasperPrint
+     * @throws JRException on error
+     */
+    public JasperPrint getCallReport(final JasperReport jasperReport,
+                                     final ReportsVO currentReport,
+                                     final CompanyTermsVO companyTermsVO) throws JRException {
+        if (companyTermsVO != null) {
+            currentReport.getTransactionReportVO().setCompanyName(companyTermsVO.getCompanyName());
+            currentReport.getTransactionReportVO().setCompanyAddress(companyTermsVO.getCompanyAddress());
+            currentReport.getTransactionReportVO().setCompanyPhoneNumber(companyTermsVO.getCompanyPhoneNumber());
+            currentReport.getTransactionReportVO().setCompanyWebsite(companyTermsVO.getCompanyWebsite());
+            currentReport.getTransactionReportVO().setCompanyEmail(companyTermsVO.getCompanyEmail());
+            //todo : fix it
+            currentReport.getTransactionReportVO().setDateReported(companyTermsVO.getCreatedDate());
+        }
+        List<TransactionReportVO> reportVOs = new ArrayList<>();
+        reportVOs.add(currentReport.getTransactionReportVO());
+        return JasperFillManager.fillReport(jasperReport, new HashMap<>(),
+                new JRBeanCollectionDataSource(reportVOs));
+    }
 
-    JasperPrint getModelListReport(JasperReport jasperReport, ReportsVO currentReport) throws  JRException;
+    /**
+     * get transaction list report.
+     *
+     * @param jasperReport  jasperReport
+     * @param currentReport currentReport
+     * @return JasperPrint
+     * @throws JRException on error
+     */
+    public JasperPrint getTransactionsListReport(final JasperReport jasperReport,
+                                                 final ReportsVO currentReport) throws JRException {
+        JasperPrint jasperPrint;
+        Map<String, Object> params = new HashMap<>();
+        jasperPrint = JasperFillManager.fillReport(jasperReport, params,
+                new JRBeanCollectionDataSource(currentReport.getTransactionsList()));
+        return jasperPrint;
+    }
 
-    JasperPrint getErrorReport(JasperReport jasperReport, ReportsVO currentReport)throws  JRException;
+    /**
+     * get model list report.
+     *
+     * @param jasperReport  jasperReport
+     * @param currentReport currentReport
+     * @return JasperPrint
+     * @throws JRException on error
+     */
+    public JasperPrint getModelListReport(final JasperReport jasperReport,
+                                          final ReportsVO currentReport) throws JRException {
+        JasperPrint jasperPrint;
+        Map<String, Object> params = new HashMap<>();
+        jasperPrint = JasperFillManager.fillReport(jasperReport, params,
+                new JRBeanCollectionDataSource(currentReport.getMakeAndModelVOs()));
+        return jasperPrint;
+    }
 
-    JasperPrint getInvoiceReport(JasperReport jasperReport, ReportsVO currentReport) throws  JRException;
+    /**
+     * get error report.
+     *
+     * @param jasperReport  jasperReport
+     * @param currentReport currentReport
+     * @return JasperPrint
+     * @throws JRException on error
+     */
+    public JasperPrint getErrorReport(final JasperReport jasperReport,
+                                      final ReportsVO currentReport) throws JRException {
+        JasperPrint jasperPrint;
+        Map<String, Object> params = new HashMap<>();
+        jasperPrint = JasperFillManager.fillReport(jasperReport, params,
+                new JRBeanCollectionDataSource(new ArrayList<>()));
+        return jasperPrint;
+    }
+
+    /**
+     * get invoice report.
+     *
+     * @param jasperReport  jasperReport
+     * @param currentReport currentReport
+     * @return JasperPrint
+     * @throws JRException on error
+     */
+    public JasperPrint getInvoiceReport(final JasperReport jasperReport,
+                                        final ReportsVO currentReport) throws JRException {
+        JasperPrint jasperPrint;
+        Map<String, Object> params = new HashMap<>();
+        List<InvoiceReportVO> invoiceReportVOs = new ArrayList<>();
+        invoiceReportVOs.add(currentReport.getInvoiceReportVO());
+        jasperPrint = JasperFillManager.fillReport(jasperReport, params,
+                new JRBeanCollectionDataSource(invoiceReportVOs));
+        return jasperPrint;
+    }
+
 }

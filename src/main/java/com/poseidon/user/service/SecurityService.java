@@ -1,4 +1,4 @@
-package com.poseidon.user.service.impl;
+package com.poseidon.user.service;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,19 +11,18 @@ import org.springframework.stereotype.Service;
 
 @Service
 @SuppressWarnings("unused")
-public class SecurityServiceImpl implements SecurityService {
+public class SecurityService {
 
-    private static final Logger logger = LoggerFactory.getLogger(SecurityServiceImpl.class);
+    private static final Logger logger = LoggerFactory.getLogger(SecurityService.class);
     private final WebSecurityConfigurerAdapter webSecurityConfigurerAdapter;
     private final UserDetailsService userDetailsService;
 
-    public SecurityServiceImpl(final WebSecurityConfigurerAdapter webSecurityConfigurerAdapter,
+    public SecurityService(final WebSecurityConfigurerAdapter webSecurityConfigurerAdapter,
                                final UserDetailsService userDetailsService) {
         this.webSecurityConfigurerAdapter = webSecurityConfigurerAdapter;
         this.userDetailsService = userDetailsService;
     }
 
-    @Override
     public String findLoggedInUsername() {
         String username = null;
         Object userDetails = SecurityContextHolder.getContext().getAuthentication().getDetails();
@@ -33,7 +32,6 @@ public class SecurityServiceImpl implements SecurityService {
         return username;
     }
 
-    @Override
     public void autologin(final String username, final String password) {
         var userDetails = userDetailsService.loadUserByUsername(username);
         var token = new UsernamePasswordAuthenticationToken(

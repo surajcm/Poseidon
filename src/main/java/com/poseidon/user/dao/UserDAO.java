@@ -1,37 +1,124 @@
 package com.poseidon.user.dao;
 
+import com.poseidon.dataaccess.specs.SearchCriteria;
+import com.poseidon.dataaccess.specs.SearchOperation;
+import com.poseidon.user.dao.entities.User;
+import com.poseidon.user.dao.repo.UserRepository;
+import com.poseidon.user.dao.spec.UserSpecification;
 import com.poseidon.user.domain.UserVO;
 import com.poseidon.user.exception.UserException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.dao.DataAccessException;
+import org.springframework.stereotype.Repository;
+import org.springframework.util.StringUtils;
 
+import java.util.ArrayList;
 import java.util.List;
 
+@Repository
 @SuppressWarnings("unused")
-public interface UserDAO {
+public class UserDAO {
+    private static final Logger LOG = LoggerFactory.getLogger(UserDAO.class);
+
+    private final UserRepository userRepository;
+
+    public UserDAO(final UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
     /**
-     * log in dao.
+     * LOG in.
      *
-     * @param user user
+     * @param userVO userVO
      * @return user instance from database
      * @throws UserException on error
      */
-    UserVO logIn(UserVO user) throws UserException;
+    public UserVO logIn(final UserVO userVO) throws UserException {
+        User user;
+        try {
+            user = userRepository.findByEmail(userVO.getEmail());
+        } catch (DataAccessException ex) {
+            LOG.error(ex.getLocalizedMessage());
+            throw new UserException(UserException.DATABASE_ERROR);
+        }
+
+        if (user != null) {
+            LOG.info(" user details fetched successfully,for user name {}", user.getName());
+            if (!userVO.getPassword().equalsIgnoreCase(user.getPassword())) {
+                throw new UserException(UserException.INCORRECT_PASSWORD);
+            }
+            LOG.info(" Password matched successfully, user details are {}", user);
+        } else {
+            // invalid user
+            throw new UserException(UserException.UNKNOWN_USER);
+        }
+        return convertToUserVO(user);
+    }
+
 
     /**
      * getAllUserDetails to list all user details.
      *
      * @return List of user
-     * @throws UserException on error
+     * @throws UserException on db error
      */
-    List<UserVO> getAllUserDetails() throws UserException;
+    public List<UserVO> getAllUserDetails() throws UserException {
+        List<UserVO> userList;
+        try {
+            List<User> users = new ArrayList<>();
+            userRepository.findAll().forEach(users::add);
+            userList = convertUsersToUserVOs(users);
+        } catch (Exception ex) {
+            throw new UserException(UserException.DATABASE_ERROR);
+        }
+        return userList;
+    }
+
+    private List<UserVO> convertUsersToUserVOs(final List<User> users) {
+        return users.stream().map(this::convertToUserVO).toList();
+    }
+
+    private UserVO convertToUserVO(final User user) {
+        var userVO = new UserVO();
+        userVO.setId(user.getUserId());
+        userVO.setName(user.getName());
+        userVO.setEmail(user.getEmail());
+        userVO.setPassword(user.getPassword());
+        userVO.setRole(user.getRole());
+        userVO.setExpired(user.getExpired());
+        userVO.setCreatedBy(user.getCreatedBy());
+        userVO.setLastModifiedBy(user.getModifiedBy());
+        return userVO;
+    }
 
     /**
-     * create new user.
+     * save to add a new user.
      *
-     * @param user user
+     * @param userVO user
      * @throws UserException on error
      */
-    void save(UserVO user) throws UserException;
+    public void save(final UserVO userVO) throws UserException {
+        var user = convertToUser(userVO);
+        try {
+            userRepository.save(user);
+        } catch (Exception ex) {
+            LOG.error(ex.getLocalizedMessage());
+            throw new UserException(UserException.DATABASE_ERROR);
+        }
+    }
+
+    private User convertToUser(final UserVO userVO) {
+        var user = new User();
+        user.setName(userVO.getName());
+        user.setEmail(userVO.getEmail());
+        user.setPassword(userVO.getPassword());
+        user.setExpired(userVO.getExpired());
+        user.setRole(userVO.getRole());
+        user.setCreatedBy(userVO.getCreatedBy());
+        user.setModifiedBy(userVO.getLastModifiedBy());
+        return user;
+    }
 
     /**
      * getUserDetailsFromId to get the single user details from its id.
@@ -40,22 +127,76 @@ public interface UserDAO {
      * @return UserVO
      * @throws UserException on error
      */
-    UserVO getUserDetailsFromId(Long id) throws UserException;
+    public UserVO getUserDetailsFromId(final Long id) throws UserException {
+        UserVO userVO = null;
+        try {
+            var optionalUser = userRepository.findById(id);
+            if (optionalUser.isPresent()) {
+                var user = optionalUser.get();
+                userVO = convertToUserVO(user);
+            }
+        } catch (Exception ex) {
+            LOG.error(ex.getLocalizedMessage());
+            throw new UserException(UserException.DATABASE_ERROR);
+        }
+        return userVO;
+    }
 
     /**
-     * updates the current user details.
+     * updateUser.
      *
-     * @param user user
+     * @param userVO user
      */
-    void updateUser(UserVO user) throws UserException;
+    public void updateUser(final UserVO userVO) throws UserException {
+        try {
+            var optionalUser = userRepository.findById(userVO.getId());
+            if (optionalUser.isPresent()) {
+                var user = optionalUser.get();
+                user.setName(userVO.getName());
+                user.setEmail(userVO.getEmail());
+                user.setPassword(userVO.getPassword());
+                user.setRole(userVO.getRole());
+                user.setModifiedBy(userVO.getLastModifiedBy());
+                userRepository.save(user);
+            }
+        } catch (Exception ex) {
+            throw new UserException(UserException.DATABASE_ERROR);
+        }
+    }
 
     /**
-     * deletes the selected user.
+     * delete user.
      *
-     * @param id id of the user
-     * @throws UserException on error
+     * @param id id
      */
-    void deleteUser(Long id) throws UserException;
+    public void deleteUser(final Long id) throws UserException {
+        try {
+            userRepository.deleteById(id);
+        } catch (Exception ex) {
+            throw new UserException(UserException.DATABASE_ERROR);
+        }
+    }
+
+    public UserVO findByEmail(final String email) throws UserException {
+        try {
+            var user = userRepository.findByEmail(email);
+            return convertToUserVO(user);
+        } catch (Exception ex) {
+            throw new UserException(UserException.DATABASE_ERROR);
+        }
+    }
+
+    public void expireUser(final Long id) throws UserException {
+        try {
+            var user = userRepository.findById(id);
+            if (user.isPresent()) {
+                user.get().setExpired(true);
+                userRepository.save(user.get());
+            }
+        } catch (Exception ex) {
+            throw new UserException(UserException.DATABASE_ERROR);
+        }
+    }
 
     /**
      * search for a list of users.
@@ -64,9 +205,49 @@ public interface UserDAO {
      * @return List of user
      * @throws UserException on error
      */
-    List<UserVO> searchUserDetails(UserVO searchUser) throws UserException;
+    public List<UserVO> searchUserDetails(final UserVO searchUser) throws UserException {
+        List<UserVO> userList;
+        try {
+            userList = searchAllUsers(searchUser);
+        } catch (Exception ex) {
+            throw new UserException(UserException.DATABASE_ERROR);
+        }
+        return userList;
+    }
 
-    UserVO findByEmail(String email) throws UserException;
+    /**
+     * search for all the user details from the database.
+     *
+     * @param searchUser UserVO
+     * @return List of users
+     * @throws DataAccessException on error
+     */
+    @SuppressWarnings("unchecked")
+    private List<UserVO> searchAllUsers(final UserVO searchUser) {
+        var userSpec = new UserSpecification();
+        var search = populateSearchOperation(searchUser);
+        if (StringUtils.hasText(searchUser.getName())) {
+            userSpec.add(new SearchCriteria("name", searchUser.getName(), search));
+        }
+        if (StringUtils.hasText(searchUser.getEmail())) {
+            userSpec.add(new SearchCriteria("email", searchUser.getEmail(), search));
+        }
+        if (StringUtils.hasText(searchUser.getRole())) {
+            userSpec.add(new SearchCriteria("role", searchUser.getRole(), search));
+        }
+        List<User> resultUsers = userRepository.findAll(userSpec);
+        return convertUsersToUserVOs(resultUsers);
+    }
 
-    void expireUser(Long id) throws UserException;
+    private SearchOperation populateSearchOperation(final UserVO searchUser) {
+        SearchOperation searchOperation;
+        if (searchUser.getIncludes() != null && Boolean.TRUE.equals(searchUser.getIncludes())) {
+            searchOperation = SearchOperation.MATCH;
+        } else if (searchUser.getStartsWith() != null && Boolean.TRUE.equals(searchUser.getStartsWith())) {
+            searchOperation = SearchOperation.MATCH_START;
+        } else {
+            searchOperation = SearchOperation.EQUAL;
+        }
+        return searchOperation;
+    }
 }
