@@ -49,17 +49,9 @@ class TransactionServiceTest {
     }
 
     @Test
-    void searchTransactionsSuccess() throws TransactionException {
+    void searchTransactionsSuccess() {
         when(transactionDAO.searchTransactions(any())).thenReturn(new ArrayList<>());
         Assertions.assertNotNull(transactionService.searchTransactions(Mockito.mock(TransactionVO.class)));
-    }
-
-    @Test
-    void searchTransactionsFailure() throws TransactionException {
-        when(transactionDAO.searchTransactions(any()))
-                .thenThrow(new TransactionException(TransactionException.DATABASE_ERROR));
-        Assertions.assertThrows(TransactionException.class,
-                () -> transactionService.searchTransactions(Mockito.mock(TransactionVO.class)));
     }
 
     @Test
@@ -76,27 +68,12 @@ class TransactionServiceTest {
     }
 
     @Test
-    void fetchTransactionFromTagSuccess() throws TransactionException {
+    void fetchTransactionFromTagSuccess() {
         Assertions.assertNull(transactionService.fetchTransactionFromTag("tag"));
     }
 
     @Test
-    void fetchTransactionFromTagFailure() throws TransactionException {
-        when(transactionDAO.fetchTransactionFromTag(anyString()))
-                .thenThrow(new TransactionException(TransactionException.DATABASE_ERROR));
-        Assertions.assertThrows(TransactionException.class,
-                () -> transactionService.fetchTransactionFromTag("tag"));
-    }
-
-    @Test
     void updateTransactionSuccess() {
-        Assertions.assertAll(() -> transactionService.updateTransaction(Mockito.mock(TransactionVO.class)));
-    }
-
-    @Test
-    void updateTransactionFailure() throws TransactionException {
-        doThrow(new TransactionException(TransactionException.DATABASE_ERROR))
-                .when(transactionDAO).updateTransaction(any());
         Assertions.assertAll(() -> transactionService.updateTransaction(Mockito.mock(TransactionVO.class)));
     }
 
@@ -116,14 +93,6 @@ class TransactionServiceTest {
     @Test
     void updateTransactionStatusSuccess() {
         Assertions.assertAll(() -> transactionService.updateTransactionStatus(anyLong(), anyString()));
-    }
-
-    @Test
-    void updateTransactionStatusFailure() throws TransactionException {
-        doThrow(new TransactionException(TransactionException.DATABASE_ERROR))
-                .when(transactionDAO).updateTransactionStatus(anyLong(), anyString());
-        Assertions.assertThrows(TransactionException.class,
-                () -> transactionService.updateTransactionStatus(1234L, "success"));
     }
 
     @Test

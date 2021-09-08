@@ -25,6 +25,9 @@ import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
 
+import static com.rainerhahnekamp.sneakythrow.Sneaky.sneak;
+import static com.rainerhahnekamp.sneakythrow.Sneaky.sneaked;
+
 /**
  * user: Suraj.
  * Date: Jun 2, 2012
@@ -158,16 +161,9 @@ public class TransactionDAO {
      * @param tagNo tag
      * @return transaction for reporting
      */
-    public TransactionReportVO fetchTransactionFromTag(final String tagNo) throws TransactionException {
-        TransactionReportVO transactionReportVO;
-        try {
-            var transaction = transactionRepository.findBytagno(tagNo);
-            transactionReportVO = convertToTransactionReportVO(transaction);
-        } catch (Exception ex) {
-            LOG.error(ex.getLocalizedMessage());
-            throw new TransactionException(TransactionException.DATABASE_ERROR);
-        }
-        return transactionReportVO;
+    public TransactionReportVO fetchTransactionFromTag(final String tagNo) {
+        var transaction = sneak(() -> transactionRepository.findBytagno(tagNo));
+        return convertToTransactionReportVO(transaction);
     }
 
     /**
@@ -176,17 +172,12 @@ public class TransactionDAO {
      * @param id     id of the transaction
      * @param status status
      */
-    public void updateTransactionStatus(final Long id, final String status) throws TransactionException {
-        try {
-            var optionalTransaction = transactionRepository.findById(id);
-            if (optionalTransaction.isPresent()) {
-                var txn = optionalTransaction.get();
-                txn.setStatus(status);
-                transactionRepository.save(txn);
-            }
-        } catch (Exception ex) {
-            LOG.error(ex.getLocalizedMessage());
-            throw new TransactionException(TransactionException.DATABASE_ERROR);
+    public void updateTransactionStatus(final Long id, final String status) {
+        var optionalTransaction = sneak(() -> transactionRepository.findById(id));
+        if (optionalTransaction.isPresent()) {
+            var txn = optionalTransaction.get();
+            txn.setStatus(status);
+            sneaked(() -> transactionRepository.save(txn));
         }
     }
 
@@ -195,17 +186,9 @@ public class TransactionDAO {
      *
      * @param searchTransaction transaction
      * @return list of matching transactions
-     * @throws TransactionException on error
      */
-    public List<TransactionVO> searchTransactions(final TransactionVO searchTransaction) throws TransactionException {
-        List<TransactionVO> transactionVOList;
-        try {
-            transactionVOList = searchTxs(searchTransaction);
-        } catch (Exception ex) {
-            LOG.error(ex.getLocalizedMessage());
-            throw new TransactionException(TransactionException.DATABASE_ERROR);
-        }
-        return transactionVOList;
+    public List<TransactionVO> searchTransactions(final TransactionVO searchTransaction) {
+        return sneak(() -> searchTxs(searchTransaction));
     }
 
     private String searchQuery() {

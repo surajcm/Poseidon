@@ -202,19 +202,16 @@ public class TransactionController {
                     transactionForm.getSearchTransaction().toString());
             LOG.info("form search details are {}", sanitizedSearch);
         }
-        List<TransactionVO> transactionVOs = null;
-        try {
-            transactionVOs = transactionService.searchTransactions(transactionForm.getSearchTransaction());
-            transactionForm.setStatusMessage("Found " + transactionVOs.size() + " Transactions ");
-            transactionForm.setStatusMessageType("info");
-        } catch (TransactionException ex) {
-            transactionForm.setStatusMessage("Unable to search due to a data base error");
-            transactionForm.setStatusMessageType(ERROR);
-            LOG.error(ex.getLocalizedMessage());
-        }
-        if (transactionVOs != null) {
+        List<TransactionVO> transactionVOs = transactionService.searchTransactions(
+                transactionForm.getSearchTransaction());
+        transactionForm.setStatusMessage("Found " + transactionVOs.size() + " Transactions ");
+        transactionForm.setStatusMessageType("info");
+        if (!transactionVOs.isEmpty()) {
             transactionVOs.forEach(transactionVO -> LOG.debug(TRANSACTION_VO, transactionVO));
             transactionForm.setTransactionsList(transactionVOs);
+        } else {
+            transactionForm.setStatusMessage("Unable to find transaction");
+            transactionForm.setStatusMessageType(ERROR);
         }
         transactionForm.setMakeVOs(getMakeVOS());
         transactionForm.setLoggedInRole(transactionForm.getLoggedInRole());

@@ -17,6 +17,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static com.rainerhahnekamp.sneakythrow.Sneaky.sneak;
+import static com.rainerhahnekamp.sneakythrow.Sneaky.sneaked;
 
 @SuppressWarnings("unused")
 @Service
@@ -82,15 +83,9 @@ public class InvoiceDAO {
      * delete Invoice.
      *
      * @param id of invoice
-     * @throws InvoiceException on error
      */
-    public void deleteInvoice(final Long id) throws InvoiceException {
-        try {
-            invoiceRepository.deleteById(id);
-        } catch (DataAccessException ex) {
-            log.error(ex.getLocalizedMessage());
-            throw new InvoiceException(ex);
-        }
+    public void deleteInvoice(final Long id) {
+        sneaked(invoiceRepository::deleteById);
     }
 
     /**
@@ -236,8 +231,9 @@ public class InvoiceDAO {
         }
         invoice.setCustomerName(currentInvoiceVO.getCustomerName());
         invoice.setCustomerId(currentInvoiceVO.getCustomerId());
-        invoice.setModifiedOn(currentInvoiceVO.getModifiedDate());
+        invoice.setTransactionId(currentInvoiceVO.getTransactionId());
         invoice.setModifiedBy(currentInvoiceVO.getModifiedBy());
+        invoice.setCreatedBy(currentInvoiceVO.getCreatedBy());
         return invoice;
     }
 

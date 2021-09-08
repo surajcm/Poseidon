@@ -30,20 +30,14 @@ public class InvoiceService {
      * add invoice.
      *
      * @param currentInvoiceVO currentInvoiceVO
-     * @throws InvoiceException on error
      */
-    public void addInvoice(final InvoiceVO currentInvoiceVO) throws InvoiceException {
-        try {
-            var transactionReportVO = transactionService
-                    .fetchTransactionFromTag(currentInvoiceVO.getTagNo());
-            currentInvoiceVO.setCustomerId(transactionReportVO.getCustomerId());
-            currentInvoiceVO.setCustomerName(transactionReportVO.getCustomerName());
-            currentInvoiceVO.setSerialNo(transactionReportVO.getSerialNo());
-            invoiceDAO.addInvoice(currentInvoiceVO);
-        } catch (TransactionException ex) {
-            LOG.error("Error occurred ", ex);
-            throw new InvoiceException(ex);
-        }
+    public void addInvoice(final InvoiceVO currentInvoiceVO) {
+        var transactionReportVO = transactionService
+                .fetchTransactionFromTag(currentInvoiceVO.getTagNo());
+        currentInvoiceVO.setCustomerId(transactionReportVO.getCustomerId());
+        currentInvoiceVO.setCustomerName(transactionReportVO.getCustomerName());
+        currentInvoiceVO.setSerialNo(transactionReportVO.getSerialNo());
+        invoiceDAO.addInvoice(currentInvoiceVO);
     }
 
     /**
@@ -100,35 +94,23 @@ public class InvoiceService {
      * delete Invoice.
      *
      * @param id id
-     * @throws InvoiceException on error
      */
-    public void deleteInvoice(final Long id) throws InvoiceException {
-        try {
-            invoiceDAO.deleteInvoice(id);
-        } catch (InvoiceException ex) {
-            LOG.error(ex.getLocalizedMessage(), ex);
-            throw new InvoiceException(ex);
-        }
+    public void deleteInvoice(final Long id) {
+        invoiceDAO.deleteInvoice(id);
     }
 
     /**
      * update Invoice.
      *
      * @param currentInvoiceVO currentInvoiceVO
-     * @throws InvoiceException on error
      */
-    public void updateInvoice(final InvoiceVO currentInvoiceVO) throws InvoiceException {
-        try {
-            var transactionReportVo = transactionService
-                    .fetchTransactionFromTag(currentInvoiceVO.getTagNo());
-            currentInvoiceVO.setCustomerId(transactionReportVo.getCustomerId());
-            currentInvoiceVO.setCustomerName(transactionReportVo.getCustomerName());
-            currentInvoiceVO.setSerialNo(transactionReportVo.getSerialNo());
-            invoiceDAO.updateInvoice(currentInvoiceVO);
-        } catch (TransactionException ex) {
-            LOG.error(ex.getLocalizedMessage(), ex);
-            throw new InvoiceException(ex);
-        }
+    public void updateInvoice(final InvoiceVO currentInvoiceVO) {
+        var transactionReportVo = transactionService
+                .fetchTransactionFromTag(currentInvoiceVO.getTagNo());
+        currentInvoiceVO.setCustomerId(transactionReportVo.getCustomerId());
+        currentInvoiceVO.setCustomerName(transactionReportVo.getCustomerName());
+        currentInvoiceVO.setSerialNo(transactionReportVo.getSerialNo());
+        invoiceDAO.updateInvoice(currentInvoiceVO);
     }
 
     /**

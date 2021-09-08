@@ -67,18 +67,9 @@ public class TransactionService {
      *
      * @param searchTransaction transaction instance
      * @return list of transactions
-     * @throws TransactionException on error
      */
-    public List<TransactionVO> searchTransactions(final TransactionVO searchTransaction)
-            throws TransactionException {
-        List<TransactionVO> transactionVOs;
-        try {
-            transactionVOs = transactionDAO.searchTransactions(searchTransaction);
-        } catch (TransactionException ex) {
-            LOG.error(EXCEPTION_TYPE_IN_SERVICE_IMPL, ex.getExceptionType());
-            throw new TransactionException(ex.getExceptionType());
-        }
-        return transactionVOs;
+    public List<TransactionVO> searchTransactions(final TransactionVO searchTransaction) {
+        return transactionDAO.searchTransactions(searchTransaction);
     }
 
     /**
@@ -104,17 +95,9 @@ public class TransactionService {
      *
      * @param tagNo tag number of the transaction
      * @return reporting transaction vo
-     * @throws TransactionException on error
      */
-    public TransactionReportVO fetchTransactionFromTag(final String tagNo) throws TransactionException {
-        TransactionReportVO transactionVO;
-        try {
-            transactionVO = transactionDAO.fetchTransactionFromTag(tagNo);
-        } catch (TransactionException ex) {
-            LOG.error(EXCEPTION_TYPE_IN_SERVICE_IMPL, ex.getExceptionType());
-            throw new TransactionException(ex.getExceptionType());
-        }
-        return transactionVO;
+    public TransactionReportVO fetchTransactionFromTag(final String tagNo) {
+        return transactionDAO.fetchTransactionFromTag(tagNo);
     }
 
     /**
@@ -150,15 +133,9 @@ public class TransactionService {
      *
      * @param id     id of transaction
      * @param status new status to be updated
-     * @throws TransactionException on error
      */
-    public void updateTransactionStatus(final Long id, final String status) throws TransactionException {
-        try {
-            transactionDAO.updateTransactionStatus(id, status);
-        } catch (TransactionException ex) {
-            LOG.error(EXCEPTION_TYPE_IN_SERVICE_IMPL, ex.getExceptionType());
-            throw new TransactionException(ex.getExceptionType());
-        }
+    public void updateTransactionStatus(final Long id, final String status) {
+        transactionDAO.updateTransactionStatus(id, status);
     }
 
     /**

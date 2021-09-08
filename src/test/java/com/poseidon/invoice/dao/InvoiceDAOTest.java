@@ -3,12 +3,10 @@ package com.poseidon.invoice.dao;
 import com.poseidon.invoice.dao.entities.Invoice;
 import com.poseidon.invoice.dao.repo.InvoiceRepository;
 import com.poseidon.invoice.domain.InvoiceVO;
-import com.poseidon.invoice.exception.InvoiceException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
-import org.springframework.dao.CannotAcquireLockException;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.List;
@@ -16,7 +14,6 @@ import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
@@ -46,12 +43,6 @@ class InvoiceDAOTest {
     @Test
     void deleteInvoiceSuccess() {
         Assertions.assertAll(() -> invoiceDAO.deleteInvoice(1234L));
-    }
-
-    @Test
-    void deleteInvoiceFailure() {
-        doThrow(new CannotAcquireLockException("DB error")).when(invoiceRepository).deleteById(anyLong());
-        Assertions.assertThrows(InvoiceException.class, () -> invoiceDAO.deleteInvoice(1234L));
     }
 
     @Test

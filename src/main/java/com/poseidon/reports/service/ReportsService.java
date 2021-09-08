@@ -12,7 +12,6 @@ import com.poseidon.reports.domain.ReportsVO;
 import com.poseidon.reports.exception.ReportsException;
 import com.poseidon.transaction.domain.TransactionReportVO;
 import com.poseidon.transaction.domain.TransactionVO;
-import com.poseidon.transaction.exception.TransactionException;
 import com.poseidon.transaction.service.TransactionService;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperPrint;
@@ -113,13 +112,7 @@ public class ReportsService {
     }
 
     private TransactionReportVO getTransactionReportVO(final String tagNo) {
-        TransactionReportVO transactionVO = null;
-        try {
-            transactionVO = transactionService.fetchTransactionFromTag(tagNo);
-        } catch (TransactionException ex) {
-            LOG.error(ex.getLocalizedMessage());
-        }
-        return transactionVO;
+        return transactionService.fetchTransactionFromTag(tagNo);
     }
 
     /**
@@ -144,13 +137,7 @@ public class ReportsService {
     }
 
     private List<TransactionVO> getTransactionVOS(final TransactionVO searchTransaction) {
-        List<TransactionVO> transactions = null;
-        try {
-            transactions = transactionService.searchTransactions(searchTransaction);
-        } catch (TransactionException ex) {
-            LOG.error(ex.getLocalizedMessage());
-        }
-        return transactions;
+        return transactionService.searchTransactions(searchTransaction);
     }
 
     /**

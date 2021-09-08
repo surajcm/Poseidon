@@ -132,12 +132,6 @@ class TransactionDAOTest {
     }
 
     @Test
-    void fetchTransactionFromTagFailure() {
-        when(transactionRepository.findBytagno(anyString())).thenThrow(new CannotAcquireLockException("DB error"));
-        Assertions.assertThrows(TransactionException.class, () -> transactionDAO.fetchTransactionFromTag("ABC"));
-    }
-
-    @Test
     void updateTransactionStatusSuccess() {
         when(transactionRepository.findById(anyLong())).thenReturn(Optional.of(mockTransaction()));
         Assertions.assertAll(() -> transactionDAO.updateTransactionStatus(1234L, "SUCCESS"));
@@ -147,13 +141,6 @@ class TransactionDAOTest {
     void updateTransactionStatusEmpty() {
         when(transactionRepository.findById(anyLong())).thenReturn(Optional.empty());
         Assertions.assertAll(() -> transactionDAO.updateTransactionStatus(1234L, "SUCCESS"));
-    }
-
-    @Test
-    void updateTransactionStatusFailure() {
-        when(transactionRepository.findById(anyLong())).thenThrow(new CannotAcquireLockException("DB error"));
-        Assertions.assertThrows(TransactionException.class,
-                () -> transactionDAO.updateTransactionStatus(1234L, "SUCCESS"));
     }
 
     @Test

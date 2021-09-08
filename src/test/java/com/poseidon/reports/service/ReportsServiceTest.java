@@ -75,26 +75,8 @@ class ReportsServiceTest {
     }
 
     @Test
-    void getCallReportFailure() throws TransactionException, JRException {
-        when(transactionService.fetchTransactionFromTag(any()))
-                .thenThrow(new TransactionException(TransactionException.DATABASE_ERROR));
-        when(reportsDAO.getCallReport(any(), any(), any())).thenThrow(new JRException("ERROR"));
-        Assertions.assertNotNull(reportsService.getCallReport(
-                Mockito.mock(JasperReport.class), new ReportsVO()));
-    }
-
-    @Test
     void getTransactionsListReportSuccess() throws JRException {
         when(reportsDAO.getTransactionsListReport(any(), any())).thenReturn(Mockito.mock(JasperPrint.class));
-        Assertions.assertNotNull(reportsService.getTransactionsListReport(
-                Mockito.mock(JasperReport.class), new ReportsVO(), new TransactionVO()));
-    }
-
-    @Test
-    void getTransactionsListReportFailure() throws TransactionException, JRException {
-        when(transactionService.searchTransactions(any()))
-                .thenThrow(new TransactionException(TransactionException.DATABASE_ERROR));
-        when(reportsDAO.getTransactionsListReport(any(), any())).thenThrow(new JRException("ERROR"));
         Assertions.assertNotNull(reportsService.getTransactionsListReport(
                 Mockito.mock(JasperReport.class), new ReportsVO(), new TransactionVO()));
     }

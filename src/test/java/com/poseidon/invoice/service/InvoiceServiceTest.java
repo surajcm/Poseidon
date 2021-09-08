@@ -1,8 +1,9 @@
-package com.poseidon.invoice.service.impl;
+package com.poseidon.invoice.service;
 
 import com.poseidon.invoice.dao.InvoiceDAO;
 import com.poseidon.invoice.domain.InvoiceVO;
 import com.poseidon.invoice.exception.InvoiceException;
+import com.poseidon.invoice.service.impl.InvoiceService;
 import com.poseidon.transaction.domain.TransactionReportVO;
 import com.poseidon.transaction.domain.TransactionVO;
 import com.poseidon.transaction.exception.TransactionException;
@@ -21,31 +22,21 @@ import java.util.Optional;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
-class InvoiceServiceImplTest {
+class InvoiceServiceTest {
     private final InvoiceDAO invoiceDAO = Mockito.mock(InvoiceDAO.class);
     private final TransactionService transactionService = Mockito.mock(TransactionService.class);
     private final InvoiceService invoiceService = new InvoiceService(invoiceDAO, transactionService);
 
     @Test
-    void addInvoiceSuccess() throws TransactionException {
+    void addInvoiceSuccess() {
         when(transactionService.fetchTransactionFromTag(anyString()))
                 .thenReturn(Mockito.mock(TransactionReportVO.class));
         var invoiceVO = new InvoiceVO();
         invoiceVO.setTagNo("1234");
         Assertions.assertAll(() -> invoiceService.addInvoice(invoiceVO));
-    }
-
-    @Test
-    void addInvoiceFailure() throws TransactionException {
-        when(transactionService.fetchTransactionFromTag(anyString()))
-                .thenThrow(new TransactionException(TransactionException.DATABASE_ERROR));
-        var invoiceVO = new InvoiceVO();
-        invoiceVO.setTagNo("1234");
-        Assertions.assertThrows(InvoiceException.class, () -> invoiceService.addInvoice(invoiceVO));
     }
 
     @Test
@@ -81,27 +72,12 @@ class InvoiceServiceImplTest {
     }
 
     @Test
-    void deleteInvoiceFailure() throws InvoiceException {
-        doThrow(new InvoiceException(new RuntimeException())).when(invoiceDAO).deleteInvoice(anyLong());
-        Assertions.assertThrows(InvoiceException.class, () -> invoiceService.deleteInvoice(1234L));
-    }
-
-    @Test
-    void updateInvoiceSuccess() throws TransactionException {
+    void updateInvoiceSuccess() {
         when(transactionService.fetchTransactionFromTag(anyString()))
                 .thenReturn(Mockito.mock(TransactionReportVO.class));
         var invoiceVO = new InvoiceVO();
         invoiceVO.setTagNo("1234");
         Assertions.assertAll(() -> invoiceService.updateInvoice(invoiceVO));
-    }
-
-    @Test
-    void updateInvoiceFailure() throws TransactionException {
-        when(transactionService.fetchTransactionFromTag(anyString()))
-                .thenThrow(new TransactionException(TransactionException.DATABASE_ERROR));
-        var invoiceVO = new InvoiceVO();
-        invoiceVO.setTagNo("1234");
-        Assertions.assertThrows(InvoiceException.class, () -> invoiceService.updateInvoice(invoiceVO));
     }
 
     @Test

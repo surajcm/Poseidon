@@ -4,7 +4,6 @@ import com.poseidon.invoice.domain.InvoiceVO;
 import com.poseidon.invoice.exception.InvoiceException;
 import com.poseidon.invoice.service.impl.InvoiceService;
 import com.poseidon.invoice.web.form.InvoiceForm;
-import com.poseidon.make.service.MakeService;
 import com.poseidon.transaction.domain.TransactionReportVO;
 import com.poseidon.transaction.domain.TransactionVO;
 import com.poseidon.transaction.exception.TransactionException;
@@ -32,22 +31,17 @@ public class InvoiceController {
     private static final String ERROR = "error";
     private static final String LIST_INVOICE = "invoice/ListInvoice";
     private static final String INVOICE_FORM = "invoiceForm";
-    private static final String INVOICE_FORM_DETAILS =
-            "Inside saveInvoice method of InvoiceController, invoice Form details are %s";
+    private static final String INVOICE_FORM_DETAILS = "Invoice Form details are %s";
     private static final String SUCCESS = "success";
 
     private final InvoiceService invoiceService;
 
     private final TransactionService transactionService;
 
-    private final MakeService makeService;
-
     public InvoiceController(final InvoiceService invoiceService,
-                             final TransactionService transactionService,
-                             final MakeService makeService) {
+                             final TransactionService transactionService) {
         this.invoiceService = invoiceService;
         this.transactionService = transactionService;
-        this.makeService = makeService;
     }
 
     /**
@@ -58,7 +52,7 @@ public class InvoiceController {
      */
     @PostMapping("/invoice/ListInvoice.htm")
     public ModelAndView listInvoice(final InvoiceForm invoiceForm) {
-        LOG.info(" Inside ListInvoice method of InvoiceController ");
+        LOG.info("Inside ListInvoice method of InvoiceController ");
         List<InvoiceVO> invoiceVOs;
         try {
             invoiceVOs = invoiceService.fetchInvoiceForListOfTransactions();
@@ -84,7 +78,7 @@ public class InvoiceController {
      */
     @PostMapping("/invoice/addInvoice.htm")
     public ModelAndView addInvoice(final InvoiceForm invoiceForm) {
-        LOG.info(" Inside addInvoice method of InvoiceController ");
+        LOG.info("Inside addInvoice method of InvoiceController ");
         var vo = new InvoiceVO();
         vo.setQuantity(1);
         invoiceForm.setCurrentInvoiceVo(vo);
@@ -99,35 +93,35 @@ public class InvoiceController {
      */
     @PostMapping("/invoice/saveInvoice.htm")
     public ModelAndView saveInvoice(final InvoiceForm invoiceForm) {
+        LOG.info("Inside saveInvoice method of InvoiceController ");
         LOG.info(String.format(INVOICE_FORM_DETAILS, invoiceForm));
         if (invoiceForm.getCurrentInvoiceVo() != null) {
             invoiceForm.getCurrentInvoiceVo().setCreatedBy(invoiceForm.getLoggedInUser());
             invoiceForm.getCurrentInvoiceVo().setModifiedBy(invoiceForm.getLoggedInUser());
         }
-        TransactionVO transactionVo = null;
-        try {
-            var searchTransactionVo = new TransactionVO();
+        var searchTransactionVo = new TransactionVO();
+        if (invoiceForm.getCurrentInvoiceVo() != null) {
             searchTransactionVo.setTagNo(invoiceForm.getCurrentInvoiceVo().getTagNo());
-            searchTransactionVo.setStartswith(Boolean.TRUE);
-            searchTransactionVo.setIncludes(Boolean.TRUE);
-            transactionVo = fetchTransactionVO(searchTransactionVo);
-            if (transactionVo != null) {
-                invoiceForm.getCurrentInvoiceVo().setTransactionId(transactionVo.getId());
-                invoiceForm.getCurrentInvoiceVo().setSerialNo(transactionVo.getSerialNo());
-                invoiceForm.getCurrentInvoiceVo().setCustomerId(transactionVo.getCustomerId());
-                invoiceForm.getCurrentInvoiceVo().setCustomerName(transactionVo.getCustomerName());
-                invoiceService.addInvoice(invoiceForm.getCurrentInvoiceVo());
-                LOG.info("Successfully saved the new invoice Detail");
-                invoiceForm.setStatusMessage("Successfully saved the new invoice Detail");
-                invoiceForm.setStatusMessageType(SUCCESS);
-                //update the transaction
-                var status = "INVOICED";
-                transactionService.updateTransactionStatus(transactionVo.getId(), status);
-            }
-        } catch (Exception ex) {
-            invoiceForm.setStatusMessage("Unable to save the invoice due to an error");
+        }
+        searchTransactionVo.setStartswith(Boolean.TRUE);
+        searchTransactionVo.setIncludes(Boolean.TRUE);
+        var transactionVo = fetchTransactionVO(searchTransactionVo);
+        if (transactionVo.isPresent()) {
+            invoiceForm.getCurrentInvoiceVo().setTransactionId(transactionVo.get().getId());
+            invoiceForm.getCurrentInvoiceVo().setSerialNo(transactionVo.get().getSerialNo());
+            invoiceForm.getCurrentInvoiceVo().setCustomerId(transactionVo.get().getCustomerId());
+            invoiceForm.getCurrentInvoiceVo().setCustomerName(transactionVo.get().getCustomerName());
+            invoiceService.addInvoice(invoiceForm.getCurrentInvoiceVo());
+            LOG.info("Successfully saved the new invoice Detail");
+            invoiceForm.setStatusMessage("Successfully saved the new invoice Detail");
+            invoiceForm.setStatusMessageType(SUCCESS);
+            //update the transaction
+            var status = "INVOICED";
+            transactionService.updateTransactionStatus(transactionVo.get().getId(), status);
+        } else {
+            LOG.error("Transaction not found !!!!");
+            invoiceForm.setStatusMessage("Transaction not found !!!!");
             invoiceForm.setStatusMessageType(ERROR);
-            LOG.error(ex.getLocalizedMessage());
         }
         LOG.info("fetching invoice for listing....");
         List<InvoiceVO> invoiceVOs = fetchInvoices(invoiceForm);
@@ -148,15 +142,12 @@ public class InvoiceController {
         return invoiceVOs;
     }
 
-    private TransactionVO fetchTransactionVO(final TransactionVO searchTransactionVo) {
-        TransactionVO transactionVo = null;
-        List<TransactionVO> transactionVOs;
-        try {
-            transactionVOs = transactionService.searchTransactions(searchTransactionVo);
-            LOG.info("Found transactions :  " + Integer.toString(transactionVOs.size()));
-            transactionVo = transactionVOs.get(0);
-        } catch (TransactionException ex) {
-            LOG.error(ex.getLocalizedMessage());
+    private Optional<TransactionVO> fetchTransactionVO(final TransactionVO searchTransactionVo) {
+        List<TransactionVO> transactionVOs = transactionService.searchTransactions(searchTransactionVo);
+        LOG.info("Found transactions :  " + transactionVOs.size());
+        Optional<TransactionVO> transactionVo = Optional.empty();
+        if (!transactionVOs.isEmpty()) {
+            transactionVo = Optional.of(transactionVOs.get(0));
         }
         return transactionVo;
     }
@@ -169,6 +160,7 @@ public class InvoiceController {
      */
     @PostMapping("/invoice/EditInvoice.htm")
     public ModelAndView editInvoice(final InvoiceForm invoiceForm) {
+        LOG.info("Inside editInvoice method of InvoiceController ");
         LOG.info(String.format(INVOICE_FORM_DETAILS, invoiceForm));
         Optional<InvoiceVO> invoiceVo = invoiceService.fetchInvoiceVOFromId(invoiceForm.getId());
         invoiceVo.ifPresent(invoiceForm::setCurrentInvoiceVo);
@@ -183,6 +175,7 @@ public class InvoiceController {
      */
     @PostMapping("/invoice/DeleteInvoice.htm")
     public ModelAndView deleteInvoice(final InvoiceForm invoiceForm) {
+        LOG.info("Inside deleteInvoice method of InvoiceController ");
         LOG.info(String.format(INVOICE_FORM_DETAILS, invoiceForm));
         try {
             var invoiceVo = invoiceService.fetchInvoiceVOFromId(invoiceForm.getId());
@@ -213,6 +206,7 @@ public class InvoiceController {
      */
     @PostMapping("/invoice/SearchInvoice.htm")
     public ModelAndView searchInvoice(final InvoiceForm invoiceForm) {
+        LOG.info("Inside searchInvoice method of InvoiceController ");
         LOG.info(String.format(INVOICE_FORM_DETAILS, invoiceForm));
         List<InvoiceVO> invoiceVOs;
         try {
@@ -238,6 +232,7 @@ public class InvoiceController {
      */
     @PostMapping("/invoice/updateInvoice.htm")
     public ModelAndView updateInvoice(final InvoiceForm invoiceForm) {
+        LOG.info("Inside updateInvoice method of InvoiceController ");
         LOG.info(String.format(INVOICE_FORM_DETAILS, invoiceForm));
         if (invoiceForm.getCurrentInvoiceVo() != null) {
             invoiceForm.getCurrentInvoiceVo().setModifiedBy(invoiceForm.getLoggedInUser());
@@ -265,6 +260,7 @@ public class InvoiceController {
      */
     @PostMapping("/invoice/InvoiceTxn.htm")
     public ModelAndView invoiceTxn(final TransactionForm transactionForm) {
+        LOG.info("Inside invoiceTxn method of InvoiceController ");
         TransactionVO transactionVo = null;
         var makeName = "";
         var modelName = "";
