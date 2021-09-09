@@ -2,6 +2,7 @@ package com.poseidon.user.dao;
 
 import com.poseidon.user.dao.entities.User;
 import com.poseidon.user.dao.repo.UserRepository;
+import com.poseidon.user.dao.spec.UserSpecification;
 import com.poseidon.user.domain.UserVO;
 import com.poseidon.user.exception.UserException;
 import org.junit.jupiter.api.Assertions;
@@ -36,15 +37,6 @@ class UserDAOTest {
     }
 
     @Test
-    void logInWithDBError() {
-        var userVO = new UserVO();
-        userVO.setPassword("PASS");
-        userVO.setEmail("ABC");
-        when(userRepository.findByEmail(anyString())).thenThrow(new CannotAcquireLockException("DB error"));
-        Assertions.assertThrows(UserException.class, () -> userDAO.logIn(userVO));
-    }
-
-    @Test
     void logInWithIncorrectPassword() {
         var userVO = new UserVO();
         userVO.setPassword("PASS1");
@@ -63,15 +55,9 @@ class UserDAOTest {
     }
 
     @Test
-    void getAllUserDetailsSuccess() throws UserException {
+    void getAllUserDetailsSuccess() {
         when(userRepository.findAll()).thenReturn(mockUsers());
         Assertions.assertTrue(userDAO.getAllUserDetails().size() > 0);
-    }
-
-    @Test
-    void getAllUserDetailsFailure() {
-        when(userRepository.findAll()).thenThrow(new CannotAcquireLockException("DB error"));
-        Assertions.assertThrows(UserException.class, userDAO::getAllUserDetails);
     }
 
     @Test
@@ -152,7 +138,7 @@ class UserDAOTest {
 
     @Test
     void searchUserDetailsSuccess() throws UserException {
-        when(userRepository.findAll(any())).thenReturn(mockUsers());
+        when(userRepository.findAll(any(UserSpecification.class))).thenReturn(mockUsers());
         var user = mockUserVO();
         Assertions.assertNotNull(userDAO.searchUserDetails(user));
         user.setIncludes(Boolean.TRUE);
@@ -175,7 +161,8 @@ class UserDAOTest {
 
     @Test
     void searchUserDetailsFailure() {
-        when(userRepository.findAll(any())).thenThrow(new CannotAcquireLockException("DB error"));
+        when(userRepository.findAll(any(UserSpecification.class)))
+                .thenThrow(new CannotAcquireLockException("DB error"));
         Assertions.assertThrows(UserException.class, () -> userDAO.searchUserDetails(mockUserVO()));
     }
 

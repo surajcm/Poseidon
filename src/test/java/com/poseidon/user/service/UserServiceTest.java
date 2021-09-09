@@ -22,14 +22,8 @@ class UserServiceTest {
     private final UserService userService = new UserService(userDAO, bcryptPasswordEncoder);
 
     @Test
-    void getAllUserDetailsSuccess() throws UserException {
+    void getAllUserDetailsSuccess() {
         Assertions.assertNotNull(userService.getAllUserDetails());
-    }
-
-    @Test
-    void getAllUserDetailsFailure() throws UserException {
-        when(userDAO.getAllUserDetails()).thenThrow(new UserException(UserException.DATABASE_ERROR));
-        Assertions.assertThrows(UserException.class, userService::getAllUserDetails);
     }
 
     @Test

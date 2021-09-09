@@ -31,15 +31,8 @@ public class UserService {
      *
      * @return List of user
      */
-    public List<UserVO> getAllUserDetails() throws UserException {
-        List<UserVO> userList;
-        try {
-            userList = userDAO.getAllUserDetails();
-        } catch (UserException ex) {
-            LOG.error(EXCEPTION_TYPE_IN_SERVICE_IMPL, ex.getExceptionType());
-            throw new UserException(ex.getExceptionType());
-        }
-        return userList;
+    public List<UserVO> getAllUserDetails() {
+        return userDAO.getAllUserDetails();
     }
 
     /**

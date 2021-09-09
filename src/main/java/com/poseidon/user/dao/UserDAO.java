@@ -13,8 +13,9 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
-import java.util.ArrayList;
 import java.util.List;
+
+import static com.rainerhahnekamp.sneakythrow.Sneaky.sneak;
 
 @Repository
 @SuppressWarnings("unused")
@@ -35,13 +36,7 @@ public class UserDAO {
      * @throws UserException on error
      */
     public UserVO logIn(final UserVO userVO) throws UserException {
-        User user;
-        try {
-            user = userRepository.findByEmail(userVO.getEmail());
-        } catch (DataAccessException ex) {
-            LOG.error(ex.getLocalizedMessage());
-            throw new UserException(UserException.DATABASE_ERROR);
-        }
+        User user = sneak(() -> userRepository.findByEmail(userVO.getEmail()));
 
         if (user != null) {
             LOG.info(" user details fetched successfully,for user name {}", user.getName());
@@ -61,35 +56,9 @@ public class UserDAO {
      * getAllUserDetails to list all user details.
      *
      * @return List of user
-     * @throws UserException on db error
      */
-    public List<UserVO> getAllUserDetails() throws UserException {
-        List<UserVO> userList;
-        try {
-            List<User> users = new ArrayList<>();
-            userRepository.findAll().forEach(users::add);
-            userList = convertUsersToUserVOs(users);
-        } catch (Exception ex) {
-            throw new UserException(UserException.DATABASE_ERROR);
-        }
-        return userList;
-    }
-
-    private List<UserVO> convertUsersToUserVOs(final List<User> users) {
-        return users.stream().map(this::convertToUserVO).toList();
-    }
-
-    private UserVO convertToUserVO(final User user) {
-        var userVO = new UserVO();
-        userVO.setId(user.getUserId());
-        userVO.setName(user.getName());
-        userVO.setEmail(user.getEmail());
-        userVO.setPassword(user.getPassword());
-        userVO.setRole(user.getRole());
-        userVO.setExpired(user.getExpired());
-        userVO.setCreatedBy(user.getCreatedBy());
-        userVO.setLastModifiedBy(user.getModifiedBy());
-        return userVO;
+    public List<UserVO> getAllUserDetails() {
+        return sneak(() -> userRepository.findAll().stream().map(this::convertToUserVO).toList());
     }
 
     /**
@@ -106,18 +75,6 @@ public class UserDAO {
             LOG.error(ex.getLocalizedMessage());
             throw new UserException(UserException.DATABASE_ERROR);
         }
-    }
-
-    private User convertToUser(final UserVO userVO) {
-        var user = new User();
-        user.setName(userVO.getName());
-        user.setEmail(userVO.getEmail());
-        user.setPassword(userVO.getPassword());
-        user.setExpired(userVO.getExpired());
-        user.setRole(userVO.getRole());
-        user.setCreatedBy(userVO.getCreatedBy());
-        user.setModifiedBy(userVO.getLastModifiedBy());
-        return user;
     }
 
     /**
@@ -237,6 +194,35 @@ public class UserDAO {
         }
         List<User> resultUsers = userRepository.findAll(userSpec);
         return convertUsersToUserVOs(resultUsers);
+    }
+
+    private List<UserVO> convertUsersToUserVOs(final List<User> users) {
+        return users.stream().map(this::convertToUserVO).toList();
+    }
+
+    private User convertToUser(final UserVO userVO) {
+        var user = new User();
+        user.setName(userVO.getName());
+        user.setEmail(userVO.getEmail());
+        user.setPassword(userVO.getPassword());
+        user.setExpired(userVO.getExpired());
+        user.setRole(userVO.getRole());
+        user.setCreatedBy(userVO.getCreatedBy());
+        user.setModifiedBy(userVO.getLastModifiedBy());
+        return user;
+    }
+
+    private UserVO convertToUserVO(final User user) {
+        var userVO = new UserVO();
+        userVO.setId(user.getUserId());
+        userVO.setName(user.getName());
+        userVO.setEmail(user.getEmail());
+        userVO.setPassword(user.getPassword());
+        userVO.setRole(user.getRole());
+        userVO.setExpired(user.getExpired());
+        userVO.setCreatedBy(user.getCreatedBy());
+        userVO.setLastModifiedBy(user.getModifiedBy());
+        return userVO;
     }
 
     private SearchOperation populateSearchOperation(final UserVO searchUser) {

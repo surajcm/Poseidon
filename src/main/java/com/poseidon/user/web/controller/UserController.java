@@ -95,19 +95,12 @@ public class UserController {
     @PostMapping("/user/ListAll.htm")
     public ModelAndView listAll(final UserForm userForm) {
         logger.info("ListAll method of user controller ");
-        List<UserVO> userList = null;
-        try {
-            userList = userService.getAllUserDetails();
-        } catch (UserException ex) {
-            userForm.setStatusMessage("Unable to list the Users due to an error");
-            userForm.setStatusMessageType(ERROR);
-            logger.error(ex.getLocalizedMessage());
-        } catch (Exception e1) {
-            logger.error(e1.getLocalizedMessage());
-            logger.info(UNKNOWN_ERROR);
-        }
-        if (userList != null) {
+        List<UserVO> userList = userService.getAllUserDetails();
+        if (!userList.isEmpty()) {
             userList.forEach(userIteration -> logger.info(" user detail {}", userIteration));
+        } else {
+            userForm.setStatusMessage("No user found");
+            userForm.setStatusMessageType(ERROR);
         }
         userForm.setUserVOs(userList);
         userForm.setSearchUser(new UserVO());
@@ -278,23 +271,9 @@ public class UserController {
     }
 
     private String allUsers() {
-        List<UserVO> userList = null;
-        try {
-            userList = userService.getAllUserDetails();
-            // todo: return a map instead
-            userList.forEach(u -> u.setPassword(""));
-        } catch (UserException ex) {
-            logger.error(ex.getLocalizedMessage());
-            logger.error(EXCEPTION_IN_CONTROLLER, ex.exceptionType);
-            if (ex.getExceptionType().equalsIgnoreCase(UserException.DATABASE_ERROR)) {
-                logger.info(DB_ERROR);
-            } else {
-                logger.info(UNKNOWN_ERROR);
-            }
-        } catch (Exception e1) {
-            logger.error(e1.getLocalizedMessage());
-            logger.info(UNKNOWN_ERROR);
-        }
+        List<UserVO> userList = userService.getAllUserDetails();
+        // todo: return a map instead
+        userList.forEach(u -> u.setPassword(""));
         return fetchJsonUserList(userList);
     }
 
@@ -311,9 +290,9 @@ public class UserController {
             response = mapper.writeValueAsString(userList);
         } catch (IOException ex) {
             response = ERROR;
-            logger.error("error parsing to json : {}" , ex.getMessage());
+            logger.error("error parsing to json : {}", ex.getMessage());
         }
-        logger.info("user list json : {}" , response);
+        logger.info("user list json : {}", response);
         return response;
     }
 
@@ -336,7 +315,7 @@ public class UserController {
     String getForEdit(@ModelAttribute("id") final String id,
                       final BindingResult result) {
         var sanitizedId = CommonUtils.sanitizedString(id);
-        logger.info("getForEdit method of user controller : {}" , sanitizedId);
+        logger.info("getForEdit method of user controller : {}", sanitizedId);
         String response = null;
         try {
             UserVO userVO = userService.getUserDetailsFromId(Long.valueOf(id));
@@ -366,9 +345,9 @@ public class UserController {
             response = mapper.writeValueAsString(userEditMap);
         } catch (IOException ex) {
             response = ERROR;
-            logger.error("Error parsing to json : {}" , ex.getMessage());
+            logger.error("Error parsing to json : {}", ex.getMessage());
         }
-        logger.info("User list json : {}" , response);
+        logger.info("User list json : {}", response);
         return response;
     }
 
@@ -448,7 +427,7 @@ public class UserController {
             response = mapper.writeValueAsString(messageMap);
         } catch (IOException ex) {
             response = ERROR;
-            logger.error("Error parsing to json : {}" , ex.getMessage());
+            logger.error("Error parsing to json : {}", ex.getMessage());
         }
         return response;
     }
