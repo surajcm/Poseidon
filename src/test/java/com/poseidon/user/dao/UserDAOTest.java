@@ -62,13 +62,7 @@ class UserDAOTest {
 
     @Test
     void saveSuccess() {
-        Assertions.assertAll(() -> userDAO.save(new UserVO()));
-    }
-
-    @Test
-    void saveFailure() {
-        when(userRepository.save(any())).thenThrow(new CannotAcquireLockException("DB error"));
-        Assertions.assertThrows(UserException.class, () -> userDAO.save(new UserVO()));
+        Assertions.assertAll(() -> userDAO.save(new UserVO(), "admin"));
     }
 
     @Test
@@ -94,7 +88,7 @@ class UserDAOTest {
         when(userRepository.findById(anyLong())).thenReturn(Optional.empty());
         var vo = new UserVO();
         vo.setId(1234L);
-        Assertions.assertAll(() -> userDAO.updateUser(vo));
+        Assertions.assertAll(() -> userDAO.updateUser(vo, "admin"));
     }
 
     @Test
@@ -102,7 +96,7 @@ class UserDAOTest {
         when(userRepository.findById(anyLong())).thenReturn(mockOptionalUser());
         var vo = new UserVO();
         vo.setId(1234L);
-        Assertions.assertAll(() -> userDAO.updateUser(vo));
+        Assertions.assertAll(() -> userDAO.updateUser(vo, "admin"));
     }
 
     @Test
@@ -110,7 +104,7 @@ class UserDAOTest {
         when(userRepository.findById(anyLong())).thenThrow(new CannotAcquireLockException("DB error"));
         var vo = new UserVO();
         vo.setId(1234L);
-        Assertions.assertThrows(UserException.class, () -> userDAO.updateUser(vo));
+        Assertions.assertThrows(UserException.class, () -> userDAO.updateUser(vo, "admin"));
     }
 
     @Test
@@ -140,14 +134,10 @@ class UserDAOTest {
     void searchUserDetailsSuccess() throws UserException {
         when(userRepository.findAll(any(UserSpecification.class))).thenReturn(mockUsers());
         var user = mockUserVO();
-        Assertions.assertNotNull(userDAO.searchUserDetails(user));
-        user.setIncludes(Boolean.TRUE);
-        Assertions.assertNotNull(userDAO.searchUserDetails(user));
-        user.setIncludes(Boolean.FALSE);
-        user.setStartsWith(Boolean.FALSE);
-        Assertions.assertNotNull(userDAO.searchUserDetails(user));
-        user.setStartsWith(Boolean.TRUE);
-        Assertions.assertNotNull(userDAO.searchUserDetails(user));
+        Assertions.assertNotNull(userDAO.searchUserDetails(user, false, false));
+        Assertions.assertNotNull(userDAO.searchUserDetails(user, false, true));
+        Assertions.assertNotNull(userDAO.searchUserDetails(user, false, false));
+        Assertions.assertNotNull(userDAO.searchUserDetails(user, true, false));
     }
 
     @Test
@@ -156,14 +146,14 @@ class UserDAOTest {
         user.setName(null);
         user.setEmail(null);
         user.setRole(null);
-        Assertions.assertNotNull(userDAO.searchUserDetails(user));
+        Assertions.assertNotNull(userDAO.searchUserDetails(user, false, false));
     }
 
     @Test
     void searchUserDetailsFailure() {
         when(userRepository.findAll(any(UserSpecification.class)))
                 .thenThrow(new CannotAcquireLockException("DB error"));
-        Assertions.assertThrows(UserException.class, () -> userDAO.searchUserDetails(mockUserVO()));
+        Assertions.assertThrows(UserException.class, () -> userDAO.searchUserDetails(mockUserVO(), false, false));
     }
 
     private Optional<User> mockOptionalUser() {
@@ -193,8 +183,6 @@ class UserDAOTest {
         user.setEmail("ABC");
         user.setPassword("PASS");
         user.setRole("ADMIN");
-        user.setCreatedBy("ADMIN");
-        user.setLastModifiedBy("ADMIN");
         return user;
     }
 

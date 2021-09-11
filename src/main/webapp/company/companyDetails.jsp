@@ -70,7 +70,7 @@
                                 </div>
                                 <div class="form-group col-md-4">
                                   <label for="name">Company Logo :</label>
-                                  <input class="btn" value="Upload New Image" type="button" onclick="javascript:uploadImage();"/>
+                                  <input class="btn" value="Upload New Image" type="button" onclick="uploadImage();"/>
                                 </div>
                             </div>
                             <div class="form-row">

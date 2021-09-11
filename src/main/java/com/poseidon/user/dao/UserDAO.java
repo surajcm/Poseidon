@@ -65,16 +65,10 @@ public class UserDAO {
      * save to add a new user.
      *
      * @param userVO user
-     * @throws UserException on error
      */
-    public void save(final UserVO userVO) throws UserException {
-        var user = convertToUser(userVO);
-        try {
-            userRepository.save(user);
-        } catch (Exception ex) {
-            LOG.error(ex.getLocalizedMessage());
-            throw new UserException(UserException.DATABASE_ERROR);
-        }
+    public void save(final UserVO userVO, final String currentLoggedInUser) {
+        var user = convertToUser(userVO, currentLoggedInUser);
+        sneak(() -> userRepository.save(user));
     }
 
     /**
@@ -104,7 +98,8 @@ public class UserDAO {
      *
      * @param userVO user
      */
-    public void updateUser(final UserVO userVO) throws UserException {
+    public void updateUser(final UserVO userVO, final String loggedInUser)
+            throws UserException {
         try {
             var optionalUser = userRepository.findById(userVO.getId());
             if (optionalUser.isPresent()) {
@@ -113,7 +108,7 @@ public class UserDAO {
                 user.setEmail(userVO.getEmail());
                 user.setPassword(userVO.getPassword());
                 user.setRole(userVO.getRole());
-                user.setModifiedBy(userVO.getLastModifiedBy());
+                user.setModifiedBy(loggedInUser);
                 userRepository.save(user);
             }
         } catch (Exception ex) {
@@ -162,10 +157,12 @@ public class UserDAO {
      * @return List of user
      * @throws UserException on error
      */
-    public List<UserVO> searchUserDetails(final UserVO searchUser) throws UserException {
+    public List<UserVO> searchUserDetails(final UserVO searchUser,
+                                          final boolean startswith,
+                                          final boolean includes) throws UserException {
         List<UserVO> userList;
         try {
-            userList = searchAllUsers(searchUser);
+            userList = searchAllUsers(searchUser, startswith, includes);
         } catch (Exception ex) {
             throw new UserException(UserException.DATABASE_ERROR);
         }
@@ -179,10 +176,10 @@ public class UserDAO {
      * @return List of users
      * @throws DataAccessException on error
      */
-    @SuppressWarnings("unchecked")
-    private List<UserVO> searchAllUsers(final UserVO searchUser) {
+    //@SuppressWarnings("unchecked")
+    private List<UserVO> searchAllUsers(final UserVO searchUser, final boolean startswith, final boolean includes) {
         var userSpec = new UserSpecification();
-        var search = populateSearchOperation(searchUser);
+        var search = populateSearchOperation(searchUser, startswith, includes);
         if (StringUtils.hasText(searchUser.getName())) {
             userSpec.add(new SearchCriteria("name", searchUser.getName(), search));
         }
@@ -200,15 +197,15 @@ public class UserDAO {
         return users.stream().map(this::convertToUserVO).toList();
     }
 
-    private User convertToUser(final UserVO userVO) {
+    private User convertToUser(final UserVO userVO, final String currentLoggedInUser) {
         var user = new User();
         user.setName(userVO.getName());
         user.setEmail(userVO.getEmail());
         user.setPassword(userVO.getPassword());
         user.setExpired(userVO.getExpired());
         user.setRole(userVO.getRole());
-        user.setCreatedBy(userVO.getCreatedBy());
-        user.setModifiedBy(userVO.getLastModifiedBy());
+        user.setCreatedBy(currentLoggedInUser);
+        user.setModifiedBy(currentLoggedInUser);
         return user;
     }
 
@@ -220,16 +217,16 @@ public class UserDAO {
         userVO.setPassword(user.getPassword());
         userVO.setRole(user.getRole());
         userVO.setExpired(user.getExpired());
-        userVO.setCreatedBy(user.getCreatedBy());
-        userVO.setLastModifiedBy(user.getModifiedBy());
         return userVO;
     }
 
-    private SearchOperation populateSearchOperation(final UserVO searchUser) {
+    private SearchOperation populateSearchOperation(final UserVO searchUser,
+                                                    final boolean startswith,
+                                                    final boolean includes) {
         SearchOperation searchOperation;
-        if (searchUser.getIncludes() != null && Boolean.TRUE.equals(searchUser.getIncludes())) {
+        if (includes) {
             searchOperation = SearchOperation.MATCH;
-        } else if (searchUser.getStartsWith() != null && Boolean.TRUE.equals(searchUser.getStartsWith())) {
+        } else if (startswith) {
             searchOperation = SearchOperation.MATCH_START;
         } else {
             searchOperation = SearchOperation.EQUAL;

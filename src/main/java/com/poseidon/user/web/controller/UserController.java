@@ -2,9 +2,8 @@ package com.poseidon.user.web.controller;
 
 import com.poseidon.user.domain.UserVO;
 import com.poseidon.user.exception.UserException;
-import com.poseidon.user.service.UserService;
 import com.poseidon.user.service.SecurityService;
-import com.poseidon.user.web.form.Role;
+import com.poseidon.user.service.UserService;
 import com.poseidon.user.web.form.UserForm;
 import com.poseidon.util.CommonUtils;
 import org.codehaus.jackson.map.ObjectMapper;
@@ -23,12 +22,11 @@ import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
-import java.time.OffsetDateTime;
-import java.time.ZoneId;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+import static com.poseidon.user.web.form.Role.populateRoles;
 
 
 @Controller
@@ -85,75 +83,6 @@ public class UserController {
         return USER_LOG_IN;
     }
 
-
-    /**
-     * Used to list all users (can be done only by admin user).
-     *
-     * @param userForm userForm instance
-     * @return ModelAndView to render
-     */
-    @PostMapping("/user/ListAll.htm")
-    public ModelAndView listAll(final UserForm userForm) {
-        logger.info("ListAll method of user controller ");
-        List<UserVO> userList = userService.getAllUserDetails();
-        if (!userList.isEmpty()) {
-            userList.forEach(userIteration -> logger.info(" user detail {}", userIteration));
-        } else {
-            userForm.setStatusMessage("No user found");
-            userForm.setStatusMessageType(ERROR);
-        }
-        userForm.setUserVOs(userList);
-        userForm.setSearchUser(new UserVO());
-        userForm.setRoleList(populateRoles());
-        return new ModelAndView(USER_LIST, USER_FORM, userForm);
-    }
-
-    /**
-     * updates the user.
-     *
-     * @param userForm user instance
-     * @return ModelAndView to render
-     */
-    @PostMapping("/user/UpdateUser.htm")
-    public ModelAndView updateUser(final UserForm userForm) {
-        logger.info(" Inside updateUser method of user controller ");
-        try {
-            userForm.getUser().setLastModifiedBy(userForm.getLoggedInUser());
-            userForm.getUser().setModifiedDate(OffsetDateTime.now(ZoneId.systemDefault()));
-            userService.updateUser(userForm.getUser());
-            userForm.setStatusMessage("Successfully updated the user");
-            userForm.setStatusMessageType(SUCCESS);
-        } catch (Exception e1) {
-            userForm.setStatusMessage("Unable to update the user due to an error");
-            userForm.setStatusMessageType(ERROR);
-            logger.error(e1.getLocalizedMessage());
-            logger.info(UNKNOWN_ERROR);
-        }
-        return listAll(userForm);
-    }
-
-    /**
-     * delete the user.
-     *
-     * @param userForm userForm instance
-     * @return ModelAndView to render
-     */
-    @PostMapping("/user/DeleteUser.htm")
-    public ModelAndView deleteUser(final UserForm userForm) {
-        logger.info(" Inside DeleteUser method of user controller ");
-        try {
-            userService.deleteUser(userForm.getId());
-            userForm.setStatusMessage("Successfully deleted the user");
-            userForm.setStatusMessageType(SUCCESS);
-        } catch (Exception e1) {
-            userForm.setStatusMessage("Unable to delete the user due to an error");
-            userForm.setStatusMessageType(ERROR);
-            logger.error(e1.getLocalizedMessage());
-            logger.info(UNKNOWN_ERROR);
-        }
-        return listAll(userForm);
-    }
-
     /**
      * Screen to home.
      *
@@ -185,6 +114,70 @@ public class UserController {
     }
 
     /**
+     * Used to list all users (can be done only by admin user).
+     *
+     * @param userForm userForm instance
+     * @return ModelAndView to render
+     */
+    @PostMapping("/user/ListAll.htm")
+    public ModelAndView listAll(final UserForm userForm) {
+        logger.info("ListAll method of user controller ");
+        List<UserVO> userList = userService.getAllUserDetails();
+        if (userList.isEmpty()) {
+            userForm.setStatusMessage("No user found");
+            userForm.setStatusMessageType(ERROR);
+        }
+        userForm.setUserVOs(userList);
+        userForm.setSearchUser(new UserVO());
+        userForm.setRoleList(populateRoles());
+        return new ModelAndView(USER_LIST, USER_FORM, userForm);
+    }
+
+    /**
+     * save user using ajax call.
+     *
+     * @param selectName  String
+     * @param selectLogin String
+     * @param selectRole  String
+     * @param result      BindingResult
+     * @return String
+     */
+    @PostMapping("/user/saveUserAjax.htm")
+    public @ResponseBody
+    String saveUserAjax(@ModelAttribute("selectName") final String selectName,
+                        @ModelAttribute("selectLogin") final String selectLogin,
+                        @ModelAttribute("selectRole") final String selectRole,
+                        final BindingResult result) {
+        logger.info("SaveUserAjax method of user controller ");
+        UserVO ajaxUserVo = populateUserVO(selectName, selectLogin, selectRole);
+        userService.save(ajaxUserVo, currentLoggedInUser());
+        logger.info("Successfully saved user");
+        return allUsers();
+    }
+
+    /**
+     * updates the user.
+     *
+     * @param userForm user instance
+     * @return ModelAndView to render
+     */
+    @PostMapping("/user/UpdateUser.htm")
+    public ModelAndView updateUser(final UserForm userForm) {
+        logger.info(" Inside updateUser method of user controller ");
+        try {
+            userService.updateUser(userForm.getUser(), currentLoggedInUser());
+            userForm.setStatusMessage("Successfully updated the user");
+            userForm.setStatusMessageType(SUCCESS);
+        } catch (Exception e1) {
+            userForm.setStatusMessage("Unable to update the user due to an error");
+            userForm.setStatusMessageType(ERROR);
+            logger.error(e1.getLocalizedMessage());
+            logger.info(UNKNOWN_ERROR);
+        }
+        return listAll(userForm);
+    }
+
+    /**
      * Screen to search for a user.
      *
      * @param userForm userForm instance
@@ -195,7 +188,9 @@ public class UserController {
         logger.info(" Inside SearchUser method of user controller ");
         List<UserVO> userList = null;
         try {
-            userList = userService.searchUserDetails(userForm.getSearchUser());
+            userList = userService.searchUserDetails(userForm.getSearchUser(),
+                    userForm.isStartsWith(),
+                    userForm.isIncludes());
             if (userList != null && !userList.isEmpty()) {
                 userForm.setStatusMessage("Successfully fetched " + userList.size() + " Users");
                 userForm.setStatusMessageType("info");
@@ -217,57 +212,142 @@ public class UserController {
         return new ModelAndView(USER_LIST, USER_FORM, userForm);
     }
 
+    @PostMapping("/user/passwordExpire.htm")
+    public @ResponseBody
+    Boolean passwordExpiry(@ModelAttribute("id") final String id,
+                           final BindingResult result) {
+        var status = Boolean.TRUE;
+        try {
+            userService.expireUser(Long.valueOf(id));
+        } catch (Exception ex) {
+            status = Boolean.FALSE;
+            logger.error(ex.getLocalizedMessage(), ex);
+        }
+        return status;
+    }
 
-    /**
-     * populateRoles.
-     *
-     * @return List of String
-     */
-    private List<String> populateRoles() {
-        return Arrays.stream(Role.values()).map(Enum::name).toList();
+    @GetMapping("/user/getForEdit.htm")
+    public @ResponseBody
+    String getForEdit(@ModelAttribute("id") final String id,
+                      final BindingResult result) {
+        var sanitizedId = CommonUtils.sanitizedString(id);
+        logger.info("getForEdit method of user controller : {}", sanitizedId);
+        String response = null;
+        try {
+            var userVO = userService.getUserDetailsFromId(Long.valueOf(id));
+            if (userVO != null) {
+                var userEditMap = populateUserEditMap(userVO);
+                response = parseUserVO(userEditMap);
+            }
+        } catch (Exception ex) {
+            logger.error(ex.getLocalizedMessage(), ex);
+        }
+        return response;
+    }
+
+    @PutMapping("/user/updateUserAjax.htm")
+    public @ResponseBody
+    String updateUserAjax(@ModelAttribute("id") final String id,
+                          @ModelAttribute("name") final String name,
+                          @ModelAttribute("email") final String email,
+                          @ModelAttribute("role") final String role,
+                          final BindingResult result) {
+        var sanitizedId = CommonUtils.sanitizedString(id);
+        var sanitizedName = CommonUtils.sanitizedString(name);
+        var sanitizedEmail = CommonUtils.sanitizedString(email);
+        var sanitizedRole = CommonUtils.sanitizedString(role);
+        logger.info("updateUserAjax method of user controller with id {}, name {}, email {}, role {}",
+                sanitizedId, sanitizedName,
+                sanitizedEmail, sanitizedRole);
+        try {
+            var userVO = userService.getUserDetailsFromId(Long.valueOf(id));
+            if (userVO != null) {
+                userVO.setName(name);
+                userVO.setEmail(email);
+                userVO.setRole(role);
+                userService.updateUser(userVO, currentLoggedInUser());
+            }
+        } catch (Exception ex) {
+            logger.error(ex.getLocalizedMessage(), ex);
+        }
+        return allUsers();
+    }
+
+    @PostMapping("/user/PasswordReset.htm")
+    public ModelAndView reset(final UserForm userForm) {
+        logger.info("Password reset view of user controller");
+        return new ModelAndView("user/PasswordReset", USER_FORM, userForm);
+    }
+
+    @PostMapping("/user/changePasswordAndSaveIt.htm")
+    public @ResponseBody
+    String changePass(@ModelAttribute("current") final String current,
+                      @ModelAttribute("newPass") final String newPass,
+                      final BindingResult result) {
+        var sanitizedCurrent = CommonUtils.sanitizedString(current);
+        var sanitizedPass = CommonUtils.sanitizedString(newPass);
+        logger.info("ChangePass of user controller from {} to {}", sanitizedCurrent,
+                sanitizedPass);
+        String message;
+        var auth = SecurityContextHolder.getContext().getAuthentication();
+        // get the user info
+        try {
+            var userList = userService.searchUserDetails(formSearch(auth.getName()), true, true);
+            if (userService.comparePasswords(current, userList.get(0).getPassword())) {
+                var userVO = userList.get(0);
+                userService.updateWithNewPassword(userVO, newPass, currentLoggedInUser());
+                message = messageJSON(SUCCESS, "The password has been reset !!");
+            } else {
+                message = messageJSON("message", "The password didnt match with the one already saved !!");
+            }
+        } catch (UserException ex) {
+            message = messageJSON(ERROR, "Unknown error occurred !!");
+            logger.error(ex.getLocalizedMessage(), ex);
+        }
+        return message;
     }
 
     /**
-     * save user using ajax call.
+     * delete the user.
      *
-     * @param selectName  String
-     * @param selectLogin String
-     * @param selectRole  String
-     * @param result      BindingResult
-     * @return String
+     * @param userForm userForm instance
+     * @return ModelAndView to render
      */
-    @PostMapping("/user/saveUserAjax.htm")
-    public @ResponseBody
-    String saveUserAjax(@ModelAttribute("selectName") final String selectName,
-                        @ModelAttribute("selectLogin") final String selectLogin,
-                        @ModelAttribute("selectRole") final String selectRole,
-                        final BindingResult result) {
-        logger.info("saveUserAjax method of user controller ");
+    @PostMapping("/user/DeleteUser.htm")
+    public ModelAndView deleteUser(final UserForm userForm) {
+        logger.info(" Inside DeleteUser method of user controller ");
+        try {
+            userService.deleteUser(userForm.getId());
+            userForm.setStatusMessage("Successfully deleted the user");
+            userForm.setStatusMessageType(SUCCESS);
+        } catch (Exception e1) {
+            userForm.setStatusMessage("Unable to delete the user due to an error");
+            userForm.setStatusMessageType(ERROR);
+            logger.error(e1.getLocalizedMessage());
+            logger.info(UNKNOWN_ERROR);
+        }
+        return listAll(userForm);
+    }
+
+
+    private UserVO populateUserVO(final String selectName,
+                                  final String selectLogin,
+                                  final String selectRole) {
         var ajaxUserVo = new UserVO();
         ajaxUserVo.setName(selectName);
         ajaxUserVo.setEmail(selectLogin);
         ajaxUserVo.setRole(selectRole);
-        //todo : find out a way to get current user
         ajaxUserVo.setPassword("password");
-        ajaxUserVo.setCreatedDate(OffsetDateTime.now(ZoneId.systemDefault()));
-        ajaxUserVo.setModifiedDate(OffsetDateTime.now(ZoneId.systemDefault()));
-        ajaxUserVo.setCreatedBy("-ajax-");
-        ajaxUserVo.setLastModifiedBy("-ajax-");
-        try {
-            userService.save(ajaxUserVo);
-        } catch (UserException ex) {
-            logger.error(ex.getLocalizedMessage());
-            logger.error(EXCEPTION_IN_CONTROLLER, ex.exceptionType);
-            if (ex.getExceptionType().equalsIgnoreCase(UserException.DATABASE_ERROR)) {
-                logger.info(DB_ERROR);
-            } else {
-                logger.info(UNKNOWN_ERROR);
-            }
-        } catch (Exception e1) {
-            logger.error(e1.getLocalizedMessage());
-            logger.info(UNKNOWN_ERROR);
+        return ajaxUserVo;
+    }
+
+    private String currentLoggedInUser() {
+        String username = "";
+        var auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth != null) {
+            username = auth.getName();
         }
-        return allUsers();
+        return username;
     }
 
     private String allUsers() {
@@ -296,38 +376,6 @@ public class UserController {
         return response;
     }
 
-    @PostMapping("/user/passwordExpire.htm")
-    public @ResponseBody
-    Boolean passwordExpiry(@ModelAttribute("id") final String id,
-                           final BindingResult result) {
-        Boolean status = Boolean.TRUE;
-        try {
-            userService.expireUser(Long.valueOf(id));
-        } catch (Exception ex) {
-            status = Boolean.FALSE;
-            logger.error(ex.getLocalizedMessage(), ex);
-        }
-        return status;
-    }
-
-    @GetMapping("/user/getForEdit.htm")
-    public @ResponseBody
-    String getForEdit(@ModelAttribute("id") final String id,
-                      final BindingResult result) {
-        var sanitizedId = CommonUtils.sanitizedString(id);
-        logger.info("getForEdit method of user controller : {}", sanitizedId);
-        String response = null;
-        try {
-            UserVO userVO = userService.getUserDetailsFromId(Long.valueOf(id));
-            if (userVO != null) {
-                var userEditMap = populateUserEditMap(userVO);
-                response = parseUserVO(userEditMap);
-            }
-        } catch (Exception ex) {
-            logger.error(ex.getLocalizedMessage(), ex);
-        }
-        return response;
-    }
 
     private Map<String, String> populateUserEditMap(final UserVO userVO) {
         Map<String, String> userEditMap = new HashMap<>();
@@ -349,68 +397,6 @@ public class UserController {
         }
         logger.info("User list json : {}", response);
         return response;
-    }
-
-    @PutMapping("/user/updateUserAjax.htm")
-    public @ResponseBody
-    String updateUserAjax(@ModelAttribute("id") final String id,
-                          @ModelAttribute("name") final String name,
-                          @ModelAttribute("email") final String email,
-                          @ModelAttribute("role") final String role,
-                          final BindingResult result) {
-        var sanitizedId = CommonUtils.sanitizedString(id);
-        var sanitizedName = CommonUtils.sanitizedString(name);
-        var sanitizedEmail = CommonUtils.sanitizedString(email);
-        var sanitizedRole = CommonUtils.sanitizedString(role);
-        logger.info("updateUserAjax method of user controller with id {}, name {}, email {}, role {}",
-                sanitizedId, sanitizedName,
-                sanitizedEmail, sanitizedRole);
-        try {
-            var userVO = userService.getUserDetailsFromId(Long.valueOf(id));
-            if (userVO != null) {
-                userVO.setName(name);
-                userVO.setEmail(email);
-                userVO.setRole(role);
-                userService.updateUser(userVO);
-            }
-        } catch (Exception ex) {
-            logger.error(ex.getLocalizedMessage(), ex);
-        }
-        return allUsers();
-    }
-
-    @PostMapping("/user/PasswordReset.htm")
-    public ModelAndView reset(final UserForm userForm) {
-        logger.info("Password reset view of user controller");
-        return new ModelAndView("user/PasswordReset", USER_FORM, userForm);
-    }
-
-    @PostMapping("/user/changePasswordAndSaveIt.htm")
-    public @ResponseBody
-    String changePass(@ModelAttribute("current") final String current,
-                      @ModelAttribute("newPass") final String newPass,
-                      final BindingResult result) {
-        var sanitizedCurrent = CommonUtils.sanitizedString(current);
-        var sanitizedPass = CommonUtils.sanitizedString(newPass);
-        logger.info("ChangePass of user controller from {} to {}", sanitizedCurrent,
-                sanitizedPass);
-        String message;
-        var auth = SecurityContextHolder.getContext().getAuthentication();
-        // get the user info
-        try {
-            var userList = userService.searchUserDetails(formSearch(auth.getName()));
-            if (userService.comparePasswords(current, userList.get(0).getPassword())) {
-                var userVO = userList.get(0);
-                userService.updateWithNewPassword(userVO, newPass);
-                message = messageJSON(SUCCESS, "The password has been reset !!");
-            } else {
-                message = messageJSON("message", "The password didnt match with the one already saved !!");
-            }
-        } catch (UserException ex) {
-            message = messageJSON(ERROR, "Unknown error occurred !!");
-            logger.error(ex.getLocalizedMessage(), ex);
-        }
-        return message;
     }
 
     private UserVO formSearch(final String name) {

@@ -11,7 +11,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyBoolean;
 import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
 
@@ -28,13 +30,7 @@ class UserServiceTest {
 
     @Test
     void saveSuccess() {
-        Assertions.assertAll(() -> userService.save(new UserVO()));
-    }
-
-    @Test
-    void saveFailure() throws UserException {
-        doThrow(new UserException(UserException.DATABASE_ERROR)).when(userDAO).save(any());
-        Assertions.assertThrows(UserException.class, () -> userService.save(new UserVO()));
+        Assertions.assertAll(() -> userService.save(new UserVO(), "admin"));
     }
 
     @Test
@@ -51,13 +47,14 @@ class UserServiceTest {
 
     @Test
     void updateUserSuccess() {
-        Assertions.assertAll(() -> userService.updateUser(new UserVO()));
+        Assertions.assertAll(() -> userService.updateUser(new UserVO(), "admin"));
     }
 
     @Test
     void updateUserFailure() throws UserException {
-        doThrow(new UserException(UserException.DATABASE_ERROR)).when(userDAO).updateUser(any());
-        Assertions.assertAll(() -> userService.updateUser(new UserVO()));
+        doThrow(new UserException(UserException.DATABASE_ERROR)).when(userDAO)
+                .updateUser(any(), anyString());
+        Assertions.assertAll(() -> userService.updateUser(new UserVO(), "admin"));
     }
 
     @Test
@@ -73,12 +70,14 @@ class UserServiceTest {
 
     @Test
     void searchUserDetailsSuccess() throws UserException {
-        Assertions.assertNotNull(userService.searchUserDetails(new UserVO()));
+        Assertions.assertNotNull(userService.searchUserDetails(new UserVO(), false, false));
     }
 
     @Test
     void searchUserDetailsFailure() throws UserException {
-        doThrow(new UserException(UserException.DATABASE_ERROR)).when(userDAO).searchUserDetails(any());
-        Assertions.assertThrows(UserException.class, () -> userService.searchUserDetails(new UserVO()));
+        doThrow(new UserException(UserException.DATABASE_ERROR))
+                .when(userDAO).searchUserDetails(any(), anyBoolean(), anyBoolean());
+        Assertions.assertThrows(UserException.class,
+                () -> userService.searchUserDetails(new UserVO(), false, false));
     }
 }

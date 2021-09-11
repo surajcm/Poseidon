@@ -69,9 +69,9 @@ class UserControllerTest {
         String selectLogin = "apple";
         String selectRole = "admin";
         mvc.perform(post("/user/saveUserAjax.htm")
-                .param("selectName", selectName)
-                .param("selectLogin", selectLogin)
-                .param("selectRole", selectRole))
+                        .param("selectName", selectName)
+                        .param("selectLogin", selectLogin)
+                        .param("selectRole", selectRole))
                 .andExpect(status().isOk());
     }
 }

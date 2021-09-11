@@ -22,6 +22,8 @@ public class UserForm {
     private String statusMessage;
     private String statusMessageType;
     private List<String> roleList;
+    private boolean startsWith;
+    private boolean includes;
 
     public Long getId() {
         return id;
@@ -133,6 +135,22 @@ public class UserForm {
 
     public void setRoleList(final List<String> roleList) {
         this.roleList = roleList;
+    }
+
+    public boolean isStartsWith() {
+        return startsWith;
+    }
+
+    public void setStartsWith(final boolean startsWith) {
+        this.startsWith = startsWith;
+    }
+
+    public boolean isIncludes() {
+        return includes;
+    }
+
+    public void setIncludes(final boolean includes) {
+        this.includes = includes;
     }
 
     /**

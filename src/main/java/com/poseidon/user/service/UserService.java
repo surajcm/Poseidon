@@ -39,17 +39,11 @@ public class UserService {
      * create new user.
      *
      * @param user user
-     * @throws UserException on error
      */
-    public void save(final UserVO user) throws UserException {
-        try {
-            user.setPassword(bcryptPasswordEncoder.encode(user.getPassword()));
-            user.setExpired(false);
-            userDAO.save(user);
-        } catch (UserException ex) {
-            LOG.error(EXCEPTION_TYPE_IN_SERVICE_IMPL, ex.getExceptionType());
-            throw new UserException(ex.getExceptionType());
-        }
+    public void save(final UserVO user, final String currentLoggedInUser) {
+        user.setPassword(bcryptPasswordEncoder.encode(user.getPassword()));
+        user.setExpired(false);
+        userDAO.save(user, currentLoggedInUser);
     }
 
     /**
@@ -76,9 +70,9 @@ public class UserService {
      *
      * @param user user
      */
-    public void updateUser(final UserVO user) {
+    public void updateUser(final UserVO user, final String loggedInUser) {
         try {
-            userDAO.updateUser(user);
+            userDAO.updateUser(user, loggedInUser);
         } catch (UserException ex) {
             LOG.error(ex.getMessage());
         }
@@ -104,10 +98,12 @@ public class UserService {
      * @return List of user
      * @throws UserException on error
      */
-    public List<UserVO> searchUserDetails(final UserVO searchUser) throws UserException {
+    public List<UserVO> searchUserDetails(final UserVO searchUser,
+                                          final boolean startswith,
+                                          final boolean includes) throws UserException {
         List<UserVO> userList;
         try {
-            userList = userDAO.searchUserDetails(searchUser);
+            userList = userDAO.searchUserDetails(searchUser, startswith, includes);
         } catch (UserException ex) {
             LOG.error(EXCEPTION_TYPE_IN_SERVICE_IMPL, ex.getExceptionType());
             throw new UserException(ex.getExceptionType());
@@ -127,10 +123,10 @@ public class UserService {
         return bcryptPasswordEncoder.matches(passedIn, currentUserPass);
     }
 
-    public void updateWithNewPassword(final UserVO userVO, final String newPass) {
+    public void updateWithNewPassword(final UserVO userVO, final String newPass, final String currentLoggedInUser) {
         userVO.setPassword(bcryptPasswordEncoder.encode(newPass));
         try {
-            userDAO.updateUser(userVO);
+            userDAO.updateUser(userVO, currentLoggedInUser);
         } catch (UserException ex) {
             LOG.error(ex.getMessage());
         }

@@ -64,7 +64,7 @@
                             <div class="form-row">
                                 <div class="form-group col-md-6">
                                     <div class="form-check">
-                                      <form:checkbox path="searchUser.includes" cssClass="form-check-input" id="includes" value="" />
+                                      <form:checkbox path="includes" cssClass="form-check-input" id="includes" value="" />
                                       <label class="form-check-label" for="includes">
                                         <spring:message code="user.includes" text="Includes" />
                                       </label>
@@ -72,7 +72,7 @@
                                 </div>
                                 <div class="form-group col-md-6">    
                                     <div class="form-check">
-                                      <form:checkbox path="searchUser.startsWith" cssClass="form-check-input" id="startswith" value="" />
+                                      <form:checkbox path="startsWith" cssClass="form-check-input" id="startswith" value="" />
                                       <label class="form-check-label" for="startsWith">
                                         <spring:message code="user.startsWith" text="Starts with" />
                                       </label>
