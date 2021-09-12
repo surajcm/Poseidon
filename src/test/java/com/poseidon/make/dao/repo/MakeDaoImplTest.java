@@ -36,12 +36,6 @@ class MakeDaoImplTest {
     }
 
     @Test
-    void listAllMakesFailure() {
-        when(makeRepository.findAll()).thenThrow(new CannotAcquireLockException("DB error"));
-        Assertions.assertThrows(MakeException.class, makeDao::listAllMakes);
-    }
-
-    @Test
     void listAllMakesAndModelsSuccess() throws MakeException {
         when(modelRepository.findAll()).thenReturn(mockModels());
         Assertions.assertNotNull(makeDao.listAllMakesAndModels());

@@ -2,13 +2,13 @@ package com.poseidon.user.service;
 
 import com.poseidon.user.dao.UserDAO;
 import com.poseidon.user.domain.UserVO;
-import com.poseidon.user.exception.UserException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 
 @Service
@@ -51,17 +51,9 @@ public class UserService {
      *
      * @param id id
      * @return UserVO
-     * @throws UserException on error
      */
-    public UserVO getUserDetailsFromId(final Long id) throws UserException {
-        UserVO userVO;
-        try {
-            userVO = userDAO.getUserDetailsFromId(id);
-        } catch (UserException ex) {
-            LOG.error(EXCEPTION_TYPE_IN_SERVICE_IMPL, ex.getExceptionType());
-            throw new UserException(ex.getExceptionType());
-        }
-        return userVO;
+    public Optional<UserVO> getUserDetailsFromId(final Long id) {
+        return userDAO.getUserDetailsFromId(id);
     }
 
 
@@ -71,11 +63,7 @@ public class UserService {
      * @param user user
      */
     public void updateUser(final UserVO user, final String loggedInUser) {
-        try {
-            userDAO.updateUser(user, loggedInUser);
-        } catch (UserException ex) {
-            LOG.error(ex.getMessage());
-        }
+        userDAO.updateUser(user, loggedInUser);
     }
 
     /**
@@ -84,11 +72,7 @@ public class UserService {
      * @param id id of the user
      */
     public void deleteUser(final Long id) {
-        try {
-            userDAO.deleteUser(id);
-        } catch (UserException ex) {
-            LOG.error(ex.getMessage());
-        }
+        userDAO.deleteUser(id);
     }
 
     /**
@@ -96,27 +80,15 @@ public class UserService {
      *
      * @param searchUser UserVO
      * @return List of user
-     * @throws UserException on error
      */
     public List<UserVO> searchUserDetails(final UserVO searchUser,
-                                          final boolean startswith,
-                                          final boolean includes) throws UserException {
-        List<UserVO> userList;
-        try {
-            userList = userDAO.searchUserDetails(searchUser, startswith, includes);
-        } catch (UserException ex) {
-            LOG.error(EXCEPTION_TYPE_IN_SERVICE_IMPL, ex.getExceptionType());
-            throw new UserException(ex.getExceptionType());
-        }
-        return userList;
+                                          final boolean startsWith,
+                                          final boolean includes) {
+        return userDAO.searchUserDetails(searchUser, startsWith, includes);
     }
 
     public void expireUser(final Long id) {
-        try {
-            userDAO.expireUser(id);
-        } catch (UserException ex) {
-            LOG.error(ex.getMessage());
-        }
+        userDAO.expireUser(id);
     }
 
     public boolean comparePasswords(final String passedIn, final String currentUserPass) {
@@ -125,11 +97,7 @@ public class UserService {
 
     public void updateWithNewPassword(final UserVO userVO, final String newPass, final String currentLoggedInUser) {
         userVO.setPassword(bcryptPasswordEncoder.encode(newPass));
-        try {
-            userDAO.updateUser(userVO, currentLoggedInUser);
-        } catch (UserException ex) {
-            LOG.error(ex.getMessage());
-        }
+        userDAO.updateUser(userVO, currentLoggedInUser);
     }
 
 }

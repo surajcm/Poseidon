@@ -2,7 +2,6 @@ package com.poseidon.transaction.service;
 
 import com.poseidon.transaction.dao.TransactionDAO;
 import com.poseidon.transaction.domain.TransactionVO;
-import com.poseidon.transaction.exception.TransactionException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -14,7 +13,6 @@ import java.util.ArrayList;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
@@ -23,29 +21,14 @@ class TransactionServiceTest {
     private final TransactionService transactionService = new TransactionService(transactionDAO);
 
     @Test
-    void listTodayTransactionsSuccess() throws TransactionException {
+    void listTodayTransactionsSuccess() {
         when(transactionDAO.listTodaysTransactions()).thenReturn(new ArrayList<>());
         Assertions.assertNotNull(transactionService.listTodaysTransactions());
     }
 
     @Test
-    void listTodayTransactionsFailure() throws TransactionException {
-        when(transactionDAO.listTodaysTransactions())
-                .thenThrow(new TransactionException(TransactionException.DATABASE_ERROR));
-        Assertions.assertThrows(TransactionException.class, transactionService::listTodaysTransactions);
-    }
-
-    @Test
-    void saveTransactionSuccess() throws TransactionException {
+    void saveTransactionSuccess() {
         Assertions.assertNull(transactionService.saveTransaction(Mockito.mock(TransactionVO.class)));
-    }
-
-    @Test
-    void saveTransactionFailure() throws TransactionException {
-        when(transactionDAO.saveTransaction(any()))
-                .thenThrow(new TransactionException(TransactionException.DATABASE_ERROR));
-        Assertions.assertThrows(TransactionException.class,
-                () -> transactionService.saveTransaction(Mockito.mock(TransactionVO.class)));
     }
 
     @Test
@@ -55,16 +38,8 @@ class TransactionServiceTest {
     }
 
     @Test
-    void fetchTransactionFromIdSuccess() throws TransactionException {
+    void fetchTransactionFromIdSuccess() {
         Assertions.assertNull(transactionService.fetchTransactionFromId(1234L));
-    }
-
-    @Test
-    void fetchTransactionFromIdFailure() throws TransactionException {
-        when(transactionDAO.fetchTransactionFromId(anyLong()))
-                .thenThrow(new TransactionException(TransactionException.DATABASE_ERROR));
-        Assertions.assertThrows(TransactionException.class,
-                () -> transactionService.fetchTransactionFromId(1234L));
     }
 
     @Test
@@ -83,28 +58,13 @@ class TransactionServiceTest {
     }
 
     @Test
-    void deleteTransactionFailure() throws TransactionException {
-        doThrow(new TransactionException(TransactionException.DATABASE_ERROR))
-                .when(transactionDAO).deleteTransaction(anyLong());
-        Assertions.assertThrows(TransactionException.class,
-                () -> transactionService.deleteTransaction(1234L));
-    }
-
-    @Test
     void updateTransactionStatusSuccess() {
         Assertions.assertAll(() -> transactionService.updateTransactionStatus(anyLong(), anyString()));
     }
 
     @Test
-    void listAllTransactionsSuccess() throws TransactionException {
+    void listAllTransactionsSuccess() {
         when(transactionDAO.listAllTransactions()).thenReturn(new ArrayList<>());
         Assertions.assertNotNull(transactionService.listAllTransactions());
-    }
-
-    @Test
-    void listAllTransactionsFailure() throws TransactionException {
-        when(transactionDAO.listAllTransactions())
-                .thenThrow(new TransactionException(TransactionException.DATABASE_ERROR));
-        Assertions.assertThrows(TransactionException.class, transactionService::listAllTransactions);
     }
 }

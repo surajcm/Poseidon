@@ -1,10 +1,9 @@
-package com.poseidon.invoice.service.impl;
+package com.poseidon.invoice.service;
 
 import com.poseidon.invoice.dao.InvoiceDAO;
 import com.poseidon.invoice.domain.InvoiceVO;
 import com.poseidon.invoice.exception.InvoiceException;
 import com.poseidon.transaction.domain.TransactionVO;
-import com.poseidon.transaction.exception.TransactionException;
 import com.poseidon.transaction.service.TransactionService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -56,13 +55,7 @@ public class InvoiceService {
     }
 
     private List<TransactionVO> getTransactionVOS() {
-        List<TransactionVO> transactionVOs = null;
-        try {
-            transactionVOs = transactionService.listTodaysTransactions();
-        } catch (TransactionException ex) {
-            LOG.error(ex.getLocalizedMessage(), ex);
-        }
-        return transactionVOs;
+        return transactionService.listTodaysTransactions();
     }
 
     private List<String> fetchTagNoFromListOfTransactionVOs(final List<TransactionVO> transactionVOs) {

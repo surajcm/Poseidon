@@ -17,6 +17,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
 
+import static com.rainerhahnekamp.sneakythrow.Sneaky.sneak;
+
 /**
  * user: Suraj.
  * Date: Jun 2, 2012
@@ -48,15 +50,8 @@ public class MakeDao {
      * @throws MakeException on error
      */
     public List<MakeAndModelVO> listAllMakes() throws MakeException {
-        List<MakeAndModelVO> makeVOs;
-        try {
-            var makes = makeRepository.findAll();
-            makeVOs = makeAndModelEntityConverter.convertMakeToMakeAndModelVOs(makes);
-        } catch (DataAccessException ex) {
-            LOG.error(ex.getLocalizedMessage());
-            throw new MakeException(MakeException.DATABASE_ERROR, ex.getMessage());
-        }
-        return makeVOs;
+        var makes = sneak(makeRepository::findAll);
+        return makeAndModelEntityConverter.convertMakeToMakeAndModelVOs(makes);
     }
 
     /**

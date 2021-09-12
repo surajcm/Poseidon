@@ -1,7 +1,6 @@
 package com.poseidon.user.web.controller;
 
 import com.poseidon.user.domain.UserVO;
-import com.poseidon.user.exception.UserException;
 import com.poseidon.user.service.SecurityService;
 import com.poseidon.user.service.UserService;
 import com.poseidon.user.web.form.UserForm;
@@ -128,7 +127,6 @@ public class UserController {
             userForm.setStatusMessageType(ERROR);
         }
         userForm.setUserVOs(userList);
-        userForm.setSearchUser(new UserVO());
         userForm.setRoleList(populateRoles());
         return new ModelAndView(USER_LIST, USER_FORM, userForm);
     }
@@ -164,16 +162,9 @@ public class UserController {
     @PostMapping("/user/UpdateUser.htm")
     public ModelAndView updateUser(final UserForm userForm) {
         logger.info(" Inside updateUser method of user controller ");
-        try {
-            userService.updateUser(userForm.getUser(), currentLoggedInUser());
-            userForm.setStatusMessage("Successfully updated the user");
-            userForm.setStatusMessageType(SUCCESS);
-        } catch (Exception e1) {
-            userForm.setStatusMessage("Unable to update the user due to an error");
-            userForm.setStatusMessageType(ERROR);
-            logger.error(e1.getLocalizedMessage());
-            logger.info(UNKNOWN_ERROR);
-        }
+        userService.updateUser(userForm.getUser(), currentLoggedInUser());
+        userForm.setStatusMessage("Successfully updated the user");
+        userForm.setStatusMessageType(SUCCESS);
         return listAll(userForm);
     }
 
@@ -186,26 +177,16 @@ public class UserController {
     @PostMapping("/user/SearchUser.htm")
     public ModelAndView searchUser(final UserForm userForm) {
         logger.info(" Inside SearchUser method of user controller ");
-        List<UserVO> userList = null;
-        try {
-            userList = userService.searchUserDetails(userForm.getSearchUser(),
-                    userForm.isStartsWith(),
-                    userForm.isIncludes());
-            if (userList != null && !userList.isEmpty()) {
-                userForm.setStatusMessage("Successfully fetched " + userList.size() + " Users");
-                userForm.setStatusMessageType("info");
-            }
-        } catch (UserException ex) {
-            userForm.setStatusMessage("Unable to search due to a database error");
+        List<UserVO> userList = userService.searchUserDetails(userForm.getSearchUser(),
+                userForm.isStartsWith(),
+                userForm.isIncludes());
+        if (!userList.isEmpty()) {
+            userForm.setStatusMessage("Successfully fetched " + userList.size() + " Users");
+            userForm.setStatusMessageType("info");
+            userList.stream().map(UserVO::toString).forEach(logger::info);
+        } else {
+            userForm.setStatusMessage("No results found");
             userForm.setStatusMessageType(ERROR);
-            logger.error(ex.getLocalizedMessage());
-        } catch (Exception e1) {
-            userForm.setStatusMessage("Unable to search due to an error");
-            userForm.setStatusMessageType(ERROR);
-            logger.error(e1.getLocalizedMessage());
-        }
-        if (userList != null) {
-            userList.stream().map(userIteration -> " user detail " + userIteration.toString()).forEach(logger::info);
         }
         userForm.setUserVOs(userList);
         userForm.setRoleList(populateRoles());
@@ -216,14 +197,8 @@ public class UserController {
     public @ResponseBody
     Boolean passwordExpiry(@ModelAttribute("id") final String id,
                            final BindingResult result) {
-        var status = Boolean.TRUE;
-        try {
-            userService.expireUser(Long.valueOf(id));
-        } catch (Exception ex) {
-            status = Boolean.FALSE;
-            logger.error(ex.getLocalizedMessage(), ex);
-        }
-        return status;
+        userService.expireUser(Long.valueOf(id));
+        return Boolean.TRUE;
     }
 
     @GetMapping("/user/getForEdit.htm")
@@ -233,14 +208,10 @@ public class UserController {
         var sanitizedId = CommonUtils.sanitizedString(id);
         logger.info("getForEdit method of user controller : {}", sanitizedId);
         String response = null;
-        try {
-            var userVO = userService.getUserDetailsFromId(Long.valueOf(id));
-            if (userVO != null) {
-                var userEditMap = populateUserEditMap(userVO);
-                response = parseUserVO(userEditMap);
-            }
-        } catch (Exception ex) {
-            logger.error(ex.getLocalizedMessage(), ex);
+        var userVO = userService.getUserDetailsFromId(Long.valueOf(id));
+        if (userVO.isPresent()) {
+            var userEditMap = populateUserEditMap(userVO.get());
+            response = parseUserVO(userEditMap);
         }
         return response;
     }
@@ -261,11 +232,11 @@ public class UserController {
                 sanitizedEmail, sanitizedRole);
         try {
             var userVO = userService.getUserDetailsFromId(Long.valueOf(id));
-            if (userVO != null) {
-                userVO.setName(name);
-                userVO.setEmail(email);
-                userVO.setRole(role);
-                userService.updateUser(userVO, currentLoggedInUser());
+            if (userVO.isPresent()) {
+                userVO.get().setName(name);
+                userVO.get().setEmail(email);
+                userVO.get().setRole(role);
+                userService.updateUser(userVO.get(), currentLoggedInUser());
             }
         } catch (Exception ex) {
             logger.error(ex.getLocalizedMessage(), ex);
@@ -291,18 +262,13 @@ public class UserController {
         String message;
         var auth = SecurityContextHolder.getContext().getAuthentication();
         // get the user info
-        try {
-            var userList = userService.searchUserDetails(formSearch(auth.getName()), true, true);
-            if (userService.comparePasswords(current, userList.get(0).getPassword())) {
-                var userVO = userList.get(0);
-                userService.updateWithNewPassword(userVO, newPass, currentLoggedInUser());
-                message = messageJSON(SUCCESS, "The password has been reset !!");
-            } else {
-                message = messageJSON("message", "The password didnt match with the one already saved !!");
-            }
-        } catch (UserException ex) {
-            message = messageJSON(ERROR, "Unknown error occurred !!");
-            logger.error(ex.getLocalizedMessage(), ex);
+        var userList = userService.searchUserDetails(formSearch(auth.getName()), true, true);
+        if (userService.comparePasswords(current, userList.get(0).getPassword())) {
+            var userVO = userList.get(0);
+            userService.updateWithNewPassword(userVO, newPass, currentLoggedInUser());
+            message = messageJSON(SUCCESS, "The password has been reset !!");
+        } else {
+            message = messageJSON("message", "The password didnt match with the one already saved !!");
         }
         return message;
     }
@@ -316,16 +282,9 @@ public class UserController {
     @PostMapping("/user/DeleteUser.htm")
     public ModelAndView deleteUser(final UserForm userForm) {
         logger.info(" Inside DeleteUser method of user controller ");
-        try {
-            userService.deleteUser(userForm.getId());
-            userForm.setStatusMessage("Successfully deleted the user");
-            userForm.setStatusMessageType(SUCCESS);
-        } catch (Exception e1) {
-            userForm.setStatusMessage("Unable to delete the user due to an error");
-            userForm.setStatusMessageType(ERROR);
-            logger.error(e1.getLocalizedMessage());
-            logger.info(UNKNOWN_ERROR);
-        }
+        userService.deleteUser(userForm.getId());
+        userForm.setStatusMessage("Successfully deleted the user");
+        userForm.setStatusMessageType(SUCCESS);
         return listAll(userForm);
     }
 

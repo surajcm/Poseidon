@@ -14,8 +14,10 @@ import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
 import java.util.List;
+import java.util.Optional;
 
 import static com.rainerhahnekamp.sneakythrow.Sneaky.sneak;
+import static com.rainerhahnekamp.sneakythrow.Sneaky.sneaked;
 
 @Repository
 @SuppressWarnings("unused")
@@ -76,21 +78,10 @@ public class UserDAO {
      *
      * @param id id
      * @return UserVO
-     * @throws UserException on error
      */
-    public UserVO getUserDetailsFromId(final Long id) throws UserException {
-        UserVO userVO = null;
-        try {
-            var optionalUser = userRepository.findById(id);
-            if (optionalUser.isPresent()) {
-                var user = optionalUser.get();
-                userVO = convertToUserVO(user);
-            }
-        } catch (Exception ex) {
-            LOG.error(ex.getLocalizedMessage());
-            throw new UserException(UserException.DATABASE_ERROR);
-        }
-        return userVO;
+    public Optional<UserVO> getUserDetailsFromId(final Long id) {
+        var optionalUser = sneak(() -> userRepository.findById(id));
+        return optionalUser.map(this::convertToUserVO);
     }
 
     /**
@@ -98,21 +89,16 @@ public class UserDAO {
      *
      * @param userVO user
      */
-    public void updateUser(final UserVO userVO, final String loggedInUser)
-            throws UserException {
-        try {
-            var optionalUser = userRepository.findById(userVO.getId());
-            if (optionalUser.isPresent()) {
-                var user = optionalUser.get();
-                user.setName(userVO.getName());
-                user.setEmail(userVO.getEmail());
-                user.setPassword(userVO.getPassword());
-                user.setRole(userVO.getRole());
-                user.setModifiedBy(loggedInUser);
-                userRepository.save(user);
-            }
-        } catch (Exception ex) {
-            throw new UserException(UserException.DATABASE_ERROR);
+    public void updateUser(final UserVO userVO, final String loggedInUser) {
+        var optionalUser = sneak(() -> userRepository.findById(userVO.getId()));
+        if (optionalUser.isPresent()) {
+            var user = optionalUser.get();
+            user.setName(userVO.getName());
+            user.setEmail(userVO.getEmail());
+            user.setPassword(userVO.getPassword());
+            user.setRole(userVO.getRole());
+            user.setModifiedBy(loggedInUser);
+            sneak(() -> userRepository.save(user));
         }
     }
 
@@ -121,32 +107,20 @@ public class UserDAO {
      *
      * @param id id
      */
-    public void deleteUser(final Long id) throws UserException {
-        try {
-            userRepository.deleteById(id);
-        } catch (Exception ex) {
-            throw new UserException(UserException.DATABASE_ERROR);
-        }
+    public void deleteUser(final Long id) {
+        sneaked(userRepository::deleteById);
     }
 
-    public UserVO findByEmail(final String email) throws UserException {
-        try {
-            var user = userRepository.findByEmail(email);
-            return convertToUserVO(user);
-        } catch (Exception ex) {
-            throw new UserException(UserException.DATABASE_ERROR);
-        }
+    public UserVO findByEmail(final String email) {
+        var user = sneak(() -> userRepository.findByEmail(email));
+        return convertToUserVO(user);
     }
 
-    public void expireUser(final Long id) throws UserException {
-        try {
-            var user = userRepository.findById(id);
-            if (user.isPresent()) {
-                user.get().setExpired(true);
-                userRepository.save(user.get());
-            }
-        } catch (Exception ex) {
-            throw new UserException(UserException.DATABASE_ERROR);
+    public void expireUser(final Long id) {
+        var user = sneak(() -> userRepository.findById(id));
+        if (user.isPresent()) {
+            user.get().setExpired(true);
+            sneak(() -> userRepository.save(user.get()));
         }
     }
 
@@ -155,18 +129,11 @@ public class UserDAO {
      *
      * @param searchUser UserVO
      * @return List of user
-     * @throws UserException on error
      */
     public List<UserVO> searchUserDetails(final UserVO searchUser,
-                                          final boolean startswith,
-                                          final boolean includes) throws UserException {
-        List<UserVO> userList;
-        try {
-            userList = searchAllUsers(searchUser, startswith, includes);
-        } catch (Exception ex) {
-            throw new UserException(UserException.DATABASE_ERROR);
-        }
-        return userList;
+                                          final boolean startsWith,
+                                          final boolean includes) {
+        return sneak(() -> searchAllUsers(searchUser, startsWith, includes));
     }
 
     /**
@@ -176,10 +143,11 @@ public class UserDAO {
      * @return List of users
      * @throws DataAccessException on error
      */
-    //@SuppressWarnings("unchecked")
-    private List<UserVO> searchAllUsers(final UserVO searchUser, final boolean startswith, final boolean includes) {
+    private List<UserVO> searchAllUsers(final UserVO searchUser,
+                                        final boolean startsWith,
+                                        final boolean includes) {
         var userSpec = new UserSpecification();
-        var search = populateSearchOperation(searchUser, startswith, includes);
+        var search = populateSearchOperation(startsWith, includes);
         if (StringUtils.hasText(searchUser.getName())) {
             userSpec.add(new SearchCriteria("name", searchUser.getName(), search));
         }
@@ -190,11 +158,7 @@ public class UserDAO {
             userSpec.add(new SearchCriteria("role", searchUser.getRole(), search));
         }
         List<User> resultUsers = userRepository.findAll(userSpec);
-        return convertUsersToUserVOs(resultUsers);
-    }
-
-    private List<UserVO> convertUsersToUserVOs(final List<User> users) {
-        return users.stream().map(this::convertToUserVO).toList();
+        return resultUsers.stream().map(this::convertToUserVO).toList();
     }
 
     private User convertToUser(final UserVO userVO, final String currentLoggedInUser) {
@@ -220,13 +184,12 @@ public class UserDAO {
         return userVO;
     }
 
-    private SearchOperation populateSearchOperation(final UserVO searchUser,
-                                                    final boolean startswith,
+    private SearchOperation populateSearchOperation(final boolean startsWith,
                                                     final boolean includes) {
         SearchOperation searchOperation;
         if (includes) {
             searchOperation = SearchOperation.MATCH;
-        } else if (startswith) {
+        } else if (startsWith) {
             searchOperation = SearchOperation.MATCH_START;
         } else {
             searchOperation = SearchOperation.EQUAL;

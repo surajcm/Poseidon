@@ -2,7 +2,6 @@ package com.poseidon.user.service;
 
 import com.poseidon.user.dao.UserDAO;
 import com.poseidon.user.domain.UserVO;
-import com.poseidon.user.exception.UserException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.GrantedAuthority;
@@ -29,12 +28,7 @@ public class UserDetailsServiceImpl implements UserDetailsService {
     @Override
     @Transactional(readOnly = true)
     public UserDetails loadUserByUsername(final String email) {
-        UserVO user = null;
-        try {
-            user = userDAO.findByEmail(email);
-        } catch (UserException ex) {
-            LOG.error(ex.getMessage());
-        }
+        UserVO user = userDAO.findByEmail(email);
         if (user == null) {
             throw new UsernameNotFoundException(email);
         }

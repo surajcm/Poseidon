@@ -6,7 +6,6 @@ import com.poseidon.make.domain.MakeAndModelVO;
 import com.poseidon.make.domain.MakeVO;
 import com.poseidon.make.service.MakeService;
 import com.poseidon.transaction.domain.TransactionVO;
-import com.poseidon.transaction.exception.TransactionException;
 import com.poseidon.transaction.service.TransactionService;
 import com.poseidon.transaction.web.form.TransactionForm;
 import com.poseidon.util.CommonUtils;
@@ -154,26 +153,20 @@ public class TransactionController {
         if (hasValidCustomerId(transactionForm)) {
             transactionVO.setCustomerId(transactionForm.getCustomerVO().getCustomerId());
         }
-        try {
-            if (transactionVO != null && transactionVO.getCustomerId() == null) {
-                transactionForm.getCustomerVO().setCreatedOn(OffsetDateTime.now(ZoneId.systemDefault()));
-                transactionForm.getCustomerVO().setModifiedOn(OffsetDateTime.now(ZoneId.systemDefault()));
-                transactionForm.getCustomerVO().setCreatedBy(transactionForm.getLoggedInUser());
-                transactionForm.getCustomerVO().setModifiedBy(transactionForm.getLoggedInUser());
-                var customer = customerService.saveCustomer(transactionForm.getCustomerVO());
-                var customerId = customer.getCustomerId();
-                transactionForm.getCustomerVO().setCustomerId(customerId);
-                transactionVO.setCustomerId(customerId);
-                LOG.info("the customer id from db is  {}", customerId);
-            }
-            String tagNo = transactionService.saveTransaction(transactionVO);
-            transactionForm.setStatusMessage("Successfully added the transaction, Tag Number is " + tagNo);
-            transactionForm.setStatusMessageType(SUCCESS);
-        } catch (TransactionException ex) {
-            transactionForm.setStatusMessage("Unable to create a new transaction due to a Data base error");
-            transactionForm.setStatusMessageType(ERROR);
-            LOG.error(ex.getLocalizedMessage());
+        if (transactionVO != null && transactionVO.getCustomerId() == null) {
+            transactionForm.getCustomerVO().setCreatedOn(OffsetDateTime.now(ZoneId.systemDefault()));
+            transactionForm.getCustomerVO().setModifiedOn(OffsetDateTime.now(ZoneId.systemDefault()));
+            transactionForm.getCustomerVO().setCreatedBy(transactionForm.getLoggedInUser());
+            transactionForm.getCustomerVO().setModifiedBy(transactionForm.getLoggedInUser());
+            var customer = customerService.saveCustomer(transactionForm.getCustomerVO());
+            var customerId = customer.getCustomerId();
+            transactionForm.getCustomerVO().setCustomerId(customerId);
+            transactionVO.setCustomerId(customerId);
+            LOG.info("the customer id from db is  {}", customerId);
         }
+        String tagNo = transactionService.saveTransaction(transactionVO);
+        transactionForm.setStatusMessage("Successfully added the transaction, Tag Number is " + tagNo);
+        transactionForm.setStatusMessageType(SUCCESS);
         transactionForm.setLoggedInUser(transactionForm.getLoggedInUser());
         transactionForm.setLoggedInRole(transactionForm.getLoggedInRole());
         transactionForm.setCurrentTransaction(new TransactionVO());
@@ -233,22 +226,18 @@ public class TransactionController {
         LOG.info("transactionForm is {}", sanitizedForm);
         TransactionVO transactionVO = null;
         Optional<CustomerVO> customerVO = Optional.empty();
-        try {
-            transactionVO = transactionService.fetchTransactionFromId(transactionForm.getId());
-            if (transactionVO != null && transactionVO.getCustomerId() != null && transactionVO.getCustomerId() > 0) {
-                customerVO = customerService.getCustomerFromId(transactionVO.getCustomerId());
+        transactionVO = transactionService.fetchTransactionFromId(transactionForm.getId());
+        if (transactionVO != null && transactionVO.getCustomerId() != null && transactionVO.getCustomerId() > 0) {
+            customerVO = customerService.getCustomerFromId(transactionVO.getCustomerId());
+        }
+        if (transactionVO != null && transactionVO.getMakeId() != null && transactionVO.getMakeId() > 0) {
+            transactionForm.setMakeVOs(getMakeVOS());
+            List<MakeAndModelVO> makeAndModelVOs;
+            makeAndModelVOs = makeService.getAllModelsFromMakeId(transactionVO.getMakeId());
+            if (makeAndModelVOs != null) {
+                transactionForm.setMakeAndModelVOs(makeAndModelVOs);
+                makeAndModelVOs.forEach(makeAndModelVO -> LOG.info("makeAndModel vo is {}", makeAndModelVO));
             }
-            if (transactionVO != null && transactionVO.getMakeId() != null && transactionVO.getMakeId() > 0) {
-                transactionForm.setMakeVOs(getMakeVOS());
-                List<MakeAndModelVO> makeAndModelVOs;
-                makeAndModelVOs = makeService.getAllModelsFromMakeId(transactionVO.getMakeId());
-                if (makeAndModelVOs != null) {
-                    transactionForm.setMakeAndModelVOs(makeAndModelVOs);
-                    makeAndModelVOs.forEach(makeAndModelVO -> LOG.info("makeAndModel vo is {}", makeAndModelVO));
-                }
-            }
-        } catch (TransactionException ex) {
-            LOG.error(ex.getLocalizedMessage());
         }
         if (transactionVO != null) {
             LOG.info("transactionVO {}", transactionVO);
@@ -323,26 +312,9 @@ public class TransactionController {
         LOG.info("DeleteTxn method of TransactionController ");
         var sanitizedForm = CommonUtils.sanitizedString(transactionForm.toString());
         LOG.info("TransactionForm values are {}", sanitizedForm);
-        try {
-            transactionService.deleteTransaction(transactionForm.getId());
-            transactionForm.setStatusMessage("Successfully deleted the transaction");
-            transactionForm.setStatusMessageType(SUCCESS);
-        } catch (TransactionException ex) {
-            transactionForm.setStatusMessage("Unable to delete the selected transaction due to a Data base error");
-            transactionForm.setStatusMessageType(ERROR);
-            LOG.error(ex.getLocalizedMessage());
-            LOG.error(EXCEPTION_IN_CONTROLLER, ex.exceptionType);
-            if (ex.getExceptionType().equalsIgnoreCase(TransactionException.DATABASE_ERROR)) {
-                LOG.info(DATA_FROM_DATABASE);
-            } else {
-                LOG.info(UNKNOWN_ERROR);
-            }
-        } catch (Exception ex) {
-            transactionForm.setStatusMessage("Unable to delete the selected transaction");
-            transactionForm.setStatusMessageType(ERROR);
-            LOG.error(ex.getLocalizedMessage());
-            LOG.info(UNKNOWN_ERROR);
-        }
+        transactionService.deleteTransaction(transactionForm.getId());
+        transactionForm.setStatusMessage("Successfully deleted the transaction");
+        transactionForm.setStatusMessageType(SUCCESS);
         List<TransactionVO> transactionVOs = getTodaysTransactionVOS();
         if (transactionVOs != null) {
             transactionVOs.forEach(transactionVO -> LOG.info(TRANSACTION_VO, transactionVO));

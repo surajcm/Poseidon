@@ -3,7 +3,6 @@ package com.poseidon.invoice.service;
 import com.poseidon.invoice.dao.InvoiceDAO;
 import com.poseidon.invoice.domain.InvoiceVO;
 import com.poseidon.invoice.exception.InvoiceException;
-import com.poseidon.invoice.service.impl.InvoiceService;
 import com.poseidon.transaction.domain.TransactionReportVO;
 import com.poseidon.transaction.domain.TransactionVO;
 import com.poseidon.transaction.exception.TransactionException;
@@ -45,13 +44,6 @@ class InvoiceServiceTest {
         when(invoiceDAO.fetchInvoiceForListOfTransactions(ArgumentMatchers.any()))
                 .thenReturn(new ArrayList<>());
         Assertions.assertNotNull(invoiceService.fetchInvoiceForListOfTransactions());
-    }
-
-    @Test
-    void fetchInvoiceForListOfTransactionsOnTransactionFailure() throws TransactionException, InvoiceException {
-        when(transactionService.listTodaysTransactions())
-                .thenThrow(new TransactionException(TransactionException.DATABASE_ERROR));
-        Assertions.assertNull(invoiceService.fetchInvoiceForListOfTransactions());
     }
 
     @Test

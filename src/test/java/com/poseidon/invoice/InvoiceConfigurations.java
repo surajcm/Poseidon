@@ -1,6 +1,6 @@
 package com.poseidon.invoice;
 
-import com.poseidon.invoice.service.impl.InvoiceService;
+import com.poseidon.invoice.service.InvoiceService;
 import com.poseidon.invoice.web.controller.InvoiceController;
 import com.poseidon.transaction.service.TransactionService;
 import org.mockito.Mockito;

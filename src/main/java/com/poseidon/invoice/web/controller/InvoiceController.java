@@ -2,11 +2,10 @@ package com.poseidon.invoice.web.controller;
 
 import com.poseidon.invoice.domain.InvoiceVO;
 import com.poseidon.invoice.exception.InvoiceException;
-import com.poseidon.invoice.service.impl.InvoiceService;
+import com.poseidon.invoice.service.InvoiceService;
 import com.poseidon.invoice.web.form.InvoiceForm;
 import com.poseidon.transaction.domain.TransactionReportVO;
 import com.poseidon.transaction.domain.TransactionVO;
-import com.poseidon.transaction.exception.TransactionException;
 import com.poseidon.transaction.service.TransactionService;
 import com.poseidon.transaction.web.form.TransactionForm;
 import org.apache.commons.logging.Log;
@@ -261,26 +260,12 @@ public class InvoiceController {
     @PostMapping("/invoice/InvoiceTxn.htm")
     public ModelAndView invoiceTxn(final TransactionForm transactionForm) {
         LOG.info("Inside invoiceTxn method of InvoiceController ");
-        TransactionVO transactionVo = null;
         var makeName = "";
         var modelName = "";
-        try {
-            transactionVo = transactionService.fetchTransactionFromId(transactionForm.getId());
-            if (transactionVo != null && transactionVo.getMakeId() != null && transactionVo.getMakeId() > 0) {
-                makeName = transactionVo.getMakeName();
-                modelName = transactionVo.getModelName();
-            }
-        } catch (TransactionException ex) {
-            LOG.error(ex.getLocalizedMessage());
-            LOG.error(" Exception type in controller " + ex.exceptionType);
-            if (ex.getExceptionType().equalsIgnoreCase(TransactionException.DATABASE_ERROR)) {
-                LOG.info(" An error occurred while fetching data from database. !! ");
-            } else {
-                LOG.info(" An Unknown Error has been occurred !!");
-            }
-        } catch (Exception e1) {
-            LOG.error(e1.getLocalizedMessage());
-            LOG.info(" An Unknown Error has been occurred !!");
+        TransactionVO transactionVo = transactionService.fetchTransactionFromId(transactionForm.getId());
+        if (transactionVo != null && transactionVo.getMakeId() != null && transactionVo.getMakeId() > 0) {
+            makeName = transactionVo.getMakeName();
+            modelName = transactionVo.getModelName();
         }
         // find tag no  and.. thus the description
         var invoiceForm = new InvoiceForm();

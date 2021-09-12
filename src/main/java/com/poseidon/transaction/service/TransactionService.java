@@ -3,7 +3,6 @@ package com.poseidon.transaction.service;
 import com.poseidon.transaction.dao.TransactionDAO;
 import com.poseidon.transaction.domain.TransactionReportVO;
 import com.poseidon.transaction.domain.TransactionVO;
-import com.poseidon.transaction.exception.TransactionException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -31,17 +30,9 @@ public class TransactionService {
      * list today's transactions.
      *
      * @return list of transactions
-     * @throws TransactionException on error
      */
-    public List<TransactionVO> listTodaysTransactions() throws TransactionException {
-        List<TransactionVO> transactionVOs;
-        try {
-            transactionVOs = transactionDAO.listTodaysTransactions();
-        } catch (TransactionException ex) {
-            LOG.error(EXCEPTION_TYPE_IN_SERVICE_IMPL, ex.getMessage());
-            throw new TransactionException(ex.getMessage());
-        }
-        return transactionVOs;
+    public List<TransactionVO> listTodaysTransactions() {
+        return transactionDAO.listTodaysTransactions();
     }
 
     /**
@@ -49,17 +40,9 @@ public class TransactionService {
      *
      * @param currentTransaction transaction instance
      * @return tag number of the transaction
-     * @throws TransactionException on error
      */
-    public String saveTransaction(final TransactionVO currentTransaction) throws TransactionException {
-        String tagNo;
-        try {
-            tagNo = transactionDAO.saveTransaction(currentTransaction);
-        } catch (TransactionException ex) {
-            LOG.error(EXCEPTION_TYPE_IN_SERVICE_IMPL, ex.getExceptionType());
-            throw new TransactionException(ex.getExceptionType());
-        }
-        return tagNo;
+    public String saveTransaction(final TransactionVO currentTransaction) {
+        return transactionDAO.saveTransaction(currentTransaction);
     }
 
     /**
@@ -77,17 +60,9 @@ public class TransactionService {
      *
      * @param id of the transaction to be fetched
      * @return transaction instance
-     * @throws TransactionException on error
      */
-    public TransactionVO fetchTransactionFromId(final Long id) throws TransactionException {
-        TransactionVO transactionVO;
-        try {
-            transactionVO = transactionDAO.fetchTransactionFromId(id);
-        } catch (TransactionException ex) {
-            LOG.error(EXCEPTION_TYPE_IN_SERVICE_IMPL, ex.getExceptionType());
-            throw new TransactionException(ex.getExceptionType());
-        }
-        return transactionVO;
+    public TransactionVO fetchTransactionFromId(final Long id) {
+        return transactionDAO.fetchTransactionFromId(id);
     }
 
     /**
@@ -106,26 +81,16 @@ public class TransactionService {
      * @param currentTransaction transaction instance
      */
     public void updateTransaction(final TransactionVO currentTransaction) {
-        try {
-            transactionDAO.updateTransaction(currentTransaction);
-        } catch (TransactionException ex) {
-            LOG.error(ex.getLocalizedMessage());
-        }
+        transactionDAO.updateTransaction(currentTransaction);
     }
 
     /**
      * delete a transaction.
      *
      * @param id of the transaction to be deleted
-     * @throws TransactionException on error
      */
-    public void deleteTransaction(final Long id) throws TransactionException {
-        try {
-            transactionDAO.deleteTransaction(id);
-        } catch (TransactionException ex) {
-            LOG.error(EXCEPTION_TYPE_IN_SERVICE_IMPL, ex.getExceptionType());
-            throw new TransactionException(ex.getExceptionType());
-        }
+    public void deleteTransaction(final Long id) {
+        transactionDAO.deleteTransaction(id);
     }
 
     /**
@@ -142,16 +107,8 @@ public class TransactionService {
      * list all transactions.
      *
      * @return list of transaction vo
-     * @throws TransactionException on error
      */
-    public List<TransactionVO> listAllTransactions() throws TransactionException {
-        List<TransactionVO> transactionVOs;
-        try {
-            transactionVOs = transactionDAO.listAllTransactions();
-        } catch (TransactionException ex) {
-            LOG.error(EXCEPTION_TYPE_IN_SERVICE_IMPL, ex.getExceptionType());
-            throw new TransactionException(ex.getExceptionType());
-        }
-        return transactionVOs;
+    public List<TransactionVO> listAllTransactions() {
+        return transactionDAO.listAllTransactions();
     }
 }

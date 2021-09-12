@@ -10,7 +10,6 @@ import com.poseidon.transaction.dao.entities.Transaction;
 import com.poseidon.transaction.dao.repo.TransactionRepository;
 import com.poseidon.transaction.domain.TransactionReportVO;
 import com.poseidon.transaction.domain.TransactionVO;
-import com.poseidon.transaction.exception.TransactionException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
@@ -61,28 +60,17 @@ public class TransactionDAO {
      *
      * @return list of transactions
      */
-    public List<TransactionVO> listAllTransactions() throws TransactionException {
-        try {
-            var transactions = transactionRepository.findAll();
-            return transactions.stream().map(this::convertToVO).toList();
-        } catch (Exception ex) {
-            LOG.error(ex.getLocalizedMessage());
-            throw new TransactionException(TransactionException.DATABASE_ERROR);
-        }
+    public List<TransactionVO> listAllTransactions() {
+        var transactions = sneak(transactionRepository::findAll);
+        return transactions.stream().map(this::convertToVO).toList();
     }
 
     /**
      * list today's transactions.
      */
-    public List<TransactionVO> listTodaysTransactions() throws TransactionException {
-        List<TransactionVO> transactionVOS;
-        try {
-            var transactions = transactionRepository.todaysTransaction();
-            transactionVOS = transactions.stream().map(this::convertToVO).toList();
-        } catch (Exception ex) {
-            throw new TransactionException(TransactionException.DATABASE_ERROR);
-        }
-        return transactionVOS;
+    public List<TransactionVO> listTodaysTransactions() {
+        var transactions = sneak(transactionRepository::todaysTransaction);
+        return transactions.stream().map(this::convertToVO).toList();
     }
 
     /**
@@ -91,17 +79,13 @@ public class TransactionDAO {
      * @param currentTransaction transaction
      * @return tag number
      */
-    public String saveTransaction(final TransactionVO currentTransaction) throws TransactionException {
-        try {
-            var txn = getTransaction(currentTransaction);
-            var newTxn = transactionRepository.save(txn);
-            var tagNo = "WON2N" + newTxn.getTransactionId();
-            newTxn.setTagno(tagNo);
-            transactionRepository.save(newTxn);
-            return tagNo;
-        } catch (Exception ex) {
-            throw new TransactionException(TransactionException.DATABASE_ERROR);
-        }
+    public String saveTransaction(final TransactionVO currentTransaction) {
+        var txn = getTransaction(currentTransaction);
+        var newTxn = sneak(() -> transactionRepository.save(txn));
+        var tagNo = "WON2N" + newTxn.getTransactionId();
+        newTxn.setTagno(tagNo);
+        sneak(() -> transactionRepository.save(newTxn));
+        return tagNo;
     }
 
     /**
@@ -110,16 +94,11 @@ public class TransactionDAO {
      * @param id id of the transaction
      * @return transaction
      */
-    public TransactionVO fetchTransactionFromId(final Long id) throws TransactionException {
+    public TransactionVO fetchTransactionFromId(final Long id) {
         TransactionVO transactionVO = null;
-        try {
-            var optionalTransaction = transactionRepository.findById(id);
-            if (optionalTransaction.isPresent()) {
-                transactionVO = convertToVO(optionalTransaction.get());
-            }
-        } catch (Exception ex) {
-            LOG.error(ex.getLocalizedMessage());
-            throw new TransactionException(TransactionException.DATABASE_ERROR);
+        var optionalTransaction = sneak(() -> transactionRepository.findById(id));
+        if (optionalTransaction.isPresent()) {
+            transactionVO = convertToVO(optionalTransaction.get());
         }
         return transactionVO;
     }
@@ -129,15 +108,11 @@ public class TransactionDAO {
      *
      * @param currentTransaction transaction
      */
-    public void updateTransaction(final TransactionVO currentTransaction) throws TransactionException {
-        try {
-            var optionalTransaction = transactionRepository.findById(currentTransaction.getId());
-            if (optionalTransaction.isPresent()) {
-                var txn = convertToTXN(optionalTransaction.get(), currentTransaction);
-                transactionRepository.save(txn);
-            }
-        } catch (Exception ex) {
-            throw new TransactionException(TransactionException.DATABASE_ERROR);
+    public void updateTransaction(final TransactionVO currentTransaction) {
+        var optionalTransaction = sneak(() -> transactionRepository.findById(currentTransaction.getId()));
+        if (optionalTransaction.isPresent()) {
+            var txn = convertToTXN(optionalTransaction.get(), currentTransaction);
+            transactionRepository.save(txn);
         }
     }
 
@@ -146,13 +121,8 @@ public class TransactionDAO {
      *
      * @param id id of transaction
      */
-    public void deleteTransaction(final Long id) throws TransactionException {
-        try {
-            transactionRepository.deleteById(id);
-        } catch (Exception ex) {
-            LOG.error(ex.getLocalizedMessage());
-            throw new TransactionException(TransactionException.DATABASE_ERROR);
-        }
+    public void deleteTransaction(final Long id) {
+        sneaked(transactionRepository::deleteById);
     }
 
     /**
@@ -390,7 +360,7 @@ public class TransactionDAO {
         txs.setTagNo(transaction.getTagno());
         txs.setDateReported(transaction.getDateReported());
         txs.setCustomerId(transaction.getCustomerId());
-        var customerOpt = customerRepository.findById(transaction.getCustomerId());
+        var customerOpt = sneak(() -> customerRepository.findById(transaction.getCustomerId()));
         if (customerOpt.isPresent()) {
             var customer = customerOpt.get();
             txs.setCustomerName(customer.getName());
@@ -400,9 +370,9 @@ public class TransactionDAO {
             txs.setEmail(customer.getEmail());
         }
         txs.setProductCategory(transaction.getProductCategory());
-        var make = makeRepository.getById(transaction.getMakeId());
+        var make = sneak(() -> makeRepository.getById(transaction.getMakeId()));
         txs.setMakeName(make.getMakeName());
-        var model = modelRepository.getById(transaction.getModelId());
+        var model = sneak(() -> modelRepository.getById(transaction.getModelId()));
         txs.setModelName(model.getModelName());
         txs.setSerialNo(transaction.getSerialNumber());
         txs.setAccessories(transaction.getAccessories());

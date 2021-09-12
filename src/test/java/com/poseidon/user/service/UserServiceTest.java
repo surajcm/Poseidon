@@ -2,7 +2,6 @@ package com.poseidon.user.service;
 
 import com.poseidon.user.dao.UserDAO;
 import com.poseidon.user.domain.UserVO;
-import com.poseidon.user.exception.UserException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -10,11 +9,9 @@ import org.mockito.Mockito;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
-import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.ArgumentMatchers.anyBoolean;
+import java.util.Optional;
+
 import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
@@ -34,26 +31,13 @@ class UserServiceTest {
     }
 
     @Test
-    void getUserDetailsFromIdSuccess() throws UserException {
-        when(userDAO.getUserDetailsFromId(anyLong())).thenReturn(new UserVO());
+    void getUserDetailsFromIdSuccess() {
+        when(userDAO.getUserDetailsFromId(anyLong())).thenReturn(Optional.of(new UserVO()));
         Assertions.assertNotNull(userService.getUserDetailsFromId(1234L));
     }
 
     @Test
-    void getUserDetailsFromIdFailure() throws UserException {
-        when(userDAO.getUserDetailsFromId(anyLong())).thenThrow(new UserException(UserException.DATABASE_ERROR));
-        Assertions.assertThrows(UserException.class, () -> userService.getUserDetailsFromId(1234L));
-    }
-
-    @Test
     void updateUserSuccess() {
-        Assertions.assertAll(() -> userService.updateUser(new UserVO(), "admin"));
-    }
-
-    @Test
-    void updateUserFailure() throws UserException {
-        doThrow(new UserException(UserException.DATABASE_ERROR)).when(userDAO)
-                .updateUser(any(), anyString());
         Assertions.assertAll(() -> userService.updateUser(new UserVO(), "admin"));
     }
 
@@ -63,21 +47,7 @@ class UserServiceTest {
     }
 
     @Test
-    void deleteUserFailure() throws UserException {
-        doThrow(new UserException(UserException.DATABASE_ERROR)).when(userDAO).deleteUser(anyLong());
-        Assertions.assertAll(() -> userService.deleteUser(1234L));
-    }
-
-    @Test
-    void searchUserDetailsSuccess() throws UserException {
+    void searchUserDetailsSuccess() {
         Assertions.assertNotNull(userService.searchUserDetails(new UserVO(), false, false));
-    }
-
-    @Test
-    void searchUserDetailsFailure() throws UserException {
-        doThrow(new UserException(UserException.DATABASE_ERROR))
-                .when(userDAO).searchUserDetails(any(), anyBoolean(), anyBoolean());
-        Assertions.assertThrows(UserException.class,
-                () -> userService.searchUserDetails(new UserVO(), false, false));
     }
 }

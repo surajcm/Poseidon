@@ -9,7 +9,6 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
-import org.springframework.dao.CannotAcquireLockException;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.List;
@@ -18,7 +17,6 @@ import java.util.Optional;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.anyString;
-import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
@@ -66,21 +64,15 @@ class UserDAOTest {
     }
 
     @Test
-    void getUserDetailsFromIdSuccess() throws UserException {
+    void getUserDetailsFromIdSuccess() {
         when(userRepository.findById(anyLong())).thenReturn(mockOptionalUser());
         Assertions.assertNotNull(userDAO.getUserDetailsFromId(1234L));
     }
 
     @Test
-    void getUserDetailsFromIdSuccessOnEmpty() throws UserException {
+    void getUserDetailsFromIdSuccessOnEmpty() {
         when(userRepository.findById(anyLong())).thenReturn(Optional.empty());
-        Assertions.assertNull(userDAO.getUserDetailsFromId(1234L));
-    }
-
-    @Test
-    void getUserDetailsFromIdFailure() {
-        when(userRepository.findById(anyLong())).thenThrow(new CannotAcquireLockException("DB error"));
-        Assertions.assertThrows(UserException.class, () -> userDAO.getUserDetailsFromId(1234L));
+        Assertions.assertTrue(userDAO.getUserDetailsFromId(1234L).isEmpty());
     }
 
     @Test
@@ -100,38 +92,18 @@ class UserDAOTest {
     }
 
     @Test
-    void updateFailure() {
-        when(userRepository.findById(anyLong())).thenThrow(new CannotAcquireLockException("DB error"));
-        var vo = new UserVO();
-        vo.setId(1234L);
-        Assertions.assertThrows(UserException.class, () -> userDAO.updateUser(vo, "admin"));
-    }
-
-    @Test
     void deleteUserSuccess() {
         Assertions.assertAll(() -> userDAO.deleteUser(1234L));
     }
 
     @Test
-    void deleteUserFailure() {
-        doThrow(new CannotAcquireLockException("DB error")).when(userRepository).deleteById(anyLong());
-        Assertions.assertThrows(UserException.class, () -> userDAO.deleteUser(1234L));
-    }
-
-    @Test
-    void findByUsernameSuccess() throws UserException {
+    void findByUsernameSuccess() {
         when(userRepository.findByEmail(anyString())).thenReturn(mockUser());
         Assertions.assertNotNull(userDAO.findByEmail("ABC"));
     }
 
     @Test
-    void findByUsernameFailure() {
-        when(userRepository.findByEmail(anyString())).thenThrow(new CannotAcquireLockException("DB error"));
-        Assertions.assertThrows(UserException.class, () -> userDAO.findByEmail("ABC"));
-    }
-
-    @Test
-    void searchUserDetailsSuccess() throws UserException {
+    void searchUserDetailsSuccess() {
         when(userRepository.findAll(any(UserSpecification.class))).thenReturn(mockUsers());
         var user = mockUserVO();
         Assertions.assertNotNull(userDAO.searchUserDetails(user, false, false));
@@ -141,19 +113,12 @@ class UserDAOTest {
     }
 
     @Test
-    void searchUserDetailsSuccessOnNull() throws UserException {
+    void searchUserDetailsSuccessOnNull() {
         var user = mockUserVO();
         user.setName(null);
         user.setEmail(null);
         user.setRole(null);
         Assertions.assertNotNull(userDAO.searchUserDetails(user, false, false));
-    }
-
-    @Test
-    void searchUserDetailsFailure() {
-        when(userRepository.findAll(any(UserSpecification.class)))
-                .thenThrow(new CannotAcquireLockException("DB error"));
-        Assertions.assertThrows(UserException.class, () -> userDAO.searchUserDetails(mockUserVO(), false, false));
     }
 
     private Optional<User> mockOptionalUser() {

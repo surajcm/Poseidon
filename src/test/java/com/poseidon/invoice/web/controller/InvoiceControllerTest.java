@@ -1,8 +1,6 @@
 package com.poseidon.invoice.web.controller;
 
 import com.poseidon.invoice.InvoiceConfigurations;
-import com.poseidon.transaction.exception.TransactionException;
-import com.poseidon.transaction.service.TransactionService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -13,7 +11,6 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -24,9 +21,6 @@ class InvoiceControllerTest {
     private MockMvc mvc;
     @Autowired
     private InvoiceController invoiceController;
-
-    @Autowired
-    private TransactionService transactionService;
 
     @BeforeEach
     public void setup() {
@@ -70,13 +64,6 @@ class InvoiceControllerTest {
 
     @Test
     void invoiceTxn() throws Exception {
-        mvc.perform(post("/invoice/InvoiceTxn.htm")).andExpect(status().isOk());
-    }
-
-    @Test
-    void invoiceTxnError() throws Exception {
-        when(transactionService.fetchTransactionFromId(null))
-                .thenThrow(new TransactionException(TransactionException.DATABASE_ERROR));
         mvc.perform(post("/invoice/InvoiceTxn.htm")).andExpect(status().isOk());
     }
 }

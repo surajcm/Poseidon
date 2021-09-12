@@ -2,7 +2,6 @@ package com.poseidon.user.service;
 
 import com.poseidon.user.dao.UserDAO;
 import com.poseidon.user.domain.UserVO;
-import com.poseidon.user.exception.UserException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -19,25 +18,18 @@ class UserDetailsServiceImplTest {
     private final UserDetailsServiceImpl userDetailsService = new UserDetailsServiceImpl(userDAO);
 
     @Test
-    void loadUserByNullUsername() throws UserException {
+    void loadUserByNullUsername() {
         when(userDAO.findByEmail(anyString())).thenReturn(null);
         Assertions.assertThrows(UsernameNotFoundException.class,
                 () -> userDetailsService.loadUserByUsername("admin"));
     }
 
     @Test
-    void loadUserByValidUsername() throws UserException {
+    void loadUserByValidUsername() {
         var userName = "admin";
         when(userDAO.findByEmail(anyString())).thenReturn(mockUser());
         var userDetails = userDetailsService.loadUserByUsername("admin");
         Assertions.assertEquals(userName, userDetails.getUsername());
-    }
-
-    @Test
-    void loadUserOnException() throws UserException {
-        when(userDAO.findByEmail(anyString())).thenThrow(new UserException(UserException.DATABASE_ERROR));
-        Assertions.assertThrows(UsernameNotFoundException.class,
-                () -> userDetailsService.loadUserByUsername("admin"));
     }
 
     private UserVO mockUser() {
