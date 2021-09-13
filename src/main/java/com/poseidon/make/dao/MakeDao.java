@@ -2,15 +2,13 @@ package com.poseidon.make.dao;
 
 import com.poseidon.make.dao.entities.Make;
 import com.poseidon.make.dao.entities.Model;
+import com.poseidon.make.dao.mapper.MakeAndModelEntityConverter;
 import com.poseidon.make.dao.repo.MakeRepository;
 import com.poseidon.make.dao.repo.ModelRepository;
-import com.poseidon.make.dao.mapper.MakeAndModelEntityConverter;
 import com.poseidon.make.domain.MakeAndModelVO;
 import com.poseidon.make.domain.MakeVO;
-import com.poseidon.make.exception.MakeException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -18,6 +16,7 @@ import java.util.List;
 import java.util.function.Function;
 
 import static com.rainerhahnekamp.sneakythrow.Sneaky.sneak;
+import static com.rainerhahnekamp.sneakythrow.Sneaky.sneaked;
 
 /**
  * user: Suraj.
@@ -36,8 +35,8 @@ public class MakeDao {
     private final MakeAndModelEntityConverter makeAndModelEntityConverter;
 
     public MakeDao(final MakeRepository makeRepository,
-                       final ModelRepository modelRepository,
-                       final MakeAndModelEntityConverter makeAndModelEntityConverter) {
+                   final ModelRepository modelRepository,
+                   final MakeAndModelEntityConverter makeAndModelEntityConverter) {
         this.makeRepository = makeRepository;
         this.modelRepository = modelRepository;
         this.makeAndModelEntityConverter = makeAndModelEntityConverter;
@@ -47,9 +46,8 @@ public class MakeDao {
      * list all makes.
      *
      * @return list of make and model vo
-     * @throws MakeException on error
      */
-    public List<MakeAndModelVO> listAllMakes() throws MakeException {
+    public List<MakeAndModelVO> listAllMakes() {
         var makes = sneak(makeRepository::findAll);
         return makeAndModelEntityConverter.convertMakeToMakeAndModelVOs(makes);
     }
@@ -58,57 +56,38 @@ public class MakeDao {
      * list all makes and models.
      *
      * @return list of make and model vos
-     * @throws MakeException on error
      */
-    public List<MakeAndModelVO> listAllMakesAndModels() throws MakeException {
-        List<MakeAndModelVO> makeAndModelVOS;
-        try {
-            var models = modelRepository.findAll();
-            //todo: better MakeAndModelVO to render things in a better way
-            makeAndModelVOS = makeAndModelEntityConverter.convertModelsToMakeAndModelVOs(models);
-        } catch (DataAccessException ex) {
-            LOG.error(ex.getLocalizedMessage());
-            throw new MakeException(MakeException.DATABASE_ERROR, ex.getMessage());
-        }
-        return makeAndModelVOS;
+    public List<MakeAndModelVO> listAllMakesAndModels() {
+        var models = sneak(modelRepository::findAll);
+        //todo: better MakeAndModelVO to render things in a better way
+        return makeAndModelEntityConverter.convertModelsToMakeAndModelVOs(models);
     }
 
     /**
      * add new make.
      *
      * @param currentMakeVo currentMakeVo
-     * @throws MakeException on error
      */
-    public void addNewMake(final MakeAndModelVO currentMakeVo) throws MakeException {
-        try {
-            var make = makeAndModelEntityConverter.convertToMake(currentMakeVo);
-            makeRepository.save(make);
-        } catch (DataAccessException ex) {
-            LOG.error(ex.getLocalizedMessage());
-            throw new MakeException(MakeException.DATABASE_ERROR, ex.getMessage());
-        }
+    public void addNewMake(final MakeAndModelVO currentMakeVo) {
+        var make = makeAndModelEntityConverter.convertToMake(currentMakeVo);
+        sneak(() -> makeRepository.save(make));
     }
 
     /**
      * update make.
      *
      * @param currentMakeVo currentMakeVo
-     * @throws MakeException on error
      */
-    public void updateMake(final MakeAndModelVO currentMakeVo) throws MakeException {
-        try {
-            var make = makeAndModelEntityConverter.convertToMake(currentMakeVo);
-            var optionalMake = makeRepository.findById(currentMakeVo.getMakeId());
-            if (optionalMake.isPresent()) {
-                var newMake = optionalMake.get();
-                newMake.setMakeName(make.getMakeName());
-                newMake.setDescription(make.getDescription());
-                newMake.setModifiedBy(make.getModifiedBy());
-                makeRepository.save(newMake);
-            }
-        } catch (DataAccessException ex) {
-            LOG.error(ex.getLocalizedMessage());
-            throw new MakeException(MakeException.DATABASE_ERROR, ex.getMessage());
+    public void updateMake(final MakeAndModelVO currentMakeVo) {
+        var make = makeAndModelEntityConverter.convertToMake(currentMakeVo);
+        var optionalMake =
+                sneak(() -> makeRepository.findById(currentMakeVo.getMakeId()));
+        if (optionalMake.isPresent()) {
+            var newMake = optionalMake.get();
+            newMake.setMakeName(make.getMakeName());
+            newMake.setDescription(make.getDescription());
+            newMake.setModifiedBy(make.getModifiedBy());
+            sneak(() -> makeRepository.save(newMake));
         }
     }
 
@@ -117,18 +96,12 @@ public class MakeDao {
      *
      * @param makeId makeId
      * @return make and model vo
-     * @throws MakeException on error
      */
-    public MakeAndModelVO getMakeFromId(final Long makeId) throws MakeException {
+    public MakeAndModelVO getMakeFromId(final Long makeId) {
         MakeAndModelVO makeVO = null;
-        try {
-            var optionalMake = makeRepository.findById(makeId);
-            if (optionalMake.isPresent()) {
-                makeVO = makeAndModelEntityConverter.getMakeVOFromMake(optionalMake.get());
-            }
-        } catch (DataAccessException ex) {
-            LOG.error(ex.getLocalizedMessage());
-            throw new MakeException(MakeException.DATABASE_ERROR, ex.getMessage());
+        var optionalMake = sneak(() -> makeRepository.findById(makeId));
+        if (optionalMake.isPresent()) {
+            makeVO = makeAndModelEntityConverter.getMakeVOFromMake(optionalMake.get());
         }
         return makeVO;
     }
@@ -137,15 +110,9 @@ public class MakeDao {
      * delete a make.
      *
      * @param makeId makeId
-     * @throws MakeException on error
      */
-    public void deleteMake(final Long makeId) throws MakeException {
-        try {
-            makeRepository.deleteById(makeId);
-        } catch (DataAccessException ex) {
-            LOG.error(ex.getLocalizedMessage());
-            throw new MakeException(MakeException.DATABASE_ERROR, ex.getMessage());
-        }
+    public void deleteMake(final Long makeId) {
+        sneaked(makeRepository::deleteById);
     }
 
     /**
@@ -154,16 +121,11 @@ public class MakeDao {
      * @param modelId modelId
      * @return make and model vo
      */
-    public MakeAndModelVO getModelFromId(final Long modelId) throws MakeException {
+    public MakeAndModelVO getModelFromId(final Long modelId) {
         MakeAndModelVO makeAndModelVO = null;
-        try {
-            var optionalModel = modelRepository.findById(modelId);
-            if (optionalModel.isPresent()) {
-                makeAndModelVO = makeAndModelEntityConverter.convertModelToMakeAndModelVO(optionalModel.get());
-            }
-        } catch (DataAccessException ex) {
-            LOG.error(ex.getLocalizedMessage());
-            throw new MakeException(MakeException.DATABASE_ERROR, ex.getMessage());
+        var optionalModel = sneak(() -> modelRepository.findById(modelId));
+        if (optionalModel.isPresent()) {
+            makeAndModelVO = makeAndModelEntityConverter.convertModelToMakeAndModelVO(optionalModel.get());
         }
         return makeAndModelVO;
     }
@@ -172,36 +134,24 @@ public class MakeDao {
      * delete a model.
      *
      * @param modelId id of model to be deleted
-     * @throws MakeException on error
      */
-    public void deleteModel(final Long modelId) throws MakeException {
-        try {
-            modelRepository.deleteById(modelId);
-        } catch (DataAccessException ex) {
-            LOG.error(ex.getLocalizedMessage());
-            throw new MakeException(MakeException.DATABASE_ERROR, ex.getMessage());
-        }
+    public void deleteModel(final Long modelId) {
+        sneaked(modelRepository::deleteById);
     }
 
     /**
      * add a new model.
      *
      * @param currentMakeVo currentMakeVo
-     * @throws MakeException on error
      */
-    public void addNewModel(final MakeAndModelVO currentMakeVo) throws MakeException {
-        try {
-            var model = makeAndModelEntityConverter.convertMakeAndModelVOToModel(currentMakeVo);
-            var model1 = updateModelWithMake(model);
-            modelRepository.save(model1);
-        } catch (DataAccessException ex) {
-            LOG.error(ex.getLocalizedMessage());
-            throw new MakeException(MakeException.DATABASE_ERROR, ex.getMessage());
-        }
+    public void addNewModel(final MakeAndModelVO currentMakeVo) {
+        var model = makeAndModelEntityConverter.convertMakeAndModelVOToModel(currentMakeVo);
+        var model1 = updateModelWithMake(model);
+        sneak(() -> modelRepository.save(model1));
     }
 
     private Model updateModelWithMake(final Model model) {
-        var optionalMake = makeRepository.findById(model.getMakeId());
+        var optionalMake = sneak(() -> makeRepository.findById(model.getMakeId()));
         optionalMake.ifPresent(model::setMake);
         return model;
     }
@@ -210,38 +160,26 @@ public class MakeDao {
      * update model.
      *
      * @param currentMakeVO currentMakeVO
-     * @throws MakeException on error
      */
-    public void updateModel(final MakeAndModelVO currentMakeVO) throws MakeException {
-        try {
-            var optionalModel = modelRepository.findById(currentMakeVO.getId());
-            if (optionalModel.isPresent()) {
-                var model = optionalModel.get();
-                model.setModelName(currentMakeVO.getModelName());
-                var optionalMake = makeRepository.findById(currentMakeVO.getMakeId());
-                optionalMake.ifPresent(model::setMake);
-                modelRepository.save(model);
-            }
-        } catch (DataAccessException ex) {
-            LOG.error(ex.getLocalizedMessage());
-            throw new MakeException(MakeException.DATABASE_ERROR, ex.getMessage());
+    public void updateModel(final MakeAndModelVO currentMakeVO) {
+        var optionalModel = sneak(() -> modelRepository.findById(currentMakeVO.getId()));
+        if (optionalModel.isPresent()) {
+            var model = optionalModel.get();
+            model.setModelName(currentMakeVO.getModelName());
+            var optionalMake = sneak(() -> makeRepository.findById(currentMakeVO.getMakeId()));
+            optionalMake.ifPresent(model::setMake);
+            sneak(() -> modelRepository.save(model));
         }
     }
 
-    public void updateModel(final Long id, final Long makeId, final String modalModelName)
-            throws MakeException {
-        try {
-            var optionalModel = modelRepository.findById(id);
-            if (optionalModel.isPresent()) {
-                var model = optionalModel.get();
-                model.setModelName(modalModelName);
-                var optionalMake = makeRepository.findById(makeId);
-                optionalMake.ifPresent(model::setMake);
-                modelRepository.save(model);
-            }
-        } catch (DataAccessException ex) {
-            LOG.error(ex.getMessage());
-            throw new MakeException(MakeException.DATABASE_ERROR, ex.getMessage());
+    public void updateModel(final Long id, final Long makeId, final String modalModelName) {
+        var optionalModel = sneak(() -> modelRepository.findById(id));
+        if (optionalModel.isPresent()) {
+            var model = optionalModel.get();
+            model.setModelName(modalModelName);
+            var optionalMake = sneak(() -> makeRepository.findById(makeId));
+            optionalMake.ifPresent(model::setMake);
+            sneak(() -> modelRepository.save(model));
         }
     }
 
@@ -249,18 +187,10 @@ public class MakeDao {
      * fetch all makes.
      *
      * @return list of make vos
-     * @throws MakeException on error
      */
-    public List<MakeVO> fetchMakes() throws MakeException {
-        List<MakeVO> makeVOs;
-        try {
-            var makes = makeRepository.findAll();
-            makeVOs = convertMakeToMakeVO(makes);
-        } catch (DataAccessException ex) {
-            LOG.error(ex.getLocalizedMessage());
-            throw new MakeException(MakeException.DATABASE_ERROR, ex.getMessage());
-        }
-        return makeVOs;
+    public List<MakeVO> fetchMakes() {
+        var makes = sneak(makeRepository::findAll);
+        return convertMakeToMakeVO(makes);
     }
 
     /**
@@ -268,23 +198,17 @@ public class MakeDao {
      *
      * @param makeId make id
      * @return list of make and model vo
-     * @throws MakeException on error
      */
-    public List<MakeAndModelVO> getAllModelsFromMakeId(final Long makeId) throws MakeException {
+    public List<MakeAndModelVO> getAllModelsFromMakeId(final Long makeId) {
         List<MakeAndModelVO> makeVOs = null;
-        try {
-            var optionalMake = makeRepository.findById(makeId);
-            if (optionalMake.isPresent()) {
-                var make = optionalMake.get();
-                var models = make.getModels();
-                if (models != null && !models.isEmpty()) {
-                    makeVOs = models.stream().map(model -> getMakeAndModelVO(make, model))
-                            .toList();
-                }
+        var optionalMake = sneak(() -> makeRepository.findById(makeId));
+        if (optionalMake.isPresent()) {
+            var make = optionalMake.get();
+            var models = make.getModels();
+            if (models != null && !models.isEmpty()) {
+                makeVOs = models.stream().map(model -> getMakeAndModelVO(make, model))
+                        .toList();
             }
-        } catch (DataAccessException ex) {
-            LOG.error(ex.getMessage());
-            throw new MakeException(MakeException.DATABASE_ERROR, ex.getMessage());
         }
         return makeVOs;
     }
@@ -317,23 +241,15 @@ public class MakeDao {
      *
      * @param searchMakeVo searchMakeVo
      * @return list of make and model vos
-     * @throws MakeException on error
      */
-    public List<MakeAndModelVO> searchMakeVOs(final MakeAndModelVO searchMakeVo) throws MakeException {
-        List<MakeAndModelVO> makeVOs;
-        try {
-            makeVOs = searchModels(searchMakeVo);
-        } catch (DataAccessException ex) {
-            LOG.error(ex.getLocalizedMessage());
-            throw new MakeException(MakeException.DATABASE_ERROR, ex.getMessage());
-        }
-        return makeVOs;
+    public List<MakeAndModelVO> searchMakeVOs(final MakeAndModelVO searchMakeVo) {
+        return searchModels(searchMakeVo);
     }
 
     private List<MakeAndModelVO> searchModels(final MakeAndModelVO searchMakeVO) {
         List<MakeAndModelVO> makeAndModelVOS = new ArrayList<>();
         if (searchMakeVO.getMakeId() != null && searchMakeVO.getMakeId() > 0) {
-            var optionalMake = makeRepository.findById(searchMakeVO.getMakeId());
+            var optionalMake = sneak(() -> makeRepository.findById(searchMakeVO.getMakeId()));
             if (optionalMake.isPresent()) {
                 var make = optionalMake.get();
                 var models = make.getModels();

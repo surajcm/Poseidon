@@ -3,7 +3,6 @@ package com.poseidon.make.service;
 import com.poseidon.make.dao.MakeDao;
 import com.poseidon.make.domain.MakeAndModelVO;
 import com.poseidon.make.domain.MakeVO;
-import com.poseidon.make.exception.MakeException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -33,13 +32,7 @@ public class MakeService {
      * @return list of makes and models
      */
     public List<MakeAndModelVO> listAllMakesAndModels() {
-        List<MakeAndModelVO> makeVOs = null;
-        try {
-            makeVOs = makeDAO.listAllMakesAndModels();
-        } catch (MakeException makeException) {
-            LOG.info(MAKE_EXCEPTION_OCCURRED, makeException.getMessage());
-        }
-        return makeVOs;
+        return makeDAO.listAllMakesAndModels();
     }
 
     /**
@@ -48,13 +41,7 @@ public class MakeService {
      * @return list of makes and models
      */
     public List<MakeAndModelVO> listAllMakes() {
-        List<MakeAndModelVO> makeVOs = null;
-        try {
-            makeVOs = makeDAO.listAllMakes();
-        } catch (MakeException makeException) {
-            LOG.info(MAKE_EXCEPTION_OCCURRED, makeException.getMessage());
-        }
-        return makeVOs;
+        return makeDAO.listAllMakes();
     }
 
     /**
@@ -63,11 +50,7 @@ public class MakeService {
      * @param currentMakeVO currentMakeVO
      */
     public void addNewMake(final MakeAndModelVO currentMakeVO) {
-        try {
-            makeDAO.addNewMake(currentMakeVO);
-        } catch (MakeException makeException) {
-            LOG.info(MAKE_EXCEPTION_OCCURRED, makeException.getMessage());
-        }
+        makeDAO.addNewMake(currentMakeVO);
     }
 
     /**
@@ -77,13 +60,7 @@ public class MakeService {
      * @return make and model vo
      */
     public MakeAndModelVO getMakeFromId(final Long makeId) {
-        MakeAndModelVO makeVO = null;
-        try {
-            makeVO = makeDAO.getMakeFromId(makeId);
-        } catch (MakeException makeException) {
-            LOG.info(MAKE_EXCEPTION_OCCURRED, makeException.getMessage());
-        }
-        return makeVO;
+        return makeDAO.getMakeFromId(makeId);
     }
 
     /**
@@ -92,11 +69,7 @@ public class MakeService {
      * @param makeId makeId
      */
     public void deleteMake(final Long makeId) {
-        try {
-            makeDAO.deleteMake(makeId);
-        } catch (MakeException makeException) {
-            LOG.info(MAKE_EXCEPTION_OCCURRED, makeException.getMessage());
-        }
+        makeDAO.deleteMake(makeId);
     }
 
     /**
@@ -106,13 +79,7 @@ public class MakeService {
      * @return make and model vo
      */
     public MakeAndModelVO getModelFromId(final Long modelId) {
-        MakeAndModelVO makeVO = null;
-        try {
-            makeVO = makeDAO.getModelFromId(modelId);
-        } catch (MakeException makeException) {
-            LOG.info(MAKE_EXCEPTION_OCCURRED, makeException.getMessage());
-        }
-        return makeVO;
+        return makeDAO.getModelFromId(modelId);
     }
 
     /**
@@ -121,11 +88,7 @@ public class MakeService {
      * @param modelId modelId
      */
     public void deleteModel(final Long modelId) {
-        try {
-            makeDAO.deleteModel(modelId);
-        } catch (MakeException makeException) {
-            LOG.info(MAKE_EXCEPTION_OCCURRED, makeException.getMessage());
-        }
+        makeDAO.deleteModel(modelId);
     }
 
     /**
@@ -134,11 +97,7 @@ public class MakeService {
      * @param currentMakeVO currentMakeVO
      */
     public void updateMake(final MakeAndModelVO currentMakeVO) {
-        try {
-            makeDAO.updateMake(currentMakeVO);
-        } catch (MakeException makeException) {
-            LOG.info(MAKE_EXCEPTION_OCCURRED, makeException.getMessage());
-        }
+        makeDAO.updateMake(currentMakeVO);
     }
 
     /**
@@ -146,7 +105,7 @@ public class MakeService {
      *
      * @param currentMakeVO currentMakeVO
      */
-    public void addNewModel(final MakeAndModelVO currentMakeVO) throws MakeException {
+    public void addNewModel(final MakeAndModelVO currentMakeVO) {
         makeDAO.addNewModel(currentMakeVO);
     }
 
@@ -156,19 +115,11 @@ public class MakeService {
      * @param currentMakeVO currentMakeVO
      */
     public void updateModel(final MakeAndModelVO currentMakeVO) {
-        try {
-            makeDAO.updateModel(currentMakeVO);
-        } catch (MakeException makeException) {
-            LOG.info(MAKE_EXCEPTION_OCCURRED, makeException.getMessage());
-        }
+        makeDAO.updateModel(currentMakeVO);
     }
 
     public void updateModel(final Long id, final Long makeId, final String modalModelName) {
-        try {
-            makeDAO.updateModel(id, makeId, modalModelName);
-        } catch (MakeException makeException) {
-            LOG.info(MAKE_EXCEPTION_OCCURRED, makeException.getMessage());
-        }
+        makeDAO.updateModel(id, makeId, modalModelName);
     }
 
     /**
@@ -178,13 +129,7 @@ public class MakeService {
      * @return list of make and models
      */
     public List<MakeAndModelVO> searchMakeVOs(final MakeAndModelVO searchMakeVO) {
-        List<MakeAndModelVO> makeVOs = null;
-        try {
-            makeVOs = makeDAO.searchMakeVOs(searchMakeVO);
-        } catch (MakeException makeException) {
-            LOG.info(MAKE_EXCEPTION_OCCURRED, makeException.getMessage());
-        }
-        return makeVOs;
+        return makeDAO.searchMakeVOs(searchMakeVO);
     }
 
     /**
@@ -193,13 +138,7 @@ public class MakeService {
      * @return list of makes
      */
     public List<MakeVO> fetchMakes() {
-        List<MakeVO> makeVOs = null;
-        try {
-            makeVOs = makeDAO.fetchMakes();
-        } catch (MakeException makeException) {
-            LOG.info(MAKE_EXCEPTION_OCCURRED, makeException.getMessage());
-        }
-        return makeVOs;
+        return makeDAO.fetchMakes();
     }
 
     /**
@@ -209,12 +148,6 @@ public class MakeService {
      * @return list of make and model vo
      */
     public List<MakeAndModelVO> getAllModelsFromMakeId(final Long id) {
-        List<MakeAndModelVO> makeVOs = null;
-        try {
-            makeVOs = makeDAO.getAllModelsFromMakeId(id);
-        } catch (MakeException makeException) {
-            LOG.info(MAKE_EXCEPTION_OCCURRED, makeException.getMessage());
-        }
-        return makeVOs;
+        return makeDAO.getAllModelsFromMakeId(id);
     }
 }

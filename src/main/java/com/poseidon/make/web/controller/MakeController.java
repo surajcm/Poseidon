@@ -62,25 +62,13 @@ public class MakeController {
         var sanitizedMakeForm = CommonUtils.sanitizedString(makeForm.toString());
         LOG.info("Inside List method of MakeController, form details are  {}",
                 sanitizedMakeForm);
-        List<MakeAndModelVO> makeAndModelVOs = null;
-        try {
-            makeAndModelVOs = makeService.listAllMakesAndModels();
-        } catch (Exception ex) {
-            makeForm.setStatusMessage("Unable to list the Models due to an error");
-            makeForm.setStatusMessageType(ERROR);
-            LOG.error(ex.getLocalizedMessage());
-        }
-        if (makeAndModelVOs != null) {
+        var makeAndModelVOs = makeService.listAllMakesAndModels();
+        if (!makeAndModelVOs.isEmpty()) {
             makeAndModelVOs.forEach(makeAndModelVO -> LOG.info(" makeAndModelVO is {}", makeAndModelVO));
             makeForm.setMakeAndModelVOs(makeAndModelVOs);
         }
-        List<MakeVO> makeVOs = null;
-        try {
-            makeVOs = makeService.fetchMakes();
-        } catch (Exception ex) {
-            LOG.error(ex.getLocalizedMessage());
-        }
-        if (makeVOs != null) {
+        var makeVOs = makeService.fetchMakes();
+        if (!makeVOs.isEmpty()) {
             makeVOs.forEach(makeVO -> LOG.debug(MAKE_VO_IS, makeVO));
             makeForm.setMakeVOs(makeVOs);
         }
@@ -99,26 +87,13 @@ public class MakeController {
     @PostMapping("/make/MakeList.htm")
     public ModelAndView makeList(final MakeForm makeForm) {
         LOG.info(" listMake List method of MakeController ");
-        List<MakeAndModelVO> makeAndModelVOs = null;
-        try {
-            makeAndModelVOs = makeService.listAllMakes();
-        } catch (Exception ex) {
-            makeForm.setStatusMessage("Unable to list the Makes due to an error");
-            makeForm.setStatusMessageType(ERROR);
-            LOG.error(ex.getLocalizedMessage());
-        }
-        if (makeAndModelVOs != null) {
+        var makeAndModelVOs = makeService.listAllMakes();
+        if (!makeAndModelVOs.isEmpty()) {
             makeAndModelVOs.forEach(makeAndModelVO -> LOG.debug(" makeAndModelVO is {}", makeAndModelVO));
             makeForm.setMakeAndModelVOs(makeAndModelVOs);
         }
-
-        List<MakeVO> makeVOs = null;
-        try {
-            makeVOs = makeService.fetchMakes();
-        } catch (Exception ex) {
-            LOG.error(ex.getLocalizedMessage());
-        }
-        if (makeVOs != null) {
+        var makeVOs = makeService.fetchMakes();
+        if (!makeVOs.isEmpty()) {
             makeVOs.forEach(makeVO -> LOG.debug(MAKE_VO_IS, makeVO));
             makeForm.setMakeVOs(makeVOs);
         }
@@ -139,14 +114,7 @@ public class MakeController {
         LOG.debug("EditMake method of MakeController ");
         var sanitizedMakeForm = CommonUtils.sanitizedString(makeForm.toString());
         LOG.debug(MAKE_FORM_IS, sanitizedMakeForm);
-        MakeAndModelVO makeVO = null;
-        try {
-            makeVO = makeService.getMakeFromId(makeForm.getId());
-        } catch (Exception e1) {
-            LOG.error(e1.getLocalizedMessage());
-            LOG.error(UNKNOWN_ERROR);
-        }
-
+        var makeVO = makeService.getMakeFromId(makeForm.getId());
         if (makeVO == null) {
             LOG.error(" No details found for current makeVO !!");
         } else {
@@ -165,27 +133,10 @@ public class MakeController {
         var sanitizedId = CommonUtils.sanitizedString(id);
         LOG.info("getForEdit method of make controller {}}", sanitizedId);
         String response = null;
-        try {
-            var makeVO = makeService.getModelFromId(Long.valueOf(id));
-            if (makeVO != null) {
-                response = parseMakeAndModelVO(Map.of(makeVO.getMakeId(), makeVO.getModelName()));
-            }
-        } catch (Exception ex) {
-            LOG.error(ex.getLocalizedMessage(), ex);
+        var makeVO = makeService.getModelFromId(Long.valueOf(id));
+        if (makeVO != null) {
+            response = parseMakeAndModelVO(Map.of(makeVO.getMakeId(), makeVO.getModelName()));
         }
-        return response;
-    }
-
-    private String parseMakeAndModelVO(final Map<Long, String> modelEditMap) {
-        String response;
-        var mapper = new ObjectMapper();
-        try {
-            response = mapper.writeValueAsString(modelEditMap);
-        } catch (IOException ex) {
-            response = ERROR;
-            LOG.error(ex.getMessage());
-        }
-        LOG.info(response);
         return response;
     }
 
@@ -201,12 +152,7 @@ public class MakeController {
         LOG.debug("DeleteMake method of MakeController ");
         var sanitizedMakeForm = CommonUtils.sanitizedString(makeForm.toString());
         LOG.debug(MAKE_FORM_IS, sanitizedMakeForm);
-        try {
-            makeService.deleteMake(makeForm.getId());
-        } catch (Exception e1) {
-            LOG.error(e1.getLocalizedMessage());
-            LOG.error(UNKNOWN_ERROR);
-        }
+        makeService.deleteMake(makeForm.getId());
         makeForm.setLoggedInUser(makeForm.getLoggedInUser());
         makeForm.setLoggedInRole(makeForm.getLoggedInRole());
         makeForm.setCurrentMakeAndModeVO(new MakeAndModelVO());
@@ -225,16 +171,9 @@ public class MakeController {
         LOG.debug("DeleteModel method of MakeController ");
         var sanitizedMakeForm = CommonUtils.sanitizedString(makeForm.toString());
         LOG.debug(MAKE_FORM_IS, sanitizedMakeForm);
-        try {
-            makeService.deleteModel(makeForm.getId());
-            makeForm.setStatusMessage("Successfully deleted the selected Model");
-            makeForm.setStatusMessageType(SUCCESS);
-        } catch (Exception e1) {
-            makeForm.setStatusMessage("Unable to delete the selected Model");
-            makeForm.setStatusMessageType(ERROR);
-            LOG.error(e1.getLocalizedMessage());
-            LOG.debug(UNKNOWN_ERROR);
-        }
+        makeService.deleteModel(makeForm.getId());
+        makeForm.setStatusMessage("Successfully deleted the selected Model");
+        makeForm.setStatusMessageType(SUCCESS);
         makeForm.setLoggedInUser(makeForm.getLoggedInUser());
         makeForm.setLoggedInRole(makeForm.getLoggedInRole());
         makeForm.setCurrentMakeAndModeVO(new MakeAndModelVO());
@@ -256,16 +195,9 @@ public class MakeController {
             makeForm.getCurrentMakeAndModeVO().setModifiedDate(OffsetDateTime.now(ZoneId.systemDefault()));
             makeForm.getCurrentMakeAndModeVO().setModifiedBy(makeForm.getLoggedInUser());
         }
-        try {
-            makeService.updateMake(makeForm.getCurrentMakeAndModeVO());
-            makeForm.setStatusMessage("Updated the make successfully");
-            makeForm.setStatusMessageType(SUCCESS);
-        } catch (Exception e1) {
-            makeForm.setStatusMessage("Unable to update the selected make");
-            makeForm.setStatusMessageType(ERROR);
-            LOG.error(e1.getLocalizedMessage());
-            LOG.error(UNKNOWN_ERROR);
-        }
+        makeService.updateMake(makeForm.getCurrentMakeAndModeVO());
+        makeForm.setStatusMessage("Updated the make successfully");
+        makeForm.setStatusMessageType(SUCCESS);
         return makeList(makeForm);
     }
 
@@ -284,16 +216,9 @@ public class MakeController {
             makeForm.getCurrentMakeAndModeVO().setModifiedDate(OffsetDateTime.now(ZoneId.systemDefault()));
             makeForm.getCurrentMakeAndModeVO().setModifiedBy(makeForm.getLoggedInUser());
         }
-        try {
-            makeService.updateModel(makeForm.getCurrentMakeAndModeVO());
-            makeForm.setStatusMessage("Updated the Model successfully");
-            makeForm.setStatusMessageType(SUCCESS);
-        } catch (Exception e1) {
-            makeForm.setStatusMessage("Unable to update the selected Model");
-            makeForm.setStatusMessageType(ERROR);
-            LOG.error(e1.getLocalizedMessage());
-            LOG.error(UNKNOWN_ERROR);
-        }
+        makeService.updateModel(makeForm.getCurrentMakeAndModeVO());
+        makeForm.setStatusMessage("Updated the Model successfully");
+        makeForm.setStatusMessageType(SUCCESS);
         return modelList(makeForm);
     }
 
@@ -314,16 +239,9 @@ public class MakeController {
             makeForm.getCurrentMakeAndModeVO().setCreatedBy(makeForm.getLoggedInUser());
             makeForm.getCurrentMakeAndModeVO().setModifiedBy(makeForm.getLoggedInUser());
         }
-        try {
-            makeService.addNewModel(makeForm.getCurrentMakeAndModeVO());
-            makeForm.setStatusMessage("Saved the new Model successfully");
-            makeForm.setStatusMessageType(SUCCESS);
-        } catch (Exception e1) {
-            makeForm.setStatusMessage("Unable to save the new Model");
-            makeForm.setStatusMessageType(ERROR);
-            LOG.error(e1.getLocalizedMessage());
-            LOG.error(UNKNOWN_ERROR);
-        }
+        makeService.addNewModel(makeForm.getCurrentMakeAndModeVO());
+        makeForm.setStatusMessage("Saved the new Model successfully");
+        makeForm.setStatusMessageType(SUCCESS);
         return modelList(makeForm);
     }
 
@@ -335,6 +253,25 @@ public class MakeController {
      */
     @PostMapping("/make/searchModel.htm")
     public ModelAndView searchModel(final MakeForm makeForm) {
+        loggingFromSearch(makeForm);
+        var makeVOs = makeService.searchMakeVOs(makeForm.getSearchMakeAndModelVO());
+        makeForm.setStatusMessage("Found " + makeVOs.size() + " Models");
+        makeForm.setStatusMessageType("info");
+        if (!makeVOs.isEmpty()) {
+            makeVOs.forEach(makeVO -> LOG.debug(MAKE_VO_IS, makeVO));
+            makeForm.setMakeAndModelVOs(makeVOs);
+        }
+        var searchMakeVOs = makeService.fetchMakes();
+        if (searchMakeVOs != null) {
+            searchMakeVOs.forEach(searchMakeVO -> LOG.debug(" searchMakeVO is {}", searchMakeVO));
+            makeForm.setMakeVOs(searchMakeVOs);
+        }
+        makeForm.setLoggedInRole(makeForm.getLoggedInRole());
+        makeForm.setLoggedInUser(makeForm.getLoggedInUser());
+        return new ModelAndView("make/ModelList", MAKE_FORM, makeForm);
+    }
+
+    private void loggingFromSearch(final MakeForm makeForm) {
         LOG.debug("SearchModel method of MakeController ");
         var sanitizedMakeForm = CommonUtils.sanitizedString(makeForm.toString());
         LOG.debug("MakeForm instance to search {}", sanitizedMakeForm);
@@ -343,33 +280,6 @@ public class MakeController {
                     makeForm.getSearchMakeAndModelVO().toString());
             LOG.debug("SearchVO instance to search {}", sanitizedSearchModel);
         }
-        List<MakeAndModelVO> makeVOs = null;
-        try {
-            makeVOs = makeService.searchMakeVOs(makeForm.getSearchMakeAndModelVO());
-            makeForm.setStatusMessage("Found " + makeVOs.size() + " Models");
-            makeForm.setStatusMessageType("info");
-        } catch (Exception ex) {
-            makeForm.setStatusMessage("Unable get the Model");
-            makeForm.setStatusMessageType(ERROR);
-            LOG.error(ex.getLocalizedMessage());
-        }
-        if (makeVOs != null) {
-            makeVOs.forEach(makeVO -> LOG.debug(MAKE_VO_IS, makeVO));
-            makeForm.setMakeAndModelVOs(makeVOs);
-        }
-        List<MakeVO> searchMakeVOs = null;
-        try {
-            searchMakeVOs = makeService.fetchMakes();
-        } catch (Exception ex) {
-            LOG.error(ex.getLocalizedMessage());
-        }
-        if (searchMakeVOs != null) {
-            searchMakeVOs.forEach(searchMakeVO -> LOG.debug(" searchMakeVO is {}", searchMakeVO));
-            makeForm.setMakeVOs(searchMakeVOs);
-        }
-        makeForm.setLoggedInRole(makeForm.getLoggedInRole());
-        makeForm.setLoggedInUser(makeForm.getLoggedInUser());
-        return new ModelAndView("make/ModelList", MAKE_FORM, makeForm);
     }
 
     /**
@@ -405,41 +315,15 @@ public class MakeController {
 
             var makeForm = new MakeForm();
             makeForm.setCurrentMakeAndModeVO(makeAndModelVO);
-            try {
-                makeService.addNewMake(makeForm.getCurrentMakeAndModeVO());
-                makeForm.setStatusMessage("Successfully saved the new make Detail");
-                makeForm.setStatusMessageType(SUCCESS);
-            } catch (Exception e1) {
-                makeForm.setStatusMessage("Unable to save the make Detail due to an error");
-                makeForm.setStatusMessageType(ERROR);
-                LOG.error(e1.getLocalizedMessage());
-                LOG.info(UNKNOWN_ERROR);
-            }
-            try {
-                //get all the make and pass it as a json object
-                var makes = makeService.fetchMakes();
-                responseString.append(fetchJsonMakeList(makes));
-            } catch (Exception e1) {
-                LOG.error(e1.getMessage());
-            }
-
+            makeService.addNewMake(makeForm.getCurrentMakeAndModeVO());
+            makeForm.setStatusMessage("Successfully saved the new make Detail");
+            makeForm.setStatusMessageType(SUCCESS);
+            var makes = makeService.fetchMakes();
+            responseString.append(fetchJsonMakeList(makes));
         } else {
             LOG.info("errors {}", result);
         }
         return responseString.toString();
-    }
-
-    private String fetchJsonMakeList(final List<MakeVO> makeVOS) {
-        String response;
-        var mapper = new ObjectMapper();
-        try {
-            response = mapper.writeValueAsString(makeVOS);
-        } catch (IOException ex) {
-            response = ERROR;
-            LOG.error(ex.getMessage());
-        }
-        LOG.info(response);
-        return response;
     }
 
     /**
@@ -473,17 +357,63 @@ public class MakeController {
             makeAndModelVO.setCreatedBy(AJAX);
             makeAndModelVO.setModifiedBy(AJAX);
             makeService.addNewModel(makeAndModelVO);
-            try {
-                //get all the make and pass it as a json object
-                List<MakeAndModelVO> makeAndModelVOs = makeService.listAllMakesAndModels();
-                responseString.append(fetchJsonModelList(makeAndModelVOs));
-            } catch (Exception ex) {
-                LOG.error(ex.getMessage());
-            }
+            List<MakeAndModelVO> makeAndModelVOs = makeService.listAllMakesAndModels();
+            responseString.append(fetchJsonModelList(makeAndModelVOs));
         } else {
             LOG.info("errors {}", result);
         }
         return responseString.toString();
+    }
+
+    @GetMapping("/make/getAllMakeIdsAndNames.htm")
+    public @ResponseBody
+    String getAllMakeIdsAndNames() {
+        LOG.info("GetAllMakeIdsAndNames method of MakeController ");
+        return fetchJsonAllMakes(makeService.fetchMakes());
+    }
+
+    @PutMapping("/make/updateModelAjax.htm")
+    public @ResponseBody
+    String updateModelAjax(@ModelAttribute("id") final Long id,
+                           @ModelAttribute("modalMakeName") final Long makeId,
+                           @ModelAttribute("modalModelName") final String modalModelName,
+                           final BindingResult result) {
+        var sanitizedId = CommonUtils.sanitizedString(id.toString());
+        var sanitizedMakeId = CommonUtils.sanitizedString(makeId.toString());
+        var sanitizedModelName = CommonUtils.sanitizedString(modalModelName);
+        LOG.info("UpdateModelAjax method of make controller with id {}, makeId {}, modalModelName {}",
+                sanitizedId, sanitizedMakeId, sanitizedModelName);
+        var responseString = new StringBuilder();
+        makeService.updateModel(id, makeId, modalModelName);
+        var makeAndModelVOs = makeService.listAllMakesAndModels();
+        responseString.append(fetchJsonModelList(makeAndModelVOs));
+        return responseString.toString();
+    }
+
+    private String parseMakeAndModelVO(final Map<Long, String> modelEditMap) {
+        String response;
+        var mapper = new ObjectMapper();
+        try {
+            response = mapper.writeValueAsString(modelEditMap);
+        } catch (IOException ex) {
+            response = ERROR;
+            LOG.error(ex.getMessage());
+        }
+        LOG.info(response);
+        return response;
+    }
+
+    private String fetchJsonMakeList(final List<MakeVO> makeVOS) {
+        String response;
+        var mapper = new ObjectMapper();
+        try {
+            response = mapper.writeValueAsString(makeVOS);
+        } catch (IOException ex) {
+            response = ERROR;
+            LOG.error(ex.getMessage());
+        }
+        LOG.info(response);
+        return response;
     }
 
     private String fetchJsonModelList(final List<MakeAndModelVO> makeAndModelVOs) {
@@ -499,19 +429,11 @@ public class MakeController {
         return response;
     }
 
-    @GetMapping("/make/getAllMakeIdsAndNames.htm")
-    public @ResponseBody
-    String getAllMakeIdsAndNames() {
-        LOG.info("GetAllMakeIdsAndNames method of MakeController ");
-        return fetchJsonAllMakes(makeService.fetchMakes());
-    }
-
     private String fetchJsonAllMakes(final List<MakeVO> makeVOS) {
         String response;
         var mapper = new ObjectMapper();
-        Map<Long, String> idNameMap =
-                makeVOS.stream().collect(Collectors.toMap(MakeVO::getId,
-                        MakeVO::getMakeName, (a, b) -> b));
+        Map<Long, String> idNameMap = makeVOS.stream()
+                .collect(Collectors.toMap(MakeVO::getId, MakeVO::getMakeName, (a, b) -> b));
         try {
             response = mapper.writeValueAsString(idNameMap);
         } catch (IOException ex) {
@@ -520,34 +442,6 @@ public class MakeController {
         }
         LOG.info(response);
         return response;
-    }
-
-    @PutMapping("/make/updateModelAjax.htm")
-    public @ResponseBody
-    String updateModelAjax(@ModelAttribute("id") final Long id,
-                           @ModelAttribute("modalMakeName") final Long makeId,
-                           @ModelAttribute("modalModelName") final String modalModelName,
-                           final BindingResult result) {
-        var sanitizedId = CommonUtils.sanitizedString(id.toString());
-        var sanitizedMakeId = CommonUtils.sanitizedString(makeId.toString());
-        var sanitizedModelName = CommonUtils.sanitizedString(modalModelName);
-        LOG.info("UpdateModelAjax method of make controller with id {}, makeId {}, modalModelName {}",
-                sanitizedId, sanitizedMakeId, sanitizedModelName);
-        var responseString = new StringBuilder();
-        try {
-            makeService.updateModel(id, makeId, modalModelName);
-        } catch (Exception e1) {
-            LOG.error(e1.getLocalizedMessage());
-        }
-
-        try {
-            //get all the make and pass it as a json object
-            List<MakeAndModelVO> makeAndModelVOs = makeService.listAllMakesAndModels();
-            responseString.append(fetchJsonModelList(makeAndModelVOs));
-        } catch (Exception ex) {
-            LOG.error(ex.getMessage());
-        }
-        return responseString.toString();
     }
 
 }
