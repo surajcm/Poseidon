@@ -1,16 +1,20 @@
 package com.poseidon.transaction.dao.entities;
 
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.EntityListeners;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.PrePersist;
-import javax.persistence.PreUpdate;
 import javax.persistence.Table;
+import java.time.LocalDateTime;
 import java.time.OffsetDateTime;
-import java.time.ZoneId;
 
+@EntityListeners(AuditingEntityListener.class)
 @Entity
 //todo : add schema
 @Table(name = "transaction")
@@ -62,11 +66,13 @@ public class Transaction {
     @Column(name = "status")
     private String status;
 
+    @CreatedDate
     @Column(name = "createdOn")
-    private OffsetDateTime createdOn;
+    private LocalDateTime createdOn;
 
+    @LastModifiedDate
     @Column(name = "modifiedOn")
-    private OffsetDateTime modifiedOn;
+    private LocalDateTime modifiedOn;
 
     @Column(name = "createdBy")
     private String createdBy;
@@ -194,19 +200,19 @@ public class Transaction {
         this.status = status;
     }
 
-    public OffsetDateTime getCreatedOn() {
+    public LocalDateTime getCreatedOn() {
         return createdOn;
     }
 
-    public void setCreatedOn(final OffsetDateTime createdOn) {
+    public void setCreatedOn(final LocalDateTime createdOn) {
         this.createdOn = createdOn;
     }
 
-    public OffsetDateTime getModifiedOn() {
+    public LocalDateTime getModifiedOn() {
         return modifiedOn;
     }
 
-    public void setModifiedOn(final OffsetDateTime modifiedOn) {
+    public void setModifiedOn(final LocalDateTime modifiedOn) {
         this.modifiedOn = modifiedOn;
     }
 
@@ -224,17 +230,5 @@ public class Transaction {
 
     public void setModifiedBy(final String modifiedBy) {
         this.modifiedBy = modifiedBy;
-    }
-
-    /**
-     * initialize / update date fields.
-     */
-    @PrePersist
-    @PreUpdate
-    public void initializeDate() {
-        if (this.transactionId == null) {
-            createdOn = OffsetDateTime.now(ZoneId.systemDefault());
-        }
-        modifiedOn = OffsetDateTime.now(ZoneId.systemDefault());
     }
 }

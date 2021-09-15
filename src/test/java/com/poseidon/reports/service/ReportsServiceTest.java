@@ -9,7 +9,6 @@ import com.poseidon.make.domain.MakeAndModelVO;
 import com.poseidon.make.service.MakeService;
 import com.poseidon.reports.dao.ReportsDAO;
 import com.poseidon.reports.domain.ReportsVO;
-import com.poseidon.reports.exception.ReportsException;
 import com.poseidon.transaction.domain.TransactionReportVO;
 import com.poseidon.transaction.domain.TransactionVO;
 import com.poseidon.transaction.exception.TransactionException;
@@ -28,7 +27,6 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.any;
-import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
@@ -45,12 +43,6 @@ class ReportsServiceTest {
     @Test
     void generateDailyReportSuccess() {
         Assertions.assertNotNull(reportsService.generateDailyReport());
-    }
-
-    @Test
-    void generateDailyReportFailure() throws ReportsException {
-        doThrow(new ReportsException(ReportsException.DATABASE_ERROR)).when(reportsDAO).generateDailyReport();
-        Assertions.assertNull(reportsService.generateDailyReport());
     }
 
     @Test

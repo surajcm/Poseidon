@@ -1,10 +1,7 @@
 package com.poseidon.reports.dao;
 
 import com.poseidon.company.domain.CompanyTermsVO;
-import com.poseidon.invoice.domain.InvoiceReportVO;
 import com.poseidon.reports.domain.ReportsVO;
-import com.poseidon.reports.exception.ReportsException;
-import com.poseidon.transaction.domain.TransactionReportVO;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperFillManager;
 import net.sf.jasperreports.engine.JasperPrint;
@@ -30,9 +27,8 @@ public class ReportsDAO {
      * generate daily report.
      *
      * @return list of reports vo
-     * @throws ReportsException on error
      */
-    public List<ReportsVO> generateDailyReport() throws ReportsException {
+    public List<ReportsVO> generateDailyReport() {
         return Collections.emptyList();
     }
 
@@ -46,11 +42,9 @@ public class ReportsDAO {
      */
     public JasperPrint getMakeDetailsChart(final JasperReport jasperReport, final ReportsVO currentReport)
             throws JRException {
-        JasperPrint jasperPrint;
         Map<String, Object> params = new HashMap<>();
-        jasperPrint = JasperFillManager.fillReport(jasperReport, params,
+        return JasperFillManager.fillReport(jasperReport, params,
                 new JRBeanCollectionDataSource(currentReport.getMakeVOList()));
-        return jasperPrint;
     }
 
     /**
@@ -74,8 +68,8 @@ public class ReportsDAO {
             //todo : fix it
             currentReport.getTransactionReportVO().setDateReported(companyTermsVO.getCreatedDate());
         }
-        List<TransactionReportVO> reportVOs = new ArrayList<>();
-        reportVOs.add(currentReport.getTransactionReportVO());
+        var reportVOs =
+                Collections.singletonList(currentReport.getTransactionReportVO());
         return JasperFillManager.fillReport(jasperReport, new HashMap<>(),
                 new JRBeanCollectionDataSource(reportVOs));
     }
@@ -90,11 +84,9 @@ public class ReportsDAO {
      */
     public JasperPrint getTransactionsListReport(final JasperReport jasperReport,
                                                  final ReportsVO currentReport) throws JRException {
-        JasperPrint jasperPrint;
         Map<String, Object> params = new HashMap<>();
-        jasperPrint = JasperFillManager.fillReport(jasperReport, params,
+        return JasperFillManager.fillReport(jasperReport, params,
                 new JRBeanCollectionDataSource(currentReport.getTransactionsList()));
-        return jasperPrint;
     }
 
     /**
@@ -107,11 +99,9 @@ public class ReportsDAO {
      */
     public JasperPrint getModelListReport(final JasperReport jasperReport,
                                           final ReportsVO currentReport) throws JRException {
-        JasperPrint jasperPrint;
         Map<String, Object> params = new HashMap<>();
-        jasperPrint = JasperFillManager.fillReport(jasperReport, params,
+        return JasperFillManager.fillReport(jasperReport, params,
                 new JRBeanCollectionDataSource(currentReport.getMakeAndModelVOs()));
-        return jasperPrint;
     }
 
     /**
@@ -124,11 +114,9 @@ public class ReportsDAO {
      */
     public JasperPrint getErrorReport(final JasperReport jasperReport,
                                       final ReportsVO currentReport) throws JRException {
-        JasperPrint jasperPrint;
         Map<String, Object> params = new HashMap<>();
-        jasperPrint = JasperFillManager.fillReport(jasperReport, params,
+        return JasperFillManager.fillReport(jasperReport, params,
                 new JRBeanCollectionDataSource(new ArrayList<>()));
-        return jasperPrint;
     }
 
     /**
@@ -141,13 +129,11 @@ public class ReportsDAO {
      */
     public JasperPrint getInvoiceReport(final JasperReport jasperReport,
                                         final ReportsVO currentReport) throws JRException {
-        JasperPrint jasperPrint;
         Map<String, Object> params = new HashMap<>();
-        List<InvoiceReportVO> invoiceReportVOs = new ArrayList<>();
-        invoiceReportVOs.add(currentReport.getInvoiceReportVO());
-        jasperPrint = JasperFillManager.fillReport(jasperReport, params,
+        var invoiceReportVOs =
+                Collections.singletonList(currentReport.getInvoiceReportVO());
+        return JasperFillManager.fillReport(jasperReport, params,
                 new JRBeanCollectionDataSource(invoiceReportVOs));
-        return jasperPrint;
     }
 
 }

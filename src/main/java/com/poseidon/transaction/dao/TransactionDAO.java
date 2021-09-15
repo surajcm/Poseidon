@@ -38,6 +38,7 @@ public class TransactionDAO {
 
     private static final Logger LOG = LoggerFactory.getLogger(TransactionDAO.class);
     public static final String AND = " and ";
+    public static final String COMPANY_KEY = "WON2N";
     private final TransactionRepository transactionRepository;
     private final CustomerRepository customerRepository;
     private final MakeRepository makeRepository;
@@ -82,7 +83,7 @@ public class TransactionDAO {
     public String saveTransaction(final TransactionVO currentTransaction) {
         var txn = getTransaction(currentTransaction);
         var newTxn = sneak(() -> transactionRepository.save(txn));
-        var tagNo = "WON2N" + newTxn.getTransactionId();
+        var tagNo = COMPANY_KEY + newTxn.getTransactionId();
         newTxn.setTagno(tagNo);
         sneak(() -> transactionRepository.save(newTxn));
         return tagNo;

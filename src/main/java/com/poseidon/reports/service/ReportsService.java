@@ -9,7 +9,6 @@ import com.poseidon.make.domain.MakeAndModelVO;
 import com.poseidon.make.service.MakeService;
 import com.poseidon.reports.dao.ReportsDAO;
 import com.poseidon.reports.domain.ReportsVO;
-import com.poseidon.reports.exception.ReportsException;
 import com.poseidon.transaction.domain.TransactionReportVO;
 import com.poseidon.transaction.domain.TransactionVO;
 import com.poseidon.transaction.service.TransactionService;
@@ -55,13 +54,7 @@ public class ReportsService {
      * @return list of reports
      */
     public List<ReportsVO> generateDailyReport() {
-        List<ReportsVO> reportsVOs = null;
-        try {
-            reportsVOs = reportsDAO.generateDailyReport();
-        } catch (ReportsException ex) {
-            LOG.error(ex.getLocalizedMessage());
-        }
-        return reportsVOs;
+        return reportsDAO.generateDailyReport();
     }
 
     /**
@@ -93,7 +86,7 @@ public class ReportsService {
         var transactionVO = getTransactionReportVO(currentReport.getTagNo());
         currentReport.setTransactionReportVO(transactionVO);
         var jasperPrint = new JasperPrint();
-        CompanyTermsVO companyTerms = companyTerms();
+        var companyTerms = getCompanyTerms();
         try {
             jasperPrint = reportsDAO.getCallReport(jasperReport, currentReport, companyTerms);
         } catch (JRException ex) {
@@ -102,7 +95,7 @@ public class ReportsService {
         return jasperPrint;
     }
 
-    private CompanyTermsVO companyTerms() {
+    private CompanyTermsVO getCompanyTerms() {
         var companyTermsVO = companyTermsService.listCompanyTerms();
         CompanyTermsVO companyTerms = null;
         if (companyTermsVO.isPresent()) {
