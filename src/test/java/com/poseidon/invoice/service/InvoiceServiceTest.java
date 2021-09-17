@@ -2,10 +2,8 @@ package com.poseidon.invoice.service;
 
 import com.poseidon.invoice.dao.InvoiceDAO;
 import com.poseidon.invoice.domain.InvoiceVO;
-import com.poseidon.invoice.exception.InvoiceException;
 import com.poseidon.transaction.domain.TransactionReportVO;
 import com.poseidon.transaction.domain.TransactionVO;
-import com.poseidon.transaction.exception.TransactionException;
 import com.poseidon.transaction.service.TransactionService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -39,7 +37,7 @@ class InvoiceServiceTest {
     }
 
     @Test
-    void fetchInvoiceForListOfTransactionsSuccess() throws TransactionException, InvoiceException {
+    void fetchInvoiceForListOfTransactionsSuccess() {
         when(transactionService.listTodaysTransactions()).thenReturn(mockListOfTransactionVOs());
         when(invoiceDAO.fetchInvoiceForListOfTransactions(ArgumentMatchers.any()))
                 .thenReturn(new ArrayList<>());
@@ -73,16 +71,9 @@ class InvoiceServiceTest {
     }
 
     @Test
-    void findInvoicesSuccess() throws InvoiceException {
+    void findInvoicesSuccess() {
         when(invoiceDAO.findInvoices(any())).thenReturn(new ArrayList<>());
         Assertions.assertNotNull(invoiceService.findInvoices(Mockito.mock(InvoiceVO.class)));
-    }
-
-    @Test
-    void findInvoicesFailure() throws InvoiceException {
-        when(invoiceDAO.findInvoices(any())).thenThrow(new InvoiceException(new RuntimeException()));
-        Assertions.assertThrows(InvoiceException.class,
-                () -> invoiceService.findInvoices(Mockito.mock(InvoiceVO.class)));
     }
 
     private List<TransactionVO> mockListOfTransactionVOs() {

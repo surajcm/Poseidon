@@ -1,6 +1,5 @@
 package com.poseidon.make.domain;
 
-import java.time.OffsetDateTime;
 import java.util.StringJoiner;
 
 /**
@@ -17,8 +16,6 @@ public class MakeAndModelVO {
     private String description;
     private Boolean startswith;
     private Boolean includes;
-    private OffsetDateTime createdDate;
-    private OffsetDateTime modifiedDate;
     private String createdBy;
     private String modifiedBy;
 
@@ -86,22 +83,6 @@ public class MakeAndModelVO {
         this.includes = includes;
     }
 
-    public OffsetDateTime getCreatedDate() {
-        return createdDate;
-    }
-
-    public void setCreatedDate(final OffsetDateTime createdDate) {
-        this.createdDate = createdDate;
-    }
-
-    public OffsetDateTime getModifiedDate() {
-        return modifiedDate;
-    }
-
-    public void setModifiedDate(final OffsetDateTime modifiedDate) {
-        this.modifiedDate = modifiedDate;
-    }
-
     public String getCreatedBy() {
         return createdBy;
     }
@@ -129,8 +110,6 @@ public class MakeAndModelVO {
                 .add("description='" + description + "'")
                 .add("startswith=" + startswith)
                 .add("includes=" + includes)
-                .add("createdDate=" + createdDate)
-                .add("modifiedDate=" + modifiedDate)
                 .add("createdBy='" + createdBy + "'")
                 .add("modifiedBy='" + modifiedBy + "'")
                 .toString();

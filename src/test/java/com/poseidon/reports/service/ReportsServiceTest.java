@@ -3,7 +3,6 @@ package com.poseidon.reports.service;
 import com.poseidon.company.domain.CompanyTermsVO;
 import com.poseidon.company.service.CompanyTermsService;
 import com.poseidon.invoice.domain.InvoiceVO;
-import com.poseidon.invoice.exception.InvoiceException;
 import com.poseidon.invoice.service.InvoiceService;
 import com.poseidon.make.domain.MakeAndModelVO;
 import com.poseidon.make.service.MakeService;
@@ -11,7 +10,6 @@ import com.poseidon.reports.dao.ReportsDAO;
 import com.poseidon.reports.domain.ReportsVO;
 import com.poseidon.transaction.domain.TransactionReportVO;
 import com.poseidon.transaction.domain.TransactionVO;
-import com.poseidon.transaction.exception.TransactionException;
 import com.poseidon.transaction.service.TransactionService;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperPrint;
@@ -109,17 +107,7 @@ class ReportsServiceTest {
     }
 
     @Test
-    void getInvoiceReportInvoiceFailure() throws JRException, TransactionException, InvoiceException {
-        when(transactionService.fetchTransactionFromTag(any()))
-                .thenReturn(Mockito.mock(TransactionReportVO.class));
-        when(invoiceService.findInvoices(any())).thenThrow(new InvoiceException(new RuntimeException()));
-        when(reportsDAO.getInvoiceReport(any(), any())).thenThrow(new JRException("ERROR"));
-        Assertions.assertNotNull(reportsService.getInvoiceReport(Mockito.mock(JasperReport.class),
-                new ReportsVO()));
-    }
-
-    @Test
-    void getInvoiceReportCompanyFailure() throws JRException, TransactionException {
+    void getInvoiceReportCompanyFailure() throws JRException {
         when(transactionService.fetchTransactionFromTag(any()))
                 .thenReturn(Mockito.mock(TransactionReportVO.class));
         when(companyTermsService.listCompanyTerms()).thenReturn(Optional.empty());
@@ -129,7 +117,7 @@ class ReportsServiceTest {
     }
 
     @Test
-    void getInvoiceReportFailure() throws JRException, TransactionException, InvoiceException {
+    void getInvoiceReportFailure() throws JRException {
         when(transactionService.fetchTransactionFromTag(any()))
                 .thenReturn(Mockito.mock(TransactionReportVO.class));
         List<InvoiceVO> invoiceVO = new ArrayList<>();

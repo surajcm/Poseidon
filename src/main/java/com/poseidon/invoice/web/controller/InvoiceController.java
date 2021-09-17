@@ -1,7 +1,6 @@
 package com.poseidon.invoice.web.controller;
 
 import com.poseidon.invoice.domain.InvoiceVO;
-import com.poseidon.invoice.exception.InvoiceException;
 import com.poseidon.invoice.service.InvoiceService;
 import com.poseidon.invoice.web.form.InvoiceForm;
 import com.poseidon.transaction.domain.TransactionReportVO;
@@ -207,19 +206,12 @@ public class InvoiceController {
     public ModelAndView searchInvoice(final InvoiceForm invoiceForm) {
         LOG.info("Inside searchInvoice method of InvoiceController ");
         LOG.info(String.format(INVOICE_FORM_DETAILS, invoiceForm));
-        List<InvoiceVO> invoiceVOs;
-        try {
-            invoiceVOs = invoiceService.findInvoices(invoiceForm.getSearchInvoiceVo());
-            if (invoiceVOs != null && !invoiceVOs.isEmpty()) {
-                invoiceForm.setInvoiceVos(invoiceVOs);
-                invoiceForm.setStatusMessage("Found " + invoiceVOs.size() + " invoice details");
-            }
-            invoiceForm.setStatusMessageType("info");
-        } catch (InvoiceException ex) {
-            invoiceForm.setStatusMessage("Unable to find the Invoices due to an error");
-            invoiceForm.setStatusMessageType(ERROR);
-            LOG.error(ex.getLocalizedMessage());
+        var invoiceVOs = invoiceService.findInvoices(invoiceForm.getSearchInvoiceVo());
+        if (invoiceVOs != null && !invoiceVOs.isEmpty()) {
+            invoiceForm.setInvoiceVos(invoiceVOs);
+            invoiceForm.setStatusMessage("Found " + invoiceVOs.size() + " invoice details");
         }
+        invoiceForm.setStatusMessageType("info");
         return new ModelAndView(LIST_INVOICE, INVOICE_FORM, invoiceForm);
     }
 

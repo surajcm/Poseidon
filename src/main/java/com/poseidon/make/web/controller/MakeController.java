@@ -2,13 +2,14 @@ package com.poseidon.make.web.controller;
 
 import com.poseidon.make.domain.MakeAndModelVO;
 import com.poseidon.make.domain.MakeVO;
-import com.poseidon.make.exception.MakeException;
 import com.poseidon.make.service.MakeService;
 import com.poseidon.make.web.form.MakeForm;
 import com.poseidon.util.CommonUtils;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -21,8 +22,6 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
 import java.io.IOException;
-import java.time.OffsetDateTime;
-import java.time.ZoneId;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -116,9 +115,9 @@ public class MakeController {
         LOG.debug(MAKE_FORM_IS, sanitizedMakeForm);
         var makeVO = makeService.getMakeFromId(makeForm.getId());
         if (makeVO == null) {
-            LOG.error(" No details found for current makeVO !!");
+            LOG.error("No details found for current makeVO !!");
         } else {
-            LOG.debug(" makeVO details are {}", makeVO);
+            LOG.debug("MakeVO details are {}", makeVO);
         }
         makeForm.setCurrentMakeAndModeVO(makeVO);
         makeForm.setLoggedInUser(makeForm.getLoggedInUser());
@@ -192,8 +191,8 @@ public class MakeController {
         LOG.info("updateMake method of MakeController, makeForm instance to add to database  {}",
                 sanitizedMakeForm);
         if (makeForm.getCurrentMakeAndModeVO() != null) {
-            makeForm.getCurrentMakeAndModeVO().setModifiedDate(OffsetDateTime.now(ZoneId.systemDefault()));
-            makeForm.getCurrentMakeAndModeVO().setModifiedBy(makeForm.getLoggedInUser());
+            var userName = findLoggedInUsername();
+            makeForm.getCurrentMakeAndModeVO().setModifiedBy(userName);
         }
         makeService.updateMake(makeForm.getCurrentMakeAndModeVO());
         makeForm.setStatusMessage("Updated the make successfully");
@@ -213,8 +212,8 @@ public class MakeController {
         LOG.debug(" updateModel method of MakeController , makeForm instance to add to database {}",
                 sanitizedMakeForm);
         if (makeForm.getCurrentMakeAndModeVO() != null) {
-            makeForm.getCurrentMakeAndModeVO().setModifiedDate(OffsetDateTime.now(ZoneId.systemDefault()));
-            makeForm.getCurrentMakeAndModeVO().setModifiedBy(makeForm.getLoggedInUser());
+            var userName = findLoggedInUsername();
+            makeForm.getCurrentMakeAndModeVO().setModifiedBy(userName);
         }
         makeService.updateModel(makeForm.getCurrentMakeAndModeVO());
         makeForm.setStatusMessage("Updated the Model successfully");
@@ -234,10 +233,9 @@ public class MakeController {
         LOG.info("SaveModel makeForm instance to add to database {}",
                 sanitizedMakeForm);
         if (makeForm.getCurrentMakeAndModeVO() != null) {
-            makeForm.getCurrentMakeAndModeVO().setCreatedDate(OffsetDateTime.now(ZoneId.systemDefault()));
-            makeForm.getCurrentMakeAndModeVO().setModifiedDate(OffsetDateTime.now(ZoneId.systemDefault()));
-            makeForm.getCurrentMakeAndModeVO().setCreatedBy(makeForm.getLoggedInUser());
-            makeForm.getCurrentMakeAndModeVO().setModifiedBy(makeForm.getLoggedInUser());
+            var userName = findLoggedInUsername();
+            makeForm.getCurrentMakeAndModeVO().setCreatedBy(userName);
+            makeForm.getCurrentMakeAndModeVO().setModifiedBy(userName);
         }
         makeService.addNewModel(makeForm.getCurrentMakeAndModeVO());
         makeForm.setStatusMessage("Saved the new Model successfully");
@@ -266,6 +264,7 @@ public class MakeController {
             searchMakeVOs.forEach(searchMakeVO -> LOG.debug(" searchMakeVO is {}", searchMakeVO));
             makeForm.setMakeVOs(searchMakeVOs);
         }
+        var userName = findLoggedInUsername();
         makeForm.setLoggedInRole(makeForm.getLoggedInRole());
         makeForm.setLoggedInUser(makeForm.getLoggedInUser());
         return new ModelAndView("make/ModelList", MAKE_FORM, makeForm);
@@ -302,17 +301,12 @@ public class MakeController {
             var sanitizedSelectMakeDesc = CommonUtils.sanitizedString(selectMakeDesc);
             LOG.info("selectMakeName : {}", sanitizedSelectMakeName);
             LOG.info("selectMakeDesc : {}", sanitizedSelectMakeDesc);
-            // todo: how to get this ??
-            //makeForm.getCurrentMakeAndModeVO().setCreatedBy(makeForm.getLoggedInUser());
-            //makeForm.getCurrentMakeAndModeVO().setModifiedBy(makeForm.getLoggedInUser());
+            var userName = findLoggedInUsername();
             var makeAndModelVO = new MakeAndModelVO();
             makeAndModelVO.setMakeName(selectMakeName);
             makeAndModelVO.setDescription(selectMakeDesc);
-            makeAndModelVO.setCreatedDate(OffsetDateTime.now(ZoneId.systemDefault()));
-            makeAndModelVO.setModifiedDate(OffsetDateTime.now(ZoneId.systemDefault()));
-            makeAndModelVO.setCreatedBy(AJAX);
-            makeAndModelVO.setModifiedBy(AJAX);
-
+            makeAndModelVO.setCreatedBy(userName);
+            makeAndModelVO.setModifiedBy(userName);
             var makeForm = new MakeForm();
             makeForm.setCurrentMakeAndModeVO(makeAndModelVO);
             makeService.addNewMake(makeForm.getCurrentMakeAndModeVO());
@@ -338,7 +332,7 @@ public class MakeController {
     public @ResponseBody
     String saveModelAjax(@ModelAttribute("selectMakeId") final Long selectMakeId,
                          @ModelAttribute("selectModelName") final String selectModelName,
-                         final BindingResult result) throws MakeException {
+                         final BindingResult result) {
         LOG.info("SaveModelAjax method of MakeController ");
         var responseString = new StringBuilder();
         if (!result.hasErrors()) {
@@ -346,16 +340,12 @@ public class MakeController {
             var sanitizedSelectModelName = CommonUtils.sanitizedString(selectModelName);
             LOG.info("selectMakeId : {}", sanitizedSelectMakeId);
             LOG.info("selectModelName : {}", sanitizedSelectModelName);
-            // todo: how to get this ??
-            //makeForm.getCurrentMakeAndModeVO().setCreatedBy(makeForm.getLoggedInUser());
-            //makeForm.getCurrentMakeAndModeVO().setModifiedBy(makeForm.getLoggedInUser());
+            var userName = findLoggedInUsername();
             var makeAndModelVO = new MakeAndModelVO();
             makeAndModelVO.setMakeId(selectMakeId);
             makeAndModelVO.setModelName(selectModelName);
-            makeAndModelVO.setCreatedDate(OffsetDateTime.now(ZoneId.systemDefault()));
-            makeAndModelVO.setModifiedDate(OffsetDateTime.now(ZoneId.systemDefault()));
-            makeAndModelVO.setCreatedBy(AJAX);
-            makeAndModelVO.setModifiedBy(AJAX);
+            makeAndModelVO.setCreatedBy(userName);
+            makeAndModelVO.setModifiedBy(userName);
             makeService.addNewModel(makeAndModelVO);
             List<MakeAndModelVO> makeAndModelVOs = makeService.listAllMakesAndModels();
             responseString.append(fetchJsonModelList(makeAndModelVOs));
@@ -442,6 +432,17 @@ public class MakeController {
         }
         LOG.info(response);
         return response;
+    }
+
+    public String findLoggedInUsername() {
+        String username = null;
+        if (SecurityContextHolder.getContext().getAuthentication() != null) {
+            var userDetails = SecurityContextHolder.getContext().getAuthentication().getDetails();
+            if (userDetails instanceof UserDetails details) {
+                username = details.getUsername();
+            }
+        }
+        return username;
     }
 
 }

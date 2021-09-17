@@ -2,11 +2,8 @@ package com.poseidon.invoice.service;
 
 import com.poseidon.invoice.dao.InvoiceDAO;
 import com.poseidon.invoice.domain.InvoiceVO;
-import com.poseidon.invoice.exception.InvoiceException;
 import com.poseidon.transaction.domain.TransactionVO;
 import com.poseidon.transaction.service.TransactionService;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -14,7 +11,6 @@ import java.util.Optional;
 
 @Service
 public class InvoiceService {
-    private static final Logger LOG = LoggerFactory.getLogger(InvoiceService.class);
 
     private final InvoiceDAO invoiceDAO;
 
@@ -111,16 +107,8 @@ public class InvoiceService {
      *
      * @param searchInvoiceVo InvoiceVO
      * @return List of InvoiceVO
-     * @throws InvoiceException on error
      */
-    public List<InvoiceVO> findInvoices(final InvoiceVO searchInvoiceVo) throws InvoiceException {
-        List<InvoiceVO> invoiceVOs;
-        try {
-            invoiceVOs = invoiceDAO.findInvoices(searchInvoiceVo);
-        } catch (InvoiceException ex) {
-            LOG.error(ex.getLocalizedMessage(), ex);
-            throw new InvoiceException(ex);
-        }
-        return invoiceVOs;
+    public List<InvoiceVO> findInvoices(final InvoiceVO searchInvoiceVo) {
+        return invoiceDAO.findInvoices(searchInvoiceVo);
     }
 }

@@ -1,7 +1,7 @@
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/flag-icon-css/3.5.0/css/flag-icon.min.css" integrity="sha512-Cv93isQdFwaKBV+Z4X8kaVBYWHST58Xb/jVOcV9aRsGSArZsgAnFIhMpDoMDcFNoUtday1hdjn0nGp3+KZyyFw==" crossorigin="anonymous" />
+<link rel="stylesheet" href="/css/core/flag-icon.min.css" crossorigin="anonymous" />
 <nav class="navbar navbar-dark py-0 bg-primary navbar-expand-lg py-md-0">
     <spring:url value="/img/Poseidon_Menu.png" var="posIcon2" />
-    <a class="navbar-brand" href="#" onclick="javascript:goToHome();"><span><img src="${posIcon2}" width="30" height="30" class="d-inline-block align-top" alt="Poseidon"/></span>Poseidon</a>
+    <a class="navbar-brand" href="#" onclick="goToHome();"><span><img src="${posIcon2}" width="30" height="30" class="d-inline-block align-top" alt="Poseidon"/></span>Poseidon</a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>

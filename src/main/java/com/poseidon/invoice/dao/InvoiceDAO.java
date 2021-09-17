@@ -3,11 +3,9 @@ package com.poseidon.invoice.dao;
 import com.poseidon.invoice.dao.entities.Invoice;
 import com.poseidon.invoice.dao.repo.InvoiceRepository;
 import com.poseidon.invoice.domain.InvoiceVO;
-import com.poseidon.invoice.exception.InvoiceException;
 import org.hibernate.Session;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
@@ -106,17 +104,9 @@ public class InvoiceDAO {
      *
      * @param searchInvoiceVO searchInvoiceVO
      * @return list of invoice
-     * @throws InvoiceException on error
      */
-    public List<InvoiceVO> findInvoices(final InvoiceVO searchInvoiceVO) throws InvoiceException {
-        List<InvoiceVO> invoiceVOs;
-        try {
-            invoiceVOs = searchInvoice(searchInvoiceVO);
-        } catch (DataAccessException ex) {
-            log.error(ex.getLocalizedMessage());
-            throw new InvoiceException(ex);
-        }
-        return invoiceVOs;
+    public List<InvoiceVO> findInvoices(final InvoiceVO searchInvoiceVO) {
+        return sneak(() -> searchInvoice(searchInvoiceVO));
     }
 
     private List<InvoiceVO> searchInvoice(final InvoiceVO searchInvoiceVO) {
