@@ -1,7 +1,10 @@
 <link rel="stylesheet" href="/css/core/flag-icon.min.css" crossorigin="anonymous" />
 <nav class="navbar navbar-dark py-0 bg-primary navbar-expand-lg py-md-0">
     <spring:url value="/img/Poseidon_Menu.png" var="posIcon2" />
-    <a class="navbar-brand" href="#" onclick="goToHome();"><span><img src="${posIcon2}" width="30" height="30" class="d-inline-block align-top" alt="Poseidon"/></span>Poseidon</a>
+    <a class="navbar-brand" href="#" onclick="goToHome();">
+        <img src="${posIcon2}" width="30" height="30" class="d-inline-block align-top" alt="Poseidon"/>
+        Poseidon
+    </a>
     <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
     </button>
@@ -9,7 +12,7 @@
         <ul class="navbar-nav mr-auto">
             <c:choose>
                 <c:when test="${pageContext.request.userPrincipal.name != null}">
-                    <li class='nav-item' id='user'><a href='#' class='nav-link' onclick='listMe();' >User<span class="sr-only">(current)</span></a></li>
+                    <li class='nav-item' id='user'><a href='#' class='nav-link' onclick='listMe();' >User</a></li>
                 </c:when>
             </c:choose>
             <li class="nav-item py-0" id="make"><a class="nav-link" href="#" onclick="MakeMe();" >Make</a></li>

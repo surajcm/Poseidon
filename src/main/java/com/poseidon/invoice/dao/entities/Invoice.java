@@ -21,7 +21,7 @@ public class Invoice {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "id")
-    private Long invoiceId;
+    private Long id;
 
     @Column(name = "transactionId")
     private Long transactionId;
@@ -29,7 +29,7 @@ public class Invoice {
     @Column(name = "description")
     private String description;
 
-    @Column(name = "serialno")
+    @Column(name = "serialNumber")
     private String serialNumber;
 
     @Column(name = "amount")
@@ -47,7 +47,7 @@ public class Invoice {
     @Column(name = "customername")
     private String customerName;
 
-    @Column(name = "tagno")
+    @Column(name = "tagNumber")
     private String tagNumber;
 
     @CreatedDate
@@ -64,12 +64,12 @@ public class Invoice {
     @Column(name = "modifiedBy")
     private String modifiedBy;
 
-    public Long getInvoiceId() {
-        return invoiceId;
+    public Long getId() {
+        return id;
     }
 
-    public void setInvoiceId(final Long invoiceId) {
-        this.invoiceId = invoiceId;
+    public void setId(final Long id) {
+        this.id = id;
     }
 
     public Long getTransactionId() {

@@ -187,24 +187,24 @@ function deleteRow() {
 
 
 function invoiceTxn() {
-    var check = 'false';
-    var count = 0;
+    let check = 'false';
+    let count = 0;
     // get all check boxes
-    var checks = document.getElementsByName('checkField');
+    let checks = document.getElementsByName('checkField');
     if (checks) {
         //if total number of rows is one
         if (checks.checked) {
             invoiceRow();
         } else {
-            for (var i = 0; i < checks.length; i++) {
+            for (let i = 0; i < checks.length; i++) {
                 if (checks[i].checked) {
                     check = 'true';
                     count = count + 1;
                 }
             }
             //check for validity
-            if (check = 'true') {
-                if (count == 1) {
+            if (check === 'true') {
+                if (count === 1) {
                     invoiceRow();
                 } else {
                     alert(" Only one row can be invoiced at a time, please select one row ");
@@ -217,12 +217,12 @@ function invoiceTxn() {
 }
 
 function invoiceRow() {
-    var userRow;
-    var checks = document.getElementsByName('checkField');
+    let userRow;
+    let checks = document.getElementsByName('checkField');
     if (checks.checked) {
         userRow = document.getElementById("myTable").rows[0];
     } else {
-        for (var i = 0; i < checks.length; i++) {
+        for (let i = 0; i < checks.length; i++) {
             if (checks[i].checked) {
                 userRow = document.getElementById("myTable").rows[i + 1];
             }

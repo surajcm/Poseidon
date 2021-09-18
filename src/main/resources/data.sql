@@ -114,7 +114,7 @@ insert into transaction (id, tagNo, dateReported, customerId, productCategory, m
  'Replace screen', 'Purchase screen', 'INVOICED',
  'admin', CURRENT_DATE, 'admin', CURRENT_DATE);
 
-insert into invoice ( id, transactionId, description, serialNo ,amount ,quantity , rate ,
- customerId, customerName, tagNo ,  createdBy, createdOn, modifiedBy, modifiedOn) values
+insert into invoice (id, transactionId, description, serialNumber ,amount ,quantity , rate ,
+ customerId, customerName, tagNumber ,  createdBy, createdOn, modifiedBy, modifiedOn) values
   (1, 4, 'SERVICE CHARGES FOR Apple MacBook Pro', 'III67676', 1000, 2, 500,
  4, 'Ras al Ghul', 'WON2N4', 'admin', CURRENT_DATE, 'admin', CURRENT_DATE);

@@ -4,6 +4,8 @@ import com.poseidon.invoice.dao.InvoiceDAO;
 import com.poseidon.invoice.domain.InvoiceVO;
 import com.poseidon.transaction.domain.TransactionVO;
 import com.poseidon.transaction.service.TransactionService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -11,6 +13,7 @@ import java.util.Optional;
 
 @Service
 public class InvoiceService {
+    private static final Logger log = LoggerFactory.getLogger(InvoiceService.class);
 
     private final InvoiceDAO invoiceDAO;
 
@@ -45,13 +48,15 @@ public class InvoiceService {
         var transactionVOs = getTransactionVOS();
         if (transactionVOs != null) {
             var tagNumbers = fetchTagNoFromListOfTransactionVOs(transactionVOs);
+            log.info("tag numbers are : {}", tagNumbers);
             invoiceVOs = invoiceDAO.fetchInvoiceForListOfTransactions(tagNumbers);
+            log.info("invoice vos count : {}", invoiceVOs.size());
         }
         return invoiceVOs;
     }
 
     private List<TransactionVO> getTransactionVOS() {
-        return transactionService.listTodaysTransactions();
+        return transactionService.listAllTransactions();
     }
 
     private List<String> fetchTagNoFromListOfTransactionVOs(final List<TransactionVO> transactionVOs) {

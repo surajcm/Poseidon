@@ -59,7 +59,7 @@ class InvoiceDAOTest {
 
     private Invoice mockInvoice() {
         var invoice = new Invoice();
-        invoice.setInvoiceId(1234L);
+        invoice.setId(1234L);
         return invoice;
     }
 

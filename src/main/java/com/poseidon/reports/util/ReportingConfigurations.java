@@ -14,16 +14,14 @@ import java.io.OutputStream;
 public class ReportingConfigurations {
 
     private ReportingConfigurations() {
-
     }
 
     public static SimpleXlsReportConfiguration configurationReportXls() {
-        SimpleXlsReportConfiguration xlsReportConfiguration = new SimpleXlsReportConfiguration();
+        var xlsReportConfiguration = new SimpleXlsReportConfiguration();
         xlsReportConfiguration.setOnePagePerSheet(false);
         xlsReportConfiguration.setWhitePageBackground(true);
         xlsReportConfiguration.setRemoveEmptySpaceBetweenRows(true);
         xlsReportConfiguration.setRemoveEmptySpaceBetweenColumns(true);
-        //xlsReportConfiguration.setDetectCellType(false);
         xlsReportConfiguration.setDetectCellType(true);
         xlsReportConfiguration.setFontSizeFixEnabled(false);
         xlsReportConfiguration.setIgnoreCellBorder(true);
@@ -31,7 +29,7 @@ public class ReportingConfigurations {
     }
 
     public static SimpleHtmlReportConfiguration configurationForHTML() {
-        SimpleHtmlReportConfiguration configuration = new SimpleHtmlReportConfiguration();
+        var configuration = new SimpleHtmlReportConfiguration();
         configuration.setWhitePageBackground(true);
         configuration.setRemoveEmptySpaceBetweenRows(true);
         configuration.setWrapBreakWord(true);
@@ -39,13 +37,13 @@ public class ReportingConfigurations {
     }
 
     public static SimpleDocxReportConfiguration docxReportConfiguration() {
-        SimpleDocxReportConfiguration configuration = new SimpleDocxReportConfiguration();
+        var configuration = new SimpleDocxReportConfiguration();
         configuration.setFlexibleRowHeight(true);
         return configuration;
     }
 
     public static SimplePdfReportConfiguration pdfReportConfiguration() {
-        SimplePdfReportConfiguration configuration = new SimplePdfReportConfiguration();
+        var configuration = new SimplePdfReportConfiguration();
         configuration.setSizePageToContent(true);
         return configuration;
     }

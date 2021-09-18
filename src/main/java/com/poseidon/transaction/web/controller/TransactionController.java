@@ -22,12 +22,13 @@ import org.springframework.web.servlet.ModelAndView;
 import java.io.IOException;
 import java.time.OffsetDateTime;
 import java.time.ZoneId;
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
+
+import static com.poseidon.transaction.web.controller.TransactionStatus.populateStatus;
 
 /**
  * user: Suraj.
@@ -100,9 +101,6 @@ public class TransactionController {
         return makeVOs;
     }
 
-    private List<String> populateStatus() {
-        return Arrays.stream(TransactionStatus.values()).map(Enum::name).toList();
-    }
 
     /**
      * add a new transaction.

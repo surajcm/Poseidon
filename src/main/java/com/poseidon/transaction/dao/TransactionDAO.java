@@ -75,21 +75,6 @@ public class TransactionDAO {
     }
 
     /**
-     * save transaction.
-     *
-     * @param currentTransaction transaction
-     * @return tag number
-     */
-    public String saveTransaction(final TransactionVO currentTransaction) {
-        var txn = getTransaction(currentTransaction);
-        var newTxn = sneak(() -> transactionRepository.save(txn));
-        var tagNo = COMPANY_KEY + newTxn.getTransactionId();
-        newTxn.setTagno(tagNo);
-        sneak(() -> transactionRepository.save(newTxn));
-        return tagNo;
-    }
-
-    /**
      * fetch a transaction by its id.
      *
      * @param id id of the transaction
@@ -102,6 +87,32 @@ public class TransactionDAO {
             transactionVO = convertToVO(optionalTransaction.get());
         }
         return transactionVO;
+    }
+
+    /**
+     * fetch the transaction from its tag.
+     *
+     * @param tagNo tag
+     * @return transaction for reporting
+     */
+    public TransactionReportVO fetchTransactionFromTag(final String tagNo) {
+        var transaction = sneak(() -> transactionRepository.findBytagno(tagNo));
+        return convertToTransactionReportVO(transaction);
+    }
+
+    /**
+     * save transaction.
+     *
+     * @param currentTransaction transaction
+     * @return tag number
+     */
+    public String saveTransaction(final TransactionVO currentTransaction) {
+        var txn = getTransaction(currentTransaction);
+        var newTxn = sneak(() -> transactionRepository.save(txn));
+        var tagNo = COMPANY_KEY + newTxn.getTransactionId();
+        newTxn.setTagno(tagNo);
+        sneak(() -> transactionRepository.save(newTxn));
+        return tagNo;
     }
 
     /**
@@ -124,17 +135,6 @@ public class TransactionDAO {
      */
     public void deleteTransaction(final Long id) {
         sneaked(transactionRepository::deleteById);
-    }
-
-    /**
-     * fetch the transaction from its tag.
-     *
-     * @param tagNo tag
-     * @return transaction for reporting
-     */
-    public TransactionReportVO fetchTransactionFromTag(final String tagNo) {
-        var transaction = sneak(() -> transactionRepository.findBytagno(tagNo));
-        return convertToTransactionReportVO(transaction);
     }
 
     /**

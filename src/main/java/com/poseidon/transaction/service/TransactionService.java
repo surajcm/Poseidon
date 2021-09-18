@@ -27,6 +27,15 @@ public class TransactionService {
     }
 
     /**
+     * list all transactions.
+     *
+     * @return list of transaction vo
+     */
+    public List<TransactionVO> listAllTransactions() {
+        return transactionDAO.listAllTransactions();
+    }
+
+    /**
      * list today's transactions.
      *
      * @return list of transactions
@@ -101,14 +110,5 @@ public class TransactionService {
      */
     public void updateTransactionStatus(final Long id, final String status) {
         transactionDAO.updateTransactionStatus(id, status);
-    }
-
-    /**
-     * list all transactions.
-     *
-     * @return list of transaction vo
-     */
-    public List<TransactionVO> listAllTransactions() {
-        return transactionDAO.listAllTransactions();
     }
 }

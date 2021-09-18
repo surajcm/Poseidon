@@ -153,10 +153,10 @@
                             <td>
                                 <br/>
                                 <br/>
-                                <input class="btn btn-primary" value="Add New Transaction" type="button" onclick="javascript:addNew()"/>
-                                <input class="btn btn-primary" value="Edit Transaction" type="button" onclick="javascript:editMe()"/>
-                                <input class="btn btn-primary" value="Delete Transaction" type="button" onclick="javascript:deleteTxn()"/>
-                                <input class="btn btn-primary" value="Invoice Transaction" type="button" onclick="javascript:invoiceTxn()"/>
+                                <input class="btn btn-primary" value="Add New Transaction" type="button" onclick="addNew()"/>
+                                <input class="btn btn-primary" value="Edit Transaction" type="button" onclick="editMe()"/>
+                                <input class="btn btn-primary" value="Delete Transaction" type="button" onclick="deleteTxn()"/>
+                                <input class="btn btn-primary" value="Invoice Transaction" type="button" onclick="invoiceTxn()"/>
                             </td>
                         </tr>
                     </table>

@@ -42,10 +42,10 @@
         </c:if>
         <section class="jumbotron">
         </section>
-        <script src="/js/core/jquery-3.2.1.min.js"></script>
-        <script src="/js/core/popper.min.js"></script>
-        <script src="/js/core/bootstrap.min.js"></script>
-        <script>
+        <script src="/js/core/jquery-3.2.1.min.js" type="text/javascript"></script>
+        <script src="/js/core/popper.min.js" type="text/javascript"></script>
+        <script src="/js/core/bootstrap.min.js" type="text/javascript"></script>
+        <script type="text/javascript">
             $(document).ready(function() {
                 //Handles menu drop down
                 $('.dropdown-menu').find('form').click(function (e) {

@@ -20,10 +20,11 @@ import static com.rainerhahnekamp.sneakythrow.Sneaky.sneaked;
 @SuppressWarnings("unused")
 @Service
 public class InvoiceDAO {
-    private static final String TAG_NO = "tagno";
-    private static final String SERIAL_NO = "serialno";
+    private static final String TAG_NO = "tagNumber";
+    private static final String SERIAL_NO = "serialNumber";
     private static final String DESCRIPTION = "description";
     private static final String AMOUNT = "amount";
+    private static final String ID = "id";
     private final InvoiceRepository invoiceRepository;
 
     @PersistenceContext
@@ -114,53 +115,27 @@ public class InvoiceDAO {
         var criteria = builder.createQuery(Invoice.class);
         var invoiceRoot = criteria.from(Invoice.class);
         criteria.select(invoiceRoot);
-
-        if (Boolean.TRUE.equals(searchInvoiceVO.getIncludes())) {
-            if (!StringUtils.hasText(searchInvoiceVO.getTagNo())) {
-                criteria.where(builder.like(invoiceRoot.get(TAG_NO),
-                        "%" + searchInvoiceVO.getTagNo() + "%"));
-            }
-            if (!StringUtils.hasText(searchInvoiceVO.getSerialNo())) {
-                criteria.where(builder.like(invoiceRoot.get(SERIAL_NO),
-                        "%" + searchInvoiceVO.getSerialNo() + "%"));
-            }
-            if (!StringUtils.hasText(searchInvoiceVO.getDescription())) {
-                criteria.where(builder.like(invoiceRoot.get(DESCRIPTION),
-                        "%" + searchInvoiceVO.getDescription() + "%"));
-            }
-            if (searchInvoiceVO.getId() != null && searchInvoiceVO.getId() > 0) {
-                criteria.where(builder.like(invoiceRoot.get("id"), "%" + searchInvoiceVO.getId() + "%"));
-            }
-
-        } else if (Boolean.TRUE.equals(searchInvoiceVO.getStartsWith())) {
-            if (!StringUtils.hasText(searchInvoiceVO.getTagNo())) {
-                criteria.where(builder.like(invoiceRoot.get(TAG_NO), searchInvoiceVO.getTagNo() + "%"));
-            }
-            if (!StringUtils.hasText(searchInvoiceVO.getSerialNo())) {
-                criteria.where(builder.like(invoiceRoot.get(SERIAL_NO),
-                        searchInvoiceVO.getSerialNo() + "%"));
-            }
-            if (!StringUtils.hasText(searchInvoiceVO.getDescription())) {
-                criteria.where(builder.like(invoiceRoot.get(DESCRIPTION),
-                        searchInvoiceVO.getDescription() + "%"));
-            }
-            if (searchInvoiceVO.getId() != null && searchInvoiceVO.getId() > 0) {
-                criteria.where(builder.like(invoiceRoot.get("id"), searchInvoiceVO.getId() + "%"));
-            }
-        } else {
-            if (!StringUtils.hasText(searchInvoiceVO.getTagNo())) {
-                criteria.where(builder.like(invoiceRoot.get(TAG_NO), searchInvoiceVO.getTagNo()));
-            }
-            if (!StringUtils.hasText(searchInvoiceVO.getSerialNo())) {
-                criteria.where(builder.like(invoiceRoot.get(SERIAL_NO), searchInvoiceVO.getSerialNo()));
-            }
-            if (!StringUtils.hasText(searchInvoiceVO.getDescription())) {
-                criteria.where(builder.like(invoiceRoot.get(DESCRIPTION), searchInvoiceVO.getDescription()));
-            }
-            if (searchInvoiceVO.getId() != null && searchInvoiceVO.getId() > 0) {
-                criteria.where(builder.equal(invoiceRoot.get("id"), searchInvoiceVO.getId()));
-            }
+        var includes = searchInvoiceVO.getIncludes();
+        var startsWith = searchInvoiceVO.getStartsWith();
+        if (StringUtils.hasText(searchInvoiceVO.getTagNo())) {
+            var tag = pattern(includes, startsWith, searchInvoiceVO.getTagNo());
+            criteria.where(builder.like(invoiceRoot.get(TAG_NO), tag));
         }
+
+        if (StringUtils.hasText(searchInvoiceVO.getSerialNo())) {
+            var serial = pattern(includes, startsWith, searchInvoiceVO.getSerialNo());
+            criteria.where(builder.like(invoiceRoot.get(SERIAL_NO), serial));
+        }
+
+        if (StringUtils.hasText(searchInvoiceVO.getDescription())) {
+            var desc = pattern(includes, startsWith, searchInvoiceVO.getDescription());
+            criteria.where(builder.like(invoiceRoot.get(DESCRIPTION), desc));
+        }
+
+        if (searchInvoiceVO.getId() != null && searchInvoiceVO.getId() > 0) {
+            criteria.where(builder.equal(invoiceRoot.get(ID), searchInvoiceVO.getId()));
+        }
+
         if (searchInvoiceVO.getAmount() != null && searchInvoiceVO.getAmount() > 0) {
             if (Boolean.TRUE.equals(searchInvoiceVO.getGreater())
                     && Boolean.FALSE.equals(searchInvoiceVO.getLesser())) {
@@ -178,9 +153,21 @@ public class InvoiceDAO {
         return resultList.stream().map(this::convertInvoiceToInvoiceVO).toList();
     }
 
+    private String pattern(final boolean includes, final boolean startsWith, final String element) {
+        String patternString;
+        if (Boolean.TRUE.equals(includes)) {
+            patternString = "%" + element + "%";
+        } else if (Boolean.TRUE.equals(startsWith)) {
+            patternString = element + "%";
+        } else {
+            patternString = element;
+        }
+        return patternString;
+    }
+
     private InvoiceVO getInvoiceVoFromInvoice(final Invoice invoice) {
         var invoiceVO = new InvoiceVO();
-        invoiceVO.setId(invoice.getInvoiceId());
+        invoiceVO.setId(invoice.getId());
         invoiceVO.setCustomerName(invoice.getCustomerName());
         invoiceVO.setTagNo(invoice.getTagNumber());
         invoiceVO.setDescription(invoice.getDescription());
@@ -199,7 +186,7 @@ public class InvoiceDAO {
 
     private InvoiceVO convertInvoiceToInvoiceVO(final Invoice invoice) {
         var invoiceVO = new InvoiceVO();
-        invoiceVO.setId(invoice.getInvoiceId());
+        invoiceVO.setId(invoice.getId());
         invoiceVO.setCustomerName(invoice.getCustomerName());
         invoiceVO.setTagNo(invoice.getTagNumber());
         invoiceVO.setDescription(invoice.getDescription());
