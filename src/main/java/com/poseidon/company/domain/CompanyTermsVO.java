@@ -1,6 +1,6 @@
 package com.poseidon.company.domain;
 
-import java.time.OffsetDateTime;
+import java.time.LocalDateTime;
 
 public class CompanyTermsVO {
     private Long id;
@@ -14,8 +14,8 @@ public class CompanyTermsVO {
     private String companyDetails;
     private String companyVatTin;
     private String companyCstTin;
-    private OffsetDateTime createdDate;
-    private OffsetDateTime modifiedDate;
+    private LocalDateTime createdDate;
+    private LocalDateTime modifiedDate;
     private String createdBy;
     private String modifiedBy;
 
@@ -107,19 +107,19 @@ public class CompanyTermsVO {
         this.companyCstTin = companyCstTin;
     }
 
-    public OffsetDateTime getCreatedDate() {
+    public LocalDateTime getCreatedDate() {
         return createdDate;
     }
 
-    public void setCreatedDate(final OffsetDateTime createdDate) {
+    public void setCreatedDate(final LocalDateTime createdDate) {
         this.createdDate = createdDate;
     }
 
-    public OffsetDateTime getModifiedDate() {
+    public LocalDateTime getModifiedDate() {
         return modifiedDate;
     }
 
-    public void setModifiedDate(final OffsetDateTime modifiedDate) {
+    public void setModifiedDate(final LocalDateTime modifiedDate) {
         this.modifiedDate = modifiedDate;
     }
 

@@ -22,7 +22,7 @@ public class TransactionVO {
     private String serialNo;
     private String accessories;
     private String complaintReported;
-    private String complaintDiagonsed;
+    private String complaintDiagnosed;
     private String enggRemark;
     private String repairAction;
     private String status;
@@ -124,12 +124,12 @@ public class TransactionVO {
         this.complaintReported = complaintReported;
     }
 
-    public String getComplaintDiagonsed() {
-        return complaintDiagonsed;
+    public String getComplaintDiagnosed() {
+        return complaintDiagnosed;
     }
 
-    public void setComplaintDiagonsed(final String complaintDiagonsed) {
-        this.complaintDiagonsed = complaintDiagonsed;
+    public void setComplaintDiagnosed(final String complaintDiagnosed) {
+        this.complaintDiagnosed = complaintDiagnosed;
     }
 
     public String getEnggRemark() {
@@ -260,7 +260,7 @@ public class TransactionVO {
                 .add("serialNo='" + serialNo + "'")
                 .add("accessories='" + accessories + "'")
                 .add("complaintReported='" + complaintReported + "'")
-                .add("complaintDiagonsed='" + complaintDiagonsed + "'")
+                .add("complaintDiagonsed='" + complaintDiagnosed + "'")
                 .add("enggRemark='" + enggRemark + "'")
                 .add("repairAction='" + repairAction + "'")
                 .add("status='" + status + "'")

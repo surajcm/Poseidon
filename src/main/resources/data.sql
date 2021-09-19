@@ -87,28 +87,28 @@ insert into customer_additional_details (id, customerId, contactPerson, contactP
  'admin', CURRENT_DATE, 'admin', CURRENT_DATE);
 
 insert into transaction (id, tagNo, dateReported, customerId, productCategory, makeId, modelId,
- serialNo, accessories, complaintReported, complaintDiagnosed, engineerRemarks, repairAction, note, status,
+serialNumber, accessories, complaintReported, complaintDiagnosed, engineerRemarks, repairAction, note, status,
  createdBy, createdOn, modifiedBy, modifiedOn) values (1, 'WON2N1', '2020-06-15 00:00:00', 1 , 'LAPTOP', 1, 1,
  'AEPEP88990', 'Charger', 'Startup failure', 'Battery connectivity', 'Power circuit broken',
  'Replace Board', 'Purchase new board', 'ACCEPTED',
  'admin', '2020-06-15 00:00:00', 'admin', '2020-06-15 00:00:00');
 
 insert into transaction (id, tagNo, dateReported, customerId, productCategory, makeId, modelId,
- serialNo, accessories, complaintReported, complaintDiagnosed, engineerRemarks, repairAction, note, status,
+serialNumber, accessories, complaintReported, complaintDiagnosed, engineerRemarks, repairAction, note, status,
  createdBy, createdOn, modifiedBy, modifiedOn) values (2, 'WON2N2', '2020-06-16 00:00:00', 2 , 'LAPTOP', 1, 2,
  'PQRS12345', 'Charger', 'Display failure', 'Display connectivity', 'Display circuit broken',
  'Replace Board', 'Purchase new board', 'VERIFIED',
  'admin', '2020-06-16 00:00:00', 'admin', '2020-06-16 00:00:00');
 
 insert into transaction (id, tagNo, dateReported, customerId, productCategory, makeId, modelId,
- serialNo, accessories, complaintReported, complaintDiagnosed, engineerRemarks, repairAction, note, status,
+serialNumber, accessories, complaintReported, complaintDiagnosed, engineerRemarks, repairAction, note, status,
  createdBy, createdOn, modifiedBy, modifiedOn) values (3, 'WON2N3', CURRENT_DATE, 3 , 'LAPTOP', 2, 3,
  'ZZZ345345', 'Dock', 'Unresponsive OS', 'RAM issues', 'Clean up RAM',
  'RUN RAM cleaner', 'Run memtest', 'VERIFIED',
  'admin', CURRENT_DATE, 'admin', CURRENT_DATE);
 
 insert into transaction (id, tagNo, dateReported, customerId, productCategory, makeId, modelId,
- serialNo, accessories, complaintReported, complaintDiagnosed, engineerRemarks, repairAction, note, status,
+serialNumber, accessories, complaintReported, complaintDiagnosed, engineerRemarks, repairAction, note, status,
  createdBy, createdOn, modifiedBy, modifiedOn) values (4, 'WON2N4', CURRENT_DATE, 4 , 'TABLET', 1, 1,
  'III67676', 'Charger', 'Broken screen', 'Broken screen', 'Replace screen',
  'Replace screen', 'Purchase screen', 'INVOICED',

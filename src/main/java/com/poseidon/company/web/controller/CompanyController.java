@@ -10,8 +10,6 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.time.OffsetDateTime;
-import java.time.ZoneId;
 import java.util.Optional;
 
 @Controller
@@ -71,8 +69,6 @@ public class CompanyController {
             var auth = SecurityContextHolder.getContext().getAuthentication();
             var username = auth.getName();
             companyTermsForm.getCurrentCompanyTermsVO().setModifiedBy(username);
-            companyTermsForm.getCurrentCompanyTermsVO().setModifiedDate(
-                    OffsetDateTime.now(ZoneId.systemDefault()));
         }
         return companyTermsService.updateCompanyDetails(companyTermsForm.getCurrentCompanyTermsVO());
     }

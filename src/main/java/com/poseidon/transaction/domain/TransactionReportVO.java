@@ -1,6 +1,6 @@
 package com.poseidon.transaction.domain;
 
-import java.time.OffsetDateTime;
+import java.time.LocalDateTime;
 import java.util.StringJoiner;
 
 /**
@@ -12,7 +12,7 @@ import java.util.StringJoiner;
 public class TransactionReportVO {
     private Long id;
     private String tagNo;
-    private OffsetDateTime dateReported;
+    private LocalDateTime dateReported;
     private Long customerId;
     private String customerName;
     private String productCategory;
@@ -27,8 +27,6 @@ public class TransactionReportVO {
     private String enggRemark;
     private String repairAction;
     private String status;
-    private OffsetDateTime createdOn;
-    private OffsetDateTime modifiedOn;
     private String createdBy;
     private String modifiedBy;
     private Boolean startswith;
@@ -63,11 +61,11 @@ public class TransactionReportVO {
         this.tagNo = tagNo;
     }
 
-    public OffsetDateTime getDateReported() {
+    public LocalDateTime getDateReported() {
         return dateReported;
     }
 
-    public void setDateReported(final OffsetDateTime dateReported) {
+    public void setDateReported(final LocalDateTime dateReported) {
         this.dateReported = dateReported;
     }
 
@@ -165,22 +163,6 @@ public class TransactionReportVO {
 
     public void setStatus(final String status) {
         this.status = status;
-    }
-
-    public OffsetDateTime getCreatedOn() {
-        return createdOn;
-    }
-
-    public void setCreatedOn(final OffsetDateTime createdOn) {
-        this.createdOn = createdOn;
-    }
-
-    public OffsetDateTime getModifiedOn() {
-        return modifiedOn;
-    }
-
-    public void setModifiedOn(final OffsetDateTime modifiedOn) {
-        this.modifiedOn = modifiedOn;
     }
 
     public String getCreatedBy() {
@@ -355,8 +337,6 @@ public class TransactionReportVO {
                 .add("enggRemark='" + enggRemark + "'")
                 .add("repairAction='" + repairAction + "'")
                 .add("status='" + status + "'")
-                .add("createdOn=" + createdOn)
-                .add("modifiedOn=" + modifiedOn)
                 .add("createdBy='" + createdBy + "'")
                 .add("modifiedBy='" + modifiedBy + "'")
                 .add("startswith=" + startswith)

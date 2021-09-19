@@ -10,19 +10,21 @@ import com.poseidon.transaction.dao.entities.Transaction;
 import com.poseidon.transaction.dao.repo.TransactionRepository;
 import com.poseidon.transaction.domain.TransactionReportVO;
 import com.poseidon.transaction.domain.TransactionVO;
+import org.hibernate.Session;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
+import org.springframework.util.StringUtils;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.time.LocalDate;
-import java.time.OffsetDateTime;
-import java.time.OffsetTime;
+import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 import static com.rainerhahnekamp.sneakythrow.Sneaky.sneak;
 import static com.rainerhahnekamp.sneakythrow.Sneaky.sneaked;
@@ -39,6 +41,8 @@ public class TransactionDAO {
     private static final Logger LOG = LoggerFactory.getLogger(TransactionDAO.class);
     public static final String AND = " and ";
     public static final String COMPANY_KEY = "WON2N";
+    private static final String TAG_NO = "tagno";
+    private static final String MM_DD_YYYY = "MM/dd/yyyy";
     private final TransactionRepository transactionRepository;
     private final CustomerRepository customerRepository;
     private final MakeRepository makeRepository;
@@ -159,157 +163,90 @@ public class TransactionDAO {
      * @return list of matching transactions
      */
     public List<TransactionVO> searchTransactions(final TransactionVO searchTransaction) {
-        return sneak(() -> searchTxs(searchTransaction));
+        return sneak(() -> searchWithSpecTxs(searchTransaction));
     }
 
-    private String searchQuery() {
-        return """
-                SELECT tr FROM Transaction tr inner join Make mk on tr.makeId=mk.id inner join Model mdl
-                 on tr.modelId=mdl.id inner join Customer cust on cust.id=tr.customerId """;
+    private List<TransactionVO> searchWithSpecTxs(final TransactionVO searchTransaction) {
+        var builder = em.unwrap(Session.class).getCriteriaBuilder();
+        var criteria = builder.createQuery(Transaction.class);
+        var txnRoot = criteria.from(Transaction.class);
+        criteria.select(txnRoot);
+        var includes = searchTransaction.getIncludes();
+        var startsWith = searchTransaction.getStartswith();
+        if (StringUtils.hasText(searchTransaction.getTagNo())) {
+            var tag = pattern(includes, startsWith, searchTransaction.getTagNo());
+            criteria.where(builder.like(txnRoot.get(TAG_NO), tag));
+        }
+        if (StringUtils.hasText(searchTransaction.getCustomerName())) {
+            //todo: use search, so that starts with and includes can happen
+            var customers = customerRepository
+                    .findByName(searchTransaction.getCustomerName());
+            var customerIds = customers.stream().map(Customer::getCustomerId)
+                    .collect(Collectors.toUnmodifiableSet());
+            var customerExpression = txnRoot.get("customerId");
+            var customerPredicate = customerExpression.in(customerIds);
+            criteria.where(customerPredicate);
+        }
+        if (StringUtils.hasText(searchTransaction.getStartDate()) ||
+                StringUtils.hasText(searchTransaction.getEndDate())) {
+            var startDate = fetchStartDate(searchTransaction.getStartDate());
+            var endDate = fetchEndDate(searchTransaction.getEndDate());
+            criteria.where(builder.between(txnRoot.get("dateReported"), startDate, endDate));
+        }
+        if (StringUtils.hasText(searchTransaction.getSerialNo())) {
+            var serial = pattern(includes, startsWith, searchTransaction.getSerialNo());
+            criteria.where(builder.like(txnRoot.get("serialNumber"), serial));
+        }
+        if (searchTransaction.getMakeId() != null) {
+            criteria.where(builder.equal(txnRoot.get("makeId"), searchTransaction.getMakeId()));
+        }
+        if (searchTransaction.getModelId() != null) {
+            criteria.where(builder.equal(txnRoot.get("modelId"), searchTransaction.getModelId()));
+        }
+        if (StringUtils.hasText(searchTransaction.getStatus())) {
+            criteria.where(builder.like(txnRoot.get("status"), searchTransaction.getStatus()));
+        }
+        List<Transaction> resultList = em.unwrap(Session.class).createQuery(criteria).getResultList();
+        return resultList.stream().map(this::convertToVO).toList();
     }
 
-    private List<TransactionVO> searchTxs(final TransactionVO searchTransaction) {
-        StringBuilder hqlQuery = new StringBuilder().append(searchQuery());
-        boolean hasTagNo = hasElement(searchTransaction.getTagNo());
-        boolean hasCustomerName = hasElement(searchTransaction.getCustomerName());
-        boolean hasSerialNo = hasElement(searchTransaction.getSerialNo());
-        boolean hasMake = searchTransaction.getMakeId() != null && searchTransaction.getMakeId() > 0;
-        boolean hasModel = searchTransaction.getModelId() != null && searchTransaction.getModelId() > 0;
-        boolean hasStatus = hasElement(searchTransaction.getStatus());
-        boolean hasStartDateAndEndDate = hasStartDateAndEndDate(searchTransaction);
-        boolean whereAtStart = whereAtStart(hasTagNo, hasCustomerName, hasSerialNo, hasMake,
-                hasModel, hasStatus, hasStartDateAndEndDate);
-
-        if (whereAtStart) {
-            hqlQuery.append(" where");
+    private LocalDateTime fetchStartDate(final String startDate) {
+        LocalDateTime dateTime;
+        if (StringUtils.hasText(startDate)) {
+            var formatter = DateTimeFormatter.ofPattern(MM_DD_YYYY);
+            dateTime = LocalDate.parse(startDate, formatter).atStartOfDay();
+        } else {
+            dateTime = LocalDateTime.now(ZoneId.systemDefault()).minusYears(10L);
         }
-
-        var first = false;
-        var tag = "";
-        if (hasTagNo) {
-            first = true;
-            hqlQuery.append(" tr.tagno like :tag ");
-            if (searchTransaction.getIncludes() != null && searchTransaction.getIncludes()) {
-                tag = "%" + searchTransaction.getTagNo() + "%";
-            } else if (searchTransaction.getStartswith() != null && searchTransaction.getStartswith()) {
-                tag = searchTransaction.getTagNo() + "%";
-            } else {
-                tag = searchTransaction.getTagNo();
-            }
-        }
-        var customer = "";
-        if (hasCustomerName) {
-            if (first) {
-                hqlQuery.append(AND);
-            }
-            hqlQuery.append(" cust.name like :customer ");
-            if (searchTransaction.getIncludes() != null && searchTransaction.getIncludes()) {
-                customer = "%" + searchTransaction.getCustomerName() + "%";
-            } else if (searchTransaction.getStartswith() != null && searchTransaction.getStartswith()) {
-                customer = searchTransaction.getCustomerName() + "%";
-            } else {
-                customer = searchTransaction.getCustomerName();
-            }
-        }
-        var serial = "";
-        if (hasSerialNo) {
-            if (first) {
-                hqlQuery.append(AND);
-            }
-            hqlQuery.append(" tr.serialno like :serial ");
-            if (searchTransaction.getIncludes() != null && searchTransaction.getIncludes()) {
-                serial = "%" + searchTransaction.getSerialNo() + "%";
-            } else if (searchTransaction.getStartswith() != null && searchTransaction.getStartswith()) {
-                serial = searchTransaction.getSerialNo() + "%";
-            } else {
-                serial = searchTransaction.getSerialNo();
-            }
-        }
-        var make = 0L;
-        if (hasMake) {
-            if (first) {
-                hqlQuery.append(AND);
-            }
-            hqlQuery.append(" mk.id like :make ");
-            make = searchTransaction.getMakeId();
-        }
-        var model = 0L;
-        if (hasModel) {
-            if (first) {
-                hqlQuery.append(AND);
-            }
-            hqlQuery.append(" mdl.id like :model ");
-            model = searchTransaction.getModelId();
-        }
-        var status = "";
-        if (hasStatus) {
-            if (first) {
-                hqlQuery.append(AND);
-            }
-            hqlQuery.append(" tr.status like :status ");
-            if (searchTransaction.getIncludes() != null && searchTransaction.getIncludes()) {
-                status = "%" + searchTransaction.getStatus() + "%";
-            } else if (searchTransaction.getStartswith() != null && searchTransaction.getStartswith()) {
-                status = searchTransaction.getStatus() + "%";
-            } else {
-                status = searchTransaction.getStatus();
-            }
-        }
-        var start = OffsetDateTime.now(ZoneId.systemDefault());
-        var end = OffsetDateTime.now(ZoneId.systemDefault());
-        if (hasStartDateAndEndDate) {
-            if (first) {
-                hqlQuery.append(AND);
-            }
-            start = getParsedDate(searchTransaction.getStartDate());
-            end = getParsedDate(searchTransaction.getEndDate());
-            hqlQuery.append(" tr.dateReported between :start and :end ");
-        }
-        var query = em.createQuery(hqlQuery.toString(), Transaction.class);
-        if (hasTagNo) {
-            query.setParameter("tag", tag);
-        }
-        if (hasCustomerName) {
-            query.setParameter("customer", customer);
-        }
-        if (hasSerialNo) {
-            query.setParameter("serial", serial);
-        }
-        if (hasMake) {
-            query.setParameter("make", make);
-        }
-        if (hasModel) {
-            query.setParameter("model", model);
-        }
-        if (hasStatus) {
-            query.setParameter("status", status);
-        }
-        if (hasStartDateAndEndDate) {
-            query.setParameter("start", start);
-            query.setParameter("end", end);
-        }
-        List<Transaction> transactions = query.getResultList();
-        return transactions.stream().map(this::convertToVO).toList();
+        return dateTime;
     }
 
-    private boolean whereAtStart(final boolean hasTagNo, final boolean hasCustomerName,
-                                 final boolean hasSerialNo, final boolean hasMake,
-                                 final boolean hasModel, final boolean hasStatus,
-                                 final boolean hasStartDateAndEndDate) {
-        return hasTagNo || hasCustomerName || hasSerialNo || hasMake ||
-                hasModel || hasStatus || hasStartDateAndEndDate;
+    private LocalDateTime fetchEndDate(final String endDate) {
+        LocalDateTime dateTime;
+        if (StringUtils.hasText(endDate)) {
+            var formatter = DateTimeFormatter.ofPattern(MM_DD_YYYY);
+            dateTime = LocalDate.parse(endDate, formatter).atStartOfDay();
+        } else {
+            dateTime = LocalDateTime.now(ZoneId.systemDefault());
+        }
+        return dateTime;
     }
 
-    private boolean hasElement(final String serialNo) {
-        return serialNo != null
-                && serialNo.trim().length() > 0;
+    private String formatLocalDateTimeToString(final LocalDateTime start) {
+        var formatter = DateTimeFormatter.ISO_LOCAL_DATE;
+        return start.format(formatter);
     }
 
-    private boolean hasStartDateAndEndDate(final TransactionVO searchTransaction) {
-        return searchTransaction.getStartDate() != null
-                && searchTransaction.getStartDate().trim().length() > 0
-                && searchTransaction.getEndDate() != null
-                && searchTransaction.getEndDate().trim().length() > 0;
+    private String pattern(final boolean includes, final boolean startsWith, final String element) {
+        String patternString;
+        if (Boolean.TRUE.equals(includes)) {
+            patternString = "%" + element + "%";
+        } else if (Boolean.TRUE.equals(startsWith)) {
+            patternString = element + "%";
+        } else {
+            patternString = element;
+        }
+        return patternString;
     }
 
     private TransactionVO convertToVO(final Transaction txn) {
@@ -331,7 +268,7 @@ public class TransactionDAO {
         transactionVO.setStatus(txn.getStatus());
         transactionVO.setAccessories(txn.getAccessories());
         transactionVO.setComplaintReported(txn.getComplaintReported());
-        transactionVO.setComplaintDiagonsed(txn.getComplaintDiagnosed());
+        transactionVO.setComplaintDiagnosed(txn.getComplaintDiagnosed());
         transactionVO.setEnggRemark(txn.getEngineerRemarks());
         transactionVO.setRepairAction(txn.getRepairAction());
         transactionVO.setNotes(txn.getNote());
@@ -345,14 +282,25 @@ public class TransactionDAO {
         return txn;
     }
 
-    private OffsetDateTime parseDate(final String dateReported) {
-        var parsedTime = OffsetDateTime.now(ZoneId.systemDefault());
+    private LocalDateTime parseDate(final String dateReported) {
+        var parsedTime = LocalDateTime.now(ZoneId.systemDefault());
         try {
-            parsedTime = OffsetDateTime.parse(dateReported);
+            parsedTime = LocalDateTime.parse(dateReported);
         } catch (Exception ex) {
             LOG.info(ex.getMessage());
         }
         return parsedTime;
+    }
+
+    private LocalDateTime getParsedDate(final String dateReported) {
+        var reported = LocalDateTime.now(ZoneId.systemDefault());
+        try {
+            reported = LocalDate.parse(dateReported, DateTimeFormatter.ofPattern(MM_DD_YYYY))
+                    .atStartOfDay();
+        } catch (Exception ex) {
+            LOG.error(ex.getMessage());
+        }
+        return reported;
     }
 
     private TransactionReportVO convertToTransactionReportVO(final Transaction transaction) {
@@ -403,21 +351,10 @@ public class TransactionDAO {
         txn.setSerialNumber(currentTransaction.getSerialNo());
         txn.setAccessories(currentTransaction.getAccessories());
         txn.setComplaintReported(currentTransaction.getComplaintReported());
-        txn.setComplaintDiagnosed(currentTransaction.getComplaintDiagonsed());
+        txn.setComplaintDiagnosed(currentTransaction.getComplaintDiagnosed());
         txn.setEngineerRemarks(currentTransaction.getEnggRemark());
         txn.setRepairAction(currentTransaction.getRepairAction());
         txn.setNote(currentTransaction.getNotes());
         txn.setStatus(currentTransaction.getStatus());
-    }
-
-    private OffsetDateTime getParsedDate(final String dateReported) {
-        var reported = OffsetDateTime.now(ZoneId.systemDefault());
-        try {
-            reported = LocalDate.parse(dateReported, DateTimeFormatter.ofPattern("MM/dd/yyyy"))
-                    .atTime(OffsetTime.MIN);
-        } catch (Exception ex) {
-            LOG.error(ex.getMessage());
-        }
-        return reported;
     }
 }

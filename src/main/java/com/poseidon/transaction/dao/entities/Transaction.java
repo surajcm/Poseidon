@@ -12,7 +12,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import java.time.LocalDateTime;
-import java.time.OffsetDateTime;
 
 @EntityListeners(AuditingEntityListener.class)
 @Entity
@@ -28,21 +27,21 @@ public class Transaction {
     private String tagno;
 
     @Column(name = "datereported")
-    private OffsetDateTime dateReported;
+    private LocalDateTime dateReported;
 
-    @Column(name = "customerid")
+    @Column(name = "customerId")
     private Long customerId;
 
     @Column(name = "productcategory")
     private String productCategory;
 
-    @Column(name = "makeid")
+    @Column(name = "makeId")
     private Long makeId;
 
-    @Column(name = "modelid")
+    @Column(name = "modelId")
     private Long modelId;
 
-    @Column(name = "serialno")
+    @Column(name = "serialNumber")
     private String serialNumber;
 
     @Column(name = "accessories")
@@ -96,11 +95,11 @@ public class Transaction {
         this.tagno = tagno;
     }
 
-    public OffsetDateTime getDateReported() {
+    public LocalDateTime getDateReported() {
         return dateReported;
     }
 
-    public void setDateReported(final OffsetDateTime dateReported) {
+    public void setDateReported(final LocalDateTime dateReported) {
         this.dateReported = dateReported;
     }
 

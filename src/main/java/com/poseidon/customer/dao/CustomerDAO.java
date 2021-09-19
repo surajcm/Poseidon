@@ -53,6 +53,18 @@ public class CustomerDAO {
     }
 
     /**
+     * get customer from id.
+     *
+     * @param id of customer
+     * @return customer vo
+     */
+    public Optional<CustomerVO> getCustomerFromId(final Long id) {
+        return sneak(() -> customerRepository.findById(id))
+                .map(this::convertToSingleCustomerVO)
+                .map(this::getAdditionalDetailsToVO);
+    }
+
+    /**
      * save customer.
      *
      * @param currentCustomerVo currentCustomerVo
@@ -65,57 +77,14 @@ public class CustomerDAO {
         return convertToSingleCustomerVO(newCustomer);
     }
 
-    private void saveAdditionalDetails(final CustomerVO currentCustomerVo, final Customer newCustomer) {
-        var additionalDetails = setAdditionalDetailsToVO(currentCustomerVo);
-        currentCustomerVo.setCustomerAdditionalDetailsVO(additionalDetails);
-        var newAdditionalDetails = convertToCustomerAdditionalDetails(
-                newCustomer.getCustomerId(), currentCustomerVo.getCustomerAdditionalDetailsVO());
-        sneak(() -> customerAdditionalDetailsRepository.save(newAdditionalDetails));
-    }
-
     /**
-     * get customer from id.
+     * search customer.
      *
-     * @param id of customer
-     * @return customer vo
+     * @param searchCustomerVo searchCustomerVo
+     * @return list of customer vo
      */
-    public Optional<CustomerVO> getCustomerFromId(final Long id) {
-        return sneak(() -> customerRepository.findById(id))
-                .map(this::convertToSingleCustomerVO)
-                .map(this::getAdditionalDetailsToVO);
-    }
-
-    private Optional<CustomerAdditionalDetails> getAdditionalDetailsOfCustomerId(final Long id) {
-        return sneak(() -> customerAdditionalDetailsRepository.findByCustomerId(id));
-    }
-
-    private CustomerVO getAdditionalDetailsToVO(final CustomerVO customerVO) {
-        var additionalDetails =
-                getAdditionalDetailsOfCustomerId(customerVO.getCustomerId());
-        additionalDetails.ifPresent(customerAdditionalDetails ->
-                updateCustomerWithAdditionalDetails(customerVO, customerAdditionalDetails));
-        return customerVO;
-    }
-
-
-    /**
-     * delete a customer from id.
-     *
-     * @param id of customer
-     */
-    public void deleteCustomerFromId(final Long id) {
-        deleteAdditionalDetails(id);
-        customerRepository.deleteById(id);
-    }
-
-    private void deleteAdditionalDetails(final Long id) {
-        var additionalDetails = getAdditionalDetailsOfCustomerId(id);
-        additionalDetails.ifPresent(details ->
-                customerAdditionalDetailsRepository.deleteById(details.getId()));
-    }
-
-    private Optional<Customer> getCustomer(final Long id) {
-        return sneak(() -> customerRepository.findById(id));
+    public List<CustomerVO> searchCustomer(final CustomerVO searchCustomerVo) {
+        return searchCustomerInDetail(searchCustomerVo);
     }
 
     /**
@@ -136,6 +105,47 @@ public class CustomerDAO {
                 sneak(() -> customerAdditionalDetailsRepository.save(customerAdditionalDetails));
             }
         }
+    }
+
+    /**
+     * delete a customer from id.
+     *
+     * @param id of customer
+     */
+    public void deleteCustomerFromId(final Long id) {
+        deleteAdditionalDetails(id);
+        customerRepository.deleteById(id);
+    }
+
+    private Optional<CustomerAdditionalDetails> getAdditionalDetailsOfCustomerId(final Long id) {
+        return sneak(() -> customerAdditionalDetailsRepository.findByCustomerId(id));
+    }
+
+    private CustomerVO getAdditionalDetailsToVO(final CustomerVO customerVO) {
+        var additionalDetails =
+                getAdditionalDetailsOfCustomerId(customerVO.getCustomerId());
+        additionalDetails.ifPresent(customerAdditionalDetails ->
+                updateCustomerWithAdditionalDetails(customerVO, customerAdditionalDetails));
+        return customerVO;
+    }
+
+    private void saveAdditionalDetails(final CustomerVO currentCustomerVo, final Customer newCustomer) {
+        var additionalDetails = setAdditionalDetailsToVO(currentCustomerVo);
+        currentCustomerVo.setCustomerAdditionalDetailsVO(additionalDetails);
+        var newAdditionalDetails = convertToCustomerAdditionalDetails(
+                newCustomer.getCustomerId(), currentCustomerVo.getCustomerAdditionalDetailsVO());
+        sneak(() -> customerAdditionalDetailsRepository.save(newAdditionalDetails));
+    }
+
+
+    private void deleteAdditionalDetails(final Long id) {
+        var additionalDetails = getAdditionalDetailsOfCustomerId(id);
+        additionalDetails.ifPresent(details ->
+                customerAdditionalDetailsRepository.deleteById(details.getId()));
+    }
+
+    private Optional<Customer> getCustomer(final Long id) {
+        return sneak(() -> customerRepository.findById(id));
     }
 
     private CustomerAdditionalDetails populateDetails(final Customer customer) {
@@ -176,16 +186,6 @@ public class CustomerDAO {
         customer.setMobile(currentCustomerVo.getMobile());
         customer.setEmail(currentCustomerVo.getEmail());
         customer.setModifiedBy(currentCustomerVo.getModifiedBy());
-    }
-
-    /**
-     * search customer.
-     *
-     * @param searchCustomerVo searchCustomerVo
-     * @return list of customer vo
-     */
-    public List<CustomerVO> searchCustomer(final CustomerVO searchCustomerVo) {
-        return searchCustomerInDetail(searchCustomerVo);
     }
 
     private CustomerVO convertToSingleCustomerVO(final Customer customer) {

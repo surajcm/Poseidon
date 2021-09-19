@@ -67,7 +67,7 @@ create table transaction (
     productCategory varchar(45) not null,
     makeId bigint not null,
     modelId bigint not null,
-    serialNo varchar(45) not null,
+    serialNumber varchar(45) not null,
     accessories varchar(200),
     complaintReported varchar(200),
     complaintDiagnosed varchar(200),
