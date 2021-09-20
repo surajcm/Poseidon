@@ -133,7 +133,7 @@ public class CustomerDAO {
         var additionalDetails = setAdditionalDetailsToVO(currentCustomerVo);
         currentCustomerVo.setCustomerAdditionalDetailsVO(additionalDetails);
         var newAdditionalDetails = convertToCustomerAdditionalDetails(
-                newCustomer.getCustomerId(), currentCustomerVo.getCustomerAdditionalDetailsVO());
+                newCustomer.getId(), currentCustomerVo.getCustomerAdditionalDetailsVO());
         sneak(() -> customerAdditionalDetailsRepository.save(newAdditionalDetails));
     }
 
@@ -150,8 +150,8 @@ public class CustomerDAO {
 
     private CustomerAdditionalDetails populateDetails(final Customer customer) {
         var additionalDetails =
-                getAdditionalDetailsOfCustomerId(customer.getCustomerId());
-        return additionalDetails.orElseGet(() -> this.buildNew(customer.getCustomerId()));
+                getAdditionalDetailsOfCustomerId(customer.getId());
+        return additionalDetails.orElseGet(() -> this.buildNew(customer.getId()));
     }
 
     private CustomerAdditionalDetails buildNew(final Long id) {
@@ -190,7 +190,7 @@ public class CustomerDAO {
 
     private CustomerVO convertToSingleCustomerVO(final Customer customer) {
         var customerVO = new CustomerVO();
-        customerVO.setCustomerId(customer.getCustomerId());
+        customerVO.setCustomerId(customer.getId());
         customerVO.setCustomerName(customer.getName());
         customerVO.setAddress(customer.getAddress());
         customerVO.setPhoneNo(customer.getPhone());

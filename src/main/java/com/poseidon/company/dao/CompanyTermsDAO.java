@@ -28,7 +28,7 @@ public class CompanyTermsDAO {
      * @return CompanyTermsVO
      */
     public Optional<CompanyTermsVO> listCompanyTerms() {
-        var companyTerms = sneak(companyTermsRepository::findFirstByOrderByCompanyIdAsc);
+        var companyTerms = sneak(companyTermsRepository::findFirstByOrderByIdAsc);
         return companyTerms.map(this::convertToCompanyTermsVO);
     }
 
@@ -40,7 +40,7 @@ public class CompanyTermsDAO {
      */
     public Optional<CompanyTermsVO> updateCompanyDetails(final CompanyTermsVO companyTermsVO) {
         var optionalCompanyTerms =
-                sneak(companyTermsRepository::findFirstByOrderByCompanyIdAsc);
+                sneak(companyTermsRepository::findFirstByOrderByIdAsc);
         return optionalCompanyTerms
                 .map(terms -> getCompanyTerms(companyTermsVO, terms))
                 .map(companyTermsRepository::save)

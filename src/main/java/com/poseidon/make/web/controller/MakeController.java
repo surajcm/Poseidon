@@ -4,7 +4,7 @@ import com.poseidon.make.domain.MakeAndModelVO;
 import com.poseidon.make.domain.MakeVO;
 import com.poseidon.make.service.MakeService;
 import com.poseidon.make.web.form.MakeForm;
-import com.poseidon.util.CommonUtils;
+import com.poseidon.init.util.CommonUtils;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

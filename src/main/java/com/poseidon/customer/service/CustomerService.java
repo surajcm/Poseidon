@@ -1,4 +1,4 @@
-package com.poseidon.customer.service.impl;
+package com.poseidon.customer.service;
 
 import com.poseidon.customer.dao.CustomerDAO;
 import com.poseidon.customer.domain.CustomerVO;

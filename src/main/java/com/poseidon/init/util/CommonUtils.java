@@ -1,4 +1,4 @@
-package com.poseidon.util;
+package com.poseidon.init.util;
 
 public class CommonUtils {
 

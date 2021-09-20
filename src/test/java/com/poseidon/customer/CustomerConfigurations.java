@@ -1,6 +1,6 @@
 package com.poseidon.customer;
 
-import com.poseidon.customer.service.impl.CustomerService;
+import com.poseidon.customer.service.CustomerService;
 import com.poseidon.customer.web.controller.CustomerController;
 import org.mockito.Mockito;
 import org.springframework.context.annotation.Bean;

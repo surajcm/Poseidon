@@ -1,6 +1,6 @@
 package com.poseidon.transaction;
 
-import com.poseidon.customer.service.impl.CustomerService;
+import com.poseidon.customer.service.CustomerService;
 import com.poseidon.make.service.MakeService;
 import com.poseidon.transaction.service.TransactionService;
 import com.poseidon.transaction.web.controller.TransactionController;

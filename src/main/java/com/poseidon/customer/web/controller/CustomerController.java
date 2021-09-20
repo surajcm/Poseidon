@@ -2,10 +2,10 @@ package com.poseidon.customer.web.controller;
 
 import com.poseidon.customer.domain.CustomerAdditionalDetailsVO;
 import com.poseidon.customer.domain.CustomerVO;
-import com.poseidon.customer.service.impl.CustomerService;
+import com.poseidon.customer.service.CustomerService;
 import com.poseidon.customer.web.form.CustomerForm;
+import com.poseidon.init.util.CommonUtils;
 import com.poseidon.transaction.web.form.TransactionForm;
-import com.poseidon.util.CommonUtils;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

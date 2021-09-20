@@ -21,25 +21,25 @@ class CompanyTermsDAOTest {
 
     @Test
     void listCompanyTermsSuccess() {
-        when(companyTermsRepository.findFirstByOrderByCompanyIdAsc()).thenReturn(Optional.of(mockCompanyTerms()));
+        when(companyTermsRepository.findFirstByOrderByIdAsc()).thenReturn(Optional.of(mockCompanyTerms()));
         Assertions.assertNotNull(companyTermsDAO.listCompanyTerms());
     }
 
     @Test
     void listCompanyTermsEmpty() {
-        when(companyTermsRepository.findFirstByOrderByCompanyIdAsc()).thenReturn(Optional.empty());
+        when(companyTermsRepository.findFirstByOrderByIdAsc()).thenReturn(Optional.empty());
         Assertions.assertTrue(companyTermsDAO.listCompanyTerms().isEmpty());
     }
 
     @Test
     void updateCompanyDetailsSuccessWithNull() {
-        when(companyTermsRepository.findFirstByOrderByCompanyIdAsc()).thenReturn(Optional.empty());
+        when(companyTermsRepository.findFirstByOrderByIdAsc()).thenReturn(Optional.empty());
         Assertions.assertTrue(companyTermsDAO.updateCompanyDetails(new CompanyTermsVO()).isEmpty());
     }
 
     @Test
     void updateCompanyDetailsSuccessWithNotNull() {
-        when(companyTermsRepository.findFirstByOrderByCompanyIdAsc()).thenReturn(Optional.of(mockCompanyTerms()));
+        when(companyTermsRepository.findFirstByOrderByIdAsc()).thenReturn(Optional.of(mockCompanyTerms()));
         when(companyTermsRepository.save(any())).thenReturn(mockCompanyTerms());
         Assertions.assertNotNull(companyTermsDAO.updateCompanyDetails(new CompanyTermsVO()));
     }

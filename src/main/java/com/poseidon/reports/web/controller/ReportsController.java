@@ -10,7 +10,7 @@ import com.poseidon.reports.service.ReportsService;
 import com.poseidon.reports.util.ReportingConfigurations;
 import com.poseidon.reports.web.form.ReportsForm;
 import com.poseidon.transaction.domain.TransactionVO;
-import com.poseidon.util.CommonUtils;
+import com.poseidon.init.util.CommonUtils;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperPrint;

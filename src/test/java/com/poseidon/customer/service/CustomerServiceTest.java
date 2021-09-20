@@ -3,7 +3,6 @@ package com.poseidon.customer.service;
 import com.poseidon.customer.dao.CustomerDAO;
 import com.poseidon.customer.domain.CustomerVO;
 import com.poseidon.customer.exception.CustomerException;
-import com.poseidon.customer.service.impl.CustomerService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;

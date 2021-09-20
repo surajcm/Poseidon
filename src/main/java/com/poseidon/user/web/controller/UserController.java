@@ -4,7 +4,7 @@ import com.poseidon.user.domain.UserVO;
 import com.poseidon.user.service.SecurityService;
 import com.poseidon.user.service.UserService;
 import com.poseidon.user.web.form.UserForm;
-import com.poseidon.util.CommonUtils;
+import com.poseidon.init.util.CommonUtils;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;

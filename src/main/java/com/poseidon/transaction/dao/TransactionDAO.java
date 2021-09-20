@@ -181,7 +181,7 @@ public class TransactionDAO {
             //todo: use search, so that starts with and includes can happen
             var customers = customerRepository
                     .findByName(searchTransaction.getCustomerName());
-            var customerIds = customers.stream().map(Customer::getCustomerId)
+            var customerIds = customers.stream().map(Customer::getId)
                     .collect(Collectors.toUnmodifiableSet());
             var customerExpression = txnRoot.get("customerId");
             var customerPredicate = customerExpression.in(customerIds);

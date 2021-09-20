@@ -8,5 +8,5 @@ import java.util.Optional;
 
 @Repository
 public interface CompanyTermsRepository extends JpaRepository<CompanyTerms, Long> {
-    Optional<CompanyTerms> findFirstByOrderByCompanyIdAsc();
+    Optional<CompanyTerms> findFirstByOrderByIdAsc();
 }

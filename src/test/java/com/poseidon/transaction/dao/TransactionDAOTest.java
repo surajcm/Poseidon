@@ -148,7 +148,7 @@ class TransactionDAOTest {
 
     private Customer mockCustomer() {
         var customer = new Customer();
-        customer.setCustomerId(1234L);
+        customer.setId(1234L);
         customer.setName("ABC");
         return customer;
     }

@@ -1,4 +1,4 @@
-package com.poseidon.util;
+package com.poseidon.init.util;
 
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
