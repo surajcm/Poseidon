@@ -131,7 +131,7 @@ class UserDAOTest {
 
     private User mockUser() {
         var user = new User();
-        user.setUserId(1234L);
+        user.setId(1234L);
         user.setName("ABC");
         user.setEmail("ABC");
         user.setPassword("PASS");

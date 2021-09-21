@@ -41,7 +41,6 @@ import java.util.List;
  * Time: 10:40:47 AM
  */
 @Controller
-//@RequestMapping("/reports")
 @SuppressWarnings("unused")
 public class ReportsController {
     private static final Logger LOG = LoggerFactory.getLogger(ReportsController.class);

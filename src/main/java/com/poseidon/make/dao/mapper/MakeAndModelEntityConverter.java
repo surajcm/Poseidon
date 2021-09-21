@@ -34,14 +34,14 @@ public class MakeAndModelEntityConverter {
         makeAndModelVO.setId(model.getId());
         makeAndModelVO.setModelId(model.getModelId());
         makeAndModelVO.setModelName(model.getModelName());
-        makeAndModelVO.setMakeId(model.getMake().getMakeId());
+        makeAndModelVO.setMakeId(model.getMake().getId());
         makeAndModelVO.setMakeName(model.getMake().getMakeName());
         return makeAndModelVO;
     }
 
     private MakeAndModelVO createMakeAndModelVO(final Make make) {
         var makeAndModelVO = new MakeAndModelVO();
-        makeAndModelVO.setMakeId(make.getMakeId());
+        makeAndModelVO.setMakeId(make.getId());
         makeAndModelVO.setMakeName(make.getMakeName());
         makeAndModelVO.setDescription(make.getDescription());
         makeAndModelVO.setCreatedBy(make.getCreatedBy());
@@ -57,7 +57,7 @@ public class MakeAndModelEntityConverter {
      */
     public Make convertToMake(final MakeAndModelVO currentMakeVO) {
         var make = new Make();
-        make.setMakeId(currentMakeVO.getMakeId());
+        make.setId(currentMakeVO.getMakeId());
         make.setMakeName(currentMakeVO.getMakeName());
         make.setDescription(currentMakeVO.getDescription());
         make.setCreatedBy(currentMakeVO.getCreatedBy());
@@ -73,7 +73,7 @@ public class MakeAndModelEntityConverter {
      */
     public MakeAndModelVO getMakeVOFromMake(final Make make) {
         var makeAndModelVO = new MakeAndModelVO();
-        makeAndModelVO.setMakeId(make.getMakeId());
+        makeAndModelVO.setMakeId(make.getId());
         makeAndModelVO.setMakeName(make.getMakeName());
         makeAndModelVO.setDescription(make.getDescription());
         return makeAndModelVO;
@@ -83,7 +83,7 @@ public class MakeAndModelEntityConverter {
         var makeAndModelVO = new MakeAndModelVO();
         makeAndModelVO.setModelId(model.getModelId());
         makeAndModelVO.setModelName(model.getModelName());
-        makeAndModelVO.setMakeId(model.getMake().getMakeId());
+        makeAndModelVO.setMakeId(model.getMake().getId());
         makeAndModelVO.setMakeName(model.getMake().getMakeName());
         return makeAndModelVO;
     }

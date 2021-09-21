@@ -146,7 +146,7 @@ class MakeDaoTest {
 
     private Make mockMake() {
         var make = new Make();
-        make.setMakeId(1234L);
+        make.setId(1234L);
         make.setMakeName("HP");
         return make;
     }

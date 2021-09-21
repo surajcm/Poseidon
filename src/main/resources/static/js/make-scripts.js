@@ -22,24 +22,24 @@ function printMe() {
 
 //validation before edit
 function editMake() {
-    var check = 'false';
-    var count = 0;
+    let check = 'false';
+    let count = 0;
     // get all check boxes
-    var checks = document.getElementsByName('checkField');
+    const checks = document.getElementsByName('checkField');
     if (checks) {
         //if total number of rows is one
         if (checks.checked) {
             editRow();
         } else {
-            for (var i = 0; i < checks.length; i++) {
+            for (let i = 0; i < checks.length; i++) {
                 if (checks[i].checked) {
                     check = 'true';
                     count = count + 1;
                 }
             }
             //check for validity
-            if (check = 'true') {
-                if (count == 1) {
+            if (check === 'true') {
+                if (count === 1) {
                     editRow();
                 } else {
                     alert(" Only one row can be edited at a time, please select one row ");
@@ -53,8 +53,8 @@ function editMake() {
 
 //real edit
 function editRow() {
-    var userRow;
-    var checks = document.getElementsByName('checkField');
+    let userRow;
+    const checks = document.getElementsByName('checkField');
     if (checks.checked) {
         userRow = document.getElementById("myTable").rows[0];
         document.getElementById("id").value = userRow.cells[0].childNodes[0].value;
@@ -74,24 +74,24 @@ function editRow() {
 
 // delete
 function deleteMake() {
-    var check = 'false';
-    var count = 0;
+    let check = 'false';
+    let count = 0;
     // get all check boxes
-    var checks = document.getElementsByName('checkField');
+    const checks = document.getElementsByName('checkField');
     if (checks) {
         //if total number of rows is one
         if (checks.checked) {
             deleteRow();
         } else {
-            for (var i = 0; i < checks.length; i++) {
+            for (let i = 0; i < checks.length; i++) {
                 if (checks[i].checked) {
                     check = 'true';
                     count = count + 1;
                 }
             }
             //check for validity
-            if (check = 'true') {
-                if (count == 1) {
+            if (check === 'true') {
+                if (count === 1) {
                     deleteRow();
                 } else {
                     alert(" Only one row can be deleted at a time, please select one row ");
@@ -105,11 +105,11 @@ function deleteMake() {
 
 //code to delete
 function deleteRow() {
-    var answer = confirm(" Are you sure you wanted to delete the make ");
+    const answer = confirm(" Are you sure you wanted to delete the make ");
     if (answer) {
         //if yes then delete
-        var userRow;
-        var checks = document.getElementsByName('checkField');
+        let userRow;
+        const checks = document.getElementsByName('checkField');
         if (checks.checked) {
             userRow = document.getElementById("myTable").rows[0];
             document.getElementById("id").value = userRow.cells[0].childNodes[0].value;
@@ -130,10 +130,10 @@ function deleteRow() {
 
 //preventing multiple checks
 function checkCall(e) {
-    var min = e.value;
-    var checks = document.getElementsByName('checkField');
-    for (var i = 0; i < checks.length; i++) {
-        if (checks[i].value != min) {
+    const min = e.value;
+    const checks = document.getElementsByName('checkField');
+    for (let i = 0; i < checks.length; i++) {
+        if (checks[i].value !== min) {
             checks[i].checked = false;
         }
     }
@@ -144,31 +144,31 @@ function hideAlerts(){
 }
 
 function addSimpleMake(){
-    var myTable = document.getElementById("myTable");
+    const myTable = document.getElementById("myTable");
 
-    var d = document.createElement("tr");
-    var dCheck = document.createElement("td");
+    const d = document.createElement("tr");
+    const dCheck = document.createElement("td");
     d.appendChild(dCheck);
 
-    var inCheck = document.createElement("input");
+    const inCheck = document.createElement("input");
     inCheck.setAttribute("type","checkbox");
     inCheck.setAttribute("name","checkField");
     inCheck.setAttribute("onclick","javascript:checkCall(this)");
     dCheck.appendChild(inCheck);
 
-    var dMake = document.createElement("td");
+    const dMake = document.createElement("td");
     d.appendChild(dMake);
 
-    var inMake = document.createElement("input");
+    const inMake = document.createElement("input");
     inMake.setAttribute("type","text");
     inMake.setAttribute("class", "form-control");
     inMake.setAttribute("id", "newMakeName");
     dMake.appendChild(inMake);
 
-    var dDesc = document.createElement("td");
+    const dDesc = document.createElement("td");
     d.appendChild(dDesc);
 
-    var inDesc = document.createElement("input");
+    const inDesc = document.createElement("input");
     inDesc.setAttribute("type","text");
     inDesc.setAttribute("class", "form-control");
     inDesc.setAttribute("id", "newMakeDesc");
@@ -178,59 +178,62 @@ function addSimpleMake(){
 }
 
 function saveSimpleMake() {
-    var selectMakeName = document.forms[0].newMakeName.value;
-    var selectMakeDesc = document.forms[0].newMakeDesc.value;
-    $.ajax({
-        type: "POST",
-        url: "${contextPath}/make/saveMakeAjax.htm",
-        data: "selectMakeName=" + selectMakeName + "&selectMakeDesc=" + selectMakeDesc + "&${_csrf.parameterName}=${_csrf.token}",
-        success: function(response) {
-            //alert(response);
-            if (response != "") {
-                rewriteTable(response);
+    let selectMakeName = document.forms[0].newMakeName.value;
+    let selectMakeDesc = document.forms[0].newMakeDesc.value;
+    let xhr = new XMLHttpRequest();
+    xhr.open('POST', "/make/saveMakeAjax.htm",true);
+    let token = document.querySelector("meta[name='_csrf']").content;
+    let header = document.querySelector("meta[name='_csrf_header']").content;
+    xhr.setRequestHeader(header, token);
+    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    xhr.onload = function() {
+        if (xhr.status === 200) {
+            if (xhr.responseText != null) {
+                rewriteTable(xhr.responseText);
             }
-        },error: function(e){
-            alert('Error: ' + e);
+        } else if (xhr.status !== 200) {
+            console.log('Request failed.  Returned status of ' + xhr.status);
         }
-    });
+    };
+    xhr.send("selectMakeName="+selectMakeName+ "&selectMakeDesc=" + selectMakeDesc + "&${_csrf.parameterName}=${_csrf.token}" );
 }
 
 function rewriteTable(textReturned) {
     document.getElementById('myTable').innerHTML = "";
-    var myTable = document.getElementById("myTable");
-    var thead = document.createElement("thead");
-    var tr1 = document.createElement("tr");
-    var th1 = document.createElement("th");
+    const myTable = document.getElementById("myTable");
+    const thead = document.createElement("thead");
+    const tr1 = document.createElement("tr");
+    const th1 = document.createElement("th");
     th1.innerHTML = "#";
     th1.setAttribute("class","text-center");
     tr1.appendChild(th1);
-    var th2 = document.createElement("th");
+    const th2 = document.createElement("th");
     th2.innerHTML = "Make Name";
     th2.setAttribute("class","text-center");
     tr1.appendChild(th2);
-    var th3 = document.createElement("th");
+    const th3 = document.createElement("th");
     th3.innerHTML = "Description";
     th3.setAttribute("class","text-center");
     tr1.appendChild(th3);
     thead.appendChild(tr1);
     myTable.appendChild(thead);
-    var makeList = JSON.parse(textReturned);
-    var tbody = document.createElement("tbody");
-    for (var i = 0; i < makeList.length; i++) {
-        var singleMake = makeList[i];
-        var trx = document.createElement("tr");
-        var td1 = document.createElement("td");
-        var inCheck = document.createElement("input");
+    const makeList = JSON.parse(textReturned);
+    const tbody = document.createElement("tbody");
+    for (let i = 0; i < makeList.length; i++) {
+        const singleMake = makeList[i];
+        const trx = document.createElement("tr");
+        const td1 = document.createElement("td");
+        const inCheck = document.createElement("input");
         inCheck.setAttribute("type","checkbox");
         inCheck.setAttribute("name","checkField");
         inCheck.setAttribute("onclick","javascript:checkCall(this)");
         inCheck.setAttribute("value",singleMake.id);
         td1.appendChild(inCheck);
         trx.appendChild(td1);
-        var td2 = document.createElement("td");
+        const td2 = document.createElement("td");
         td2.innerHTML = singleMake.makeName;
         trx.appendChild(td2);
-        var td3 = document.createElement("td");
+        const td3 = document.createElement("td");
         td3.innerHTML = singleMake.description;
         trx.appendChild(td3);
         tbody.appendChild(trx);

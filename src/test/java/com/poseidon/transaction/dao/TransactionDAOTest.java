@@ -124,7 +124,7 @@ class TransactionDAOTest {
 
     private Transaction mockTransaction() {
         var transaction = new Transaction();
-        transaction.setTransactionId(1234L);
+        transaction.setId(1234L);
         transaction.setTagno("ABC");
         transaction.setDateReported(LocalDateTime.now(ZoneId.systemDefault()));
         transaction.setProductCategory("ABC");
@@ -155,7 +155,7 @@ class TransactionDAOTest {
 
     private Make mockMake() {
         var make = new Make();
-        make.setMakeId(1234L);
+        make.setId(1234L);
         make.setMakeName("ABC");
         return make;
     }

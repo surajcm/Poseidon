@@ -113,7 +113,7 @@ public class TransactionDAO {
     public String saveTransaction(final TransactionVO currentTransaction) {
         var txn = getTransaction(currentTransaction);
         var newTxn = sneak(() -> transactionRepository.save(txn));
-        var tagNo = COMPANY_KEY + newTxn.getTransactionId();
+        var tagNo = COMPANY_KEY + newTxn.getId();
         newTxn.setTagno(tagNo);
         sneak(() -> transactionRepository.save(newTxn));
         return tagNo;
@@ -254,7 +254,7 @@ public class TransactionDAO {
         final Make make = makeRepository.getById(txn.getMakeId());
         final Model model = modelRepository.getById(txn.getModelId());
         var transactionVO = new TransactionVO();
-        transactionVO.setId(txn.getTransactionId());
+        transactionVO.setId(txn.getId());
         transactionVO.setTagNo(txn.getTagno());
         transactionVO.setDateReported(txn.getDateReported().toString());
         transactionVO.setProductCategory(txn.getProductCategory());
@@ -305,7 +305,7 @@ public class TransactionDAO {
 
     private TransactionReportVO convertToTransactionReportVO(final Transaction transaction) {
         var txs = new TransactionReportVO();
-        txs.setId(transaction.getTransactionId());
+        txs.setId(transaction.getId());
         txs.setTagNo(transaction.getTagno());
         txs.setDateReported(transaction.getDateReported());
         txs.setCustomerId(transaction.getCustomerId());

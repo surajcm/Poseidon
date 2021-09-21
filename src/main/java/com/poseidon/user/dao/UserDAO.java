@@ -1,7 +1,7 @@
 package com.poseidon.user.dao;
 
-import com.poseidon.dataaccess.specs.SearchCriteria;
-import com.poseidon.dataaccess.specs.SearchOperation;
+import com.poseidon.init.specs.SearchCriteria;
+import com.poseidon.init.specs.SearchOperation;
 import com.poseidon.user.dao.entities.User;
 import com.poseidon.user.dao.repo.UserRepository;
 import com.poseidon.user.dao.spec.UserSpecification;
@@ -175,7 +175,7 @@ public class UserDAO {
 
     private UserVO convertToUserVO(final User user) {
         var userVO = new UserVO();
-        userVO.setId(user.getUserId());
+        userVO.setId(user.getId());
         userVO.setName(user.getName());
         userVO.setEmail(user.getEmail());
         userVO.setPassword(user.getPassword());

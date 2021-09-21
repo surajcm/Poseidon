@@ -219,7 +219,7 @@ public class MakeDao {
 
     private MakeVO createMakeVO(final Make make) {
         var makeVO = new MakeVO();
-        makeVO.setId(make.getMakeId());
+        makeVO.setId(make.getId());
         makeVO.setMakeName(make.getMakeName());
         makeVO.setDescription(make.getDescription());
         makeVO.setCreatedBy(make.getCreatedBy());
@@ -231,7 +231,7 @@ public class MakeDao {
         var makeAndModelVO = new MakeAndModelVO();
         makeAndModelVO.setModelId(model.getModelId());
         makeAndModelVO.setModelName(model.getModelName());
-        makeAndModelVO.setMakeId(model.getMakeId());
+        makeAndModelVO.setMakeId(make.getId());
         makeAndModelVO.setMakeName(make.getMakeName());
         return makeAndModelVO;
     }

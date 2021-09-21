@@ -1,15 +1,15 @@
 package com.poseidon.make.web.controller;
 
+import com.poseidon.init.util.CommonUtils;
 import com.poseidon.make.domain.MakeAndModelVO;
 import com.poseidon.make.domain.MakeVO;
 import com.poseidon.make.service.MakeService;
 import com.poseidon.make.web.form.MakeForm;
-import com.poseidon.init.util.CommonUtils;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -437,9 +437,9 @@ public class MakeController {
     public String findLoggedInUsername() {
         String username = null;
         if (SecurityContextHolder.getContext().getAuthentication() != null) {
-            var userDetails = SecurityContextHolder.getContext().getAuthentication().getDetails();
-            if (userDetails instanceof UserDetails details) {
-                username = details.getUsername();
+            var principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            if (principal instanceof User user) {
+                username = user.getUsername();
             }
         }
         return username;

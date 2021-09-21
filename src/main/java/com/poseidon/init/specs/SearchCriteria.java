@@ -1,4 +1,4 @@
-package com.poseidon.dataaccess.specs;
+package com.poseidon.init.specs;
 
 import java.io.Serializable;
 

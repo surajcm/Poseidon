@@ -13,7 +13,6 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -222,30 +221,33 @@ public class TransactionController {
         LOG.info("EditTxn method of TransactionController ");
         var sanitizedForm = CommonUtils.sanitizedString(transactionForm.toString());
         LOG.info("transactionForm is {}", sanitizedForm);
-        TransactionVO transactionVO = null;
-        Optional<CustomerVO> customerVO = Optional.empty();
-        transactionVO = transactionService.fetchTransactionFromId(transactionForm.getId());
-        if (transactionVO != null && transactionVO.getCustomerId() != null && transactionVO.getCustomerId() > 0) {
-            customerVO = customerService.getCustomerFromId(transactionVO.getCustomerId());
+        var transactionVO = transactionService.fetchTransactionFromId(transactionForm.getId());
+        if (transactionVO != null) {
+            LOG.info("transactionVO {}", transactionVO);
         }
         if (transactionVO != null && transactionVO.getMakeId() != null && transactionVO.getMakeId() > 0) {
             transactionForm.setMakeVOs(getMakeVOS());
-            List<MakeAndModelVO> makeAndModelVOs;
-            makeAndModelVOs = makeService.getAllModelsFromMakeId(transactionVO.getMakeId());
+            var makeAndModelVOs = makeService.getAllModelsFromMakeId(transactionVO.getMakeId());
             if (makeAndModelVOs != null) {
                 transactionForm.setMakeAndModelVOs(makeAndModelVOs);
                 makeAndModelVOs.forEach(makeAndModelVO -> LOG.info("makeAndModel vo is {}", makeAndModelVO));
             }
         }
-        if (transactionVO != null) {
-            LOG.info("transactionVO {}", transactionVO);
-        }
         transactionForm.setCurrentTransaction(transactionVO);
+        Optional<CustomerVO> customerVO = getCustomerVOFromTransaction(transactionVO);
         customerVO.ifPresent(vo -> transactionForm.setCustomerVO(Objects.requireNonNullElseGet(vo, CustomerVO::new)));
         transactionForm.setStatusList(populateStatus());
         transactionForm.setLoggedInRole(transactionForm.getLoggedInRole());
         transactionForm.setLoggedInUser(transactionForm.getLoggedInUser());
         return new ModelAndView("txs/TxnEdit", TRANSACTION_FORM, transactionForm);
+    }
+
+    private Optional<CustomerVO> getCustomerVOFromTransaction(final TransactionVO transactionVO) {
+        Optional<CustomerVO> customerVO = Optional.empty();
+        if (transactionVO != null && transactionVO.getCustomerId() != null && transactionVO.getCustomerId() > 0) {
+            customerVO = customerService.getCustomerFromId(transactionVO.getCustomerId());
+        }
+        return customerVO;
     }
 
     /**
@@ -267,6 +269,7 @@ public class TransactionController {
             LOG.info("TransactionForm, current transactions are values are {}", sanitizedCurrent);
         }
         try {
+            transactionForm.getCurrentTransaction().setCustomerId(transactionForm.getCustomerVO().getCustomerId());
             transactionService.updateTransaction(transactionForm.getCurrentTransaction());
             transactionForm.setStatusMessage("Successfully updated the transaction");
             transactionForm.setStatusMessageType(SUCCESS);
@@ -276,9 +279,9 @@ public class TransactionController {
             LOG.error(ex.getLocalizedMessage());
             LOG.info(UNKNOWN_ERROR);
         }
-        List<TransactionVO> transactionVOs = getTodaysTransactionVOS();
+        List<TransactionVO> transactionVOs = transactionService.listAllTransactions();
         if (transactionVOs != null) {
-            transactionVOs.forEach(transactionVO -> LOG.info(TRANSACTION_VO, transactionVO));
+            //transactionVOs.forEach(transactionVO -> LOG.info(TRANSACTION_VO, transactionVO));
             transactionForm.setTransactionsList(transactionVOs);
         }
         transactionForm.setMakeVOs(getMakeVOS());
@@ -289,15 +292,6 @@ public class TransactionController {
         return new ModelAndView(TRANSACTION_LIST, TRANSACTION_FORM, transactionForm);
     }
 
-    private List<TransactionVO> getTodaysTransactionVOS() {
-        List<TransactionVO> transactionVOs = null;
-        try {
-            transactionVOs = transactionService.listTodaysTransactions();
-        } catch (Exception ex) {
-            LOG.error(ex.getLocalizedMessage());
-        }
-        return transactionVOs;
-    }
 
     /**
      * delete transaction.
@@ -313,8 +307,8 @@ public class TransactionController {
         transactionService.deleteTransaction(transactionForm.getId());
         transactionForm.setStatusMessage("Successfully deleted the transaction");
         transactionForm.setStatusMessageType(SUCCESS);
-        List<TransactionVO> transactionVOs = getTodaysTransactionVOS();
-        if (transactionVOs != null) {
+        List<TransactionVO> transactionVOs = transactionService.listAllTransactions();
+        if (!transactionVOs.isEmpty()) {
             transactionVOs.forEach(transactionVO -> LOG.info(TRANSACTION_VO, transactionVO));
             transactionForm.setTransactionsList(transactionVOs);
         }
@@ -331,7 +325,7 @@ public class TransactionController {
      *
      * @param selectMakeId selectMakeId
      */
-    @GetMapping(value = "/txs/UpdateModelAjax.htm")
+    @PostMapping(value = "/txs/UpdateModelAjax.htm")
     public @ResponseBody
     String updateModelAjax(@ModelAttribute("selectMakeId") final String selectMakeId) {
         var responseString = "";

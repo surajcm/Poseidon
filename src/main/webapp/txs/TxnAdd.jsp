@@ -175,11 +175,11 @@
                             </td>
                             <td colspan="2"> &nbsp;</td>
                             <td style="text-align:right;">
-                                <label for="complaintDiagonsed" class="control-label">Complaint Diagnosed :</label>
+                                <label for="complaintDiagnosed" class="control-label">Complaint Diagnosed :</label>
                                 <label class="mandatory">*</label>
                             </td>
                             <td style="text-align:left;">
-                                <form:textarea path="currentTransaction.complaintDiagonsed" cssClass="form-control" id="complaintDiagonsed"/>
+                                <form:textarea path="currentTransaction.complaintDiagnosed" cssClass="form-control" id="complaintDiagnosed"/>
                             </td>
                         </tr>
                         <tr>

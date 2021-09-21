@@ -1,8 +1,8 @@
 package com.poseidon.customer.dao.spec;
 
 import com.poseidon.customer.dao.entities.Customer;
-import com.poseidon.dataaccess.specs.SearchCriteria;
-import com.poseidon.dataaccess.specs.SearchOperation;
+import com.poseidon.init.specs.SearchCriteria;
+import com.poseidon.init.specs.SearchOperation;
 import org.springframework.data.jpa.domain.Specification;
 
 import javax.persistence.criteria.CriteriaBuilder;

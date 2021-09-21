@@ -1,7 +1,7 @@
 package com.poseidon.user.dao.spec;
 
-import com.poseidon.dataaccess.specs.SearchCriteria;
-import com.poseidon.dataaccess.specs.SearchOperation;
+import com.poseidon.init.specs.SearchCriteria;
+import com.poseidon.init.specs.SearchOperation;
 import com.poseidon.user.dao.entities.User;
 import org.springframework.data.jpa.domain.Specification;
 

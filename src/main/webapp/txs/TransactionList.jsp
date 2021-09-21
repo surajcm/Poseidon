@@ -23,7 +23,7 @@
     <script type="text/javascript" src="/js/transaction-scripts.js"></script>
     <script type="text/javascript" src="/js/navbar-scripts.js"></script>
 </head>
-<body onload="javascript:hideAlerts()">
+<body onload="hideAlerts()">
     <form:form method="POST" action="List.htm" modelAttribute="transactionForm" >
         <form:hidden name="loggedInUser" path="loggedInUser"/>
         <form:hidden name="loggedInRole" path="loggedInRole"/>
@@ -102,9 +102,9 @@
                                 </div>
                             </div> 
                             <input class="btn btn-primary" value="<spring:message code='poseidon.search' text='Search' />"
-                                           type="button" onclick="javascript:search()"/> 
+                                           type="button" onclick="search()"/>
                             <input class="btn btn-primary" value="<spring:message code='poseidon.clear' text='Clear' />"
-                                           type="button" onclick="javascript:clearOut()"/>      
+                                           type="button" onclick="clearOut()"/>
                         </div>        
                     </div>
                 </div>
@@ -135,7 +135,7 @@
                         <tbody>
                         <c:forEach items="${transactionForm.transactionsList}" var="iterationTxn">
                             <tr>
-                                <td><input type="checkbox" name="checkField" onclick="javascript:checkCall(this)"
+                                <td><input type="checkbox" name="checkField" onclick="checkCall(this)"
                                            value="<c:out value='${iterationTxn.id}' />"/></td>
                                 <td><c:out value="${iterationTxn.tagNo}"/></td>
                                 <td><c:out value="${iterationTxn.customerName}"/></td>
@@ -164,11 +164,11 @@
                 </div>
             </div>
         </div>
-        <script src="/js/core/jquery-3.2.1.min.js"></script>
-        <script src="/js/core/popper.min.js"></script>
-        <script src="/js/core/bootstrap.min.js"></script>
-        <script src="/js/core/jquery-ui.min.js"></script>
-        <script>
+        <script src="/js/core/jquery-3.2.1.min.js" type="text/javascript"></script>
+        <script src="/js/core/popper.min.js" type="text/javascript"></script>
+        <script src="/js/core/bootstrap.min.js" type="text/javascript"></script>
+        <script src="/js/core/jquery-ui.min.js" type="text/javascript"></script>
+        <script type="text/javascript">
             $(document).ready(function() {
                 //Handles menu drop down
                 $('.dropdown-menu').find('form').click(function (e) {

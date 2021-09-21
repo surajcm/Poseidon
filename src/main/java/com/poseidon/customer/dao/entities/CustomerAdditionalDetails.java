@@ -10,7 +10,6 @@ import javax.persistence.Table;
 
 @EntityListeners(AuditingEntityListener.class)
 @Entity
-//todo : add schema
 @Table(name = "customer_additional_details")
 public class CustomerAdditionalDetails extends CommonEntity {
 
