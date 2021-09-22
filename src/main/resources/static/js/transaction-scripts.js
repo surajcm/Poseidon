@@ -1,9 +1,12 @@
-var req;
+function hideAlerts() {
+    document.getElementById('transaction').text = "Transactions <span class='sr-only'>Transactions</span>";
+}
 
 function addNew() {
     document.forms[0].action = "AddTxn.htm";
     document.forms[0].submit();
 }
+
 //preventing multiple checks
 function checkCall(e) {
     let min = e.value;
@@ -38,15 +41,15 @@ function clearOut() {
 }
 
 function changeTheModel() {
-    var selectMakeId = document.getElementById("makeId").value;
+    const selectMakeId = document.getElementById("makeId").value;
     console.log(selectMakeId);
-    var xhr = new XMLHttpRequest();
-    xhr.open('GET', "/txs/UpdateModelAjax.htm" + "?selectMakeId=" + selectMakeId,true);
-    var token = document.querySelector("meta[name='_csrf']").content;
-    var header = document.querySelector("meta[name='_csrf_header']").content;
+    const xhr = new XMLHttpRequest();
+    xhr.open('GET', "/txs/UpdateModelAjax.htm" + "?selectMakeId=" + selectMakeId, true);
+    const token = document.querySelector("meta[name='_csrf']").content;
+    const header = document.querySelector("meta[name='_csrf_header']").content;
     xhr.setRequestHeader(header, token);
     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-    xhr.onload = function() {
+    xhr.onload = function () {
         if (xhr.status === 200) {
             if (xhr.responseText != null) {
                 stateChange(xhr.responseText);
@@ -58,17 +61,18 @@ function changeTheModel() {
     xhr.send();
 }
 
+
 function stateChange(textReturned) {
-    console.log("Received :"+textReturned);
-    if(textReturned !== "") {
-        var mmList = JSON.parse(textReturned);
+    console.log("Received :" + textReturned);
+    if (textReturned !== "") {
+        const mmList = JSON.parse(textReturned);
         document.forms[0].modelId.options.length = mmList - 1;
         document.forms[0].modelId.options[0] = new Option("<-- Select -->", "");
-        for (var i = 0; i < mmList.length; i++) {
-            console.log("i is "+i);
-            var singleMM = mmList[i];
-            console.log("singleMM is "+singleMM.modelName);
-            document.forms[0].modelId.options[i+1] = new Option(singleMM.modelName, singleMM.id);
+        for (let i = 0; i < mmList.length; i++) {
+            console.log("i is " + i);
+            const singleMM = mmList[i];
+            console.log("singleMM is " + singleMM.modelName);
+            document.forms[0].modelId.options[i + 1] = new Option(singleMM.modelName, singleMM.id);
         }
     } else {
         document.forms[0].modelId.options.length = 0;
@@ -78,24 +82,24 @@ function stateChange(textReturned) {
 
 //validation before edit
 function editMe() {
-    var check = 'false';
-    var count = 0;
+    let check = 'false';
+    let count = 0;
     // get all check boxes
-    var checks = document.getElementsByName('checkField');
+    const checks = document.getElementsByName('checkField');
     if (checks) {
         //if total number of rows is one
         if (checks.checked) {
             editRow();
         } else {
-            for (var i = 0; i < checks.length; i++) {
+            for (let i = 0; i < checks.length; i++) {
                 if (checks[i].checked) {
                     check = 'true';
                     count = count + 1;
                 }
             }
             //check for validity
-            if (check = 'true') {
-                if (count == 1) {
+            if (check === 'true') {
+                if (count === 1) {
                     editRow();
                 } else {
                     alert(" Only one row can be edited at a time, please select one row ");
@@ -109,15 +113,15 @@ function editMe() {
 
 //real edit
 function editRow() {
-    var userRow;
-    var checks = document.getElementsByName('checkField');
+    let userRow;
+    const checks = document.getElementsByName('checkField');
     if (checks.checked) {
         userRow = document.getElementById("myTable").rows[0];
         document.getElementById("id").value = userRow.cells[0].childNodes[0].value;
         document.forms[0].action = "EditTxn.htm";
         document.forms[0].submit();
     } else {
-        for (var i = 0; i < checks.length; i++) {
+        for (let i = 0; i < checks.length; i++) {
             if (checks[i].checked) {
                 userRow = document.getElementById("myTable").rows[i + 1];
             }
@@ -130,24 +134,24 @@ function editRow() {
 
 // delete
 function deleteTxn() {
-    var check = 'false';
-    var count = 0;
+    let check = 'false';
+    let count = 0;
     // get all check boxes
-    var checks = document.getElementsByName('checkField');
+    const checks = document.getElementsByName('checkField');
     if (checks) {
         //if total number of rows is one
         if (checks.checked) {
             deleteRow();
         } else {
-            for (var i = 0; i < checks.length; i++) {
+            for (let i = 0; i < checks.length; i++) {
                 if (checks[i].checked) {
                     check = 'true';
                     count = count + 1;
                 }
             }
             //check for validity
-            if (check = 'true') {
-                if (count == 1) {
+            if (check === 'true') {
+                if (count === 1) {
                     deleteRow();
                 } else {
                     alert(" Only one row can be deleted at a time, please select one row ");
@@ -161,18 +165,18 @@ function deleteTxn() {
 
 //code to delete a user
 function deleteRow() {
-    var answer = confirm(" Are you sure you wanted to delete the Txn ");
+    const answer = confirm(" Are you sure you wanted to delete the Txn ");
     if (answer) {
         //if yes then delete
-        var userRow;
-        var checks = document.getElementsByName('checkField');
+        let userRow;
+        const checks = document.getElementsByName('checkField');
         if (checks.checked) {
             userRow = document.getElementById("myTable").rows[0];
             document.getElementById("id").value = userRow.cells[0].childNodes[0].value;
             document.forms[0].action = "DeleteTxn.htm";
             document.forms[0].submit();
         } else {
-            for (var i = 0; i < checks.length; i++) {
+            for (let i = 0; i < checks.length; i++) {
                 if (checks[i].checked) {
                     userRow = document.getElementById("myTable").rows[i + 1];
                 }
@@ -182,7 +186,6 @@ function deleteRow() {
             document.forms[0].submit();
         }
     }
-
 }
 
 
@@ -229,11 +232,8 @@ function invoiceRow() {
         }
     }
     document.getElementById("id").value = userRow.cells[0].childNodes[0].value;
-    document.forms[0].action="/invoice/InvoiceTxn.htm";
+    document.forms[0].action = "/invoice/InvoiceTxn.htm";
     document.forms[0].submit();
 }
 
-function hideAlerts() {
-    document.getElementById('transaction').text = "Transactions <span class='sr-only'>Transactions</span>";
-}
 

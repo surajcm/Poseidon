@@ -71,12 +71,7 @@ public class TransactionController {
      */
     @PostMapping("/txs/List.htm")
     public ModelAndView list(final TransactionForm transactionForm) {
-        List<TransactionVO> transactionVOs = null;
-        try {
-            transactionVOs = transactionService.listAllTransactions();
-        } catch (Exception ex) {
-            LOG.error(ex.getLocalizedMessage());
-        }
+        var transactionVOs = transactionService.listAllTransactions();
         if (transactionVOs != null) {
             transactionVOs.stream().map(transactionVO -> " transaction vo is " + transactionVO).forEach(LOG::info);
             transactionForm.setTransactionsList(transactionVOs);
@@ -91,13 +86,7 @@ public class TransactionController {
     }
 
     private List<MakeVO> getMakeVOS() {
-        List<MakeVO> makeVOs = null;
-        try {
-            makeVOs = makeService.fetchMakes();
-        } catch (Exception ex) {
-            LOG.error(ex.getMessage());
-        }
-        return makeVOs;
+        return makeService.fetchMakes();
     }
 
 
@@ -192,7 +181,7 @@ public class TransactionController {
                     transactionForm.getSearchTransaction().toString());
             LOG.info("form search details are {}", sanitizedSearch);
         }
-        List<TransactionVO> transactionVOs = transactionService.searchTransactions(
+        var transactionVOs = transactionService.searchTransactions(
                 transactionForm.getSearchTransaction());
         transactionForm.setStatusMessage("Found " + transactionVOs.size() + " Transactions ");
         transactionForm.setStatusMessageType("info");
@@ -234,7 +223,7 @@ public class TransactionController {
             }
         }
         transactionForm.setCurrentTransaction(transactionVO);
-        Optional<CustomerVO> customerVO = getCustomerVOFromTransaction(transactionVO);
+        var customerVO = getCustomerVOFromTransaction(transactionVO);
         customerVO.ifPresent(vo -> transactionForm.setCustomerVO(Objects.requireNonNullElseGet(vo, CustomerVO::new)));
         transactionForm.setStatusList(populateStatus());
         transactionForm.setLoggedInRole(transactionForm.getLoggedInRole());
@@ -279,11 +268,7 @@ public class TransactionController {
             LOG.error(ex.getLocalizedMessage());
             LOG.info(UNKNOWN_ERROR);
         }
-        List<TransactionVO> transactionVOs = transactionService.listAllTransactions();
-        if (transactionVOs != null) {
-            //transactionVOs.forEach(transactionVO -> LOG.info(TRANSACTION_VO, transactionVO));
-            transactionForm.setTransactionsList(transactionVOs);
-        }
+        transactionForm.setTransactionsList(transactionService.listAllTransactions());
         transactionForm.setMakeVOs(getMakeVOS());
         transactionForm.setSearchTransaction(new TransactionVO());
         transactionForm.setLoggedInRole(transactionForm.getLoggedInRole());
@@ -307,7 +292,7 @@ public class TransactionController {
         transactionService.deleteTransaction(transactionForm.getId());
         transactionForm.setStatusMessage("Successfully deleted the transaction");
         transactionForm.setStatusMessageType(SUCCESS);
-        List<TransactionVO> transactionVOs = transactionService.listAllTransactions();
+        var transactionVOs = transactionService.listAllTransactions();
         if (!transactionVOs.isEmpty()) {
             transactionVOs.forEach(transactionVO -> LOG.info(TRANSACTION_VO, transactionVO));
             transactionForm.setTransactionsList(transactionVOs);

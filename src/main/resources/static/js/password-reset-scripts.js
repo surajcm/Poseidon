@@ -8,55 +8,55 @@ function passwordChange() {
 
     if (forms[0].checkValidity() === false) {
         if (current.length === 0) {
-            document.getElementById("current").setAttribute("class","form-control is-invalid");
+            document.getElementById("current").setAttribute("class", "form-control is-invalid");
         } else {
-            document.getElementById("current").setAttribute("class","form-control was-validated");
+            document.getElementById("current").setAttribute("class", "form-control was-validated");
         }
         if (newPass.length === 0) {
-            document.getElementById("newPass").setAttribute("class","form-control is-invalid");
+            document.getElementById("newPass").setAttribute("class", "form-control is-invalid");
         } else {
-            document.getElementById("newPass").setAttribute("class","form-control was-validated");
+            document.getElementById("newPass").setAttribute("class", "form-control was-validated");
         }
         if (repeat.length === 0) {
-            document.getElementById("repeat").setAttribute("class","form-control is-invalid");
+            document.getElementById("repeat").setAttribute("class", "form-control is-invalid");
         } else {
-            document.getElementById("repeat").setAttribute("class","form-control was-validated");
+            document.getElementById("repeat").setAttribute("class", "form-control was-validated");
         }
         return;
     }
-    if(newPass === current) {
+    if (newPass === current) {
         console.log("Password entered in both current and new fields are equal");
         // show error
         return;
     }
     if (newPass === repeat) {
         console.log("both passwords are equal");
-        let passRegex=  /^[A-Za-z]\w{7,14}$/;
+        let passRegex = /^[A-Za-z]\w{7,14}$/;
         if (newPass.match(passRegex)) {
             console.log('Correct, going to save it');
-            changePasswordAndSaveIt(current,newPass);
+            changePasswordAndSaveIt(current, newPass);
         } else {
             console.log('not strong enough');
-            document.getElementById("newPass").setAttribute("class","form-control is-invalid");
-            document.getElementById("repeat").setAttribute("class","form-control is-invalid");
+            document.getElementById("newPass").setAttribute("class", "form-control is-invalid");
+            document.getElementById("repeat").setAttribute("class", "form-control is-invalid");
             document.getElementById("newPass_message").innerHTML = "The password entered is not strong enough";
             document.getElementById("repeat_message").innerHTML = "The password entered is not strong enough";
         }
     } else {
         console.log("both passwords are not equal");
-        document.getElementById("repeat").setAttribute("class","form-control is-invalid");
+        document.getElementById("repeat").setAttribute("class", "form-control is-invalid");
         document.getElementById("repeat_message").innerHTML = "The password entered are not equal";
     }
 }
 
 function changePasswordAndSaveIt(current, newPass) {
     let xhr = new XMLHttpRequest();
-    xhr.open('POST', "/user/changePasswordAndSaveIt.htm",true);
+    xhr.open('POST', "/user/changePasswordAndSaveIt.htm", true);
     let token = document.querySelector("meta[name='_csrf']").content;
     let header = document.querySelector("meta[name='_csrf_header']").content;
     xhr.setRequestHeader(header, token);
     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-    xhr.onload = function() {
+    xhr.onload = function () {
         if (xhr.status === 200) {
             if (xhr.responseText != null) {
                 console.log('Request succeeded.' + xhr.responseText);
@@ -67,14 +67,14 @@ function changePasswordAndSaveIt(current, newPass) {
             //showUpdateStatus(false);
         }
     };
-    xhr.send("current="+current+ "&newPass=" + newPass);
+    xhr.send("current=" + current + "&newPass=" + newPass);
 }
 
 function setMessagesAfterSave(responseText) {
     console.log('Response is ' + responseText);
     let userMap = JSON.parse(responseText);
     if (userMap.message != null) {
-        document.getElementById("current").setAttribute("class","form-control is-invalid");
+        document.getElementById("current").setAttribute("class", "form-control is-invalid");
         document.getElementById("current_message").innerHTML = userMap.message;
     }
 
@@ -82,11 +82,11 @@ function setMessagesAfterSave(responseText) {
         let detail = document.getElementById("passwordResetModal");
         detail.innerHTML = "";
         let divStatus = document.createElement("div");
-        divStatus.setAttribute("class","pop-status");
+        divStatus.setAttribute("class", "pop-status");
         let imgSuccess = document.createElement("img");
         divStatus.appendChild(imgSuccess);
         let statusMessage = document.createElement("h3");
-        imgSuccess.setAttribute("src","/img/tick.png");
+        imgSuccess.setAttribute("src", "/img/tick.png");
         statusMessage.innerHTML = userMap.success;
         divStatus.appendChild(statusMessage);
         detail.appendChild(divStatus);
@@ -96,11 +96,11 @@ function setMessagesAfterSave(responseText) {
         let detail = document.getElementById("passwordResetModal");
         detail.innerHTML = "";
         let divStatus = document.createElement("div");
-        divStatus.setAttribute("class","pop-status");
+        divStatus.setAttribute("class", "pop-status");
         let imgSuccess = document.createElement("img");
         divStatus.appendChild(imgSuccess);
         let statusMessage = document.createElement("h3");
-        imgSuccess.setAttribute("src","/img/cross.svg");
+        imgSuccess.setAttribute("src", "/img/cross.svg");
         statusMessage.innerHTML = userMap.error;
         divStatus.appendChild(statusMessage);
         detail.appendChild(divStatus);
@@ -108,9 +108,9 @@ function setMessagesAfterSave(responseText) {
 }
 
 function clearMessage() {
-    document.getElementById("current").setAttribute("class","form-control form-control-sm");
-    document.getElementById("newPass").setAttribute("class","form-control form-control-sm");
-    document.getElementById("repeat").setAttribute("class","form-control form-control-sm");
+    document.getElementById("current").setAttribute("class", "form-control form-control-sm");
+    document.getElementById("newPass").setAttribute("class", "form-control form-control-sm");
+    document.getElementById("repeat").setAttribute("class", "form-control form-control-sm");
 }
 
 function clearAll() {

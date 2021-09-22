@@ -97,7 +97,7 @@
                     <tbody>
                     <c:forEach items="${makeForm.makeAndModelVOs}" var="iterationMake">
                         <tr>
-                            <td><input type="checkbox" name="checkField" onclick="javascript:checkCall(this)"
+                            <td><input type="checkbox" name="checkField" onclick="checkCall(this)"
                                        value="<c:out value="${iterationMake.makeId}" />"/></td>
                             <td><c:out value="${iterationMake.makeName}"/></td>
                             <td><c:out value="${iterationMake.description}"/></td>
@@ -107,7 +107,7 @@
                 </table>
                 <table>
                     <tr>
-                        <td colspan="5">
+                        <td colspan="4">
                             <br/>
                             <br/>
                         <td>
@@ -117,7 +117,8 @@
                             <input class="btn btn-primary" value="Model List" type="button" onclick="listAllModel()"/>
                         </td>
                         <td>
-                            <input class="btn btn-primary" value="Add Make" type="button" onclick="addSimpleMake()"/>
+                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#newModelModal"
+                            onclick="addMake();">Add Make</button>
                         </td>
                         <td>
                             <input class="btn btn-primary" value="Edit Make" type="button" onclick="editMake()"/>
@@ -125,11 +126,24 @@
                         <td>
                             <input class="btn btn-primary" value="Delete Make" type="button" onclick="deleteMake()"/>
                         </td>
-                        <td>
-                            <input class="btn btn-primary btn-block" value="Save Make" type="button" onclick="saveSimpleMake()"/>
-                        <td>
                     </tr>
                 </table>
+            </div>
+        </div>
+        <div id="newModelModal" class="modal fade bd-example-modal-lg" role="dialog">
+            <div class="modal-dialog modal-lg">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title">Add new Make</h4>
+                        <button type="button" class="close" data-dismiss="modal">x</button>
+                    </div>
+                    <div id="makeModalBody" class="modal-body">
+                        <p>Lets edit some makes....</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" id="saveSmartMake" class="btn btn-default" onclick="saveFromModal();">Save</button>
+                    </div>
+                </div>
             </div>
         </div>
         <script src="/js/core/jquery-3.2.1.min.js" type="text/javascript"></script>

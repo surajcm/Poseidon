@@ -1,3 +1,9 @@
+
+
+function selectMenu() {
+    document.getElementById('report').text = "Report <span class='sr-only'>Report</span>";
+}
+
 function fetchCallReport() {
     document.getElementById('exportTo').value = document.getElementById('callExportValue').options[document.getElementById('callExportValue').selectedIndex].text;
     document.getElementById('tagNo').value = document.getElementById('callTagNo').value;
@@ -40,9 +46,10 @@ function fetchInvoiceReport() {
     document.forms[0].submit();
     document.forms[0].target = '';
 }
-function changeTheTxnModel(){
-    var selectMakeId = document.searchTransaction.makeId.value;
-    var url = "${contextPath}/txs/UpdateModelAjax.htm";
+
+function changeTheTxnModel() {
+    const selectMakeId = document.searchTransaction.makeId.value;
+    let url = "${contextPath}/txs/UpdateModelAjax.htm";
     url = url + "?selectMakeId=" + selectMakeId;
     bustcacheparameter = (url.indexOf("?") != -1) ? "&" + new Date().getTime() : "?" + new Date().getTime();
     createAjaxRequest();
@@ -53,9 +60,9 @@ function changeTheTxnModel(){
     }
 }
 
-function changeTheModel(){
-    var selectMakeId = document.getElementById('makeId').value;
-    var url = "${contextPath}/txs/UpdateModelAjax.htm";
+function changeTheModel() {
+    const selectMakeId = document.getElementById('makeId').value;
+    let url = "${contextPath}/txs/UpdateModelAjax.htm";
     url = url + "?selectMakeId=" + selectMakeId;
     bustcacheparameter = (url.indexOf("?") != -1) ? "&" + new Date().getTime() : "?" + new Date().getTime();
     createAjaxRequest();
@@ -65,9 +72,10 @@ function changeTheModel(){
         req.send(url + bustcacheparameter);
     }
 }
+
 function createAjaxRequest() {
-    if (window.XMLHttpRequest){
-        req = new XMLHttpRequest() ;
+    if (window.XMLHttpRequest) {
+        req = new XMLHttpRequest();
     } else if (window.ActiveXObject) {
         try {
             req = new ActiveXObject("Msxml2.XMLHTTP");
@@ -81,28 +89,26 @@ function createAjaxRequest() {
 }
 
 function stateChange() {
-    if (req.readyState == 4 && (req.status == 200 || window.location.href.indexOf("http") == -1)) {
-        textReturned = req.responseText;
-        if(textReturned != "") {
-            var fullContent = textReturned.split("#start#");
-            var resultIds = new Array();
-            var resultNames = new Array();
-            var k = 0;
-            var j = 0;
-            var t = 0;
+    if (req.readyState === 4 &&
+        (req.status === 200 || window.location.href.indexOf("http") === -1)) {
+        let textReturned = req.responseText;
+        if (textReturned !== "") {
+            const fullContent = textReturned.split("#start#");
+            const resultIds = [];
+            const resultNames = [];
+            let k = 0;
 
-            for (j = 0; j < fullContent.length; j++) {
-                if(fullContent[j].length > 0 ) {
+            for (let j = 0; j < fullContent.length; j++) {
+                if (fullContent[j].length > 0) {
                     resultIds[k] = fullContent[j].split("#id#")[1];
-                    var testing = fullContent[j].split("#id#")[2];
+                    const testing = fullContent[j].split("#id#")[2];
                     resultNames[k] = testing.split("#modelName#")[1];
                     k++;
                 }
             }
-            var l =0;
             document.forms[0].modelId.options.length = resultIds.length - 1;
             document.forms[0].modelId.options[0] = new Option("<-- Select -->", "");
-            for (var i = 1; i <= (resultIds.length); i++) {
+            for (let i = 1; i <= (resultIds.length); i++) {
                 document.forms[0].modelId.options[i] = new Option(resultNames[i - 1], resultIds[i - 1]);
             }
         } else {
@@ -113,28 +119,26 @@ function stateChange() {
 }
 
 function stateChangeOnTxn() {
-    if (req.readyState == 4 && (req.status == 200 || window.location.href.indexOf("http") == -1)) {
-        textReturned = req.responseText;
-        if(textReturned != "") {
-            var fullContent = textReturned.split("#start#");
-            var resultIds = new Array();
-            var resultNames = new Array();
-            var k = 0;
-            var j = 0;
-            var t = 0;
+    if (req.readyState === 4 &&
+        (req.status === 200 || window.location.href.indexOf("http") === -1)) {
+        let textReturned = req.responseText;
+        if (textReturned !== "") {
+            const fullContent = textReturned.split("#start#");
+            const resultIds = [];
+            const resultNames = [];
+            let k = 0;
 
-            for (j = 0; j < fullContent.length; j++) {
-                if(fullContent[j].length > 0 ) {
+            for (let j = 0; j < fullContent.length; j++) {
+                if (fullContent[j].length > 0) {
                     resultIds[k] = fullContent[j].split("#id#")[1];
-                    var testing = fullContent[j].split("#id#")[2];
+                    const testing = fullContent[j].split("#id#")[2];
                     resultNames[k] = testing.split("#modelName#")[1];
                     k++;
                 }
             }
-            var l =0;
             document.searchTransaction.modelId.options.length = resultIds.length - 1;
             document.searchTransaction.modelId.options[0] = new Option("<-- Select -->", "");
-            for (var i = 1; i <= (resultIds.length); i++) {
+            for (let i = 1; i <= (resultIds.length); i++) {
                 document.searchTransaction.modelId.options[i] = new Option(resultNames[i - 1], resultIds[i - 1]);
             }
         } else {
@@ -142,7 +146,4 @@ function stateChangeOnTxn() {
             document.searchTransaction.modelId.options[0] = new Option("<-- Select -->", "");
         }
     }
-}
-function selectMenu(){
-    document.getElementById('report').text = "Report <span class='sr-only'>Report</span>";
 }

@@ -4,8 +4,8 @@ function addCustomer() {
 }
 
 function search() {
-    if(document.getElementById("customerId").value === ""
-            || isNumber(document.getElementById("customerId").value)) {
+    if (document.getElementById("customerId").value === ""
+        || isNumber(document.getElementById("customerId").value)) {
         document.forms[0].action = "searchCustomer.htm";
         document.forms[0].submit();
     } else {
@@ -24,26 +24,27 @@ function clearOut() {
     document.getElementById('includes').checked = false;
     document.getElementById('startsWith').checked = false;
 }
+
 //validation before edit
 function editCustomer() {
-    var check ='false';
-    var count = 0;
+    let check = 'false';
+    let count = 0;
     // get all check boxes
-    var checks = document.getElementsByName('checkField');
+    const checks = document.getElementsByName('checkField');
     if (checks) {
         //if total number of rows is one
         if (checks.checked) {
             editRow();
         } else {
-            for(var i = 0 ; i < checks.length ; i++ ) {
+            for (let i = 0; i < checks.length; i++) {
                 if (checks[i].checked) {
                     check = 'true';
                     count = count + 1;
                 }
             }
             //check for validity
-            if (check = 'true') {
-                if (count == 1) {
+            if (check === 'true') {
+                if (count === 1) {
                     editRow();
                 } else {
                     alert(" Only one row can be edited at a time, please select one row ");
@@ -57,45 +58,45 @@ function editCustomer() {
 
 //real edit
 function editRow() {
-    var userRow;
-    var checks = document.getElementsByName('checkField');
+    let userRow;
+    const checks = document.getElementsByName('checkField');
     if (checks.checked) {
         userRow = document.getElementById("myTable").rows[0];
         document.getElementById("id").value = userRow.cells[0].childNodes[0].value;
-        document.forms[0].action="editCust.htm";
+        document.forms[0].action = "editCust.htm";
         document.forms[0].submit();
     } else {
-        for(var i = 0; i < checks.length ; i++) {
+        for (let i = 0; i < checks.length; i++) {
             if (checks[i].checked) {
-                userRow = document.getElementById("myTable").rows[i+1];
+                userRow = document.getElementById("myTable").rows[i + 1];
             }
         }
         document.getElementById("id").value = userRow.cells[0].childNodes[0].value;
-        document.forms[0].action="editCust.htm";
+        document.forms[0].action = "editCust.htm";
         document.forms[0].submit();
     }
 }
 
 // delete
 function deleteCustomer() {
-    var check ='false';
-    var count = 0;
+    let check = 'false';
+    let count = 0;
     // get all check boxes
-    var checks = document.getElementsByName('checkField');
+    const checks = document.getElementsByName('checkField');
     if (checks) {
         //if total number of rows is one
         if (checks.checked) {
             deleteRow();
         } else {
-            for(var i = 0 ; i < checks.length ; i++ ) {
-                if( checks[i].checked){
+            for (let i = 0; i < checks.length; i++) {
+                if (checks[i].checked) {
                     check = 'true';
                     count = count + 1;
                 }
             }
             //check for validity
-            if (check = 'true') {
-                if (count == 1) {
+            if (check === 'true') {
+                if (count === 1) {
                     deleteRow();
                 } else {
                     alert(" Only one row can be deleted at a time, please select one row ");
@@ -109,35 +110,36 @@ function deleteCustomer() {
 
 //code to delete
 function deleteRow() {
-    var answer = confirm(" Are you sure you wanted to delete the user ");
+    const answer = confirm(" Are you sure you wanted to delete the user ");
     if (answer) {
         //if yes then delete
-        var userRow;
-        var checks = document.getElementsByName('checkField');
+        let userRow;
+        const checks = document.getElementsByName('checkField');
         if (checks.checked) {
             userRow = document.getElementById("myTable").rows[0];
             document.getElementById("id").value = userRow.cells[0].childNodes[0].value;
-            document.forms[0].action="deleteCust.htm";
+            document.forms[0].action = "deleteCust.htm";
             document.forms[0].submit();
         } else {
-            for(var i = 0; i < checks.length ; i++) {
-                if(checks[i].checked) {
-                    userRow = document.getElementById("myTable").rows[i+1];
+            for (let i = 0; i < checks.length; i++) {
+                if (checks[i].checked) {
+                    userRow = document.getElementById("myTable").rows[i + 1];
                 }
             }
             document.getElementById("id").value = userRow.cells[0].childNodes[0].value;
-            document.forms[0].action="deleteCust.htm";
+            document.forms[0].action = "deleteCust.htm";
             document.forms[0].submit();
         }
     }
 
 }
+
 //preventing multiple checks
 function checkCall(e) {
-    var min = e.value;
-    var checks = document.getElementsByName('checkField');
-    for(var i = 0; i < checks.length ; i++){
-        if(checks[i].value != min) {
+    const min = e.value;
+    const checks = document.getElementsByName('checkField');
+    for (let i = 0; i < checks.length; i++) {
+        if (checks[i].value !== min) {
             checks[i].checked = false;
         }
     }
@@ -148,24 +150,24 @@ function hideAlerts() {
 }
 
 function viewCustomer() {
-    var check ='false';
-    var count = 0;
+    let check = 'false';
+    let count = 0;
     // get all check boxes
-    var checks = document.getElementsByName('checkField');
+    const checks = document.getElementsByName('checkField');
     if (checks) {
         //if total number of rows is one
         if (checks.checked) {
             viewRow();
         } else {
-            for(var i = 0 ; i < checks.length ; i++ ) {
+            for (let i = 0; i < checks.length; i++) {
                 if (checks[i].checked) {
                     check = 'true';
                     count = count + 1;
                 }
             }
             //check for validity
-            if (check = 'true') {
-                if (count == 1) {
+            if (check === 'true') {
+                if (count === 1) {
                     viewRow();
                 } else {
                     alert(" Only one row can be viewed at a time, please select one row ");
@@ -178,16 +180,16 @@ function viewCustomer() {
 }
 
 function viewRow() {
-    var userRow;
-    var customerId;
-    var checks = document.getElementsByName('checkField');
+    let userRow;
+    let customerId;
+    const checks = document.getElementsByName('checkField');
     if (checks.checked) {
         userRow = document.getElementById("myTable").rows[0];
         customerId = userRow.cells[0].childNodes[0].value;
     } else {
-        for (var i = 0; i < checks.length ; i++) {
+        for (let i = 0; i < checks.length; i++) {
             if (checks[i].checked) {
-                userRow = document.getElementById("myTable").rows[i+1];
+                userRow = document.getElementById("myTable").rows[i + 1];
             }
         }
         customerId = userRow.cells[0].childNodes[0].value;
@@ -197,13 +199,13 @@ function viewRow() {
 
 
 function callAjax(customerId) {
-    var xhr = new XMLHttpRequest();
-    xhr.open('POST', "viewCustomer.htm",true);
-    var token = document.querySelector("meta[name='_csrf']").content;
-    var header = document.querySelector("meta[name='_csrf_header']").content;
+    const xhr = new XMLHttpRequest();
+    xhr.open('POST', "viewCustomer.htm", true);
+    const token = document.querySelector("meta[name='_csrf']").content;
+    const header = document.querySelector("meta[name='_csrf_header']").content;
     xhr.setRequestHeader(header, token);
     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-    xhr.onload = function() {
+    xhr.onload = function () {
         if (xhr.status === 200) {
             console.log('Response is ' + xhr.responseText);
             if (xhr.responseText != null) {
@@ -217,101 +219,101 @@ function callAjax(customerId) {
 }
 
 function fillModal(textReturned) {
-    var customer = JSON.parse(textReturned);
+    const customer = JSON.parse(textReturned);
     document.getElementById('detail').innerHTML = "";
-    var detail = document.getElementById("detail");
-    var divFirstRow = document.createElement("div");
-    divFirstRow.setAttribute("class","form-row align-items-left");
-    var divId = document.createElement("div");
-    divId.setAttribute("class","form-group col-md-6");
-    var lbId = document.createElement("label");
+    const detail = document.getElementById("detail");
+    const divFirstRow = document.createElement("div");
+    divFirstRow.setAttribute("class", "form-row align-items-left");
+    const divId = document.createElement("div");
+    divId.setAttribute("class", "form-group col-md-6");
+    const lbId = document.createElement("label");
     lbId.textContent = "Customer Id : ";
     divId.appendChild(lbId);
-    var txtId = document.createElement("label");
+    const txtId = document.createElement("label");
     txtId.textContent = customer.customerId;
     divId.appendChild(txtId);
-    var divCustomer = document.createElement("div");
-    divCustomer.setAttribute("class","form-group col-md-6");
-    var lbName = document.createElement("label");
+    const divCustomer = document.createElement("div");
+    divCustomer.setAttribute("class", "form-group col-md-6");
+    const lbName = document.createElement("label");
     lbName.textContent = "Customer Name : ";
     divCustomer.appendChild(lbName);
-    var txtName = document.createElement("label");
+    const txtName = document.createElement("label");
     txtName.textContent = customer.customerName;
     divCustomer.appendChild(txtName);
     divFirstRow.appendChild(divId);
     divFirstRow.appendChild(divCustomer);
 
-    var divAddress = document.createElement("div");
-    divAddress.setAttribute("class","form-row align-items-left");
-    var divAdd1 = document.createElement("div");
-    divAdd1.setAttribute("class","form-group col-md-12");
-    var lbAddress = document.createElement("label");
+    const divAddress = document.createElement("div");
+    divAddress.setAttribute("class", "form-row align-items-left");
+    const divAdd1 = document.createElement("div");
+    divAdd1.setAttribute("class", "form-group col-md-12");
+    const lbAddress = document.createElement("label");
     lbAddress.textContent = "Address : ";
     divAdd1.appendChild(lbAddress);
-    var txtAddress = document.createElement("label");
+    const txtAddress = document.createElement("label");
     txtAddress.textContent = customer.address;
     divAdd1.appendChild(txtAddress);
     divAddress.appendChild(divAdd1);
 
-    var divPhoneRow = document.createElement("div");
-    divPhoneRow.setAttribute("class","form-row align-items-left");
-    var divPhone = document.createElement("div");
-    divPhone.setAttribute("class","form-group col-md-4");
-    var lbPhone = document.createElement("label");
+    const divPhoneRow = document.createElement("div");
+    divPhoneRow.setAttribute("class", "form-row align-items-left");
+    const divPhone = document.createElement("div");
+    divPhone.setAttribute("class", "form-group col-md-4");
+    const lbPhone = document.createElement("label");
     lbPhone.textContent = "Phone No : ";
     divPhone.appendChild(lbPhone);
-    var txtPhone = document.createElement("label");
+    const txtPhone = document.createElement("label");
     txtPhone.textContent = customer.phoneNo;
     divPhone.appendChild(txtPhone);
-    var divMobile = document.createElement("div");
-    divMobile.setAttribute("class","form-group col-md-4");
-    var lbMobile = document.createElement("label");
+    const divMobile = document.createElement("div");
+    divMobile.setAttribute("class", "form-group col-md-4");
+    const lbMobile = document.createElement("label");
     lbMobile.textContent = "Mobile : ";
     divMobile.appendChild(lbMobile);
-    var txtMobile = document.createElement("label");
+    const txtMobile = document.createElement("label");
     txtMobile.textContent = customer.mobile;
     divMobile.appendChild(txtMobile);
-    var divEmail= document.createElement("div");
-    divEmail.setAttribute("class","form-group col-md-4");
-    var lbEmail = document.createElement("label");
+    const divEmail = document.createElement("div");
+    divEmail.setAttribute("class", "form-group col-md-4");
+    const lbEmail = document.createElement("label");
     lbEmail.textContent = "Email : ";
     divEmail.appendChild(lbEmail);
-    var txtEmail = document.createElement("label");
+    const txtEmail = document.createElement("label");
     txtEmail.textContent = customer.email;
     divEmail.appendChild(txtEmail);
     divPhoneRow.appendChild(divPhone);
     divPhoneRow.appendChild(divMobile);
     divPhoneRow.appendChild(divEmail);
 
-    var divContact = document.createElement("div");
-    divContact.setAttribute("class","form-row align-items-left");
-    var divPerson = document.createElement("div");
-    divPerson.setAttribute("class","form-group col-md-6");
-    var lbPerson = document.createElement("label");
+    const divContact = document.createElement("div");
+    divContact.setAttribute("class", "form-row align-items-left");
+    const divPerson = document.createElement("div");
+    divPerson.setAttribute("class", "form-group col-md-6");
+    const lbPerson = document.createElement("label");
     lbPerson.textContent = "Contact Person : ";
     divPerson.appendChild(lbPerson);
-    var txtPerson = document.createElement("label");
+    const txtPerson = document.createElement("label");
     txtPerson.textContent = customer.contactPerson;
     divPerson.appendChild(txtPerson);
-    var divPMobile = document.createElement("div");
-    divPMobile.setAttribute("class","form-group col-md-6");
-    var lbPMobile = document.createElement("label");
+    const divPMobile = document.createElement("div");
+    divPMobile.setAttribute("class", "form-group col-md-6");
+    const lbPMobile = document.createElement("label");
     lbPMobile.textContent = "Contact Mobile : ";
     divPMobile.appendChild(lbPMobile);
-    var txtPMobile = document.createElement("label");
+    const txtPMobile = document.createElement("label");
     txtPMobile.textContent = customer.contactMobile;
     divPMobile.appendChild(txtPMobile);
     divContact.appendChild(divPerson);
     divContact.appendChild(divPMobile);
 
-    var divNotes = document.createElement("div");
-    divNotes.setAttribute("class","form-row align-items-left");
-    var divNotes2 = document.createElement("div");
-    divNotes2.setAttribute("class","form-group col-md-12");
-    var lbNotes = document.createElement("label");
+    const divNotes = document.createElement("div");
+    divNotes.setAttribute("class", "form-row align-items-left");
+    const divNotes2 = document.createElement("div");
+    divNotes2.setAttribute("class", "form-group col-md-12");
+    const lbNotes = document.createElement("label");
     lbNotes.textContent = "Notes : ";
     divNotes2.appendChild(lbNotes);
-    var txtNotes = document.createElement("label");
+    const txtNotes = document.createElement("label");
     txtNotes.textContent = customer.notes;
     divNotes2.appendChild(txtNotes);
     divNotes.appendChild(divNotes2);
@@ -321,6 +323,5 @@ function fillModal(textReturned) {
     detail.appendChild(divPhoneRow);
     detail.appendChild(divContact);
     detail.appendChild(divNotes);
-
 }
 

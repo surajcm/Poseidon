@@ -1,9 +1,8 @@
 package com.poseidon.company.domain;
 
-import java.time.LocalDateTime;
+import com.poseidon.init.domain.CommonVO;
 
-public class CompanyTermsVO {
-    private Long id;
+public class CompanyTermsVO extends CommonVO {
     private String companyName;
     private String companyAddress;
     private String companyPhoneNumber;
@@ -14,18 +13,6 @@ public class CompanyTermsVO {
     private String companyDetails;
     private String companyVatTin;
     private String companyCstTin;
-    private LocalDateTime createdDate;
-    private LocalDateTime modifiedDate;
-    private String createdBy;
-    private String modifiedBy;
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(final Long id) {
-        this.id = id;
-    }
 
     public String getCompanyName() {
         return companyName;
@@ -105,38 +92,6 @@ public class CompanyTermsVO {
 
     public void setCompanyCstTin(final String companyCstTin) {
         this.companyCstTin = companyCstTin;
-    }
-
-    public LocalDateTime getCreatedDate() {
-        return createdDate;
-    }
-
-    public void setCreatedDate(final LocalDateTime createdDate) {
-        this.createdDate = createdDate;
-    }
-
-    public LocalDateTime getModifiedDate() {
-        return modifiedDate;
-    }
-
-    public void setModifiedDate(final LocalDateTime modifiedDate) {
-        this.modifiedDate = modifiedDate;
-    }
-
-    public String getCreatedBy() {
-        return createdBy;
-    }
-
-    public void setCreatedBy(final String createdBy) {
-        this.createdBy = createdBy;
-    }
-
-    public String getModifiedBy() {
-        return modifiedBy;
-    }
-
-    public void setModifiedBy(final String modifiedBy) {
-        this.modifiedBy = modifiedBy;
     }
 
     @Override

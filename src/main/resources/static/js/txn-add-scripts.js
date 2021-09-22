@@ -1,19 +1,17 @@
-var req;
-
 function save() {
-    if (document.getElementById('dateReported').value.length == 0) {
+    if (document.getElementById('dateReported').value.length === 0) {
         alert("Please enter a valid Transaction Date");
-    } else if (document.getElementById('productCategory').value.length == 0) {
+    } else if (document.getElementById('productCategory').value.length === 0) {
         alert("Please enter a valid Product Category");
-    } else if (document.getElementById('serialNo').value.length == 0) {
+    } else if (document.getElementById('serialNo').value.length === 0) {
         alert("Please enter a valid Serial No");
-    } else if ((document.getElementById('customerId').value.length == 0)
-            && (document.getElementById('customerName').value.length == 0
-            || document.getElementById('mobile').value.length == 0)) {
+    } else if ((document.getElementById('customerId').value.length === 0)
+        && (document.getElementById('customerName').value.length === 0
+            || document.getElementById('mobile').value.length === 0)) {
         alert("Please enter a valid Customer Details");
-    } else if (document.getElementById('makeId').value.length == 0) {
+    } else if (document.getElementById('makeId').value.length === 0) {
         alert("Please enter a valid Make detail");
-    } else if (document.getElementById('modelId').value.length == 0) {
+    } else if (document.getElementById('modelId').value.length === 0) {
         alert("Please enter a valid Model detail");
     } else {
         document.forms[0].action = "SaveTxn.htm";
@@ -48,9 +46,11 @@ function clearOut() {
     document.getElementById("notes").value = "";
 }
 
+var req;
+
 function changeTheModel() {
-    var selectMakeId = document.transactionForm.makeId.value;
-    var url = "${contextPath}/txs/UpdateModelAjax.htm";
+    const selectMakeId = document.transactionForm.makeId.value;
+    let url = "${contextPath}/txs/UpdateModelAjax.htm";
     url = url + "?selectMakeId=" + selectMakeId;
     bustcacheparameter = (url.indexOf("?") != -1) ? "&" + new Date().getTime() : "?" + new Date().getTime();
     createAjaxRequest();
@@ -77,25 +77,23 @@ function createAjaxRequest() {
 }
 
 function stateChange() {
-    if (req.readyState == 4 && (req.status == 200 || window.location.href.indexOf("http") == -1)) {
+    if (req.readyState === 4 &&
+        (req.status === 200 || window.location.href.indexOf("http") === -1)) {
         textReturned = req.responseText;
-        if (textReturned != "") {
-            var fullContent = textReturned.split("#start#");
-            var resultIds = new Array();
-            var resultNames = new Array();
-            var k = 0;
-            var j = 0;
-            var t = 0;
+        if (textReturned !== "") {
+            const fullContent = textReturned.split("#start#");
+            const resultIds = [];
+            const resultNames = [];
+            let k = 0;
 
-            for (j = 0; j < fullContent.length; j++) {
+            for (let j = 0; j < fullContent.length; j++) {
                 if (fullContent[j].length > 0) {
                     resultIds[k] = fullContent[j].split("#id#")[1];
-                    var testing = fullContent[j].split("#id#")[2];
+                    const testing = fullContent[j].split("#id#")[2];
                     resultNames[k] = testing.split("#modelName#")[1];
                     k++;
                 }
             }
-            var l = 0;
             document.transactionForm.modelId.options.length = resultIds.length - 1;
             document.transactionForm.modelId.options[0] = new Option("<---- Select ---->", "");
             for (var i = 1; i <= (resultIds.length); i++) {
