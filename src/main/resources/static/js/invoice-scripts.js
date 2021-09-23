@@ -27,7 +27,7 @@ function clearOut() {
 }
 
 //validation before edit
-function editMe() {
+function validateSelection() {
     let check = 'false';
     let count = 0;
     // get all check boxes
@@ -35,7 +35,7 @@ function editMe() {
     if (checks) {
         //if total number of rows is one
         if (checks.checked) {
-            editRow();
+            return true;
         } else {
             for (let i = 0; i < checks.length; i++) {
                 if (checks[i].checked) {
@@ -46,14 +46,23 @@ function editMe() {
             //check for validity
             if (check === 'true') {
                 if (count === 1) {
-                    editRow();
+                    return true;
                 } else {
-                    alert(" Only one row can be edited at a time, please select one row ");
+                    alert("Only one row can be edited at a time, please select one row ");
+                    return false;
                 }
             } else {
-                alert(" No rows selected, please select one row ");
+                alert("No rows selected, please select one row ");
+                return false;
             }
         }
+    }
+}
+
+function editMe() {
+    let rowCheck = validateSelection();
+    if (rowCheck) {
+        editRow();
     }
 }
 
@@ -63,55 +72,26 @@ function editRow() {
     const checks = document.getElementsByName('checkField');
     if (checks.checked) {
         userRow = document.getElementById("myTable").rows[0];
-        document.getElementById("id").value = userRow.cells[0].childNodes[0].value;
-        if (document.getElementById('amount').value.length === 0) {
-            document.getElementById('amount').value = "0.0";
-        }
-        document.forms[0].action = "EditInvoice.htm";
-        document.forms[0].submit();
     } else {
         for (let i = 0; i < checks.length; i++) {
             if (checks[i].checked) {
                 userRow = document.getElementById("myTable").rows[i + 1];
             }
         }
-        document.getElementById("id").value = userRow.cells[0].childNodes[0].value;
-        if (document.getElementById('amount').value.length === 0) {
-            document.getElementById('amount').value = "0.0";
-        }
-        document.forms[0].action = "EditInvoice.htm";
-        document.forms[0].submit();
     }
+    document.getElementById("id").value = userRow.cells[0].childNodes[0].value;
+    if (document.getElementById('amount').value.length === 0) {
+        document.getElementById('amount').value = "0.0";
+    }
+    document.forms[0].action = "EditInvoice.htm";
+    document.forms[0].submit();
 }
 
 // delete
 function deleteInvoice() {
-    let check = 'false';
-    let count = 0;
-    // get all check boxes
-    const checks = document.getElementsByName('checkField');
-    if (checks) {
-        //if total number of rows is one
-        if (checks.checked) {
-            deleteRow();
-        } else {
-            for (let i = 0; i < checks.length; i++) {
-                if (checks[i].checked) {
-                    check = 'true';
-                    count = count + 1;
-                }
-            }
-            //check for validity
-            if (check === 'true') {
-                if (count === 1) {
-                    deleteRow();
-                } else {
-                    alert(" Only one row can be deleted at a time, please select one row ");
-                }
-            } else {
-                alert(" No rows selected, please select one row ");
-            }
-        }
+    let rowCheck = validateSelection();
+    if (rowCheck) {
+        deleteRow();
     }
 }
 

@@ -168,18 +168,20 @@ public class InvoiceDAO {
     private InvoiceVO getInvoiceVoFromInvoice(final Invoice invoice) {
         var invoiceVO = new InvoiceVO();
         invoiceVO.setId(invoice.getId());
-        invoiceVO.setCustomerName(invoice.getCustomerName());
+        invoiceVO.setTransactionId(invoice.getTransactionId());
         invoiceVO.setTagNo(invoice.getTagNumber());
+        invoiceVO.setCustomerId(invoice.getCustomerId());
+        invoiceVO.setCustomerName(invoice.getCustomerName());
         invoiceVO.setDescription(invoice.getDescription());
         invoiceVO.setSerialNo(invoice.getSerialNumber());
-        if (invoice.getAmount() != null) {
-            invoiceVO.setAmount(Double.valueOf(invoice.getAmount()));
-        }
         if (invoice.getQuantity() != null) {
             invoiceVO.setQuantity(invoice.getQuantity());
         }
         if (invoice.getRate() != null) {
             invoiceVO.setRate(Double.valueOf(invoice.getRate()));
+        }
+        if (invoice.getAmount() != null) {
+            invoiceVO.setAmount(Double.valueOf(invoice.getAmount()));
         }
         return invoiceVO;
     }
@@ -210,7 +212,6 @@ public class InvoiceDAO {
         invoice.setCustomerId(currentInvoiceVO.getCustomerId());
         invoice.setTransactionId(currentInvoiceVO.getTransactionId());
         invoice.setModifiedBy(currentInvoiceVO.getModifiedBy());
-        invoice.setCreatedBy(currentInvoiceVO.getCreatedBy());
         return invoice;
     }
 

@@ -12,7 +12,7 @@
     <meta name="author" content="Suraj">
     <spring:url value="/img/Poseidon_Ico.ico" var="posIcon" />
     <link rel="shortcut icon" href="${posIcon}" />
-    <link rel="stylesheet" href="/css/bootstrap.min.css"  type="text/css" />
+    <link rel="stylesheet" href="/css/bootstrap-5.min.css"  type="text/css" />
     <link rel="stylesheet" href="/css/custom.css" type="text/css" />
     <title>Welcome</title>
     <style type="text/css">
@@ -34,7 +34,7 @@
         <input type="hidden" name="id" id="id" />
         <form:hidden name="loggedInUser" path="loggedInUser" />
         <form:hidden name="loggedInRole" path="loggedInRole" />
-        <%@include file="/navbar.jsp" %>
+        <%@include file="/navbar5.jsp" %>
         <c:if test="${pageContext.request.userPrincipal.name != null}">
             <form id="logoutForm" method="POST" action="${contextPath}/logout">
                 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
@@ -44,7 +44,7 @@
         </section>
         <script src="/js/core/jquery-3.2.1.min.js" type="text/javascript"></script>
         <script src="/js/core/popper.min.js" type="text/javascript"></script>
-        <script src="/js/core/bootstrap.min.js" type="text/javascript"></script>
+        <script src="/js/core/bootstrap-5.min.js" type="text/javascript"></script>
         <script type="text/javascript">
             $(document).ready(function() {
                 //Handles menu drop down

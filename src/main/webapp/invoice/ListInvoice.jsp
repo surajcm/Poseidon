@@ -18,7 +18,7 @@
     <script type="text/javascript" src="/js/invoice-scripts.js"></script>
     <script type="text/javascript" src="/js/navbar-scripts.js"></script>
 </head>
-<body onload="javascript:hideAlerts()">
+<body onload="hideAlerts()">
     <form:form method="POST" modelAttribute="invoiceForm" >
         <form:hidden name="loggedInUser" path="loggedInUser" />
         <form:hidden name="loggedInRole" path="loggedInRole" />
@@ -148,10 +148,10 @@
                 </div>
             </div>
         </div>
-        <script src="/js/core/jquery-3.2.1.min.js"></script>
-        <script src="/js/core/popper.min.js"></script>
-        <script src="/js/core/bootstrap.min.js"></script>
-        <script>
+        <script src="/js/core/jquery-3.2.1.min.js" type="text/javascript"></script>
+        <script src="/js/core/popper.min.js" type="text/javascript"></script>
+        <script src="/js/core/bootstrap.min.js" type="text/javascript"></script>
+        <script type="text/javascript">
             $(document).ready(function() {
                 //Handles menu drop down
                 $('.dropdown-menu').find('form').click(function (e) {

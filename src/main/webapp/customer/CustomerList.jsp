@@ -20,7 +20,7 @@
     <script type="text/javascript" src="/js/customer-scripts.js"></script>
     <script type="text/javascript" src="/js/navbar-scripts.js"></script>
 </head>
-<body onload="javascript:hideAlerts()">
+<body onload="hideAlerts()">
     <form:form method="POST" modelAttribute="customerForm">
         <input type="hidden" name="id" id="id" />
         <form:hidden name="loggedInUser" path="loggedInUser" />
@@ -69,10 +69,10 @@
                         </div>
                         <input class="btn btn-primary"
                                            value="<spring:message code='poseidon.search' text='Search' />"
-                                           type="button" onclick="javascript:search()"/>
+                                           type="button" onclick="search()"/>
                         <input class="btn btn-primary"
                                            value="<spring:message code='poseidon.clear' text='Clear' />"
-                                           type="button" onclick="javascript:clearOut()"/>
+                                           type="button" onclick="clearOut()"/>
                     </div>
                 </div>
                 <br />
@@ -101,7 +101,7 @@
                         <tbody>
                         <c:forEach items="${customerForm.customerVOs}" var="iterationCust">
                             <tr>
-                                <td><input type="checkbox" name="checkField" onclick="javascript:checkCall(this)"
+                                <td><input type="checkbox" name="checkField" onclick="checkCall(this)"
                                            value="<c:out value="${iterationCust.customerId}" />"/></td>
                                 <td><c:out value="${iterationCust.customerId}"/></td>
                                 <td><c:out value="${iterationCust.customerName}"/></td>
@@ -118,10 +118,10 @@
                             <td>
                                 <br/>
                                 <br/>
-                                <input class="btn btn-primary" value="Add New Customer" type="button" onclick="javascript:addCustomer()"/>
-                                <input class="btn btn-primary" value="Edit Customer" type="button" onclick="javascript:editCustomer()"/>
-                                <input class="btn btn-primary" value="View Customer" type="button" data-toggle="modal" data-target="#customerDetail" onclick="javascript:viewCustomer()"/>
-                                <input class="btn btn-primary" value="Delete Customer" type="button" onclick="javascript:deleteCustomer()"/>
+                                <input class="btn btn-primary" value="Add New Customer" type="button" onclick="addCustomer()"/>
+                                <input class="btn btn-primary" value="Edit Customer" type="button" onclick="editCustomer()"/>
+                                <input class="btn btn-primary" value="View Customer" type="button" data-toggle="modal" data-target="#customerDetail" onclick="viewCustomer()"/>
+                                <input class="btn btn-primary" value="Delete Customer" type="button" onclick="deleteCustomer()"/>
                             </td>
                         </tr>
                     </table>
@@ -140,10 +140,10 @@
                     </div>
                 </div>
             </div>
-            <script src="/js/core/jquery-3.2.1.min.js"></script>
-            <script src="/js/core/popper.min.js"></script>
-            <script src="/js/core/bootstrap.min.js"></script>
-            <script>
+            <script src="/js/core/jquery-3.2.1.min.js" type="text/javascript"></script>
+            <script src="/js/core/popper.min.js" type="text/javascript"></script>
+            <script src="/js/core/bootstrap.min.js" type="text/javascript"></script>
+            <script type="text/javascript">
                 $(document).ready(function() {
                     //Handles menu drop down
                     $('.dropdown-menu').find('form').click(function (e) {

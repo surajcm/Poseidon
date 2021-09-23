@@ -10,19 +10,18 @@ import com.poseidon.transaction.web.form.TransactionForm;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.propertyeditors.CustomNumberEditor;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.time.OffsetDateTime;
-import java.time.ZoneId;
 import java.util.List;
 import java.util.Optional;
 
 @Controller
-//@RequestMapping("/invoice")
 @SuppressWarnings("unused")
 public class InvoiceController {
     private static final Logger log = LoggerFactory.getLogger(InvoiceController.class);
@@ -122,32 +121,9 @@ public class InvoiceController {
             invoiceForm.setStatusMessageType(ERROR);
         }
         log.info("fetching invoice for listing....");
-        List<InvoiceVO> invoiceVOs = fetchInvoices(invoiceForm);
+        var invoiceVOs = fetchInvoices(invoiceForm);
         invoiceForm.setSearchInvoiceVo(new InvoiceVO());
         return new ModelAndView(LIST_INVOICE, INVOICE_FORM, invoiceForm);
-    }
-
-    private List<InvoiceVO> fetchInvoices(final InvoiceForm invoiceForm) {
-        List<InvoiceVO> invoiceVOs = null;
-        try {
-            invoiceVOs = invoiceService.fetchInvoiceForListOfTransactions();
-            if (invoiceVOs != null && !invoiceVOs.isEmpty()) {
-                invoiceForm.setInvoiceVos(invoiceVOs);
-            }
-        } catch (Exception ex) {
-            log.error(ex.getLocalizedMessage());
-        }
-        return invoiceVOs;
-    }
-
-    private Optional<TransactionVO> fetchTransactionVO(final TransactionVO searchTransactionVo) {
-        List<TransactionVO> transactionVOs = transactionService.searchTransactions(searchTransactionVo);
-        log.info("Found transactions :  {}" , transactionVOs.size());
-        Optional<TransactionVO> transactionVo = Optional.empty();
-        if (!transactionVOs.isEmpty()) {
-            transactionVo = Optional.of(transactionVOs.get(0));
-        }
-        return transactionVo;
     }
 
     /**
@@ -160,7 +136,7 @@ public class InvoiceController {
     public ModelAndView editInvoice(final InvoiceForm invoiceForm) {
         log.info("Inside editInvoice method of InvoiceController ");
         log.info(INVOICE_FORM_DETAILS, invoiceForm);
-        Optional<InvoiceVO> invoiceVo = invoiceService.fetchInvoiceVOFromId(invoiceForm.getId());
+        var invoiceVo = invoiceService.fetchInvoiceVOFromId(invoiceForm.getId());
         invoiceVo.ifPresent(invoiceForm::setCurrentInvoiceVo);
         return new ModelAndView("invoice/EditInvoice", INVOICE_FORM, invoiceForm);
     }
@@ -191,7 +167,7 @@ public class InvoiceController {
             invoiceForm.setStatusMessageType(ERROR);
             log.error(ex.getLocalizedMessage());
         }
-        List<InvoiceVO> invoiceVOs = fetchInvoices(invoiceForm);
+        var invoiceVOs = fetchInvoices(invoiceForm);
         invoiceForm.setSearchInvoiceVo(new InvoiceVO());
         return new ModelAndView(LIST_INVOICE, INVOICE_FORM, invoiceForm);
     }
@@ -226,8 +202,8 @@ public class InvoiceController {
         log.info("Inside updateInvoice method of InvoiceController ");
         log.info(INVOICE_FORM_DETAILS, invoiceForm);
         if (invoiceForm.getCurrentInvoiceVo() != null) {
-            invoiceForm.getCurrentInvoiceVo().setModifiedBy(invoiceForm.getLoggedInUser());
-            invoiceForm.getCurrentInvoiceVo().setModifiedDate(OffsetDateTime.now(ZoneId.systemDefault()));
+            var loggedInUser = findLoggedInUsername();
+            invoiceForm.getCurrentInvoiceVo().setModifiedBy(loggedInUser);
         }
         try {
             invoiceService.updateInvoice(invoiceForm.getCurrentInvoiceVo());
@@ -238,7 +214,7 @@ public class InvoiceController {
             invoiceForm.setStatusMessageType(ERROR);
             log.error(ex.getLocalizedMessage());
         }
-        List<InvoiceVO> invoiceVOs = fetchInvoices(invoiceForm);
+        var invoiceVOs = fetchInvoices(invoiceForm);
         invoiceForm.setSearchInvoiceVo(new InvoiceVO());
         return new ModelAndView(LIST_INVOICE, INVOICE_FORM, invoiceForm);
     }
@@ -281,5 +257,34 @@ public class InvoiceController {
     @InitBinder
     public void initBinder(final WebDataBinder webDataBinder) {
         webDataBinder.registerCustomEditor(Double.class, new CustomNumberEditor(Double.class, true));
+    }
+
+    private String findLoggedInUsername() {
+        String username = null;
+        if (SecurityContextHolder.getContext().getAuthentication() != null) {
+            var principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            if (principal instanceof User user) {
+                username = user.getUsername();
+            }
+        }
+        return username;
+    }
+
+    private List<InvoiceVO> fetchInvoices(final InvoiceForm invoiceForm) {
+        var invoiceVOs = invoiceService.fetchInvoiceForListOfTransactions();
+        if (invoiceVOs != null && !invoiceVOs.isEmpty()) {
+            invoiceForm.setInvoiceVos(invoiceVOs);
+        }
+        return invoiceVOs;
+    }
+
+    private Optional<TransactionVO> fetchTransactionVO(final TransactionVO searchTransactionVo) {
+        var transactionVOs = transactionService.searchTransactions(searchTransactionVo);
+        log.info("Found transactions :  {}" , transactionVOs.size());
+        Optional<TransactionVO> transactionVo = Optional.empty();
+        if (!transactionVOs.isEmpty()) {
+            transactionVo = Optional.of(transactionVOs.get(0));
+        }
+        return transactionVo;
     }
 }

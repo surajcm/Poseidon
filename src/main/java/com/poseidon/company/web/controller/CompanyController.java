@@ -55,15 +55,6 @@ public class CompanyController {
         return companyTermsService.listCompanyTerms();
     }
 
-    private void setCompanyTerms(final CompanyTermsForm companyTermsForm, final CompanyTermsVO companyTermsVO) {
-        if (companyTermsVO != null) {
-            LOG.info(" companyTermsVO is {}", companyTermsVO);
-            companyTermsForm.setCurrentCompanyTermsVO(companyTermsVO);
-        } else {
-            companyTermsForm.setCurrentCompanyTermsVO(new CompanyTermsVO());
-        }
-    }
-
     private Optional<CompanyTermsVO> updateCompanyTermsVO(final CompanyTermsForm companyTermsForm) {
         if (companyTermsForm.getCurrentCompanyTermsVO() != null) {
             var auth = SecurityContextHolder.getContext().getAuthentication();

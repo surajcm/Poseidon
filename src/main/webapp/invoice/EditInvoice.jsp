@@ -15,27 +15,7 @@
     <link rel="stylesheet" href="/css/bootstrap.min.css"  type="text/css" />
     <link rel="stylesheet" href="/css/custom.css" type="text/css" />
     <title>Edit Invoice</title>
-    <script type="text/javascript">
-        function update() {
-            if (document.getElementById('tagNo').value == null ||
-                    document.getElementById('tagNo').value.length == 0) {
-                alert("Please enter a valid Tag No");
-            } else if (document.getElementById('quantity').value == null
-                    && document.getElementById('quantity').value.length == 0) {
-                alert("Please enter a valid Quantity");
-            } else if (document.getElementById('rate').value == null
-                    && document.getElementById('rate').value.length == 0) {
-                alert("Please enter a valid Rate");
-            } else {
-                document.forms[0].action = "updateInvoice.htm";
-                document.forms[0].submit();
-            }
-        }
-        function cancel() {
-            document.forms[0].action = "ListInvoice.htm";
-            document.forms[0].submit();
-        }
-    </script>
+    <script type="text/javascript" src="/js/invoice-edit-scripts.js"></script>
     <script type="text/javascript" src="/js/navbar-scripts.js"></script>
 </head>
 <body>
@@ -43,6 +23,7 @@
         <form:hidden name="loggedInUser" path="loggedInUser" />
         <form:hidden name="loggedInRole" path="loggedInRole" />
         <form:hidden name="id" path="currentInvoiceVo.id" />
+        <form:hidden name="transactionId" path="currentInvoiceVo.transactionId" />
         <%@include file="../navbar.jsp" %>
         <div class="container">
             <div class="wrap">
@@ -118,10 +99,10 @@
                 </div>
             </div>
         </div>
-        <script src="/js/core/jquery-3.2.1.min.js"></script>
-        <script src="/js/core/popper.min.js"></script>
-        <script src="/js/core/bootstrap.min.js"></script>
-        <script>
+        <script src="/js/core/jquery-3.2.1.min.js" type="text/javascript"></script>
+        <script src="/js/core/popper.min.js" type="text/javascript"></script>
+        <script src="/js/core/bootstrap.min.js" type="text/javascript"></script>
+        <script type="text/javascript">
             $(document).ready(function() {
                 //Handles menu drop down
                 $('.dropdown-menu').find('form').click(function (e) {

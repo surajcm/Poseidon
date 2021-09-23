@@ -1,3 +1,9 @@
+
+
+function hideAlerts() {
+    document.getElementById('customer').text = "Customer <span class='sr-only'>Customer</span>";
+}
+
 function addCustomer() {
     document.forms[0].action = "addCustomer.htm";
     document.forms[0].submit();
@@ -26,7 +32,7 @@ function clearOut() {
 }
 
 //validation before edit
-function editCustomer() {
+function validateSelection() {
     let check = 'false';
     let count = 0;
     // get all check boxes
@@ -34,7 +40,7 @@ function editCustomer() {
     if (checks) {
         //if total number of rows is one
         if (checks.checked) {
-            editRow();
+            return true;
         } else {
             for (let i = 0; i < checks.length; i++) {
                 if (checks[i].checked) {
@@ -45,14 +51,23 @@ function editCustomer() {
             //check for validity
             if (check === 'true') {
                 if (count === 1) {
-                    editRow();
+                    return true;
                 } else {
                     alert(" Only one row can be edited at a time, please select one row ");
+                    return false;
                 }
             } else {
                 alert(" No rows selected, please select one row ");
+                return false;
             }
         }
+    }
+}
+
+function editCustomer() {
+    let rowCheck = validateSelection();
+    if (rowCheck) {
+        editRow();
     }
 }
 
@@ -79,32 +94,9 @@ function editRow() {
 
 // delete
 function deleteCustomer() {
-    let check = 'false';
-    let count = 0;
-    // get all check boxes
-    const checks = document.getElementsByName('checkField');
-    if (checks) {
-        //if total number of rows is one
-        if (checks.checked) {
-            deleteRow();
-        } else {
-            for (let i = 0; i < checks.length; i++) {
-                if (checks[i].checked) {
-                    check = 'true';
-                    count = count + 1;
-                }
-            }
-            //check for validity
-            if (check === 'true') {
-                if (count === 1) {
-                    deleteRow();
-                } else {
-                    alert(" Only one row can be deleted at a time, please select one row ");
-                }
-            } else {
-                alert(" No rows selected, please select one row ");
-            }
-        }
+    let rowCheck = validateSelection();
+    if (rowCheck) {
+        deleteRow();
     }
 }
 
@@ -117,19 +109,16 @@ function deleteRow() {
         const checks = document.getElementsByName('checkField');
         if (checks.checked) {
             userRow = document.getElementById("myTable").rows[0];
-            document.getElementById("id").value = userRow.cells[0].childNodes[0].value;
-            document.forms[0].action = "deleteCust.htm";
-            document.forms[0].submit();
         } else {
             for (let i = 0; i < checks.length; i++) {
                 if (checks[i].checked) {
                     userRow = document.getElementById("myTable").rows[i + 1];
                 }
             }
-            document.getElementById("id").value = userRow.cells[0].childNodes[0].value;
-            document.forms[0].action = "deleteCust.htm";
-            document.forms[0].submit();
         }
+        document.getElementById("id").value = userRow.cells[0].childNodes[0].value;
+        document.forms[0].action = "deleteCust.htm";
+        document.forms[0].submit();
     }
 
 }
@@ -145,37 +134,10 @@ function checkCall(e) {
     }
 }
 
-function hideAlerts() {
-    document.getElementById('customer').text = "Customer <span class='sr-only'>Customer</span>";
-}
-
 function viewCustomer() {
-    let check = 'false';
-    let count = 0;
-    // get all check boxes
-    const checks = document.getElementsByName('checkField');
-    if (checks) {
-        //if total number of rows is one
-        if (checks.checked) {
-            viewRow();
-        } else {
-            for (let i = 0; i < checks.length; i++) {
-                if (checks[i].checked) {
-                    check = 'true';
-                    count = count + 1;
-                }
-            }
-            //check for validity
-            if (check === 'true') {
-                if (count === 1) {
-                    viewRow();
-                } else {
-                    alert(" Only one row can be viewed at a time, please select one row ");
-                }
-            } else {
-                alert(" No rows selected, please select one row ");
-            }
-        }
+    let rowCheck = validateSelection();
+    if (rowCheck) {
+        viewRow();
     }
 }
 

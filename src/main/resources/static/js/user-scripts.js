@@ -1,3 +1,9 @@
+
+
+function hideAlerts() {
+    document.getElementById('user').text = "User <span class='sr-only'>User</span>";
+}
+
 function validateSelection() {
     let check = 'false';
     let count = 0;
@@ -20,28 +26,29 @@ function validateSelection() {
                     return true;
                 } else {
                     alert(" Only one row can be selected at a time, please select one row ");
+                    return false;
                 }
             } else {
                 alert(" No rows selected, please select one row ");
+                return false;
             }
         }
     }
 }
 
 function setIdForChange() {
-    let userRow;
     let checks = document.getElementsByName('checkField');
+    let userRow;
     if (checks.checked) {
         userRow = document.getElementById("myTable").rows[0];
-        document.getElementById("id").value = userRow.cells[0].childNodes[0].value;
     } else {
         for (let i = 0; i < checks.length; i++) {
             if (checks[i].checked) {
                 userRow = document.getElementById("myTable").rows[i + 1];
             }
         }
-        document.getElementById("id").value = userRow.cells[0].childNodes[0].value;
     }
+    document.getElementById("id").value = userRow.cells[0].childNodes[0].value;
 }
 
 function deleteUser() {
@@ -70,10 +77,6 @@ function clearOut() {
     document.getElementById("name").value = "";
     document.getElementById("email").value = "";
     document.getElementById("role").value = document.getElementById('role').options[0].value;
-}
-
-function hideAlerts() {
-    document.getElementById('user').text = "User <span class='sr-only'>User</span>";
 }
 
 //preventing multiple checks
@@ -273,7 +276,6 @@ function resetUser() {
     let rowCheck = validateSelection();
     if (rowCheck) {
         setIdForChange();
-        //submit ajax request for resetting password !!!
         console.log("going to reset password on : " + document.getElementById("id").value);
         ajaxPasswordExpire();
     }
