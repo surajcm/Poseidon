@@ -16,7 +16,7 @@
     <meta name="_csrf_header" content="${_csrf.headerName}"/>
     <spring:url value="/img/Poseidon_Ico.ico" var="posIcon" />
     <link rel="shortcut icon" href="${posIcon}" />
-    <link rel="stylesheet" href="/css/bootstrap.min.css"  type="text/css" />
+    <link rel="stylesheet" href="/css/bootstrap-5.min.css"  type="text/css" />
     <link rel="stylesheet" href="/css/custom.css" type="text/css" />
     <title><spring:message code="poseidon.userListPage" text="User List" /></title>
     <script type="text/javascript" src="/js/user-scripts.js"></script>
@@ -28,7 +28,7 @@
         <input type="hidden" name="addInProgress" id="addInProgress" />
         <form:hidden name="loggedInUser" path="loggedInUser" />
         <form:hidden name="loggedInRole" path="loggedInRole" />
-        <%@include file="../navbar.jsp" %>
+        <%@include file="../navbar5.jsp" %>
         <div class="container">
             <div class="wrap">
                 <div class="card">
@@ -36,139 +36,137 @@
                         <spring:message code="user.searchUser" text="Search User Details" />
                     </div>
                     <div class="card-body">
-                        <div class="card-text">
-                            <div class="form-row">
-                                <div class="form-group col-md-2 text-right">
-                                    <label for="name"><spring:message code="poseidon.name" text="Name" /> :</label>
-                                </div>
-                                <div class="form-group col-md-2">
-                                    <form:input cssClass="form-control" path="searchUser.name" id="name" />
-                                </div>
-                                <div class="form-group col-md-2 text-right">
-                                    <label for="email"><spring:message code="poseidon.email" text="email" /> :</label>
-                                </div>
-                                <div class="form-group col-md-2">
-                                    <form:input cssClass="form-control" path="searchUser.email" id="email" />
-                                </div>
-                                <div class="form-group col-md-2 text-right">
-                                    <label for="role"><spring:message code="poseidon.role" text="Role" /> :</label>
-                                </div>
-                                <div class="form-group col-md-2">
-                                    <form:select id="role" path="searchUser.role" cssClass="form-control"
+                        <div class="row g-3">
+                            <div class="col-md-4">
+                                <label for="name" class="form-label"><spring:message code="poseidon.name" text="Name" /> :</label>
+                                <form:input cssClass="form-control" path="searchUser.name" id="name" />
+                            </div>
+                            <div class="col-md-4">
+                                <label for="email" class="form-label"><spring:message code="poseidon.email" text="email" /> :</label>
+                                <form:input cssClass="form-control" path="searchUser.email" id="email" />
+                            </div>
+                            <div class="col-md-4">
+                                <label for="role" class="form-label"><spring:message code="poseidon.role" text="Role" /> :</label>
+                                <form:select id="role" path="searchUser.role" cssClass="form-select"
                                              onkeypress="handleEnter(event);">
-                                        <form:option value=""><spring:message code="common.select" text="<-- Select -->"/></form:option>
-                                        <form:options items="${userForm.roleList}" />
-                                    </form:select>
+                                    <form:option value=""><spring:message code="common.select" text="<-- Select -->"/></form:option>
+                                    <form:options items="${userForm.roleList}" />
+                                </form:select>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-check">
+                                    <form:checkbox path="includes" cssClass="form-check-input" id="includes" value="" />
+                                    <label class="form-check-label" for="includes">
+                                    <spring:message code="user.includes" text="Includes" />
+                                    </label>
                                 </div>
                             </div>
-                            <div class="form-row">
-                                <div class="form-group col-md-6">
-                                    <div class="form-check">
-                                      <form:checkbox path="includes" cssClass="form-check-input" id="includes" value="" />
-                                      <label class="form-check-label" for="includes">
-                                        <spring:message code="user.includes" text="Includes" />
-                                      </label>
-                                    </div>
-                                </div>
-                                <div class="form-group col-md-6">    
-                                    <div class="form-check">
-                                      <form:checkbox path="startsWith" cssClass="form-check-input" id="startswith" value="" />
-                                      <label class="form-check-label" for="startsWith">
-                                        <spring:message code="user.startsWith" text="Starts with" />
-                                      </label>
-                                    </div>
+                            <div class="col-md-6">
+                                <div class="form-check">
+                                    <form:checkbox path="startsWith" cssClass="form-check-input" id="startswith" value="" />
+                                    <label class="form-check-label" for="startsWith">
+                                    <spring:message code="user.startsWith" text="Starts with" />
+                                    </label>
                                 </div>
                             </div>
-                            <input class="btn btn-primary" value="<spring:message code='poseidon.search' text='Search' />" type="button" onclick="javascript:search()" />
-                            <input class="btn btn-primary" value="<spring:message code='poseidon.clear' text='Clear' />" type="button" onclick="javascript:clearOut()" />
+                            <div class="col-md-6">
+                                <button type="button" class="btn btn-primary" onclick="search()" ><spring:message code='poseidon.search' text='Search' /></button>
+                            </div>
+                            <div class="col-md-6">
+                                <button type="button" class="btn btn-primary" onclick="clearOut()"><spring:message code='poseidon.clear' text='Clear' /></button>
+                            </div>
                         </div>
                     </div>
                 </div>
                 <br />
                 <br />
                 <c:if test="${userForm.statusMessage!=null}">
-                    <div class="alert alert-<c:out value='${userForm.statusMessageType}'/>">
-                        <a class="close" data-dismiss="alert" href="#" aria-hidden="true">x</a>
+                    <div class="alert alert-<c:out value='${userForm.statusMessageType}'/>  alert-dismissible fade show" role="alert">
                         <c:out value="${userForm.statusMessage}"/>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>
                 </c:if>
-                <div class="panel panel-primary">
-                    <div class="panel-heading"><spring:message code="user.userDetails" text="User Details" /></div>
-                    <table id='myTable' class="table table-bordered table-striped table-hover">
-                        <thead>
+                <table id='myTable' class="table table-bordered table-striped table-hover caption-top">
+                    <caption><spring:message code="user.userDetails" text="User Details" /></caption>
+                    <thead class="table-dark">
+                        <tr>
+                            <th scope="col"><spring:message code="poseidon.id" text="id" /></th>
+                            <th scope="col"><spring:message code="poseidon.name" text="Name" /></th>
+                            <th scope="col"><spring:message code="poseidon.email" text="email" /></th>
+                            <th scope="col"><spring:message code="poseidon.role" text="Role" /></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <c:forEach items="${userForm.userVOs}" var="iterationUser">
                             <tr>
-                                <th><spring:message code="poseidon.id" text="id" /></th>
-                                <th><spring:message code="poseidon.name" text="Name" /></th>
-                                <th><spring:message code="poseidon.email" text="email" /></th>
-                                <th><spring:message code="poseidon.role" text="Role" /></th>
+                                <th scope="row"><input type="checkbox" name="checkField" onclick="checkCall(this)"
+                                           value='<c:out value="${iterationUser.id}" />' /></th>
+                                <td><c:out value="${iterationUser.name}" /></td>
+                                <td><c:out value="${iterationUser.email}" /></td>
+                                <td><c:out value="${iterationUser.role}" /></td>
                             </tr>
-                        </thead>
-                        <tbody>
-                            <c:forEach items="${userForm.userVOs}" var="iterationUser">
-                                <tr>
-                                    <td><input type="checkbox" name="checkField" onclick="checkCall(this)"
-                                               value='<c:out value="${iterationUser.id}" />' /></td>
-                                    <td><c:out value="${iterationUser.name}" /></td>
-                                    <td><c:out value="${iterationUser.email}" /></td>
-                                    <td><c:out value="${iterationUser.role}" /></td>
-                                </tr>
-                            </c:forEach>
-                        </tbody>
-                    </table>
-                    <div class="form-row">
-                        <div class="form-group">
-                            <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#newUserModal" 
-                                onclick="addNewUser();">Add New User</button>
-                            <button type="button" class="btn btn-primary"  data-toggle="modal" data-target="#editUserModal"
-                                onclick="editUser();">
-                                <spring:message code='poseidon.edit' text='Edit User' />
-                            </button>
-                            <button type="button" class="btn btn-primary" onclick="deleteUser()">
-                                <spring:message code='poseidon.delete' text='Delete User' />
-                            </button>
-                            <button type="button" class="btn btn-primary" onclick="resetUser()">
-                                Reset Password
-                            </button>
-                        </div>
+                        </c:forEach>
+                    </tbody>
+                </table>
+                <div class="row g-3">
+                    <div class="col-md-3">
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#newUserModal"
+                            onclick="addNewUser();">Add New User</button>
+                    </div>
+                    <div class="col-md-3">
+                        <button type="button" class="btn btn-primary"  data-bs-toggle="modal" data-bs-target="#editUserModal"
+                            onclick="editUser();">
+                            <spring:message code='poseidon.edit' text='Edit User' />
+                        </button>
+                    </div>
+                    <div class="col-md-3">
+                        <button type="button" class="btn btn-primary" onclick="deleteUser()">
+                            <spring:message code='poseidon.delete' text='Delete User' />
+                        </button>
+                    </div>
+                    <div class="col-md-3">
+                        <button type="button" class="btn btn-primary" onclick="resetUser()">
+                            Reset Password
+                        </button>
                     </div>
                 </div>
             </div>
         </div>
-        <div id="newUserModal" class="modal fade bd-example-modal-lg" role="dialog">
-            <div class="modal-dialog modal-lg">
+        <div id="newUserModal" class="modal fade" tabindex="-1" aria-labelledby="newUserModal" aria-hidden="true">
+            <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h4 class="modal-title">Add new User</h4>
-                        <button type="button" class="close" data-dismiss="modal">x</button>
+                        <h5 class="modal-title">Add new User</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div id="userModalBody" class="modal-body">
                         <p>Lets add some users....</p>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" id="saveModal" class="btn btn-default" onclick="saveFromModal()">Save</button>
+                        <button type="button" id="saveModal" class="btn btn-primary" onclick="saveFromModal()">Save</button>
                     </div>
                 </div>
             </div>
         </div>
-        <div id="editUserModal" class="modal fade bd-example-modal-lg" role="dialog">
-            <div class="modal-dialog modal-lg">
+        <div id="editUserModal" class="modal fade" tabindex="-1" aria-labelledby="editUserModal" aria-hidden="true">
+            <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h4 class="modal-title">Edit User</h4>
-                        <button type="button" class="close" data-dismiss="modal">x</button>
+                        <h5 class="modal-title">Edit User</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div id="userEditModalBody" class="modal-body">
                         <p>Lets edit the user</p>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" id="updateModal" class="btn btn-default" onclick="updateFromModal()">Update</button>
+                        <button type="button" id="updateModal" class="btn btn-primary" onclick="updateFromModal()">Update</button>
                     </div>
                 </div>
             </div>
         </div>
         <script src="/js/core/jquery-3.2.1.min.js" type="text/javascript"></script>
         <script src="/js/core/popper.min.js" type="text/javascript"></script>
-        <script src="/js/core/bootstrap.min.js" type="text/javascript"></script>
+        <script src="/js/core/bootstrap-5.min.js" type="text/javascript"></script>
         <script type="text/javascript">
             $(document).ready(function() {
                 //Handles menu drop down

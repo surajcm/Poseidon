@@ -142,19 +142,18 @@ function rewriteTable(textReturned) {
 }
 
 function addNewUser() {
+    console.log("adding new user");
     let saveModal = document.getElementById("saveModal");
     saveModal.style.display = "block";
     let detail = document.getElementById("userModalBody");
     detail.innerHTML = "";
 
     let formValidUser = document.createElement("form");
-    formValidUser.setAttribute("class", "needs-validation");
+    formValidUser.setAttribute("class", "row g-3 needs-validation");
     formValidUser.novalidate = true;
 
-    let divUserAdd = document.createElement("div");
-    divUserAdd.setAttribute("class", "form-row align-items-left");
     let divName = document.createElement("div");
-    divName.setAttribute("class", "form-group col-md-4");
+    divName.setAttribute("class", "col-md-4");
     let txtName = document.createElement("input");
     txtName.setAttribute("type", "text");
     txtName.setAttribute("class", "form-control");
@@ -168,7 +167,7 @@ function addNewUser() {
     divName.appendChild(tt1);
 
     let divEmail = document.createElement("div");
-    divEmail.setAttribute("class", "form-group col-md-4");
+    divEmail.setAttribute("class", "col-md-4");
     let txtEmail = document.createElement("input");
     txtEmail.setAttribute("type", "text");
     txtEmail.setAttribute("class", "form-control");
@@ -182,9 +181,9 @@ function addNewUser() {
     divEmail.appendChild(tt2);
 
     let divRole = document.createElement("div");
-    divRole.setAttribute("class", "form-group col-md-4");
+    divRole.setAttribute("class", "col-md-4");
     let selectRole = document.createElement("select");
-    selectRole.setAttribute("class", "form-control");
+    selectRole.setAttribute("class", "form-select");
     selectRole.setAttribute("id", "addRole");
     let adminOption = document.createElement("option");
     adminOption.text = 'ADMIN';
@@ -196,10 +195,9 @@ function addNewUser() {
     selectRole.appendChild(guestOption);
     divRole.appendChild(selectRole);
 
-    divUserAdd.appendChild(divName);
-    divUserAdd.appendChild(divEmail);
-    divUserAdd.appendChild(divRole);
-    formValidUser.appendChild(divUserAdd);
+    formValidUser.appendChild(divName);
+    formValidUser.appendChild(divEmail);
+    formValidUser.appendChild(divRole);
     detail.appendChild(formValidUser);
 }
 
@@ -352,13 +350,11 @@ function editUserModal() {
     detail.innerHTML = "";
 
     let formValidUser = document.createElement("form");
-    formValidUser.setAttribute("class", "needs-validation2");
+    formValidUser.setAttribute("class", "row g-3 needs-validation");
     formValidUser.novalidate = true;
 
-    let divUserEdit = document.createElement("div");
-    divUserEdit.setAttribute("class", "form-row align-items-left");
     let divName = document.createElement("div");
-    divName.setAttribute("class", "form-group col-md-4");
+    divName.setAttribute("class", "col-md-4");
     let txtName = document.createElement("input");
     txtName.setAttribute("type", "text");
     txtName.setAttribute("class", "form-control");
@@ -368,7 +364,7 @@ function editUserModal() {
     divName.appendChild(txtName);
 
     let divEmail = document.createElement("div");
-    divEmail.setAttribute("class", "form-group col-md-4");
+    divEmail.setAttribute("class", "col-md-4");
     let txtEmail = document.createElement("input");
     txtEmail.setAttribute("type", "text");
     txtEmail.setAttribute("class", "form-control");
@@ -378,9 +374,9 @@ function editUserModal() {
     divEmail.appendChild(txtEmail);
 
     let divRole = document.createElement("div");
-    divRole.setAttribute("class", "form-group col-md-4");
+    divRole.setAttribute("class", "col-md-4");
     let selectRole = document.createElement("select");
-    selectRole.setAttribute("class", "form-control");
+    selectRole.setAttribute("class", "form-select");
     selectRole.setAttribute("id", "updateRole");
     let adminOption = document.createElement("option");
     adminOption.text = 'ADMIN';
@@ -392,10 +388,9 @@ function editUserModal() {
     selectRole.appendChild(guestOption);
     divRole.appendChild(selectRole);
 
-    divUserEdit.appendChild(divName);
-    divUserEdit.appendChild(divEmail);
-    divUserEdit.appendChild(divRole);
-    formValidUser.appendChild(divUserEdit);
+    formValidUser.appendChild(divName);
+    formValidUser.appendChild(divEmail);
+    formValidUser.appendChild(divRole);
     detail.appendChild(formValidUser);
 }
 
@@ -449,7 +444,7 @@ function updateFromModal() {
     let updateName = document.getElementById("updateName").value;
     let updateEmail = document.getElementById("updateEmail").value;
     let updateRole = document.getElementById("updateRole").value;
-    let forms = document.getElementsByClassName('needs-validation2');
+    let forms = document.getElementsByClassName('needs-validation');
     let allFieldsAreValid = true;
 
     if (forms[0].checkValidity() === false) {

@@ -34,7 +34,7 @@ public class UserController {
     private static final Logger logger = LoggerFactory.getLogger(UserController.class);
     private static final String USER_FORM = "userForm";
     private static final String USER_LOG_IN = "login";
-    private static final String ERROR = "error";
+    private static final String DANGER = "danger";
     private static final String SUCCESS = "success";
     private static final String USER_LIST = "user/UserList";
     private static final String UNKNOWN_ERROR = " An Unknown Error has been occurred !!";
@@ -74,7 +74,7 @@ public class UserController {
     @GetMapping("/login")
     public String login(final Model model, final String error, final String logout) {
         if (error != null) {
-            model.addAttribute(ERROR, "Your username and password is invalid.");
+            model.addAttribute(DANGER, "Your username and password is invalid.");
         }
         if (logout != null) {
             model.addAttribute("message", "You have been logged out successfully.");
@@ -124,7 +124,7 @@ public class UserController {
         List<UserVO> userList = userService.getAllUserDetails();
         if (userList.isEmpty()) {
             userForm.setStatusMessage("No user found");
-            userForm.setStatusMessageType(ERROR);
+            userForm.setStatusMessageType(DANGER);
         }
         userForm.setUserVOs(userList);
         userForm.setRoleList(populateRoles());
@@ -186,7 +186,7 @@ public class UserController {
             userList.stream().map(UserVO::toString).forEach(logger::info);
         } else {
             userForm.setStatusMessage("No results found");
-            userForm.setStatusMessageType(ERROR);
+            userForm.setStatusMessageType(DANGER);
         }
         userForm.setUserVOs(userList);
         userForm.setRoleList(populateRoles());
@@ -328,7 +328,7 @@ public class UserController {
         try {
             response = mapper.writeValueAsString(userList);
         } catch (IOException ex) {
-            response = ERROR;
+            response = DANGER;
             logger.error("error parsing to json : {}", ex.getMessage());
         }
         logger.info("user list json : {}", response);
@@ -351,7 +351,7 @@ public class UserController {
         try {
             response = mapper.writeValueAsString(userEditMap);
         } catch (IOException ex) {
-            response = ERROR;
+            response = DANGER;
             logger.error("Error parsing to json : {}", ex.getMessage());
         }
         logger.info("User list json : {}", response);
@@ -371,7 +371,7 @@ public class UserController {
         try {
             response = mapper.writeValueAsString(messageMap);
         } catch (IOException ex) {
-            response = ERROR;
+            response = DANGER;
             logger.error("Error parsing to json : {}", ex.getMessage());
         }
         return response;
