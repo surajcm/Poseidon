@@ -102,29 +102,6 @@ public class MakeController {
         return new ModelAndView("make/MakeList", MAKE_FORM, makeForm);
     }
 
-    /**
-     * edit a make.
-     *
-     * @param makeForm makeForm
-     * @return view
-     */
-    @PostMapping("/make/editMake.htm")
-    public ModelAndView editMake(final MakeForm makeForm) {
-        LOG.debug("EditMake method of MakeController ");
-        var sanitizedMakeForm = CommonUtils.sanitizedString(makeForm.toString());
-        LOG.debug(MAKE_FORM_IS, sanitizedMakeForm);
-        var makeVO = makeService.getMakeFromId(makeForm.getId());
-        if (makeVO == null) {
-            LOG.error("No details found for current makeVO !!");
-        } else {
-            LOG.debug("MakeVO details are {}", makeVO);
-        }
-        makeForm.setCurrentMakeAndModeVO(makeVO);
-        makeForm.setLoggedInUser(makeForm.getLoggedInUser());
-        makeForm.setLoggedInRole(makeForm.getLoggedInRole());
-        return new ModelAndView("make/MakeEdit", MAKE_FORM, makeForm);
-    }
-
     @GetMapping("/make/getForEdit.htm")
     public @ResponseBody
     String getForEdit(@ModelAttribute("id") final String id,
@@ -135,6 +112,21 @@ public class MakeController {
         var makeVO = makeService.getModelFromId(Long.valueOf(id));
         if (makeVO != null) {
             response = parseMakeAndModelVO(Map.of(makeVO.getMakeId(), makeVO.getModelName()));
+        }
+        return response;
+    }
+
+
+    @GetMapping("/make/makeForEdit.htm")
+    public @ResponseBody
+    String makeForEdit(@ModelAttribute("id") final String id,
+                      final BindingResult result) {
+        var sanitizedId = CommonUtils.sanitizedString(id);
+        LOG.info("makeForEdit method of make controller {}", sanitizedId);
+        String response = null;
+        var makeVO = makeService.getMakeFromId(Long.valueOf(id));
+        if (makeVO != null) {
+            response = parseMakeVO(Map.of(makeVO.getMakeName(), makeVO.getDescription()));
         }
         return response;
     }
@@ -151,7 +143,15 @@ public class MakeController {
         LOG.debug("DeleteMake method of MakeController ");
         var sanitizedMakeForm = CommonUtils.sanitizedString(makeForm.toString());
         LOG.debug(MAKE_FORM_IS, sanitizedMakeForm);
-        makeService.deleteMake(makeForm.getId());
+        try {
+            makeService.deleteMake(makeForm.getId());
+            makeForm.setStatusMessage("Successfully deleted the selected Make");
+            makeForm.setStatusMessageType(SUCCESS);
+        } catch (Exception ex) {
+            makeForm.setStatusMessage("Error occurred during deletion");
+            makeForm.setStatusMessageType(DANGER);
+            LOG.error(ex.getLocalizedMessage(), ex);
+        }
         makeForm.setLoggedInUser(makeForm.getLoggedInUser());
         makeForm.setLoggedInRole(makeForm.getLoggedInRole());
         makeForm.setCurrentMakeAndModeVO(new MakeAndModelVO());
@@ -170,9 +170,15 @@ public class MakeController {
         LOG.debug("DeleteModel method of MakeController ");
         var sanitizedMakeForm = CommonUtils.sanitizedString(makeForm.toString());
         LOG.debug(MAKE_FORM_IS, sanitizedMakeForm);
-        makeService.deleteModel(makeForm.getId());
-        makeForm.setStatusMessage("Successfully deleted the selected Model");
-        makeForm.setStatusMessageType(SUCCESS);
+        try {
+            makeService.deleteModel(makeForm.getId());
+            makeForm.setStatusMessage("Successfully deleted the selected Model");
+            makeForm.setStatusMessageType(SUCCESS);
+        } catch (Exception ex) {
+            makeForm.setStatusMessage("Error occurred during deletion");
+            makeForm.setStatusMessageType(DANGER);
+            LOG.error(ex.getLocalizedMessage(), ex);
+        }
         makeForm.setLoggedInUser(makeForm.getLoggedInUser());
         makeForm.setLoggedInRole(makeForm.getLoggedInRole());
         makeForm.setCurrentMakeAndModeVO(new MakeAndModelVO());
@@ -310,8 +316,6 @@ public class MakeController {
             var makeForm = new MakeForm();
             makeForm.setCurrentMakeAndModeVO(makeAndModelVO);
             makeService.addNewMake(makeForm.getCurrentMakeAndModeVO());
-            makeForm.setStatusMessage("Successfully saved the new make Detail");
-            makeForm.setStatusMessageType(SUCCESS);
             var makes = makeService.fetchMakes();
             responseString.append(fetchJsonMakeList(makes));
         } else {
@@ -380,7 +384,47 @@ public class MakeController {
         return responseString.toString();
     }
 
+    @PutMapping("/make/updateMakeAjax.htm")
+    public @ResponseBody
+    String updateMakeAjax(@ModelAttribute("id") final Long id,
+                           @ModelAttribute("makeName") final String makeName,
+                           @ModelAttribute("description") final String description,
+                           final BindingResult result) {
+        var sanitizedId = CommonUtils.sanitizedString(id.toString());
+        var sanitizedMakeName = CommonUtils.sanitizedString(makeName);
+        var sanitizedDescription = CommonUtils.sanitizedString(description);
+        LOG.info("updateMakeAjax method of make controller with id {}, makeName {}, description {}",
+                sanitizedId, sanitizedMakeName, sanitizedDescription);
+        var responseString = new StringBuilder();
+        var makeModelVO = buildMakeModelVO(id, makeName, description);
+        makeService.updateMake(makeModelVO);
+        var makes = makeService.fetchMakes();
+        return responseString.append(fetchJsonMakeList(makes)).toString();
+    }
+
+    private MakeAndModelVO buildMakeModelVO(final Long id, final String makeName, final String description) {
+        var vo = new MakeAndModelVO();
+        vo.setMakeId(id);
+        vo.setMakeName(makeName);
+        vo.setDescription(description);
+        vo.setModifiedBy(findLoggedInUsername());
+        return vo;
+    }
+
     private String parseMakeAndModelVO(final Map<Long, String> modelEditMap) {
+        String response;
+        var mapper = new ObjectMapper();
+        try {
+            response = mapper.writeValueAsString(modelEditMap);
+        } catch (IOException ex) {
+            response = DANGER;
+            LOG.error(ex.getMessage());
+        }
+        LOG.info(response);
+        return response;
+    }
+
+    private String parseMakeVO(final Map<String, String> modelEditMap) {
         String response;
         var mapper = new ObjectMapper();
         try {

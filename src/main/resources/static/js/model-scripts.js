@@ -27,62 +27,89 @@ function deleteModel() {
     }
 }
 
-// delete
+function validateEditModalSelection() {
+    let check = 'false';
+    let count = selectedRowCount();
+    if (count > 0) {
+        check = 'true';
+    }
+    //check for validity
+    let detail = document.getElementById("modelEditModalBody");
+    if (check === 'true') {
+        if (count === 1) {
+            return true;
+        } else {
+            detail.innerHTML = "<p>Only one row can be selected at a time, please select one row</p>";
+            return false;
+        }
+    } else {
+        detail.innerHTML = "<p>No rows selected, please select one row</p>";
+        return false;
+    }
+}
+
 function validateSelection() {
     let check = 'false';
-    let count = 0;
-    // get all check boxes
+    let count = selectedRowCount();
+    if (count > 0) {
+        check = 'true';
+    }
+    //check for validity
+    if (check === 'true') {
+        if (count === 1) {
+            return true;
+        } else {
+            alert("Only one row can be deleted at a time, please select one row ");
+            return false;
+        }
+    } else {
+        alert("No rows selected, please select one row ");
+        return false;
+    }
+}
+
+function selectedRowCount() {
     let checks = document.getElementsByName('checkField');
+    let count = 0;
     if (checks) {
         //if total number of rows is one
         if (checks.checked) {
-            return true;
+            count = 1;
         } else {
             for (let i = 0; i < checks.length; i++) {
                 if (checks[i].checked) {
-                    check = 'true';
                     count = count + 1;
                 }
             }
-            //check for validity
-            if (check === 'true') {
-                if (count === 1) {
-                    return true;
-                } else {
-                    alert("Only one row can be deleted at a time, please select one row ");
-                    return false;
-                }
-            } else {
-                alert("No rows selected, please select one row ");
-                return false;
-            }
         }
     }
+    return count;
 }
 
 //code to delete
 function deleteRow() {
     let answer = confirm("Are you sure you wanted to delete the user ");
     if (answer) {
-        //if yes then delete
-        let userRow;
-        let checks = document.getElementsByName('checkField');
-        if (checks.checked) {
-            userRow = document.getElementById("myTable").rows[0];
-            document.getElementById("id").value = userRow.cells[0].childNodes[0].value;
-            document.forms[0].action = "deleteModel.htm";
-            document.forms[0].submit();
-        } else {
-            for (let i = 0; i < checks.length; i++) {
-                if (checks[i].checked) {
-                    userRow = document.getElementById("myTable").rows[i + 1];
-                }
+        let userRow = selectedRow();
+        document.getElementById("id").value = userRow.cells[0].childNodes[0].value;
+        document.forms[0].action = "deleteModel.htm";
+        document.forms[0].submit();
+    }
+}
+
+function selectedRow() {
+    let userRow;
+    let checks = document.getElementsByName('checkField');
+    if (checks.checked) {
+        userRow = document.getElementById("myTable").rows[0];
+    } else {
+        for (let i = 0; i < checks.length; i++) {
+            if (checks[i].checked) {
+                userRow = document.getElementById("myTable").rows[i + 1];
             }
-            document.getElementById("id").value = userRow.cells[0].childNodes[0].value;
-            document.forms[0].action = "deleteModel.htm";
-            document.forms[0].submit();
         }
     }
+    return userRow;
 }
 
 function getAllMakeIdsAndNames() {
@@ -217,7 +244,6 @@ function showStatus(status) {
     detail.appendChild(divStatus);
 }
 
-
 //preventing multiple checks
 function checkCall(e) {
     let min = e.value;
@@ -228,7 +254,6 @@ function checkCall(e) {
         }
     }
 }
-
 
 function rewriteTable(textReturned) {
     document.getElementById('myTable').innerHTML = "";
@@ -277,7 +302,6 @@ function rewriteTable(textReturned) {
         tbody.appendChild(trx);
     }
     myTable.appendChild(tbody);
-    //todo: optional message saving update is done !!
 }
 
 function editModel() {
@@ -346,37 +370,6 @@ function editModelModal() {
     detail.appendChild(formValidModel);
 }
 
-function validateEditModalSelection() {
-    let check ='false';
-    let count = 0;
-    // get all check boxes
-    let checks = document.getElementsByName('checkField');
-    if (checks) {
-        //if total number of rows is one
-        if (checks.checked) {
-            return true;
-        } else {
-            for(let i = 0 ; i < checks.length ; i++ ) {
-                if (checks[i].checked) {
-                    check = 'true';
-                    count = count + 1;
-                }
-            }
-            //check for validity
-            let detail = document.getElementById("modelEditModalBody");
-            if (check === 'true') {
-                if (count === 1) {
-                    return true;
-                } else {
-                    detail.innerHTML = "<p>Only one row can be selected at a time, please select one row</p>";
-                }
-            } else {
-                detail.innerHTML = "<p>No rows selected, please select one row</p>";
-            }
-        }
-    }
-}
-
 function getModelForEdit() {
     let id = document.getElementById("id").value;
     let xhr = new XMLHttpRequest();
@@ -410,7 +403,6 @@ function populateDataForEdit(textReturned) {
                 console.log("option set to "+option.value);
             }
         }
-        //document.getElementById("modalMakeName").value = key;
         document.getElementById("modalModelName").value = value;
     }
 }

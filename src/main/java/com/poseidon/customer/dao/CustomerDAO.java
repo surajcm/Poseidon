@@ -22,6 +22,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static com.rainerhahnekamp.sneakythrow.Sneaky.sneak;
+import static com.rainerhahnekamp.sneakythrow.Sneaky.sneaked;
 
 @Service
 @SuppressWarnings("unused")
@@ -114,7 +115,8 @@ public class CustomerDAO {
      */
     public void deleteCustomerFromId(final Long id) {
         deleteAdditionalDetails(id);
-        customerRepository.deleteById(id);
+        var consumer = sneaked(customerRepository::deleteById);
+        consumer.accept(id);
     }
 
     private Optional<CustomerAdditionalDetails> getAdditionalDetailsOfCustomerId(final Long id) {

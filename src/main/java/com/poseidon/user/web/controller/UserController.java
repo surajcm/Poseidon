@@ -154,21 +154,6 @@ public class UserController {
     }
 
     /**
-     * updates the user.
-     *
-     * @param userForm user instance
-     * @return ModelAndView to render
-     */
-    @PostMapping("/user/UpdateUser.htm")
-    public ModelAndView updateUser(final UserForm userForm) {
-        logger.info(" Inside updateUser method of user controller ");
-        userService.updateUser(userForm.getUser(), currentLoggedInUser());
-        userForm.setStatusMessage("Successfully updated the user");
-        userForm.setStatusMessageType(SUCCESS);
-        return listAll(userForm);
-    }
-
-    /**
      * Screen to search for a user.
      *
      * @param userForm userForm instance
@@ -282,9 +267,15 @@ public class UserController {
     @PostMapping("/user/DeleteUser.htm")
     public ModelAndView deleteUser(final UserForm userForm) {
         logger.info(" Inside DeleteUser method of user controller ");
-        userService.deleteUser(userForm.getId());
-        userForm.setStatusMessage("Successfully deleted the user");
-        userForm.setStatusMessageType(SUCCESS);
+        try {
+            userService.deleteUser(userForm.getId());
+            userForm.setStatusMessage("Successfully deleted the user");
+            userForm.setStatusMessageType(SUCCESS);
+        } catch (Exception ex) {
+            userForm.setStatusMessage("Error occurred during deletion");
+            userForm.setStatusMessageType(DANGER);
+            logger.error(ex.getLocalizedMessage(), ex);
+        }
         return listAll(userForm);
     }
 

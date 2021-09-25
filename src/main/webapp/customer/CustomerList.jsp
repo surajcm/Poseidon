@@ -14,7 +14,7 @@
     <meta name="_csrf_header" content="${_csrf.headerName}"/>
     <spring:url value="/img/Poseidon_Ico.ico" var="posIcon" />
     <link rel="shortcut icon" href="${posIcon}" />
-    <link rel="stylesheet" href="/css/bootstrap.min.css"  type="text/css" />
+    <link rel="stylesheet" href="/css/bootstrap-5.min.css"  type="text/css" />
     <link rel="stylesheet" href="/css/custom.css" type="text/css" />
     <title>Customer List</title>
     <script type="text/javascript" src="/js/customer-scripts.js"></script>
@@ -25,7 +25,7 @@
         <input type="hidden" name="id" id="id" />
         <form:hidden name="loggedInUser" path="loggedInUser" />
         <form:hidden name="loggedInRole" path="loggedInRole" />
-        <%@include file="../navbar.jsp" %>
+        <%@include file="../navbar5.jsp" %>
         <div class="container">
             <div class="wrap">
                 <div class="card">
@@ -33,116 +33,116 @@
                         Search Customers
                     </div>
                     <div class="card-body">
-                        <div class="card-text">
-                            <div class="form-row">
-                                <div class="form-group col-md-2">
-                                  <label for="name">Customer Id :</label>
-                                  <form:input cssClass="form-control" path="searchCustomerVO.customerId" id="customerId"/>
-                                </div>
-                                <div class="form-group col-md-6">
-                                  <label for="loginId">Customer Name :</label>
-                                  <form:input cssClass="form-control" path="searchCustomerVO.customerName" id="customerName"/>
-                                </div>
-                                <div class="form-group col-md-4">
-                                    <label for="loginId">Mobile :</label>
-                                    <form:input cssClass="form-control" path="searchCustomerVO.mobile" id="mobile"/>
+                        <div class="row g-3">
+                            <div class="col-md-2">
+                              <label for="customerId" class="form-label">Customer Id :</label>
+                              <form:input cssClass="form-control" path="searchCustomerVO.customerId" id="customerId"/>
+                            </div>
+                            <div class="col-md-6">
+                              <label for="customerName" class="form-label">Customer Name :</label>
+                              <form:input cssClass="form-control" path="searchCustomerVO.customerName" id="customerName"/>
+                            </div>
+                            <div class="col-md-4">
+                                <label for="mobile" class="form-label">Mobile :</label>
+                                <form:input cssClass="form-control" path="searchCustomerVO.mobile" id="mobile"/>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-check">
+                                    <form:checkbox path="searchCustomerVO.includes" cssClass="form-check-input" id="includes" value="" />
+                                    <label class="form-check-label" for="includes">
+                                        <spring:message code="user.includes" text="Includes" />
+                                    </label>
                                 </div>
                             </div>
-                            <div class="form-row">
-                                <div class="form-group col-md-6">
-                                    <div class="form-check">
-                                        <form:checkbox path="searchCustomerVO.includes" cssClass="form-check-input" id="includes" value="" />
-                                        <label class="form-check-label" for="includes">
-                                            <spring:message code="user.includes" text="Includes" />
-                                        </label>
-                                    </div>
+                            <div class="col-md-6">
+                                <div class="form-check">
+                                    <form:checkbox path="searchCustomerVO.startsWith" cssClass="form-check-input" id="startswith" value="" />
+                                    <label class="form-check-label" for="startsWith">
+                                        <spring:message code="user.startsWith" text="Starts with" />
+                                    </label>
                                 </div>
-                                <div class="form-group col-md-6">    
-                                    <div class="form-check">
-                                        <form:checkbox path="searchCustomerVO.startsWith" cssClass="form-check-input" id="startswith" value="" />
-                                        <label class="form-check-label" for="startsWith">
-                                            <spring:message code="user.startsWith" text="Starts with" />
-                                        </label>
-                                    </div>
-                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <input type="button" class="btn btn-primary"
+                                           value="<spring:message code='poseidon.search' text='Search' />"
+                                           onclick="search()"/>
+                            </div>
+                            <div class="col-md-6">
+                                <input type="button"  class="btn btn-primary"
+                                           value="<spring:message code='poseidon.clear' text='Clear' />"
+                                           onclick="clearOut()"/>
                             </div>
                         </div>
-                        <input class="btn btn-primary"
-                                           value="<spring:message code='poseidon.search' text='Search' />"
-                                           type="button" onclick="search()"/>
-                        <input class="btn btn-primary"
-                                           value="<spring:message code='poseidon.clear' text='Clear' />"
-                                           type="button" onclick="clearOut()"/>
                     </div>
                 </div>
                 <br />
                 <br />
                 <c:if test="${customerForm.statusMessage!=null}">
-                    <div class="alert alert-<c:out value="${customerForm.statusMessageType}"/>">
-                        <a class="close" data-dismiss="alert" href="#" aria-hidden="true">x</a>
+                    <div class="alert alert-<c:out value="${customerForm.statusMessageType}"/> alert-dismissible fade show" role="alert">
                         <c:out value="${customerForm.statusMessage}"/>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>
                 </c:if>
-                <div class="panel panel-primary">
-                    <div class="panel-heading">Customer Details</div>
-                    <table id='myTable' class="table table-bordered table-striped table-hover">
-                        <thead>
+                <table id='myTable' class="table table-bordered table-striped table-hover caption-top">
+                    <caption>Customer Details</caption>
+                    <thead class="table-dark">
+                    <tr>
+                        <th scope="col">&nbsp;</th>
+                        <th scope="col"><spring:message code="poseidon.id" text="id"/></th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Address</th>
+                        <th scope="col">Phone</th>
+                        <th scope="col">Mobile</th>
+                        <th scope="col">Email</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <c:forEach items="${customerForm.customerVOs}" var="iterationCust">
                         <tr>
-                            <th>&nbsp;</th>
-                            <th><spring:message code="poseidon.id" text="id"/></th>
-                            <th>Name</th>
-                            <th>Address</th>
-                            <th>Phone</th>
-                            <th>Mobile</th>
-                            <th>Email</th>
+                            <th scope="row"><input type="checkbox" name="checkField" onclick="checkCall(this)"
+                                       value="<c:out value="${iterationCust.customerId}" />"/></th>
+                            <td><c:out value="${iterationCust.customerId}"/></td>
+                            <td><c:out value="${iterationCust.customerName}"/></td>
+                            <td><c:out value="${iterationCust.address}"/></td>
+                            <td><c:out value="${iterationCust.phoneNo}"/></td>
+                            <td><c:out value="${iterationCust.mobile}"/></td>
+                            <td><c:out value="${iterationCust.email}"/></td>
                         </tr>
-                        </thead>
-
-                        <tbody>
-                        <c:forEach items="${customerForm.customerVOs}" var="iterationCust">
-                            <tr>
-                                <td><input type="checkbox" name="checkField" onclick="checkCall(this)"
-                                           value="<c:out value="${iterationCust.customerId}" />"/></td>
-                                <td><c:out value="${iterationCust.customerId}"/></td>
-                                <td><c:out value="${iterationCust.customerName}"/></td>
-                                <td><c:out value="${iterationCust.address}"/></td>
-                                <td><c:out value="${iterationCust.phoneNo}"/></td>
-                                <td><c:out value="${iterationCust.mobile}"/></td>
-                                <td><c:out value="${iterationCust.email}"/></td>
-                            </tr>
-                        </c:forEach>
-                        </tbody>
-                    </table>
-                    <table>
-                        <tr>
-                            <td>
-                                <br/>
-                                <br/>
-                                <input class="btn btn-primary" value="Add New Customer" type="button" onclick="addCustomer()"/>
-                                <input class="btn btn-primary" value="Edit Customer" type="button" onclick="editCustomer()"/>
-                                <input class="btn btn-primary" value="View Customer" type="button" data-toggle="modal" data-target="#customerDetail" onclick="viewCustomer()"/>
-                                <input class="btn btn-primary" value="Delete Customer" type="button" onclick="deleteCustomer()"/>
-                            </td>
-                        </tr>
-                    </table>
+                    </c:forEach>
+                    </tbody>
+                </table>
+                <div class="row g-3">
+                    <div class="col-md-3">
+                        <input type="button" class="btn btn-primary" value="Add New Customer" onclick="addCustomer()"/>
+                    </div>
+                    <div class="col-md-3">
+                        <input type="button" class="btn btn-primary" value="Edit Customer" onclick="editCustomer()"/>
+                    </div>
+                    <div class="col-md-3">
+                        <input type="button" class="btn btn-primary" value="View Customer" data-bs-toggle="modal" data-bs-target="#customerDetail" onclick="viewCustomer()"/>
+                    </div>
+                    <div class="col-md-3">
+                        <input type="button" class="btn btn-primary" value="Delete Customer" onclick="deleteCustomer()"/>
+                    </div>
                 </div>
-            </div>
-            <div id="customerDetail" class="modal fade bd-example-modal-lg" role="dialog">
-                <div class="modal-dialog modal-lg">
-                    <div class="modal-content">
-                        <div class="modal-header">
-                            <h4 class="modal-title">Customer Details</h4>
-                            <button type="button" class="close" data-dismiss="modal">x</button>
-                        </div>
-                        <div id="detail" class="modal-body">
-                            <p>Details of the customer.....</p>
+                <div id="customerDetail" class="modal fade" tabindex="-1" aria-labelledby="customerDetail" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Customer Details</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div id="detail" class="modal-body">
+                                <p>Details of the customer.....</p>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
+        </div>
             <script src="/js/core/jquery-3.2.1.min.js" type="text/javascript"></script>
             <script src="/js/core/popper.min.js" type="text/javascript"></script>
-            <script src="/js/core/bootstrap.min.js" type="text/javascript"></script>
+            <script src="/js/core/bootstrap-5.min.js" type="text/javascript"></script>
             <script type="text/javascript">
                 $(document).ready(function() {
                     //Handles menu drop down

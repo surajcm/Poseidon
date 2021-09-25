@@ -112,7 +112,8 @@ public class MakeDao {
      * @param makeId makeId
      */
     public void deleteMake(final Long makeId) {
-        sneaked(makeRepository::deleteById);
+        var consumer = sneaked(makeRepository::deleteById);
+        consumer.accept(makeId);
     }
 
     /**
@@ -136,7 +137,8 @@ public class MakeDao {
      * @param modelId id of model to be deleted
      */
     public void deleteModel(final Long modelId) {
-        sneaked(modelRepository::deleteById);
+        var consumer = sneaked(modelRepository::deleteById);
+        consumer.accept(modelId);
     }
 
     /**

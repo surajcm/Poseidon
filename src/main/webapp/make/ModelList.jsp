@@ -78,7 +78,7 @@
             <br/>
             <br/>
             <c:if test="${makeForm.statusMessage!=null}">
-                <div class="alert alert-<c:out value="${makeForm.statusMessageType}"/>">
+                <div class="alert alert-<c:out value="${makeForm.statusMessageType}"/> alert-dismissible fade show" role="alert">
                     <c:out value="${makeForm.statusMessage}"/>
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>

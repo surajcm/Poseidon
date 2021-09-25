@@ -138,7 +138,8 @@ public class TransactionDAO {
      * @param id id of transaction
      */
     public void deleteTransaction(final Long id) {
-        sneaked(transactionRepository::deleteById);
+        var consumer = sneaked(transactionRepository::deleteById);
+        consumer.accept(id);
     }
 
     /**

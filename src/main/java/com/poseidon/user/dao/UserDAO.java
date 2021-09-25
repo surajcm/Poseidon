@@ -108,7 +108,8 @@ public class UserDAO {
      * @param id id
      */
     public void deleteUser(final Long id) {
-        sneaked(userRepository::deleteById);
+        var consumer = sneaked(userRepository::deleteById);
+        consumer.accept(id);
     }
 
     public UserVO findByEmail(final String email) {

@@ -79,7 +79,7 @@
             <br/>
             <br/>
             <c:if test="${makeForm.statusMessage!=null}">
-                <div class="alert alert-<c:out value="${makeForm.statusMessageType}"/>">
+                <div class="alert alert-<c:out value="${makeForm.statusMessageType}"/> alert-dismissible fade show" role="alert">
                     <c:out value="${makeForm.statusMessage}"/>
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
@@ -113,9 +113,8 @@
                         onclick="addMake();">Add Make</button>
                 </div>
                 <div class="col-md-3">
-                    <input class="btn btn-primary" value="Edit Make" type="button" onclick="editMake()"/>
                     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editMakeModal"
-                        onclick="editNewMake();">Edit Make2</button>
+                        onclick="editMake();">Edit Make</button>
                 </div>
                 <div class="col-md-3">
                     <input class="btn btn-primary" value="Delete Make" type="button" onclick="deleteMake()"/>
@@ -127,13 +126,29 @@
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title">Add new Make</h5>
-        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div id="makeModalBody" class="modal-body">
                         <p>Lets edit some makes....</p>
                     </div>
                     <div class="modal-footer">
                         <button type="button" id="saveSmartMake" class="btn btn-primary" onclick="saveFromModal();">Save</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="editMakeModal" class="modal fade" tabindex="-1" aria-labelledby="editMakeModal" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Edit Make</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div id="makeEditModalBody" class="modal-body">
+                        <p>Lets edit the make</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" id="updateMake" class="btn btn-primary" onclick="updateFromModal()">Update</button>
                     </div>
                 </div>
             </div>

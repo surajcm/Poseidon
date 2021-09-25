@@ -39,11 +39,6 @@ class UserControllerTest {
     }
 
     @Test
-    void updateUser() throws Exception {
-        mvc.perform(post("/user/UpdateUser.htm")).andExpect(status().isOk());
-    }
-
-    @Test
     void deleteUser() throws Exception {
         mvc.perform(post("/user/DeleteUser.htm")).andExpect(status().isOk());
     }

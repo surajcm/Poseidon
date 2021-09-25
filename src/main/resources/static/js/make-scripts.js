@@ -24,13 +24,6 @@ function printMe() {
     document.forms[0].submit();
 }
 
-function editMake() {
-    if (verifyCheckPresent()) {
-        editRow();
-    }
-}
-
-// delete
 function deleteMake() {
     if (verifyCheckPresent()) {
         deleteRow();
@@ -39,40 +32,76 @@ function deleteMake() {
 
 function verifyCheckPresent() {
     let check = 'false';
-    let count = 0;
-    // get all check boxes
-    const checks = document.getElementsByName('checkField');
-    if (checks) {
-        //if total number of rows is one
-        if (checks.checked) {
+    let count = selectedRowCount();
+    console.log("count is "+ count);
+    if (count > 0) {
+        check = 'true';
+    }
+    //check for validity
+    if (check === 'true') {
+        if (count === 1) {
             return true;
         } else {
-            for (let i = 0; i < checks.length; i++) {
-                if (checks[i].checked) {
-                    check = 'true';
-                    count = count + 1;
-                }
-            }
-            //check for validity
-            if (check === 'true') {
-                if (count === 1) {
-                    return true;
-                } else {
-                    alert("Only one row can be edited at a time, please select one row ");
-                    return false;
-                }
-            } else {
-                alert("No rows selected, please select one row ");
-                return false;
-            }
+            alert("Only one row can be edited at a time, please select one row ");
+            return false;
         }
+    } else {
+        alert("No rows selected, please select one row ");
+        return false;
     }
 }
 
-//real edit
-function editRow() {
-    const checks = document.getElementsByName('checkField');
+function validateEditMakeSelection() {
+    let check = 'false';
+    let count = selectedRowCount();
+    if (count > 0) {
+        check = 'true';
+    }
+    //check for validity
+    let detail = document.getElementById("makeEditModalBody");
+    if (check === 'true') {
+        if (count === 1) {
+            return true;
+        } else {
+            detail.innerHTML = "<p>Only one row can be selected at a time, please select one row</p>";
+        }
+    } else {
+        detail.innerHTML = "<p>No rows selected, please select one row</p>";
+    }
+}
+
+function selectedRowCount() {
+    let checks = document.getElementsByName('checkField');
+    let count = 0;
+    if (checks) {
+        //if total number of rows is one
+        if (checks.checked) {
+            count = 1;
+        } else {
+            for (let i = 0; i < checks.length; i++) {
+                if (checks[i].checked) {
+                    count = count + 1;
+                }
+            }
+        }
+    }
+    return count;
+}
+
+//code to delete
+function deleteRow() {
+    const answer = confirm("Are you sure you wanted to delete the make ");
+    if (answer) {
+        let userRow = selectedRow();
+        document.getElementById("id").value = userRow.cells[0].childNodes[0].value;
+        document.forms[0].action = "deleteMake.htm";
+        document.forms[0].submit();
+    }
+}
+
+function selectedRow() {
     let userRow;
+    let checks = document.getElementsByName('checkField');
     if (checks.checked) {
         userRow = document.getElementById("myTable").rows[0];
     } else {
@@ -82,32 +111,7 @@ function editRow() {
             }
         }
     }
-    document.getElementById("id").value = userRow.cells[0].childNodes[0].value;
-    document.forms[0].action = "editMake.htm";
-    document.forms[0].submit();
-}
-
-
-//code to delete
-function deleteRow() {
-    const answer = confirm("Are you sure you wanted to delete the make ");
-    if (answer) {
-        //if yes then delete
-        let userRow;
-        const checks = document.getElementsByName('checkField');
-        if (checks.checked) {
-            userRow = document.getElementById("myTable").rows[0];
-        } else {
-            for (var i = 0; i < checks.length; i++) {
-                if (checks[i].checked) {
-                    userRow = document.getElementById("myTable").rows[i + 1];
-                }
-            }
-        }
-        document.getElementById("id").value = userRow.cells[0].childNodes[0].value;
-        document.forms[0].action = "deleteMake.htm";
-        document.forms[0].submit();
-    }
+    return userRow;
 }
 
 //preventing multiple checks
@@ -126,7 +130,7 @@ function rewriteTable(textReturned) {
     const myTable = document.getElementById("myTable");
     myTable.setAttribute("class", "table table-bordered table-striped table-hover caption-top");
     let cap = document.createElement("caption");
-    cap.innerHTML="Make Details";
+    cap.innerHTML = "Make Details";
     myTable.appendChild(cap);
     const thead = document.createElement("thead");
     thead.setAttribute("class", "table-dark");
@@ -176,7 +180,11 @@ function addMake() {
     saveSmartMake.style.display = "block";
     let detail = document.getElementById("makeModalBody");
     detail.innerHTML = "";
+    let formValidMake = makeOnModal();
+    detail.appendChild(formValidMake);
+}
 
+function makeOnModal() {
     let formValidMake = document.createElement("form");
     formValidMake.setAttribute("class", "row g-3 needs-validation");
     formValidMake.novalidate = true;
@@ -208,7 +216,7 @@ function addMake() {
 
     formValidMake.appendChild(divName);
     formValidMake.appendChild(divDescription);
-    detail.appendChild(formValidMake);
+    return formValidMake;
 }
 
 function saveFromModal() {
@@ -273,6 +281,155 @@ function showStatus(status) {
     detail.appendChild(divStatus);
 }
 
-function editNewMake() {
-    console.log("yet to implement");
+function editMake() {
+    let rowCheck = validateEditMakeSelection();
+    if (rowCheck) {
+        editMakeModal();
+        setIdForChange();
+        getMakeForEdit();
+    }
+}
+
+function setIdForChange() {
+    let userRow;
+    let checks = document.getElementsByName('checkField');
+    if (checks.checked) {
+        userRow = document.getElementById("myTable").rows[0];
+        document.getElementById("id").value = userRow.cells[0].childNodes[0].value;
+    } else {
+        for (let i = 0; i < checks.length; i++) {
+            if (checks[i].checked) {
+                userRow = document.getElementById("myTable").rows[i + 1];
+            }
+        }
+        document.getElementById("id").value = userRow.cells[0].childNodes[0].value;
+    }
+}
+
+function editMakeModal() {
+    let makeEditModalBody = document.getElementById("editMakeModal");
+    makeEditModalBody.style.display = "block";
+    let updateMake = document.getElementById("updateMake");
+    updateMake.style.display = "block";
+    let detail = document.getElementById("makeEditModalBody");
+    detail.innerHTML = "";
+
+    let formValidMake = makeOnModal();
+    detail.appendChild(formValidMake);
+}
+
+function getMakeForEdit() {
+    let id = document.getElementById("id").value;
+    let xhr = new XMLHttpRequest();
+    xhr.open('GET', "/make/makeForEdit.htm" + "?id=" + id, true);
+    let token = document.querySelector("meta[name='_csrf']").content;
+    let header = document.querySelector("meta[name='_csrf_header']").content;
+    xhr.setRequestHeader(header, token);
+    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    xhr.onload = function () {
+        if (xhr.status === 200) {
+            if (xhr.responseText != null) {
+                console.log("/make/makeForEdit.htm response is " + xhr.responseText);
+                populateDataForEdit(xhr.responseText);
+            }
+        } else if (xhr.status !== 200) {
+            console.log('Request failed.  Returned status of ' + xhr.status);
+            showEditError();
+        }
+    };
+    xhr.send();
+}
+
+function populateDataForEdit(textReturned) {
+    let modelMap = JSON.parse(textReturned);
+    let modalMakeName = document.getElementById("modalMakeName");
+    let modalMakeDescription = document.getElementById("modalMakeDescription");
+    for (const [key, value] of Object.entries(modelMap)) {
+        console.log("key and value are " + key + " " + value);
+        modalMakeName.value = key;
+        modalMakeDescription.value = value;
+    }
+}
+
+function showEditError() {
+    let detail = document.getElementById("makeEditModalBody");
+    detail.innerHTML = "";
+    let updateMake = document.getElementById("updateMake");
+    updateMake.style.display = "none";
+    let divStatus = document.createElement("div");
+    divStatus.setAttribute("class", "pop-status");
+    let imgSuccess = document.createElement("img");
+
+    divStatus.appendChild(imgSuccess);
+    let statusMessage = document.createElement("h3");
+    imgSuccess.setAttribute("src", "/img/cross.svg");
+    statusMessage.innerHTML = "Failed to populate data !!";
+    divStatus.appendChild(statusMessage);
+    detail.appendChild(divStatus);
+}
+
+function updateFromModal() {
+    let modalMakeName = document.getElementById("modalMakeName").value;
+    let modalMakeDescription = document.getElementById("modalMakeDescription").value;
+    let forms = document.getElementsByClassName('needs-validation');
+    let allFieldsAreValid = true;
+
+    if (forms[0].checkValidity() === false) {
+        allFieldsAreValid = false;
+        if (modalMakeName.length === 0) {
+            document.getElementById("modalMakeName").setAttribute("class", "form-control is-invalid");
+        } else {
+            document.getElementById("modalMakeName").setAttribute("class", "form-control was-validated");
+        }
+    }
+    if (allFieldsAreValid) {
+        console.log("All fields are valid, calling callAjaxUpdate");
+        let productId = document.getElementById("id").value
+        callAjaxMakeUpdate(productId, modalMakeName, modalMakeDescription);
+    }
+}
+
+
+function callAjaxMakeUpdate(productId, makeName, description) {
+    let xhr = new XMLHttpRequest();
+    xhr.open('PUT', "/make/updateMakeAjax.htm", true);
+    let token = document.querySelector("meta[name='_csrf']").content;
+    let header = document.querySelector("meta[name='_csrf_header']").content;
+    xhr.setRequestHeader(header, token);
+    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    xhr.onload = function () {
+        if (xhr.status === 200) {
+            if (xhr.responseText != null) {
+                console.log("callAjaxUpdate success :" + xhr.responseText);
+                rewriteTable(xhr.responseText);
+                showUpdateStatus(true);
+            }
+        } else if (xhr.status !== 200) {
+            console.log('Request failed.  Returned status of ' + xhr.status);
+            showUpdateStatus(false);
+        }
+    };
+    xhr.send("id=" + productId + "&makeName=" + makeName + "&description=" + description);
+}
+
+function showUpdateStatus(status) {
+    let detail = document.getElementById("makeEditModalBody");
+    detail.innerHTML = "";
+    let updateMake = document.getElementById("updateMake");
+    updateMake.style.display = "none";
+    let divStatus = document.createElement("div");
+    divStatus.setAttribute("class", "pop-status");
+    let imgSuccess = document.createElement("img");
+
+    divStatus.appendChild(imgSuccess);
+    let statusMessage = document.createElement("h3");
+    if (status) {
+        imgSuccess.setAttribute("src", "/img/tick.png");
+        statusMessage.innerHTML = "Successfully updated the user !!";
+    } else {
+        imgSuccess.setAttribute("src", "/img/cross.svg");
+        statusMessage.innerHTML = "Failed to update !!";
+    }
+    divStatus.appendChild(statusMessage);
+    detail.appendChild(divStatus);
 }

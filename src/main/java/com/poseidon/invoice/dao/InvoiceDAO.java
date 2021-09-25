@@ -84,7 +84,8 @@ public class InvoiceDAO {
      * @param id of invoice
      */
     public void deleteInvoice(final Long id) {
-        sneaked(invoiceRepository::deleteById);
+        var consumer = sneaked(invoiceRepository::deleteById);
+        consumer.accept(id);
     }
 
     /**
