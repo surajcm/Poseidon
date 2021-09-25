@@ -35,13 +35,13 @@ import java.util.stream.Collectors;
 @SuppressWarnings("unused")
 public class MakeController {
     private static final Logger LOG = LoggerFactory.getLogger(MakeController.class);
-    private static final String ERROR = "error";
+    private static final String DANGER = "danger";
     private static final String MAKE_FORM = "makeForm";
     private static final String SUCCESS = "success";
     private static final String UNKNOWN_ERROR = " An Unknown Error has been occurred !!";
     private static final String MAKE_FORM_IS = " makeForm is {}";
     private static final String MAKE_VO_IS = " makeVO is {}";
-    private static final String AJAX = "-ajax-";
+
 
     private final MakeService makeService;
 
@@ -347,7 +347,7 @@ public class MakeController {
             makeAndModelVO.setCreatedBy(userName);
             makeAndModelVO.setModifiedBy(userName);
             makeService.addNewModel(makeAndModelVO);
-            List<MakeAndModelVO> makeAndModelVOs = makeService.listAllMakesAndModels();
+            var makeAndModelVOs = makeService.listAllMakesAndModels();
             responseString.append(fetchJsonModelList(makeAndModelVOs));
         } else {
             LOG.info("errors {}", result);
@@ -386,7 +386,7 @@ public class MakeController {
         try {
             response = mapper.writeValueAsString(modelEditMap);
         } catch (IOException ex) {
-            response = ERROR;
+            response = DANGER;
             LOG.error(ex.getMessage());
         }
         LOG.info(response);
@@ -399,7 +399,7 @@ public class MakeController {
         try {
             response = mapper.writeValueAsString(makeVOS);
         } catch (IOException ex) {
-            response = ERROR;
+            response = DANGER;
             LOG.error(ex.getMessage());
         }
         LOG.info(response);
@@ -412,7 +412,7 @@ public class MakeController {
         try {
             response = mapper.writeValueAsString(makeAndModelVOs);
         } catch (IOException ex) {
-            response = ERROR;
+            response = DANGER;
             LOG.error(ex.getMessage());
         }
         LOG.info(response);
@@ -427,7 +427,7 @@ public class MakeController {
         try {
             response = mapper.writeValueAsString(idNameMap);
         } catch (IOException ex) {
-            response = ERROR;
+            response = DANGER;
             LOG.error(ex.getMessage());
         }
         LOG.info(response);

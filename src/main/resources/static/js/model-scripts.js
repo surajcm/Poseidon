@@ -1,4 +1,8 @@
 
+function hideAlerts(){
+    document.getElementById('make').text = "Make <span class='sr-only'>Make</span>";
+}
+
 function listAllMake() {
     document.forms[0].action = "MakeList.htm";
     document.forms[0].submit();
@@ -16,46 +20,69 @@ function clearOut() {
     document.getElementById('startswith').checked = false;
 }
 
-function AddModel() {
-    let saveModal = document.getElementById("saveModal");
-    saveModal.style.display = "block";
-    let detail = document.getElementById("modelModalBody");
-    detail.innerHTML = "";
+function deleteModel() {
+    let rowCheck = validateSelection();
+    if (rowCheck) {
+        deleteRow();
+    }
+}
 
-    let formValidModel = document.createElement("form");
-    formValidModel.setAttribute("class","needs-validation");
-    formValidModel.novalidate = true;
+// delete
+function validateSelection() {
+    let check = 'false';
+    let count = 0;
+    // get all check boxes
+    let checks = document.getElementsByName('checkField');
+    if (checks) {
+        //if total number of rows is one
+        if (checks.checked) {
+            return true;
+        } else {
+            for (let i = 0; i < checks.length; i++) {
+                if (checks[i].checked) {
+                    check = 'true';
+                    count = count + 1;
+                }
+            }
+            //check for validity
+            if (check === 'true') {
+                if (count === 1) {
+                    return true;
+                } else {
+                    alert("Only one row can be deleted at a time, please select one row ");
+                    return false;
+                }
+            } else {
+                alert("No rows selected, please select one row ");
+                return false;
+            }
+        }
+    }
+}
 
-    let divModelAdd = document.createElement("div");
-    divModelAdd.setAttribute("class","form-row align-items-left");
-    let divName = document.createElement("div");
-    divName.setAttribute("class","form-group col-md-4");
-    let selectMakeName = document.createElement("select");
-    selectMakeName.setAttribute("class","form-control");
-    selectMakeName.setAttribute("id","modalMakeName");
-    divName.appendChild(selectMakeName);
-    //ajax and add
-
-    getAllMakeIdsAndNames();
-
-    let divModelName = document.createElement("div");
-    divModelName.setAttribute("class","form-group col-md-4");
-    let txtModelName = document.createElement("input");
-    txtModelName.setAttribute("type","text");
-    txtModelName.setAttribute("class","form-control");
-    txtModelName.setAttribute("placeholder","Model Name");
-    txtModelName.setAttribute("id","modalModelName");
-    txtModelName.required = true;
-    divModelName.appendChild(txtModelName);
-    let tt2 = document.createElement("div");
-    tt2.setAttribute("class","invalid-tooltip");
-    tt2.innerHTML = "Please provide a valid modelName.";
-    divModelName.appendChild(tt2);
-
-    divModelAdd.appendChild(divName);
-    divModelAdd.appendChild(divModelName);
-    formValidModel.appendChild(divModelAdd);
-    detail.appendChild(formValidModel);
+//code to delete
+function deleteRow() {
+    let answer = confirm("Are you sure you wanted to delete the user ");
+    if (answer) {
+        //if yes then delete
+        let userRow;
+        let checks = document.getElementsByName('checkField');
+        if (checks.checked) {
+            userRow = document.getElementById("myTable").rows[0];
+            document.getElementById("id").value = userRow.cells[0].childNodes[0].value;
+            document.forms[0].action = "deleteModel.htm";
+            document.forms[0].submit();
+        } else {
+            for (let i = 0; i < checks.length; i++) {
+                if (checks[i].checked) {
+                    userRow = document.getElementById("myTable").rows[i + 1];
+                }
+            }
+            document.getElementById("id").value = userRow.cells[0].childNodes[0].value;
+            document.forms[0].action = "deleteModel.htm";
+            document.forms[0].submit();
+        }
+    }
 }
 
 function getAllMakeIdsAndNames() {
@@ -74,6 +101,46 @@ function getAllMakeIdsAndNames() {
     };
     xhr.send();
 }
+
+function AddModel() {
+    let saveModal = document.getElementById("saveModal");
+    saveModal.style.display = "block";
+    let detail = document.getElementById("modelModalBody");
+    detail.innerHTML = "";
+
+    let formValidModel = document.createElement("form");
+    formValidModel.setAttribute("class","row g-3 needs-validation");
+    formValidModel.novalidate = true;
+
+    let divName = document.createElement("div");
+    divName.setAttribute("class","col-md-4");
+    let selectMakeName = document.createElement("select");
+    selectMakeName.setAttribute("class","form-select");
+    selectMakeName.setAttribute("id","modalMakeName");
+    divName.appendChild(selectMakeName);
+    //ajax and add
+
+    getAllMakeIdsAndNames();
+
+    let divModelName = document.createElement("div");
+    divModelName.setAttribute("class","col-md-4");
+    let txtModelName = document.createElement("input");
+    txtModelName.setAttribute("type","text");
+    txtModelName.setAttribute("class","form-control");
+    txtModelName.setAttribute("placeholder","Model Name");
+    txtModelName.setAttribute("id","modalModelName");
+    txtModelName.required = true;
+    divModelName.appendChild(txtModelName);
+    let tt2 = document.createElement("div");
+    tt2.setAttribute("class","invalid-tooltip");
+    tt2.innerHTML = "Please provide a valid modelName.";
+    divModelName.appendChild(tt2);
+
+    formValidModel.appendChild(divName);
+    formValidModel.appendChild(divModelName);
+    detail.appendChild(formValidModel);
+}
+
 
 function addMakesToSelect(response) {
     console.log("Response is "+ response);
@@ -151,63 +218,6 @@ function showStatus(status) {
 }
 
 
-// delete
-function deleteModel() {
-    let check = 'false';
-    let count = 0;
-    // get all check boxes
-    let checks = document.getElementsByName('checkField');
-    if (checks) {
-        //if total number of rows is one
-        if (checks.checked) {
-            deleteRow();
-        } else {
-            for (let i = 0; i < checks.length; i++) {
-                if (checks[i].checked) {
-                    check = 'true';
-                    count = count + 1;
-                }
-            }
-            //check for validity
-            if (check === 'true') {
-                if (count === 1) {
-                    deleteRow();
-                } else {
-                    alert(" Only one row can be deleted at a time, please select one row ");
-                }
-            } else {
-                alert(" No rows selected, please select one row ");
-            }
-        }
-    }
-}
-
-//code to delete
-function deleteRow() {
-    let answer = confirm(" Are you sure you wanted to delete the user ");
-    if (answer) {
-        //if yes then delete
-        let userRow;
-        let checks = document.getElementsByName('checkField');
-        if (checks.checked) {
-            userRow = document.getElementById("myTable").rows[0];
-            document.getElementById("id").value = userRow.cells[0].childNodes[0].value;
-            document.forms[0].action = "deleteModel.htm";
-            document.forms[0].submit();
-        } else {
-            for (let i = 0; i < checks.length; i++) {
-                if (checks[i].checked) {
-                    userRow = document.getElementById("myTable").rows[i + 1];
-                }
-            }
-            document.getElementById("id").value = userRow.cells[0].childNodes[0].value;
-            document.forms[0].action = "deleteModel.htm";
-            document.forms[0].submit();
-        }
-    }
-
-}
-
 //preventing multiple checks
 function checkCall(e) {
     let min = e.value;
@@ -219,26 +229,28 @@ function checkCall(e) {
     }
 }
 
-function hideAlerts(){
-    document.getElementById('make').text = "Make <span class='sr-only'>Make</span>";
-}
 
 function rewriteTable(textReturned) {
     document.getElementById('myTable').innerHTML = "";
     let myTable = document.getElementById("myTable");
+    myTable.setAttribute("class", "table table-bordered table-striped table-hover caption-top");
+    let cap = document.createElement("caption");
+    cap.innerHTML="Model Details";
+    myTable.appendChild(cap);
     let thead = document.createElement("thead");
+    thead.setAttribute("class", "table-dark");
     let tr1 = document.createElement("tr");
     let th1 = document.createElement("th");
-    th1.innerHTML = "#";
-    th1.setAttribute("class","text-center");
+    th1.innerHTML = "id";
+    th1.setAttribute("scope", "col");
     tr1.appendChild(th1);
     let th2 = document.createElement("th");
     th2.innerHTML = "Make Name";
-    th2.setAttribute("class","text-center");
+    th2.setAttribute("scope", "col");
     tr1.appendChild(th2);
     let th3 = document.createElement("th");
     th3.innerHTML = "Model Name";
-    th3.setAttribute("class","text-center");
+    th3.setAttribute("scope", "col");
     tr1.appendChild(th3);
     thead.appendChild(tr1);
     myTable.appendChild(thead);
@@ -247,7 +259,8 @@ function rewriteTable(textReturned) {
     for (let i = 0; i < modelList.length; i++) {
         let singleModel = modelList[i];
         let trx = document.createElement("tr");
-        let td1 = document.createElement("td");
+        let td1 = document.createElement("th");
+        td1.setAttribute("scope", "row");
         let inCheck = document.createElement("input");
         inCheck.setAttribute("type","checkbox");
         inCheck.setAttribute("name","checkField");
@@ -301,15 +314,13 @@ function editModelModal() {
     detail.innerHTML = "";
 
     let formValidModel = document.createElement("form");
-    formValidModel.setAttribute("class","needs-validation2");
+    formValidModel.setAttribute("class","row g-3 needs-validation");
     formValidModel.novalidate = true;
 
-    let divModelAdd = document.createElement("div");
-    divModelAdd.setAttribute("class","form-row align-items-left");
     let divName = document.createElement("div");
-    divName.setAttribute("class","form-group col-md-4");
+    divName.setAttribute("class","col-md-6");
     let selectMakeName = document.createElement("select");
-    selectMakeName.setAttribute("class","form-control");
+    selectMakeName.setAttribute("class","form-select");
     selectMakeName.setAttribute("id","modalMakeName");
     divName.appendChild(selectMakeName);
     //ajax and add
@@ -317,7 +328,7 @@ function editModelModal() {
     getAllMakeIdsAndNames();
 
     let divModelName = document.createElement("div");
-    divModelName.setAttribute("class","form-group col-md-4");
+    divModelName.setAttribute("class","col-md-6");
     let txtModelName = document.createElement("input");
     txtModelName.setAttribute("type","text");
     txtModelName.setAttribute("class","form-control");
@@ -330,9 +341,8 @@ function editModelModal() {
     tt2.innerHTML = "Please provide a valid modelName.";
     divModelName.appendChild(tt2);
 
-    divModelAdd.appendChild(divName);
-    divModelAdd.appendChild(divModelName);
-    formValidModel.appendChild(divModelAdd);
+    formValidModel.appendChild(divName);
+    formValidModel.appendChild(divModelName);
     detail.appendChild(formValidModel);
 }
 
@@ -395,7 +405,7 @@ function populateDataForEdit(textReturned) {
     for (const [key, value] of Object.entries(modelMap)) {
         console.log("key and value are "+key + " "+ value);
         for (let option of makeDropDown.options) {
-            if (option.value == key) {
+            if (option.value === key) {
                 option.selected = true;
                 console.log("option set to "+option.value);
             }
@@ -425,7 +435,7 @@ function showEditError() {
 function updateFromModal() {
     let modalMakeName = document.getElementById("modalMakeName").value;
     let modalModelName = document.getElementById("modalModelName").value;
-    let forms = document.getElementsByClassName('needs-validation2');
+    let forms = document.getElementsByClassName('needs-validation');
     let allFieldsAreValid = true;
 
     if (forms[0].checkValidity() === false) {

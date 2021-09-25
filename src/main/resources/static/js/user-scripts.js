@@ -93,23 +93,28 @@ function checkCall(e) {
 function rewriteTable(textReturned) {
     document.getElementById('myTable').innerHTML = "";
     let myTable = document.getElementById("myTable");
+    myTable.setAttribute("class", "table table-bordered table-striped table-hover caption-top");
+    let cap = document.createElement("caption");
+    cap.innerHTML="User Details";
+    myTable.appendChild(cap);
     let thead = document.createElement("thead");
+    thead.setAttribute("class", "table-dark");
     let tr1 = document.createElement("tr");
     let th1 = document.createElement("th");
-    th1.innerHTML = "#";
-    th1.setAttribute("class", "text-center");
+    th1.innerHTML = "id";
+    th1.setAttribute("scope", "col");
     tr1.appendChild(th1);
     let th2 = document.createElement("th");
     th2.innerHTML = "Name";
-    th2.setAttribute("class", "text-center");
+    th2.setAttribute("scope", "col");
     tr1.appendChild(th2);
     let th3 = document.createElement("th");
     th3.innerHTML = "email";
-    th3.setAttribute("class", "text-center");
+    th3.setAttribute("scope", "col");
     tr1.appendChild(th3);
     let th4 = document.createElement("th");
     th4.innerHTML = "Role";
-    th4.setAttribute("class", "text-center");
+    th4.setAttribute("scope", "col");
     tr1.appendChild(th4);
 
     thead.appendChild(tr1);
@@ -119,7 +124,8 @@ function rewriteTable(textReturned) {
     for (let i = 0; i < userList.length; i++) {
         let singleUser = userList[i];
         let trx = document.createElement("tr");
-        let td1 = document.createElement("td");
+        let td1 = document.createElement("th");
+        td1.setAttribute("scope", "row");
         let inCheck = document.createElement("input");
         inCheck.setAttribute("type", "checkbox");
         inCheck.setAttribute("name", "checkField");

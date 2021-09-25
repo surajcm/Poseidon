@@ -14,7 +14,7 @@
     <meta name="_csrf_header" content="${_csrf.headerName}"/>
     <spring:url value="/img/Poseidon_Ico.ico" var="posIcon" />
     <link rel="shortcut icon" href="${posIcon}" />
-    <link rel="stylesheet" href="/css/bootstrap.min.css"  type="text/css" />
+    <link rel="stylesheet" href="/css/bootstrap-5.min.css"  type="text/css" />
     <link rel="stylesheet" href="/css/custom.css" type="text/css" />
     <title>Make and Model List</title>
     <script type="text/javascript" src="/js/model-scripts.js"></script>
@@ -25,7 +25,7 @@
         <input type="hidden" name="id" id="id"/>
         <form:hidden name="loggedInUser" path="loggedInUser"/>
         <form:hidden name="loggedInRole" path="loggedInRole"/>
-        <%@include file="../navbar.jsp" %>
+        <%@include file="../navbar5.jsp" %>
         <div  class="container">
             <div class="wrap">
                 <div class="card">
@@ -33,44 +33,44 @@
                         Search Model
                     </div>
                     <div class="card-body">
-                        <div class="card-text">
-                            <div class="form-row">
-                                <div class="form-group col-md-6">
-                                  <label for="makeName">Make Name :</label>
-                                  <form:select cssClass="form-control" id="makeName" path="searchMakeAndModelVO.makeId" tabindex="1"
-                                                 onkeypress="handleEnter(event);" >
-                                        <form:option value="0" label="-- Select --"/>
-                                        <form:options items="${makeForm.makeVOs}"
-                                                      itemValue="id" itemLabel="makeName"/>
-                                    </form:select>
-                                </div>
-                                <div class="form-group col-md-6">
-                                  <label for="modelName">Model Name :</label>
-                                  <form:input cssClass="form-control" path="searchMakeAndModelVO.modelName" id="modelName"/>
-                                </div>
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <label for="makeName" class="form-label">Make Name :</label>
+                                <form:select cssClass="form-select" id="makeName" path="searchMakeAndModelVO.makeId" tabindex="1"
+                                             onkeypress="handleEnter(event);" >
+                                    <form:option value="0" label="-- Select --"/>
+                                    <form:options items="${makeForm.makeVOs}"
+                                                  itemValue="id" itemLabel="makeName"/>
+                                </form:select>
                             </div>
-                            <div class="form-row">
-                                <div class="form-group col-md-6">
-                                    <div class="form-check">
-                                      <form:checkbox path="searchMakeAndModelVO.includes" ccssClass="form-check-input"
-                                                       id="includes" value=""/>
-                                      <label class="form-check-label" for="includes">
+                            <div class="col-md-6">
+                              <label for="modelName"  class="form-label">Model Name :</label>
+                              <form:input cssClass="form-control" path="searchMakeAndModelVO.modelName" id="modelName"/>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-check">
+                                    <form:checkbox path="searchMakeAndModelVO.includes" ccssClass="form-check-input"
+                                               id="includes" value=""/>
+                                    <label class="form-check-label" for="includes">
                                         <spring:message code="user.includes" text="Includes" />
-                                      </label>
-                                    </div>
-                                </div>
-                                <div class="form-group col-md-6">    
-                                    <div class="form-check">
-                                      <form:checkbox path="searchMakeAndModelVO.startswith" cssClass="form-check-input"
-                                                       id="startswith" value=""/>
-                                      <label class="form-check-label" for="startsWith">
-                                        <spring:message code="user.startsWith" text="Starts with" />
-                                      </label>
-                                    </div>
+                                    </label>
                                 </div>
                             </div>
-                            <input class="btn btn-primary" value="Search" type="button" onclick="search()"/>
-                            <input class="btn btn-primary" value="Clear" type="button" onclick="clearOut()"/>
+                            <div class="col-md-6">
+                                <div class="form-check">
+                                    <form:checkbox path="searchMakeAndModelVO.startswith" cssClass="form-check-input"
+                                                   id="startswith" value=""/>
+                                    <label class="form-check-label" for="startsWith">
+                                        <spring:message code="user.startsWith" text="Starts with" />
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <input class="btn btn-primary" value="Search" type="button" onclick="search()"/>
+                            </div>
+                            <div class="col-md-6">
+                                <input class="btn btn-primary" value="Clear" type="button" onclick="clearOut()"/>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -79,93 +79,82 @@
             <br/>
             <c:if test="${makeForm.statusMessage!=null}">
                 <div class="alert alert-<c:out value="${makeForm.statusMessageType}"/>">
-                    <a class="close" data-dismiss="alert" href="#" aria-hidden="true">x</a>
                     <c:out value="${makeForm.statusMessage}"/>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
             </c:if>
-            <div class="panel panel-primary">
-                <div class="panel-heading">Model Details</div>
-                    <table id='myTable' class="table table-bordered table-striped table-hover">
-                        <thead>
-                            <tr>
-                                <th class="text-center"><spring:message code="poseidon.id" text="id"/></th>
-                                <th class="text-center">Make Name</th>
-                                <th class="text-center">Model Name</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <c:forEach items="${makeForm.makeAndModelVOs}" var="iterationMake">
-                                <tr>
-                                    <td><input type="checkbox" name="checkField" onclick="checkCall(this);"
-                                               value="<c:out value="${iterationMake.id}" />"/></td>
-                                    <td><c:out value="${iterationMake.makeName}"/></td>
-                                    <td><c:out value="${iterationMake.modelName}"/></td>
-                                </tr>
-                            </c:forEach>
-                        </tbody>
-                    </table>
-                    <table>
+            <table id='myTable' class="table table-bordered table-striped table-hover caption-top">
+                <caption>Model Details</caption>
+                <thead class="table-dark">
+                    <tr>
+                        <th scope="col"><spring:message code="poseidon.id" text="id"/></th>
+                        <th scope="col">Make Name</th>
+                        <th scope="col">Model Name</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <c:forEach items="${makeForm.makeAndModelVOs}" var="iterationMake">
                         <tr>
-                            <td colspan="5">
-                                <br/>
-                                <br/>
-                            <td>
+                            <th scope="row"><input type="checkbox" name="checkField" onclick="checkCall(this);"
+                                       value="<c:out value="${iterationMake.id}" />"/></th>
+                            <td><c:out value="${iterationMake.makeName}"/></td>
+                            <td><c:out value="${iterationMake.modelName}"/></td>
                         </tr>
-                        <tr>
-                            <td>
-                                <input class="btn btn-primary" value="Make List" type="button" onclick="listAllMake();"/>
-                            </td>
-                            <td>
-                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#newModelModal"
-                                onclick="AddModel();">Add Model</button>
-                            </td>
-                            <td>
-                                <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#editModelModal"
-                                    onclick="editModel();">Edit Model</button>
-                            </td>
-                            <td>
-                                <input class="btn btn-primary" value="Delete Model" type="button" onclick="deleteModel();"/>
-                            </td>
-                        </tr>
-                    </table>
+                    </c:forEach>
+                </tbody>
+            </table>
+            <div class="row g-3">
+                <div class="col-md-3">
+                    <input class="btn btn-primary" value="Make List" type="button" onclick="listAllMake();"/>
+                </div>
+                <div class="col-md-3">
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#newModelModal"
+                    onclick="AddModel();">Add Model</button>
+                </div>
+                <div class="col-md-3">
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editModelModal"
+                    onclick="editModel();">Edit Model</button>
+                </div>
+                <div class="col-md-3">
+                    <input class="btn btn-primary" value="Delete Model" type="button" onclick="deleteModel();"/>
                 </div>
             </div>
         </div>
-        <div id="newModelModal" class="modal fade bd-example-modal-lg" role="dialog">
-            <div class="modal-dialog modal-lg">
+        <div id="newModelModal" class="modal fade" tabindex="-1" aria-labelledby="newModelModal" aria-hidden="true">
+            <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h4 class="modal-title">Add new Model</h4>
-                        <button type="button" class="close" data-dismiss="modal">x</button>
+                        <h5 class="modal-title">Add new Model</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div id="modelModalBody" class="modal-body">
                         <p>Lets edit some models....</p>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" id="saveModal" class="btn btn-default" onclick="saveFromModal();">Save</button>
+                        <button type="button" id="saveModal" class="btn btn-primary" onclick="saveFromModal();">Save</button>
                     </div>
                 </div>
             </div>
         </div>
-        <div id="editModelModal" class="modal fade bd-example-modal-lg" role="dialog">
-            <div class="modal-dialog modal-lg">
+        <div id="editModelModal" class="modal fade" tabindex="-1" aria-labelledby="editModelModal" aria-hidden="true">
+            <div class="modal-dialog">
                 <div class="modal-content">
                     <div class="modal-header">
-                        <h4 class="modal-title">Edit Model</h4>
-                        <button type="button" class="close" data-dismiss="modal">x</button>
+                        <h5 class="modal-title">Edit Model</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div id="modelEditModalBody" class="modal-body">
                         <p>Lets edit the model</p>
                     </div>
                     <div class="modal-footer">
-                        <button type="button" id="updateModal" class="btn btn-default" onclick="updateFromModal()">Update</button>
+                        <button type="button" id="updateModal" class="btn btn-primary" onclick="updateFromModal()">Update</button>
                     </div>
                 </div>
             </div>
         </div>
         <script src="/js/core/jquery-3.2.1.min.js" type="text/javascript"></script>
         <script src="/js/core/popper.min.js" type="text/javascript"></script>
-        <script src="/js/core/bootstrap.min.js" type="text/javascript"></script>
+        <script src="/js/core/bootstrap-5.min.js" type="text/javascript"></script>
         <script type="text/javascript">
             $(document).ready(function() {
                 //Handles menu drop down

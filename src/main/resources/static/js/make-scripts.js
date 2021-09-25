@@ -72,47 +72,41 @@ function verifyCheckPresent() {
 //real edit
 function editRow() {
     const checks = document.getElementsByName('checkField');
+    let userRow;
     if (checks.checked) {
-        let userRow = document.getElementById("myTable").rows[0];
-        document.getElementById("id").value = userRow.cells[0].childNodes[0].value;
-        document.forms[0].action = "editMake.htm";
-        document.forms[0].submit();
+        userRow = document.getElementById("myTable").rows[0];
     } else {
-        let userRow;
-        for (var i = 0; i < checks.length; i++) {
+        for (let i = 0; i < checks.length; i++) {
             if (checks[i].checked) {
                 userRow = document.getElementById("myTable").rows[i + 1];
             }
         }
-        document.getElementById("id").value = userRow.cells[0].childNodes[0].value;
-        document.forms[0].action = "editMake.htm";
-        document.forms[0].submit();
     }
+    document.getElementById("id").value = userRow.cells[0].childNodes[0].value;
+    document.forms[0].action = "editMake.htm";
+    document.forms[0].submit();
 }
 
 
 //code to delete
 function deleteRow() {
-    const answer = confirm(" Are you sure you wanted to delete the make ");
+    const answer = confirm("Are you sure you wanted to delete the make ");
     if (answer) {
         //if yes then delete
         let userRow;
         const checks = document.getElementsByName('checkField');
         if (checks.checked) {
             userRow = document.getElementById("myTable").rows[0];
-            document.getElementById("id").value = userRow.cells[0].childNodes[0].value;
-            document.forms[0].action = "deleteMake.htm";
-            document.forms[0].submit();
         } else {
             for (var i = 0; i < checks.length; i++) {
                 if (checks[i].checked) {
                     userRow = document.getElementById("myTable").rows[i + 1];
                 }
             }
-            document.getElementById("id").value = userRow.cells[0].childNodes[0].value;
-            document.forms[0].action = "deleteMake.htm";
-            document.forms[0].submit();
         }
+        document.getElementById("id").value = userRow.cells[0].childNodes[0].value;
+        document.forms[0].action = "deleteMake.htm";
+        document.forms[0].submit();
     }
 }
 
@@ -130,19 +124,24 @@ function checkCall(e) {
 function rewriteTable(textReturned) {
     document.getElementById('myTable').innerHTML = "";
     const myTable = document.getElementById("myTable");
+    myTable.setAttribute("class", "table table-bordered table-striped table-hover caption-top");
+    let cap = document.createElement("caption");
+    cap.innerHTML="Make Details";
+    myTable.appendChild(cap);
     const thead = document.createElement("thead");
+    thead.setAttribute("class", "table-dark");
     const tr1 = document.createElement("tr");
     const th1 = document.createElement("th");
     th1.innerHTML = "#";
-    th1.setAttribute("class", "text-center");
+    th1.setAttribute("scope", "col");
     tr1.appendChild(th1);
     const th2 = document.createElement("th");
     th2.innerHTML = "Make Name";
-    th2.setAttribute("class", "text-center");
+    th2.setAttribute("scope", "col");
     tr1.appendChild(th2);
     const th3 = document.createElement("th");
     th3.innerHTML = "Description";
-    th3.setAttribute("class", "text-center");
+    th3.setAttribute("scope", "col");
     tr1.appendChild(th3);
     thead.appendChild(tr1);
     myTable.appendChild(thead);
@@ -151,7 +150,8 @@ function rewriteTable(textReturned) {
     for (let i = 0; i < makeList.length; i++) {
         const singleMake = makeList[i];
         const trx = document.createElement("tr");
-        const td1 = document.createElement("td");
+        const td1 = document.createElement("th");
+        td1.setAttribute("scope", "row");
         const inCheck = document.createElement("input");
         inCheck.setAttribute("type", "checkbox");
         inCheck.setAttribute("name", "checkField");
@@ -178,13 +178,11 @@ function addMake() {
     detail.innerHTML = "";
 
     let formValidMake = document.createElement("form");
-    formValidMake.setAttribute("class", "needs-validation");
+    formValidMake.setAttribute("class", "row g-3 needs-validation");
     formValidMake.novalidate = true;
 
-    let divMakeAdd = document.createElement("div");
-    divMakeAdd.setAttribute("class", "form-row align-items-left");
     let divName = document.createElement("div");
-    divName.setAttribute("class", "form-group col-md-4");
+    divName.setAttribute("class", "col-md-4");
     let txtMakeName = document.createElement("input");
     txtMakeName.setAttribute("type", "text");
     txtMakeName.setAttribute("class", "form-control");
@@ -194,7 +192,7 @@ function addMake() {
     divName.appendChild(txtMakeName);
 
     let divDescription = document.createElement("div");
-    divDescription.setAttribute("class", "form-group col-md-4");
+    divDescription.setAttribute("class", "col-md-4");
     let txtDescription = document.createElement("input");
     txtDescription.setAttribute("type", "text");
     txtDescription.setAttribute("class", "form-control");
@@ -208,9 +206,8 @@ function addMake() {
     tt2.innerHTML = "Please provide a valid makeName.";
     divDescription.appendChild(tt2);
 
-    divMakeAdd.appendChild(divName);
-    divMakeAdd.appendChild(divDescription);
-    formValidMake.appendChild(divMakeAdd);
+    formValidMake.appendChild(divName);
+    formValidMake.appendChild(divDescription);
     detail.appendChild(formValidMake);
 }
 
@@ -274,4 +271,8 @@ function showStatus(status) {
     }
     divStatus.appendChild(statusMessage);
     detail.appendChild(divStatus);
+}
+
+function editNewMake() {
+    console.log("yet to implement");
 }
