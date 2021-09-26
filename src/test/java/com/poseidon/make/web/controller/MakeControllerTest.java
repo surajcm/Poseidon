@@ -52,13 +52,6 @@ class MakeControllerTest {
     }
 
     @Test
-    void editMake() throws Exception {
-        mvc.perform(post("/make/editMake.htm")).andExpect(status().isOk());
-        when(makeService.getMakeFromId(null)).thenThrow(new RuntimeException());
-        mvc.perform(post("/make/editMake.htm")).andExpect(status().isOk());
-    }
-
-    @Test
     void deleteMake() throws Exception {
         mvc.perform(post("/make/deleteMake.htm")).andExpect(status().isOk());
         doThrow(new RuntimeException()).when(makeService).deleteMake(null);

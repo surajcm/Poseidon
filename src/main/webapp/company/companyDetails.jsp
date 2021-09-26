@@ -12,7 +12,7 @@
     <meta name="author" content="Suraj">
     <spring:url value="/img/Poseidon_Ico.ico" var="posIcon" />
     <link rel="shortcut icon" href="${posIcon}" />
-    <link rel="stylesheet" href="/css/bootstrap.min.css"  type="text/css" />
+    <link rel="stylesheet" href="/css/bootstrap-5.min.css"  type="text/css" />
     <link rel="stylesheet" href="/css/custom.css" type="text/css" />
     <title>Terms And Company details</title>
     <script type="text/javascript" src="/js/company-scripts.js"></script>
@@ -20,7 +20,7 @@
 </head>
 <body onload="hideUpdate()">
     <form:form method="POST" modelAttribute="companyTermsForm">
-        <%@include file="../navbar.jsp" %>
+        <%@include file="../navbar5.jsp" %>
         <div class="container">
             <div class="wrap">
                 <div class="card">
@@ -28,68 +28,60 @@
                         Company Details
                     </div>
                     <div class="card-body">
-                        <div class="card-text">
-                            <div class="form-row">
-                                <div class="form-group col-md-3">
-                                  <label for="name">Company Name :</label>
-                                  <form:input path="currentCompanyTermsVO.companyName" cssClass="form-control" id="companyName"/>
-                                </div>
-                                <div class="form-group col-md-3">
-                                  <label for="loginId">Company Phone Number :</label>
-                                  <form:input path="currentCompanyTermsVO.companyPhoneNumber" cssClass="form-control" id="companyPhoneNumber"/>
-                                </div>
-                                <div class="form-group col-md-3">
-                                  <label for="name">Company email :</label>
-                                  <form:input path="currentCompanyTermsVO.companyEmail" cssClass="form-control" id="companyEmail"/>
-                                </div>
-                                <div class="form-group col-md-3">
-                                  <label for="loginId">Company Website :</label>
-                                  <form:input path="currentCompanyTermsVO.companyWebsite" cssClass="form-control" id="companyWebsite"/>
-                                </div>
+                        <div class="row g-3">
+                            <div class="col-md-3">
+                              <label for="companyName" class="form-label">Company Name :</label>
+                              <form:input path="currentCompanyTermsVO.companyName" cssClass="form-control" id="companyName"/>
                             </div>
-                            <div class="form-row">
-                                <div class="form-group col-md-6">
-                                  <label for="name">Company Address :</label>
-                                  <form:textarea path="currentCompanyTermsVO.companyAddress" rows="5" cols="30" cssClass="form-control"
-                                               id="companyAddress" />
-                                </div>
-                                <div class="form-group col-md-6">
-                                  <label for="name">Company Terms & Conditions :</label>
-                                  <form:textarea path="currentCompanyTermsVO.companyTerms" rows="5" cols="30" cssClass="form-control"
-                                               id="companyTerms" />
-                                </div>
+                            <div class="col-md-3">
+                              <label for="companyPhoneNumber" class="form-label">Company Phone Number :</label>
+                              <form:input path="currentCompanyTermsVO.companyPhoneNumber" cssClass="form-control" id="companyPhoneNumber"/>
                             </div>
-                            <div class="form-row">
-                                <div class="form-group col-md-4">
-                                  <label for="name">Company's VAT TIN :</label>
-                                  <form:input path="currentCompanyTermsVO.companyVatTin" cssClass="form-control" id="vat_tin"/>
-                                </div>
-                                <div class="form-group col-md-4">
-                                  <label for="loginId">Company's CST TIN :</label>
-                                  <form:input path="currentCompanyTermsVO.companyCstTin" cssClass="form-control" id="cst_tin"/>
-                                </div>
-                                <div class="form-group col-md-4">
-                                  <label for="name">Company Logo :</label>
-                                  <input class="btn" value="Upload New Image" type="button" onclick="uploadImage();"/>
-                                </div>
+                            <div class="col-md-3">
+                              <label for="companyEmail" class="form-label">Company email :</label>
+                              <form:input path="currentCompanyTermsVO.companyEmail" cssClass="form-control" id="companyEmail"/>
                             </div>
-                            <div class="form-row">
-                                <div class="form-group col-md-12">
-                                    <input class="btn btn-primary btn-success" id="edit" value="Edit" type="button" onclick="editMe();"/>
-                                    <input class="btn btn-primary btn-success" id="update" value="Update" type="button" onclick="updateCompanyDetails();"/>
-                                    <input class="btn btn-primary" id="clear" value="Clear" type="button" onclick="clearOut();"/>
-                                    <input class="btn btn-primary" id="cancel" value="Cancel" type="button" onclick="cancelMe();"/>     
-                                </div>
+                            <div class="col-md-3">
+                              <label for="companyWebsite" class="form-label">Company Website :</label>
+                              <form:input path="currentCompanyTermsVO.companyWebsite" cssClass="form-control" id="companyWebsite"/>
+                            </div>
+                            <div class="col-md-6">
+                              <label for="companyAddress" class="form-label">Company Address :</label>
+                              <form:textarea path="currentCompanyTermsVO.companyAddress" rows="5" cols="30" cssClass="form-control"
+                                           id="companyAddress" />
+                            </div>
+                            <div class="col-md-6">
+                              <label for="companyTerms" class="form-label">Company Terms & Conditions :</label>
+                              <form:textarea path="currentCompanyTermsVO.companyTerms" rows="5" cols="30" cssClass="form-control"
+                                           id="companyTerms" />
+                            </div>
+                            <div class="col-md-4">
+                              <label for="vat_tin" class="form-label">Company's VAT TIN :</label>
+                              <form:input path="currentCompanyTermsVO.companyVatTin" cssClass="form-control" id="vat_tin"/>
+                            </div>
+                            <div class="col-md-4">
+                              <label for="cst_tin" class="form-label">Company's CST TIN :</label>
+                              <form:input path="currentCompanyTermsVO.companyCstTin" cssClass="form-control" id="cst_tin"/>
+                            </div>
+                            <div class="col-md-4">
+                              <label for="uploadImage" class="form-label">Company Logo :</label>
+                              <input class="btn" value="Upload New Image" type="button" id="uploadImage" onclick="uploadImage();"/>
+                            </div>
+                            <div class="col-md-12">
+                                <input type="button" class="btn btn-primary btn-success" id="edit" value="Edit" onclick="editMe();"/>
+                                <input type="button" class="btn btn-primary btn-success" id="update" value="Update" onclick="updateCompanyDetails();"/>
+                                <input type="button" class="btn btn-primary" id="clear" value="Clear" onclick="clearOut();"/>
+                                <input type="button" class="btn btn-primary" id="cancel" value="Cancel" onclick="cancelMe();"/>
                             </div>
                         </div>
                     </div>
-                </div>            
+                </div>
             </div>
         </div>
-        <script src="/js/core/jquery-3.2.1.min.js"></script>
-        <script src="/js/core/popper.min.js"></script>
-        <script src="/js/core/bootstrap.min.js"></script>
-        <script>
+        <script src="/js/core/jquery-3.2.1.min.js" type="text/javascript"></script>
+        <script src="/js/core/popper.min.js" type="text/javascript"></script>
+        <script src="/js/core/bootstrap-5.min.js" type="text/javascript"></script>
+        <script type="text/javascript">
             $(document).ready(function() {
                 //Handles menu drop down
                 $('.dropdown-menu').find('form').click(function (e) {

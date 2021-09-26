@@ -17,7 +17,7 @@
     <spring:url value="/img/Poseidon_Ico.ico" var="posIcon" />
     <link rel="shortcut icon" href="${posIcon}" />
     <link rel="stylesheet" href="/css/jquery-ui.css" type="text/css" />
-    <link rel="stylesheet" href="/css/bootstrap.min.css"  type="text/css" />
+    <link rel="stylesheet" href="/css/bootstrap-5.min.css"  type="text/css" />
     <link rel="stylesheet" href="/css/custom.css" type="text/css" />
     <title>Transaction List</title>
     <script type="text/javascript" src="/js/transaction-scripts.js"></script>
@@ -28,7 +28,7 @@
         <form:hidden name="loggedInUser" path="loggedInUser"/>
         <form:hidden name="loggedInRole" path="loggedInRole"/>
         <input type="hidden" name="id" id="id"/>
-        <%@include file="../navbar.jsp" %>
+        <%@include file="../navbar5.jsp" %>
         <div class="container">
             <div class="wrap">
                 <div class="card">
@@ -36,137 +36,131 @@
                         Search Transactions
                     </div>
                     <div class="card-body">
-                        <div class="card-text">
-                            <div class="form-row">
-                                <div class="form-group col-md-3">
-                                    <label for="TagNo">Tag No :</label>
-                                    <form:input class="form-control" path="searchTransaction.TagNo" id="TagNo"/>
-                                </div>
-                                <div class="form-group col-md-3">
-                                  <label for="CustomerName">Customer Name :</label>
-                                  <form:input class="form-control" path="searchTransaction.CustomerName" id="CustomerName"/>
-                                </div>
-                                <div class="form-group col-md-3">
-                                    <label for="startDate">Reported Date (From) :<img src="/img/calendar3.svg" alt="" width="16" height="16" title="calendar" /></label>
-                                    <form:input path="searchTransaction.startDate" class="date-picker form-control" id="startDate" />
-                                </div>
-                                <div class="form-group col-md-3">
-                                    <label for="endDate">Reported Date (To) :<img src="/img/calendar3.svg" alt="" width="16" height="16" title="calendar" /></label>
-                                    <form:input path="searchTransaction.endDate" class="date-picker form-control" id="endDate" />
-                                </div>
+                        <div class="row g-3">
+                            <div class="col-md-3">
+                                <label for="TagNo" class="form-label">Tag No :</label>
+                                <form:input cssClass="form-control" path="searchTransaction.TagNo" id="TagNo"/>
                             </div>
-                            <div class="form-row">
-                                <div class="form-group col-md-3">
-                                    <label for="SerialNo">Serial No :</label>
-                                    <form:input class="form-control" path="searchTransaction.SerialNo" id="SerialNo"/>
-                                </div>
-                                <div class="form-group col-md-3">
-                                    <label for="makeId">Make :</label>
-                                    <form:select id="makeId" cssClass="form-control" path="searchTransaction.makeId" tabindex="1" onchange="changeTheModel();">
-                                        <form:option value=""><spring:message code="common.select" text="<-- Select -->"/></form:option>
-                                        <form:options items="${transactionForm.makeVOs}" itemValue="Id" itemLabel="makeName"/>
-                                    </form:select>
-                                </div>
-                                <div class="form-group col-md-3">
-                                    <label for="modelId">Model Name :</label>
-                                    <form:select id="modelId" cssClass="form-control" path="searchTransaction.modelId" tabindex="2" disabled="true">
-                                        <form:option value=""><spring:message code="common.select" text="<-- Select -->"/></form:option>
-                                        <form:options items="${transactionForm.makeAndModelVOs}"
-                                                      itemValue="modelId" itemLabel="modelName"/>
-                                    </form:select>
-                                </div>
-                                <div class="form-group col-md-3">
-                                    <label for="Status">Status :</label>
-                                    <form:select id="Status" cssClass="form-control" path="searchTransaction.Status">
-                                        <form:option value=""><spring:message code="common.select" text="<-- Select -->"/></form:option>
-                                        <form:options items="${transactionForm.statusList}" />
-                                    </form:select>
-                                </div>
+                            <div class="col-md-3">
+                              <label for="CustomerName" class="form-label">Customer Name :</label>
+                              <form:input cssClass="form-control" path="searchTransaction.CustomerName" id="CustomerName"/>
                             </div>
-                            <div class="form-row">
-                                <div class="form-group col-md-6">
-                                    <div class="form-check">
-                                      <form:checkbox path="searchTransaction.includes" cssStyle="vertical-align:middle" id="includes" value="" />
-                                      <label class="form-check-label" for="includes">
+                            <div class="col-md-3">
+                                <label for="startDate" class="form-label">Reported Date (From) :<img src="/img/calendar3.svg" alt="" width="16" height="16" title="calendar" /></label>
+                                <form:input path="searchTransaction.startDate" cssClass="date-picker form-control" id="startDate" />
+                            </div>
+                            <div class="col-md-3">
+                                <label for="endDate" class="form-label">Reported Date (To) :<img src="/img/calendar3.svg" alt="" width="16" height="16" title="calendar" /></label>
+                                <form:input path="searchTransaction.endDate" cssClass="date-picker form-control" id="endDate" />
+                            </div>
+                            <div class="col-md-3">
+                                <label for="SerialNo" class="form-label">Serial No :</label>
+                                <form:input cssClass="form-control" path="searchTransaction.SerialNo" id="SerialNo"/>
+                            </div>
+                            <div class="col-md-3">
+                                <label for="makeId" class="form-label">Make :</label>
+                                <form:select id="makeId" cssClass="form-select" path="searchTransaction.makeId" tabindex="1" onchange="changeTheModel();">
+                                    <form:option value=""><spring:message code="common.select" text="<-- Select -->"/></form:option>
+                                    <form:options items="${transactionForm.makeVOs}" itemValue="Id" itemLabel="makeName"/>
+                                </form:select>
+                            </div>
+                            <div class="col-md-3">
+                                <label for="modelId" class="form-label">Model Name :</label>
+                                <form:select id="modelId" cssClass="form-select" path="searchTransaction.modelId" tabindex="2" disabled="true">
+                                    <form:option value=""><spring:message code="common.select" text="<-- Select -->"/></form:option>
+                                    <form:options items="${transactionForm.makeAndModelVOs}"
+                                              itemValue="modelId" itemLabel="modelName"/>
+                                </form:select>
+                            </div>
+                            <div class="col-md-3">
+                                <label for="Status" class="form-label">Status :</label>
+                                <form:select id="Status" cssClass="form-select" path="searchTransaction.Status">
+                                    <form:option value=""><spring:message code="common.select" text="<-- Select -->"/></form:option>
+                                    <form:options items="${transactionForm.statusList}" />
+                                </form:select>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-check">
+                                    <form:checkbox path="searchTransaction.includes" cssClass="form-check-input" id="includes" value="" />
+                                        <label class="form-check-label" for="includes">
                                         <spring:message code="user.includes" text="Includes" />
-                                      </label>
-                                    </div>
+                                    </label>
                                 </div>
-                                <div class="form-group col-md-6">    
-                                    <div class="form-check">
-                                      <form:checkbox path="searchTransaction.startswith" cssStyle="vertical-align:middle" id="startswith" value="" />
-                                      <label class="form-check-label" for="startsWith">
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-check">
+                                    <form:checkbox path="searchTransaction.startswith" cssClass="form-check-input" id="startswith" value="" />
+                                        <label class="form-check-label" for="startsWith">
                                         <spring:message code="user.startsWith" text="Starts with" />
-                                      </label>
-                                    </div>
+                                    </label>
                                 </div>
-                            </div> 
-                            <input class="btn btn-primary" value="<spring:message code='poseidon.search' text='Search' />"
-                                           type="button" onclick="search()"/>
-                            <input class="btn btn-primary" value="<spring:message code='poseidon.clear' text='Clear' />"
-                                           type="button" onclick="clearOut()"/>
-                        </div>        
+                            </div>
+                            <div class="col-md-6">
+                                <button type="button" class="btn btn-primary" onclick="search()"><spring:message code='poseidon.search' text='Search' /></button>
+                            </div>
+                            <div class="col-md-6">
+                                <button type="button" class="btn btn-primary" onclick="clearOut()"><spring:message code='poseidon.clear' text='Clear' /></button>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <br />
                 <br />
                 <c:if test="${transactionForm.statusMessage!=null}">
-                    <div class="alert alert-<c:out value='${transactionForm.statusMessageType}'/>">
-                        <a class="close" data-dismiss="alert" href="#" aria-hidden="true">x</a>
+                    <div class="alert alert-<c:out value='${transactionForm.statusMessageType}'/> alert-dismissible fade show" role="alert">
                         <c:out value="${transactionForm.statusMessage}"/>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>
                 </c:if>
-                <div class="panel panel-primary">
-                    <div class="panel-heading">Transaction Details</div>
-                    <table id='myTable' class="table table-bordered table-striped table-hover">
-                        <thead>
+                <table id='myTable' class="table table-bordered table-striped table-hover caption-top">
+                <caption>Transaction List</caption>
+                    <thead class="table-dark">
                         <tr>
-                            <th><spring:message code="poseidon.id" text="id"/></th>
-                            <th>TagNo</th>
-                            <th>Customer Name</th>
-                            <th>Reported Date</th>
-                            <th>Make</th>
-                            <th>Model</th>
-                            <th>Serial No</th>
-                            <th>Status</th>
+                            <th scope="col"><spring:message code="poseidon.id" text="id"/></th>
+                            <th scope="col">TagNo</th>
+                            <th scope="col">Customer Name</th>
+                            <th scope="col">Reported Date</th>
+                            <th scope="col">Make</th>
+                            <th scope="col">Model</th>
+                            <th scope="col">Serial No</th>
+                            <th scope="col">Status</th>
                         </tr>
-                        </thead>
-
-                        <tbody>
-                        <c:forEach items="${transactionForm.transactionsList}" var="iterationTxn">
-                            <tr>
-                                <td><input type="checkbox" name="checkField" onclick="checkCall(this)"
-                                           value="<c:out value='${iterationTxn.id}' />"/></td>
-                                <td><c:out value="${iterationTxn.tagNo}"/></td>
-                                <td><c:out value="${iterationTxn.customerName}"/></td>
-                                <td><c:out value="${iterationTxn.dateReported}"/></td>
-                                <td><c:out value="${iterationTxn.makeName}"/></td>
-                                <td><c:out value="${iterationTxn.modelName}"/></td>
-                                <td><c:out value="${iterationTxn.serialNo}"/></td>
-                                <td><c:out value="${iterationTxn.status}"/></td>
-                            </tr>
-                        </c:forEach>
-                        </tbody>
-                    </table>
-                    <table>
+                    </thead>
+                    <tbody>
+                    <c:forEach items="${transactionForm.transactionsList}" var="iterationTxn">
                         <tr>
-                            <td>
-                                <br/>
-                                <br/>
-                                <input class="btn btn-primary" value="Add New Transaction" type="button" onclick="addNew()"/>
-                                <input class="btn btn-primary" value="Edit Transaction" type="button" onclick="editMe()"/>
-                                <input class="btn btn-primary" value="Delete Transaction" type="button" onclick="deleteTxn()"/>
-                                <input class="btn btn-primary" value="Invoice Transaction" type="button" onclick="invoiceTxn()"/>
-                            </td>
+                            <th scope="row"><input type="checkbox" name="checkField" onclick="checkCall(this)"
+                                       value="<c:out value='${iterationTxn.id}' />"/></th>
+                            <td><c:out value="${iterationTxn.tagNo}"/></td>
+                            <td><c:out value="${iterationTxn.customerName}"/></td>
+                            <td><c:out value="${iterationTxn.dateReported}"/></td>
+                            <td><c:out value="${iterationTxn.makeName}"/></td>
+                            <td><c:out value="${iterationTxn.modelName}"/></td>
+                            <td><c:out value="${iterationTxn.serialNo}"/></td>
+                            <td><c:out value="${iterationTxn.status}"/></td>
                         </tr>
-                    </table>
-                    </fieldset>
+                    </c:forEach>
+                    </tbody>
+                </table>
+                <div class="row g-3">
+                    <div class="col-md-3">
+                        <button type="button" class="btn btn-primary" onclick="addNew()">Add New Transaction</button>
+                    </div>
+                    <div class="col-md-3">
+                        <button type="button" class="btn btn-primary" onclick="editMe()">Edit Transaction</button>
+                    </div>
+                    <div class="col-md-3">
+                        <button type="button" class="btn btn-primary" onclick="deleteTxn()">Delete Transaction</button>
+                    </div>
+                    <div class="col-md-3">
+                        <button type="button" class="btn btn-primary" onclick="invoiceTxn()">Invoice Transaction</button>
+                    </div>
                 </div>
             </div>
         </div>
         <script src="/js/core/jquery-3.2.1.min.js" type="text/javascript"></script>
         <script src="/js/core/popper.min.js" type="text/javascript"></script>
-        <script src="/js/core/bootstrap.min.js" type="text/javascript"></script>
+        <script src="/js/core/bootstrap-5.min.js" type="text/javascript"></script>
         <script src="/js/core/jquery-ui.min.js" type="text/javascript"></script>
         <script type="text/javascript">
             $(document).ready(function() {

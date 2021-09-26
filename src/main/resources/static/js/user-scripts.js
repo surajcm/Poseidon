@@ -4,35 +4,58 @@ function hideAlerts() {
     document.getElementById('user').text = "User <span class='sr-only'>User</span>";
 }
 
-function validateSelection() {
-    let check = 'false';
-    let count = 0;
-    // get all check boxes
+function selectedRowCount() {
     let checks = document.getElementsByName('checkField');
+    let count = 0;
     if (checks) {
         //if total number of rows is one
         if (checks.checked) {
-            return true;
+            count = 1;
         } else {
             for (let i = 0; i < checks.length; i++) {
                 if (checks[i].checked) {
-                    check = 'true';
                     count = count + 1;
                 }
             }
-            //check for validity
-            if (check === 'true') {
-                if (count === 1) {
-                    return true;
-                } else {
-                    alert(" Only one row can be selected at a time, please select one row ");
-                    return false;
-                }
-            } else {
-                alert(" No rows selected, please select one row ");
-                return false;
-            }
         }
+    }
+    return count;
+}
+function validateSelection() {
+    let check = 'false';
+    let count = selectedRowCount();
+    if (count > 0) {
+        check = 'true';
+    }
+    if (check === 'true') {
+        if (count === 1) {
+            return true;
+        } else {
+            alert("Only one row can be selected at a time, please select one row ");
+            return false;
+        }
+    } else {
+        alert("No rows selected, please select one row ");
+        return false;
+    }
+}
+
+function validateEditModalSelection() {
+    let detail = document.getElementById("userEditModalBody");
+    detail.innerHTML = "";
+    let check = 'false';
+    let count = selectedRowCount();
+    if (count > 0) {
+        check = 'true';
+    }
+    if (check === 'true') {
+        if (count === 1) {
+            return true;
+        } else {
+            detail.innerHTML = "<p>Only one row can be selected at a time, please select one row</p>";
+        }
+    } else {
+        detail.innerHTML = "<p>No rows selected, please select one row</p>";
     }
 }
 
@@ -306,45 +329,11 @@ function ajaxPasswordExpire() {
     xhr.send("id=" + id);
 }
 
-function validateEditModalSelection() {
-    let detail = document.getElementById("userEditModalBody");
-    detail.innerHTML = "";
-    let check = 'false';
-    let count = 0;
-    // get all check boxes
-    let checks = document.getElementsByName('checkField');
-    if (checks) {
-        //if total number of rows is one
-        if (checks.checked) {
-            return true;
-        } else {
-            for (let i = 0; i < checks.length; i++) {
-                if (checks[i].checked) {
-                    check = 'true';
-                    count = count + 1;
-                }
-            }
-            //check for validity
-            if (check === 'true') {
-                if (count === 1) {
-                    return true;
-                } else {
-                    detail.innerHTML = "<p>Only one row can be selected at a time, please select one row</p>";
-                }
-            } else {
-                detail.innerHTML = "<p>No rows selected, please select one row</p>";
-            }
-        }
-    }
-}
-
 function editUser() {
     let rowCheck = validateEditModalSelection();
     if (rowCheck) {
         editUserModal();
         setIdForChange();
-        let user_id = document.getElementById("id").value;
-        // also update the fields
         getUserForEdit();
     }
 }

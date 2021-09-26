@@ -217,6 +217,8 @@ public class InvoiceDAO {
     }
 
     private Invoice convertInvoiceVOToInvoice(final InvoiceVO currentInvoiceVO) {
-        return getInvoice(currentInvoiceVO, new Invoice());
+        var invoice =  getInvoice(currentInvoiceVO, new Invoice());
+        invoice.setCreatedBy(currentInvoiceVO.getCreatedBy());
+        return invoice;
     }
 }

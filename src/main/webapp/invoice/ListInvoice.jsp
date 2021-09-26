@@ -12,7 +12,7 @@
     <meta name="author" content="Suraj">
     <spring:url value="/img/Poseidon_Ico.ico" var="posIcon" />
     <link rel="shortcut icon" href="${posIcon}" />
-    <link rel="stylesheet" href="/css/bootstrap.min.css"  type="text/css" />
+    <link rel="stylesheet" href="/css/bootstrap-5.min.css"  type="text/css" />
     <link rel="stylesheet" href="/css/custom.css" type="text/css" />
     <title>Invoice List</title>
     <script type="text/javascript" src="/js/invoice-scripts.js"></script>
@@ -23,7 +23,7 @@
         <form:hidden name="loggedInUser" path="loggedInUser" />
         <form:hidden name="loggedInRole" path="loggedInRole" />
         <input type="hidden" name="id" id="id"/>
-        <%@include file="../navbar.jsp" %>
+        <%@include file="../navbar5.jsp" %>
         <div class="container">
             <div class="wrap">
                 <div class="card">
@@ -31,126 +31,126 @@
                         Search Invoice
                     </div>
                     <div class="card-body">
-                        <div class="card-text">
-                            <div class="form-row">
-                                <div class="form-group col-md-3">
-                                  <label for="invoiceId"> Invoice Id :</label>
-                                  <form:input cssClass="form-control" path="searchInvoiceVo.id" id="invoiceId"/>
-                                </div>
-                                <div class="form-group col-md-3">
-                                  <label for="description">Description :</label>
-                                  <form:input cssClass="form-control" path="searchInvoiceVo.description" id="description"/>
-                                </div>
-                                <div class="form-group col-md-3">
-                                  <label for="serialNo">Serial No :</label>
-                                  <form:input cssClass="form-control" path="searchInvoiceVo.serialNo" id="serialNo"/>
-                                </div>
-                                <div class="form-group col-md-3">
-                                  <label for="tagNo">Tag No :</label>
-                                  <form:input cssClass="form-control" path="searchInvoiceVo.tagNo"  id="tagNo"/>
-                                </div>
+                        <div class="row g-3">
+                            <div class="col-md-3">
+                              <label for="invoiceId" class="form-label"> Invoice Id :</label>
+                              <form:input cssClass="form-control" path="searchInvoiceVo.id" id="invoiceId"/>
                             </div>
-                            <div class="form-row">
-                                <div class="form-group col-md-4">
-                                    <label for="amount">Amount :</label>
-                                    <form:input cssClass="form-control" path="searchInvoiceVo.amount"  id="amount"/>
-                                </div>
-                                <div class="form-group col-md-4">
-                                    <div class="form-check">
-                                      <form:checkbox path="searchInvoiceVo.greater" cssClass="form-check-input" id="greater" value="" />
-                                      <label class="form-check-label" for="greater">
+                            <div class="col-md-3">
+                              <label for="description" class="form-label">Description :</label>
+                              <form:input cssClass="form-control" path="searchInvoiceVo.description" id="description"/>
+                            </div>
+                            <div class="col-md-3">
+                              <label for="serialNo" class="form-label">Serial No :</label>
+                              <form:input cssClass="form-control" path="searchInvoiceVo.serialNo" id="serialNo"/>
+                            </div>
+                            <div class="col-md-3">
+                              <label for="tagNo" class="form-label">Tag No :</label>
+                              <form:input cssClass="form-control" path="searchInvoiceVo.tagNo"  id="tagNo"/>
+                            </div>
+                            <div class="col-md-4">
+                                <label for="amount" class="form-label">Amount :</label>
+                                <form:input cssClass="form-control" path="searchInvoiceVo.amount"  id="amount"/>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="form-check">
+                                    <form:checkbox path="searchInvoiceVo.greater" cssClass="form-check-input" id="greater" value="" />
+                                    <label class="form-check-label" for="greater">
                                         Greater than & Equal
-                                      </label>
-                                    </div>
-                                </div>
-                                <div class="form-group col-md-4">
-                                    <div class="form-check">
-                                      <form:checkbox path="searchInvoiceVo.lesser" cssClass="form-check-input" id="lesser" value="" />
-                                      <label class="form-check-label" for="lesser">
-                                        Lesser than & Equal
-                                      </label>
-                                    </div>
+                                    </label>
                                 </div>
                             </div>
-                            <div class="form-row">
-                                <div class="form-group col-md-6">
-                                    <div class="form-check">
-                                      <form:checkbox path="searchInvoiceVo.includes" cssClass="form-check-input" id="includes" value="" />
-                                      <label class="form-check-label" for="includes">
-                                        <spring:message code="user.includes" text="Includes" />
-                                      </label>
-                                    </div>
+                            <div class="col-md-4">
+                                <div class="form-check">
+                                    <form:checkbox path="searchInvoiceVo.lesser" cssClass="form-check-input" id="lesser" value="" />
+                                    <label class="form-check-label" for="lesser">
+                                    Lesser than & Equal
+                                    </label>
                                 </div>
-                                <div class="form-group col-md-6">    
-                                    <div class="form-check">
-                                      <form:checkbox path="searchInvoiceVo.startsWith" cssClass="form-check-input" id="startswith" value="" />
-                                      <label class="form-check-label" for="startsWith">
-                                        <spring:message code="user.startsWith" text="Starts with" />
-                                      </label>
-                                    </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-check">
+                                    <form:checkbox path="searchInvoiceVo.includes" cssClass="form-check-input" id="includes" value="" />
+                                    <label class="form-check-label" for="includes">
+                                    <spring:message code="user.includes" text="Includes" />
+                                    </label>
                                 </div>
-                            </div>        
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-check">
+                                    <form:checkbox path="searchInvoiceVo.startsWith" cssClass="form-check-input" id="startswith" value="" />
+                                    <label class="form-check-label" for="startsWith">
+                                    <spring:message code="user.startsWith" text="Starts with" />
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <button type="button" class="btn btn-primary" onclick="search()" ><spring:message code='poseidon.search' text='Search' /></button>
+                            </div>
+                            <div class="col-md-6">
+                                <button type="button" class="btn btn-primary" onclick="clearOut()"><spring:message code='poseidon.clear' text='Clear' /></button>
+                            </div>
                         </div>
-                        <input class="btn btn-primary" value="<spring:message code='poseidon.search' text='Search' />"
-                                           type="button" onclick="search()"/>  
-                        <input class="btn btn-primary" value="<spring:message code='poseidon.clear' text='Clear' />"
-                                           type="button" onclick="clearOut()"/>      
                     </div>
                 </div>
                 <br />
                 <br />
                 <c:if test="${invoiceForm.statusMessage!=null}">
-                    <div class="alert alert-<c:out value="${invoiceForm.statusMessageType}"/>">
-                        <a class="close" data-dismiss="alert" href="#" aria-hidden="true">x</a>
+                    <div class="alert alert-<c:out value="${invoiceForm.statusMessageType}"/> alert-dismissible fade show" role="alert">
                         <c:out value="${invoiceForm.statusMessage}"/>
+                        <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                     </div>
                 </c:if>
-                <div class="panel panel-primary">
-                    <div class="panel-heading">Invoice Details</div>
-                    <table id='myTable' class="table table-bordered table-striped table-hover">
-                        <thead>
+                <table id='myTable' class="table table-bordered table-striped table-hover caption-top">
+                    <caption>Invoice Details</caption>
+                    <thead class="table-dark">
                         <tr>
-                            <th>&nbsp;</th>
-                            <th>Invoice Id</th>
-                            <th>Customer Name</th>
-                            <th>Tag No</th>
-                            <th>Item Description</th>
-                            <th>Serial No</th>
-                            <th>Total Amount</th>
+                            <th scope="col">&nbsp;</th>
+                            <th scope="col">Invoice Id</th>
+                            <th scope="col">Customer Name</th>
+                            <th scope="col">Tag No</th>
+                            <th scope="col">Item Description</th>
+                            <th scope="col">Serial No</th>
+                            <th scope="col">Total Amount</th>
                         </tr>
-                        </thead>
-                        <tbody>
-                        <c:forEach items="${invoiceForm.invoiceVos}" var="iterationInv">
-                            <tr>
-                                <td><input type="checkbox" name="checkField" onclick="checkCall(this)"
-                                           value="<c:out value="${iterationInv.id}" />"/></td>
-                                <td><c:out value="${iterationInv.id}"/></td>
-                                <td><c:out value="${iterationInv.customerName}"/></td>
-                                <td><c:out value="${iterationInv.tagNo}"/></td>
-                                <td><c:out value="${iterationInv.description}"/></td>
-                                <td><c:out value="${iterationInv.serialNo}"/></td>
-                                <td><c:out value="${iterationInv.amount}"/></td>
-                            </tr>
-                        </c:forEach>
-                        </tbody>
-                    </table>
-                    <table>
+                    </thead>
+                    <tbody>
+                    <c:forEach items="${invoiceForm.invoiceVos}" var="iterationInv">
                         <tr>
-                            <td>
-                                <br/>
-                                <br/>
-                                <input class="btn btn-primary" value="Add New Invoice" type="button" onclick="addInvoice()"/>
-                                <input class="btn btn-primary" value="Edit Invoice" type="button" onclick="editMe()"/>
-                                <input class="btn btn-primary" value="Delete Invoice" type="button" onclick="deleteInvoice()"/>
-                            </td>
+                            <th scope="row"><input type="checkbox" name="checkField" onclick="checkCall(this)"
+                                       value="<c:out value="${iterationInv.id}" />"/></th>
+                            <td><c:out value="${iterationInv.id}"/></td>
+                            <td><c:out value="${iterationInv.customerName}"/></td>
+                            <td><c:out value="${iterationInv.tagNo}"/></td>
+                            <td><c:out value="${iterationInv.description}"/></td>
+                            <td><c:out value="${iterationInv.serialNo}"/></td>
+                            <td><c:out value="${iterationInv.amount}"/></td>
                         </tr>
-                    </table>
+                    </c:forEach>
+                    </tbody>
+                </table>
+                <div class="row g-3">
+                    <div class="col-md-4">
+                        <button type="button" class="btn btn-primary" onclick="addInvoice()">
+                        Add New Invoice
+                        </button>
+                    </div>
+                    <div class="col-md-4">
+                        <button type="button" class="btn btn-primary" onclick="editMe()">
+                        Edit Invoice
+                        </button>
+                    </div>
+                    <div class="col-md-4">
+                        <button type="button" class="btn btn-primary" onclick="deleteInvoice()">
+                            Delete Invoice
+                        </button>
+                    </div>
                 </div>
             </div>
         </div>
         <script src="/js/core/jquery-3.2.1.min.js" type="text/javascript"></script>
         <script src="/js/core/popper.min.js" type="text/javascript"></script>
-        <script src="/js/core/bootstrap.min.js" type="text/javascript"></script>
+        <script src="/js/core/bootstrap-5.min.js" type="text/javascript"></script>
         <script type="text/javascript">
             $(document).ready(function() {
                 //Handles menu drop down
