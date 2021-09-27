@@ -16,7 +16,7 @@
     <meta name="_csrf_header" content="${_csrf.headerName}"/>
     <spring:url value="/img/Poseidon_Ico.ico" var="posIcon" />
     <link rel="shortcut icon" href="${posIcon}" />
-    <link rel="stylesheet" href="/css/bootstrap.min.css"  type="text/css" />
+    <link rel="stylesheet" href="/css/bootstrap-5.min.css"  type="text/css" />
     <link rel="stylesheet" href="/css/custom.css" type="text/css" />
     <title>Password Reset</title>
     <script type="text/javascript" src="/js/password-reset-scripts.js"></script>
@@ -26,63 +26,55 @@
     <form method="POST" action="listAll.htm" class="needs-validation" novalidate>
         <input type="hidden" name="id" id="id" />
         <input type="hidden" name="addInProgress" id="addInProgress" />
-        <%@include file="../navbar.jsp" %>
+        <%@include file="../navbar5.jsp" %>
+        <div id="status" >
+        <c:if test="${userForm.statusMessage!=null}">
+            <div class="alert alert-<c:out value='${userForm.statusMessageType}'/> alert-dismissible fade show" role="alert">
+            <c:out value="${userForm.statusMessage}"/>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        </c:if>
+        </div>
         <div class="row paddingBottom20">
             <div id="passwordResetModal" class="container col-4">
-                <div id="status" >
-                    <c:if test="${userForm.statusMessage!=null}">
-                        <div class="alert alert-<c:out value='${userForm.statusMessageType}'/>">
-                            <a class="close" data-dismiss="alert" href="#" aria-hidden="true">x</a>
-                            <c:out value="${userForm.statusMessage}"/>
-                        </div>
-                    </c:if>
-                </div>
                 <div class="row">
                     <h6 class="text-center col-12 mb-0">Reset Password</h6>
                     <sub class="text-right text-muted col-12"><a href="#" tabindex="-1"><i class="far fa-edit"></i></a></sub>
                 </div>
                 <div class="dropdown-divider mb-3"></div>
-                <div class="form-group row">
-                    <label for="current" class="col-4 col-form-label-sm text-right">Current Password:</label>
-                    <div class="col-8">
-                        <div class="input-group">
-                            <input id="current" name="text" type="password" class="form-control form-control-sm" onkeypress="clearMessage();" required/>
-                            <div id="current_message" class="invalid-tooltip">Please fill out current password</div>
-                        </div>
+                <div class="mb-3 row">
+                    <label for="current" class="col-sm-2 col-form-label">Current Password:</label>
+                    <div class="col-sm-10">
+                        <input id="current" type="password" class="form-control" onkeypress="clearMessage();" required/>
+                        <div id="current_message" class="invalid-tooltip">Please fill out current password</div>
                     </div>
                 </div>
-                <div class="form-group row align-items-center">
-                    <label for="newPass" class="col-4 col-form-label-sm text-right">New Password:</label>
-                    <div class="col-8">
-                      <div class="input-group">
-                        <input id="newPass" name="text" type="password" class="form-control form-control-sm" onkeypress="clearMessage();" required/>
+                <div class="mb-3 row">
+                    <label for="newPass" class="col-sm-2 col-form-label">New Password:</label>
+                    <div class="col-sm-10">
+                        <input id="newPass" type="password" class="form-control" onkeypress="clearMessage();" required/>
                         <div id="newPass_message" class="invalid-tooltip">Please fill out new password</div>
-                      </div>
                     </div>
                 </div>
-                <div class="form-group row align-items-center">
-                    <label for="repeat" class="col-4 col-form-label-sm text-right">Repeat Password:</label>
-                    <div class="col-8">
-                      <div class="input-group">
-                        <input id="repeat" name="text" type="password" class="form-control form-control-sm" onkeypress="clearMessage();" required/>
+                <div class="mb-3 row">
+                    <label for="repeat" class="col-sm-2 col-form-label">Repeat Password:</label>
+                    <div class="col-sm-10">
+                        <input id="repeat" type="password" class="form-control" onkeypress="clearMessage();" required/>
                         <div id="repeat_message" class="invalid-tooltip">Please fill out repeat password</div>
-                      </div>
                     </div>
                 </div>
-                <div class="form-group row align-items-center">
-                    <label for="reset" class="col-4 col-form-label-sm text-right"></label>
-                    <div class="col-8">
-                      <div class="form-group">
+                <div class="mb-3 row">
+                    <label for="reset" class="col-sm-2 col-form-label"></label>
+                    <div class="col-sm-10">
                         <button type="button" id="reset" class="btn btn-primary" onclick="passwordChange()">Reset password</button>
                         <button type="button" class="btn btn-primary" onclick="clearAll()">Cancel</button>
-                      </div>
                     </div>
                 </div>
             </div>
         </div>
-        <script src="/js/core/jquery-3.2.1.min.js"></script>
-        <script src="/js/core/popper.min.js"></script>
-        <script src="/js/core/bootstrap.min.js"></script>
+        <script src="/js/core/jquery-3.2.1.min.js" type="text/javascript"></script>
+        <script src="/js/core/popper.min.js" type="text/javascript"></script>
+        <script src="/js/core/bootstrap-5.min.js" type="text/javascript"></script>
         <script type="text/javascript">
             $(document).ready(function() {
                 //Handles menu drop down
