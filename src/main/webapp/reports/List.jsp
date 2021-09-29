@@ -47,251 +47,180 @@
             </ul>
             <div class="tab-content">
                 <div class="tab-pane fade show active" id="callReport" role="tabpanel" aria-labelledby="home-tab">
-                    <br />
-                    <table>
-                        <tr>
-                            <td>
-                                <label for="callTagNo" class="control-label">
-                                    Tag To :
-                                </label>
-                            </td>
-                            <td>
-                                <input type="text" id="callTagNo" class="form-control" />
-                            </td>
-                            <td colspan="2">&nbsp;</td>
-                            <td>
-                                <label for="callExportValue" class="control-label">
-                                    Export To :
-                                </label>
-                            </td>
-                            <td>
-                                <select class="form-select" id="callExportValue" >
-                                    <option value=""></option>
-                                    <c:forEach var="n" items="${reportsForm.exportList}" varStatus="rowCounter">
-                                        <option value="${n}">${n}</option>
-                                    </c:forEach>
-                                </select>
-                            </td>
-                            <td colspan="2">&nbsp;</td>
-                            <td>
-                                <input class="btn btn-primary" value="Fetch Call Report" type="button"
-                                       onclick="fetchCallReport()"/>
-                            </td>
-                            <td>
-                                <input class="btn btn-primary" value="Clear" type="button" onclick="clearOut()"/>
-                            </td>
-                        </tr>
-                    </table>
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="row g-3">
+                                <div class="col-md-3">
+                                    <input type="text" id="callTagNo" class="form-control" placeholder="Tag Number" aria-label="callTagNo" aria-describedby="basic-addon1">
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="input-group mb-3">
+                                        <label class="input-group-text" for="callExportValue">Export To</label>
+                                        <select class="form-select" id="callExportValue" >
+                                            <option selected>Choose...</option>
+                                            <c:forEach var="n" items="${reportsForm.exportList}" varStatus="rowCounter">
+                                                <option value="${n}">${n}</option>
+                                            </c:forEach>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <button type="button" class="btn btn-primary" onclick="fetchCallReport()" >Fetch Call Report</button>
+                                </div>
+                                <div class="col-md-3">
+                                    <button type="button" class="btn btn-primary" onclick="clearOut()" >Clear</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="tab-pane fade" id="modelReport" role="tabpanel" aria-labelledby="model-tab">
-                    <br />
-                    <table>
-                        <tr>
-                            <td>
-                                <label class="control-label">
-                                    Make Name :
-                                </label>
-                            </td>
-                            <td>
-                                <form:select id="modelReportMakeName" cssClass="form-select" path="modelReportMakeAndModelVO.makeId">
-                                    <form:option value="0" label="-- Select --"/>
-                                    <form:options items="${reportsForm.makeVOs}" itemValue="id" itemLabel="makeName"/>
-                                </form:select>
-                            </td>
-                            <td colspan="2">&nbsp;</td>
-                            <td>
-                                <label class="control-label" >
-                                    Model Name :
-                                </label>
-                            </td>
-                            <td>
-                                <form:input path="modelReportMakeAndModelVO.modelName" cssClass="form-control" id="modelReportModelName"/>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td colspan="2">
-                                <label class="control-label">
-                                    <spring:message code="user.includes" text="Includes"/>
-                                    <form:checkbox path="modelReportMakeAndModelVO.includes" cssStyle="vertical-align:middle"
-                                                   id="includes" value=""/>
-                                </label>
-                            </td>
-                            <td colspan="2">&nbsp;</td>
-                            <td colspan="2">
-                                <label class="control-label">
-                                    <spring:message code="user.startsWith" text="Starts with"/>
-                                    <form:checkbox path="modelReportMakeAndModelVO.startswith" cssStyle="vertical-align:middle"
-                                                   id="startswith" value=""/>
-                                </label>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <label for="makeExportValue" class="control-label" >
-                                    Export To :
-                                </label>
-                            </td>
-                            <td>
-                                <select id="makeExportValue" class="form-select" >
-                                    <option value=""></option>
-                                    <c:forEach var="n" items="${reportsForm.exportList}" varStatus="rowCounter">
-                                        <option value="${n}">${n}</option>
-                                    </c:forEach>
-                                </select>
-                            </td>
-                            <td colspan="2">
-                                <input class="btn btn-primary" value="Fetch Make Report" type="button"
-                                       onclick="fetchMakeReport()"/>
-                            </td>
-                            <td>
-                                <input class="btn btn-primary" value="Fetch Model List Report" type="button"
-                                       onclick="fetchModelListReport()"/>
-                            </td>
-                            <td>
-                                <input class="btn btn-primary" value="Clear" type="button" onclick="clearOut()"/>
-                            </td>
-                        </tr>
-                    </table>
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="row g-3">
+                                <div class="col-md-6">
+                                    <div class="input-group mb-3">
+                                        <label class="input-group-text" for="modelReportMakeName">Make Name</label>
+                                        <select class="form-select" id ="modelReportMakeName" name="modelReportMakeAndModelVO.makeId" >
+                                            <option value="0" selected>Choose...</option>
+                                            <c:forEach var="n" items="${reportsForm.makeVOs}">
+                                                <option value="${n.id}">${n.makeName}</option>
+                                            </c:forEach>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <input type="text" id="modelReportModelName" name="modelReportMakeAndModelVO.modelName" class="form-control" placeholder="Model Name" aria-label="callTagNo" aria-describedby="basic-addon1">
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-check">
+                                        <form:checkbox path="modelReportMakeAndModelVO.includes" cssClass="form-check-input" id="includes" value="" />
+                                        <label class="form-check-label" for="includes">
+                                            <spring:message code="user.includes" text="Includes" />
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-check">
+                                        <form:checkbox path="modelReportMakeAndModelVO.startswith" cssClass="form-check-input" id="startswith" value="" />
+                                        <label class="form-check-label" for="startsWith">
+                                        <spring:message code="user.startsWith" text="Starts with" />
+                                        </label>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="input-group mb-3">
+                                        <label class="input-group-text" for="makeExportValue">Export To</label>
+                                        <select class="form-select" id="makeExportValue" >
+                                            <option value="0" selected>Choose...</option>
+                                            <c:forEach var="n" items="${reportsForm.exportList}" varStatus="rowCounter">
+                                                <option value="${n}">${n}</option>
+                                            </c:forEach>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <button type="button" class="btn btn-primary" onclick="fetchMakeReport()" >Fetch Make Report</button>
+                                </div>
+                                <div class="col-md-3">
+                                    <button type="button" class="btn btn-primary" onclick="fetchModelListReport()" >Fetch Model List Report</button>
+                                </div>
+                                <div class="col-md-3">
+                                    <button type="button" class="btn btn-primary" onclick="clearOut()" >Clear</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="tab-pane fade" id="txnReport" role="tabpanel" aria-labelledby="txn-tab">
-                    <br />
-                    <table>
-                        <tr>
-                            <td>
-                                <label for="txnReportTagNo"  class="control-label" >
-                                    Tag No :
-                                </label>
-                            </td>
-                            <td>
-                                <form:input path="txnReportTransactionVO.TagNo" cssClass="form-control" id="txnReportTagNo"/>
-                            </td>
-                            <td colspan="2">&nbsp;</td>
-                            <td>
-                                <label for="txnReportCustomerName"  class="control-label" >
-                                    Customer Name :
-                                </label>
-                            </td>
-                            <td>
-                                <form:input path="txnReportTransactionVO.CustomerName" cssClass="form-control" id="txnReportCustomerName"/>
-                            </td>
-                            <td colspan="2">&nbsp;</td>
-                            <td>
-                                <label for="txnReportStartDate" class="control-label" >
+                    <div class="card">
+                        <div class="card-body">
+                            <div class="row g-3">
+                                <div class="col-md-3">
+                                    <input type="text" id="txnReportTagNo" name="txnReportTransactionVO.TagNo" class="form-control" placeholder="Tag Number" aria-label="txnReportTagNo" aria-describedby="basic-addon1">
+                                </div>
+                                <div class="col-md-3">
+                                    <input type="text" id="txnReportCustomerName" name="txnReportTransactionVO.CustomerName" class="form-control" placeholder="Customer Name" aria-label="txnReportCustomerName" aria-describedby="basic-addon1">
+                                </div>
+                                <div class="col-md-3">
+                                    <label for="txnReportStartDate" class="control-label" >
                                     Reported Date (From) :
-                                </label>
-                            </td>
-                            <td>
-                                <form:input path="txnReportTransactionVO.startDate" cssClass="form-control" id="txnReportStartDate"/>
-                                <label for="startDate" class="input-group-addon btn">
-                                    <img src="/img/calendar3.svg" alt="" width="16" height="16" title="calendar" />
-                                </label>
-                            </td>
-                            <td colspan="2">&nbsp;</td>
-                            <td>
-                                <label for="txnReportEndDate"  class="control-label">
+                                    </label>
+                                    <input type="date" placeholder="Selected date" name="txnReportTransactionVO.startDate" id="txnReportStartDate" class="form-control datepicker" />
+                                </div>
+                                <div class="col-md-3">
+                                    <label for="txnReportEndDate"  class="control-label">
                                     Reported Date (To) :
-                                </label>
-                            </td>
-                            <td>
-                                <form:input path="txnReportTransactionVO.endDate" cssClass="form-control" id="txnReportEndDate"/>
-                                <label for="endDate" class="input-group-addon btn">
+                                    </label>
+                                    <form:input path="txnReportTransactionVO.endDate" cssClass="form-control" id="txnReportEndDate"/>
+                                    <label for="endDate" class="input-group-addon btn">
                                     <img src="/img/calendar3.svg" alt="" width="16" height="16" title="calendar" />
-                                </label>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td colspan="14">&nbsp;</td>
-                        </tr>
-                        <tr>
-                            <td>
-                                <label for="txnReportSerialNo"  class="control-label">
-                                    Serial No :
-                                </label>
-                            </td>
-                            <td>
-                                <form:input path="txnReportTransactionVO.SerialNo" cssClass="form-control" id="txnReportSerialNo"/>
-                            </td>
-                            <td colspan="2">&nbsp;</td>
-                            <td>
-                                <label for="txnReportMakeId" class="control-label">
-                                    Make :
-                                </label>
-                            </td>
-                            <td>
-                                <form:select id="txnReportMakeId" path="txnReportTransactionVO.makeId" cssClass="form-select" tabindex="1"
-                                             onchange="javascript:changeTheModel();">
-                                    <form:option value=""><spring:message code="common.select" text="<-- Select -->"/></form:option>
-                                    <form:options items="${reportsForm.makeVOs}"
-                                                  itemValue="id" itemLabel="makeName" />
-                                </form:select>
-                            </td>
-                            <td colspan="2">&nbsp;</td>
-                            <td>
-                                <label for="txnReportModelId"  class="control-label">
+                                    </label>
+                                </div>
+                                <div class="col-md-3">
+                                    <input type="text" id="txnReportSerialNo" name="txnReportTransactionVO.SerialNo" class="form-control" placeholder="Serial Number" aria-label="txnReportSerialNo" aria-describedby="basic-addon1">
+                                </div>
+                                <div class="col-md-3">
+                                    <div class="input-group mb-3">
+                                        <label class="input-group-text" for="txnReportMakeId">Make :</label>
+                                        <select class="form-select" id ="txnReportMakeId" name="txnReportTransactionVO.makeId" onchange="changeTheModel();" >
+                                        <option value="" selected>Choose...</option>
+                                        <c:forEach var="n" items="${reportsForm.makeVOs}">
+                                            <option value="${n.id}">${n.makeName}</option>
+                                        </c:forEach>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-3">
+                                    <label for="txnReportModelId"  class="control-label">
                                     Model Name :
-                                </label>
-                            </td>
-                            <td>
-                                <form:select id="txnReportModelId" path="txnReportTransactionVO.modelId" cssClass="form-select" tabindex="1">
-                                    <form:option value=""><spring:message code="common.select" text="<-- Select -->"/></form:option>
-                                </form:select>
-                            </td>
-                            <td colspan="2">&nbsp;</td>
-                            <td>
-                                <label for="txnReportStatus"  class="control-label">
+                                    </label>
+                                    <form:select id="txnReportModelId" path="txnReportTransactionVO.modelId" cssClass="form-select" tabindex="1">
+                                        <form:option value=""><spring:message code="common.select" text="<-- Select -->"/></form:option>
+                                    </form:select>
+                                </div>
+                                <div class="col-md-3">
+                                    <label for="txnReportStatus"  class="control-label">
                                     Status :
-                                </label>
-                            </td>
-                            <td>
-                                <form:select id="txnReportStatus" path="txnReportTransactionVO.Status" cssClass="form-select">
-                                    <form:option value=""><spring:message code="common.select" text="<-- Select -->"/></form:option>
-                                    <form:options items="${reportsForm.statusList}" />
-                                </form:select>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td colspan="14">&nbsp;</td>
-                        </tr>
-                        <tr>
-                            <td colspan="12">&nbsp;</td>
-                            <td>
-                                <label for="includes" class="control-label" >
+                                    </label>
+                                    <form:select id="txnReportStatus" path="txnReportTransactionVO.Status" cssClass="form-select">
+                                        <form:option value=""><spring:message code="common.select" text="<-- Select -->"/></form:option>
+                                        <form:options items="${reportsForm.statusList}" />
+                                    </form:select>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="includes" class="control-label" >
                                     <spring:message code="user.includes" text="Includes"/>
                                     <form:checkbox path="txnReportTransactionVO.includes" cssStyle="vertical-align:middle" id="txnReportIncludes" value="" />
-                                </label>
-                            </td>
-                            <td>
-                                <label for="startswith" class="control-label">
+                                    </label>
+                                </div>
+                                <div class="col-md-6">
+                                    <label for="startswith" class="control-label">
                                     <spring:message code="user.startsWith" text="Starts with"/>
                                     <form:checkbox path="txnReportTransactionVO.startswith" cssStyle="vertical-align:middle" id="txnReportStartswith" value="" />
-                                </label>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td colspan="8">&nbsp;</td>
-                            <td>
-                                <label for="txnExportValue1" class="control-label">
-                                    Export To :
-                                </label>
-                            </td>
-                            <td>
-                                <select id="txnExportValue1"  class="form-select">
-                                    <option value=""></option>
-                                    <c:forEach var="n" items="${reportsForm.exportList}" varStatus="rowCounter">
-                                        <option value="${n}">${n}</option>
-                                    </c:forEach>
-                                </select>
-                            </td>
-                            <td colspan="2">&nbsp;</td>
-                            <td>
-                                <input class="btn btn-primary" value="Fetch Transactions List Report" type="button"
-                                       onclick="fetchTransactionsListReport()"/>
-                            </td>
-                            <td>
-                                <input class="btn btn-primary" value="Clear" type="button" onclick="clearOut()"/>
-                            </td>
-                        </tr>
-                    </table>
+                                    </label>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="input-group mb-3">
+                                        <label class="input-group-text" for="txnExportValue1">Export To</label>
+                                        <select class="form-select" id="txnExportValue1" >
+                                        <option selected>Choose...</option>
+                                        <c:forEach var="n" items="${reportsForm.exportList}" varStatus="rowCounter">
+                                            <option value="${n}">${n}</option>
+                                        </c:forEach>
+                                        </select>
+                                    </div>
+                                </div>
+                                <div class="col-md-4">
+                                    <input class="btn btn-primary" value="Fetch Transactions List Report" type="button"
+                                    onclick="fetchTransactionsListReport()"/>
+                                </div>
+                                <div class="col-md-4">
+                                    <input class="btn btn-primary" value="Clear" type="button" onclick="clearOut()"/>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
                 <div class="tab-pane fade" id="invoiceReport" role="tabpanel" aria-labelledby="invoice-tab">
                     <br />
@@ -476,7 +405,7 @@
             <div class="wrap">
                 <div class="card">
                     <div class="card-header">Report :</div>
-                    <iframe name="reportContent" id="reportContent" width="100%" height="420px">
+                    <iframe name="reportContent" id="reportContent" width="100%" height="420px" title="Report">
                     </iframe>
                 </div>
             </div>
