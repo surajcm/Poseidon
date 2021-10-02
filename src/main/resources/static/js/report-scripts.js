@@ -5,16 +5,28 @@ function selectMenu() {
 }
 
 function fetchCallReport() {
-    document.getElementById('exportTo').value = document.getElementById('callExportValue').options[document.getElementById('callExportValue').selectedIndex].text;
-    document.getElementById('tagNo').value = document.getElementById('callTagNo').value;
-    document.forms[0].target = 'reportContent';
-    document.forms[0].action = 'getCallReport.htm';
-    document.forms[0].submit();
-    document.forms[0].target = '';
+    let valid = false;
+    const callExportValue = document.getElementById('callExportValue');
+    document.getElementById('exportTo').value = callExportValue.options[callExportValue.selectedIndex].text;
+    const callTag = document.getElementById('callTagNo');
+    document.getElementById('tagNo').value = callTag.value;
+    if (callTag.value.length === 0) {
+        callTag.setAttribute("class", "form-control is-invalid");
+    } else {
+        callTag.setAttribute("class", "form-control was-validated");
+        valid = true;
+    }
+    if (valid) {
+        document.forms[0].target = 'reportContent';
+        document.forms[0].action = 'getCallReport.htm';
+        document.forms[0].submit();
+        document.forms[0].target = '';
+    }
 }
 
 function fetchMakeReport() {
-    document.getElementById('exportTo').value = document.getElementById('makeExportValue').options[document.getElementById('makeExportValue').selectedIndex].text;
+    const callExportValue = document.getElementById('makeExportValue');
+    document.getElementById('exportTo').value = callExportValue.options[callExportValue.selectedIndex].text;
     document.forms[0].target = 'reportContent';
     document.forms[0].action = 'getMakeDetailsReport.htm';
     document.forms[0].submit();
@@ -22,15 +34,28 @@ function fetchMakeReport() {
 }
 
 function fetchModelListReport() {
-    document.getElementById('exportTo').value = document.getElementById('makeExportValue').options[document.getElementById('makeExportValue').selectedIndex].text;
-    document.forms[0].target = 'reportContent';
-    document.forms[0].action = 'getModelListReport.htm';
-    document.forms[0].submit();
-    document.forms[0].target = '';
+    let valid = false;
+    const callExportValue = document.getElementById('makeExportValue');
+    const modelReportMakeName = document.getElementById('modelReportMakeName');
+    if (modelReportMakeName.value === "0") {
+        modelReportMakeName.setAttribute("class", "form-select is-invalid");
+        console.log("Empty modelReportMakeName");
+    } else {
+        modelReportMakeName.setAttribute("class", "form-select was-validated");
+        valid = true;
+    }
+    if (valid) {
+        document.getElementById('exportTo').value = callExportValue.options[callExportValue.selectedIndex].text;
+        document.forms[0].target = 'reportContent';
+        document.forms[0].action = 'getModelListReport.htm';
+        document.forms[0].submit();
+        document.forms[0].target = '';
+    }
 }
 
 function fetchTransactionsListReport() {
-    document.getElementById('exportTo').value = document.getElementById('txnExportValue').options[document.getElementById('txnExportValue').selectedIndex].text;
+    const callExportValue = document.getElementById('txnExportValue');
+    document.getElementById('exportTo').value = callExportValue.options[callExportValue.selectedIndex].text;
     document.forms[0].target = 'reportContent';
     document.forms[0].action = 'getTransactionsListReport.htm';
     document.forms[0].submit();
@@ -39,12 +64,24 @@ function fetchTransactionsListReport() {
 
 
 function fetchInvoiceReport() {
-    document.getElementById('exportTo').value = document.getElementById('invoiceExportValue').options[document.getElementById('invoiceExportValue').selectedIndex].text;
-    document.getElementById('tagNo').value = document.getElementById('invoiceTagNo').value;
-    document.forms[0].target = 'reportContent';
-    document.forms[0].action = 'getInvoiceReport.htm';
-    document.forms[0].submit();
-    document.forms[0].target = '';
+    let valid = false;
+    const callExportValue = document.getElementById('invoiceExportValue');
+    document.getElementById('exportTo').value = callExportValue.options[callExportValue.selectedIndex].text;
+    const invoiceTagNo = document.getElementById('invoiceTagNo');
+    document.getElementById('tagNo').value = invoiceTagNo.value;
+    if (invoiceTagNo.value.length === 0) {
+        invoiceTagNo.setAttribute("class", "form-control is-invalid");
+        console.log("Empty invoiceTagNo");
+    } else {
+        invoiceTagNo.setAttribute("class", "form-control was-validated");
+        valid = true;
+    }
+    if (valid) {
+        document.forms[0].target = 'reportContent';
+        document.forms[0].action = 'getInvoiceReport.htm';
+        document.forms[0].submit();
+        document.forms[0].target = '';
+    }
 }
 
 function changeTheTxnModel() {
@@ -61,7 +98,7 @@ function changeTheTxnModel() {
 }
 
 function changeTheModel() {
-    const selectMakeId = document.getElementById('makeId').value;
+    const selectMakeId = document.getElementById('txnReportMakeId').value;
     let url = "${contextPath}/txs/UpdateModelAjax.htm";
     url = url + "?selectMakeId=" + selectMakeId;
     bustcacheparameter = (url.indexOf("?") != -1) ? "&" + new Date().getTime() : "?" + new Date().getTime();

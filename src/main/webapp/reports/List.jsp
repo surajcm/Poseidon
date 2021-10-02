@@ -13,7 +13,6 @@
     <meta name="author" content="Suraj">
     <spring:url value="/img/Poseidon_Ico.ico" var="posIcon" />
     <link rel="shortcut icon" href="${posIcon}" />
-    <link rel="stylesheet" href="/css/jquery-ui.css" type="text/css" />
     <link rel="stylesheet" href="/css/bootstrap-5.min.css"  type="text/css" />
     <link rel="stylesheet" href="/css/custom.css" type="text/css" />
     <title>Reports List</title>
@@ -49,9 +48,10 @@
                 <div class="tab-pane fade show active" id="callReport" role="tabpanel" aria-labelledby="home-tab">
                     <div class="card">
                         <div class="card-body">
-                            <div class="row g-3">
+                            <div class="row g-3 needs-validation" novalidate>
                                 <div class="col-md-3">
                                     <input type="text" id="callTagNo" class="form-control" placeholder="Tag Number" aria-label="callTagNo" aria-describedby="basic-addon1">
+                                    <div class="invalid-feedback">Please provide a Call Tag</div>
                                 </div>
                                 <div class="col-md-3">
                                     <div class="input-group mb-3">
@@ -77,7 +77,7 @@
                 <div class="tab-pane fade" id="modelReport" role="tabpanel" aria-labelledby="model-tab">
                     <div class="card">
                         <div class="card-body">
-                            <div class="row g-3">
+                            <div class="row g-3 needs-validation" novalidate>
                                 <div class="col-md-6">
                                     <div class="input-group mb-3">
                                         <label class="input-group-text" for="modelReportMakeName">Make Name</label>
@@ -87,6 +87,7 @@
                                                 <option value="${n.id}">${n.makeName}</option>
                                             </c:forEach>
                                         </select>
+                                        <div class="invalid-feedback">Please provide a valid make</div>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
@@ -228,6 +229,7 @@
                             <div class="row g-3">
                                 <div class="col-md-3">
                                     <input type="text" id="invoiceTagNo" class="form-control" placeholder="Tag Number" aria-label="invoiceTagNo" aria-describedby="basic-addon1">
+                                    <div class="invalid-feedback">Please provide a Invoice Tag Number</div>
                                 </div>
                                 <div class="col-md-3">
                                     <div class="input-group mb-3">
@@ -255,68 +257,57 @@
                         <div class="card-body">
                             <div class="row g-3">
                                 <div class="col-md-3">
-                                    <label for="invoiceListTagNo" class="control-label">
-                                    Tag No :
-                                    </label>
-                                    <form:input path="invoiceListReportTransactionVO.TagNo"  class="form-control" id="invoiceListTagNo"/>
+                                    <input type="text" id="invoiceListTagNo" name="invoiceListReportTransactionVO.TagNo" class="form-control" placeholder="Tag Number" aria-label="invoiceListTagNo" aria-describedby="basic-addon1">
                                 </div>
                                 <div class="col-md-3">
-                                    <label for="invoiceListCustomerName" class="control-label">
-                                    Customer Name :
-                                    </label>
-                                    <form:input path="invoiceListReportTransactionVO.CustomerName" cssClass="form-control" id="invoiceListCustomerName"/>
+                                    <input type="text" id="invoiceListCustomerName" name="invoiceListReportTransactionVO.CustomerName" class="form-control" placeholder="Customer Name" aria-label="invoiceListCustomerName" aria-describedby="basic-addon1">
                                 </div>
                                 <div class="col-md-3">
-                                    <label for="invoiceListStartDate" class="control-label">
-                                    Reported Date (From) :
-                                    </label>
-                                    <form:input path="invoiceListReportTransactionVO.startDate" cssClass="form-control" id="invoiceListStartDate"/>
-                                    <label for="startDate" class="input-group-addon btn">
-                                        <img src="/img/calendar3.svg" alt="" width="16" height="16" title="calendar" />
-                                    </label>
+                                    <div class="input-group mb-3">
+                                        <span class="input-group-text">Reported Date (From)</span>
+                                        <input type="date" id="invoiceListStartDate" class="form-control datepicker" name="invoiceListReportTransactionVO.startDate" aria-label="Reported Date (From)">
+                                        <span class="input-group-text"><img src="/img/calendar3.svg" alt="" width="16" height="16" title="calendar" /></span>
+                                    </div>
                                 </div>
                                 <div class="col-md-3">
-                                    <label for="invoiceListEndDate" class="control-label">
-                                    Reported Date (To) :
-                                    </label>
-                                    <form:input path="invoiceListReportTransactionVO.endDate" cssClass="form-control" id="invoiceListEndDate"/>
-                                    <label for="endDate" class="input-group-addon btn">
-                                    <img src="/img/calendar3.svg" alt="" width="16" height="16" title="calendar" />
-                                    </label>
+                                    <div class="input-group mb-3">
+                                        <span class="input-group-text">Reported Date (To)</span>
+                                        <input type="date" id="invoiceListEndDate" class="form-control datepicker" name="invoiceListReportTransactionVO.endDate" aria-label="Reported Date (To)">
+                                        <span class="input-group-text"><img src="/img/calendar3.svg" alt="" width="16" height="16" title="calendar" /></span>
+                                    </div>
                                 </div>
                                 <div class="col-md-3">
-                                    <label for="invoiceListSerialNo" class="control-label">
-                                    Serial No :
-                                    </label>
-                                    <form:input path="invoiceListReportTransactionVO.SerialNo" cssClass="form-control" id="invoiceListSerialNo"/>
+                                    <input type="text" id="invoiceListSerialNo" name="invoiceListReportTransactionVO.SerialNo" class="form-control" placeholder="Serial Number" aria-label="invoiceListSerialNo" aria-describedby="basic-addon1">
                                 </div>
                                 <div class="col-md-3">
-                                    <label for="invoiceListMakeId" class="control-label">
-                                    Make :
-                                    </label>
-                                    <form:select id="invoiceListMakeId" path="invoiceListReportTransactionVO.makeId" tabindex="1"  cssClass="form-select"
-                                                 onchange="javascript:changeTheTxnModel();">
-                                        <form:option value=""><spring:message code="common.select" text="<-- Select -->"/></form:option>
-                                        <form:options items="${reportsForm.makeVOs}"
-                                                      itemValue="Id" itemLabel="makeName"/>
-                                    </form:select>
+                                    <div class="input-group mb-3">
+                                        <label class="input-group-text" for="invoiceListMakeId">Make</label>
+                                        <select class="form-select" id ="invoiceListMakeId" name="invoiceListReportTransactionVO.makeId" onchange="changeTheTxnModel();" >
+                                            <option value="" selected>Choose...</option>
+                                            <c:forEach var="n" items="${reportsForm.makeVOs}">
+                                                <option value="${n.id}">${n.makeName}</option>
+                                            </c:forEach>
+                                        </select>
+                                    </div>
                                 </div>
                                 <div class="col-md-3">
-                                    <label for="invoiceListModelId" class="control-label">
-                                    Model Name :
-                                    </label>
-                                    <form:select id="invoiceListModelId" path="invoiceListReportTransactionVO.modelId" tabindex="1" cssClass="form-control">
-                                        <form:option value=""><spring:message code="common.select" text="<-- Select -->"/></form:option>
-                                    </form:select>
+                                    <div class="input-group mb-3">
+                                        <label class="input-group-text" for="invoiceListModelId">Model</label>
+                                        <select class="form-select" id ="invoiceListModelId" name="invoiceListReportTransactionVO.modelId" >
+                                            <option value="" selected>Choose...</option>
+                                        </select>
+                                    </div>
                                 </div>
                                 <div class="col-md-3">
-                                    <label for="invoiceListStatus" class="control-label">
-                                    Status :
-                                    </label>
-                                    <form:select id="invoiceListStatus" path="invoiceListReportTransactionVO.Status" cssClass="form-select">
-                                        <form:option value=""><spring:message code="common.select" text="<-- Select -->"/></form:option>
-                                        <form:options items="${reportsForm.statusList}" />
-                                    </form:select>
+                                    <div class="input-group mb-3">
+                                        <label class="input-group-text" for="invoiceListStatus">Status</label>
+                                        <select class="form-select" id ="invoiceListStatus" name="invoiceListReportTransactionVO.Status" >
+                                            <option value="" selected>Choose...</option>
+                                            <c:forEach var="n" items="${reportsForm.statusList}">
+                                                <option value="${n}">${n}</option>
+                                            </c:forEach>
+                                        </select>
+                                    </div>
                                 </div>
                                 <div class="col-md-6">
                                     <label for="invoiceListIncludes" class="control-label">
@@ -331,22 +322,21 @@
                                     </label>
                                 </div>
                                 <div class="col-md-4">
-                                    <label for="txnExportValue" class="control-label">
-                                    Export To :
-                                    </label>
-                                    <select id="txnExportValue" class="form-select">
-                                    <option value=""></option>
-                                    <c:forEach var="n" items="${reportsForm.exportList}" varStatus="rowCounter">
-                                        <option value="${n}">${n}</option>
-                                    </c:forEach>
-                                    </select>
+                                    <div class="input-group mb-3">
+                                        <label class="input-group-text" for="txnExportValue">Export To</label>
+                                        <select class="form-select" id="txnExportValue" >
+                                            <option selected>Choose...</option>
+                                            <c:forEach var="n" items="${reportsForm.exportList}" varStatus="rowCounter">
+                                                <option value="${n}">${n}</option>
+                                            </c:forEach>
+                                        </select>
+                                    </div>
                                 </div>
                                 <div class="col-md-4">
-                                    <input class="btn btn-primary" value="Fetch Invoice List Report" type="button"
-                                    onclick="fetchTransactionsListReport()"/>
+                                    <button type="button" class="btn btn-primary" onclick="fetchTransactionsListReport()" >Fetch Invoice List Report</button>
                                 </div>
                                 <div class="col-md-4">
-                                    <input class="btn btn-primary" value="Clear" type="button" onclick="clearOut()"/>
+                                    <button type="button" class="btn btn-primary" onclick="clearOut()" >Clear</button>
                                 </div>
                             </div>
                         </div>
@@ -366,17 +356,11 @@
         <script src="/js/core/jquery-3.2.1.min.js" type="text/javascript"></script>
         <script src="/js/core/popper.min.js" type="text/javascript"></script>
         <script src="/js/core/bootstrap-5.min.js" type="text/javascript"></script>
-        <script src="/js/core/jquery-ui.min.js" type="text/javascript"></script>
         <script type="text/javascript">
             $(document).ready(function() {
                 //Handles menu drop down
                 $('.dropdown-menu').find('form').click(function (e) {
                     e.stopPropagation();
-                });
-                $(function() {
-                    $( "#tabs" ).tabs();
-                    $( "#startDate" ).datepicker({ dateFormat: "dd/mm/yy" });
-                    $( "#endDate" ).datepicker({ dateFormat: "dd/mm/yy" });
                 });
             });
         </script>
