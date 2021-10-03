@@ -9,6 +9,8 @@
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="_csrf" content="${_csrf.token}"/>
+    <meta name="_csrf_header" content="${_csrf.headerName}"/>
     <meta name="description" content="">
     <meta name="author" content="Suraj">
     <spring:url value="/img/Poseidon_Ico.ico" var="posIcon" />
@@ -80,7 +82,7 @@
                             <div class="row g-3 needs-validation" novalidate>
                                 <div class="col-md-6">
                                     <div class="input-group mb-3">
-                                        <label class="input-group-text" for="modelReportMakeName">Make Name</label>
+                                        <label class="input-group-text" for="modelReportMakeName">Make</label>
                                         <select class="form-select" id ="modelReportMakeName" name="modelReportMakeAndModelVO.makeId" >
                                             <option value="0" selected>Choose...</option>
                                             <c:forEach var="n" items="${reportsForm.makeVOs}">
@@ -282,7 +284,7 @@
                                 <div class="col-md-3">
                                     <div class="input-group mb-3">
                                         <label class="input-group-text" for="invoiceListMakeId">Make</label>
-                                        <select class="form-select" id ="invoiceListMakeId" name="invoiceListReportTransactionVO.makeId" onchange="changeTheTxnModel();" >
+                                        <select class="form-select" id ="invoiceListMakeId" name="invoiceListReportTransactionVO.makeId" onchange="changeTheInvoiceModel();" >
                                             <option value="" selected>Choose...</option>
                                             <c:forEach var="n" items="${reportsForm.makeVOs}">
                                                 <option value="${n.id}">${n.makeName}</option>

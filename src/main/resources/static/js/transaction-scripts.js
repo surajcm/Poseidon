@@ -44,7 +44,7 @@ function changeTheModel() {
     const selectMakeId = document.getElementById("makeId").value;
     console.log(selectMakeId);
     const xhr = new XMLHttpRequest();
-    xhr.open('GET', "/txs/UpdateModelAjax.htm" + "?selectMakeId=" + selectMakeId, true);
+    xhr.open('POST', "/txs/UpdateModelAjax.htm" + "?selectMakeId=" + selectMakeId, true);
     const token = document.querySelector("meta[name='_csrf']").content;
     const header = document.querySelector("meta[name='_csrf_header']").content;
     xhr.setRequestHeader(header, token);
