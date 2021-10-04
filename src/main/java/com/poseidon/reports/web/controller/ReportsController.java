@@ -1,5 +1,6 @@
 package com.poseidon.reports.web.controller;
 
+import com.poseidon.init.util.CommonUtils;
 import com.poseidon.make.domain.MakeAndModelVO;
 import com.poseidon.make.domain.MakeVO;
 import com.poseidon.make.service.MakeService;
@@ -10,7 +11,6 @@ import com.poseidon.reports.service.ReportsService;
 import com.poseidon.reports.util.ReportingConfigurations;
 import com.poseidon.reports.web.form.ReportsForm;
 import com.poseidon.transaction.domain.TransactionVO;
-import com.poseidon.init.util.CommonUtils;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperPrint;
@@ -33,6 +33,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 import java.util.List;
 
 /**
@@ -192,15 +194,35 @@ public class ReportsController {
             }
             var reportFileName = "transactionsListReport";
             var jasperReport = createJasperReport(reportFileName);
+            var reportsVO = reportsForm.getCurrentReport();
+            //modify the dates
+            var newTransactionVO = modifyDateFormat(reportsForm.getTxnReportTransactionVO());
             var jasperPrint = reportsService.getTransactionsListReport(jasperReport,
-                    reportsForm.getCurrentReport(),
-                    reportsForm.getTxnReportTransactionVO());
-            var reportType = ExportList.fromName(reportsForm.getCurrentReport().getExportTo());
+                    reportsVO,
+                    newTransactionVO);
+            var reportType = ExportList.fromName(reportsVO.getExportTo());
             generateJasperReport(httpServletResponse, jasperPrint, reportFileName, reportType);
         } catch (Exception ex) {
             LOG.error(ex.getLocalizedMessage());
         }
     }
+
+    private TransactionVO modifyDateFormat(final TransactionVO transactionVO) {
+        var formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
+        var toFormatter = DateTimeFormatter.ofPattern("MM/dd/yyyy");
+        if (!transactionVO.getStartDate().isBlank()) {
+            var dateTime = LocalDate.parse(
+                    transactionVO.getStartDate(), formatter).atStartOfDay();
+            transactionVO.setStartDate(dateTime.format(toFormatter));
+        }
+        if (!transactionVO.getEndDate() .isBlank()) {
+            var dateTime = LocalDate.parse(
+                    transactionVO.getEndDate(), formatter).atStartOfDay();
+            transactionVO.setEndDate(dateTime.format(toFormatter));
+        }
+        return transactionVO;
+    }
+
 
     /**
      * getModelListReport.
@@ -281,7 +303,7 @@ public class ReportsController {
             }
             var reportFileName = "errorReport";
             var jasperReport = createJasperReport(reportFileName);
-            var jasperPrint = reportsService.getErrorReport(jasperReport, reportsForm.getCurrentReport());
+            var jasperPrint = reportsService.getErrorReport(jasperReport);
             var reportType = ExportList.fromName(reportsForm.getCurrentReport().getExportTo());
             generateJasperReport(httpServletResponse, jasperPrint, reportFileName, reportType);
         } catch (Exception ex) {

@@ -108,12 +108,10 @@ public class ReportsDAO {
      * get error report.
      *
      * @param jasperReport  jasperReport
-     * @param currentReport currentReport
      * @return JasperPrint
      * @throws JRException on error
      */
-    public JasperPrint getErrorReport(final JasperReport jasperReport,
-                                      final ReportsVO currentReport) throws JRException {
+    public JasperPrint getErrorReport(final JasperReport jasperReport) throws JRException {
         Map<String, Object> params = new HashMap<>();
         return JasperFillManager.fillReport(jasperReport, params,
                 new JRBeanCollectionDataSource(new ArrayList<>()));

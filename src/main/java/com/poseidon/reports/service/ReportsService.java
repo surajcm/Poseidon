@@ -157,14 +157,12 @@ public class ReportsService {
     /**
      * error report.
      *
-     * @param jasperReport  jasperReport
-     * @param currentReport currentReport
-     * @return JasperPrint
+      * @return JasperPrint
      */
-    public JasperPrint getErrorReport(final JasperReport jasperReport, final ReportsVO currentReport) {
+    public JasperPrint getErrorReport(final JasperReport jasperReport) {
         var jasperPrint = new JasperPrint();
         try {
-            jasperPrint = reportsDAO.getErrorReport(jasperReport, currentReport);
+            jasperPrint = reportsDAO.getErrorReport(jasperReport);
         } catch (JRException ex) {
             LOG.error(ex.getLocalizedMessage());
         }

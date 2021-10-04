@@ -87,16 +87,14 @@ class ReportsServiceTest {
 
     @Test
     void getErrorReportSuccess() throws JRException {
-        when(reportsDAO.getErrorReport(any(), any())).thenReturn(Mockito.mock(JasperPrint.class));
-        Assertions.assertNotNull(reportsService.getErrorReport(Mockito.mock(JasperReport.class),
-                new ReportsVO()));
+        when(reportsDAO.getErrorReport(any())).thenReturn(Mockito.mock(JasperPrint.class));
+        Assertions.assertNotNull(reportsService.getErrorReport(Mockito.mock(JasperReport.class)));
     }
 
     @Test
     void getErrorReportFailure() throws JRException {
-        when(reportsDAO.getErrorReport(any(), any())).thenThrow(new JRException("ERROR"));
-        Assertions.assertNotNull(reportsService.getErrorReport(Mockito.mock(JasperReport.class),
-                new ReportsVO()));
+        when(reportsDAO.getErrorReport(any())).thenThrow(new JRException("ERROR"));
+        Assertions.assertNotNull(reportsService.getErrorReport(Mockito.mock(JasperReport.class)));
     }
 
     @Test
