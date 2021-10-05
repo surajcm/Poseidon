@@ -31,3 +31,24 @@ table {
     margin-bottom: 25px;
 	color:#5C5C5C;
 }
+
+.jumbotron {
+	display: flex;
+	align-items: center;
+	height: 600px;
+	background-image: url("/img/poseidon_god_of_the_sea.jpg");
+	background-repeat: no-repeat;
+	background-size:  contain;
+	background-position: center;
+	background-color: transparent;
+}
+
+.error {
+	border: 1px solid;
+	margin: 10px 0px;
+	padding: 15px 10px 15px 50px;
+	background-repeat: no-repeat;
+	background-position: 10px center;
+	background-color: #FFBABA;
+	background-image: url('/img/Error.png' );
+}

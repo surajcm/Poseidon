@@ -3,7 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c" %>
 <%@ taglib uri="http://www.springframework.org/tags" prefix="spring"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -15,18 +15,6 @@
     <link rel="stylesheet" href="/css/bootstrap-5.min.css"  type="text/css" />
     <link rel="stylesheet" href="/css/custom.css" type="text/css" />
     <title>Error Page</title>
-    <style type="text/css">
-
-        .error {
-            border: 1px solid;
-            margin: 10px 0px;
-            padding: 15px 10px 15px 50px;
-            background-repeat: no-repeat;
-            background-position: 10px center;
-            background-color: #FFBABA;
-            background-image: url('/img/Error.png' );
-        }
-    </style>
     <script type="text/javascript" src="/js/navbar-scripts.js"></script>
 </head>
 <body>
