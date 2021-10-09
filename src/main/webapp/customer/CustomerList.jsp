@@ -114,6 +114,8 @@
                 <div class="row g-3">
                     <div class="col-md-3">
                         <input type="button" class="btn btn-primary" value="Add New Customer" onclick="addCustomer()"/>
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#newCustomer"
+                        onclick="addSmartCustomer();">Add Smart Customer</button>
                     </div>
                     <div class="col-md-3">
                         <input type="button" class="btn btn-primary" value="Edit Customer" onclick="editCustomer()"/>
@@ -123,6 +125,22 @@
                     </div>
                     <div class="col-md-3">
                         <input type="button" class="btn btn-primary" value="Delete Customer" onclick="deleteCustomer()"/>
+                    </div>
+                </div>
+                <div id="newCustomer" class="modal fade" tabindex="-1" aria-labelledby="newCustomer" aria-hidden="true">
+                    <div class="modal-dialog">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title">Add new Customer</h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div id="newCustomerBody" class="modal-body">
+                                <p>Lets add some customers....</p>
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" id="saveSmartCustomer" class="btn btn-primary" onclick="saveFromModal();">Save</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div id="customerDetail" class="modal fade" tabindex="-1" aria-labelledby="customerDetail" aria-hidden="true">

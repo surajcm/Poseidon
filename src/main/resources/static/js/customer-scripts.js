@@ -273,3 +273,6 @@ function fillModal(textReturned) {
     detail.appendChild(row);
 }
 
+function addSmartCustomer() {
+
+}
