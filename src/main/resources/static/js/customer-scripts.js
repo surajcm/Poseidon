@@ -274,5 +274,111 @@ function fillModal(textReturned) {
 }
 
 function addSmartCustomer() {
+    let saveCustomer = document.getElementById("saveSmartCustomer");
+    saveCustomer.style.display = "block";
+    let detail = document.getElementById("newCustomerBody");
+    detail.innerHTML = "";
+    let formValidCustomer = customerOnModal();
+    detail.appendChild(formValidCustomer);
+}
 
+function customerOnModal() {
+    let formValidCustomer = document.createElement("form");
+    formValidCustomer.setAttribute("class", "row g-3 needs-validation");
+    formValidCustomer.novalidate = true;
+
+    let divName = document.createElement("div");
+    divName.setAttribute("class", "col-md-6");
+    let txtCustomerName = document.createElement("input");
+    txtCustomerName.setAttribute("type", "text");
+    txtCustomerName.setAttribute("class", "form-control");
+    txtCustomerName.setAttribute("placeholder", "Customer Name");
+    txtCustomerName.setAttribute("id", "modalCustomerName");
+    txtCustomerName.required = true;
+    divName.appendChild(txtCustomerName);
+
+    let divAddress = document.createElement("div");
+    divAddress.setAttribute("class", "col-md-6");
+    let txtAddress = document.createElement("textarea");
+    txtAddress.setAttribute("rows", "3");
+    txtAddress.setAttribute("class", "form-control");
+    txtAddress.setAttribute("placeholder", "Address");
+    txtAddress.setAttribute("id", "modalAddress");
+    txtAddress.required = true;
+    divAddress.appendChild(txtAddress);
+
+    let tt2 = document.createElement("div");
+    tt2.setAttribute("class", "invalid-tooltip");
+    tt2.innerHTML = "Please provide a valid makeName.";
+    divAddress.appendChild(tt2);
+
+    let divPhone = document.createElement("div");
+    divPhone.setAttribute("class", "col-md-4");
+    let txtPhone = document.createElement("input");
+    txtPhone.setAttribute("type", "text");
+    txtPhone.setAttribute("class", "form-control");
+    txtPhone.setAttribute("placeholder", "Phone");
+    txtPhone.setAttribute("id", "modalPhone");
+    txtPhone.required = true;
+    divPhone.appendChild(txtPhone);
+
+    let divMobile = document.createElement("div");
+    divMobile.setAttribute("class", "col-md-4");
+    let txtMobile = document.createElement("input");
+    txtMobile.setAttribute("type", "text");
+    txtMobile.setAttribute("class", "form-control");
+    txtMobile.setAttribute("placeholder", "Mobile");
+    txtMobile.setAttribute("id", "modalMobile");
+    txtMobile.required = true;
+    divMobile.appendChild(txtMobile);
+
+    let divEmail = document.createElement("div");
+    divEmail.setAttribute("class", "col-md-4");
+    let txtEmail = document.createElement("input");
+    txtEmail.setAttribute("type", "text");
+    txtEmail.setAttribute("class", "form-control");
+    txtEmail.setAttribute("placeholder", "Email");
+    txtEmail.setAttribute("id", "modalEmail");
+    txtEmail.required = true;
+    divEmail.appendChild(txtEmail);
+
+    let divContact = document.createElement("div");
+    divContact.setAttribute("class", "col-md-4");
+    let txtContact = document.createElement("input");
+    txtContact.setAttribute("type", "text");
+    txtContact.setAttribute("class", "form-control");
+    txtContact.setAttribute("placeholder", "Contact Person");
+    txtContact.setAttribute("id", "modalContact");
+    txtContact.required = true;
+    divContact.appendChild(txtContact);
+
+    let divContactMobile = document.createElement("div");
+    divContactMobile.setAttribute("class", "col-md-4");
+    let txtContactMobile = document.createElement("input");
+    txtContactMobile.setAttribute("type", "text");
+    txtContactMobile.setAttribute("class", "form-control");
+    txtContactMobile.setAttribute("placeholder", "Mobile of Contact Person");
+    txtContactMobile.setAttribute("id", "modalContactMobile");
+    txtContactMobile.required = true;
+    divContactMobile.appendChild(txtContactMobile);
+
+    let divNotes = document.createElement("div");
+    divNotes.setAttribute("class", "col-md-4");
+    let txtNotes = document.createElement("textarea");
+    txtNotes.setAttribute("rows", "3");
+    txtNotes.setAttribute("class", "form-control");
+    txtNotes.setAttribute("placeholder", "Notes");
+    txtNotes.setAttribute("id", "modalNotes");
+    txtNotes.required = true;
+    divNotes.appendChild(txtNotes);
+
+    formValidCustomer.appendChild(divName);
+    formValidCustomer.appendChild(divAddress);
+    formValidCustomer.appendChild(divPhone);
+    formValidCustomer.appendChild(divMobile);
+    formValidCustomer.appendChild(divEmail);
+    formValidCustomer.appendChild(divContact);
+    formValidCustomer.appendChild(divContactMobile);
+    formValidCustomer.appendChild(divNotes);
+    return formValidCustomer;
 }
