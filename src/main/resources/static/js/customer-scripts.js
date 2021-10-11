@@ -297,6 +297,11 @@ function customerOnModal() {
     txtCustomerName.required = true;
     divName.appendChild(txtCustomerName);
 
+    let tt1 = document.createElement("div");
+    tt1.setAttribute("class", "invalid-tooltip");
+    tt1.innerHTML = "Please provide a valid Name";
+    divName.appendChild(tt1);
+
     let divAddress = document.createElement("div");
     divAddress.setAttribute("class", "col-md-6");
     let txtAddress = document.createElement("textarea");
@@ -309,7 +314,7 @@ function customerOnModal() {
 
     let tt2 = document.createElement("div");
     tt2.setAttribute("class", "invalid-tooltip");
-    tt2.innerHTML = "Please provide a valid makeName.";
+    tt2.innerHTML = "Please provide a valid Address";
     divAddress.appendChild(tt2);
 
     let divPhone = document.createElement("div");
@@ -331,6 +336,11 @@ function customerOnModal() {
     txtMobile.setAttribute("id", "modalMobile");
     txtMobile.required = true;
     divMobile.appendChild(txtMobile);
+
+    let ttM = document.createElement("div");
+    ttM.setAttribute("class", "invalid-tooltip");
+    ttM.innerHTML = "Please provide a valid Mobile number";
+    divMobile.appendChild(ttM);
 
     let divEmail = document.createElement("div");
     divEmail.setAttribute("class", "col-md-4");
@@ -381,4 +391,37 @@ function customerOnModal() {
     formValidCustomer.appendChild(divContactMobile);
     formValidCustomer.appendChild(divNotes);
     return formValidCustomer;
+}
+
+function saveFromModal() {
+    let modalCustomerName = document.getElementById("modalCustomerName");
+    let modalAddress = document.getElementById("modalAddress");
+    let modalMobile = document.getElementById("modalMobile");
+    let forms = document.getElementsByClassName('needs-validation');
+    let allFieldsAreValid = true;
+
+    if (forms[0].checkValidity() === false) {
+        let validName = markValidity(modalCustomerName);
+        let validAddress = markValidity(modalAddress);
+        let validMobile = markValidity(modalMobile);
+        if (validName && validAddress && validMobile) {
+            allFieldsAreValid = true;
+        } else {
+            allFieldsAreValid = false;
+        }
+    }
+    if (allFieldsAreValid) {
+        console.log("all fields are valid, going to save");
+        //ajaxSaveFromModal(modalCustomerName, modalDescription);
+    }
+}
+
+function markValidity(element) {
+    if (element.value.length === 0) {
+        element.setAttribute("class", "form-control is-invalid");
+        return false;
+    } else {
+        element.setAttribute("class", "form-control was-validated");
+        return true;
+    }
 }
