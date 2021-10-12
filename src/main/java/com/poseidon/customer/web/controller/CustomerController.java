@@ -9,6 +9,8 @@ import com.poseidon.transaction.web.form.TransactionForm;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -186,6 +188,48 @@ public class CustomerController {
             LOG.error(ex.getLocalizedMessage());
         }
         return list(customerForm);
+    }
+
+    @PostMapping("/customer/saveCustomerAjax.htm")
+    public @ResponseBody
+    String saveCustomerAjax(@ModelAttribute("modalCustomerName") final String modalCustomerName,
+                            @ModelAttribute("modalAddress") final String modalAddress,
+                            @ModelAttribute("modalPhone") final String modalPhone,
+                            @ModelAttribute("modalMobile") final String modalMobile,
+                            @ModelAttribute("modalEmail") final String modalEmail,
+                            @ModelAttribute("modalContact") final String modalContact,
+                            @ModelAttribute("modalContactMobile") final String modalContactMobile,
+                            @ModelAttribute("modalNotes") final String modalNotes) {
+        var customerVO = new CustomerVO();
+        customerVO.setCustomerName(modalCustomerName);
+        customerVO.setAddress(modalAddress);
+        customerVO.setPhoneNo(modalPhone);
+        customerVO.setMobile(modalMobile);
+        customerVO.setEmail(modalEmail);
+        customerVO.setContactPerson(modalContact);
+        customerVO.setContactMobile(modalContactMobile);
+        customerVO.setNotes(modalNotes);
+        var userName = findLoggedInUsername();
+        customerVO.setCreatedBy(userName);
+        customerVO.setModifiedBy(userName);
+        try {
+            customerService.saveCustomer(customerVO);
+        } catch (Exception ex) {
+            LOG.error(ex.getMessage());
+        }
+        //List<CustomerVO> customerVOs = customerService.listAllCustomerDetails();
+        return "hi";
+    }
+
+    public String findLoggedInUsername() {
+        String username = null;
+        if (SecurityContextHolder.getContext().getAuthentication() != null) {
+            var principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+            if (principal instanceof User user) {
+                username = user.getUsername();
+            }
+        }
+        return username;
     }
 
     private CustomerAdditionalDetailsVO populateAdditionalDetails(final CustomerVO customerVO) {

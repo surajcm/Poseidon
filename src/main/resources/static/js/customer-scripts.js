@@ -1,5 +1,3 @@
-
-
 function hideAlerts() {
     document.getElementById('customer').text = "Customer <span class='sr-only'>Customer</span>";
 }
@@ -289,12 +287,7 @@ function customerOnModal() {
 
     let divName = document.createElement("div");
     divName.setAttribute("class", "col-md-6");
-    let txtCustomerName = document.createElement("input");
-    txtCustomerName.setAttribute("type", "text");
-    txtCustomerName.setAttribute("class", "form-control");
-    txtCustomerName.setAttribute("placeholder", "Customer Name");
-    txtCustomerName.setAttribute("id", "modalCustomerName");
-    txtCustomerName.required = true;
+    let txtCustomerName = aTextBox("modalCustomerName", "Customer Name", true);
     divName.appendChild(txtCustomerName);
 
     let tt1 = document.createElement("div");
@@ -304,12 +297,7 @@ function customerOnModal() {
 
     let divAddress = document.createElement("div");
     divAddress.setAttribute("class", "col-md-6");
-    let txtAddress = document.createElement("textarea");
-    txtAddress.setAttribute("rows", "3");
-    txtAddress.setAttribute("class", "form-control");
-    txtAddress.setAttribute("placeholder", "Address");
-    txtAddress.setAttribute("id", "modalAddress");
-    txtAddress.required = true;
+    let txtAddress = aTextArea("modalAddress", "Address", true);
     divAddress.appendChild(txtAddress);
 
     let tt2 = document.createElement("div");
@@ -319,22 +307,12 @@ function customerOnModal() {
 
     let divPhone = document.createElement("div");
     divPhone.setAttribute("class", "col-md-4");
-    let txtPhone = document.createElement("input");
-    txtPhone.setAttribute("type", "text");
-    txtPhone.setAttribute("class", "form-control");
-    txtPhone.setAttribute("placeholder", "Phone");
-    txtPhone.setAttribute("id", "modalPhone");
-    txtPhone.required = true;
+    let txtPhone = aTextBox("modalPhone", "Phone", false);
     divPhone.appendChild(txtPhone);
 
     let divMobile = document.createElement("div");
     divMobile.setAttribute("class", "col-md-4");
-    let txtMobile = document.createElement("input");
-    txtMobile.setAttribute("type", "text");
-    txtMobile.setAttribute("class", "form-control");
-    txtMobile.setAttribute("placeholder", "Mobile");
-    txtMobile.setAttribute("id", "modalMobile");
-    txtMobile.required = true;
+    let txtMobile = aTextBox("modalMobile", "Mobile", true);
     divMobile.appendChild(txtMobile);
 
     let ttM = document.createElement("div");
@@ -344,42 +322,22 @@ function customerOnModal() {
 
     let divEmail = document.createElement("div");
     divEmail.setAttribute("class", "col-md-4");
-    let txtEmail = document.createElement("input");
-    txtEmail.setAttribute("type", "text");
-    txtEmail.setAttribute("class", "form-control");
-    txtEmail.setAttribute("placeholder", "Email");
-    txtEmail.setAttribute("id", "modalEmail");
-    txtEmail.required = true;
+    let txtEmail = aTextBox("modalEmail", "Email", false);
     divEmail.appendChild(txtEmail);
 
     let divContact = document.createElement("div");
     divContact.setAttribute("class", "col-md-4");
-    let txtContact = document.createElement("input");
-    txtContact.setAttribute("type", "text");
-    txtContact.setAttribute("class", "form-control");
-    txtContact.setAttribute("placeholder", "Contact Person");
-    txtContact.setAttribute("id", "modalContact");
-    txtContact.required = true;
+    let txtContact = aTextBox("modalContact", "Contact Person", false);
     divContact.appendChild(txtContact);
 
     let divContactMobile = document.createElement("div");
     divContactMobile.setAttribute("class", "col-md-4");
-    let txtContactMobile = document.createElement("input");
-    txtContactMobile.setAttribute("type", "text");
-    txtContactMobile.setAttribute("class", "form-control");
-    txtContactMobile.setAttribute("placeholder", "Mobile of Contact Person");
-    txtContactMobile.setAttribute("id", "modalContactMobile");
-    txtContactMobile.required = true;
+    let txtContactMobile = aTextBox("modalContactMobile", "Mobile of Contact Person", false);
     divContactMobile.appendChild(txtContactMobile);
 
     let divNotes = document.createElement("div");
     divNotes.setAttribute("class", "col-md-4");
-    let txtNotes = document.createElement("textarea");
-    txtNotes.setAttribute("rows", "3");
-    txtNotes.setAttribute("class", "form-control");
-    txtNotes.setAttribute("placeholder", "Notes");
-    txtNotes.setAttribute("id", "modalNotes");
-    txtNotes.required = true;
+    let txtNotes = aTextArea("modalNotes", "Notes", false);
     divNotes.appendChild(txtNotes);
 
     formValidCustomer.appendChild(divName);
@@ -393,10 +351,39 @@ function customerOnModal() {
     return formValidCustomer;
 }
 
+function aTextBox(id, placeHolder, isRequired) {
+    let txtBox = document.createElement("input");
+    txtBox.setAttribute("type", "text");
+    txtBox.setAttribute("class", "form-control");
+    txtBox.setAttribute("placeholder", placeHolder);
+    txtBox.setAttribute("id", id);
+    if (isRequired) {
+        txtBox.required = true;
+    }
+    return txtBox;
+}
+
+function aTextArea(id, placeHolder, isRequired) {
+    let txtArea = document.createElement("textarea");
+    txtArea.setAttribute("rows", "3");
+    txtArea.setAttribute("class", "form-control");
+    txtArea.setAttribute("placeholder", placeHolder);
+    txtArea.setAttribute("id", id);
+    if (isRequired) {
+        txtArea.required = true;
+    }
+    return txtArea;
+}
+
 function saveFromModal() {
     let modalCustomerName = document.getElementById("modalCustomerName");
     let modalAddress = document.getElementById("modalAddress");
+    let modalPhone = document.getElementById("modalPhone");
     let modalMobile = document.getElementById("modalMobile");
+    let modalEmail = document.getElementById("modalEmail");
+    let modalContact = document.getElementById("modalContact");
+    let modalContactMobile = document.getElementById("modalContactMobile");
+    let modalNotes = document.getElementById("modalNotes");
     let forms = document.getElementsByClassName('needs-validation');
     let allFieldsAreValid = true;
 
@@ -404,15 +391,18 @@ function saveFromModal() {
         let validName = markValidity(modalCustomerName);
         let validAddress = markValidity(modalAddress);
         let validMobile = markValidity(modalMobile);
-        if (validName && validAddress && validMobile) {
-            allFieldsAreValid = true;
-        } else {
-            allFieldsAreValid = false;
-        }
+        allFieldsAreValid = validName && validAddress && validMobile;
     }
     if (allFieldsAreValid) {
         console.log("all fields are valid, going to save");
-        //ajaxSaveFromModal(modalCustomerName, modalDescription);
+        ajaxSaveCustomer(modalCustomerName.value,
+            modalAddress.value,
+            modalPhone.value,
+            modalMobile.value,
+            modalEmail.value,
+            modalContact.value,
+            modalContactMobile.value,
+            modalNotes.value);
     }
 }
 
@@ -424,4 +414,41 @@ function markValidity(element) {
         element.setAttribute("class", "form-control was-validated");
         return true;
     }
+}
+
+function ajaxSaveCustomer(modalCustomerName,
+                          modalAddress,
+                          modalPhone,
+                          modalMobile,
+                          modalEmail,
+                          modalContact,
+                          modalContactMobile,
+                          modalNotes) {
+    let xhr = new XMLHttpRequest();
+    xhr.open('POST', "/customer/saveCustomerAjax.htm", true);
+    let token = document.querySelector("meta[name='_csrf']").content;
+    let header = document.querySelector("meta[name='_csrf_header']").content;
+    xhr.setRequestHeader(header, token);
+    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    xhr.onload = function () {
+        if (xhr.status === 200) {
+            if (xhr.responseText != null) {
+                //rewriteTable(xhr.responseText);
+                //showStatus(true);
+                console.log("response received :" + xhr.responseText)
+            }
+        } else if (xhr.status !== 200) {
+            console.log('Request failed.  Returned status of ' + xhr.status);
+            //showStatus(false);
+        }
+    };
+    xhr.send("modalCustomerName=" + modalCustomerName
+        + "&modalAddress=" + modalAddress
+        + "&modalPhone=" + modalPhone
+        + "&modalMobile=" + modalMobile
+        + "&modalEmail=" + modalEmail
+        + "&modalContact=" + modalContact
+        + "&modalContactMobile=" + modalContactMobile
+        + "&modalNotes=" + modalNotes
+        + "&${_csrf.parameterName}=${_csrf.token}");
 }
