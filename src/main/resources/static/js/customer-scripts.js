@@ -66,20 +66,6 @@ function selectedRowCount() {
     return count;
 }
 
-function editCustomer() {
-    let rowCheck = validateSelection();
-    if (rowCheck) {
-        editRow();
-    }
-}
-
-function editRow() {
-    let userRow = selectedRow();
-    document.getElementById("id").value = userRow.cells[0].childNodes[0].value;
-    document.forms[0].action = "editCust.htm";
-    document.forms[0].submit();
-}
-
 function selectedRow() {
     let userRow;
     let checks = document.getElementsByName('checkField');
@@ -93,6 +79,20 @@ function selectedRow() {
         }
     }
     return userRow;
+}
+
+function editCustomer() {
+    let rowCheck = validateSelection();
+    if (rowCheck) {
+        editRow();
+    }
+}
+
+function editRow() {
+    let userRow = selectedRow();
+    document.getElementById("id").value = userRow.cells[0].childNodes[0].value;
+    document.forms[0].action = "editCust.htm";
+    document.forms[0].submit();
 }
 
 function deleteCustomer() {
@@ -133,11 +133,11 @@ function viewCustomer() {
 function viewRow() {
     let userRow = selectedRow();
     let customerId = userRow.cells[0].childNodes[0].value;
-    callAjax(customerId);
+    viewCustomerDetailsViaAjax(customerId);
 }
 
 
-function callAjax(customerId) {
+function viewCustomerDetailsViaAjax(customerId) {
     const xhr = new XMLHttpRequest();
     xhr.open('POST', "viewCustomer.htm", true);
     const token = document.querySelector("meta[name='_csrf']").content;
@@ -165,20 +165,14 @@ function fillModal(textReturned) {
     const detail = document.getElementById("detail");
     const divId = document.createElement("div");
     divId.setAttribute("class", "col-md-6");
-    const lbId = document.createElement("label");
-    lbId.setAttribute("class", "form-label");
-    lbId.textContent = "Customer Id : ";
-    divId.appendChild(lbId);
+    divId.appendChild(generateLabel("Customer Id : "));
     const txtId = document.createElement("label");
     txtId.setAttribute("class", "form-label");
     txtId.textContent = customer.customerId;
     divId.appendChild(txtId);
     const divCustomer = document.createElement("div");
     divCustomer.setAttribute("class", "col-md-6");
-    const lbName = document.createElement("label");
-    lbName.setAttribute("class", "form-label");
-    lbName.textContent = "Customer Name : ";
-    divCustomer.appendChild(lbName);
+    divCustomer.appendChild(generateLabel("Customer Name : "));
     const txtName = document.createElement("label");
     txtName.setAttribute("class", "form-label");
     txtName.textContent = customer.customerName;
@@ -186,10 +180,7 @@ function fillModal(textReturned) {
 
     const divAddress = document.createElement("div");
     divAddress.setAttribute("class", "col-md-12");
-    const lbAddress = document.createElement("label");
-    lbAddress.setAttribute("class", "form-label");
-    lbAddress.textContent = "Address : ";
-    divAddress.appendChild(lbAddress);
+    divAddress.appendChild(generateLabel("Address : "));
     const txtAddress = document.createElement("label");
     txtAddress.setAttribute("class", "form-label");
     txtAddress.textContent = customer.address;
@@ -197,30 +188,21 @@ function fillModal(textReturned) {
 
     const divPhone = document.createElement("div");
     divPhone.setAttribute("class", "col-md-4");
-    const lbPhone = document.createElement("label");
-    lbPhone.setAttribute("class", "form-label");
-    lbPhone.textContent = "Phone No : ";
-    divPhone.appendChild(lbPhone);
+    divPhone.appendChild(generateLabel("Phone No : "));
     const txtPhone = document.createElement("label");
     txtPhone.setAttribute("class", "form-label");
     txtPhone.textContent = customer.phoneNo;
     divPhone.appendChild(txtPhone);
     const divMobile = document.createElement("div");
     divMobile.setAttribute("class", "col-md-4");
-    const lbMobile = document.createElement("label");
-    lbMobile.setAttribute("class", "form-label");
-    lbMobile.textContent = "Mobile : ";
-    divMobile.appendChild(lbMobile);
+    divMobile.appendChild(generateLabel("Mobile : "));
     const txtMobile = document.createElement("label");
     txtMobile.setAttribute("class", "form-label");
     txtMobile.textContent = customer.mobile;
     divMobile.appendChild(txtMobile);
     const divEmail = document.createElement("div");
     divEmail.setAttribute("class", "col-md-4");
-    const lbEmail = document.createElement("label");
-    lbEmail.setAttribute("class", "form-label");
-    lbEmail.textContent = "Email : ";
-    divEmail.appendChild(lbEmail);
+    divEmail.appendChild(generateLabel("Email : "));
     const txtEmail = document.createElement("label");
     txtEmail.setAttribute("class", "form-label");
     txtEmail.textContent = customer.email;
@@ -228,20 +210,14 @@ function fillModal(textReturned) {
 
     const divPerson = document.createElement("div");
     divPerson.setAttribute("class", "col-md-6");
-    const lbPerson = document.createElement("label");
-    lbPerson.setAttribute("class", "form-label");
-    lbPerson.textContent = "Contact Person : ";
-    divPerson.appendChild(lbPerson);
+    divPerson.appendChild(generateLabel("Contact Person : "));
     const txtPerson = document.createElement("label");
     txtPerson.setAttribute("class", "form-label");
     txtPerson.textContent = customer.contactPerson;
     divPerson.appendChild(txtPerson);
     const divPMobile = document.createElement("div");
     divPMobile.setAttribute("class", "col-md-6");
-    const lbPMobile = document.createElement("label");
-    lbPMobile.setAttribute("class", "form-label");
-    lbPMobile.textContent = "Contact Mobile : ";
-    divPMobile.appendChild(lbPMobile);
+    divPMobile.appendChild(generateLabel("Contact Mobile : "));
     const txtPMobile = document.createElement("label");
     txtPMobile.setAttribute("class", "form-label");
     txtPMobile.textContent = customer.contactMobile;
@@ -250,10 +226,7 @@ function fillModal(textReturned) {
 
     const divNotes = document.createElement("div");
     divNotes.setAttribute("class", "col-md-12");
-    const lbNotes = document.createElement("label");
-    lbNotes.setAttribute("class", "form-label");
-    lbNotes.textContent = "Notes : ";
-    divNotes.appendChild(lbNotes);
+    divNotes.appendChild(generateLabel("Notes : "));
     const txtNotes = document.createElement("label");
     txtNotes.setAttribute("class", "form-label");
     txtNotes.textContent = customer.notes;
@@ -432,14 +405,16 @@ function ajaxSaveCustomer(modalCustomerName,
     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     xhr.onload = function () {
         if (xhr.status === 200) {
-            if (xhr.responseText != null) {
-                //rewriteTable(xhr.responseText);
-                //showStatus(true);
-                console.log("response received :" + xhr.responseText)
+            if (xhr.responseText != null && xhr.responseText !== "") {
+                rewriteTable(xhr.responseText);
+                showStatus(true);
+            } else {
+                console.log("Empty response");
+                showStatus(false);
             }
         } else if (xhr.status !== 200) {
             console.log('Request failed.  Returned status of ' + xhr.status);
-            //showStatus(false);
+            showStatus(false);
         }
     };
     xhr.send("modalCustomerName=" + modalCustomerName
@@ -451,4 +426,48 @@ function ajaxSaveCustomer(modalCustomerName,
         + "&modalContactMobile=" + modalContactMobile
         + "&modalNotes=" + modalNotes
         + "&${_csrf.parameterName}=${_csrf.token}");
+}
+
+function rewriteTable(textReturned) {
+    console.log("response received :" + textReturned);
+    document.getElementById('myTable').innerHTML = "";
+    const myTable = document.getElementById("myTable");
+    myTable.setAttribute("class", "table table-bordered table-striped table-hover caption-top");
+    myTable.appendChild(setCaption("Customer Details"));
+    const thead = tableHead();
+    myTable.appendChild(thead);
+    myTable.appendChild(tableBodyCreation(textReturned));
+}
+
+function tableHeaderRow() {
+    const tr1 = document.createElement("tr");
+    const th1 = tableHeader("#");
+    tr1.appendChild(th1);
+    tr1.appendChild(tableHeader("id"));
+    tr1.appendChild(tableHeader("Name"));
+    tr1.appendChild(tableHeader("Address"));
+    tr1.appendChild(tableHeader("Phone"));
+    tr1.appendChild(tableHeader("Mobile"));
+    tr1.appendChild(tableHeader("Email"));
+    return tr1;
+}
+
+function singleRowInTheTable(singleCustomer) {
+    const trx = document.createElement("tr");
+    trx.appendChild(sideHeader(singleCustomer.customerId));
+    trx.appendChild(tdElement(singleCustomer.customerId));
+    trx.appendChild(tdElement(singleCustomer.customerName));
+    trx.appendChild(tdElement(singleCustomer.address));
+    trx.appendChild(tdElement(singleCustomer.phoneNo));
+    trx.appendChild(tdElement(singleCustomer.mobile));
+    trx.appendChild(tdElement(singleCustomer.email));
+    return trx;
+}
+
+function showStatus(status) {
+    let detail = document.getElementById("newCustomerBody");
+    detail.innerHTML = "";
+    let saveSmartCustomer = document.getElementById("saveSmartCustomer");
+    saveSmartCustomer.style.display = "none";
+    detail.appendChild(statusAsDiv(status));
 }

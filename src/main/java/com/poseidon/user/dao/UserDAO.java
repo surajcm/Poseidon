@@ -53,7 +53,6 @@ public class UserDAO {
         return convertToUserVO(user);
     }
 
-
     /**
      * getAllUserDetails to list all user details.
      *

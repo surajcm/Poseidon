@@ -200,6 +200,7 @@ public class CustomerController {
                             @ModelAttribute("modalContact") final String modalContact,
                             @ModelAttribute("modalContactMobile") final String modalContactMobile,
                             @ModelAttribute("modalNotes") final String modalNotes) {
+        var response = "";
         var customerVO = new CustomerVO();
         customerVO.setCustomerName(modalCustomerName);
         customerVO.setAddress(modalAddress);
@@ -214,11 +215,12 @@ public class CustomerController {
         customerVO.setModifiedBy(userName);
         try {
             customerService.saveCustomer(customerVO);
+            List<CustomerVO> customerVOs = customerService.listAllCustomerDetails();
+            response = convertCustomerVosToString(customerVOs);
         } catch (Exception ex) {
             LOG.error(ex.getMessage());
         }
-        //List<CustomerVO> customerVOs = customerService.listAllCustomerDetails();
-        return "hi";
+        return response;
     }
 
     public String findLoggedInUsername() {
@@ -317,6 +319,18 @@ public class CustomerController {
             response = mapper.writeValueAsString(customerVO);
         } catch (IOException ex) {
             response = ERROR;
+            LOG.error(ex.getMessage());
+        }
+        LOG.info(response);
+        return response;
+    }
+
+    private String convertCustomerVosToString(final List<CustomerVO> customerVOS) {
+        String response = null;
+        var mapper = new ObjectMapper();
+        try {
+            response = mapper.writeValueAsString(customerVOS);
+        } catch (IOException ex) {
             LOG.error(ex.getMessage());
         }
         LOG.info(response);
