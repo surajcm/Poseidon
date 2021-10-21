@@ -2,11 +2,6 @@ function hideAlerts() {
     document.getElementById('customer').text = "Customer <span class='sr-only'>Customer</span>";
 }
 
-function addCustomer() {
-    document.forms[0].action = "addCustomer.htm";
-    document.forms[0].submit();
-}
-
 function search() {
     if (document.getElementById("customerId").value === ""
         || isNumber(document.getElementById("customerId").value)) {
@@ -15,10 +10,6 @@ function search() {
     } else {
         alert("Incorrect customerId format found, Please update the field with a numeric value");
     }
-}
-
-function isNumber(n) {
-    return !isNaN(parseFloat(n)) && isFinite(n);
 }
 
 function clearOut() {
@@ -166,71 +157,43 @@ function fillModal(textReturned) {
     const divId = document.createElement("div");
     divId.setAttribute("class", "col-md-6");
     divId.appendChild(generateLabel("Customer Id : "));
-    const txtId = document.createElement("label");
-    txtId.setAttribute("class", "form-label");
-    txtId.textContent = customer.customerId;
-    divId.appendChild(txtId);
+    divId.appendChild(generateTextAsLabelField(customer.customerId));
     const divCustomer = document.createElement("div");
     divCustomer.setAttribute("class", "col-md-6");
     divCustomer.appendChild(generateLabel("Customer Name : "));
-    const txtName = document.createElement("label");
-    txtName.setAttribute("class", "form-label");
-    txtName.textContent = customer.customerName;
-    divCustomer.appendChild(txtName);
+    divCustomer.appendChild(generateTextAsLabelField(customer.customerName));
 
     const divAddress = document.createElement("div");
     divAddress.setAttribute("class", "col-md-12");
     divAddress.appendChild(generateLabel("Address : "));
-    const txtAddress = document.createElement("label");
-    txtAddress.setAttribute("class", "form-label");
-    txtAddress.textContent = customer.address;
-    divAddress.appendChild(txtAddress);
+    divAddress.appendChild(generateTextAsLabelField(customer.address));
 
     const divPhone = document.createElement("div");
     divPhone.setAttribute("class", "col-md-4");
     divPhone.appendChild(generateLabel("Phone No : "));
-    const txtPhone = document.createElement("label");
-    txtPhone.setAttribute("class", "form-label");
-    txtPhone.textContent = customer.phoneNo;
-    divPhone.appendChild(txtPhone);
+    divPhone.appendChild(generateTextAsLabelField(customer.phoneNo));
     const divMobile = document.createElement("div");
     divMobile.setAttribute("class", "col-md-4");
     divMobile.appendChild(generateLabel("Mobile : "));
-    const txtMobile = document.createElement("label");
-    txtMobile.setAttribute("class", "form-label");
-    txtMobile.textContent = customer.mobile;
-    divMobile.appendChild(txtMobile);
+    divMobile.appendChild(generateTextAsLabelField(customer.mobile));
     const divEmail = document.createElement("div");
     divEmail.setAttribute("class", "col-md-4");
     divEmail.appendChild(generateLabel("Email : "));
-    const txtEmail = document.createElement("label");
-    txtEmail.setAttribute("class", "form-label");
-    txtEmail.textContent = customer.email;
-    divEmail.appendChild(txtEmail);
+    divEmail.appendChild(generateTextAsLabelField(customer.email));
 
     const divPerson = document.createElement("div");
     divPerson.setAttribute("class", "col-md-6");
     divPerson.appendChild(generateLabel("Contact Person : "));
-    const txtPerson = document.createElement("label");
-    txtPerson.setAttribute("class", "form-label");
-    txtPerson.textContent = customer.contactPerson;
-    divPerson.appendChild(txtPerson);
+    divPerson.appendChild(generateTextAsLabelField(customer.contactPerson));
     const divPMobile = document.createElement("div");
     divPMobile.setAttribute("class", "col-md-6");
     divPMobile.appendChild(generateLabel("Contact Mobile : "));
-    const txtPMobile = document.createElement("label");
-    txtPMobile.setAttribute("class", "form-label");
-    txtPMobile.textContent = customer.contactMobile;
-    divPMobile.appendChild(txtPMobile);
-
+    divPMobile.appendChild(generateTextAsLabelField(customer.contactMobile));
 
     const divNotes = document.createElement("div");
     divNotes.setAttribute("class", "col-md-12");
     divNotes.appendChild(generateLabel("Notes : "));
-    const txtNotes = document.createElement("label");
-    txtNotes.setAttribute("class", "form-label");
-    txtNotes.textContent = customer.notes;
-    divNotes.appendChild(txtNotes);
+    divNotes.appendChild(generateTextAsLabelField(customer.notes));
 
     row.appendChild(divId);
     row.appendChild(divCustomer);
@@ -322,30 +285,6 @@ function customerOnModal() {
     formValidCustomer.appendChild(divContactMobile);
     formValidCustomer.appendChild(divNotes);
     return formValidCustomer;
-}
-
-function aTextBox(id, placeHolder, isRequired) {
-    let txtBox = document.createElement("input");
-    txtBox.setAttribute("type", "text");
-    txtBox.setAttribute("class", "form-control");
-    txtBox.setAttribute("placeholder", placeHolder);
-    txtBox.setAttribute("id", id);
-    if (isRequired) {
-        txtBox.required = true;
-    }
-    return txtBox;
-}
-
-function aTextArea(id, placeHolder, isRequired) {
-    let txtArea = document.createElement("textarea");
-    txtArea.setAttribute("rows", "3");
-    txtArea.setAttribute("class", "form-control");
-    txtArea.setAttribute("placeholder", placeHolder);
-    txtArea.setAttribute("id", id);
-    if (isRequired) {
-        txtArea.required = true;
-    }
-    return txtArea;
 }
 
 function saveFromModal() {
@@ -470,4 +409,8 @@ function showStatus(status) {
     let saveSmartCustomer = document.getElementById("saveSmartCustomer");
     saveSmartCustomer.style.display = "none";
     detail.appendChild(statusAsDiv(status));
+}
+
+function editSmartCustomer() {
+    console.log("Inside edit smart customer");
 }

@@ -71,22 +71,6 @@ public class CustomerController {
     }
 
     /**
-     * add a customer.
-     *
-     * @param customerForm customerForm
-     * @return view
-     */
-    @PostMapping("/customer/addCustomer.htm")
-    public ModelAndView addCustomer(final CustomerForm customerForm) {
-        var sanitizedForm = CommonUtils.sanitizedString(customerForm.toString());
-        LOG.info("AddCustomer method of CustomerController {}", sanitizedForm);
-        customerForm.setLoggedInUser(customerForm.getLoggedInUser());
-        customerForm.setLoggedInRole(customerForm.getLoggedInRole());
-        customerForm.setCurrentCustomerVO(new CustomerVO());
-        return new ModelAndView("customer/AddCustomer", CUSTOMER_FORM, customerForm);
-    }
-
-    /**
      * edit a customer.
      *
      * @param customerForm customerForm

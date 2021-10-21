@@ -95,3 +95,38 @@ function generateLabel(text) {
     labelElement.textContent = text;
     return labelElement;
 }
+
+function generateTextAsLabelField(text) {
+    const textElement = document.createElement("label");
+    textElement.setAttribute("class", "form-label");
+    textElement.textContent = text;
+    return text;
+}
+
+function isNumber(n) {
+    return !isNaN(parseFloat(n)) && isFinite(n);
+}
+
+function aTextBox(id, placeHolder, isRequired) {
+    let txtBox = document.createElement("input");
+    txtBox.setAttribute("type", "text");
+    txtBox.setAttribute("class", "form-control");
+    txtBox.setAttribute("placeholder", placeHolder);
+    txtBox.setAttribute("id", id);
+    if (isRequired) {
+        txtBox.required = true;
+    }
+    return txtBox;
+}
+
+function aTextArea(id, placeHolder, isRequired) {
+    let txtArea = document.createElement("textarea");
+    txtArea.setAttribute("rows", "3");
+    txtArea.setAttribute("class", "form-control");
+    txtArea.setAttribute("placeholder", placeHolder);
+    txtArea.setAttribute("id", id);
+    if (isRequired) {
+        txtArea.required = true;
+    }
+    return txtArea;
+}
