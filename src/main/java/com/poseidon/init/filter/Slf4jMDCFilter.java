@@ -28,11 +28,11 @@ public class Slf4jMDCFilter extends OncePerRequestFilter {
 
     public Slf4jMDCFilter(final String responseHeader,
                           final String mdcTokenKey,
-                          final String mdcClientIPKey,
+                          final String mdcClientIpKey,
                           final String requestHeader) {
         this.responseHeader = responseHeader;
         this.mdcTokenKey = mdcTokenKey;
-        this.mdcClientIpKey = mdcClientIPKey;
+        this.mdcClientIpKey = mdcClientIpKey;
         this.requestHeader = requestHeader;
     }
 
@@ -70,7 +70,7 @@ public class Slf4jMDCFilter extends OncePerRequestFilter {
     private String extractClientIP(final HttpServletRequest request) {
         final String clientIP;
         if (request.getHeader("X-Forwarded-For") != null) {
-            clientIP = request.getHeader("X-Forwarded-For").split(",")[0];
+            clientIP = request.getHeader("X-Forwarded-For").split(",", -1)[0];
         } else {
             clientIP = request.getRemoteAddr();
         }

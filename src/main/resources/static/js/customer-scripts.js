@@ -413,4 +413,50 @@ function showStatus(status) {
 
 function editSmartCustomer() {
     console.log("Inside edit smart customer");
+    let rowCheck = validateEditCustomerSelection();
+    if (rowCheck) {
+        //editCustomerModal();
+        //setIdForChange();
+        //getUserForEdit();
+    }
+}
+
+function validateEditCustomerSelection() {
+    let detail = document.getElementById("editCustomerBody");
+    detail.innerHTML = "";
+    let check = 'false';
+    let count = selectedRowCount();
+    if (count > 0) {
+        check = 'true';
+    }
+    if (check === 'true') {
+        if (count === 1) {
+            return true;
+        } else {
+            detail.innerHTML = "<p>Only one row can be selected at a time, please select one row</p>";
+        }
+    } else {
+        detail.innerHTML = "<p>No rows selected, please select one row</p>";
+    }
+}
+
+function editCustomerModal() {
+    let updateModal = document.getElementById("updateSmartCustomer");
+    updateModal.style.display = "block";
+    let detail = document.getElementById("editCustomerBody");
+    detail.innerHTML = "";
+
+    let formValidCustomer = document.createElement("form");
+    formValidCustomer.setAttribute("class", "row g-3 needs-validation");
+    formValidCustomer.novalidate = true;
+
+    let divName = document.createElement("div");
+    divName.setAttribute("class", "col-md-4");
+    let txtName = document.createElement("input");
+    txtName.setAttribute("type", "text");
+    txtName.setAttribute("class", "form-control");
+    txtName.setAttribute("placeholder", "Name");
+    txtName.setAttribute("id", "updateName");
+    txtName.required = true;
+    divName.appendChild(txtName);
 }

@@ -33,11 +33,6 @@ class CustomerControllerTest {
     }
 
     @Test
-    void addCustomer() throws Exception {
-        mvc.perform(post("/customer/addCustomer.htm")).andExpect(status().isOk());
-    }
-
-    @Test
     void editCustomer() throws Exception {
         mvc.perform(post("/customer/editCust.htm")).andExpect(status().isOk());
     }
