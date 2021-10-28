@@ -130,3 +130,18 @@ function aTextArea(id, placeHolder, isRequired) {
     }
     return txtArea;
 }
+
+function setIdForChange() {
+    let checks = document.getElementsByName('checkField');
+    let rowInTable;
+    if (checks.checked) {
+        rowInTable = document.getElementById("myTable").rows[0];
+    } else {
+        for (let i = 0; i < checks.length; i++) {
+            if (checks[i].checked) {
+                rowInTable = document.getElementById("myTable").rows[i + 1];
+            }
+        }
+    }
+    document.getElementById("id").value = rowInTable.cells[0].childNodes[0].value;
+}

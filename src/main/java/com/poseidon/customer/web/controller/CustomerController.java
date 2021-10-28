@@ -12,6 +12,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -28,7 +30,7 @@ import java.util.Optional;
 //@RequestMapping("/customer")
 @SuppressWarnings("unused")
 public class CustomerController {
-    private static final Logger LOG = LoggerFactory.getLogger(CustomerController.class);
+    private static final Logger logger = LoggerFactory.getLogger(CustomerController.class);
     private static final String CUSTOMER_FORM = "customerForm";
     private static final String DB_ERROR_OCCURRED =
             " An error occurred while fetching data from database. !! ";
@@ -55,7 +57,7 @@ public class CustomerController {
         logIncoming(customerForm);
         List<CustomerVO> customerVOs = customerService.listAllCustomerDetails();
         if (!customerVOs.isEmpty()) {
-            customerVOs.forEach(customerVO -> LOG.info("customerVO is {}", customerVO));
+            customerVOs.forEach(customerVO -> logger.info("customerVO is {}", customerVO));
             customerForm.setCustomerVOs(customerVOs);
         }
         customerForm.setSearchCustomerVO(new CustomerVO());
@@ -65,9 +67,9 @@ public class CustomerController {
     }
 
     private void logIncoming(final CustomerForm customerForm) {
-        LOG.info("Inside list method of CustomerController ");
+        logger.info("Inside list method of CustomerController ");
         var sanitizedForm = CommonUtils.sanitizedString(customerForm.toString());
-        LOG.info("Form details are {}", sanitizedForm);
+        logger.info("Form details are {}", sanitizedForm);
     }
 
     /**
@@ -81,24 +83,38 @@ public class CustomerController {
         logIncomingEdit(customerForm);
         var customerVO = getCustomerVOFromId(customerForm.getId());
         if (customerVO.isPresent()) {
-            LOG.info(" customerVO details are {}", customerVO.get());
+            logger.info(" customerVO details are {}", customerVO.get());
             customerForm.setCurrentCustomerVO(customerVO.get());
         } else {
-            LOG.error(" No details found for current makeVO !!");
+            logger.error(" No details found for current makeVO !!");
         }
         customerForm.setLoggedInUser(customerForm.getLoggedInUser());
         customerForm.setLoggedInRole(customerForm.getLoggedInRole());
         return new ModelAndView("customer/EditCustomer", CUSTOMER_FORM, customerForm);
     }
 
+    @GetMapping("/customer/getForEdit.htm")
+    public @ResponseBody
+    String getForEdit(@ModelAttribute("id") final String id,
+                      final BindingResult result) {
+        var sanitizedId = CommonUtils.sanitizedString(id);
+        logger.info("getForEdit method of user controller : {}", sanitizedId);
+        String response = null;
+        var customerVO = getCustomerVOFromId(Long.valueOf(id));
+        if (customerVO.isPresent()) {
+            response = convertToJson(customerVO.get());
+        }
+        return response;
+    }
+
     private void logIncomingEdit(final CustomerForm customerForm) {
         var sanitizedForm = CommonUtils.sanitizedString(customerForm.toString());
-        LOG.info("EditCustomer method of CustomerController ");
-        LOG.info("customerForm is {}", sanitizedForm);
+        logger.info("EditCustomer method of CustomerController ");
+        logger.info("customerForm is {}", sanitizedForm);
         if (customerForm.getCurrentCustomerVO() != null) {
             var sanitizedCustomerVO = CommonUtils.sanitizedString(
                     customerForm.getCurrentCustomerVO().toString());
-            LOG.info("customerVO is {}", sanitizedCustomerVO);
+            logger.info("customerVO is {}", sanitizedCustomerVO);
         }
     }
 
@@ -110,9 +126,9 @@ public class CustomerController {
      */
     @PostMapping("/customer/editCustomer.htm")
     public ModelAndView editCustomerOnTransaction(final TransactionForm transactionForm) {
-        LOG.info("EditCustomer method of TransactionController ");
+        logger.info("EditCustomer method of TransactionController ");
         var sanitizedForm = CommonUtils.sanitizedString(transactionForm.toString());
-        LOG.info("TransactionForm values are {}", sanitizedForm);
+        logger.info("TransactionForm values are {}", sanitizedForm);
         var customerForm = new CustomerForm();
         if (transactionForm.getCustomerVO() != null && transactionForm.getCustomerVO().getCustomerId() > 0) {
             customerForm.setId(transactionForm.getCustomerVO().getCustomerId());
@@ -130,9 +146,9 @@ public class CustomerController {
      */
     @PostMapping("/customer/deleteCust.htm")
     public ModelAndView deleteCustomer(final CustomerForm customerForm) {
-        LOG.info("DeleteCustomer method of CustomerController ");
+        logger.info("DeleteCustomer method of CustomerController ");
         var sanitizedForm = CommonUtils.sanitizedString(customerForm.toString());
-        LOG.info(CUSTOMER_FORM_IS, sanitizedForm);
+        logger.info(CUSTOMER_FORM_IS, sanitizedForm);
         try {
             customerService.deleteCustomerFromId(customerForm.getId());
             customerForm.setStatusMessage("Deleted the customer details successfully");
@@ -140,7 +156,7 @@ public class CustomerController {
         } catch (Exception ex) {
             customerForm.setStatusMessage("Unable to delete the selected customer details due to a Data base error");
             customerForm.setStatusMessageType(ERROR);
-            LOG.error(ex.getLocalizedMessage());
+            logger.error(ex.getLocalizedMessage());
         }
         return list(customerForm);
     }
@@ -153,9 +169,9 @@ public class CustomerController {
      */
     @PostMapping("/customer/saveCustomer.htm")
     public ModelAndView saveCustomer(final CustomerForm customerForm) {
-        LOG.info("SaveCustomer method of CustomerController ");
+        logger.info("SaveCustomer method of CustomerController ");
         var sanitizedForm = CommonUtils.sanitizedString(customerForm.toString());
-        LOG.info(CUSTOMER_FORM_IS, sanitizedForm);
+        logger.info(CUSTOMER_FORM_IS, sanitizedForm);
         try {
             var customerVO = customerForm.getCurrentCustomerVO();
             customerVO.setCreatedBy(customerForm.getLoggedInUser());
@@ -169,7 +185,7 @@ public class CustomerController {
         } catch (Exception ex) {
             customerForm.setStatusMessage("Unable to add the new customer details due to a Data base error");
             customerForm.setStatusMessageType(ERROR);
-            LOG.error(ex.getLocalizedMessage());
+            logger.error(ex.getLocalizedMessage());
         }
         return list(customerForm);
     }
@@ -202,7 +218,7 @@ public class CustomerController {
             List<CustomerVO> customerVOs = customerService.listAllCustomerDetails();
             response = convertCustomerVosToString(customerVOs);
         } catch (Exception ex) {
-            LOG.error(ex.getMessage());
+            logger.error(ex.getMessage());
         }
         return response;
     }
@@ -236,9 +252,9 @@ public class CustomerController {
      */
     @PostMapping("/customer/updateCustomer.htm")
     public ModelAndView updateCustomer(final CustomerForm customerForm) {
-        LOG.info("UpdateCustomer method of CustomerController ");
+        logger.info("UpdateCustomer method of CustomerController ");
         var sanitizedForm = CommonUtils.sanitizedString(customerForm.toString());
-        LOG.info(CUSTOMER_FORM_IS, sanitizedForm);
+        logger.info(CUSTOMER_FORM_IS, sanitizedForm);
         try {
             var customerVO = customerForm.getCurrentCustomerVO();
             customerVO.setModifiedOn(OffsetDateTime.now(ZoneId.systemDefault()));
@@ -249,7 +265,7 @@ public class CustomerController {
         } catch (Exception ex) {
             customerForm.setStatusMessage("Unable to update the selected customer details due to a Data base error");
             customerForm.setStatusMessageType(ERROR);
-            LOG.error(ex.getLocalizedMessage());
+            logger.error(ex.getLocalizedMessage());
         }
         return list(customerForm);
     }
@@ -262,9 +278,9 @@ public class CustomerController {
      */
     @PostMapping("/customer/searchCustomer.htm")
     public ModelAndView searchCustomer(final CustomerForm customerForm) {
-        LOG.info("SearchCustomer method of CustomerController ");
+        logger.info("SearchCustomer method of CustomerController ");
         var sanitizedForm = CommonUtils.sanitizedString(customerForm.toString());
-        LOG.info(CUSTOMER_FORM_IS, sanitizedForm);
+        logger.info(CUSTOMER_FORM_IS, sanitizedForm);
         List<CustomerVO> customerVOs = null;
         try {
             customerVOs = customerService.searchCustomer(customerForm.getSearchCustomerVO());
@@ -273,10 +289,10 @@ public class CustomerController {
         } catch (Exception ex) {
             customerForm.setStatusMessage("Unable to fetch customer details due to a Data base error");
             customerForm.setStatusMessageType(ERROR);
-            LOG.error(ex.getLocalizedMessage());
+            logger.error(ex.getLocalizedMessage());
         }
         if (customerVOs != null) {
-            customerVOs.forEach(customerVO -> LOG.info(" customerVO is {}", customerVO));
+            customerVOs.forEach(customerVO -> logger.info(" customerVO is {}", customerVO));
             customerForm.setCustomerVOs(customerVOs);
         }
         customerForm.setLoggedInRole(customerForm.getLoggedInRole());
@@ -303,9 +319,9 @@ public class CustomerController {
             response = mapper.writeValueAsString(customerVO);
         } catch (IOException ex) {
             response = ERROR;
-            LOG.error(ex.getMessage());
+            logger.error(ex.getMessage());
         }
-        LOG.info(response);
+        logger.info(response);
         return response;
     }
 
@@ -315,9 +331,9 @@ public class CustomerController {
         try {
             response = mapper.writeValueAsString(customerVOS);
         } catch (IOException ex) {
-            LOG.error(ex.getMessage());
+            logger.error(ex.getMessage());
         }
-        LOG.info(response);
+        logger.info(response);
         return response;
     }
 

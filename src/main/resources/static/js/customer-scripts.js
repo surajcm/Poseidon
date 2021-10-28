@@ -287,6 +287,16 @@ function customerOnModal() {
     return formValidCustomer;
 }
 
+function editCustomerModal() {
+    let updateModal = document.getElementById("updateSmartCustomer");
+    updateModal.style.display = "block";
+    let detail = document.getElementById("editCustomerBody");
+    detail.innerHTML = "";
+
+    let formValidCustomer = customerOnModal();
+    detail.appendChild(formValidCustomer);
+}
+
 function saveFromModal() {
     let modalCustomerName = document.getElementById("modalCustomerName");
     let modalAddress = document.getElementById("modalAddress");
@@ -415,9 +425,9 @@ function editSmartCustomer() {
     console.log("Inside edit smart customer");
     let rowCheck = validateEditCustomerSelection();
     if (rowCheck) {
-        //editCustomerModal();
-        //setIdForChange();
-        //getUserForEdit();
+        editCustomerModal();
+        setIdForChange();
+        getCustomerForEdit();
     }
 }
 
@@ -440,23 +450,32 @@ function validateEditCustomerSelection() {
     }
 }
 
-function editCustomerModal() {
-    let updateModal = document.getElementById("updateSmartCustomer");
-    updateModal.style.display = "block";
-    let detail = document.getElementById("editCustomerBody");
-    detail.innerHTML = "";
+function getCustomerForEdit() {
+    let id = document.getElementById("id").value;
+    let xhr = new XMLHttpRequest();
+    xhr.open('GET', "/customer/getForEdit.htm" + "?id=" + id, true);
+    let token = document.querySelector("meta[name='_csrf']").content;
+    let header = document.querySelector("meta[name='_csrf_header']").content;
+    xhr.setRequestHeader(header, token);
+    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    xhr.onload = function () {
+        if (xhr.status === 200) {
+            if (xhr.responseText != null) {
+                console.log(xhr.responseText);
+                populateDataForEdit(xhr.responseText);
+            }
+        } else if (xhr.status !== 200) {
+            console.log('Request failed.  Returned status of ' + xhr.status);
+            showEditError();
+        }
+    };
+    xhr.send();
+}
 
-    let formValidCustomer = document.createElement("form");
-    formValidCustomer.setAttribute("class", "row g-3 needs-validation");
-    formValidCustomer.novalidate = true;
+function populateDataForEdit(textReturned) {
+    console.log("triggering populateDataForEdit");
+}
 
-    let divName = document.createElement("div");
-    divName.setAttribute("class", "col-md-4");
-    let txtName = document.createElement("input");
-    txtName.setAttribute("type", "text");
-    txtName.setAttribute("class", "form-control");
-    txtName.setAttribute("placeholder", "Name");
-    txtName.setAttribute("id", "updateName");
-    txtName.required = true;
-    divName.appendChild(txtName);
+function showEditError() {
+    console.log("error - no data");
 }
