@@ -473,9 +473,82 @@ function getCustomerForEdit() {
 }
 
 function populateDataForEdit(textReturned) {
-    console.log("triggering populateDataForEdit");
+    let customerInfo = JSON.parse(textReturned);
+    document.getElementById("modalCustomerName").value = customerInfo.customerName;
+    document.getElementById("modalAddress").value = customerInfo.address;
+    document.getElementById("modalPhone").value = customerInfo.phoneNo;
+    document.getElementById("modalMobile").value = customerInfo.mobile;
+    document.getElementById("modalEmail").value = customerInfo.email;
+    document.getElementById("modalContact").value = customerInfo.contactPerson;
+    document.getElementById("modalContactMobile").value = customerInfo.contactMobile;
+    document.getElementById("modalNotes").value = customerInfo.notes;
 }
 
 function showEditError() {
-    console.log("error - no data");
+    let detail = document.getElementById("editCustomerBody");
+    detail.innerHTML = "";
+    let updateModal = document.getElementById("updateSmartCustomer");
+    updateModal.style.display = "none";
+    let divStatus = document.createElement("div");
+    divStatus.setAttribute("class", "pop-status");
+    let imgSuccess = document.createElement("img");
+
+    divStatus.appendChild(imgSuccess);
+    let statusMessage = document.createElement("h3");
+    imgSuccess.setAttribute("src", "/img/cross.svg");
+    statusMessage.innerHTML = "Failed to populate data !!";
+    divStatus.appendChild(statusMessage);
+    detail.appendChild(divStatus);
+}
+
+function updateFromModal() {
+    let modalCustomerName = document.getElementById("modalCustomerName").value;
+    let modalAddress = document.getElementById("modalAddress").value;
+    let modalMobile = document.getElementById("modalMobile").value;
+    let forms = document.getElementsByClassName('needs-validation');
+    let allFieldsAreValid = true;
+
+    if (forms[0].checkValidity() === false) {
+        allFieldsAreValid = false;
+        if (modalCustomerName.length === 0) {
+            document.getElementById("modalCustomerName").setAttribute("class", "form-control is-invalid");
+        } else {
+            document.getElementById("modalCustomerName").setAttribute("class", "form-control was-validated");
+        }
+        if (modalAddress.length === 0) {
+            document.getElementById("modalAddress").setAttribute("class", "form-control is-invalid");
+        } else {
+            document.getElementById("modalAddress").setAttribute("class", "form-control was-validated");
+        }
+        if (modalMobile.length === 0) {
+            document.getElementById("modalMobile").setAttribute("class", "form-control is-invalid");
+        } else {
+            document.getElementById("modalMobile").setAttribute("class", "form-control was-validated");
+        }
+    }
+    if (allFieldsAreValid) {
+        //callAjaxUpdate(updateName, updateEmail, updateRole);
+    }
+}
+
+function callAjaxUpdate(modalCustomerName, modalAddress, modalMobile) {
+    let id = document.getElementById("id").value;
+    let xhr = new XMLHttpRequest();
+    xhr.open('PUT', "/customer/updateCustomerAjax.htm", true);
+    let token = document.querySelector("meta[name='_csrf']").content;
+    let header = document.querySelector("meta[name='_csrf_header']").content;
+    xhr.setRequestHeader(header, token);
+    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    xhr.onload = function () {
+        if (xhr.status === 200) {
+            if (xhr.responseText != null) {
+                //rewriteTable(xhr.responseText);
+                //showUpdateStatus(true);
+            }
+        } else if (xhr.status !== 200) {
+            console.log('Request failed.  Returned status of ' + xhr.status);
+            //showUpdateStatus(false);
+        }
+    };
+    xhr.send("id=" + id + "&name=" + updateName + "&email=" + updateEmail + "&role=" + updateRole);
 }
