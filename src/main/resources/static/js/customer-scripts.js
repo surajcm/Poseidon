@@ -504,7 +504,13 @@ function showEditError() {
 function updateFromModal() {
     let modalCustomerName = document.getElementById("modalCustomerName").value;
     let modalAddress = document.getElementById("modalAddress").value;
+    let modalPhone = document.getElementById("modalPhone").value;
     let modalMobile = document.getElementById("modalMobile").value;
+    let modalEmail = document.getElementById("modalEmail").value;
+    let modalContact = document.getElementById("modalContact").value;
+    let modalContactMobile = document.getElementById("modalContactMobile").value;
+    let modalNotes = document.getElementById("modalNotes").value;
+
     let forms = document.getElementsByClassName('needs-validation');
     let allFieldsAreValid = true;
 
@@ -527,11 +533,14 @@ function updateFromModal() {
         }
     }
     if (allFieldsAreValid) {
-        //callAjaxUpdate(updateName, updateEmail, updateRole);
+        console.log("all fields are valid");
+        callAjaxUpdate(modalCustomerName, modalAddress, modalPhone,
+         modalMobile, modalEmail, modalContact, modalContactMobile, modalNotes);
     }
 }
 
-function callAjaxUpdate(modalCustomerName, modalAddress, modalMobile) {
+function callAjaxUpdate(modalCustomerName, modalAddress, modalPhone,
+                        modalMobile, modalEmail, modalContact, modalContactMobile, modalNotes) {
     let id = document.getElementById("id").value;
     let xhr = new XMLHttpRequest();
     xhr.open('PUT', "/customer/updateCustomerAjax.htm", true);
@@ -542,6 +551,7 @@ function callAjaxUpdate(modalCustomerName, modalAddress, modalMobile) {
     xhr.onload = function () {
         if (xhr.status === 200) {
             if (xhr.responseText != null) {
+                console.log(xhr.responseText);
                 //rewriteTable(xhr.responseText);
                 //showUpdateStatus(true);
             }
@@ -550,5 +560,14 @@ function callAjaxUpdate(modalCustomerName, modalAddress, modalMobile) {
             //showUpdateStatus(false);
         }
     };
-    xhr.send("id=" + id + "&name=" + updateName + "&email=" + updateEmail + "&role=" + updateRole);
+    xhr.send("id=" +
+        id +
+        "&modalCustomerName=" + modalCustomerName +
+        "&modalAddress=" + modalAddress +
+        "&modalPhone=" + modalPhone +
+        "&modalMobile=" + modalMobile +
+        "&modalEmail=" + modalEmail +
+        "&modalContact=" + modalContact +
+        "&modalContactMobile=" + modalContactMobile +
+        "&modalNotes=" + modalNotes);
 }

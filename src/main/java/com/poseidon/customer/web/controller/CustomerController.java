@@ -16,6 +16,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -200,7 +201,6 @@ public class CustomerController {
                             @ModelAttribute("modalContact") final String modalContact,
                             @ModelAttribute("modalContactMobile") final String modalContactMobile,
                             @ModelAttribute("modalNotes") final String modalNotes) {
-        var response = "";
         var customerVO = new CustomerVO();
         customerVO.setCustomerName(modalCustomerName);
         customerVO.setAddress(modalAddress);
@@ -215,12 +215,15 @@ public class CustomerController {
         customerVO.setModifiedBy(userName);
         try {
             customerService.saveCustomer(customerVO);
-            List<CustomerVO> customerVOs = customerService.listAllCustomerDetails();
-            response = convertCustomerVosToString(customerVOs);
         } catch (Exception ex) {
             logger.error(ex.getMessage());
         }
-        return response;
+        return listCustomersAsString();
+    }
+
+    private String listCustomersAsString() {
+        List<CustomerVO> customerVOs = customerService.listAllCustomerDetails();
+        return convertCustomerVosToString(customerVOs);
     }
 
     public String findLoggedInUsername() {
@@ -242,6 +245,45 @@ public class CustomerController {
         customerAdditionalDetailsVO.setCreatedBy(customerVO.getCreatedBy());
         customerAdditionalDetailsVO.setModifiedBy(customerVO.getCreatedBy());
         return customerAdditionalDetailsVO;
+    }
+
+    @PutMapping("/customer/updateCustomerAjax.htm")
+    public @ResponseBody
+    String updateCustomerAjax(@ModelAttribute("id") final String id,
+                          @ModelAttribute("modalCustomerName") final String modalCustomerName,
+                          @ModelAttribute("modalAddress") final String modalAddress,
+                          @ModelAttribute("modalPhone") final String modalPhone,
+                          @ModelAttribute("modalMobile") final String modalMobile,
+                          @ModelAttribute("modalEmail") final String modalEmail,
+                          @ModelAttribute("modalContact") final String modalContact,
+                          @ModelAttribute("modalContactMobile") final String modalContactMobile,
+                          @ModelAttribute("modalNotes") final String modalNotes,
+                          final BindingResult result) {
+        var sanitizedId = CommonUtils.sanitizedString(id);
+        var sanitizedName = CommonUtils.sanitizedString(modalCustomerName);
+        var sanitizedAddress = CommonUtils.sanitizedString(modalAddress);
+        var sanitizedEmail = CommonUtils.sanitizedString(modalEmail);
+        logger.info("updateCustomerAjax method of user controller with " +
+                        "id {}, name {}, email {}, address {}",
+                sanitizedId, sanitizedName, sanitizedEmail, sanitizedAddress);
+        try {
+            var customerVO = getCustomerVOFromId(Long.valueOf(id));
+            if (customerVO.isPresent()) {
+                var updatedCustomer = customerVO.get();
+                updatedCustomer.setCustomerName(modalCustomerName);
+                updatedCustomer.setAddress(modalAddress);
+                updatedCustomer.setPhoneNo(modalPhone);
+                updatedCustomer.setMobile(modalMobile);
+                updatedCustomer.setEmail(modalEmail);
+                updatedCustomer.setContactPerson(modalContact);
+                updatedCustomer.setContactMobile(modalContactMobile);
+                updatedCustomer.setNotes(modalNotes);
+                customerService.updateCustomer(updatedCustomer);
+            }
+        } catch (Exception ex) {
+            logger.error(ex.getLocalizedMessage());
+        }
+        return listCustomersAsString();
     }
 
     /**
