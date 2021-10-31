@@ -21,6 +21,7 @@ function selectedRowCount() {
     }
     return count;
 }
+
 function validateSelection() {
     let check = 'false';
     let count = selectedRowCount();
@@ -59,21 +60,6 @@ function validateEditModalSelection() {
     }
 }
 
-function setIdForChange() {
-    let checks = document.getElementsByName('checkField');
-    let userRow;
-    if (checks.checked) {
-        userRow = document.getElementById("myTable").rows[0];
-    } else {
-        for (let i = 0; i < checks.length; i++) {
-            if (checks[i].checked) {
-                userRow = document.getElementById("myTable").rows[i + 1];
-            }
-        }
-    }
-    document.getElementById("id").value = userRow.cells[0].childNodes[0].value;
-}
-
 function deleteUser() {
     let rowCheck = validateSelection();
     if (rowCheck) {
@@ -100,17 +86,6 @@ function clearOut() {
     document.getElementById("name").value = "";
     document.getElementById("email").value = "";
     document.getElementById("role").value = document.getElementById('role').options[0].value;
-}
-
-//preventing multiple checks
-function checkCall(e) {
-    let min = e.value;
-    let checks = document.getElementsByName('checkField');
-    for (let i = 0; i < checks.length; i++) {
-        if (checks[i].value !== min) {
-            checks[i].checked = false;
-        }
-    }
 }
 
 function rewriteTable(textReturned) {

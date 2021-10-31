@@ -14,6 +14,17 @@ function tableHeader(text) {
     return th1;
 }
 
+//preventing multiple checks
+function checkCall(e) {
+    const min = e.value;
+    const checks = document.getElementsByName('checkField');
+    for (let i = 0; i < checks.length; i++) {
+        if (checks[i].value !== min) {
+            checks[i].checked = false;
+        }
+    }
+}
+
 function checkBoxInaRow(id) {
     const inCheck = document.createElement("input");
     inCheck.setAttribute("type", "checkbox");
@@ -36,7 +47,6 @@ function sideHeader(id) {
     td1.appendChild(inCheck);
     return td1;
 }
-
 
 function tableBodyCreation(textReturned) {
     const elementList = JSON.parse(textReturned);

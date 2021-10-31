@@ -103,17 +103,6 @@ function deleteRow() {
     }
 }
 
-//preventing multiple checks
-function checkCall(e) {
-    const min = e.value;
-    const checks = document.getElementsByName('checkField');
-    for (let i = 0; i < checks.length; i++) {
-        if (checks[i].value !== min) {
-            checks[i].checked = false;
-        }
-    }
-}
-
 function viewCustomer() {
     let rowCheck = validateSelection();
     if (rowCheck) {
@@ -552,12 +541,15 @@ function callAjaxUpdate(modalCustomerName, modalAddress, modalPhone,
         if (xhr.status === 200) {
             if (xhr.responseText != null) {
                 console.log(xhr.responseText);
-                //rewriteTable(xhr.responseText);
-                //showUpdateStatus(true);
+                rewriteTable(xhr.responseText);
+                showUpdateStatus(true);
+            } else {
+                console.log("Empty response");
+                showUpdateStatus(false);
             }
         } else if (xhr.status !== 200) {
             console.log('Request failed.  Returned status of ' + xhr.status);
-            //showUpdateStatus(false);
+            showUpdateStatus(false);
         }
     };
     xhr.send("id=" +
@@ -570,4 +562,12 @@ function callAjaxUpdate(modalCustomerName, modalAddress, modalPhone,
         "&modalContact=" + modalContact +
         "&modalContactMobile=" + modalContactMobile +
         "&modalNotes=" + modalNotes);
+}
+
+function showUpdateStatus(status) {
+    let detail = document.getElementById("editCustomerBody");
+    detail.innerHTML = "";
+    let updateSmartCustomer = document.getElementById("updateSmartCustomer");
+    updateSmartCustomer.style.display = "none";
+    detail.appendChild(statusAsDiv(status));
 }
