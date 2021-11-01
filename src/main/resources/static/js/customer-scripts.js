@@ -20,43 +20,6 @@ function clearOut() {
     document.getElementById('startsWith').checked = false;
 }
 
-function validateSelection() {
-    let check = 'false';
-    let count = selectedRowCount();
-    if (count > 0) {
-        check = 'true';
-    }
-    if (check === 'true') {
-        if (count === 1) {
-            return true;
-        } else {
-            alert("Only one row can be edited at a time, please select one row ");
-            return false;
-        }
-    } else {
-        alert("No rows selected, please select one row ");
-        return false;
-    }
-}
-
-function selectedRowCount() {
-    let checks = document.getElementsByName('checkField');
-    let count = 0;
-    if (checks) {
-        //if total number of rows is one
-        if (checks.checked) {
-            count = 1;
-        } else {
-            for (let i = 0; i < checks.length; i++) {
-                if (checks[i].checked) {
-                    count = count + 1;
-                }
-            }
-        }
-    }
-    return count;
-}
-
 function selectedRow() {
     let userRow;
     let checks = document.getElementsByName('checkField');
@@ -70,20 +33,6 @@ function selectedRow() {
         }
     }
     return userRow;
-}
-
-function editCustomer() {
-    let rowCheck = validateSelection();
-    if (rowCheck) {
-        editRow();
-    }
-}
-
-function editRow() {
-    let userRow = selectedRow();
-    document.getElementById("id").value = userRow.cells[0].childNodes[0].value;
-    document.forms[0].action = "editCust.htm";
-    document.forms[0].submit();
 }
 
 function deleteCustomer() {
@@ -367,7 +316,7 @@ function ajaxSaveCustomer(modalCustomerName,
 }
 
 function rewriteTable(textReturned) {
-    console.log("response received :" + textReturned);
+    //console.log("response received :" + textReturned);
     document.getElementById('myTable').innerHTML = "";
     const myTable = document.getElementById("myTable");
     myTable.setAttribute("class", "table table-bordered table-striped table-hover caption-top");

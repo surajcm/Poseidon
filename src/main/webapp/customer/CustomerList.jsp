@@ -118,9 +118,8 @@
                         onclick="addSmartCustomer();">Add New Customer</button>
                     </div>
                     <div class="col-md-3">
-                        <input type="button" class="btn btn-primary" value="Edit Customer" onclick="editCustomer()"/>
                         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editCustomer"
-                            onclick="editSmartCustomer();">Edit smart customer</button>
+                            onclick="editSmartCustomer();">Edit customer</button>
                     </div>
                     <div class="col-md-3">
                         <input type="button" class="btn btn-primary" value="View Customer" data-bs-toggle="modal" data-bs-target="#customerDetail" onclick="viewCustomer()"/>

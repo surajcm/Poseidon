@@ -1,20 +1,5 @@
 
-function tableHead() {
-    const thead = document.createElement("thead");
-    thead.setAttribute("class", "table-dark");
-    const tr1 = tableHeaderRow();
-    thead.appendChild(tr1);
-    return thead;
-}
 
-function tableHeader(text) {
-    const th1 = document.createElement("th");
-    th1.innerHTML = text;
-    th1.setAttribute("scope", "col");
-    return th1;
-}
-
-//preventing multiple checks
 function checkCall(e) {
     const min = e.value;
     const checks = document.getElementsByName('checkField');
@@ -23,6 +8,57 @@ function checkCall(e) {
             checks[i].checked = false;
         }
     }
+}
+
+function selectedRowCount() {
+    let checks = document.getElementsByName('checkField');
+    let count = 0;
+    if (checks) {
+        //if total number of rows is one
+        if (checks.checked) {
+            count = 1;
+        } else {
+            for (let i = 0; i < checks.length; i++) {
+                if (checks[i].checked) {
+                    count = count + 1;
+                }
+            }
+        }
+    }
+    return count;
+}
+
+function validateSelection() {
+    let check = 'false';
+    let count = selectedRowCount();
+    if (count > 0) {
+        check = 'true';
+    }
+    if (check === 'true') {
+        if (count === 1) {
+            return true;
+        } else {
+            alert("Only one row can be selected at a time, please select one row ");
+            return false;
+        }
+    } else {
+        alert("No rows selected, please select one row ");
+        return false;
+    }
+}
+
+function tableHead() {
+    const thead = document.createElement("thead");
+    thead.setAttribute("class", "table-dark");
+    thead.appendChild(tableHeaderRow());
+    return thead;
+}
+
+function tableHeader(text) {
+    const th1 = document.createElement("th");
+    th1.innerHTML = text;
+    th1.setAttribute("scope", "col");
+    return th1;
 }
 
 function checkBoxInaRow(id) {

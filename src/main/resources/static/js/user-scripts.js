@@ -4,43 +4,6 @@ function hideAlerts() {
     document.getElementById('user').text = "User <span class='sr-only'>User</span>";
 }
 
-function selectedRowCount() {
-    let checks = document.getElementsByName('checkField');
-    let count = 0;
-    if (checks) {
-        //if total number of rows is one
-        if (checks.checked) {
-            count = 1;
-        } else {
-            for (let i = 0; i < checks.length; i++) {
-                if (checks[i].checked) {
-                    count = count + 1;
-                }
-            }
-        }
-    }
-    return count;
-}
-
-function validateSelection() {
-    let check = 'false';
-    let count = selectedRowCount();
-    if (count > 0) {
-        check = 'true';
-    }
-    if (check === 'true') {
-        if (count === 1) {
-            return true;
-        } else {
-            alert("Only one row can be selected at a time, please select one row ");
-            return false;
-        }
-    } else {
-        alert("No rows selected, please select one row ");
-        return false;
-    }
-}
-
 function validateEditModalSelection() {
     let detail = document.getElementById("userEditModalBody");
     detail.innerHTML = "";
@@ -67,7 +30,6 @@ function deleteUser() {
     }
 }
 
-//code to delete a user
 function deleteRow() {
     let answer = confirm("Are you sure you wanted to delete the user ");
     if (answer) {
@@ -92,45 +54,15 @@ function rewriteTable(textReturned) {
     document.getElementById('myTable').innerHTML = "";
     let myTable = document.getElementById("myTable");
     myTable.setAttribute("class", "table table-bordered table-striped table-hover caption-top");
-    let cap = document.createElement("caption");
-    cap.innerHTML="User Details";
-    myTable.appendChild(cap);
-    let thead = document.createElement("thead");
-    thead.setAttribute("class", "table-dark");
-    let tr1 = document.createElement("tr");
-    let th1 = document.createElement("th");
-    th1.innerHTML = "id";
-    th1.setAttribute("scope", "col");
-    tr1.appendChild(th1);
-    let th2 = document.createElement("th");
-    th2.innerHTML = "Name";
-    th2.setAttribute("scope", "col");
-    tr1.appendChild(th2);
-    let th3 = document.createElement("th");
-    th3.innerHTML = "email";
-    th3.setAttribute("scope", "col");
-    tr1.appendChild(th3);
-    let th4 = document.createElement("th");
-    th4.innerHTML = "Role";
-    th4.setAttribute("scope", "col");
-    tr1.appendChild(th4);
-
-    thead.appendChild(tr1);
+    myTable.appendChild(setCaption("User Details"));
+    const thead = tableHead();
     myTable.appendChild(thead);
     let userList = JSON.parse(textReturned);
     let tbody = document.createElement("tbody");
     for (let i = 0; i < userList.length; i++) {
         let singleUser = userList[i];
         let trx = document.createElement("tr");
-        let td1 = document.createElement("th");
-        td1.setAttribute("scope", "row");
-        let inCheck = document.createElement("input");
-        inCheck.setAttribute("type", "checkbox");
-        inCheck.setAttribute("name", "checkField");
-        inCheck.setAttribute("onclick", "javascript:checkCall(this)");
-        inCheck.setAttribute("value", singleUser.id);
-        td1.appendChild(inCheck);
-        trx.appendChild(td1);
+        trx.appendChild(sideHeader(singleUser.id));
         let td2 = document.createElement("td");
         td2.innerHTML = singleUser.name;
         trx.appendChild(td2);
@@ -143,6 +75,16 @@ function rewriteTable(textReturned) {
         tbody.appendChild(trx);
     }
     myTable.appendChild(tbody);
+}
+
+function tableHeaderRow() {
+    let tr1 = document.createElement("tr");
+    const th1 = tableHeader("id");
+    tr1.appendChild(th1);
+    tr1.appendChild(tableHeader("Name"));
+    tr1.appendChild(tableHeader("email"));
+    tr1.appendChild(tableHeader("Role"));
+    return tr1;
 }
 
 function addNewUser() {
