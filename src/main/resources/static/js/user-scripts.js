@@ -57,24 +57,16 @@ function rewriteTable(textReturned) {
     myTable.appendChild(setCaption("User Details"));
     const thead = tableHead();
     myTable.appendChild(thead);
-    let userList = JSON.parse(textReturned);
-    let tbody = document.createElement("tbody");
-    for (let i = 0; i < userList.length; i++) {
-        let singleUser = userList[i];
-        let trx = document.createElement("tr");
-        trx.appendChild(sideHeader(singleUser.id));
-        let td2 = document.createElement("td");
-        td2.innerHTML = singleUser.name;
-        trx.appendChild(td2);
-        let td3 = document.createElement("td");
-        td3.innerHTML = singleUser.email;
-        trx.appendChild(td3);
-        let td4 = document.createElement("td");
-        td4.innerHTML = singleUser.role;
-        trx.appendChild(td4);
-        tbody.appendChild(trx);
-    }
-    myTable.appendChild(tbody);
+    myTable.appendChild(tableBodyCreation(textReturned));
+}
+
+function singleRowInTheTable(singleUser) {
+    let trx = document.createElement("tr");
+    trx.appendChild(sideHeader(singleUser.id));
+    trx.appendChild(tdElement(singleUser.name));
+    trx.appendChild(tdElement(singleUser.email));
+    trx.appendChild(tdElement(singleUser.role));
+    return trx;
 }
 
 function tableHeaderRow() {
@@ -88,25 +80,24 @@ function tableHeaderRow() {
 }
 
 function addNewUser() {
-    console.log("adding new user");
     let saveModal = document.getElementById("saveModal");
     saveModal.style.display = "block";
     let detail = document.getElementById("userModalBody");
     detail.innerHTML = "";
+    detail.appendChild(userOnModal());
+}
 
+function userOnModal() {
     let formValidUser = document.createElement("form");
     formValidUser.setAttribute("class", "row g-3 needs-validation");
     formValidUser.novalidate = true;
 
     let divName = document.createElement("div");
     divName.setAttribute("class", "col-md-4");
-    let txtName = document.createElement("input");
-    txtName.setAttribute("type", "text");
-    txtName.setAttribute("class", "form-control");
-    txtName.setAttribute("placeholder", "Name");
-    txtName.setAttribute("id", "addName");
-    txtName.required = true;
+
+    let txtName = aTextBox("addName", "Name", true);
     divName.appendChild(txtName);
+
     let tt1 = document.createElement("div");
     tt1.setAttribute("class", "invalid-tooltip");
     tt1.innerHTML = "Please provide a valid name.";
@@ -114,12 +105,7 @@ function addNewUser() {
 
     let divEmail = document.createElement("div");
     divEmail.setAttribute("class", "col-md-4");
-    let txtEmail = document.createElement("input");
-    txtEmail.setAttribute("type", "text");
-    txtEmail.setAttribute("class", "form-control");
-    txtEmail.setAttribute("placeholder", "email");
-    txtEmail.setAttribute("id", "addEmail");
-    txtEmail.required = true;
+    let txtEmail = aTextBox("addEmail", "email", true);
     divEmail.appendChild(txtEmail);
     let tt2 = document.createElement("div");
     tt2.setAttribute("class", "invalid-tooltip");
@@ -128,6 +114,15 @@ function addNewUser() {
 
     let divRole = document.createElement("div");
     divRole.setAttribute("class", "col-md-4");
+    divRole.appendChild(selectRole());
+
+    formValidUser.appendChild(divName);
+    formValidUser.appendChild(divEmail);
+    formValidUser.appendChild(divRole);
+    return formValidUser;
+}
+
+function selectRole() {
     let selectRole = document.createElement("select");
     selectRole.setAttribute("class", "form-select");
     selectRole.setAttribute("id", "addRole");
@@ -139,12 +134,7 @@ function addNewUser() {
     guestOption.value = 'GUEST';
     selectRole.appendChild(adminOption);
     selectRole.appendChild(guestOption);
-    divRole.appendChild(selectRole);
-
-    formValidUser.appendChild(divName);
-    formValidUser.appendChild(divEmail);
-    formValidUser.appendChild(divRole);
-    detail.appendChild(formValidUser);
+    return selectRole;
 }
 
 function saveFromModal() {
@@ -199,21 +189,7 @@ function showStatus(status) {
     detail.innerHTML = "";
     let saveModal = document.getElementById("saveModal");
     saveModal.style.display = "none";
-    let divStatus = document.createElement("div");
-    divStatus.setAttribute("class", "pop-status");
-    let imgSuccess = document.createElement("img");
-
-    divStatus.appendChild(imgSuccess);
-    let statusMessage = document.createElement("h3");
-    if (status) {
-        imgSuccess.setAttribute("src", "/img/tick.png");
-        statusMessage.innerHTML = "Successfully added a new user !!";
-    } else {
-        imgSuccess.setAttribute("src", "/img/cross.svg");
-        statusMessage.innerHTML = "Failed to save !!";
-    }
-    divStatus.appendChild(statusMessage);
-    detail.appendChild(divStatus);
+    detail.appendChild(statusAsDiv(status));
 }
 
 function resetUser() {
@@ -260,33 +236,35 @@ function editUserModal() {
     updateModal.style.display = "block";
     let detail = document.getElementById("userEditModalBody");
     detail.innerHTML = "";
+    detail.appendChild(formValidUserForEdit());
+}
 
+function formValidUserForEdit() {
     let formValidUser = document.createElement("form");
     formValidUser.setAttribute("class", "row g-3 needs-validation");
     formValidUser.novalidate = true;
 
     let divName = document.createElement("div");
     divName.setAttribute("class", "col-md-4");
-    let txtName = document.createElement("input");
-    txtName.setAttribute("type", "text");
-    txtName.setAttribute("class", "form-control");
-    txtName.setAttribute("placeholder", "Name");
-    txtName.setAttribute("id", "updateName");
-    txtName.required = true;
+    let txtName = aTextBox("updateName", "Name", true);
     divName.appendChild(txtName);
+
 
     let divEmail = document.createElement("div");
     divEmail.setAttribute("class", "col-md-4");
-    let txtEmail = document.createElement("input");
-    txtEmail.setAttribute("type", "text");
-    txtEmail.setAttribute("class", "form-control");
-    txtEmail.setAttribute("placeholder", "email");
-    txtEmail.setAttribute("id", "updateEmail");
-    txtEmail.required = true;
+    let txtEmail = aTextBox("updateEmail", "email", true);
     divEmail.appendChild(txtEmail);
 
     let divRole = document.createElement("div");
     divRole.setAttribute("class", "col-md-4");
+    divRole.appendChild(selectRoleForUpdate());
+    formValidUser.appendChild(divName);
+    formValidUser.appendChild(divEmail);
+    formValidUser.appendChild(divRole);
+    return formValidUser;
+}
+
+function selectRoleForUpdate() {
     let selectRole = document.createElement("select");
     selectRole.setAttribute("class", "form-select");
     selectRole.setAttribute("id", "updateRole");
@@ -298,12 +276,7 @@ function editUserModal() {
     guestOption.value = 'GUEST';
     selectRole.appendChild(adminOption);
     selectRole.appendChild(guestOption);
-    divRole.appendChild(selectRole);
-
-    formValidUser.appendChild(divName);
-    formValidUser.appendChild(divEmail);
-    formValidUser.appendChild(divRole);
-    detail.appendChild(formValidUser);
+    return selectRole;
 }
 
 function getUserForEdit() {
@@ -405,19 +378,5 @@ function showUpdateStatus(status) {
     detail.innerHTML = "";
     let updateModal = document.getElementById("updateModal");
     updateModal.style.display = "none";
-    let divStatus = document.createElement("div");
-    divStatus.setAttribute("class", "pop-status");
-    let imgSuccess = document.createElement("img");
-
-    divStatus.appendChild(imgSuccess);
-    let statusMessage = document.createElement("h3");
-    if (status) {
-        imgSuccess.setAttribute("src", "/img/tick.png");
-        statusMessage.innerHTML = "Successfully updated the user !!";
-    } else {
-        imgSuccess.setAttribute("src", "/img/cross.svg");
-        statusMessage.innerHTML = "Failed to update !!";
-    }
-    divStatus.appendChild(statusMessage);
-    detail.appendChild(divStatus);
+    detail.appendChild(statusAsDiv(status));
 }

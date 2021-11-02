@@ -70,24 +70,6 @@ function validateEditMakeSelection() {
     }
 }
 
-function selectedRowCount() {
-    let checks = document.getElementsByName('checkField');
-    let count = 0;
-    if (checks) {
-        //if total number of rows is one
-        if (checks.checked) {
-            count = 1;
-        } else {
-            for (let i = 0; i < checks.length; i++) {
-                if (checks[i].checked) {
-                    count = count + 1;
-                }
-            }
-        }
-    }
-    return count;
-}
-
 //code to delete
 function deleteRow() {
     const answer = confirm("Are you sure you wanted to delete the make ");
@@ -112,17 +94,6 @@ function selectedRow() {
         }
     }
     return userRow;
-}
-
-//preventing multiple checks
-function checkCall(e) {
-    const min = e.value;
-    const checks = document.getElementsByName('checkField');
-    for (let i = 0; i < checks.length; i++) {
-        if (checks[i].value !== min) {
-            checks[i].checked = false;
-        }
-    }
 }
 
 function rewriteTable(textReturned) {
@@ -287,22 +258,6 @@ function editMake() {
         editMakeModal();
         setIdForChange();
         getMakeForEdit();
-    }
-}
-
-function setIdForChange() {
-    let userRow;
-    let checks = document.getElementsByName('checkField');
-    if (checks.checked) {
-        userRow = document.getElementById("myTable").rows[0];
-        document.getElementById("id").value = userRow.cells[0].childNodes[0].value;
-    } else {
-        for (let i = 0; i < checks.length; i++) {
-            if (checks[i].checked) {
-                userRow = document.getElementById("myTable").rows[i + 1];
-            }
-        }
-        document.getElementById("id").value = userRow.cells[0].childNodes[0].value;
     }
 }
 

@@ -15,6 +15,7 @@
     <link rel="stylesheet" href="/css/bootstrap-5.min.css"  type="text/css" />
     <link rel="stylesheet" href="/css/custom.css" type="text/css" />
     <title>Invoice List</title>
+    <script type="text/javascript" src="/js/common-scripts.js"></script>
     <script type="text/javascript" src="/js/invoice-scripts.js"></script>
     <script type="text/javascript" src="/js/navbar-scripts.js"></script>
 </head>
@@ -134,6 +135,8 @@
                         <button type="button" class="btn btn-primary" onclick="addInvoice()">
                         Add New Invoice
                         </button>
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#newInvoiceModal"
+                        onclick="addSmartInvoice();">Add Smart Invoice</button>
                     </div>
                     <div class="col-md-4">
                         <button type="button" class="btn btn-primary" onclick="editMe()">
@@ -144,6 +147,22 @@
                         <button type="button" class="btn btn-primary" onclick="deleteInvoice()">
                             Delete Invoice
                         </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="newInvoiceModal" class="modal fade" tabindex="-1" aria-labelledby="newInvoiceModal" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Add new Invoice</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div id="invoiceModalBody" class="modal-body">
+                        <p>Lets add some invoices....</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" id="saveModal" class="btn btn-primary" onclick="saveFromModal();">Save</button>
                     </div>
                 </div>
             </div>

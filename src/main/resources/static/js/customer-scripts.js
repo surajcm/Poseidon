@@ -150,8 +150,7 @@ function addSmartCustomer() {
     saveCustomer.style.display = "block";
     let detail = document.getElementById("newCustomerBody");
     detail.innerHTML = "";
-    let formValidCustomer = customerOnModal();
-    detail.appendChild(formValidCustomer);
+    detail.appendChild(customerOnModal());
 }
 
 function customerOnModal() {

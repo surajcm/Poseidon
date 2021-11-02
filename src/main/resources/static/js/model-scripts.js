@@ -68,24 +68,6 @@ function validateSelection() {
     }
 }
 
-function selectedRowCount() {
-    let checks = document.getElementsByName('checkField');
-    let count = 0;
-    if (checks) {
-        //if total number of rows is one
-        if (checks.checked) {
-            count = 1;
-        } else {
-            for (let i = 0; i < checks.length; i++) {
-                if (checks[i].checked) {
-                    count = count + 1;
-                }
-            }
-        }
-    }
-    return count;
-}
-
 //code to delete
 function deleteRow() {
     let answer = confirm("Are you sure you wanted to delete the user ");
@@ -244,17 +226,6 @@ function showStatus(status) {
     detail.appendChild(divStatus);
 }
 
-//preventing multiple checks
-function checkCall(e) {
-    let min = e.value;
-    let checks = document.getElementsByName('checkField');
-    for (let i = 0; i < checks.length; i++) {
-        if (checks[i].value !== min) {
-            checks[i].checked = false;
-        }
-    }
-}
-
 function rewriteTable(textReturned) {
     document.getElementById('myTable').innerHTML = "";
     let myTable = document.getElementById("myTable");
@@ -310,22 +281,6 @@ function editModel() {
         editModelModal();
         setIdForChange();
         getModelForEdit();
-    }
-}
-
-function setIdForChange() {
-    let userRow;
-    let checks = document.getElementsByName('checkField');
-    if (checks.checked) {
-        userRow = document.getElementById("myTable").rows[0];
-        document.getElementById("id").value = userRow.cells[0].childNodes[0].value;
-    } else {
-        for (let i = 0; i < checks.length ; i++){
-            if(checks[i].checked) {
-                userRow = document.getElementById("myTable").rows[i+1];
-            }
-        }
-        document.getElementById("id").value = userRow.cells[0].childNodes[0].value;
     }
 }
 

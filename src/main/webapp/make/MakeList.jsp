@@ -19,6 +19,7 @@
     <link rel="stylesheet" href="/css/custom.css" type="text/css" />
     <sec:csrfMetaTags/>
     <title>Make List</title>
+    <script type="text/javascript" src="/js/common-scripts.js"></script>
     <script type="text/javascript" src="/js/make-scripts.js"></script>
     <script type="text/javascript" src="/js/navbar-scripts.js"></script>
 </head>

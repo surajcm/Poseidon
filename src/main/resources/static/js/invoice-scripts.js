@@ -127,13 +127,6 @@ function deleteRow() {
 
 }
 
-//preventing multiple checks
-function checkCall(e) {
-    const min = e.value;
-    const checks = document.getElementsByName('checkField');
-    for (let i = 0; i < checks.length; i++) {
-        if (checks[i].value !== min) {
-            checks[i].checked = false;
-        }
-    }
+function addSmartInvoice() {
+
 }
