@@ -116,4 +116,9 @@ public class InvoiceService {
     public List<InvoiceVO> findInvoices(final InvoiceVO searchInvoiceVo) {
         return invoiceDAO.findInvoices(searchInvoiceVo);
     }
+
+
+    public List<String> allTagNumbers() {
+        return transactionService.allTagNumbers();
+    }
 }

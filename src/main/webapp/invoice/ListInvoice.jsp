@@ -10,6 +10,8 @@
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta name="description" content="">
     <meta name="author" content="Suraj">
+    <meta name="_csrf" content="${_csrf.token}"/>
+    <meta name="_csrf_header" content="${_csrf.headerName}"/>
     <spring:url value="/img/Poseidon_Ico.ico" var="posIcon" />
     <link rel="shortcut icon" href="${posIcon}" />
     <link rel="stylesheet" href="/css/bootstrap-5.min.css"  type="text/css" />
@@ -142,6 +144,10 @@
                         <button type="button" class="btn btn-primary" onclick="editMe()">
                         Edit Invoice
                         </button>
+                        <button type="button" class="btn btn-primary"  data-bs-toggle="modal" data-bs-target="#editInvoiceModal"
+                        onclick="editSmartInvoice();">
+                            Edit Smart Invoice
+                        </button>
                     </div>
                     <div class="col-md-4">
                         <button type="button" class="btn btn-primary" onclick="deleteInvoice()">
@@ -163,6 +169,22 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" id="saveModal" class="btn btn-primary" onclick="saveFromModal();">Save</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="editInvoiceModal" class="modal fade" tabindex="-1" aria-labelledby="editInvoiceModal" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Edit Invoice</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div id="invoiceEditModalBody" class="modal-body">
+                        <p>Lets edit the invoice</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" id="updateModal" class="btn btn-primary" onclick="updateFromModal()">Update</button>
                     </div>
                 </div>
             </div>

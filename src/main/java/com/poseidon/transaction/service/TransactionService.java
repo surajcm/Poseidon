@@ -111,4 +111,8 @@ public class TransactionService {
     public void updateTransactionStatus(final Long id, final String status) {
         transactionDAO.updateTransactionStatus(id, status);
     }
+
+    public List<String> allTagNumbers() {
+        return transactionDAO.allTagNumbers();
+    }
 }

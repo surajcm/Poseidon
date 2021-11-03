@@ -7,17 +7,23 @@ import com.poseidon.transaction.domain.TransactionReportVO;
 import com.poseidon.transaction.domain.TransactionVO;
 import com.poseidon.transaction.service.TransactionService;
 import com.poseidon.transaction.web.form.TransactionForm;
+import org.codehaus.jackson.map.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.propertyeditors.CustomNumberEditor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
+import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -80,6 +86,25 @@ public class InvoiceController {
         vo.setQuantity(1);
         invoiceForm.setCurrentInvoiceVo(vo);
         return new ModelAndView("invoice/AddInvoice", INVOICE_FORM, invoiceForm);
+    }
+
+    @PostMapping("/invoice/saveInvoiceAjax.htm")
+    public @ResponseBody
+    String saveInvoiceAjax(@ModelAttribute("addTagNumber") final String addTagNumber,
+                           @ModelAttribute("addDescription") final String addDescription,
+                           @ModelAttribute("addQuantity") final String addQuantity,
+                           @ModelAttribute("addRate") final String addRate,
+                           @ModelAttribute("addAmount") final String addAmount,
+                           final BindingResult result) {
+        log.info("saveInvoiceAjax method of invoice controller ");
+        return "hi";
+    }
+
+    @GetMapping("/invoice/tagNumbers.htm")
+    public @ResponseBody
+    String saveInvoiceAjax() {
+        List<String> tags = invoiceService.allTagNumbers();
+        return parseTagNumbers(tags);
     }
 
     /**
@@ -232,7 +257,7 @@ public class InvoiceController {
         var modelName = "";
         TransactionVO transactionVo = transactionService.fetchTransactionFromId(transactionForm.getId());
         if (transactionVo != null && transactionVo.getMakeId() != null && transactionVo.getMakeId() > 0) {
-            log.info("tag no is {}" , transactionVo.getTagNo());
+            log.info("tag no is {}", transactionVo.getTagNo());
             makeName = transactionVo.getMakeName();
             modelName = transactionVo.getModelName();
         }
@@ -280,11 +305,23 @@ public class InvoiceController {
 
     private Optional<TransactionVO> fetchTransactionVO(final TransactionVO searchTransactionVo) {
         var transactionVOs = transactionService.searchTransactions(searchTransactionVo);
-        log.info("Found transactions :  {}" , transactionVOs.size());
+        log.info("Found transactions :  {}", transactionVOs.size());
         Optional<TransactionVO> transactionVo = Optional.empty();
         if (!transactionVOs.isEmpty()) {
             transactionVo = Optional.of(transactionVOs.get(0));
         }
         return transactionVo;
+    }
+
+    private String parseTagNumbers(final List<String> tags) {
+        String response = "";
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            response = mapper.writeValueAsString(tags);
+        } catch (IOException ex) {
+            log.error("Error parsing to json : {}", ex.getMessage());
+        }
+        log.info("tags list json : {}", response);
+        return response;
     }
 }

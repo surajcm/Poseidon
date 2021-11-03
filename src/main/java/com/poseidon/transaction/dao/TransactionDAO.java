@@ -104,6 +104,10 @@ public class TransactionDAO {
         return convertToTransactionReportVO(transaction);
     }
 
+    public List<String> allTagNumbers() {
+        return transactionRepository.findAll().stream().map(Transaction::getTagno).toList();
+    }
+
     /**
      * save transaction.
      *
