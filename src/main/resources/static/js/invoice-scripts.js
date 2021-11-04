@@ -268,12 +268,14 @@ function callAjax(addTagNumber, addDescription, addQuantity, addRate, addAmount)
         if (xhr.status === 200) {
             if (xhr.responseText != null) {
                 console.log(xhr.responseText);
-                //rewriteTable(xhr.responseText);
-                //showStatus(true);
+                rewriteTable(xhr.responseText);
+                showStatus(true);
+            } else {
+                showStatus(false);
             }
         } else if (xhr.status !== 200) {
             console.log('Request failed.  Returned status of ' + xhr.status);
-            //showStatus(false);
+            showStatus(false);
         }
     };
     xhr.send("addTagNumber=" + addTagNumber +
@@ -281,6 +283,49 @@ function callAjax(addTagNumber, addDescription, addQuantity, addRate, addAmount)
         "&addQuantity=" + addQuantity +
         "&addRate=" + addRate +
         "&addAmount=" + addAmount);
+}
+
+function rewriteTable(textReturned) {
+    document.getElementById('myTable').innerHTML = "";
+    let myTable = document.getElementById("myTable");
+    myTable.setAttribute("class", "table table-bordered table-striped table-hover caption-top");
+    myTable.appendChild(setCaption("Invoice Details"));
+    const thead = tableHead();
+    myTable.appendChild(thead);
+    myTable.appendChild(tableBodyCreation(textReturned));
+}
+
+function showStatus(status) {
+    let detail = document.getElementById("invoiceModalBody");
+    detail.innerHTML = "";
+    let saveModal = document.getElementById("saveModal");
+    saveModal.style.display = "none";
+    detail.appendChild(statusAsDiv(status));
+}
+
+function tableHeaderRow() {
+    let tr1 = document.createElement("tr");
+    const th1 = tableHeader("");
+    tr1.appendChild(th1);
+    tr1.appendChild(tableHeader("Invoice Id"));
+    tr1.appendChild(tableHeader("Customer Name"));
+    tr1.appendChild(tableHeader("Tag No"));
+    tr1.appendChild(tableHeader("Item Description"));
+    tr1.appendChild(tableHeader("Serial No"));
+    tr1.appendChild(tableHeader("Total Amount"));
+    return tr1;
+}
+
+function singleRowInTheTable(singleInvoice) {
+    let trx = document.createElement("tr");
+    trx.appendChild(sideHeader(singleInvoice.id));
+    trx.appendChild(tdElement(singleInvoice.id));
+    trx.appendChild(tdElement(singleInvoice.customerName));
+    trx.appendChild(tdElement(singleInvoice.tagNo));
+    trx.appendChild(tdElement(singleInvoice.description));
+    trx.appendChild(tdElement(singleInvoice.serialNo));
+    trx.appendChild(tdElement(singleInvoice.amount));
+    return trx;
 }
 
 function editSmartInvoice() {

@@ -96,13 +96,41 @@ public class InvoiceController {
                            @ModelAttribute("addRate") final String addRate,
                            @ModelAttribute("addAmount") final String addAmount,
                            final BindingResult result) {
+        //todo:error handling
         log.info("saveInvoiceAjax method of invoice controller ");
-        return "hi";
+        try {
+            var invoiceVO = populateInvoiceVO(addTagNumber, addDescription, addQuantity, addRate, addAmount);
+            var id = invoiceService.addInvoice(invoiceVO);
+            //update the transaction
+            var status = "INVOICED";
+            transactionService.updateTransactionStatus(id, status);
+        } catch (Exception ex) {
+            log.error("Error occurred", ex);
+        }
+        var invoiceVOs = invoiceService.fetchInvoiceForListOfTransactions();
+        return parseInvoices(invoiceVOs);
+    }
+
+    private InvoiceVO populateInvoiceVO(final String addTagNumber,
+                                        final String addDescription,
+                                        final String addQuantity,
+                                        final String addRate,
+                                        final String addAmount) {
+        var invoiceVO = new InvoiceVO();
+        invoiceVO.setTagNo(addTagNumber);
+        invoiceVO.setDescription(addDescription);
+        invoiceVO.setQuantity(Integer.parseInt(addQuantity));
+        invoiceVO.setRate(Double.valueOf(addRate));
+        invoiceVO.setAmount(Double.valueOf(addAmount));
+        var userName = findLoggedInUsername();
+        invoiceVO.setCreatedBy(userName);
+        invoiceVO.setModifiedBy(userName);
+        return invoiceVO;
     }
 
     @GetMapping("/invoice/tagNumbers.htm")
     public @ResponseBody
-    String saveInvoiceAjax() {
+    String tagNumbers() {
         List<String> tags = invoiceService.allTagNumbers();
         return parseTagNumbers(tags);
     }
@@ -322,6 +350,18 @@ public class InvoiceController {
             log.error("Error parsing to json : {}", ex.getMessage());
         }
         log.info("tags list json : {}", response);
+        return response;
+    }
+
+    private String parseInvoices(final List<InvoiceVO> invoices) {
+        String response = "";
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            response = mapper.writeValueAsString(invoices);
+        } catch (IOException ex) {
+            log.error("Error parsing to json : {}", ex.getMessage());
+        }
+        log.info("invoices list json : {}", response);
         return response;
     }
 }

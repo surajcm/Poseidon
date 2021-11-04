@@ -118,7 +118,7 @@ function statusAsDiv(status) {
 function statusMessageText(status) {
     let statusMessage;
     if (status) {
-        statusMessage = "Successfully added a new Customer !!";
+        statusMessage = "Successfully Added !!";
     } else {
         statusMessage = "Failed to save !!";
     }

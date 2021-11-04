@@ -29,13 +29,15 @@ public class InvoiceService {
      *
      * @param currentInvoiceVO currentInvoiceVO
      */
-    public void addInvoice(final InvoiceVO currentInvoiceVO) {
+    public Long addInvoice(final InvoiceVO currentInvoiceVO) {
         var transactionReportVO = transactionService
                 .fetchTransactionFromTag(currentInvoiceVO.getTagNo());
+        currentInvoiceVO.setTransactionId(transactionReportVO.getId());
         currentInvoiceVO.setCustomerId(transactionReportVO.getCustomerId());
         currentInvoiceVO.setCustomerName(transactionReportVO.getCustomerName());
         currentInvoiceVO.setSerialNo(transactionReportVO.getSerialNo());
         invoiceDAO.addInvoice(currentInvoiceVO);
+        return transactionReportVO.getId();
     }
 
     /**
