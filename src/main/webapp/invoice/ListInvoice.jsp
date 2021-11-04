@@ -134,11 +134,8 @@
                 </table>
                 <div class="row g-3">
                     <div class="col-md-4">
-                        <button type="button" class="btn btn-primary" onclick="addInvoice()">
-                        Add New Invoice
-                        </button>
                         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#newInvoiceModal"
-                        onclick="addSmartInvoice();">Add Smart Invoice</button>
+                        onclick="addSmartInvoice();">Add New Invoice</button>
                     </div>
                     <div class="col-md-4">
                         <button type="button" class="btn btn-primary" onclick="editMe()">

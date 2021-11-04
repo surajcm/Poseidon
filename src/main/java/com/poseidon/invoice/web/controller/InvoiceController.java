@@ -73,21 +73,6 @@ public class InvoiceController {
         return new ModelAndView(LIST_INVOICE, INVOICE_FORM, invoiceForm);
     }
 
-    /**
-     * add Invoice.
-     *
-     * @param invoiceForm InvoiceForm
-     * @return ModelAndView
-     */
-    @PostMapping("/invoice/addInvoice.htm")
-    public ModelAndView addInvoice(final InvoiceForm invoiceForm) {
-        log.info("Inside addInvoice method of InvoiceController ");
-        var vo = new InvoiceVO();
-        vo.setQuantity(1);
-        invoiceForm.setCurrentInvoiceVo(vo);
-        return new ModelAndView("invoice/AddInvoice", INVOICE_FORM, invoiceForm);
-    }
-
     @PostMapping("/invoice/saveInvoiceAjax.htm")
     public @ResponseBody
     String saveInvoiceAjax(@ModelAttribute("addTagNumber") final String addTagNumber,

@@ -4,11 +4,6 @@ function hideAlerts() {
     document.getElementById('inventory').text = "Invoice <span class='sr-only'>Invoice</span>";
 }
 
-function addInvoice() {
-    document.forms[0].action = "addInvoice.htm";
-    document.forms[0].submit();
-}
-
 function search() {
     document.forms[0].action = "SearchInvoice.htm";
     document.forms[0].submit();
@@ -127,6 +122,10 @@ function addSmartInvoice() {
     let detail = document.getElementById("invoiceModalBody");
     detail.innerHTML = "";
     detail.appendChild(invoiceOnModal());
+    let txtQuantity = document.getElementById('addQuantity');
+    txtQuantity.onkeyup = function() {multiplyFromQty()};
+    let txtRate = document.getElementById('addRate');
+    txtRate.onkeyup = function() {multiplyFromRate()};
 }
 
 function invoiceOnModal() {
@@ -204,6 +203,28 @@ function ajaxAllTagNumbers() {
         }
     };
     xhr.send();
+}
+
+function multiplyFromRate() {
+    console.log('inside multiplyFromRate')
+    let quantity = document.getElementById('addQuantity').value;
+    let rate = document.getElementById('addRate').value;
+    if (quantity.length > 0) {
+        let amount = quantity * rate;
+        document.getElementById('addAmount').value = amount;
+        console.log('amount = '+amount)
+    }
+}
+
+function multiplyFromQty() {
+    console.log('inside multiplyFromQty')
+    let quantity = document.getElementById('addQuantity').value;
+    let rate = document.getElementById('addRate').value;
+    if (quantity.length > 0 && rate > 0) {
+        let amount = quantity * rate;
+        document.getElementById('addAmount').value = amount;
+        console.log('amount = '+amount)
+    }
 }
 
 function setTagNumberAsOption(textReturned) {

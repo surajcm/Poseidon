@@ -14,8 +14,11 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 @EnableWebSecurity
 @SuppressWarnings({"PMD.SignatureDeclareThrowsException"})
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-    @Autowired
-    private UserDetailsService userDetailsService;
+    private final UserDetailsService userDetailsService;
+
+    public WebSecurityConfig(final UserDetailsService userDetailsService) {
+        this.userDetailsService = userDetailsService;
+    }
 
     @Bean
     public BCryptPasswordEncoder bcryptPasswordEncoder() {
@@ -33,7 +36,10 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .headers()
                     .frameOptions().sameOrigin().and()
                 .logout()
-                    .permitAll();
+                    .permitAll().and()
+                .requiresChannel()
+                    .requestMatchers(r -> r.getHeader("X-Forwarded-Proto") != null)
+                    .requiresSecure();
     }
 
     @Autowired
