@@ -354,8 +354,8 @@ function editSmartInvoice() {
     let rowCheck = validateEditModalSelection();
     if (rowCheck) {
         editInvoiceModal();
-        //setIdForChange();
-        //getUserForEdit();
+        setIdForChange();
+        getInvoiceForEdit();
     }
 }
 
@@ -379,5 +379,59 @@ function validateEditModalSelection() {
 }
 
 function editInvoiceModal() {
+    let updateModal = document.getElementById("updateModal");
+    updateModal.style.display = "block";
+    let detail = document.getElementById("invoiceEditModalBody");
+    detail.innerHTML = "";
+    detail.appendChild(invoiceOnModal());
+    let txtQuantity = document.getElementById('addQuantity');
+    txtQuantity.onkeyup = function() {multiplyFromQty()};
+    let txtRate = document.getElementById('addRate');
+    txtRate.onkeyup = function() {multiplyFromRate()};
+}
 
+function getInvoiceForEdit() {
+    let id = document.getElementById("id").value;
+    let xhr = new XMLHttpRequest();
+    xhr.open('GET', "/invoice/getForEdit.htm" + "?id=" + id, true);
+    let token = document.querySelector("meta[name='_csrf']").content;
+    let header = document.querySelector("meta[name='_csrf_header']").content;
+    xhr.setRequestHeader(header, token);
+    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    xhr.onload = function () {
+        if (xhr.status === 200) {
+            if (xhr.responseText != null) {
+                console.log(xhr.responseText);
+                //populateDataForEdit(xhr.responseText);
+            }
+        } else if (xhr.status !== 200) {
+            console.log('Request failed.  Returned status of ' + xhr.status);
+            showEditError();
+        }
+    };
+    xhr.send();
+}
+
+function showEditError() {
+    let detail = document.getElementById("invoiceEditModalBody");
+    detail.innerHTML = "";
+    let updateModal = document.getElementById("updateModal");
+    updateModal.style.display = "none";
+    let divStatus = document.createElement("div");
+    divStatus.setAttribute("class", "pop-status");
+    let imgSuccess = document.createElement("img");
+
+    divStatus.appendChild(imgSuccess);
+    let statusMessage = document.createElement("h3");
+    imgSuccess.setAttribute("src", "/img/cross.svg");
+    statusMessage.innerHTML = "Failed to populate data !!";
+    divStatus.appendChild(statusMessage);
+    detail.appendChild(divStatus);
+}
+
+function populateDataForEdit(textReturned) {
+    let invoiceMap = JSON.parse(textReturned);
+    //document.getElementById("addTagNumber").value = invoiceMap.name;
+    //document.getElementById("updateEmail").value = invoiceMap.email;
+    //document.getElementById("updateRole").value = invoiceMap.role;
 }

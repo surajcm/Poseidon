@@ -1,5 +1,6 @@
 package com.poseidon.invoice.web.controller;
 
+import com.poseidon.init.util.CommonUtils;
 import com.poseidon.invoice.domain.InvoiceVO;
 import com.poseidon.invoice.service.InvoiceService;
 import com.poseidon.invoice.web.form.InvoiceForm;
@@ -179,6 +180,20 @@ public class InvoiceController {
         return new ModelAndView("invoice/EditInvoice", INVOICE_FORM, invoiceForm);
     }
 
+    @GetMapping("/invoice/getForEdit.htm")
+    public @ResponseBody
+    String getForEdit(@ModelAttribute("id") final String id,
+                      final BindingResult result) {
+        var sanitizedId = CommonUtils.sanitizedString(id);
+        log.info("getForEdit method of user controller : {}", sanitizedId);
+        String response = null;
+        var invoiceVo = invoiceService.fetchInvoiceVOFromId(Long.valueOf(id));
+        if (invoiceVo.isPresent()) {
+            response = parseInvoiceVO(invoiceVo.get());
+        }
+        return response;
+    }
+
     /**
      * delete invoice.
      *
@@ -347,6 +362,18 @@ public class InvoiceController {
             log.error("Error parsing to json : {}", ex.getMessage());
         }
         log.info("invoices list json : {}", response);
+        return response;
+    }
+
+    private String parseInvoiceVO(final InvoiceVO invoice) {
+        String response = "";
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            response = mapper.writeValueAsString(invoice);
+        } catch (IOException ex) {
+            log.error("Error parsing to json : {}", ex.getMessage());
+        }
+        log.info("invoice json : {}", response);
         return response;
     }
 }

@@ -86,6 +86,16 @@ insert into customer_additional_details (id, customerId, contactPerson, contactP
  (4, 4, 'Oliver Queen', '70707070', 'Find Lazarus Pit',
  'admin', CURRENT_DATE, 'admin', CURRENT_DATE);
 
+
+insert into customer (id, name, address, phone, mobile, email, createdBy, createdOn, modifiedBy, modifiedOn)
+values (5, 'Vision', 'Brooklyn, New York', '0808 2021', '20112020', 'vis@mcu.com',
+        'admin', CURRENT_DATE, 'admin', CURRENT_DATE);
+
+insert into customer_additional_details (id, customerId, contactPerson, contactPhone,
+                                         note, createdBy, createdOn, modifiedBy, modifiedOn) values
+    (5, 5, 'Wanda Maximoff', '929203', 'Become Scarlet Witch',
+     'admin', CURRENT_DATE, 'admin', CURRENT_DATE);
+
 insert into transaction (id, tagNo, dateReported, customerId, productCategory, makeId, modelId,
 serialNumber, accessories, complaintReported, complaintDiagnosed, engineerRemarks, repairAction, note, status,
  createdBy, createdOn, modifiedBy, modifiedOn) values (1, 'WON2N1', '2020-06-15 00:00:00', 1 , 'LAPTOP', 1, 1,
@@ -114,7 +124,19 @@ serialNumber, accessories, complaintReported, complaintDiagnosed, engineerRemark
  'Replace screen', 'Purchase screen', 'INVOICED',
  'admin', CURRENT_DATE, 'admin', CURRENT_DATE);
 
+insert into transaction (id, tagNo, dateReported, customerId, productCategory, makeId, modelId,
+serialNumber, accessories, complaintReported, complaintDiagnosed, engineerRemarks, repairAction, note, status,
+ createdBy, createdOn, modifiedBy, modifiedOn) values (5, 'WON2N5', CURRENT_DATE, 5 , 'PHONE', 1, 2,
+ 'III67676', 'Charger', 'Broken screen', 'Broken screen', 'Replace screen',
+ 'Broken screen', 'Purchase screen', 'INVOICED',
+ 'admin', CURRENT_DATE, 'admin', CURRENT_DATE);
+
 insert into invoice (id, transactionId, description, serialNumber ,amount ,quantity , rate ,
  customerId, customerName, tagNumber ,  createdBy, createdOn, modifiedBy, modifiedOn) values
   (1, 4, 'SERVICE CHARGES FOR Apple MacBook Pro', 'III67676', 1000, 2, 500,
  4, 'Ras al Ghul', 'WON2N4', 'admin', CURRENT_DATE, 'admin', CURRENT_DATE);
+
+insert into invoice (id, transactionId, description, serialNumber ,amount ,quantity , rate ,
+ customerId, customerName, tagNumber ,  createdBy, createdOn, modifiedBy, modifiedOn) values
+  (2, 5, 'SERVICE CHARGES FOR Apple MacBook Air', 'III67677', 1200, 20, 60,
+ 5, 'Vision', 'WON2N5', 'admin', CURRENT_DATE, 'admin', CURRENT_DATE);

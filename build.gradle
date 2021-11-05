@@ -39,6 +39,10 @@ test {
     useJUnitPlatform()
 }
 
+jar {
+    enabled = false
+}
+
 test.dependsOn checkstyleMain
 test.dependsOn checkstyleTest
 
