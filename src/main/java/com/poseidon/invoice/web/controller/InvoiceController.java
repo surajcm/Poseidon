@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.ModelAndView;
 
@@ -242,6 +243,28 @@ public class InvoiceController {
         }
         invoiceForm.setStatusMessageType("info");
         return new ModelAndView(LIST_INVOICE, INVOICE_FORM, invoiceForm);
+    }
+
+    @PutMapping("/invoice/updateInvoiceAjax.htm")
+    public @ResponseBody
+    String updateInvoiceAjax(@ModelAttribute("id") final Long id,
+                             @ModelAttribute("addTagNumber") final String addTagNumber,
+                             @ModelAttribute("addDescription") final String addDescription,
+                             @ModelAttribute("addQuantity") final String addQuantity,
+                             @ModelAttribute("addRate") final String addRate,
+                             @ModelAttribute("addAmount") final String addAmount,
+                             final BindingResult result) {
+        //todo:error handling
+        log.info("updateInvoiceAjax method of invoice controller ");
+        try {
+            var invoiceVO = populateInvoiceVO(addTagNumber, addDescription, addQuantity, addRate, addAmount);
+            invoiceVO.setId(id);
+            invoiceService.updateInvoice(invoiceVO);
+        } catch (Exception ex) {
+            log.error("Error occurred", ex);
+        }
+        var invoiceVOs = invoiceService.fetchInvoiceForListOfTransactions();
+        return parseInvoices(invoiceVOs);
     }
 
     /**

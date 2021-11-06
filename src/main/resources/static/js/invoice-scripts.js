@@ -402,7 +402,7 @@ function getInvoiceForEdit() {
         if (xhr.status === 200) {
             if (xhr.responseText != null) {
                 console.log(xhr.responseText);
-                //populateDataForEdit(xhr.responseText);
+                populateDataForEdit(xhr.responseText);
             }
         } else if (xhr.status !== 200) {
             console.log('Request failed.  Returned status of ' + xhr.status);
@@ -430,8 +430,97 @@ function showEditError() {
 }
 
 function populateDataForEdit(textReturned) {
-    let invoiceMap = JSON.parse(textReturned);
-    //document.getElementById("addTagNumber").value = invoiceMap.name;
-    //document.getElementById("updateEmail").value = invoiceMap.email;
-    //document.getElementById("updateRole").value = invoiceMap.role;
+    let invoice = JSON.parse(textReturned);
+    let key = invoice.tagNo;
+    let tagDropDown = document.getElementById("addTagNumber");
+    //console.log('key is'+key);
+    for (let option of tagDropDown.options) {
+        //console.log('option.value'+option.value);
+        if (option.value === key) {
+            option.selected = true;
+            console.log("option set to "+option.value);
+        }
+    }
+    document.getElementById("addDescription").value = invoice.description;
+    document.getElementById("addQuantity").value = invoice.quantity;
+    document.getElementById("addRate").value = invoice.rate;
+    document.getElementById("addAmount").value = invoice.amount;
+}
+
+function updateFromModal() {
+    let addTagNumber = document.getElementById("addTagNumber").value;
+    let addDescription = document.getElementById("addDescription").value;
+    let addQuantity = document.getElementById("addQuantity").value;
+    let addRate = document.getElementById("addRate").value;
+    let addAmount = document.getElementById("addAmount").value;
+    let forms = document.getElementsByClassName('needs-validation');
+
+    let allFieldsAreValid = true;
+
+    if (forms[0].checkValidity() === false) {
+        allFieldsAreValid = false;
+        if (addTagNumber.length === 0) {
+            document.getElementById("addTagNumber").setAttribute("class", "form-control is-invalid");
+        } else {
+            document.getElementById("addTagNumber").setAttribute("class", "form-control was-validated");
+        }
+        if (addDescription.length === 0) {
+            document.getElementById("addDescription").setAttribute("class", "form-control is-invalid");
+        } else {
+            document.getElementById("addDescription").setAttribute("class", "form-control was-validated");
+        }
+        if (addQuantity.length === 0) {
+            document.getElementById("addQuantity").setAttribute("class", "form-control is-invalid");
+        } else {
+            document.getElementById("addQuantity").setAttribute("class", "form-control was-validated");
+        }
+        if (addRate.length === 0) {
+            document.getElementById("addRate").setAttribute("class", "form-control is-invalid");
+        } else {
+            document.getElementById("addRate").setAttribute("class", "form-control was-validated");
+        }
+    }
+
+    if (allFieldsAreValid) {
+        console.log('all fields are valid');
+        callAjaxUpdate(addTagNumber, addDescription, addQuantity, addRate, addAmount);
+    }
+}
+
+function callAjaxUpdate(addTagNumber, addDescription, addQuantity, addRate, addAmount) {
+    let id = document.getElementById("id").value;
+    let xhr = new XMLHttpRequest();
+    xhr.open('PUT', "/invoice/updateInvoiceAjax.htm", true);
+    let token = document.querySelector("meta[name='_csrf']").content;
+    let header = document.querySelector("meta[name='_csrf_header']").content;
+    xhr.setRequestHeader(header, token);
+    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    xhr.onload = function () {
+        if (xhr.status === 200) {
+            if (xhr.responseText != null) {
+                console.log(xhr.responseText);
+                rewriteTable(xhr.responseText);
+                showUpdateStatus(true);
+            } else {
+                showUpdateStatus(false);
+            }
+        } else if (xhr.status !== 200) {
+            console.log('Request failed.  Returned status of ' + xhr.status);
+            showUpdateStatus(false);
+        }
+    };
+    xhr.send("id=" + id +
+        "&addTagNumber=" + addTagNumber +
+        "&addDescription=" + addDescription +
+        "&addQuantity=" + addQuantity +
+        "&addRate=" + addRate +
+        "&addAmount=" + addAmount);
+}
+
+function showUpdateStatus(status) {
+    let detail = document.getElementById("invoiceEditModalBody");
+    detail.innerHTML = "";
+    let updateModal = document.getElementById("updateModal");
+    updateModal.style.display = "none";
+    detail.appendChild(statusAsDiv(status));
 }

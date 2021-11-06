@@ -103,6 +103,7 @@ public class InvoiceService {
     public void updateInvoice(final InvoiceVO currentInvoiceVO) {
         var transactionReportVo = transactionService
                 .fetchTransactionFromTag(currentInvoiceVO.getTagNo());
+        currentInvoiceVO.setTransactionId(transactionReportVo.getId());
         currentInvoiceVO.setCustomerId(transactionReportVo.getCustomerId());
         currentInvoiceVO.setCustomerName(transactionReportVo.getCustomerName());
         currentInvoiceVO.setSerialNo(transactionReportVo.getSerialNo());
