@@ -54,34 +54,6 @@ function validateSelection() {
     }
 }
 
-function editMe() {
-    let rowCheck = validateSelection();
-    if (rowCheck) {
-        editRow();
-    }
-}
-
-//real edit
-function editRow() {
-    let userRow;
-    const checks = document.getElementsByName('checkField');
-    if (checks.checked) {
-        userRow = document.getElementById("myTable").rows[0];
-    } else {
-        for (let i = 0; i < checks.length; i++) {
-            if (checks[i].checked) {
-                userRow = document.getElementById("myTable").rows[i + 1];
-            }
-        }
-    }
-    document.getElementById("id").value = userRow.cells[0].childNodes[0].value;
-    if (document.getElementById('amount').value.length === 0) {
-        document.getElementById('amount').value = "0.0";
-    }
-    document.forms[0].action = "EditInvoice.htm";
-    document.forms[0].submit();
-}
-
 // delete
 function deleteInvoice() {
     let rowCheck = validateSelection();

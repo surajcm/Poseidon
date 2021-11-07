@@ -268,34 +268,6 @@ public class InvoiceController {
     }
 
     /**
-     * update invoice.
-     *
-     * @param invoiceForm InvoiceForm
-     * @return ModelAndView
-     */
-    @PostMapping("/invoice/updateInvoice.htm")
-    public ModelAndView updateInvoice(final InvoiceForm invoiceForm) {
-        log.info("Inside updateInvoice method of InvoiceController ");
-        log.info(INVOICE_FORM_DETAILS, invoiceForm);
-        if (invoiceForm.getCurrentInvoiceVo() != null) {
-            var loggedInUser = findLoggedInUsername();
-            invoiceForm.getCurrentInvoiceVo().setModifiedBy(loggedInUser);
-        }
-        try {
-            invoiceService.updateInvoice(invoiceForm.getCurrentInvoiceVo());
-            invoiceForm.setStatusMessage("Successfully updated the new invoice Detail");
-            invoiceForm.setStatusMessageType(SUCCESS);
-        } catch (Exception ex) {
-            invoiceForm.setStatusMessage("Unable to update the invoice due to an error");
-            invoiceForm.setStatusMessageType(ERROR);
-            log.error(ex.getLocalizedMessage());
-        }
-        var invoiceVOs = fetchInvoices(invoiceForm);
-        invoiceForm.setSearchInvoiceVo(new InvoiceVO());
-        return new ModelAndView(LIST_INVOICE, INVOICE_FORM, invoiceForm);
-    }
-
-    /**
      * invoice the transaction.
      *
      * @param transactionForm TransactionForm
