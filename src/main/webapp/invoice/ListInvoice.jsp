@@ -19,6 +19,7 @@
     <title>Invoice List</title>
     <script type="text/javascript" src="/js/common-scripts.js"></script>
     <script type="text/javascript" src="/js/invoice-scripts.js"></script>
+    <script type="text/javascript" src="/js/transaction-and-invoice.js"></script>
     <script type="text/javascript" src="/js/navbar-scripts.js"></script>
 </head>
 <body onload="hideAlerts()">

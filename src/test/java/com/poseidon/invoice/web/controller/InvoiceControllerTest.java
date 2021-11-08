@@ -53,11 +53,6 @@ class InvoiceControllerTest {
     }
 
     @Test
-    void updateInvoice() throws Exception {
-        mvc.perform(post("/invoice/updateInvoice.htm")).andExpect(status().isOk());
-    }
-
-    @Test
     void invoiceTxn() throws Exception {
         mvc.perform(post("/invoice/InvoiceTxn.htm")).andExpect(status().isOk());
     }

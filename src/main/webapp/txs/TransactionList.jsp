@@ -20,7 +20,9 @@
     <link rel="stylesheet" href="/css/bootstrap-5.min.css"  type="text/css" />
     <link rel="stylesheet" href="/css/custom.css" type="text/css" />
     <title>Transaction List</title>
+    <script type="text/javascript" src="/js/common-scripts.js"></script>
     <script type="text/javascript" src="/js/transaction-scripts.js"></script>
+    <script type="text/javascript" src="/js/transaction-and-invoice.js"></script>
     <script type="text/javascript" src="/js/navbar-scripts.js"></script>
 </head>
 <body onload="hideAlerts()">
@@ -154,6 +156,24 @@
                     </div>
                     <div class="col-md-3">
                         <button type="button" class="btn btn-primary" onclick="invoiceTxn()">Invoice Transaction</button>
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#newInvoiceModal"
+                            onclick="addSmartInvoice();">Smart Invoice</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="newInvoiceModal" class="modal fade" tabindex="-1" aria-labelledby="newInvoiceModal" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Invoice transaction</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div id="invoiceModalBody" class="modal-body">
+                        <p>Invoice the transaction....</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" id="saveModal" class="btn btn-primary" onclick="saveFromModal();">Save</button>
                     </div>
                 </div>
             </div>
