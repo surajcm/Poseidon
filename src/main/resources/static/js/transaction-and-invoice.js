@@ -1,3 +1,11 @@
+
+function addSmartInvoiceOnTransaction() {
+    let rowCheck = validateSelection();
+    if (rowCheck) {
+        addSmartInvoice();
+    }
+}
+
 function addSmartInvoice() {
     let saveModal = document.getElementById("saveModal");
     saveModal.style.display = "block";

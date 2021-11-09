@@ -7,24 +7,9 @@ function addNew() {
     document.forms[0].submit();
 }
 
-//preventing multiple checks
-function checkCall(e) {
-    let min = e.value;
-    let checks = document.getElementsByName('checkField');
-    for (let i = 0; i < checks.length; i++) {
-        if (checks[i].value !== min) {
-            checks[i].checked = false;
-        }
-    }
-}
-
 function search() {
     document.forms[0].action = "SearchTxn.htm";
     document.forms[0].submit();
-}
-
-function isNumber(n) {
-    return !isNaN(parseFloat(n)) && isFinite(n);
 }
 
 function clearOut() {
@@ -82,32 +67,9 @@ function stateChange(textReturned) {
 
 //validation before edit
 function editMe() {
-    let check = 'false';
-    let count = 0;
-    // get all check boxes
-    const checks = document.getElementsByName('checkField');
-    if (checks) {
-        //if total number of rows is one
-        if (checks.checked) {
-            editRow();
-        } else {
-            for (let i = 0; i < checks.length; i++) {
-                if (checks[i].checked) {
-                    check = 'true';
-                    count = count + 1;
-                }
-            }
-            //check for validity
-            if (check === 'true') {
-                if (count === 1) {
-                    editRow();
-                } else {
-                    alert(" Only one row can be edited at a time, please select one row ");
-                }
-            } else {
-                alert(" No rows selected, please select one row ");
-            }
-        }
+    let rowCheck = validateSelection();
+    if (rowCheck) {
+        editRow();
     }
 }
 
@@ -132,38 +94,13 @@ function editRow() {
     }
 }
 
-// delete
 function deleteTxn() {
-    let check = 'false';
-    let count = 0;
-    // get all check boxes
-    const checks = document.getElementsByName('checkField');
-    if (checks) {
-        //if total number of rows is one
-        if (checks.checked) {
-            deleteRow();
-        } else {
-            for (let i = 0; i < checks.length; i++) {
-                if (checks[i].checked) {
-                    check = 'true';
-                    count = count + 1;
-                }
-            }
-            //check for validity
-            if (check === 'true') {
-                if (count === 1) {
-                    deleteRow();
-                } else {
-                    alert(" Only one row can be deleted at a time, please select one row ");
-                }
-            } else {
-                alert(" No rows selected, please select one row ");
-            }
-        }
+    let rowCheck = validateSelection();
+    if (rowCheck) {
+        deleteRow();
     }
 }
 
-//code to delete a user
 function deleteRow() {
     const answer = confirm(" Are you sure you wanted to delete the Txn ");
     if (answer) {
@@ -190,32 +127,9 @@ function deleteRow() {
 
 
 function invoiceTxn() {
-    let check = 'false';
-    let count = 0;
-    // get all check boxes
-    let checks = document.getElementsByName('checkField');
-    if (checks) {
-        //if total number of rows is one
-        if (checks.checked) {
-            invoiceRow();
-        } else {
-            for (let i = 0; i < checks.length; i++) {
-                if (checks[i].checked) {
-                    check = 'true';
-                    count = count + 1;
-                }
-            }
-            //check for validity
-            if (check === 'true') {
-                if (count === 1) {
-                    invoiceRow();
-                } else {
-                    alert(" Only one row can be invoiced at a time, please select one row ");
-                }
-            } else {
-                alert(" No rows selected, please select one row ");
-            }
-        }
+    let rowCheck = validateSelection();
+    if (rowCheck) {
+        invoiceRow();
     }
 }
 

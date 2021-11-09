@@ -157,7 +157,7 @@
                     <div class="col-md-3">
                         <button type="button" class="btn btn-primary" onclick="invoiceTxn()">Invoice Transaction</button>
                         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#newInvoiceModal"
-                            onclick="addSmartInvoice();">Smart Invoice</button>
+                            onclick="addSmartInvoiceOnTransaction();">Smart Invoice</button>
                     </div>
                 </div>
             </div>

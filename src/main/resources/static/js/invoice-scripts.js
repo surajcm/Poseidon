@@ -21,39 +21,6 @@ function clearOut() {
     document.getElementById('startsWith').checked = false;
 }
 
-//validation before edit
-function validateSelection() {
-    let check = 'false';
-    let count = 0;
-    // get all check boxes
-    const checks = document.getElementsByName('checkField');
-    if (checks) {
-        //if total number of rows is one
-        if (checks.checked) {
-            return true;
-        } else {
-            for (let i = 0; i < checks.length; i++) {
-                if (checks[i].checked) {
-                    check = 'true';
-                    count = count + 1;
-                }
-            }
-            //check for validity
-            if (check === 'true') {
-                if (count === 1) {
-                    return true;
-                } else {
-                    alert("Only one row can be edited at a time, please select one row ");
-                    return false;
-                }
-            } else {
-                alert("No rows selected, please select one row ");
-                return false;
-            }
-        }
-    }
-}
-
 // delete
 function deleteInvoice() {
     let rowCheck = validateSelection();
