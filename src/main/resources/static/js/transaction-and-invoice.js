@@ -1,6 +1,6 @@
 
 function addSmartInvoiceOnTransaction() {
-    let rowCheck = validateSelection();
+    let rowCheck = validateEditModalSelection('invoiceModalBody');
     if (rowCheck) {
         addSmartInvoice();
     }

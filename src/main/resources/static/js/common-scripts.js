@@ -47,6 +47,25 @@ function validateSelection() {
     }
 }
 
+function validateEditModalSelection(elem) {
+    let detail = document.getElementById(elem);
+    detail.innerHTML = "";
+    let check = 'false';
+    let count = selectedRowCount();
+    if (count > 0) {
+        check = 'true';
+    }
+    if (check === 'true') {
+        if (count === 1) {
+            return true;
+        } else {
+            detail.innerHTML = "<p>Only one row can be selected at a time, please select one row</p>";
+        }
+    } else {
+        detail.innerHTML = "<p>No rows selected, please select one row</p>";
+    }
+}
+
 function tableHead() {
     const thead = document.createElement("thead");
     thead.setAttribute("class", "table-dark");

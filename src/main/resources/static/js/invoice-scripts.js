@@ -92,31 +92,11 @@ function singleRowInTheTable(singleInvoice) {
 }
 
 function editSmartInvoice() {
-    console.log("on edit screen");
-    let rowCheck = validateEditModalSelection();
+    let rowCheck = validateEditModalSelection('invoiceEditModalBody');
     if (rowCheck) {
         editInvoiceModal();
         setIdForChange();
         getInvoiceForEdit();
-    }
-}
-
-function validateEditModalSelection() {
-    let detail = document.getElementById("invoiceEditModalBody");
-    detail.innerHTML = "";
-    let check = 'false';
-    let count = selectedRowCount();
-    if (count > 0) {
-        check = 'true';
-    }
-    if (check === 'true') {
-        if (count === 1) {
-            return true;
-        } else {
-            detail.innerHTML = "<p>Only one row can be selected at a time, please select one row</p>";
-        }
-    } else {
-        detail.innerHTML = "<p>No rows selected, please select one row</p>";
     }
 }
 
