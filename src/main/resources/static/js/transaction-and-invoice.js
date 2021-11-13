@@ -2,16 +2,20 @@
 function addSmartInvoiceOnTransaction() {
     let rowCheck = validateEditModalSelection('invoiceModalBody');
     if (rowCheck) {
-        addSmartInvoice();
+        addSmartInvoice(true);
     }
 }
 
-function addSmartInvoice() {
+function addSmartInvoiceOnInvoicePage() {
+    addSmartInvoice(false);
+}
+
+function addSmartInvoice(fromInvoice) {
     let saveModal = document.getElementById("saveModal");
     saveModal.style.display = "block";
     let detail = document.getElementById("invoiceModalBody");
     detail.innerHTML = "";
-    detail.appendChild(invoiceOnModal());
+    detail.appendChild(invoiceOnModal(fromInvoice));
     let txtQuantity = document.getElementById('addQuantity');
     txtQuantity.onkeyup = function() {multiplyFromQty()};
     let txtRate = document.getElementById('addRate');
@@ -19,14 +23,14 @@ function addSmartInvoice() {
 }
 
 
-function invoiceOnModal() {
+function invoiceOnModal(fromInvoice) {
     let formValidInvoice = document.createElement("form");
     formValidInvoice.setAttribute("class", "row g-3 needs-validation");
     formValidInvoice.novalidate = true;
 
     let divTag = document.createElement("div");
     divTag.setAttribute("class", "col-md-6");
-    divTag.appendChild(tagNumberDropDown());
+    divTag.appendChild(tagNumbers(fromInvoice));
 
     let divDescription = document.createElement("div");
     divDescription.setAttribute("class", "col-md-6");
@@ -68,12 +72,49 @@ function invoiceOnModal() {
     return formValidInvoice;
 }
 
-function tagNumberDropDown() {
-    let selectTag = document.createElement("select");
-    selectTag.setAttribute("class", "form-select");
-    selectTag.setAttribute("id", "addTagNumber");
-    ajaxAllTagNumbers();
-    return selectTag;
+function tagNumbers(fromInvoice) {
+    let invoiceElem;
+    if (fromInvoice) {
+        const id = document.getElementById("id").value;
+        invoiceElem = aTextBox("addTagNumber","TagNumber", true);
+        invoiceElem.disabled = true;
+        getInvoiceIdAndDescription(id);
+        console.log("Anu is laughing");
+    } else {
+        invoiceElem = document.createElement("select");
+        invoiceElem.setAttribute("class", "form-select");
+        invoiceElem.setAttribute("id", "addTagNumber");
+        ajaxAllTagNumbers();
+    }
+    return invoiceElem;
+}
+
+function getInvoiceIdAndDescription(id) {
+    let xhr = new XMLHttpRequest();
+    xhr.open('GET', "/invoice/addInvoiceOnAjax.htm" + "?id=" + id,true);
+    let token = document.querySelector("meta[name='_csrf']").content;
+    let header = document.querySelector("meta[name='_csrf_header']").content;
+    xhr.setRequestHeader(header, token);
+    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    xhr.onload = function () {
+        if (xhr.status === 200) {
+            if (xhr.responseText != null) {
+                console.log(xhr.responseText);
+                setTagNumberAndDescription(xhr.responseText);
+            }
+        } else if (xhr.status !== 200) {
+            console.log('Request failed.  Returned status of ' + xhr.status);
+        }
+    };
+    xhr.send();
+}
+
+function setTagNumberAndDescription(textReturned) {
+    const element = JSON.parse(textReturned);
+    let addTagNumber = document.getElementById("addTagNumber");
+    let addDescription = document.getElementById("addDescription");
+    addTagNumber.value = element.tagNo;
+    addDescription.value = element.description;
 }
 
 function ajaxAllTagNumbers() {

@@ -267,6 +267,25 @@ public class InvoiceController {
         return parseInvoices(invoiceVOs);
     }
 
+    @GetMapping("/invoice/addInvoiceOnAjax.htm")
+    public @ResponseBody
+    String getInvoiceOfTransaction(final Long id) {
+        var makeName = "";
+        var modelName = "";
+        var transactionVo = transactionService.fetchTransactionFromId(id);
+        if (transactionVo != null && transactionVo.getMakeId() != null && transactionVo.getMakeId() > 0) {
+            log.info("tag no is {}", transactionVo.getTagNo());
+            makeName = transactionVo.getMakeName();
+            modelName = transactionVo.getModelName();
+        }
+        var invoiceVo = new InvoiceVO();
+        if (transactionVo != null) {
+            invoiceVo.setTagNo(transactionVo.getTagNo());
+            invoiceVo.setDescription("SERVICE CHARGES FOR " + makeName + " " + modelName);
+        }
+        return parseInvoiceVO(invoiceVo);
+    }
+
     /**
      * invoice the transaction.
      *
@@ -278,7 +297,7 @@ public class InvoiceController {
         log.info("Inside invoiceTxn method of InvoiceController ");
         var makeName = "";
         var modelName = "";
-        TransactionVO transactionVo = transactionService.fetchTransactionFromId(transactionForm.getId());
+        var transactionVo = transactionService.fetchTransactionFromId(transactionForm.getId());
         if (transactionVo != null && transactionVo.getMakeId() != null && transactionVo.getMakeId() > 0) {
             log.info("tag no is {}", transactionVo.getTagNo());
             makeName = transactionVo.getMakeName();

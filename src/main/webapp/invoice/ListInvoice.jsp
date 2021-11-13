@@ -136,7 +136,7 @@
                 <div class="row g-3">
                     <div class="col-md-4">
                         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#newInvoiceModal"
-                        onclick="addSmartInvoice();">Add New Invoice</button>
+                        onclick="addSmartInvoiceOnInvoicePage();">Add New Invoice</button>
                     </div>
                     <div class="col-md-4">
                         <button type="button" class="btn btn-primary"  data-bs-toggle="modal" data-bs-target="#editInvoiceModal"

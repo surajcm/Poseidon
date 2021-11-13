@@ -57,13 +57,31 @@ function validateEditModalSelection(elem) {
     }
     if (check === 'true') {
         if (count === 1) {
+            setIdFromSelectionInTable();
             return true;
         } else {
             detail.innerHTML = "<p>Only one row can be selected at a time, please select one row</p>";
+            return false;
         }
     } else {
         detail.innerHTML = "<p>No rows selected, please select one row</p>";
+        return false;
     }
+}
+
+function setIdFromSelectionInTable() {
+    let selectedRow;
+    let checks = document.getElementsByName('checkField');
+    if (checks.checked) {
+        selectedRow = document.getElementById("myTable").rows[0];
+    } else {
+        for (let i = 0; i < checks.length; i++) {
+            if (checks[i].checked) {
+                selectedRow = document.getElementById("myTable").rows[i + 1];
+            }
+        }
+    }
+    document.getElementById("id").value = selectedRow.cells[0].childNodes[0].value;
 }
 
 function tableHead() {
