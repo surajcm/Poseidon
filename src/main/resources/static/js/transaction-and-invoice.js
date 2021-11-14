@@ -79,7 +79,6 @@ function tagNumbers(fromInvoice) {
         invoiceElem = aTextBox("addTagNumber","TagNumber", true);
         invoiceElem.disabled = true;
         getInvoiceIdAndDescription(id);
-        console.log("Anu is laughing");
     } else {
         invoiceElem = document.createElement("select");
         invoiceElem.setAttribute("class", "form-select");
@@ -170,6 +169,29 @@ function setTagNumberAsOption(textReturned) {
     }
 }
 
+function addValidation(addTagNumber, addDescription, addQuantity, addRate) {
+    if (addTagNumber.length === 0) {
+        document.getElementById("addTagNumber").setAttribute("class", "form-control is-invalid");
+    } else {
+        document.getElementById("addTagNumber").setAttribute("class", "form-control was-validated");
+    }
+    if (addDescription.length === 0) {
+        document.getElementById("addDescription").setAttribute("class", "form-control is-invalid");
+    } else {
+        document.getElementById("addDescription").setAttribute("class", "form-control was-validated");
+    }
+    if (addQuantity.length === 0) {
+        document.getElementById("addQuantity").setAttribute("class", "form-control is-invalid");
+    } else {
+        document.getElementById("addQuantity").setAttribute("class", "form-control was-validated");
+    }
+    if (addRate.length === 0) {
+        document.getElementById("addRate").setAttribute("class", "form-control is-invalid");
+    } else {
+        document.getElementById("addRate").setAttribute("class", "form-control was-validated");
+    }
+}
+
 function saveFromModal() {
     let addTagNumber = document.getElementById("addTagNumber").value;
     let addDescription = document.getElementById("addDescription").value;
@@ -182,61 +204,15 @@ function saveFromModal() {
 
     if (forms[0].checkValidity() === false) {
         allFieldsAreValid = false;
-        if (addTagNumber.length === 0) {
-            document.getElementById("addTagNumber").setAttribute("class", "form-control is-invalid");
-        } else {
-            document.getElementById("addTagNumber").setAttribute("class", "form-control was-validated");
-        }
-        if (addDescription.length === 0) {
-            document.getElementById("addDescription").setAttribute("class", "form-control is-invalid");
-        } else {
-            document.getElementById("addDescription").setAttribute("class", "form-control was-validated");
-        }
-        if (addQuantity.length === 0) {
-            document.getElementById("addQuantity").setAttribute("class", "form-control is-invalid");
-        } else {
-            document.getElementById("addQuantity").setAttribute("class", "form-control was-validated");
-        }
-        if (addRate.length === 0) {
-            document.getElementById("addRate").setAttribute("class", "form-control is-invalid");
-        } else {
-            document.getElementById("addRate").setAttribute("class", "form-control was-validated");
-        }
+        addValidation(addTagNumber, addDescription, addQuantity, addRate);
     }
 
     if (allFieldsAreValid) {
         console.log('all fields are valid');
-        callAjax(addTagNumber, addDescription, addQuantity, addRate, addAmount);
+        callAjaxForAddingInvoice(addTagNumber, addDescription, addQuantity, addRate, addAmount);
     }
 }
 
-function callAjax(addTagNumber, addDescription, addQuantity, addRate, addAmount) {
-    let xhr = new XMLHttpRequest();
-    xhr.open('POST', "/invoice/saveInvoiceAjax.htm", true);
-    let token = document.querySelector("meta[name='_csrf']").content;
-    let header = document.querySelector("meta[name='_csrf_header']").content;
-    xhr.setRequestHeader(header, token);
-    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-    xhr.onload = function () {
-        if (xhr.status === 200) {
-            if (xhr.responseText != null) {
-                console.log(xhr.responseText);
-                rewriteTable(xhr.responseText);
-                showStatus(true);
-            } else {
-                showStatus(false);
-            }
-        } else if (xhr.status !== 200) {
-            console.log('Request failed.  Returned status of ' + xhr.status);
-            showStatus(false);
-        }
-    };
-    xhr.send("addTagNumber=" + addTagNumber +
-        "&addDescription=" + addDescription +
-        "&addQuantity=" + addQuantity +
-        "&addRate=" + addRate +
-        "&addAmount=" + addAmount);
-}
 
 function showStatus(status) {
     let detail = document.getElementById("invoiceModalBody");

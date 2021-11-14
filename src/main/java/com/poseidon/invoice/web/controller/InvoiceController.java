@@ -98,6 +98,29 @@ public class InvoiceController {
         return parseInvoices(invoiceVOs);
     }
 
+    @PostMapping("/invoice/saveInvoiceAjaxForTxn.htm")
+    public @ResponseBody
+    String saveInvoiceAjaxForTxn(@ModelAttribute("addTagNumber") final String addTagNumber,
+                           @ModelAttribute("addDescription") final String addDescription,
+                           @ModelAttribute("addQuantity") final String addQuantity,
+                           @ModelAttribute("addRate") final String addRate,
+                           @ModelAttribute("addAmount") final String addAmount,
+                           final BindingResult result) {
+        //todo:error handling
+        log.info("saveInvoiceAjaxForTxn method of invoice controller ");
+        try {
+            var invoiceVO = populateInvoiceVO(addTagNumber, addDescription, addQuantity, addRate, addAmount);
+            var id = invoiceService.addInvoice(invoiceVO);
+            //update the transaction
+            var status = "INVOICED";
+            transactionService.updateTransactionStatus(id, status);
+        } catch (Exception ex) {
+            log.error("Error occurred", ex);
+        }
+        var allTransactions = transactionService.listAllTransactions();
+        return parseTransactions(allTransactions);
+    }
+
     private InvoiceVO populateInvoiceVO(final String addTagNumber,
                                         final String addDescription,
                                         final String addQuantity,
@@ -376,6 +399,18 @@ public class InvoiceController {
             log.error("Error parsing to json : {}", ex.getMessage());
         }
         log.info("invoices list json : {}", response);
+        return response;
+    }
+
+    private String parseTransactions(final List<TransactionVO> invoices) {
+        String response = "";
+        ObjectMapper mapper = new ObjectMapper();
+        try {
+            response = mapper.writeValueAsString(invoices);
+        } catch (IOException ex) {
+            log.error("Error parsing to json : {}", ex.getMessage());
+        }
+        log.info("transactions list json : {}", response);
         return response;
     }
 

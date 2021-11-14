@@ -150,4 +150,67 @@ function invoiceRow() {
     document.forms[0].submit();
 }
 
+function callAjaxForAddingInvoice(addTagNumber, addDescription, addQuantity, addRate, addAmount) {
+    let xhr = new XMLHttpRequest();
+    xhr.open('POST', "/invoice/saveInvoiceAjaxForTxn.htm", true);
+    let token = document.querySelector("meta[name='_csrf']").content;
+    let header = document.querySelector("meta[name='_csrf_header']").content;
+    xhr.setRequestHeader(header, token);
+    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    xhr.onload = function () {
+        if (xhr.status === 200) {
+            if (xhr.responseText != null) {
+                console.log(xhr.responseText);
+                rewriteTable(xhr.responseText);
+                showStatus(true);
+            } else {
+                showStatus(false);
+            }
+        } else if (xhr.status !== 200) {
+            console.log('Request failed.  Returned status of ' + xhr.status);
+            showStatus(false);
+        }
+    };
+    xhr.send("addTagNumber=" + addTagNumber +
+        "&addDescription=" + addDescription +
+        "&addQuantity=" + addQuantity +
+        "&addRate=" + addRate +
+        "&addAmount=" + addAmount);
+}
 
+function rewriteTable(textReturned) {
+    document.getElementById('myTable').innerHTML = "";
+    let myTable = document.getElementById("myTable");
+    myTable.setAttribute("class", "table table-bordered table-striped table-hover caption-top");
+    myTable.appendChild(setCaption("Transaction List"));
+    const thead = tableHead();
+    myTable.appendChild(thead);
+    myTable.appendChild(tableBodyCreation(textReturned));
+}
+
+function tableHeaderRow() {
+    let tr1 = document.createElement("tr");
+    const th1 = tableHeader("id");
+    tr1.appendChild(th1);
+    tr1.appendChild(tableHeader("Tag No"));
+    tr1.appendChild(tableHeader("Customer Name"));
+    tr1.appendChild(tableHeader("Reported Date"));
+    tr1.appendChild(tableHeader("Make"));
+    tr1.appendChild(tableHeader("Model"));
+    tr1.appendChild(tableHeader("Serial No"));
+    tr1.appendChild(tableHeader("Status"));
+    return tr1;
+}
+
+function singleRowInTheTable(singleTransaction) {
+    let trx = document.createElement("tr");
+    trx.appendChild(sideHeader(singleTransaction.id));
+    trx.appendChild(tdElement(singleTransaction.tagNo));
+    trx.appendChild(tdElement(singleTransaction.customerName));
+    trx.appendChild(tdElement(singleTransaction.dateReported));
+    trx.appendChild(tdElement(singleTransaction.makeName));
+    trx.appendChild(tdElement(singleTransaction.modelName));
+    trx.appendChild(tdElement(singleTransaction.serialNo));
+    trx.appendChild(tdElement(singleTransaction.status));
+    return trx;
+}

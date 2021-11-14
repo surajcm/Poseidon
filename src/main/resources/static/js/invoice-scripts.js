@@ -246,3 +246,32 @@ function showUpdateStatus(status) {
     updateModal.style.display = "none";
     detail.appendChild(statusAsDiv(status));
 }
+
+
+function callAjaxForAddingInvoice(addTagNumber, addDescription, addQuantity, addRate, addAmount) {
+    let xhr = new XMLHttpRequest();
+    xhr.open('POST', "/invoice/saveInvoiceAjax.htm", true);
+    let token = document.querySelector("meta[name='_csrf']").content;
+    let header = document.querySelector("meta[name='_csrf_header']").content;
+    xhr.setRequestHeader(header, token);
+    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    xhr.onload = function () {
+        if (xhr.status === 200) {
+            if (xhr.responseText != null) {
+                console.log(xhr.responseText);
+                rewriteTable(xhr.responseText);
+                showStatus(true);
+            } else {
+                showStatus(false);
+            }
+        } else if (xhr.status !== 200) {
+            console.log('Request failed.  Returned status of ' + xhr.status);
+            showStatus(false);
+        }
+    };
+    xhr.send("addTagNumber=" + addTagNumber +
+        "&addDescription=" + addDescription +
+        "&addQuantity=" + addQuantity +
+        "&addRate=" + addRate +
+        "&addAmount=" + addAmount);
+}
