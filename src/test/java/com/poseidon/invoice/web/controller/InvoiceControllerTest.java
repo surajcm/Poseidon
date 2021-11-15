@@ -33,16 +33,6 @@ class InvoiceControllerTest {
     }
 
     @Test
-    void saveInvoice() throws Exception {
-        mvc.perform(post("/invoice/saveInvoice.htm")).andExpect(status().isOk());
-    }
-
-    @Test
-    void editInvoice() throws Exception {
-        mvc.perform(post("/invoice/EditInvoice.htm")).andExpect(status().isOk());
-    }
-
-    @Test
     void deleteInvoice() throws Exception {
         mvc.perform(post("/invoice/DeleteInvoice.htm")).andExpect(status().isOk());
     }
@@ -50,10 +40,5 @@ class InvoiceControllerTest {
     @Test
     void searchInvoice() throws Exception {
         mvc.perform(post("/invoice/SearchInvoice.htm")).andExpect(status().isOk());
-    }
-
-    @Test
-    void invoiceTxn() throws Exception {
-        mvc.perform(post("/invoice/InvoiceTxn.htm")).andExpect(status().isOk());
     }
 }

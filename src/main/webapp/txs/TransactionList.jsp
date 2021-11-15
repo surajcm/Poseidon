@@ -155,9 +155,8 @@
                         <button type="button" class="btn btn-primary" onclick="deleteTxn()">Delete Transaction</button>
                     </div>
                     <div class="col-md-3">
-                        <button type="button" class="btn btn-primary" onclick="invoiceTxn()">Invoice Transaction</button>
                         <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#newInvoiceModal"
-                            onclick="addSmartInvoiceOnTransaction();">Smart Invoice</button>
+                            onclick="addSmartInvoiceOnTransaction();">Invoice Transaction</button>
                     </div>
                 </div>
             </div>

@@ -7,7 +7,6 @@ import com.poseidon.invoice.web.form.InvoiceForm;
 import com.poseidon.transaction.domain.TransactionReportVO;
 import com.poseidon.transaction.domain.TransactionVO;
 import com.poseidon.transaction.service.TransactionService;
-import com.poseidon.transaction.web.form.TransactionForm;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -145,65 +144,6 @@ public class InvoiceController {
         return parseTagNumbers(tags);
     }
 
-    /**
-     * save invoice.
-     *
-     * @param invoiceForm InvoiceForm
-     * @return ModelAndView
-     */
-    @PostMapping("/invoice/saveInvoice.htm")
-    public ModelAndView saveInvoice(final InvoiceForm invoiceForm) {
-        log.info("Inside saveInvoice method of InvoiceController ");
-        log.info(INVOICE_FORM_DETAILS, invoiceForm);
-        if (invoiceForm.getCurrentInvoiceVo() != null) {
-            invoiceForm.getCurrentInvoiceVo().setCreatedBy(invoiceForm.getLoggedInUser());
-            invoiceForm.getCurrentInvoiceVo().setModifiedBy(invoiceForm.getLoggedInUser());
-        }
-        var searchTransactionVo = new TransactionVO();
-        if (invoiceForm.getCurrentInvoiceVo() != null) {
-            searchTransactionVo.setTagNo(invoiceForm.getCurrentInvoiceVo().getTagNo());
-        }
-        searchTransactionVo.setStartswith(Boolean.TRUE);
-        searchTransactionVo.setIncludes(Boolean.TRUE);
-        var transactionVo = fetchTransactionVO(searchTransactionVo);
-        if (transactionVo.isPresent()) {
-            invoiceForm.getCurrentInvoiceVo().setTransactionId(transactionVo.get().getId());
-            invoiceForm.getCurrentInvoiceVo().setSerialNo(transactionVo.get().getSerialNo());
-            invoiceForm.getCurrentInvoiceVo().setCustomerId(transactionVo.get().getCustomerId());
-            invoiceForm.getCurrentInvoiceVo().setCustomerName(transactionVo.get().getCustomerName());
-            invoiceService.addInvoice(invoiceForm.getCurrentInvoiceVo());
-            log.info("Successfully saved the new invoice Detail");
-            invoiceForm.setStatusMessage("Successfully saved the new invoice Detail");
-            invoiceForm.setStatusMessageType(SUCCESS);
-            //update the transaction
-            var status = "INVOICED";
-            transactionService.updateTransactionStatus(transactionVo.get().getId(), status);
-        } else {
-            log.error("Transaction not found !!!!");
-            invoiceForm.setStatusMessage("Transaction not found !!!!");
-            invoiceForm.setStatusMessageType(ERROR);
-        }
-        log.info("fetching invoice for listing....");
-        var invoiceVOs = fetchInvoices(invoiceForm);
-        invoiceForm.setSearchInvoiceVo(new InvoiceVO());
-        return new ModelAndView(LIST_INVOICE, INVOICE_FORM, invoiceForm);
-    }
-
-    /**
-     * edit invoice.
-     *
-     * @param invoiceForm InvoiceForm
-     * @return ModelAndView
-     */
-    @PostMapping("/invoice/EditInvoice.htm")
-    public ModelAndView editInvoice(final InvoiceForm invoiceForm) {
-        log.info("Inside editInvoice method of InvoiceController ");
-        log.info(INVOICE_FORM_DETAILS, invoiceForm);
-        var invoiceVo = invoiceService.fetchInvoiceVOFromId(invoiceForm.getId());
-        invoiceVo.ifPresent(invoiceForm::setCurrentInvoiceVo);
-        return new ModelAndView("invoice/EditInvoice", INVOICE_FORM, invoiceForm);
-    }
-
     @GetMapping("/invoice/getForEdit.htm")
     public @ResponseBody
     String getForEdit(@ModelAttribute("id") final String id,
@@ -309,35 +249,6 @@ public class InvoiceController {
         return parseInvoiceVO(invoiceVo);
     }
 
-    /**
-     * invoice the transaction.
-     *
-     * @param transactionForm TransactionForm
-     * @return ModelAndView
-     */
-    @PostMapping("/invoice/InvoiceTxn.htm")
-    public ModelAndView invoiceTxn(final TransactionForm transactionForm) {
-        log.info("Inside invoiceTxn method of InvoiceController ");
-        var makeName = "";
-        var modelName = "";
-        var transactionVo = transactionService.fetchTransactionFromId(transactionForm.getId());
-        if (transactionVo != null && transactionVo.getMakeId() != null && transactionVo.getMakeId() > 0) {
-            log.info("tag no is {}", transactionVo.getTagNo());
-            makeName = transactionVo.getMakeName();
-            modelName = transactionVo.getModelName();
-        }
-        var invoiceForm = new InvoiceForm();
-        invoiceForm.setLoggedInUser(transactionForm.getLoggedInUser());
-        invoiceForm.setLoggedInRole(transactionForm.getLoggedInRole());
-        var invoiceVo = new InvoiceVO();
-        if (transactionVo != null) {
-            invoiceVo.setTagNo(transactionVo.getTagNo());
-            invoiceVo.setDescription("SERVICE CHARGES FOR " + makeName + " " + modelName);
-        }
-        invoiceForm.setCurrentInvoiceVo(invoiceVo);
-        // create an invoice VO object and se that to the form
-        return new ModelAndView("invoice/AddInvoice", INVOICE_FORM, invoiceForm);
-    }
 
     /**
      * This is for avoiding errors when entering double fields.

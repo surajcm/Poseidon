@@ -125,31 +125,6 @@ function deleteRow() {
     }
 }
 
-
-function invoiceTxn() {
-    let rowCheck = validateSelection();
-    if (rowCheck) {
-        invoiceRow();
-    }
-}
-
-function invoiceRow() {
-    let userRow;
-    let checks = document.getElementsByName('checkField');
-    if (checks.checked) {
-        userRow = document.getElementById("myTable").rows[0];
-    } else {
-        for (let i = 0; i < checks.length; i++) {
-            if (checks[i].checked) {
-                userRow = document.getElementById("myTable").rows[i + 1];
-            }
-        }
-    }
-    document.getElementById("id").value = userRow.cells[0].childNodes[0].value;
-    document.forms[0].action = "/invoice/InvoiceTxn.htm";
-    document.forms[0].submit();
-}
-
 function callAjaxForAddingInvoice(addTagNumber, addDescription, addQuantity, addRate, addAmount) {
     let xhr = new XMLHttpRequest();
     xhr.open('POST', "/invoice/saveInvoiceAjaxForTxn.htm", true);
