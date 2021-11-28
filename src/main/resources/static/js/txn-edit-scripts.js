@@ -65,3 +65,10 @@ function rebuildDropDown(textReturned) {
     }
     document.getElementById('currentTransaction.modelId').value = model.options[0].value;
 }
+
+function editSmartCustomer() {
+    console.log("editSmartCustomer model");
+}
+function updateFromModal() {
+    console.log("updating from model");
+}

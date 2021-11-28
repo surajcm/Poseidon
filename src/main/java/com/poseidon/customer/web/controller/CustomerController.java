@@ -73,27 +73,6 @@ public class CustomerController {
         logger.info("Form details are {}", sanitizedForm);
     }
 
-    /**
-     * edit a customer.
-     *
-     * @param customerForm customerForm
-     * @return view
-     */
-    @PostMapping("/customer/editCust.htm")
-    public ModelAndView editCustomer(final CustomerForm customerForm) {
-        logIncomingEdit(customerForm);
-        var customerVO = getCustomerVOFromId(customerForm.getId());
-        if (customerVO.isPresent()) {
-            logger.info(" customerVO details are {}", customerVO.get());
-            customerForm.setCurrentCustomerVO(customerVO.get());
-        } else {
-            logger.error(" No details found for current makeVO !!");
-        }
-        customerForm.setLoggedInUser(customerForm.getLoggedInUser());
-        customerForm.setLoggedInRole(customerForm.getLoggedInRole());
-        return new ModelAndView("customer/EditCustomer", CUSTOMER_FORM, customerForm);
-    }
-
     @GetMapping("/customer/getForEdit.htm")
     public @ResponseBody
     String getForEdit(@ModelAttribute("id") final String id,
@@ -138,6 +117,22 @@ public class CustomerController {
             return new ModelAndView("ErrorPage", "userForm", customerForm);
         }
     }
+
+
+    private ModelAndView editCustomer(final CustomerForm customerForm) {
+        logIncomingEdit(customerForm);
+        var customerVO = getCustomerVOFromId(customerForm.getId());
+        if (customerVO.isPresent()) {
+            logger.info(" customerVO details are {}", customerVO.get());
+            customerForm.setCurrentCustomerVO(customerVO.get());
+        } else {
+            logger.error(" No details found for current makeVO !!");
+        }
+        customerForm.setLoggedInUser(customerForm.getLoggedInUser());
+        customerForm.setLoggedInRole(customerForm.getLoggedInRole());
+        return new ModelAndView("customer/EditCustomer", CUSTOMER_FORM, customerForm);
+    }
+
 
     /**
      * delete a customer.

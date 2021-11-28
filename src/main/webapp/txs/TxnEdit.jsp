@@ -62,6 +62,8 @@
                                 <div class="col-md-4">
                                     <form:hidden path="customerVO.customerId" id="customerId"/>
                                     <input class="btn btn-primary" value="Edit Customer Details" type="button" onclick="editThisCustomer();"/>
+                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editCustomer"
+                                        onclick="editSmartCustomer();">Edit customer</button>
                                 </div>
                                 <div class="col-md-4">
                                     <label for="makeId" class="form-label">Make :</label>
@@ -120,6 +122,22 @@
                                     <button type="button" class="btn btn-primary" onclick="cancel();">Cancel</button>
                                 </div>
                             </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="editCustomer" class="modal fade" tabindex="-1" aria-labelledby="editCustomer" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Edit Customer</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div id="editCustomerBody" class="modal-body">
+                            <p>Lets edit customer....</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" id="updateSmartCustomer" class="btn btn-primary" onclick="updateFromModal();">Update</button>
                         </div>
                     </div>
                 </div>
