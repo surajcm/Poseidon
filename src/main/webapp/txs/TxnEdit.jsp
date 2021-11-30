@@ -20,6 +20,8 @@
         <link rel="stylesheet" href="/css/bootstrap-5.min.css"  type="text/css" />
         <link rel="stylesheet" href="/css/custom.css" type="text/css" />
         <title>Edit Transaction</title>
+        <script type="text/javascript" src="/js/common-scripts.js"></script>
+        <script type="text/javascript" src="/js/customer-scripts.js"></script>
         <script type="text/javascript" src="/js/txn-edit-scripts.js"></script>
         <script type="text/javascript" src="/js/navbar-scripts.js"></script>
     </head>
@@ -28,7 +30,7 @@
             <form:hidden name="loggedInUser" path="loggedInUser" />
             <form:hidden name="loggedInRole" path="loggedInRole" />
             <form:hidden name="id" path="currentTransaction.id" />
-            <form:hidden name="customer" path="currentTransaction.customerId" />
+            <form:hidden name="customer" path="customerVO.customerId" />
             <form:hidden name="model" path="currentTransaction.modelId" />
             <%@include file="../navbar5.jsp" %>
             <div class="container">

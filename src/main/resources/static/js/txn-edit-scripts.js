@@ -68,7 +68,32 @@ function rebuildDropDown(textReturned) {
 
 function editSmartCustomer() {
     console.log("editSmartCustomer model");
+    editCustomerModal();
+    getCustomerForEdit()
 }
+
 function updateFromModal() {
     console.log("updating from model");
+}
+
+function getCustomerForEdit() {
+    let id = document.getElementById("customerVO.customerId").value;
+    let xhr = new XMLHttpRequest();
+    xhr.open('GET', "/customer/getForEdit.htm" + "?id=" + id, true);
+    let token = document.querySelector("meta[name='_csrf']").content;
+    let header = document.querySelector("meta[name='_csrf_header']").content;
+    xhr.setRequestHeader(header, token);
+    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    xhr.onload = function () {
+        if (xhr.status === 200) {
+            if (xhr.responseText != null) {
+                console.log(xhr.responseText);
+                populateDataForEdit(xhr.responseText);
+            }
+        } else if (xhr.status !== 200) {
+            console.log('Request failed.  Returned status of ' + xhr.status);
+            showEditError();
+        }
+    };
+    xhr.send();
 }
