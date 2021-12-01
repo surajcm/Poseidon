@@ -67,13 +67,8 @@ function rebuildDropDown(textReturned) {
 }
 
 function editSmartCustomer() {
-    console.log("editSmartCustomer model");
     editCustomerModal();
     getCustomerForEdit()
-}
-
-function updateFromModal() {
-    console.log("updating from model");
 }
 
 function getCustomerForEdit() {
@@ -96,4 +91,44 @@ function getCustomerForEdit() {
         }
     };
     xhr.send();
+}
+
+function callAjaxUpdate(modalCustomerName, modalAddress, modalPhone,
+                        modalMobile, modalEmail, modalContact, modalContactMobile, modalNotes) {
+    let id = document.getElementById("customerVO.customerId").value;
+    let xhr = new XMLHttpRequest();
+    xhr.open('PUT', "/customer/updateCustomerAjax.htm", true);
+    let token = document.querySelector("meta[name='_csrf']").content;
+    let header = document.querySelector("meta[name='_csrf_header']").content;
+    xhr.setRequestHeader(header, token);
+    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    xhr.onload = function () {
+        if (xhr.status === 200) {
+            if (xhr.responseText != null) {
+                console.log(xhr.responseText);
+                rewriteTable(xhr.responseText);
+                showUpdateStatus(true);
+            } else {
+                console.log("Empty response");
+                showUpdateStatus(false);
+            }
+        } else if (xhr.status !== 200) {
+            console.log('Request failed.  Returned status of ' + xhr.status);
+            showUpdateStatus(false);
+        }
+    };
+    xhr.send("id=" +
+        id +
+        "&modalCustomerName=" + modalCustomerName +
+        "&modalAddress=" + modalAddress +
+        "&modalPhone=" + modalPhone +
+        "&modalMobile=" + modalMobile +
+        "&modalEmail=" + modalEmail +
+        "&modalContact=" + modalContact +
+        "&modalContactMobile=" + modalContactMobile +
+        "&modalNotes=" + modalNotes);
+}
+
+function rewriteTable(textReturned) {
+    //console.log("response received :" + textReturned);
 }
