@@ -63,7 +63,6 @@
                                 </div>
                                 <div class="col-md-4">
                                     <form:hidden path="customerVO.customerId" id="customerId"/>
-                                    <input class="btn btn-primary" value="Edit Customer Details" type="button" onclick="editThisCustomer();"/>
                                     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editCustomer"
                                         onclick="editSmartCustomer();">Edit customer</button>
                                 </div>

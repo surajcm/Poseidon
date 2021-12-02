@@ -25,16 +25,6 @@ function cancel() {
     document.forms[0].submit();
 }
 
-function editThisCustomer() {
-    if (document.getElementById("customerId") != null) {
-        document.forms[0].action = "/customer/editCustomer.htm" +
-            "?customerId=" + document.getElementById("customerId").value;
-        document.forms[0].submit();
-    } else {
-        alert("Unable to get the customer Details !!!");
-    }
-}
-
 function changeTheModel() {
     const selectMakeId = document.getElementById('makeId').value;
     let xhr = new XMLHttpRequest();
@@ -95,7 +85,7 @@ function getCustomerForEdit() {
 
 function callAjaxUpdate(modalCustomerName, modalAddress, modalPhone,
                         modalMobile, modalEmail, modalContact, modalContactMobile, modalNotes) {
-    let id = document.getElementById("customerVO.customerId").value;
+    const id = document.getElementById("customerVO.customerId").value;
     let xhr = new XMLHttpRequest();
     xhr.open('PUT', "/customer/updateCustomerAjax.htm", true);
     let token = document.querySelector("meta[name='_csrf']").content;
@@ -130,5 +120,13 @@ function callAjaxUpdate(modalCustomerName, modalAddress, modalPhone,
 }
 
 function rewriteTable(textReturned) {
-    //console.log("response received :" + textReturned);
+    const id = document.getElementById("customerVO.customerId").value;
+    const elementList = JSON.parse(textReturned);
+    for (let i = 0; i < elementList.length; i++) {
+        const singleElement = elementList[i];
+        if (parseInt(id) === parseInt(singleElement.customerId)) {
+            document.getElementById("customerName").value = singleElement.customerName;
+            document.getElementById("email").value = singleElement.email;
+        }
+    }
 }
