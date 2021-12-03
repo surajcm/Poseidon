@@ -5,7 +5,6 @@ import com.poseidon.customer.domain.CustomerVO;
 import com.poseidon.customer.service.CustomerService;
 import com.poseidon.customer.web.form.CustomerForm;
 import com.poseidon.init.util.CommonUtils;
-import com.poseidon.transaction.web.form.TransactionForm;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -86,53 +85,6 @@ public class CustomerController {
         }
         return response;
     }
-
-    private void logIncomingEdit(final CustomerForm customerForm) {
-        var sanitizedForm = CommonUtils.sanitizedString(customerForm.toString());
-        logger.info("EditCustomer method of CustomerController ");
-        logger.info("customerForm is {}", sanitizedForm);
-        if (customerForm.getCurrentCustomerVO() != null) {
-            var sanitizedCustomerVO = CommonUtils.sanitizedString(
-                    customerForm.getCurrentCustomerVO().toString());
-            logger.info("customerVO is {}", sanitizedCustomerVO);
-        }
-    }
-
-    /**
-     * edit a customer.
-     *
-     * @param transactionForm transactionForm
-     * @return view
-     */
-    @PostMapping("/customer/editCustomer.htm")
-    public ModelAndView editCustomerOnTransaction(final TransactionForm transactionForm) {
-        logger.info("EditCustomer method of TransactionController ");
-        var sanitizedForm = CommonUtils.sanitizedString(transactionForm.toString());
-        logger.info("TransactionForm values are {}", sanitizedForm);
-        var customerForm = new CustomerForm();
-        if (transactionForm.getCustomerVO() != null && transactionForm.getCustomerVO().getCustomerId() > 0) {
-            customerForm.setId(transactionForm.getCustomerVO().getCustomerId());
-            return editCustomer(customerForm);
-        } else {
-            return new ModelAndView("ErrorPage", "userForm", customerForm);
-        }
-    }
-
-
-    private ModelAndView editCustomer(final CustomerForm customerForm) {
-        logIncomingEdit(customerForm);
-        var customerVO = getCustomerVOFromId(customerForm.getId());
-        if (customerVO.isPresent()) {
-            logger.info(" customerVO details are {}", customerVO.get());
-            customerForm.setCurrentCustomerVO(customerVO.get());
-        } else {
-            logger.error(" No details found for current makeVO !!");
-        }
-        customerForm.setLoggedInUser(customerForm.getLoggedInUser());
-        customerForm.setLoggedInRole(customerForm.getLoggedInRole());
-        return new ModelAndView("customer/EditCustomer", CUSTOMER_FORM, customerForm);
-    }
-
 
     /**
      * delete a customer.
