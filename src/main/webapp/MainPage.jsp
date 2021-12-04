@@ -22,7 +22,7 @@
         <input type="hidden" name="id" id="id" />
         <form:hidden name="loggedInUser" path="loggedInUser" />
         <form:hidden name="loggedInRole" path="loggedInRole" />
-        <%@include file="/navbar5.jsp" %>
+        <%@include file="navbar.jsp" %>
         <c:if test="${pageContext.request.userPrincipal.name != null}">
             <form id="logoutForm" method="POST" action="${contextPath}/logout">
                 <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>

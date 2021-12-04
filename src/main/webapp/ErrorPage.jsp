@@ -20,7 +20,7 @@
 <body>
     <form:form method="POST">
         <input type="hidden" name="id" id="id" />
-        <%@include file="navbar5.jsp" %>
+        <%@include file="navbar.jsp" %>
         <section class="jumbotron">
             <div id="content">
                 <div class="jumbotron center">

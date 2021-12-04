@@ -26,7 +26,7 @@
     <form method="POST" action="listAll.htm" class="needs-validation" novalidate>
         <input type="hidden" name="id" id="id" />
         <input type="hidden" name="addInProgress" id="addInProgress" />
-        <%@include file="../navbar5.jsp" %>
+        <%@include file="../navbar.jsp" %>
         <div id="status" >
         <c:if test="${userForm.statusMessage!=null}">
             <div class="alert alert-<c:out value='${userForm.statusMessageType}'/> alert-dismissible fade show" role="alert">

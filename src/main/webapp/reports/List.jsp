@@ -27,7 +27,7 @@
         <form:hidden name="loggedInRole" path="loggedInRole"/>
         <form:hidden name="exportTo" path="currentReport.exportTo" id="exportTo"/>
         <form:hidden name="tagNo" path="currentReport.tagNo" id="tagNo"/>
-        <%@include file="../navbar5.jsp" %>
+        <%@include file="../navbar.jsp" %>
         <div class="container">
             <ul class="nav nav-tabs" role="tablist">
                 <li class="nav-item" role="presentation">

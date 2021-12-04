@@ -32,7 +32,7 @@
             <form:hidden name="id" path="currentTransaction.id" />
             <form:hidden name="customer" path="customerVO.customerId" />
             <form:hidden name="model" path="currentTransaction.modelId" />
-            <%@include file="../navbar5.jsp" %>
+            <%@include file="../navbar.jsp" %>
             <div class="container">
                 <div class="wrap">
                     <div class="card">

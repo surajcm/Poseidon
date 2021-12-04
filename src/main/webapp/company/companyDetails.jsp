@@ -20,7 +20,7 @@
 </head>
 <body onload="hideUpdate()">
     <form:form method="POST" modelAttribute="companyTermsForm">
-        <%@include file="../navbar5.jsp" %>
+        <%@include file="../navbar.jsp" %>
         <div class="container">
             <div class="wrap">
                 <div class="card">

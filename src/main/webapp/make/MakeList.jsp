@@ -28,7 +28,7 @@
         <input type="hidden" name="id" id="id"/>
         <form:hidden name="loggedInUser" path="loggedInUser"/>
         <form:hidden name="loggedInRole" path="loggedInRole"/>
-        <%@include file="../navbar5.jsp" %>
+        <%@include file="../navbar.jsp" %>
         <div  class="container">
             <div class="wrap">
                 <div class="card">
