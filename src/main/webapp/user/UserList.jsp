@@ -16,7 +16,7 @@
     <meta name="_csrf_header" content="${_csrf.headerName}"/>
     <spring:url value="/img/Poseidon_Ico.ico" var="posIcon" />
     <link rel="shortcut icon" href="${posIcon}" />
-    <link rel="stylesheet" href="/css/bootstrap-5.min.css"  type="text/css" />
+    <link rel="stylesheet" href="/css/core/bootstrap-5.min.css"  type="text/css" />
     <link rel="stylesheet" href="/css/custom.css" type="text/css" />
     <title><spring:message code="poseidon.userListPage" text="User List" /></title>
     <script type="text/javascript" src="/js/common-scripts.js"></script>
@@ -39,20 +39,20 @@
                     <div class="card-body">
                         <div class="row g-3">
                             <div class="col-md-4">
-                                <label for="name" class="form-label"><spring:message code="poseidon.name" text="Name" /> :</label>
-                                <form:input cssClass="form-control" path="searchUser.name" id="name" />
+                                <form:input cssClass="form-control" path="searchUser.name" id="name" placeholder="Name" />
                             </div>
                             <div class="col-md-4">
-                                <label for="email" class="form-label"><spring:message code="poseidon.email" text="email" /> :</label>
-                                <form:input cssClass="form-control" path="searchUser.email" id="email" />
+                                <form:input cssClass="form-control" path="searchUser.email" id="email" placeholder="email" />
                             </div>
                             <div class="col-md-4">
-                                <label for="role" class="form-label"><spring:message code="poseidon.role" text="Role" /> :</label>
-                                <form:select id="role" path="searchUser.role" cssClass="form-select"
-                                             onkeypress="handleEnter(event);">
-                                    <form:option value=""><spring:message code="common.select" text="<-- Select -->"/></form:option>
-                                    <form:options items="${userForm.roleList}" />
-                                </form:select>
+                                <div class="input-group mb-3">
+                                    <label for="role" class="input-group-text"><spring:message code="poseidon.role" text="Role" /></label>
+                                    <form:select id="role" path="searchUser.role" cssClass="form-select"
+                                                 onkeypress="handleEnter(event);">
+                                        <form:option value=""><spring:message code="common.select" text="<-- Select -->"/></form:option>
+                                        <form:options items="${userForm.roleList}" />
+                                    </form:select>
+                                </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-check">
@@ -165,17 +165,8 @@
                 </div>
             </div>
         </div>
-        <script src="/js/core/jquery-3.2.1.min.js" type="text/javascript"></script>
         <script src="/js/core/popper.min.js" type="text/javascript"></script>
         <script src="/js/core/bootstrap-5.min.js" type="text/javascript"></script>
-        <script type="text/javascript">
-            $(document).ready(function() {
-                //Handles menu drop down
-                $('.dropdown-menu').find('form').click(function (e) {
-                    e.stopPropagation();
-                });
-            });
-        </script>
     </form:form>
 </body>
 </html>

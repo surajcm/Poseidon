@@ -14,7 +14,7 @@
     <meta name="_csrf_header" content="${_csrf.headerName}"/>
     <spring:url value="/img/Poseidon_Ico.ico" var="posIcon" />
     <link rel="shortcut icon" href="${posIcon}" />
-    <link rel="stylesheet" href="/css/bootstrap-5.min.css"  type="text/css" />
+    <link rel="stylesheet" href="/css/core/bootstrap-5.min.css"  type="text/css" />
     <link rel="stylesheet" href="/css/custom.css" type="text/css" />
     <title>Make and Model List</title>
     <script type="text/javascript" src="/js/common-scripts.js"></script>

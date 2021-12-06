@@ -6,7 +6,7 @@
     <link rel="shortcut icon" href="/resources/images/Poseidon_Ico.ico" >
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <title>Log In</title>
-    <link href="/css/bootstrap-5.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="/css/core/bootstrap-5.min.css"  type="text/css"/>
     <link rel="stylesheet" href="/css/logInStyles.css"  type="text/css" />
     <script type="text/javascript">
         function submitLogIn() {

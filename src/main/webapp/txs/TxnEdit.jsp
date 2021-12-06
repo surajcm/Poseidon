@@ -17,7 +17,7 @@
         <spring:url value="/img/Poseidon_Ico.ico" var="posIcon" />
         <link rel="shortcut icon" href="${posIcon}" />
         <link rel="stylesheet" href="/css/jquery-ui.css" type="text/css" />
-        <link rel="stylesheet" href="/css/bootstrap-5.min.css"  type="text/css" />
+        <link rel="stylesheet" href="/css/core/bootstrap-5.min.css"  type="text/css" />
         <link rel="stylesheet" href="/css/custom.css" type="text/css" />
         <title>Edit Transaction</title>
         <script type="text/javascript" src="/js/common-scripts.js"></script>
