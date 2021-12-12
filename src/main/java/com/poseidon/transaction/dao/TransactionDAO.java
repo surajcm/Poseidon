@@ -2,8 +2,6 @@ package com.poseidon.transaction.dao;
 
 import com.poseidon.customer.dao.entities.Customer;
 import com.poseidon.customer.dao.repo.CustomerRepository;
-import com.poseidon.make.dao.entities.Make;
-import com.poseidon.make.dao.entities.Model;
 import com.poseidon.make.dao.repo.MakeRepository;
 import com.poseidon.make.dao.repo.ModelRepository;
 import com.poseidon.transaction.dao.entities.Transaction;
@@ -23,8 +21,8 @@ import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.StreamSupport;
 
 import static com.rainerhahnekamp.sneakythrow.Sneaky.sneak;
 import static com.rainerhahnekamp.sneakythrow.Sneaky.sneaked;
@@ -67,7 +65,8 @@ public class TransactionDAO {
      */
     public List<TransactionVO> listAllTransactions() {
         var transactions = sneak(transactionRepository::findAll);
-        return transactions.stream().map(this::convertToVO).toList();
+        return StreamSupport.stream(transactions.spliterator(), true)
+                .map(this::convertToVO).toList();
     }
 
     /**
@@ -105,7 +104,8 @@ public class TransactionDAO {
     }
 
     public List<String> allTagNumbers() {
-        return transactionRepository.findAll().stream().map(Transaction::getTagno).toList();
+        return StreamSupport.stream(transactionRepository.findAll().spliterator(), true)
+                .map(Transaction::getTagno).toList();
     }
 
     /**
@@ -255,9 +255,9 @@ public class TransactionDAO {
     }
 
     private TransactionVO convertToVO(final Transaction txn) {
-        final Optional<Customer> customer = customerRepository.findById(txn.getCustomerId());
-        final Make make = makeRepository.getById(txn.getMakeId());
-        final Model model = modelRepository.getById(txn.getModelId());
+        final var customer = customerRepository.findById(txn.getCustomerId());
+        final var make = makeRepository.findById(txn.getMakeId());
+        final var model = modelRepository.findById(txn.getModelId());
         var transactionVO = new TransactionVO();
         transactionVO.setId(txn.getId());
         transactionVO.setTagNo(txn.getTagno());
@@ -266,9 +266,9 @@ public class TransactionDAO {
         transactionVO.setCustomerId(txn.getCustomerId());
         customer.ifPresent(value -> transactionVO.setCustomerName(value.getName()));
         transactionVO.setMakeId(txn.getMakeId());
-        transactionVO.setMakeName(make.getMakeName());
+        make.ifPresent(value -> transactionVO.setMakeName(value.getMakeName()));
         transactionVO.setModelId(txn.getModelId());
-        transactionVO.setModelName(model.getModelName());
+        model.ifPresent(value -> transactionVO.setModelName(value.getModelName()));
         transactionVO.setSerialNo(txn.getSerialNumber());
         transactionVO.setStatus(txn.getStatus());
         transactionVO.setAccessories(txn.getAccessories());
@@ -324,10 +324,10 @@ public class TransactionDAO {
             txs.setEmail(customer.getEmail());
         }
         txs.setProductCategory(transaction.getProductCategory());
-        var make = sneak(() -> makeRepository.getById(transaction.getMakeId()));
-        txs.setMakeName(make.getMakeName());
-        var model = sneak(() -> modelRepository.getById(transaction.getModelId()));
-        txs.setModelName(model.getModelName());
+        var make = sneak(() -> makeRepository.findById(transaction.getMakeId()));
+        make.ifPresent(value -> txs.setMakeName(value.getMakeName()));
+        var model = sneak(() -> modelRepository.findById(transaction.getModelId()));
+        model.ifPresent(value -> txs.setModelName(value.getModelName()));
         txs.setSerialNo(transaction.getSerialNumber());
         txs.setAccessories(transaction.getAccessories());
         txs.setComplaintReported(transaction.getComplaintReported());

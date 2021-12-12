@@ -40,8 +40,8 @@ class TransactionDAOTest {
     @Test
     void listTodaysTransactionsSuccess() {
         when(customerRepository.findById(anyLong())).thenReturn(Optional.of(mockCustomer()));
-        when(makeRepository.getById(anyLong())).thenReturn(mockMake());
-        when(modelRepository.getById(anyLong())).thenReturn(mockModel());
+        when(makeRepository.findById(anyLong())).thenReturn(mockMake());
+        when(modelRepository.findById(anyLong())).thenReturn(mockModel());
         when(transactionRepository.todaysTransaction()).thenReturn(mockListOfTransactions());
         Assertions.assertNotNull(transactionDAO.listTodaysTransactions());
     }
@@ -55,8 +55,8 @@ class TransactionDAOTest {
     @Test
     void fetchTransactionFromIdSuccess() {
         when(customerRepository.findById(anyLong())).thenReturn(Optional.of(mockCustomer()));
-        when(makeRepository.getById(anyLong())).thenReturn(mockMake());
-        when(modelRepository.getById(anyLong())).thenReturn(mockModel());
+        when(makeRepository.findById(anyLong())).thenReturn(mockMake());
+        when(modelRepository.findById(anyLong())).thenReturn(mockModel());
         when(transactionRepository.findById(anyLong())).thenReturn(Optional.of(mockTransaction()));
         Assertions.assertNotNull(transactionDAO.fetchTransactionFromId(1234L));
     }
@@ -71,8 +71,8 @@ class TransactionDAOTest {
     void updateTransactionSuccess() {
         when(transactionRepository.findById(null)).thenReturn(Optional.of(mockTransaction()));
         when(customerRepository.findById(anyLong())).thenReturn(Optional.of(mockCustomer()));
-        when(makeRepository.getById(anyLong())).thenReturn(mockMake());
-        when(modelRepository.getById(anyLong())).thenReturn(mockModel());
+        when(makeRepository.findById(anyLong())).thenReturn(mockMake());
+        when(modelRepository.findById(anyLong())).thenReturn(mockModel());
         when(transactionRepository.save(any())).thenReturn(mockTransaction());
         Assertions.assertAll(() -> transactionDAO.updateTransaction(new TransactionVO()));
     }
@@ -91,8 +91,8 @@ class TransactionDAOTest {
     @Test
     void fetchTransactionFromTagSuccess() {
         when(customerRepository.findById(anyLong())).thenReturn(Optional.of(mockCustomer()));
-        when(makeRepository.getById(anyLong())).thenReturn(mockMake());
-        when(modelRepository.getById(anyLong())).thenReturn(mockModel());
+        when(makeRepository.findById(anyLong())).thenReturn(mockMake());
+        when(modelRepository.findById(anyLong())).thenReturn(mockModel());
         when(transactionRepository.findBytagno(anyString())).thenReturn(mockTransaction());
         Assertions.assertNotNull(transactionDAO.fetchTransactionFromTag("ABC"));
     }
@@ -112,8 +112,8 @@ class TransactionDAOTest {
     @Test
     void listAllTransactionsSuccess() {
         when(customerRepository.findById(anyLong())).thenReturn(Optional.of(mockCustomer()));
-        when(makeRepository.getById(anyLong())).thenReturn(mockMake());
-        when(modelRepository.getById(anyLong())).thenReturn(mockModel());
+        when(makeRepository.findById(anyLong())).thenReturn(mockMake());
+        when(modelRepository.findById(anyLong())).thenReturn(mockModel());
         when(transactionRepository.findAll()).thenReturn(mockListOfTransactions());
         Assertions.assertNotNull(transactionDAO.listAllTransactions());
     }
@@ -153,17 +153,17 @@ class TransactionDAOTest {
         return customer;
     }
 
-    private Make mockMake() {
+    private Optional<Make> mockMake() {
         var make = new Make();
         make.setId(1234L);
         make.setMakeName("ABC");
-        return make;
+        return Optional.of(make);
     }
 
-    private Model mockModel() {
+    private Optional<Model> mockModel() {
         var model = new Model();
         model.setModelId(1234L);
         model.setModelName("ABC");
-        return model;
+        return Optional.of(model);
     }
 }

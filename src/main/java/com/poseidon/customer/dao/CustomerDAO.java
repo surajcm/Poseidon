@@ -20,6 +20,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.StreamSupport;
 
 import static com.rainerhahnekamp.sneakythrow.Sneaky.sneak;
 import static com.rainerhahnekamp.sneakythrow.Sneaky.sneaked;
@@ -49,7 +50,9 @@ public class CustomerDAO {
      * @return list customer vo
      */
     public List<CustomerVO> listAllCustomerDetails() {
-        List<Customer> customers = sneak(customerRepository::findAll);
+        var customers = sneak(() ->
+                StreamSupport.stream(customerRepository.findAll().spliterator(), true)
+                        .toList());
         return convertToCustomerVO(customers);
     }
 

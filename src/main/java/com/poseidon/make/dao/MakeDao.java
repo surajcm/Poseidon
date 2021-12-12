@@ -14,6 +14,7 @@ import org.springframework.stereotype.Service;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.function.Function;
+import java.util.stream.StreamSupport;
 
 import static com.rainerhahnekamp.sneakythrow.Sneaky.sneak;
 import static com.rainerhahnekamp.sneakythrow.Sneaky.sneaked;
@@ -48,7 +49,9 @@ public class MakeDao {
      * @return list of make and model vo
      */
     public List<MakeAndModelVO> listAllMakes() {
-        var makes = sneak(makeRepository::findAll);
+        var makes = sneak(() ->
+                StreamSupport.stream(makeRepository.findAll().spliterator(), true)
+                        .toList());
         return makeAndModelEntityConverter.convertMakeToMakeAndModelVOs(makes);
     }
 
@@ -58,7 +61,9 @@ public class MakeDao {
      * @return list of make and model vos
      */
     public List<MakeAndModelVO> listAllMakesAndModels() {
-        var models = sneak(modelRepository::findAll);
+        var models = sneak(() ->
+                StreamSupport.stream(modelRepository.findAll().spliterator(), true)
+                        .toList());
         //todo: better MakeAndModelVO to render things in a better way
         return makeAndModelEntityConverter.convertModelsToMakeAndModelVOs(models);
     }
@@ -191,7 +196,9 @@ public class MakeDao {
      * @return list of make vos
      */
     public List<MakeVO> fetchMakes() {
-        var makes = sneak(makeRepository::findAll);
+        var makes = sneak(() ->
+                StreamSupport.stream(makeRepository.findAll().spliterator(), true)
+                        .toList());
         return convertMakeToMakeVO(makes);
     }
 

@@ -15,6 +15,7 @@ import org.springframework.util.StringUtils;
 
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.StreamSupport;
 
 import static com.rainerhahnekamp.sneakythrow.Sneaky.sneak;
 import static com.rainerhahnekamp.sneakythrow.Sneaky.sneaked;
@@ -59,7 +60,9 @@ public class UserDAO {
      * @return List of user
      */
     public List<UserVO> getAllUserDetails() {
-        return sneak(() -> userRepository.findAll().stream().map(this::convertToUserVO).toList());
+        return sneak(() ->
+                StreamSupport.stream(userRepository.findAll().spliterator(), true)
+                .map(this::convertToUserVO).toList());
     }
 
     /**

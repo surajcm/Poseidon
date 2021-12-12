@@ -21,26 +21,13 @@
     <form:form method="POST">
         <input type="hidden" name="id" id="id" />
         <%@include file="navbar.jsp" %>
-        <section class="jumbotron">
-            <div id="content">
-                <div class="jumbotron center">
-                    <div class="error">
-                        <label> An error has been occurred while processing the page</label>
-                    </div>
-                </div>
+        <section class="jumbotron center">
+            <div class="error">
+                <label> An error has been occurred while processing the page</label>
             </div>
         </section>
-        <script src="/js/core/jquery-3.2.1.min.js" type="text/javascript"></script>
         <script src="/js/core/popper.min.js" type="text/javascript"></script>
         <script src="/js/core/bootstrap-5.min.js" type="text/javascript"></script>
-        <script type="text/javascript">
-            $(document).ready(function() {
-                //Handles menu drop down
-                $('.dropdown-menu').find('form').click(function (e) {
-                    e.stopPropagation();
-                });
-            });
-        </script>
     </form:form>
 </body>
 </html>
