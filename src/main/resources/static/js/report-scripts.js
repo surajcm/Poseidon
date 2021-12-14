@@ -1,5 +1,3 @@
-
-
 function selectMenu() {
     document.getElementById('report').text = "Report <span class='sr-only'>Report</span>";
 }

@@ -33,7 +33,7 @@ function deleteMake() {
 function verifyCheckPresent() {
     let check = 'false';
     let count = selectedRowCount();
-    console.log("count is "+ count);
+    console.log("count is " + count);
     if (count > 0) {
         check = 'true';
     }

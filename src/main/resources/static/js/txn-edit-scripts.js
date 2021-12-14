@@ -28,12 +28,12 @@ function cancel() {
 function changeTheModel() {
     const selectMakeId = document.getElementById('makeId').value;
     let xhr = new XMLHttpRequest();
-    xhr.open('POST', "/txs/UpdateModelAjax.htm",true);
+    xhr.open('POST', "/txs/UpdateModelAjax.htm", true);
     let token = document.querySelector("meta[name='_csrf']").content;
     let header = document.querySelector("meta[name='_csrf_header']").content;
     xhr.setRequestHeader(header, token);
     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-    xhr.onload = function() {
+    xhr.onload = function () {
         if (xhr.status === 200) {
             if (xhr.responseText != null) {
                 rebuildDropDown(xhr.responseText);
@@ -42,7 +42,7 @@ function changeTheModel() {
             console.log('Request failed.  Returned status of ' + xhr.status);
         }
     };
-    xhr.send("selectMakeId="+selectMakeId + "&${_csrf.parameterName}=${_csrf.token}" );
+    xhr.send("selectMakeId=" + selectMakeId + "&${_csrf.parameterName}=${_csrf.token}");
 }
 
 function rebuildDropDown(textReturned) {

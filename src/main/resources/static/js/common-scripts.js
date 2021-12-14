@@ -1,5 +1,3 @@
-
-
 function checkCall(e) {
     const min = e.value;
     const checks = document.getElementsByName('checkField');

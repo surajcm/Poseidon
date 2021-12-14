@@ -1,4 +1,3 @@
-
 function addSmartInvoiceOnTransaction() {
     let rowCheck = validateEditModalSelection('invoiceModalBody');
     if (rowCheck) {
@@ -17,9 +16,13 @@ function addSmartInvoice(fromInvoice) {
     detail.innerHTML = "";
     detail.appendChild(invoiceOnModal(fromInvoice));
     let txtQuantity = document.getElementById('addQuantity');
-    txtQuantity.onkeyup = function() {multiplyFromQty()};
+    txtQuantity.onkeyup = function () {
+        multiplyFromQty()
+    };
     let txtRate = document.getElementById('addRate');
-    txtRate.onkeyup = function() {multiplyFromRate()};
+    txtRate.onkeyup = function () {
+        multiplyFromRate()
+    };
 }
 
 
@@ -76,7 +79,7 @@ function tagNumbers(fromInvoice) {
     let invoiceElem;
     if (fromInvoice) {
         const id = document.getElementById("id").value;
-        invoiceElem = aTextBox("addTagNumber","TagNumber", true);
+        invoiceElem = aTextBox("addTagNumber", "TagNumber", true);
         invoiceElem.disabled = true;
         getInvoiceIdAndDescription(id);
     } else {
@@ -90,7 +93,7 @@ function tagNumbers(fromInvoice) {
 
 function getInvoiceIdAndDescription(id) {
     let xhr = new XMLHttpRequest();
-    xhr.open('GET', "/invoice/addInvoiceOnAjax.htm" + "?id=" + id,true);
+    xhr.open('GET', "/invoice/addInvoiceOnAjax.htm" + "?id=" + id, true);
     let token = document.querySelector("meta[name='_csrf']").content;
     let header = document.querySelector("meta[name='_csrf_header']").content;
     xhr.setRequestHeader(header, token);
@@ -143,7 +146,7 @@ function multiplyFromRate() {
     if (quantity.length > 0) {
         let amount = quantity * rate;
         document.getElementById('addAmount').value = amount;
-        console.log('amount = '+amount)
+        console.log('amount = ' + amount)
     }
 }
 
@@ -154,7 +157,7 @@ function multiplyFromQty() {
     if (quantity.length > 0 && rate > 0) {
         let amount = quantity * rate;
         document.getElementById('addAmount').value = amount;
-        console.log('amount = '+amount)
+        console.log('amount = ' + amount)
     }
 }
 

@@ -90,7 +90,7 @@ public class UserController {
      */
     @PostMapping("/user/ToHome.htm")
     public ModelAndView toHome(final UserForm userForm) {
-        logger.info(" Inside ToHome method of user controller ");
+        logger.info("Inside ToHome method of user controller");
         userForm.setLoggedInUser(userForm.getLoggedInUser());
         userForm.setLoggedInRole(userForm.getLoggedInRole());
         return new ModelAndView("MainPage", USER_FORM, userForm);
@@ -103,7 +103,7 @@ public class UserController {
      */
     @PostMapping("/user/LogMeOut.htm")
     public ModelAndView logMeOut(final HttpServletRequest request) {
-        logger.info(" Inside LogMeOut method of user controller ");
+        logger.info("Inside LogMeOut method of user controller");
         var session = request.getSession(false);
         SecurityContextHolder.clearContext();
         if (session != null) {
@@ -147,7 +147,7 @@ public class UserController {
                         @ModelAttribute("selectRole") final String selectRole,
                         final BindingResult result) {
         logger.info("SaveUserAjax method of user controller ");
-        UserVO ajaxUserVo = populateUserVO(selectName, selectLogin, selectRole);
+        var ajaxUserVo = populateUserVO(selectName, selectLogin, selectRole);
         userService.save(ajaxUserVo, currentLoggedInUser());
         logger.info("Successfully saved user");
         return allUsers();
@@ -195,8 +195,7 @@ public class UserController {
         String response = null;
         var userVO = userService.getUserDetailsFromId(Long.valueOf(id));
         if (userVO.isPresent()) {
-            var userEditMap = populateUserEditMap(userVO.get());
-            response = parseUserVO(userEditMap);
+            response = parseUserVO(populateUserEditMap(userVO.get()));
         }
         return response;
     }

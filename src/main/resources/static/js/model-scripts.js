@@ -1,5 +1,4 @@
-
-function hideAlerts(){
+function hideAlerts() {
     document.getElementById('make').text = "Make <span class='sr-only'>Make</span>";
 }
 
@@ -15,7 +14,7 @@ function search() {
 
 function clearOut() {
     document.getElementById("makeName").value = document.getElementById('makeName').options[0].value;
-    document.getElementById('modelName').value ="";
+    document.getElementById('modelName').value = "";
     document.getElementById('includes').checked = false;
     document.getElementById('startswith').checked = false;
 }
@@ -96,12 +95,12 @@ function selectedRow() {
 
 function getAllMakeIdsAndNames() {
     let xhr = new XMLHttpRequest();
-    xhr.open('GET', "/make/getAllMakeIdsAndNames.htm",true);
+    xhr.open('GET', "/make/getAllMakeIdsAndNames.htm", true);
     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-    xhr.onload = function() {
+    xhr.onload = function () {
         if (xhr.status === 200) {
             if (xhr.responseText != null) {
-                console.log("Response is "+ xhr.responseText)
+                console.log("Response is " + xhr.responseText)
                 addMakesToSelect(xhr.responseText);
             }
         } else if (xhr.status !== 200) {
@@ -118,30 +117,30 @@ function AddModel() {
     detail.innerHTML = "";
 
     let formValidModel = document.createElement("form");
-    formValidModel.setAttribute("class","row g-3 needs-validation");
+    formValidModel.setAttribute("class", "row g-3 needs-validation");
     formValidModel.novalidate = true;
 
     let divName = document.createElement("div");
-    divName.setAttribute("class","col-md-4");
+    divName.setAttribute("class", "col-md-4");
     let selectMakeName = document.createElement("select");
-    selectMakeName.setAttribute("class","form-select");
-    selectMakeName.setAttribute("id","modalMakeName");
+    selectMakeName.setAttribute("class", "form-select");
+    selectMakeName.setAttribute("id", "modalMakeName");
     divName.appendChild(selectMakeName);
     //ajax and add
 
     getAllMakeIdsAndNames();
 
     let divModelName = document.createElement("div");
-    divModelName.setAttribute("class","col-md-4");
+    divModelName.setAttribute("class", "col-md-4");
     let txtModelName = document.createElement("input");
-    txtModelName.setAttribute("type","text");
-    txtModelName.setAttribute("class","form-control");
-    txtModelName.setAttribute("placeholder","Model Name");
-    txtModelName.setAttribute("id","modalModelName");
+    txtModelName.setAttribute("type", "text");
+    txtModelName.setAttribute("class", "form-control");
+    txtModelName.setAttribute("placeholder", "Model Name");
+    txtModelName.setAttribute("id", "modalModelName");
     txtModelName.required = true;
     divModelName.appendChild(txtModelName);
     let tt2 = document.createElement("div");
-    tt2.setAttribute("class","invalid-tooltip");
+    tt2.setAttribute("class", "invalid-tooltip");
     tt2.innerHTML = "Please provide a valid modelName.";
     divModelName.appendChild(tt2);
 
@@ -152,7 +151,7 @@ function AddModel() {
 
 
 function addMakesToSelect(response) {
-    console.log("Response is "+ response);
+    console.log("Response is " + response);
     let modelMap = JSON.parse(response);
     let modalMakeName = document.getElementById('modalMakeName');
     for (const [key, value] of Object.entries(modelMap)) {
@@ -172,25 +171,25 @@ function saveFromModal() {
     if (forms[0].checkValidity() === false) {
         allFieldsAreValid = false;
         if (modalModelName.length === 0) {
-            document.getElementById("modalModelName").setAttribute("class","form-control is-invalid");
+            document.getElementById("modalModelName").setAttribute("class", "form-control is-invalid");
         } else {
-            document.getElementById("modalModelName").setAttribute("class","form-control was-validated");
+            document.getElementById("modalModelName").setAttribute("class", "form-control was-validated");
         }
     }
-    if(allFieldsAreValid) {
-        ajaxSaveFromModal(modalMakeName,modalModelName);
+    if (allFieldsAreValid) {
+        ajaxSaveFromModal(modalMakeName, modalModelName);
     }
 }
 
 
 function ajaxSaveFromModal(modalMakeName, modalModelName) {
     let xhr = new XMLHttpRequest();
-    xhr.open('POST', "/make/saveModelAjax.htm",true);
+    xhr.open('POST', "/make/saveModelAjax.htm", true);
     let token = document.querySelector("meta[name='_csrf']").content;
     let header = document.querySelector("meta[name='_csrf_header']").content;
     xhr.setRequestHeader(header, token);
     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-    xhr.onload = function() {
+    xhr.onload = function () {
         if (xhr.status === 200) {
             if (xhr.responseText != null) {
                 rewriteTable(xhr.responseText);
@@ -210,16 +209,16 @@ function showStatus(status) {
     let saveModal = document.getElementById("saveModal");
     saveModal.style.display = "none";
     let divStatus = document.createElement("div");
-    divStatus.setAttribute("class","pop-status");
+    divStatus.setAttribute("class", "pop-status");
     let imgSuccess = document.createElement("img");
 
     divStatus.appendChild(imgSuccess);
     let statusMessage = document.createElement("h3");
-    if(status) {
-        imgSuccess.setAttribute("src","/img/tick.png");
+    if (status) {
+        imgSuccess.setAttribute("src", "/img/tick.png");
         statusMessage.innerHTML = "Successfully added a new model !!";
     } else {
-        imgSuccess.setAttribute("src","/img/cross.svg");
+        imgSuccess.setAttribute("src", "/img/cross.svg");
         statusMessage.innerHTML = "Failed to save !!";
     }
     divStatus.appendChild(statusMessage);
@@ -231,7 +230,7 @@ function rewriteTable(textReturned) {
     let myTable = document.getElementById("myTable");
     myTable.setAttribute("class", "table table-bordered table-striped table-hover caption-top");
     let cap = document.createElement("caption");
-    cap.innerHTML="Model Details";
+    cap.innerHTML = "Model Details";
     myTable.appendChild(cap);
     let thead = document.createElement("thead");
     thead.setAttribute("class", "table-dark");
@@ -258,10 +257,10 @@ function rewriteTable(textReturned) {
         let td1 = document.createElement("th");
         td1.setAttribute("scope", "row");
         let inCheck = document.createElement("input");
-        inCheck.setAttribute("type","checkbox");
-        inCheck.setAttribute("name","checkField");
-        inCheck.setAttribute("onclick","javascript:checkCall(this)");
-        inCheck.setAttribute("value",singleModel.id);
+        inCheck.setAttribute("type", "checkbox");
+        inCheck.setAttribute("name", "checkField");
+        inCheck.setAttribute("onclick", "javascript:checkCall(this)");
+        inCheck.setAttribute("value", singleModel.id);
         td1.appendChild(inCheck);
         trx.appendChild(td1);
         let td2 = document.createElement("td");
@@ -293,30 +292,30 @@ function editModelModal() {
     detail.innerHTML = "";
 
     let formValidModel = document.createElement("form");
-    formValidModel.setAttribute("class","row g-3 needs-validation");
+    formValidModel.setAttribute("class", "row g-3 needs-validation");
     formValidModel.novalidate = true;
 
     let divName = document.createElement("div");
-    divName.setAttribute("class","col-md-6");
+    divName.setAttribute("class", "col-md-6");
     let selectMakeName = document.createElement("select");
-    selectMakeName.setAttribute("class","form-select");
-    selectMakeName.setAttribute("id","modalMakeName");
+    selectMakeName.setAttribute("class", "form-select");
+    selectMakeName.setAttribute("id", "modalMakeName");
     divName.appendChild(selectMakeName);
     //ajax and add
 
     getAllMakeIdsAndNames();
 
     let divModelName = document.createElement("div");
-    divModelName.setAttribute("class","col-md-6");
+    divModelName.setAttribute("class", "col-md-6");
     let txtModelName = document.createElement("input");
-    txtModelName.setAttribute("type","text");
-    txtModelName.setAttribute("class","form-control");
-    txtModelName.setAttribute("placeholder","Model Name");
-    txtModelName.setAttribute("id","modalModelName");
+    txtModelName.setAttribute("type", "text");
+    txtModelName.setAttribute("class", "form-control");
+    txtModelName.setAttribute("placeholder", "Model Name");
+    txtModelName.setAttribute("id", "modalModelName");
     txtModelName.required = true;
     divModelName.appendChild(txtModelName);
     let tt2 = document.createElement("div");
-    tt2.setAttribute("class","invalid-tooltip");
+    tt2.setAttribute("class", "invalid-tooltip");
     tt2.innerHTML = "Please provide a valid modelName.";
     divModelName.appendChild(tt2);
 
@@ -328,15 +327,15 @@ function editModelModal() {
 function getModelForEdit() {
     let id = document.getElementById("id").value;
     let xhr = new XMLHttpRequest();
-    xhr.open('GET', "/make/getForEdit.htm" + "?id=" + id,true);
+    xhr.open('GET', "/make/getForEdit.htm" + "?id=" + id, true);
     let token = document.querySelector("meta[name='_csrf']").content;
     let header = document.querySelector("meta[name='_csrf_header']").content;
     xhr.setRequestHeader(header, token);
     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-    xhr.onload = function() {
+    xhr.onload = function () {
         if (xhr.status === 200) {
             if (xhr.responseText != null) {
-                console.log("/make/getForEdit.htm response is "+xhr.responseText);
+                console.log("/make/getForEdit.htm response is " + xhr.responseText);
                 populateDataForEdit(xhr.responseText);
             }
         } else if (xhr.status !== 200) {
@@ -351,11 +350,11 @@ function populateDataForEdit(textReturned) {
     let modelMap = JSON.parse(textReturned);
     let makeDropDown = document.getElementById("modalMakeName");
     for (const [key, value] of Object.entries(modelMap)) {
-        console.log("key and value are "+key + " "+ value);
+        console.log("key and value are " + key + " " + value);
         for (let option of makeDropDown.options) {
             if (option.value === key) {
                 option.selected = true;
-                console.log("option set to "+option.value);
+                console.log("option set to " + option.value);
             }
         }
         document.getElementById("modalModelName").value = value;
@@ -368,12 +367,12 @@ function showEditError() {
     let updateModal = document.getElementById("updateModal");
     updateModal.style.display = "none";
     let divStatus = document.createElement("div");
-    divStatus.setAttribute("class","pop-status");
+    divStatus.setAttribute("class", "pop-status");
     let imgSuccess = document.createElement("img");
 
     divStatus.appendChild(imgSuccess);
     let statusMessage = document.createElement("h3");
-    imgSuccess.setAttribute("src","/img/cross.svg");
+    imgSuccess.setAttribute("src", "/img/cross.svg");
     statusMessage.innerHTML = "Failed to populate data !!";
     divStatus.appendChild(statusMessage);
     detail.appendChild(divStatus);
@@ -388,29 +387,29 @@ function updateFromModal() {
     if (forms[0].checkValidity() === false) {
         allFieldsAreValid = false;
         if (modalModelName.length === 0) {
-            document.getElementById("modalModelName").setAttribute("class","form-control is-invalid");
+            document.getElementById("modalModelName").setAttribute("class", "form-control is-invalid");
         } else {
-            document.getElementById("modalModelName").setAttribute("class","form-control was-validated");
+            document.getElementById("modalModelName").setAttribute("class", "form-control was-validated");
         }
     }
-    if(allFieldsAreValid) {
+    if (allFieldsAreValid) {
         console.log("All fields are valid, calling callAjaxUpdate");
         let productId = document.getElementById("id").value
         callAjaxUpdate(productId, modalMakeName, modalModelName);
     }
 }
 
-function callAjaxUpdate(productId, modalMakeName,modalModelName) {
+function callAjaxUpdate(productId, modalMakeName, modalModelName) {
     let xhr = new XMLHttpRequest();
-    xhr.open('PUT', "/make/updateModelAjax.htm",true);
+    xhr.open('PUT', "/make/updateModelAjax.htm", true);
     let token = document.querySelector("meta[name='_csrf']").content;
     let header = document.querySelector("meta[name='_csrf_header']").content;
     xhr.setRequestHeader(header, token);
     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-    xhr.onload = function() {
+    xhr.onload = function () {
         if (xhr.status === 200) {
             if (xhr.responseText != null) {
-                console.log("callAjaxUpdate success :"+xhr.responseText);
+                console.log("callAjaxUpdate success :" + xhr.responseText);
                 rewriteTable(xhr.responseText);
                 showUpdateStatus(true);
             }
@@ -419,7 +418,7 @@ function callAjaxUpdate(productId, modalMakeName,modalModelName) {
             showUpdateStatus(false);
         }
     };
-    xhr.send("id="+productId+ "&modalMakeName="+modalMakeName+ "&modalModelName=" + modalModelName);
+    xhr.send("id=" + productId + "&modalMakeName=" + modalMakeName + "&modalModelName=" + modalModelName);
 }
 
 function showUpdateStatus(status) {
@@ -428,16 +427,16 @@ function showUpdateStatus(status) {
     let updateModal = document.getElementById("updateModal");
     updateModal.style.display = "none";
     let divStatus = document.createElement("div");
-    divStatus.setAttribute("class","pop-status");
+    divStatus.setAttribute("class", "pop-status");
     let imgSuccess = document.createElement("img");
 
     divStatus.appendChild(imgSuccess);
     let statusMessage = document.createElement("h3");
-    if(status) {
-        imgSuccess.setAttribute("src","/img/tick.png");
+    if (status) {
+        imgSuccess.setAttribute("src", "/img/tick.png");
         statusMessage.innerHTML = "Successfully updated the user !!";
     } else {
-        imgSuccess.setAttribute("src","/img/cross.svg");
+        imgSuccess.setAttribute("src", "/img/cross.svg");
         statusMessage.innerHTML = "Failed to update !!";
     }
     divStatus.appendChild(statusMessage);

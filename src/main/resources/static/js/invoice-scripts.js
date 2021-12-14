@@ -1,5 +1,3 @@
-
-
 function hideAlerts() {
     document.getElementById('inventory').text = "Invoice <span class='sr-only'>Invoice</span>";
 }
@@ -107,9 +105,13 @@ function editInvoiceModal() {
     detail.innerHTML = "";
     detail.appendChild(invoiceOnModal());
     let txtQuantity = document.getElementById('addQuantity');
-    txtQuantity.onkeyup = function() {multiplyFromQty()};
+    txtQuantity.onkeyup = function () {
+        multiplyFromQty()
+    };
     let txtRate = document.getElementById('addRate');
-    txtRate.onkeyup = function() {multiplyFromRate()};
+    txtRate.onkeyup = function () {
+        multiplyFromRate()
+    };
 }
 
 function getInvoiceForEdit() {
@@ -160,7 +162,7 @@ function populateDataForEdit(textReturned) {
         //console.log('option.value'+option.value);
         if (option.value === key) {
             option.selected = true;
-            console.log("option set to "+option.value);
+            console.log("option set to " + option.value);
         }
     }
     document.getElementById("addDescription").value = invoice.description;

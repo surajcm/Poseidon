@@ -183,10 +183,6 @@
         <script src="/js/core/jquery-ui.min.js" type="text/javascript"></script>
         <script type="text/javascript">
             $(document).ready(function() {
-                //Handles menu drop down
-                $('.dropdown-menu').find('form').click(function (e) {
-                    e.stopPropagation();
-                });
                 $(function() {
                     $("#startDate").datepicker();
                      $("#endDate").datepicker();

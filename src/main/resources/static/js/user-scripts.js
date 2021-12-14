@@ -1,5 +1,3 @@
-
-
 function hideAlerts() {
     document.getElementById('user').text = "User <span class='sr-only'>User</span>";
 }

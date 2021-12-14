@@ -472,7 +472,7 @@ function updateFromModal() {
     if (allFieldsAreValid) {
         console.log("all fields are valid");
         callAjaxUpdate(modalCustomerName, modalAddress, modalPhone,
-         modalMobile, modalEmail, modalContact, modalContactMobile, modalNotes);
+            modalMobile, modalEmail, modalContact, modalContactMobile, modalNotes);
     }
 }
 
