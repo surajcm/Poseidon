@@ -36,16 +36,13 @@
                     <div class="card-body">
                         <div class="row g-3">
                             <div class="col-md-2">
-                              <label for="customerId" class="form-label">Customer Id :</label>
-                              <form:input cssClass="form-control" path="searchCustomerVO.customerId" id="customerId"/>
+                              <form:input cssClass="form-control" path="searchCustomerVO.customerId" id="customerId" placeholder="Customer Id" />
                             </div>
                             <div class="col-md-6">
-                              <label for="customerName" class="form-label">Customer Name :</label>
-                              <form:input cssClass="form-control" path="searchCustomerVO.customerName" id="customerName"/>
+                              <form:input cssClass="form-control" path="searchCustomerVO.customerName" id="customerName" placeholder="Customer Name" />
                             </div>
                             <div class="col-md-4">
-                                <label for="mobile" class="form-label">Mobile :</label>
-                                <form:input cssClass="form-control" path="searchCustomerVO.mobile" id="mobile"/>
+                                <form:input cssClass="form-control" path="searchCustomerVO.mobile" id="mobile" placeholder="Mobile" />
                             </div>
                             <div class="col-md-6">
                                 <div class="form-check">

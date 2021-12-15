@@ -38,16 +38,17 @@
                     <div class="card-body">
                         <div class="row g-3">
                             <div class="col-md-6">
-                                <label for="makeName" class="form-label">Make Name :</label>
-                                <form:select id="makeName" path="searchMakeAndModelVO.makeName" cssClass="form-select" tabindex="1">
-                                    <form:option value="0" label="-- Select --"/>
-                                    <form:options items="${makeForm.makeVOs}"
-                                                  itemValue="id" itemLabel="makeName"/>
-                                </form:select>
+                                <div class="input-group mb-3">
+                                    <label for="makeName" class="input-group-text">Make Name :</label>
+                                    <form:select id="makeName" path="searchMakeAndModelVO.makeName" cssClass="form-select" tabindex="1">
+                                        <form:option value="0" label="-- Select --"/>
+                                        <form:options items="${makeForm.makeVOs}"
+                                                      itemValue="id" itemLabel="makeName"/>
+                                    </form:select>
+                                </div>
                             </div>
                             <div class="col-md-6">
-                                <label for="modelName" class="form-label">Model Name :</label>
-                                <form:input path="searchMakeAndModelVO.modelName" cssClass="form-control" id="modelName"/>
+                                <form:input path="searchMakeAndModelVO.modelName" cssClass="form-control" id="modelName" placeholder="Model Name"/>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-check">

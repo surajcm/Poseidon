@@ -36,17 +36,18 @@
                     <div class="card-body">
                         <div class="row g-3">
                             <div class="col-md-6">
-                                <label for="makeName" class="form-label">Make Name :</label>
-                                <form:select cssClass="form-select" id="makeName" path="searchMakeAndModelVO.makeId" tabindex="1"
-                                             onkeypress="handleEnter(event);" >
-                                    <form:option value="0" label="-- Select --"/>
-                                    <form:options items="${makeForm.makeVOs}"
-                                                  itemValue="id" itemLabel="makeName"/>
-                                </form:select>
+                                <div class="input-group mb-3">
+                                    <label for="makeName" class="input-group-text">Make Name :</label>
+                                    <form:select cssClass="form-select" id="makeName" path="searchMakeAndModelVO.makeId" tabindex="1"
+                                                 onkeypress="handleEnter(event);" >
+                                        <form:option value="0" label="-- Select --"/>
+                                        <form:options items="${makeForm.makeVOs}"
+                                                      itemValue="id" itemLabel="makeName"/>
+                                    </form:select>
+                                </div>
                             </div>
                             <div class="col-md-6">
-                              <label for="modelName"  class="form-label">Model Name :</label>
-                              <form:input cssClass="form-control" path="searchMakeAndModelVO.modelName" id="modelName"/>
+                              <form:input cssClass="form-control" path="searchMakeAndModelVO.modelName" id="modelName" placeholder="Model Name"/>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-check">

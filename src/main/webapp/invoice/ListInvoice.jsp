@@ -37,24 +37,19 @@
                     <div class="card-body">
                         <div class="row g-3">
                             <div class="col-md-3">
-                              <label for="invoiceId" class="form-label"> Invoice Id :</label>
-                              <form:input cssClass="form-control" path="searchInvoiceVo.id" id="invoiceId"/>
+                              <form:input cssClass="form-control" path="searchInvoiceVo.id" id="invoiceId" placeholder="Invoice Id" />
                             </div>
                             <div class="col-md-3">
-                              <label for="description" class="form-label">Description :</label>
-                              <form:input cssClass="form-control" path="searchInvoiceVo.description" id="description"/>
+                              <form:input cssClass="form-control" path="searchInvoiceVo.description" id="description" placeholder="Description"/>
                             </div>
                             <div class="col-md-3">
-                              <label for="serialNo" class="form-label">Serial No :</label>
-                              <form:input cssClass="form-control" path="searchInvoiceVo.serialNo" id="serialNo"/>
+                              <form:input cssClass="form-control" path="searchInvoiceVo.serialNo" id="serialNo" placeholder="Serial Number"/>
                             </div>
                             <div class="col-md-3">
-                              <label for="tagNo" class="form-label">Tag No :</label>
-                              <form:input cssClass="form-control" path="searchInvoiceVo.tagNo"  id="tagNo"/>
+                              <form:input cssClass="form-control" path="searchInvoiceVo.tagNo"  id="tagNo" placeholder="Tag Number"/>
                             </div>
                             <div class="col-md-4">
-                                <label for="amount" class="form-label">Amount :</label>
-                                <form:input cssClass="form-control" path="searchInvoiceVo.amount"  id="amount"/>
+                                <form:input cssClass="form-control" path="searchInvoiceVo.amount"  id="amount" placeholder="Amount"/>
                             </div>
                             <div class="col-md-4">
                                 <div class="form-check">

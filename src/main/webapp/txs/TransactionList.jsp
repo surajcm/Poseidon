@@ -40,46 +40,55 @@
                     <div class="card-body">
                         <div class="row g-3">
                             <div class="col-md-3">
-                                <label for="TagNo" class="form-label">Tag No :</label>
-                                <form:input cssClass="form-control" path="searchTransaction.TagNo" id="TagNo"/>
+                                <form:input cssClass="form-control" path="searchTransaction.TagNo" id="TagNo" placeholder="Tag Number" />
                             </div>
                             <div class="col-md-3">
-                              <label for="CustomerName" class="form-label">Customer Name :</label>
-                              <form:input cssClass="form-control" path="searchTransaction.CustomerName" id="CustomerName"/>
+                              <form:input cssClass="form-control" path="searchTransaction.CustomerName" id="CustomerName" placeholder="Customer Name" />
                             </div>
                             <div class="col-md-3">
-                                <label for="startDate" class="form-label">Reported Date (From) :<img src="/img/calendar3.svg" alt="" width="16" height="16" title="calendar" /></label>
-                                <form:input path="searchTransaction.startDate" cssClass="date-picker form-control" id="startDate" />
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text">Reported Date (From)</span>
+                                    <form:input path="searchTransaction.startDate" cssClass="date-picker form-control" id="startDate" />
+                                    <span class="input-group-text"><img src="/img/calendar3.svg" alt="" width="16" height="16" title="calendar" /></span>
+                                </div>
                             </div>
                             <div class="col-md-3">
-                                <label for="endDate" class="form-label">Reported Date (To) :<img src="/img/calendar3.svg" alt="" width="16" height="16" title="calendar" /></label>
-                                <form:input path="searchTransaction.endDate" cssClass="date-picker form-control" id="endDate" />
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text">Reported Date (To)</span>
+                                    <form:input path="searchTransaction.endDate" cssClass="date-picker form-control" id="endDate" />
+                                    <span class="input-group-text"><img src="/img/calendar3.svg" alt="" width="16" height="16" title="calendar" /></span>
+                                </div>
                             </div>
                             <div class="col-md-3">
-                                <label for="SerialNo" class="form-label">Serial No :</label>
-                                <form:input cssClass="form-control" path="searchTransaction.SerialNo" id="SerialNo"/>
+                                <form:input cssClass="form-control" path="searchTransaction.SerialNo" id="SerialNo" placeholder="Serial Number"/>
                             </div>
                             <div class="col-md-3">
-                                <label for="makeId" class="form-label">Make :</label>
-                                <form:select id="makeId" cssClass="form-select" path="searchTransaction.makeId" tabindex="1" onchange="changeTheModel();">
-                                    <form:option value=""><spring:message code="common.select" text="<-- Select -->"/></form:option>
-                                    <form:options items="${transactionForm.makeVOs}" itemValue="Id" itemLabel="makeName"/>
-                                </form:select>
+                                <div class="input-group mb-3">
+                                    <label for="makeId" class="input-group-text">Make</label>
+                                    <form:select id="makeId" cssClass="form-select" path="searchTransaction.makeId" tabindex="1" onchange="changeTheModel();">
+                                        <form:option value=""><spring:message code="common.select" text="<-- Select -->"/></form:option>
+                                        <form:options items="${transactionForm.makeVOs}" itemValue="Id" itemLabel="makeName"/>
+                                    </form:select>
+                                </div>
                             </div>
                             <div class="col-md-3">
-                                <label for="modelId" class="form-label">Model Name :</label>
-                                <form:select id="modelId" cssClass="form-select" path="searchTransaction.modelId" tabindex="2" disabled="true">
-                                    <form:option value=""><spring:message code="common.select" text="<-- Select -->"/></form:option>
-                                    <form:options items="${transactionForm.makeAndModelVOs}"
-                                              itemValue="modelId" itemLabel="modelName"/>
-                                </form:select>
+                                <div class="input-group mb-3">
+                                    <label for="modelId" class="input-group-text">Model</label>
+                                    <form:select id="modelId" cssClass="form-select" path="searchTransaction.modelId" tabindex="2" disabled="true">
+                                        <form:option value=""><spring:message code="common.select" text="<-- Select -->"/></form:option>
+                                        <form:options items="${transactionForm.makeAndModelVOs}"
+                                                  itemValue="modelId" itemLabel="modelName"/>
+                                    </form:select>
+                                </div>
                             </div>
                             <div class="col-md-3">
-                                <label for="Status" class="form-label">Status :</label>
-                                <form:select id="Status" cssClass="form-select" path="searchTransaction.Status">
-                                    <form:option value=""><spring:message code="common.select" text="<-- Select -->"/></form:option>
-                                    <form:options items="${transactionForm.statusList}" />
-                                </form:select>
+                                <div class="input-group mb-3">
+                                    <label for="Status" class="input-group-text">Status</label>
+                                    <form:select id="Status" cssClass="form-select" path="searchTransaction.Status">
+                                        <form:option value=""><spring:message code="common.select" text="<-- Select -->"/></form:option>
+                                        <form:options items="${transactionForm.statusList}" />
+                                    </form:select>
+                                </div>
                             </div>
                             <div class="col-md-6">
                                 <div class="form-check">
@@ -185,7 +194,7 @@
             $(document).ready(function() {
                 $(function() {
                     $("#startDate").datepicker();
-                     $("#endDate").datepicker();
+                    $("#endDate").datepicker();
                 });
                 $('#makeId').change(function() {
                     $("#modelId").prop("disabled", false);
