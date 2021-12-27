@@ -14,6 +14,7 @@ import org.springframework.beans.propertyeditors.CustomNumberEditor;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -55,7 +56,7 @@ public class InvoiceController {
      * @return ModelAndView
      */
     @PostMapping("/invoice/ListInvoice.htm")
-    public ModelAndView listInvoice(final InvoiceForm invoiceForm) {
+    public String listInvoice(final InvoiceForm invoiceForm, final Model model) {
         log.info("Inside ListInvoice method of InvoiceController ");
         List<InvoiceVO> invoiceVOs;
         try {
@@ -71,7 +72,9 @@ public class InvoiceController {
         invoiceForm.setSearchInvoiceVo(new InvoiceVO());
         invoiceForm.setLoggedInUser(invoiceForm.getLoggedInUser());
         invoiceForm.setLoggedInRole(invoiceForm.getLoggedInRole());
-        return new ModelAndView(LIST_INVOICE, INVOICE_FORM, invoiceForm);
+        model.addAttribute("invoiceForm", invoiceForm);
+        //return new ModelAndView(LIST_INVOICE, INVOICE_FORM, invoiceForm);
+        return LIST_INVOICE;
     }
 
     @PostMapping("/invoice/saveInvoiceAjax.htm")

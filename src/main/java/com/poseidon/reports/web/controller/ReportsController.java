@@ -22,12 +22,12 @@ import net.sf.jasperreports.engine.export.ooxml.JRDocxExporter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
-import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -72,7 +72,7 @@ public class ReportsController {
      * @return view
      */
     @PostMapping("/reports/List.htm")
-    public ModelAndView list(final ReportsForm reportsForm) {
+    public String list(final ReportsForm reportsForm, final Model model) {
         var sanitizedReportsForm = CommonUtils.sanitizedString(reportsForm.toString());
         LOG.info("List method of ReportsController, form details are : {}",
                 sanitizedReportsForm);
@@ -101,7 +101,9 @@ public class ReportsController {
         reportsForm.setModelReportMakeAndModelVO(getSearchMakeAndModelVO());
         reportsForm.setTxnReportTransactionVO(getSearchTransaction());
         reportsForm.setInvoiceListReportTransactionVO(getSearchTransaction());
-        return new ModelAndView("reports/List", "reportsForm", reportsForm);
+        model.addAttribute("reportsForm", reportsForm);
+        //return new ModelAndView("reports/List", "reportsForm", reportsForm);
+        return "reports/List";
     }
 
     private List<MakeVO> fetchMakeVOS() {

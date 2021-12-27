@@ -11,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -52,7 +53,6 @@ public class CustomerController {
      * @param customerForm customerForm
      * @return view
      */
-    @PostMapping("/customer/List.htm")
     public ModelAndView list(final CustomerForm customerForm) {
         logIncoming(customerForm);
         List<CustomerVO> customerVOs = customerService.listAllCustomerDetails();
@@ -64,6 +64,27 @@ public class CustomerController {
         customerForm.setLoggedInRole(customerForm.getLoggedInRole());
         customerForm.setLoggedInUser(customerForm.getLoggedInUser());
         return new ModelAndView("customer/CustomerList", CUSTOMER_FORM, customerForm);
+    }
+
+    /**
+     * list the customers.
+     *
+     * @param customerForm customerForm
+     * @return view
+     */
+    @PostMapping("/customer/List.htm")
+    public String listAllCustomers(final CustomerForm customerForm, final Model model) {
+        logIncoming(customerForm);
+        List<CustomerVO> customerVOs = customerService.listAllCustomerDetails();
+        if (!customerVOs.isEmpty()) {
+            customerVOs.forEach(customerVO -> logger.info("customerVO is {}", customerVO));
+            customerForm.setCustomerVOs(customerVOs);
+        }
+        customerForm.setSearchCustomerVO(new CustomerVO());
+        customerForm.setLoggedInRole(customerForm.getLoggedInRole());
+        customerForm.setLoggedInUser(customerForm.getLoggedInUser());
+        model.addAttribute("customerForm", customerForm);
+        return "customer/CustomerList";
     }
 
     private void logIncoming(final CustomerForm customerForm) {

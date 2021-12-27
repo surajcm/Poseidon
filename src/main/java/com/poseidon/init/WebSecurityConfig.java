@@ -1,9 +1,9 @@
 package com.poseidon.init;
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
+import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
@@ -21,16 +21,25 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     }
 
     @Bean
-    public static BCryptPasswordEncoder bcryptPasswordEncoder() {
+    public BCryptPasswordEncoder bcryptPasswordEncoder() {
         return new BCryptPasswordEncoder();
     }
 
     @Override
     protected void configure(final HttpSecurity http) throws Exception {
+        http.headers().frameOptions().disable();
+        http.csrf().disable();
         http
                 .authorizeRequests()
-                    .antMatchers("/resources/**", "/registration", "/css/**", "/js/**", "/h2-console/*").permitAll()
-                    .anyRequest().authenticated().and()
+                    .antMatchers("/resources/**",
+                            "/registration",
+                            "/css/**", "/js/**",
+                            "/h2-console/**",
+                            "/console/**").permitAll()
+                        .and().headers().frameOptions().sameOrigin();
+        http
+                .authorizeRequests()
+                .anyRequest().authenticated().and()
                 .formLogin()
                     .loginPage("/login").permitAll().and()
                 .headers()
@@ -42,8 +51,11 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     .requiresSecure();
     }
 
-    @Autowired
-    public void configureGlobal(final AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService).passwordEncoder(bcryptPasswordEncoder());
+    @Bean
+    public AuthenticationProvider authenticationProvider() {
+        var provider = new DaoAuthenticationProvider();
+        provider.setUserDetailsService(userDetailsService);
+        provider.setPasswordEncoder(bcryptPasswordEncoder());
+        return provider;
     }
 }

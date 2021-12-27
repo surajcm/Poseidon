@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+xmlns:sec="http://www.thymeleaf.org/extras/spring-security/">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="Suraj">
+    <meta name="_csrf" content="${_csrf.token}"/>
+    <meta name="_csrf_header" content="${_csrf.headerName}"/>
+    <link rel="shortcut icon" href="/img/Poseidon_Ico.ico" />
+    <link rel="stylesheet" href="/css/core/bootstrap-5.min.css"  type="text/css" />
+    <link rel="stylesheet" href="/css/custom.css" type="text/css" />
+    <title>Make List</title>
+    <script type="text/javascript" src="/js/common-scripts.js"></script>
+    <script type="text/javascript" src="/js/make-scripts.js"></script>
+    <script type="text/javascript" src="/js/navbar-scripts.js"></script>
+</head>
+<body onload="hideAlerts()">
+    <form method="POST" th:object="${makeForm}">
+        <input type="hidden" name="id" id="id"/>
+        <input type="hidden" name="loggedInUser" path="loggedInUser"/>
+        <input type="hidden" name="loggedInRole" path="loggedInRole"/>
+        <div th:insert="/navbar::navbar"></div>
+        <div  class="container">
+            <div class="wrap">
+                <div class="card">
+                    <div class="card-header">
+                        Search Model
+                    </div>
+                    <div class="card-body">
+                        <div class="row g-3">
+                            <div class="col-md-6">
+                                <div class="input-group mb-3">
+                                    <label for="makeName" class="input-group-text">Make Name :</label>
+                                    <select id="makeName" th:field="*{searchMakeAndModelVO.makeName}" class="form-select" tabindex="1">
+                                        <option value="0" label="-- Select --"/>
+                                        <option th:each="i : ${makeForm.makeVOs}" th:value="${i.id}" th:text="${i.makeName}">
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <input th:field="*{searchMakeAndModelVO.modelName}" class="form-control" id="modelName" placeholder="Model Name"/>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-check">
+                                    <input type="checkbox" th:field="*{searchMakeAndModelVO.includes}" class="form-check-input"
+                                                   id="includes" value=""/>
+                                    <label class="form-check-label" for="includes">
+                                        Includes
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-check">
+                                  <input type="checkbox" th:field="*{searchMakeAndModelVO.startswith}" class="form-check-input"
+                                                   id="startswith" value=""/>
+                                  <label class="form-check-label" for="startsWith">
+                                    Starts with
+                                  </label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <input class="btn btn-primary" value="Search" type="button" onclick="search()"/>
+                            </div>
+                            <div class="col-md-6">
+                                <input class="btn btn-primary" value="Clear" type="button" onclick="clearOut()"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <br/>
+            <br/>
+            <span th:if="${makeForm.statusMessage != null}">
+                <div class="alert alert-dismissible fade show" th:classappend="'alert-' + ${makeForm.statusMessageType}" role="alert">
+                    <p th:text="${makeForm.statusMessage}" />
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+            </span>
+            <table id='myTable' class="table table-bordered table-striped table-hover caption-top">
+                <caption>Make Details</caption>
+                <thead class="table-dark">
+                    <tr>
+                        <th scope="col">#</th>
+                        <th scope="col">Make Name</th>
+                        <th scope="col">Description</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="iterationMake : ${makeForm.makeAndModelVOs}">
+                        <th scope="row"><input type="checkbox" name="checkField" onclick="checkCall(this)"
+                                   th:value="${iterationMake.makeId}"/></th>
+                        <td><span th:text="${iterationMake.makeName}"></span></td>
+                        <td><span th:text="${iterationMake.description}"></span></td>
+                    </tr>
+                </tbody>
+            </table>
+            <div class="row g-3">
+                <div class="col-md-3">
+                    <input class="btn btn-primary" value="Model List" type="button" onclick="listAllModel()"/>
+                </div>
+                <div class="col-md-3">
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#newModelModal"
+                        onclick="addMake();">Add Make</button>
+                </div>
+                <div class="col-md-3">
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editMakeModal"
+                        onclick="editMake();">Edit Make</button>
+                </div>
+                <div class="col-md-3">
+                    <input class="btn btn-primary" value="Delete Make" type="button" onclick="deleteMake()"/>
+                </div>
+            </div>
+        </div>
+        <div id="newModelModal" class="modal fade" tabindex="-1" aria-labelledby="newModelModal" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Add new Make</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div id="makeModalBody" class="modal-body">
+                        <p>Lets edit some makes....</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" id="saveSmartMake" class="btn btn-primary" onclick="saveFromModal();">Save</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="editMakeModal" class="modal fade" tabindex="-1" aria-labelledby="editMakeModal" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title">Edit Make</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div id="makeEditModalBody" class="modal-body">
+                        <p>Lets edit the make</p>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" id="updateMake" class="btn btn-primary" onclick="updateFromModal()">Update</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script src="/js/core/popper.min.js" type="text/javascript"></script>
+        <script src="/js/core/bootstrap-5.min.js" type="text/javascript"></script>
+        </script>
+    </form>
+</body>
+</html>

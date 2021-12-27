@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+xmlns:sec="http://www.thymeleaf.org/extras/spring-security/">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="Suraj">
+    <link rel="shortcut icon" href="/img/Poseidon_Ico.ico" />
+    <link rel="stylesheet" href="/css/core/bootstrap-5.min.css"  type="text/css" />
+    <link rel="stylesheet" href="/css/custom.css" type="text/css" />
+    <title>Terms And Company details</title>
+    <script type="text/javascript" src="/js/company-scripts.js"></script>
+    <script type="text/javascript" src="/js/navbar-scripts.js"></script>
+</head>
+<body onload="hideUpdate()">
+    <form method="POST" th:object="${companyTermsVO}">
+        <div th:insert="/navbar::navbar"></div>
+        <div class="container">
+            <div class="wrap">
+                <div class="card">
+                    <div class="card-header">
+                        Company Details
+                    </div>
+                    <div class="card-body">
+                        <div class="row g-3">
+                            <div class="col-md-3">
+                              <label for="companyName" class="form-label">Company Name :</label>
+                              <input th:field="*{companyName}" class="form-control" id="companyName"/>
+                            </div>
+                            <div class="col-md-3">
+                              <label for="companyPhoneNumber" class="form-label">Company Phone Number :</label>
+                              <input th:field="*{companyPhoneNumber}" class="form-control" id="companyPhoneNumber"/>
+                            </div>
+                            <div class="col-md-3">
+                              <label for="companyEmail" class="form-label">Company email :</label>
+                              <input th:field="*{companyEmail}" class="form-control" id="companyEmail"/>
+                            </div>
+                            <div class="col-md-3">
+                              <label for="companyWebsite" class="form-label">Company Website :</label>
+                              <input th:field="*{companyWebsite}" class="form-control" id="companyWebsite"/>
+                            </div>
+                            <div class="col-md-6">
+                              <label for="companyAddress" class="form-label">Company Address :</label>
+                                <textarea th:field="*{companyAddress}" rows="5" cols="30" class="form-control"
+                                          id="companyAddress"></textarea>
+                            </div>
+                            <div class="col-md-6">
+                              <label for="companyTerms" class="form-label">Company Terms & Conditions :</label>
+                              <textarea th:field="*{companyTerms}" rows="5" cols="30" class="form-control"
+                                           id="companyTerms"></textarea>
+                            </div>
+                            <div class="col-md-4">
+                              <label for="vat_tin" class="form-label">Company's VAT TIN :</label>
+                              <input th:field="*{companyVatTin}" class="form-control" id="vat_tin"/>
+                            </div>
+                            <div class="col-md-4">
+                              <label for="cst_tin" class="form-label">Company's CST TIN :</label>
+                              <input th:field="*{companyCstTin}" class="form-control" id="cst_tin"/>
+                            </div>
+                            <div class="col-md-4">
+                              <label for="uploadImage" class="form-label">Company Logo :</label>
+                              <input class="btn" value="Upload New Image" type="button" id="uploadImage" onclick="uploadImage();"/>
+                            </div>
+                            <div class="col-md-12">
+                                <input type="button" class="btn btn-primary btn-success" id="edit" value="Edit" onclick="editMe();"/>
+                                <input type="button" class="btn btn-primary btn-success" id="update" value="Update" onclick="updateCompanyDetails();"/>
+                                <input type="button" class="btn btn-primary" id="clear" value="Clear" onclick="clearOut();"/>
+                                <input type="button" class="btn btn-primary" id="cancel" value="Cancel" onclick="cancelMe();"/>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <script src="/js/core/popper.min.js" type="text/javascript"></script>
+        <script src="/js/core/bootstrap-5.min.js" type="text/javascript"></script>
+    </form>
+</body>
+</html>

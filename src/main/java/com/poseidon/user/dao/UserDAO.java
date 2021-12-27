@@ -62,7 +62,7 @@ public class UserDAO {
     public List<UserVO> getAllUserDetails() {
         return sneak(() ->
                 StreamSupport.stream(userRepository.findAll().spliterator(), true)
-                .map(this::convertToUserVO).toList());
+                        .map(this::convertToUserVO).toList());
     }
 
     /**

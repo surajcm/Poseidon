@@ -2,13 +2,13 @@ package com.poseidon.company.web.controller;
 
 import com.poseidon.company.domain.CompanyTermsVO;
 import com.poseidon.company.service.CompanyTermsService;
-import com.poseidon.company.web.form.CompanyTermsForm;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.servlet.ModelAndView;
 
 import java.util.Optional;
 
@@ -29,38 +29,36 @@ public class CompanyController {
      * @return on error
      */
     @PostMapping("/company/Company.htm")
-    public ModelAndView list() {
+    public String list(final Model model) {
         LOG.info("Inside Company method of CompanyTermsController");
         var companyTermsVO = fetchCompanyTerms();
-        CompanyTermsForm companyTermsForm = new CompanyTermsForm();
-        companyTermsVO.ifPresent(companyTermsForm::setCurrentCompanyTermsVO);
-        return new ModelAndView("company/companyDetails", "companyTermsForm", companyTermsForm);
+        model.addAttribute("companyTermsVO", companyTermsVO);
+        return "company/companyDetails";
     }
 
     /**
      * update company details.
      *
-     * @param companyTermsForm companyTermsForm
      * @return view
      */
     @PostMapping("/company/updateCompanyDetails.htm")
-    public ModelAndView updateCompanyDetails(final CompanyTermsForm companyTermsForm) {
+    public String updateCompanyDetails(@ModelAttribute final CompanyTermsVO companyTermsVO, final Model model) {
         LOG.info(" Inside editTerms method of CompanyTermsController");
-        var companyTermsVO = updateCompanyTermsVO(companyTermsForm);
-        companyTermsVO.ifPresent(companyTermsForm::setCurrentCompanyTermsVO);
-        return new ModelAndView("company/companyDetails", "companyTermsForm", companyTermsForm);
+        var updatedCompanyTermsVO = updateCompanyTermsVO(companyTermsVO);
+        model.addAttribute("companyTermsVO", updatedCompanyTermsVO);
+        return "company/companyDetails";
     }
 
     private Optional<CompanyTermsVO> fetchCompanyTerms() {
         return companyTermsService.listCompanyTerms();
     }
 
-    private Optional<CompanyTermsVO> updateCompanyTermsVO(final CompanyTermsForm companyTermsForm) {
-        if (companyTermsForm.getCurrentCompanyTermsVO() != null) {
+    private Optional<CompanyTermsVO> updateCompanyTermsVO(final CompanyTermsVO companyTermsVO) {
+        if (companyTermsVO != null) {
             var auth = SecurityContextHolder.getContext().getAuthentication();
             var username = auth.getName();
-            companyTermsForm.getCurrentCompanyTermsVO().setModifiedBy(username);
+            companyTermsVO.setModifiedBy(username);
         }
-        return companyTermsService.updateCompanyDetails(companyTermsForm.getCurrentCompanyTermsVO());
+        return companyTermsService.updateCompanyDetails(companyTermsVO);
     }
 }

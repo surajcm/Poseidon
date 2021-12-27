@@ -4,12 +4,13 @@ function listMe() {
 }
 
 function goToHome() {
-    document.forms[0].action = "/user/ToHome.htm";
+    document.forms[0].action = "/user/ToHome";
     document.forms[0].submit();
 }
 
 function LogMeOut() {
-    document.forms[0].action = "/user/LogMeOut.htm";
+    document.forms[0].setAttribute("th:action", "@{/LogMeOut}");
+    //document.forms[0].action = "/LogMeOut";
     document.forms[0].submit();
 }
 

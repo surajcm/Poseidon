@@ -1,0 +1,149 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="modelListReport" pageWidth="540" pageHeight="842" columnWidth="500" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="b55877d8-09b9-4119-9aab-e9f62cc4fdee">
+	<property name="ireport.zoom" value="1.5"/>
+	<property name="ireport.x" value="0"/>
+	<property name="ireport.y" value="0"/>
+	<property name="net.sf.jasperreports.awt.ignore.missing.font" value="true"/>
+	<queryString>
+		<![CDATA[]]>
+	</queryString>
+	<field name="id" class="java.math.BigInteger"/>
+	<field name="makeName" class="java.lang.String"/>
+	<field name="modelName" class="java.lang.String"/>
+	<background>
+		<band splitType="Stretch"/>
+	</background>
+	<title>
+		<band height="75" splitType="Stretch">
+			<rectangle>
+				<reportElement uuid="be67748e-2373-4571-957c-91f141d0cb60" x="1" y="1" width="497" height="32" backcolor="#CCCCCC"/>
+			</rectangle>
+			<rectangle>
+				<reportElement uuid="38d3b13d-ebd7-42f7-8c7c-1889978b5c71" x="1" y="36" width="480" height="36" forecolor="#FFFFFF" backcolor="#CCCCCC"/>
+			</rectangle>
+			<line>
+				<reportElement uuid="009a1912-6145-4fe6-bf87-1cdef14dbdc4" x="0" y="36" width="1" height="37"/>
+				<graphicElement>
+					<pen lineStyle="Solid"/>
+				</graphicElement>
+			</line>
+			<staticText>
+				<reportElement uuid="1b5ab8b5-2956-4bd0-bf29-f72646868ef9" x="2" y="38" width="244" height="32"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="20" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Make Name]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="d5d2f16c-f71c-4254-a547-4f4d9655917c" x="1" y="1" width="480" height="32"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="26" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Model Details Report]]></text>
+			</staticText>
+			<staticText>
+				<reportElement uuid="ce063413-87e1-44d3-9fcf-c05ea580518a" x="254" y="41" width="244" height="32"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="20" isBold="true"/>
+				</textElement>
+				<text><![CDATA[Model Name]]></text>
+			</staticText>
+			<line>
+				<reportElement uuid="009a1912-6145-4fe6-bf87-1cdef14dbdc4" x="250" y="36" width="1" height="36"/>
+				<graphicElement>
+					<pen lineStyle="Solid"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement uuid="009a1912-6145-4fe6-bf87-1cdef14dbdc4" x="498" y="0" width="1" height="33"/>
+				<graphicElement>
+					<pen lineStyle="Solid"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement uuid="009a1912-6145-4fe6-bf87-1cdef14dbdc4" x="0" y="1" width="1" height="33"/>
+				<graphicElement>
+					<pen lineStyle="Solid"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement uuid="009a1912-6145-4fe6-bf87-1cdef14dbdc4" x="0" y="0" width="498" height="1"/>
+				<graphicElement>
+					<pen lineStyle="Solid"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement uuid="009a1912-6145-4fe6-bf87-1cdef14dbdc4" x="0" y="34" width="498" height="1"/>
+				<graphicElement>
+					<pen lineStyle="Solid"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement uuid="9249ca73-9b2f-43bb-b2bf-2a9c264a4be9" x="1" y="73" width="497" height="1"/>
+			</line>
+			<line>
+				<reportElement uuid="009a1912-6145-4fe6-bf87-1cdef14dbdc4" x="498" y="35" width="1" height="37"/>
+				<graphicElement>
+					<pen lineStyle="Solid"/>
+				</graphicElement>
+			</line>
+		</band>
+	</title>
+	<pageHeader>
+		<band splitType="Stretch"/>
+	</pageHeader>
+	<columnHeader>
+		<band splitType="Stretch"/>
+	</columnHeader>
+	<detail>
+		<band height="67" splitType="Stretch">
+			<textField>
+				<reportElement uuid="ded76d84-3e09-4569-8454-a7e015162d8f" x="2" y="1" width="244" height="34"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="18"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{makeName}]]></textFieldExpression>
+			</textField>
+			<textField>
+				<reportElement uuid="17e3f04f-28a9-4624-a11e-51de66e78144" x="254" y="0" width="244" height="34"/>
+				<textElement textAlignment="Center">
+					<font fontName="Arial" size="18"/>
+				</textElement>
+				<textFieldExpression><![CDATA[$F{modelName}]]></textFieldExpression>
+			</textField>
+			<line>
+				<reportElement uuid="009a1912-6145-4fe6-bf87-1cdef14dbdc4" x="498" y="0" width="1" height="34"/>
+				<graphicElement>
+					<pen lineStyle="Solid"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement uuid="009a1912-6145-4fe6-bf87-1cdef14dbdc4" x="0" y="35" width="498" height="1"/>
+				<graphicElement>
+					<pen lineStyle="Solid"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement uuid="009a1912-6145-4fe6-bf87-1cdef14dbdc4" x="250" y="0" width="1" height="35"/>
+				<graphicElement>
+					<pen lineStyle="Solid"/>
+				</graphicElement>
+			</line>
+			<line>
+				<reportElement uuid="009a1912-6145-4fe6-bf87-1cdef14dbdc4" x="0" y="0" width="1" height="35"/>
+				<graphicElement>
+					<pen lineStyle="Solid"/>
+				</graphicElement>
+			</line>
+		</band>
+	</detail>
+	<columnFooter>
+		<band splitType="Stretch"/>
+	</columnFooter>
+	<pageFooter>
+		<band splitType="Stretch"/>
+	</pageFooter>
+	<summary>
+		<band splitType="Stretch"/>
+	</summary>
+</jasperReport>
