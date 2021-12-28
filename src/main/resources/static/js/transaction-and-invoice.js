@@ -94,9 +94,9 @@ function tagNumbers(fromInvoice) {
 function getInvoiceIdAndDescription(id) {
     let xhr = new XMLHttpRequest();
     xhr.open('GET', "/invoice/addInvoiceOnAjax.htm" + "?id=" + id, true);
-    let token = document.querySelector("meta[name='_csrf']").content;
-    let header = document.querySelector("meta[name='_csrf_header']").content;
-    xhr.setRequestHeader(header, token);
+    const token = document.querySelector("meta[name='_csrf']").content;
+    const header = document.querySelector("meta[name='_csrf_header']").content;
+    //xhr.setRequestHeader(header, token);
     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     xhr.onload = function () {
         if (xhr.status === 200) {

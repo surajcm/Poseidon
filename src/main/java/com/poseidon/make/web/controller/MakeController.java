@@ -9,7 +9,6 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -535,12 +534,10 @@ public class MakeController {
     }
 
     public String findLoggedInUsername() {
-        String username = null;
-        if (SecurityContextHolder.getContext().getAuthentication() != null) {
-            var principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-            if (principal instanceof User user) {
-                username = user.getUsername();
-            }
+        String username = "";
+        var auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth != null) {
+            username = auth.getName();
         }
         return username;
     }
