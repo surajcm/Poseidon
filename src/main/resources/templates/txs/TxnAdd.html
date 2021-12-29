@@ -18,9 +18,9 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security/">
         <script type="text/javascript" src="/js/navbar-scripts.js"></script>
     </head>
     <body>
-        <form method="POST" modelAttribute="transactionForm" >
-            <form:hidden name="loggedInUser" path="loggedInUser"/>
-            <form:hidden name="loggedInRole" path="loggedInRole"/>
+        <form method="POST" th:object="${transactionForm}">
+            <input type="hidden" name="loggedInUser" />
+            <input type="hidden" name="loggedInRole" />
             <div th:insert="/navbar::navbar"></div>
             <div class="container">
                 <div class="wrap">
@@ -32,87 +32,85 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security/">
                             <div class="row g-3">
                                 <div class="col-md-4">
                                     <label for="productCategory" class="form-label">Product Category : *</label>
-                                    <form:input cssClass="form-control" path="currentTransaction.productCategory" id="productCategory"/>
+                                    <input type="text" class="form-control" th:field="*{currentTransaction.productCategory}" id="productCategory"/>
                                 </div>
                                 <div class="col-md-4">
                                     <label for="serialNo" class="form-label">Serial No :*</label>
-                                    <form:input cssClass="form-control" path="currentTransaction.serialNo" id="serialNo"/>
+                                    <input type="text" class="form-control" th:field="*{currentTransaction.serialNo}" id="serialNo"/>
                                 </div>
                                 <div class="col-md-4">
                                     <label for="dateReported" class="form-label">Transaction Date :* <img src="/img/calendar3.svg" alt="" width="16" height="16" title="calendar" /></label>
-                                    <form:input path="currentTransaction.dateReported" cssClass="date-picker form-control" id="dateReported" />
+                                    <input type="text" th:field="*{currentTransaction.dateReported}" class="date-picker form-control" id="dateReported" />
                                 </div>
                                 <div class="col-md-4">
                                     <label for="customerId" class="form-label">Customer Id :*</label>
-                                    <form:input cssClass="form-control" path="customerVO.customerId" id="customerId"/>
+                                    <input type="text" th:field="*{customerVO.customerId}" class="form-control" id="customerId"/>
                                 </div>
                                 <div class="col-md-8">
                                     <label for="customerId" class="form-label" style="font-size: .70em;color:blue;">Enter Customer Details in case of New Customer</label>
                                 </div>
                                 <div class="col-md-4">
                                     <label for="customerName" class="form-label">Customer Name :*</label>
-                                    <form:input cssClass="form-control" path="customerVO.customerName" id="customerName"/>
+                                    <input type="text" class="form-control" th:field="*{customerVO.customerName}" id="customerName"/>
                                 </div>
                                 <div class="col-md-8">
                                     <label for="address1" class="form-label">Address Line :</label>
-                                    <form:textarea cssClass="form-control" path="customerVO.address" id="address1"/>
+                                    <input type="text" class="form-control" th:field="*{customerVO.address}" id="address1"/>
                                 </div>
                                 <div class="col-md-4">
                                     <label for="phoneNo" class="form-label">Phone :</label>
-                                    <form:input cssClass="form-control" path="customerVO.phoneNo" id="phoneNo"/>
+                                    <input type="text" class="form-control" th:field="*{customerVO.phoneNo}" id="phoneNo"/>
                                 </div>
                                 <div class="col-md-4">
                                     <label for="mobile" class="form-label">Mobile :</label>
-                                    <form:input cssClass="form-control" path="customerVO.mobile" id="mobile"/>
+                                    <input type="text" class="form-control" th:field="*{customerVO.mobile}" id="mobile"/>
                                 </div>
                                 <div class="col-md-4">
                                     <label for="email" class="form-label">Email :</label>
-                                    <form:input cssClass="form-control" path="customerVO.email" id="email"/>
+                                    <input type="text" class="form-control" th:field="*{customerVO.email}" id="email"/>
                                 </div>
                                 <div class="col-md-4">
                                     <label for="makeId" class="form-label">Make :* </label>
-                                    <form:select id="makeId" path="currentTransaction.makeId" tabindex="1" cssClass="form-control"
+                                    <select id="makeId" th:field="*{currentTransaction.makeId}" tabindex="1" class="form-control"
                                                  onkeypress="handleEnter(event);" onchange="changeTheModel();">
-                                        <form:option value=""><spring:message code="common.select" text="<-- Select -->"/></form:option>
-                                        <form:options items="${transactionForm.makeVOs}"
-                                                      itemValue="Id" itemLabel="makeName"/>
-                                    </form:select>
+                                        <option value=""><-- Select --></option>
+                                        <option th:each="i : ${transactionForm.makeVOs}" th:value="${i.Id}" th:text="${i.makeName}">
+                                    </select>
                                 </div>
                                 <div class="col-md-4">
                                     <label for="modelId" class="form-label">Model :* </label>
-                                        <form:select id="modelId" path="currentTransaction.modelId" tabindex="2" cssClass="form-control"
+                                        <select id="modelId" th:field="*{currentTransaction.modelId}" tabindex="2" class="form-control"
                                                      onkeypress="handleEnter(event);" disabled="true">
-                                            <form:option value=""><spring:message code="common.select" text="<-- Select -->"/></form:option>
-                                            <form:options items="${transactionForm.makeAndModelVOs}"
-                                                          itemValue="modelId" itemLabel="modelName"/>
-                                        </form:select>
+                                            <option value=""><-- Select --></option>
+                                            <option th:each="i : ${transactionForm.makeAndModelVOs}" th:value="${i.modelId}" th:text="${i.modelName}">
+                                        </select>
                                 </div>
                                 <div class="col-md-4">
                                     <a id="gotoNewModel" href="${contextPath}/make/addModel.htm"> Add New Model</a>
                                 </div>
                                 <div class="col-md-4">
                                     <label for="accessories" class="form-label">Accessories :*</label>
-                                    <form:textarea cssClass="form-control" path="currentTransaction.accessories" id="accessories"/>
+                                    <textarea class="form-control" th:field="*{currentTransaction.accessories}" id="accessories"></textarea>
                                 </div>
                                 <div class="col-md-4">
                                     <label for="complaintReported" class="form-label">Complaint Reported :*</label>
-                                    <form:textarea cssClass="form-control" path="currentTransaction.complaintReported" id="complaintReported"/>
+                                    <textarea class="form-control" th:field="*{currentTransaction.complaintReported}" id="complaintReported"></textarea>
                                 </div>
                                 <div class="col-md-4">
                                     <label for="complaintDiagnosed" class="form-label">Complaint Diagnosed :*</label>
-                                    <form:textarea cssClass="form-control" path="currentTransaction.complaintDiagnosed" id="complaintDiagnosed"/>
+                                    <textarea class="form-control" th:field="*{currentTransaction.complaintDiagnosed}" id="complaintDiagnosed"></textarea>
                                 </div>
                                 <div class="col-md-4">
                                     <label for="enggRemark" class="form-label">Engineer Remarks :*</label>
-                                    <form:textarea cssClass="form-control" path="currentTransaction.enggRemark" id="enggRemark"/>
+                                    <textarea class="form-control" th:field="*{currentTransaction.enggRemark}" id="enggRemark"></textarea>
                                 </div>
                                 <div class="col-md-4">
                                     <label for="repairAction" class="form-label">Repair Action :*</label>
-                                    <form:textarea cssClass="form-control" path="currentTransaction.repairAction" id="repairAction"/>
+                                    <textarea class="form-control" th:field="*{currentTransaction.repairAction}" id="repairAction"></textarea>
                                 </div>
                                 <div class="col-md-4">
                                     <label for="notes" class="form-label">Notes :*</label>
-                                    <form:textarea cssClass="form-control" path="currentTransaction.notes" id="notes"/>
+                                    <textarea class="form-control" th:field="*{currentTransaction.notes}" id="notes"></textarea>
                                 </div>
                                 <div class="col-md-6">
                                     <button type="button" class="btn btn-primary btn-success" onclick="save();">

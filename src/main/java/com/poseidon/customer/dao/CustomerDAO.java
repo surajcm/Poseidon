@@ -226,12 +226,12 @@ public class CustomerDAO {
         var customerSpec = new CustomerSpecification();
         var search = populateSearchOperation(searchVO);
         if (!ObjectUtils.isEmpty(searchVO.getCustomerId())) {
-            customerSpec.add(new SearchCriteria("customerId", searchVO.getCustomerId(), search));
+            customerSpec.add(new SearchCriteria("id", searchVO.getCustomerId(), search));
         }
-        if (!StringUtils.hasText(searchVO.getCustomerName())) {
+        if (StringUtils.trimWhitespace(searchVO.getCustomerName()).length() > 0) {
             customerSpec.add(new SearchCriteria("name", searchVO.getCustomerName(), search));
         }
-        if (!StringUtils.hasText(searchVO.getMobile())) {
+        if (StringUtils.trimWhitespace(searchVO.getMobile()).length() > 0) {
             customerSpec.add(new SearchCriteria(MOBILE, searchVO.getMobile(), search));
         }
         List<Customer> resultCustomers = sneak(() -> customerRepository.findAll(customerSpec));

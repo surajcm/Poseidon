@@ -56,8 +56,10 @@ public class CompanyController {
     private Optional<CompanyTermsVO> updateCompanyTermsVO(final CompanyTermsVO companyTermsVO) {
         if (companyTermsVO != null) {
             var auth = SecurityContextHolder.getContext().getAuthentication();
-            var username = auth.getName();
-            companyTermsVO.setModifiedBy(username);
+            if (auth != null) {
+                var username = auth.getName();
+                companyTermsVO.setModifiedBy(username);
+            }
         }
         return companyTermsService.updateCompanyDetails(companyTermsVO);
     }

@@ -96,7 +96,7 @@ function stateChange() {
             }
             document.transactionForm.modelId.options.length = resultIds.length - 1;
             document.transactionForm.modelId.options[0] = new Option("<---- Select ---->", "");
-            for (var i = 1; i <= (resultIds.length); i++) {
+            for (let i = 1; i <= (resultIds.length); i++) {
                 document.transactionForm.modelId.options[i] = new Option(resultNames[i - 1], resultIds[i - 1]);
             }
         } else {
