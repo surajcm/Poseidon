@@ -7,8 +7,7 @@
 	<field name="invoiceId" class="java.lang.Long"/>
 	<field name="tagNo" class="java.lang.String"/>
 	<field name="customerName" class="java.lang.String"/>
-	<field name="customerAddress1" class="java.lang.String"/>
-	<field name="customerAddress2" class="java.lang.String"/>
+	<field name="customerAddress" class="java.lang.String"/>
 	<field name="description" class="java.lang.String"/>
 	<field name="serialNo" class="java.lang.String"/>
 	<field name="quantity" class="java.lang.Integer"/>
@@ -20,8 +19,8 @@
 	<field name="companyPhoneNumber" class="java.lang.String"/>
 	<field name="companyWebsite" class="java.lang.String"/>
 	<field name="companyEmail" class="java.lang.String"/>
-	<field name="companyVATTIN" class="java.lang.String"/>
-	<field name="companyCSTTIN" class="java.lang.String"/>
+	<field name="companyVatTin" class="java.lang.String"/>
+	<field name="companyCstTin" class="java.lang.String"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -154,14 +153,7 @@
 				<textElement>
 					<font fontName="Arial" size="11"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{customerAddress1}]]></textFieldExpression>
-			</textField>
-			<textField>
-				<reportElement uuid="a1d4b4da-07d0-42f7-88b0-64e8e827ace5" x="91" y="82" width="386" height="40"/>
-				<textElement>
-					<font fontName="Arial" size="11"/>
-				</textElement>
-				<textFieldExpression><![CDATA[$F{customerAddress2}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{customerAddress}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement uuid="841146ed-41e9-4128-b954-a74a36b56b2f" x="91" y="13" width="386" height="20"/>
@@ -367,14 +359,14 @@
 				<textElement>
 					<font fontName="Arial" size="11"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{companyCSTTIN}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{companyCstTin}]]></textFieldExpression>
 			</textField>
 			<textField>
 				<reportElement uuid="0aca2970-3277-42a5-ae83-c7681bf9f408" x="135" y="177" width="100" height="20"/>
 				<textElement>
 					<font fontName="Arial" size="11"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{companyVATTIN}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{companyVatTin}]]></textFieldExpression>
 			</textField>
 			<staticText>
 				<reportElement uuid="acf49efc-7a6f-4168-b818-9580599b7bd3" mode="Transparent" x="371" y="220" width="168" height="20" forecolor="#000000" backcolor="#FFFFFF"/>

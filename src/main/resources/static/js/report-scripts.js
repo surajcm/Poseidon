@@ -52,8 +52,8 @@ function fetchModelListReport() {
 }
 
 function fetchTransactionsListReport() {
-    const callExportValue = document.getElementById('txnExportValue');
-    document.getElementById('exportTo').value = callExportValue.options[callExportValue.selectedIndex].text;
+    const txnExportValue1 = document.getElementById('txnExportValue1');
+    document.getElementById('exportTo').value = txnExportValue1.options[txnExportValue1.selectedIndex].text;
     document.forms[0].target = 'reportContent';
     document.forms[0].action = 'getTransactionsListReport.htm';
     document.forms[0].submit();

@@ -23,7 +23,6 @@
         <form method="POST" th:object="${transactionForm}" >
             <input type="hidden" name="loggedInUser" />
             <input type="hidden" name="loggedInRole" />
-            <input type="hidden" name="id" />
             <input type="hidden" name="customer" />
             <input type="hidden" name="model" />
             <div th:insert="/navbar::navbar"></div>
@@ -35,6 +34,7 @@
                         </div>
                         <div class="card-body">
                             <div class="row g-3" th:with="currentTransaction=${transactionForm.currentTransaction}">
+                                <input type="hidden" name="id" th:field="*{currentTransaction.id}"/>
                                 <div class="col-md-4">
                                     <label for="productCategory" class="form-label">Product Category :</label>
                                     <input type="text" class="form-control" th:field="*{currentTransaction.productCategory}" id="productCategory"/>

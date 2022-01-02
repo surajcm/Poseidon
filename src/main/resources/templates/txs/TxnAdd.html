@@ -72,7 +72,7 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security/">
                                 <div class="col-md-4">
                                     <label for="makeId" class="form-label">Make :* </label>
                                     <select id="makeId" th:field="*{currentTransaction.makeId}" tabindex="1" class="form-control"
-                                                 onkeypress="handleEnter(event);" onchange="changeTheModel();">
+                                                 onkeypress="handleEnter(event);" onchange="changeTheNewModel();">
                                         <option value=""><-- Select --></option>
                                         <option th:each="i : ${transactionForm.makeVOs}" th:value="${i.Id}" th:text="${i.makeName}">
                                     </select>
