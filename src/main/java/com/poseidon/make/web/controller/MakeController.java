@@ -9,8 +9,8 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -56,7 +56,6 @@ public class MakeController {
      * @param makeForm makeForm
      * @return view
      */
-    @RequestMapping(value = "/make/ModelList.htm", method = {RequestMethod.POST, RequestMethod.GET})
     public ModelAndView modelList(final MakeForm makeForm) {
         var sanitizedMakeForm = CommonUtils.sanitizedString(makeForm.toString());
         LOG.info("Inside List method of MakeController, form details are  {}",
@@ -78,12 +77,41 @@ public class MakeController {
     }
 
     /**
+     * .
+     * list all models
+     *
+     * @param makeForm makeForm
+     * @return view
+     */
+    @RequestMapping(value = "/make/ModelList.htm", method = {RequestMethod.POST, RequestMethod.GET})
+    public String modelListPage(final MakeForm makeForm, final Model model) {
+        var sanitizedMakeForm = CommonUtils.sanitizedString(makeForm.toString());
+        LOG.info("Inside List method of MakeController, form details are  {}",
+                sanitizedMakeForm);
+        var makeAndModelVOs = makeService.listAllMakesAndModels();
+        if (!makeAndModelVOs.isEmpty()) {
+            makeAndModelVOs.forEach(makeAndModelVO -> LOG.info(" makeAndModelVO is {}", makeAndModelVO));
+            makeForm.setMakeAndModelVOs(makeAndModelVOs);
+        }
+        var makeVOs = makeService.fetchMakes();
+        if (!makeVOs.isEmpty()) {
+            makeVOs.forEach(makeVO -> LOG.debug(MAKE_VO_IS, makeVO));
+            makeForm.setMakeVOs(makeVOs);
+        }
+        makeForm.setSearchMakeAndModelVO(new MakeAndModelVO());
+        makeForm.setLoggedInRole(makeForm.getLoggedInRole());
+        makeForm.setLoggedInUser(makeForm.getLoggedInUser());
+        //return new ModelAndView("make/ModelList", MAKE_FORM, makeForm);
+        model.addAttribute("makeForm", makeForm);
+        return "make/ModelList";
+    }
+
+    /**
      * list out makes.
      *
      * @param makeForm makeForm
      * @return view
      */
-    @PostMapping("/make/MakeList.htm")
     public ModelAndView makeList(final MakeForm makeForm) {
         LOG.info(" listMake List method of MakeController ");
         var makeAndModelVOs = makeService.listAllMakes();
@@ -100,6 +128,33 @@ public class MakeController {
         makeForm.setLoggedInRole(makeForm.getLoggedInRole());
         makeForm.setLoggedInUser(makeForm.getLoggedInUser());
         return new ModelAndView("make/MakeList", MAKE_FORM, makeForm);
+    }
+
+    /**
+     * list out makes.
+     *
+     * @param makeForm makeForm
+     * @return view
+     */
+    @PostMapping("/make/MakeList.htm")
+    public String makeListPage(final MakeForm makeForm, final Model model) {
+        LOG.info(" listMake List method of MakeController ");
+        var makeAndModelVOs = makeService.listAllMakes();
+        if (!makeAndModelVOs.isEmpty()) {
+            makeAndModelVOs.forEach(makeAndModelVO -> LOG.debug(" makeAndModelVO is {}", makeAndModelVO));
+            makeForm.setMakeAndModelVOs(makeAndModelVOs);
+        }
+        var makeVOs = makeService.fetchMakes();
+        if (!makeVOs.isEmpty()) {
+            makeVOs.forEach(makeVO -> LOG.debug(MAKE_VO_IS, makeVO));
+            makeForm.setMakeVOs(makeVOs);
+        }
+        makeForm.setSearchMakeAndModelVO(new MakeAndModelVO());
+        makeForm.setLoggedInRole(makeForm.getLoggedInRole());
+        makeForm.setLoggedInUser(makeForm.getLoggedInUser());
+        model.addAttribute("makeForm", makeForm);
+        //return new ModelAndView("make/MakeList", MAKE_FORM, makeForm);
+        return "make/MakeList";
     }
 
     @GetMapping("/make/getForEdit.htm")
@@ -120,7 +175,7 @@ public class MakeController {
     @GetMapping("/make/makeForEdit.htm")
     public @ResponseBody
     String makeForEdit(@ModelAttribute("id") final String id,
-                      final BindingResult result) {
+                       final BindingResult result) {
         var sanitizedId = CommonUtils.sanitizedString(id);
         LOG.info("makeForEdit method of make controller {}", sanitizedId);
         String response = null;
@@ -387,9 +442,9 @@ public class MakeController {
     @PutMapping("/make/updateMakeAjax.htm")
     public @ResponseBody
     String updateMakeAjax(@ModelAttribute("id") final Long id,
-                           @ModelAttribute("makeName") final String makeName,
-                           @ModelAttribute("description") final String description,
-                           final BindingResult result) {
+                          @ModelAttribute("makeName") final String makeName,
+                          @ModelAttribute("description") final String description,
+                          final BindingResult result) {
         var sanitizedId = CommonUtils.sanitizedString(id.toString());
         var sanitizedMakeName = CommonUtils.sanitizedString(makeName);
         var sanitizedDescription = CommonUtils.sanitizedString(description);
@@ -479,12 +534,10 @@ public class MakeController {
     }
 
     public String findLoggedInUsername() {
-        String username = null;
-        if (SecurityContextHolder.getContext().getAuthentication() != null) {
-            var principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
-            if (principal instanceof User user) {
-                username = user.getUsername();
-            }
+        String username = "";
+        var auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth != null) {
+            username = auth.getName();
         }
         return username;
     }

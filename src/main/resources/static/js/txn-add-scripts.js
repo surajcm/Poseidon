@@ -46,62 +46,41 @@ function clearOut() {
     document.getElementById("notes").value = "";
 }
 
-var req;
-
-function changeTheModel() {
-    const selectMakeId = document.transactionForm.makeId.value;
-    let url = "${contextPath}/txs/UpdateModelAjax.htm";
-    url = url + "?selectMakeId=" + selectMakeId;
-    bustcacheparameter = (url.indexOf("?") != -1) ? "&" + new Date().getTime() : "?" + new Date().getTime();
-    createAjaxRequest();
-    if (req) {
-        req.onreadystatechange = stateChange;
-        req.open("POST", url + bustcacheparameter, true);
-        req.send(url + bustcacheparameter);
-    }
+function changeTheNewModel() {
+    const selectMakeId = document.getElementById('makeId').value;
+    const xhr = new XMLHttpRequest();
+    xhr.open('POST', "/txs/UpdateModelAjax.htm" + "?selectMakeId=" + selectMakeId, true);
+    const token = document.querySelector("meta[name='_csrf']").content;
+    const header = document.querySelector("meta[name='_csrf_header']").content;
+    //xhr.setRequestHeader(header, token);
+    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    xhr.onload = function () {
+        if (xhr.status === 200) {
+            if (xhr.responseText != null) {
+                stateChangeOnTxn(xhr.responseText);
+            }
+        } else if (xhr.status !== 200) {
+            console.log('Request failed.  Returned status of ' + xhr.status);
+        }
+    };
+    xhr.send();
 }
 
-function createAjaxRequest() {
-    if (window.XMLHttpRequest) {
-        req = new XMLHttpRequest();
-    } else if (window.ActiveXObject) {
-        try {
-            req = new ActiveXObject("Msxml2.XMLHTTP");
-        } catch (e) {
-            try {
-                req = new ActiveXObject("Microsoft.XMLHTTP");
-            } catch (e) {
-            }
+function stateChangeOnTxn(textReturned) {
+    console.log("Received :" + textReturned);
+    if (textReturned !== "") {
+        const mmList = JSON.parse(textReturned);
+        const modelId = document.getElementById('modelId');
+        modelId.options.length = mmList - 1;
+        modelId.options[0] = new Option("<-- Select -->", "");
+        for (let i = 0; i < mmList.length; i++) {
+            console.log("i is " + i);
+            const singleMM = mmList[i];
+            console.log("singleMM is " + singleMM.modelName);
+            modelId.options[i + 1] = new Option(singleMM.modelName, singleMM.id);
         }
-    }
-}
-
-function stateChange() {
-    if (req.readyState === 4 &&
-        (req.status === 200 || window.location.href.indexOf("http") === -1)) {
-        textReturned = req.responseText;
-        if (textReturned !== "") {
-            const fullContent = textReturned.split("#start#");
-            const resultIds = [];
-            const resultNames = [];
-            let k = 0;
-
-            for (let j = 0; j < fullContent.length; j++) {
-                if (fullContent[j].length > 0) {
-                    resultIds[k] = fullContent[j].split("#id#")[1];
-                    const testing = fullContent[j].split("#id#")[2];
-                    resultNames[k] = testing.split("#modelName#")[1];
-                    k++;
-                }
-            }
-            document.transactionForm.modelId.options.length = resultIds.length - 1;
-            document.transactionForm.modelId.options[0] = new Option("<---- Select ---->", "");
-            for (var i = 1; i <= (resultIds.length); i++) {
-                document.transactionForm.modelId.options[i] = new Option(resultNames[i - 1], resultIds[i - 1]);
-            }
-        } else {
-            document.transactionForm.modelId.options.length = 0;
-            document.transactionForm.modelId.options[0] = new Option("<---- Select ---->", "");
-        }
+    } else {
+        modelId.options.length = 0;
+        modelId.options[0] = new Option("<-- Select -->", "");
     }
 }

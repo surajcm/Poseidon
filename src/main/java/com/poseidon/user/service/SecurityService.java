@@ -2,6 +2,7 @@ package com.poseidon.user.service;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -12,7 +13,6 @@ import org.springframework.stereotype.Service;
 @Service
 @SuppressWarnings("unused")
 public class SecurityService {
-
     private static final Logger logger = LoggerFactory.getLogger(SecurityService.class);
     private final WebSecurityConfigurerAdapter webSecurityConfigurerAdapter;
     private final UserDetailsService userDetailsService;
@@ -32,6 +32,15 @@ public class SecurityService {
         return username;
     }
 
+    public boolean isAuthenticated() {
+        var authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (authentication == null ||
+                AnonymousAuthenticationToken.class.isAssignableFrom(authentication.getClass())) {
+            return false;
+        }
+        return authentication.isAuthenticated();
+    }
+
     public void autologin(final String username, final String password) {
         var userDetails = userDetailsService.loadUserByUsername(username);
         var token = new UsernamePasswordAuthenticationToken(
@@ -44,6 +53,7 @@ public class SecurityService {
         }
         if (token.isAuthenticated()) {
             SecurityContextHolder.getContext().setAuthentication(token);
+            logger.debug("Auto login {} successfully!", username);
         }
     }
 }

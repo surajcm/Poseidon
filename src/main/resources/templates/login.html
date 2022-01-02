@@ -1,7 +1,6 @@
-<%@ page language="java" contentType="text/html; charset=UTF-8" %>
-
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml11/DTD/xhtml1-strict.dtd">
-<html xmlns="http://www.w3.org/1999/xhtml" lang="en">
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity3">
 <head>
     <link rel="shortcut icon" href="/resources/images/Poseidon_Ico.ico" >
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
@@ -9,10 +8,6 @@
     <link rel="stylesheet" href="/css/core/bootstrap-5.min.css"  type="text/css"/>
     <link rel="stylesheet" href="/css/logInStyles.css"  type="text/css" />
     <script type="text/javascript">
-        function submitLogIn() {
-            document.forms[0].action="LogIn.htm";
-            document.forms[0].submit();
-        }
         function popupForget() {
             console.log("popupForget clicked");
         }
@@ -22,17 +17,15 @@
     <main>
         <section class="d-flex align-items-center my-5 mt-lg-6 mb-lg-5">
             <div class="container">
-                <div class="row justify-content-center form-bg-image" data-background-lg="/resources/images/Poseidon_clear1.svg" style="background: rgba(0, 0, 0, 0) url('/resources/images/Poseidon_clear1.svg') repeat scroll 0% 0%;">
+                <div class="row justify-content-center form-bg-image" data-background-lg="/resources/images/Poseidon_clear1.svg" style="background: rgba(0, 0, 0, 0) url('/static/img/Poseidon_clear1.svg') repeat scroll 0% 0%;">
                     <div class="col-12 d-flex align-items-center justify-content-center">
                         <div class="bg-white shadow-soft border rounded border-light p-4 p-lg-5 w-100 fmxw-500" style="opacity: 0.9;">
                             <div class="text-center text-md-center mb-4 mt-md-0">
                                 <h1 class="mb-0 h3">Sign in Poseidon</h1>
                             </div>
-                            <form method="post" action="${contextPath}/login"  class="mt-4" id="login-nav">
+                            <form th:action="@{/login}" method="post" class="mt-4" id="login-nav">
                                 <div class="form-group mb-4"><label for="username">Your Email</label>
                                     <div class="input-group">
-                                        <span>${message}</span>
-                                        <span>${error}</span>
                                         <span class="input-group-text" id="basic-addon1"><span class="fas fa-envelope"></span></span>
                                         <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                                         <input id="username" name="username" type="email" class="form-control" placeholder="example@company.com" autofocus="true" required="true">
@@ -55,6 +48,7 @@
                                 </div>
                                 <div class="d-grid">
                                     <button type="submit" class="btn btn-dark">Sign in</button>
+                                    <!--input type="submit" value="Sign In"/-->
                                 </div>
                             </form>
                             <div class="mt-3 mb-4 text-center">

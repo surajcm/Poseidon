@@ -71,7 +71,7 @@ function viewCustomerDetailsViaAjax(customerId) {
     xhr.open('POST', "viewCustomer.htm", true);
     const token = document.querySelector("meta[name='_csrf']").content;
     const header = document.querySelector("meta[name='_csrf_header']").content;
-    xhr.setRequestHeader(header, token);
+    //xhr.setRequestHeader(header, token);
     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     xhr.onload = function () {
         if (xhr.status === 200) {
@@ -287,7 +287,7 @@ function ajaxSaveCustomer(modalCustomerName,
     xhr.open('POST', "/customer/saveCustomerAjax.htm", true);
     let token = document.querySelector("meta[name='_csrf']").content;
     let header = document.querySelector("meta[name='_csrf_header']").content;
-    xhr.setRequestHeader(header, token);
+    //xhr.setRequestHeader(header, token);
     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     xhr.onload = function () {
         if (xhr.status === 200) {
@@ -393,7 +393,7 @@ function getCustomerForEdit() {
     xhr.open('GET', "/customer/getForEdit.htm" + "?id=" + id, true);
     let token = document.querySelector("meta[name='_csrf']").content;
     let header = document.querySelector("meta[name='_csrf_header']").content;
-    xhr.setRequestHeader(header, token);
+    //xhr.setRequestHeader(header, token);
     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     xhr.onload = function () {
         if (xhr.status === 200) {
@@ -483,7 +483,7 @@ function callAjaxUpdate(modalCustomerName, modalAddress, modalPhone,
     xhr.open('PUT', "/customer/updateCustomerAjax.htm", true);
     let token = document.querySelector("meta[name='_csrf']").content;
     let header = document.querySelector("meta[name='_csrf_header']").content;
-    xhr.setRequestHeader(header, token);
+    //xhr.setRequestHeader(header, token);
     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     xhr.onload = function () {
         if (xhr.status === 200) {

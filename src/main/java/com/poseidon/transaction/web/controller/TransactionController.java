@@ -13,6 +13,7 @@ import org.codehaus.jackson.map.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -40,7 +41,7 @@ import static com.poseidon.transaction.web.controller.TransactionStatus.populate
 public class TransactionController {
     private static final Logger LOG = LoggerFactory.getLogger(TransactionController.class);
     private static final String SUCCESS = "success";
-    private static final String ERROR = "error";
+    private static final String DANGER = "danger";
     private static final String DATA_FROM_DATABASE = " An error occurred while fetching data from database. !! ";
     private static final String UNKNOWN_ERROR = " An Unknown Error has been occurred !!";
     private static final String EXCEPTION_IN_CONTROLLER = " Exception type in controller {}";
@@ -69,7 +70,6 @@ public class TransactionController {
      * @param transactionForm TransactionForm
      * @return view
      */
-    @PostMapping("/txs/List.htm")
     public ModelAndView list(final TransactionForm transactionForm) {
         var transactionVOs = transactionService.listAllTransactions();
         if (transactionVOs != null) {
@@ -83,6 +83,30 @@ public class TransactionController {
         transactionForm.setLoggedInUser(transactionForm.getLoggedInUser());
         transactionForm.setStatusList(populateStatus());
         return new ModelAndView(TRANSACTION_LIST, TRANSACTION_FORM, transactionForm);
+    }
+
+    /**
+     * List all transactions.
+     *
+     * @param transactionForm TransactionForm
+     * @return view
+     */
+    @PostMapping("/txs/List.htm")
+    public String listPage(final TransactionForm transactionForm, final Model model) {
+        var transactionVOs = transactionService.listAllTransactions();
+        if (transactionVOs != null) {
+            transactionVOs.stream().map(transactionVO -> " transaction vo is " + transactionVO).forEach(LOG::info);
+            transactionForm.setTransactionsList(transactionVOs);
+        }
+        //get all the make list for displaying in search
+        transactionForm.setMakeVOs(getMakeVOS());
+        transactionForm.setSearchTransaction(new TransactionVO());
+        transactionForm.setLoggedInRole(transactionForm.getLoggedInRole());
+        transactionForm.setLoggedInUser(transactionForm.getLoggedInUser());
+        transactionForm.setStatusList(populateStatus());
+        model.addAttribute("transactionForm", transactionForm);
+        //return new ModelAndView(TRANSACTION_LIST, TRANSACTION_FORM, transactionForm);
+        return TRANSACTION_LIST;
     }
 
     private List<MakeVO> getMakeVOS() {
@@ -190,7 +214,7 @@ public class TransactionController {
             transactionForm.setTransactionsList(transactionVOs);
         } else {
             transactionForm.setStatusMessage("Unable to find transaction");
-            transactionForm.setStatusMessageType(ERROR);
+            transactionForm.setStatusMessageType(DANGER);
         }
         transactionForm.setMakeVOs(getMakeVOS());
         transactionForm.setLoggedInRole(transactionForm.getLoggedInRole());
@@ -264,7 +288,7 @@ public class TransactionController {
             transactionForm.setStatusMessageType(SUCCESS);
         } catch (Exception ex) {
             transactionForm.setStatusMessage("Unable to update the selected transaction");
-            transactionForm.setStatusMessageType(ERROR);
+            transactionForm.setStatusMessageType(DANGER);
             LOG.error(ex.getLocalizedMessage());
             LOG.info(UNKNOWN_ERROR);
         }
@@ -335,7 +359,7 @@ public class TransactionController {
         try {
             response = mapper.writeValueAsString(makeAndModelList);
         } catch (IOException ex) {
-            response = ERROR;
+            response = DANGER;
             LOG.error("error parsing to json : {} ", ex.getMessage());
         }
         LOG.info("response json : {}", response);

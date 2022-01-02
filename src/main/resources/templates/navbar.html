@@ -1,9 +1,16 @@
-<link rel="stylesheet" href="/css/core/flag-icon.min.css" crossorigin="anonymous" />
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+      xsi:schemaLocation="http://www.thymeleaf.org ">
+<head>
+    <meta charset="UTF-8"/>
+    <link rel="stylesheet" href="/css/core/flag-icon.min.css" crossorigin="anonymous" />
+</head>
+<body>
+<div th:fragment="navbar" >
 <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
     <div class="container-fluid">
-        <spring:url value="/img/Poseidon_Menu.png" var="posIcon2" />
         <a class="navbar-brand" href="#" onclick="goToHome();">
-            <img src="${posIcon2}" width="30" height="30" class="d-inline-block align-text-top" alt="Poseidon"/>
+            <img src="/img/Poseidon_Menu.png" width="30" height="30" class="d-inline-block align-text-top" alt="Poseidon"/>
             Poseidon
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -11,11 +18,9 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
             <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <c:choose>
-                    <c:when test="${pageContext.request.userPrincipal.name != null}">
-                        <li class='nav-item' id='user'><a href='#' class='nav-link' onclick='listMe();' >User</a></li>
-                    </c:when>
-                </c:choose>
+                <div th:if="${not #sets.isEmpty(#authentication.getPrincipal().getAuthorities())}">
+                    <li class='nav-item' id='user'><a href='#' class='nav-link' onclick='listMe();' >User</a></li>
+                </div>
                 <li class="nav-item" id="make">
                     <a class="nav-link" href="#" onclick="MakeMe();" >Make</a>
                 </li>
@@ -40,14 +45,9 @@
                     <a class="nav-link" href="#" ><span class="flag-icon flag-icon-us flag-icon-squared" aria-hidden="true"></span>&nbsp;EN</a>
                 </li>
                 <li class="nav-item dropdown">
-                    <c:choose>
-                        <c:when test="${pageContext.request.userPrincipal.name != null}">
-                            <a class='nav-link dropdown-toggle' href='#' id='dropdownMenu1' role="button" data-bs-toggle='dropdown' aria-expanded='false'>${pageContext.request.userPrincipal.name} </a>
-                        </c:when>
-                        <c:otherwise>
-                            <a class='nav-link dropdown-toggle' href='#' id='dropdownMenu1' role="button" data-bs-toggle='dropdown' aria-expanded='false'>Unknown User</a>
-                        </c:otherwise>
-                    </c:choose>
+                    <a class='nav-link dropdown-toggle' href='#' id='dropdownMenu1' role="button" data-bs-toggle='dropdown' aria-expanded='false'>
+                        <span class="ml-auto mr-3 order-lg-last" th:text="${#authentication.getPrincipal().getUsername()}"></span>
+                    </a>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenu1">
                         <li>
                             <a class="dropdown-item" href="#" onclick="resetPassword();">Reset Password</a>
@@ -63,3 +63,6 @@
     </div>
 </nav>
 <br />
+</div>
+</body>
+</html>

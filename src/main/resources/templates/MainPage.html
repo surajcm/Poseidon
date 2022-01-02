@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security/">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="Suraj">
+    <!--meta name="_csrf" th:content="${_csrf.token}"/>
+    <meta name="_csrf_header" th:content="${_csrf.headerName}"/-->
+    <link rel="shortcut icon" href="/img/Poseidon_Ico.ico" />
+    <link rel="stylesheet" href="/css/core/bootstrap-5.min.css"  type="text/css" />
+    <link rel="stylesheet" href="/css/custom.css" type="text/css" />
+    <title>Welcome</title>
+    <script type="text/javascript" src="/js/navbar-scripts.js"></script>
+</head>
+<body>
+    <form method="POST">
+        <!--input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/-->
+        <input type="hidden" name="id" id="id" />
+        <input type="hidden" name="loggedInUser" />
+        <input type="hidden" name="loggedInRole" />
+        <div th:insert="/navbar::navbar"></div>
+        <div th:if="${not #sets.isEmpty(#authentication.getPrincipal().getAuthorities())}">
+            <form id="logoutForm" method="POST" action="${logout/}">
+                <!--input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/-->
+            </form>
+        </div>
+        <section class="jumbotron">
+        </section>
+        <script src="/js/core/popper.min.js" type="text/javascript"></script>
+        <script src="/js/core/bootstrap-5.min.js" type="text/javascript"></script>
+    </form>
+</body>
+</html>

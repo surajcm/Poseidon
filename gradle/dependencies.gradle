@@ -8,6 +8,7 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-security")
     implementation("org.springframework.boot:spring-boot-starter-actuator")
     implementation("org.springframework.boot:spring-boot-starter-log4j2")
+    implementation("org.springframework.boot:spring-boot-starter-thymeleaf")
     runtimeOnly("org.springframework.boot:spring-boot-devtools")
 
     implementation("javax.xml.bind:jaxb-api:2.3.1")
@@ -15,9 +16,11 @@ dependencies {
     implementation("org.codehaus.jackson:jackson-mapper-asl:1.9.13")
     implementation("org.slf4j:jcl-over-slf4j:1.7.25")
 
+    implementation("org.thymeleaf.extras:thymeleaf-extras-springsecurity5")
+
     implementation("com.h2database:h2:1.4.200")
     implementation("org.apache.tomcat.embed:tomcat-embed-jasper")
-    implementation("jstl:jstl:1.2")
+    //implementation("jstl:jstl:1.2")
     implementation('com.rainerhahnekamp:sneakythrow:1.2.0')
 
     //todo: update this

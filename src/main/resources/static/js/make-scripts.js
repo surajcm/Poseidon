@@ -214,7 +214,7 @@ function ajaxSaveFromModal(modalMakeName, modalDescription) {
     xhr.open('POST', "/make/saveMakeAjax.htm", true);
     let token = document.querySelector("meta[name='_csrf']").content;
     let header = document.querySelector("meta[name='_csrf_header']").content;
-    xhr.setRequestHeader(header, token);
+    //xhr.setRequestHeader(header, token);
     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     xhr.onload = function () {
         if (xhr.status === 200) {
@@ -279,7 +279,7 @@ function getMakeForEdit() {
     xhr.open('GET', "/make/makeForEdit.htm" + "?id=" + id, true);
     let token = document.querySelector("meta[name='_csrf']").content;
     let header = document.querySelector("meta[name='_csrf_header']").content;
-    xhr.setRequestHeader(header, token);
+    //xhr.setRequestHeader(header, token);
     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     xhr.onload = function () {
         if (xhr.status === 200) {
@@ -350,7 +350,7 @@ function callAjaxMakeUpdate(productId, makeName, description) {
     xhr.open('PUT', "/make/updateMakeAjax.htm", true);
     let token = document.querySelector("meta[name='_csrf']").content;
     let header = document.querySelector("meta[name='_csrf_header']").content;
-    xhr.setRequestHeader(header, token);
+    //xhr.setRequestHeader(header, token);
     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     xhr.onload = function () {
         if (xhr.status === 200) {

@@ -60,6 +60,7 @@ public class MakeAndModelEntityConverter {
         make.setId(currentMakeVO.getMakeId());
         make.setMakeName(currentMakeVO.getMakeName());
         make.setDescription(currentMakeVO.getDescription());
+        make.setCreatedBy(currentMakeVO.getCreatedBy());
         make.setModifiedBy(currentMakeVO.getModifiedBy());
         return make;
     }

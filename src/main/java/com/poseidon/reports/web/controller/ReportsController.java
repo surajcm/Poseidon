@@ -21,13 +21,12 @@ import net.sf.jasperreports.engine.export.JRXlsExporter;
 import net.sf.jasperreports.engine.export.ooxml.JRDocxExporter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.context.request.RequestContextHolder;
-import org.springframework.web.context.request.ServletRequestAttributes;
-import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -47,7 +46,7 @@ import java.util.List;
 public class ReportsController {
     private static final Logger LOG = LoggerFactory.getLogger(ReportsController.class);
     private static final String FORM_DETAILS = " form details are {}";
-    private static final String REPORTS = "/resources/reports";
+    private static final String REPORTS = "/reports";
     private static final String COMPILE_REPORT = "Going to compile report";
     private static final String JRXML = ".jrxml";
     private static final String FILENAME = "attachment;filename=";
@@ -72,7 +71,7 @@ public class ReportsController {
      * @return view
      */
     @PostMapping("/reports/List.htm")
-    public ModelAndView list(final ReportsForm reportsForm) {
+    public String list(final ReportsForm reportsForm, final Model model) {
         var sanitizedReportsForm = CommonUtils.sanitizedString(reportsForm.toString());
         LOG.info("List method of ReportsController, form details are : {}",
                 sanitizedReportsForm);
@@ -101,7 +100,9 @@ public class ReportsController {
         reportsForm.setModelReportMakeAndModelVO(getSearchMakeAndModelVO());
         reportsForm.setTxnReportTransactionVO(getSearchTransaction());
         reportsForm.setInvoiceListReportTransactionVO(getSearchTransaction());
-        return new ModelAndView("reports/List", "reportsForm", reportsForm);
+        model.addAttribute("reportsForm", reportsForm);
+        //return new ModelAndView("reports/List", "reportsForm", reportsForm);
+        return "reports/List";
     }
 
     private List<MakeVO> fetchMakeVOS() {
@@ -215,7 +216,7 @@ public class ReportsController {
                     transactionVO.getStartDate(), formatter).atStartOfDay();
             transactionVO.setStartDate(dateTime.format(toFormatter));
         }
-        if (!transactionVO.getEndDate() .isBlank()) {
+        if (!transactionVO.getEndDate().isBlank()) {
             var dateTime = LocalDate.parse(
                     transactionVO.getEndDate(), formatter).atStartOfDay();
             transactionVO.setEndDate(dateTime.format(toFormatter));
@@ -312,18 +313,15 @@ public class ReportsController {
     }
 
     private JasperReport createJasperReport(final String reportFileName) throws JRException {
-        var path = getReportPath();
-        LOG.info(COMPILE_REPORT);
-        return JasperCompileManager.compileReport(path + '/' + reportFileName + JRXML);
-    }
-
-    private String getReportPath() {
-        var path = "";
-        var attr = ((ServletRequestAttributes) RequestContextHolder.getRequestAttributes());
-        if (attr != null) {
-            path = attr.getRequest().getSession().getServletContext().getRealPath(REPORTS);
+        String filePath = "";
+        try {
+            var file = new ClassPathResource(REPORTS + '/' + reportFileName + JRXML).getFile();
+            filePath = file.getAbsolutePath();
+        } catch (IOException ex) {
+            LOG.error(ex.getLocalizedMessage());
         }
-        return path;
+        LOG.info(COMPILE_REPORT);
+        return JasperCompileManager.compileReport(filePath);
     }
 
     /**

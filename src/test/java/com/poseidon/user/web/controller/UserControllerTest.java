@@ -45,12 +45,12 @@ class UserControllerTest {
 
     @Test
     void toHome() throws Exception {
-        mvc.perform(post("/user/ToHome.htm")).andExpect(status().isOk());
+        mvc.perform(post("/user/ToHome")).andExpect(status().isOk());
     }
 
     @Test
     void logMeOut() throws Exception {
-        mvc.perform(post("/user/LogMeOut.htm")).andExpect(status().isOk());
+        mvc.perform(post("/LogMeOut")).andExpect(status().isOk());
     }
 
     @Test

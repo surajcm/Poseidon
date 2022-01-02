@@ -181,7 +181,7 @@ function generateTextAsLabelField(text) {
     const textElement = document.createElement("label");
     textElement.setAttribute("class", "form-label");
     textElement.textContent = text;
-    return text;
+    return textElement;
 }
 
 function isNumber(n) {

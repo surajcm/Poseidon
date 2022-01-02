@@ -31,7 +31,7 @@ function passwordChange() {
     }
     if (newPass === repeat) {
         console.log("both passwords are equal");
-        let passRegex = /^[A-Za-z]\w{7,14}$/;
+        let passRegex = /\w{7,14}$/;
         if (newPass.match(passRegex)) {
             console.log('Correct, going to save it');
             changePasswordAndSaveIt(current, newPass);
@@ -54,7 +54,7 @@ function changePasswordAndSaveIt(current, newPass) {
     xhr.open('POST', "/user/changePasswordAndSaveIt.htm", true);
     let token = document.querySelector("meta[name='_csrf']").content;
     let header = document.querySelector("meta[name='_csrf_header']").content;
-    xhr.setRequestHeader(header, token);
+    //xhr.setRequestHeader(header, token);
     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     xhr.onload = function () {
         if (xhr.status === 200) {

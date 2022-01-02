@@ -55,12 +55,17 @@ public class UserController {
      *
      * @return ModelAndView to render
      */
-    @GetMapping("/")
+    /*@GetMapping("/")
     public ModelAndView index() {
         logger.info("Index method of user controller ");
         var userForm = new UserForm();
         userForm.setUser(new UserVO());
         return new ModelAndView("MainPage", USER_FORM, userForm);
+    }*/
+
+    @GetMapping("/")
+    public String welcome(final Model model) {
+        return "MainPage";
     }
 
     /**
@@ -73,6 +78,9 @@ public class UserController {
      */
     @GetMapping("/login")
     public String login(final Model model, final String error, final String logout) {
+        if (securityService.isAuthenticated()) {
+            return "redirect:/";
+        }
         if (error != null) {
             model.addAttribute(DANGER, "Your username and password is invalid.");
         }
@@ -85,15 +93,13 @@ public class UserController {
     /**
      * Screen to home.
      *
-     * @param userForm userForm instance
      * @return ModelAndView to render
      */
-    @PostMapping("/user/ToHome.htm")
-    public ModelAndView toHome(final UserForm userForm) {
+    @PostMapping("/user/ToHome")
+    public String toHome() {
         logger.info("Inside ToHome method of user controller");
-        userForm.setLoggedInUser(userForm.getLoggedInUser());
-        userForm.setLoggedInRole(userForm.getLoggedInRole());
-        return new ModelAndView("MainPage", USER_FORM, userForm);
+        //return new ModelAndView("MainPage", USER_FORM, userForm);
+        return "MainPage";
     }
 
     /**
@@ -101,7 +107,7 @@ public class UserController {
      *
      * @return ModelAndView to render
      */
-    @PostMapping("/user/LogMeOut.htm")
+    @PostMapping("/LogMeOut")
     public ModelAndView logMeOut(final HttpServletRequest request) {
         logger.info("Inside LogMeOut method of user controller");
         var session = request.getSession(false);
@@ -118,9 +124,7 @@ public class UserController {
      * @param userForm userForm instance
      * @return ModelAndView to render
      */
-    @PostMapping("/user/ListAll.htm")
-    public ModelAndView listAll(final UserForm userForm) {
-        logger.info("ListAll method of user controller ");
+    private ModelAndView listAll(final UserForm userForm) {
         List<UserVO> userList = userService.getAllUserDetails();
         if (userList.isEmpty()) {
             userForm.setStatusMessage("No user found");
@@ -129,6 +133,27 @@ public class UserController {
         userForm.setUserVOs(userList);
         userForm.setRoleList(populateRoles());
         return new ModelAndView(USER_LIST, USER_FORM, userForm);
+    }
+
+    /**
+     * Used to list all users (can be done only by admin user).
+     *
+     * @param userForm userForm instance
+     * @return ModelAndView to render
+     */
+    @PostMapping("/user/ListAll.htm")
+    public String listAllUsers(@ModelAttribute final UserForm userForm, final Model model) {
+        logger.info("ListAll method of user controller ");
+        List<UserVO> userList = userService.getAllUserDetails();
+        if (userList.isEmpty()) {
+            userForm.setStatusMessage("No user found");
+            userForm.setStatusMessageType(DANGER);
+        }
+        userForm.setUserVOs(userList);
+        userForm.setRoleList(populateRoles());
+        model.addAttribute("userForm", userForm);
+        //return new ModelAndView(USER_LIST, USER_FORM, userForm);
+        return USER_LIST;
     }
 
     /**

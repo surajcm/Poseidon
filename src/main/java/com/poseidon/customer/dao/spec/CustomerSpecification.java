@@ -24,7 +24,8 @@ public class CustomerSpecification  implements Specification<Customer> {
     }
 
     @Override
-    public Predicate toPredicate(final Root<Customer> root, final CriteriaQuery<?> query,
+    public Predicate toPredicate(final Root<Customer> root,
+                                 final CriteriaQuery<?> query,
                                  final CriteriaBuilder builder) {
         List<Predicate> predicates = new ArrayList<>();
         for (SearchCriteria criteria : list) {
