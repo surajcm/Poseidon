@@ -222,6 +222,6 @@ function showStatus(status) {
     detail.innerHTML = "";
     let saveModal = document.getElementById("saveModal");
     saveModal.style.display = "none";
-    detail.appendChild(statusAsDiv(status));
+    detail.appendChild(statusAsDivForUpdate(status, false));
 }
 

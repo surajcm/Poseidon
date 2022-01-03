@@ -187,7 +187,7 @@ function showStatus(status) {
     detail.innerHTML = "";
     let saveModal = document.getElementById("saveModal");
     saveModal.style.display = "none";
-    detail.appendChild(statusAsDiv(status));
+    detail.appendChild(statusAsDivForUpdate(status, false));
 }
 
 function resetUser() {
@@ -376,5 +376,5 @@ function showUpdateStatus(status) {
     detail.innerHTML = "";
     let updateModal = document.getElementById("updateModal");
     updateModal.style.display = "none";
-    detail.appendChild(statusAsDiv(status));
+    detail.appendChild(statusAsDivForUpdate(status, true));
 }

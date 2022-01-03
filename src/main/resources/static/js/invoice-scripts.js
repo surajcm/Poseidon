@@ -246,7 +246,7 @@ function showUpdateStatus(status) {
     detail.innerHTML = "";
     let updateModal = document.getElementById("updateModal");
     updateModal.style.display = "none";
-    detail.appendChild(statusAsDiv(status));
+    detail.appendChild(statusAsDivForUpdate(status, true));
 }
 
 

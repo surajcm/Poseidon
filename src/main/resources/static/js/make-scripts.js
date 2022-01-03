@@ -235,21 +235,7 @@ function showStatus(status) {
     detail.innerHTML = "";
     let saveSmartMake = document.getElementById("saveSmartMake");
     saveSmartMake.style.display = "none";
-    let divStatus = document.createElement("div");
-    divStatus.setAttribute("class", "pop-status");
-    let imgSuccess = document.createElement("img");
-
-    divStatus.appendChild(imgSuccess);
-    let statusMessage = document.createElement("h3");
-    if (status) {
-        imgSuccess.setAttribute("src", "/img/tick.png");
-        statusMessage.innerHTML = "Successfully added a new model !!";
-    } else {
-        imgSuccess.setAttribute("src", "/img/cross.svg");
-        statusMessage.innerHTML = "Failed to save !!";
-    }
-    divStatus.appendChild(statusMessage);
-    detail.appendChild(divStatus);
+    detail.appendChild(statusAsDivForUpdate(status, false));
 }
 
 function editMake() {
@@ -372,19 +358,5 @@ function showUpdateStatus(status) {
     detail.innerHTML = "";
     let updateMake = document.getElementById("updateMake");
     updateMake.style.display = "none";
-    let divStatus = document.createElement("div");
-    divStatus.setAttribute("class", "pop-status");
-    let imgSuccess = document.createElement("img");
-
-    divStatus.appendChild(imgSuccess);
-    let statusMessage = document.createElement("h3");
-    if (status) {
-        imgSuccess.setAttribute("src", "/img/tick.png");
-        statusMessage.innerHTML = "Successfully updated the user !!";
-    } else {
-        imgSuccess.setAttribute("src", "/img/cross.svg");
-        statusMessage.innerHTML = "Failed to update !!";
-    }
-    divStatus.appendChild(statusMessage);
-    detail.appendChild(divStatus);
+    detail.appendChild(statusAsDivForUpdate(status, true));
 }

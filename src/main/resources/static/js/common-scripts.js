@@ -136,7 +136,7 @@ function setCaption(caption) {
     return cap;
 }
 
-function statusAsDiv(status) {
+function statusAsDivForUpdate(status, update) {
     let divStatus = document.createElement("div");
     divStatus.setAttribute("class", "pop-status");
 
@@ -145,9 +145,23 @@ function statusAsDiv(status) {
     divStatus.appendChild(imgSuccess);
 
     let statusMessage = document.createElement("h3");
-    statusMessage.innerHTML = statusMessageText(status);
+    if (update) {
+        statusMessage.innerHTML = statusMessageTextForUpdate(status);
+    } else {
+        statusMessage.innerHTML = statusMessageText(status);
+    }
     divStatus.appendChild(statusMessage);
     return divStatus;
+}
+
+function statusMessageTextForUpdate(status) {
+    let statusMessage;
+    if (status) {
+        statusMessage = "Successfully Updated !!";
+    } else {
+        statusMessage = "Failed to save !!";
+    }
+    return statusMessage;
 }
 
 function statusMessageText(status) {

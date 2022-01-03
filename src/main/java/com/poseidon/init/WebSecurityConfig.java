@@ -31,24 +31,24 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
         http.csrf().disable();
         http
                 .authorizeRequests()
-                    .antMatchers("/resources/**",
-                            "/registration",
-                            "/css/**", "/js/**",
-                            "/h2-console/**",
-                            "/console/**").permitAll()
-                        .and().headers().frameOptions().sameOrigin();
+                .antMatchers("/resources/**",
+                        "/registration",
+                        "/css/**", "/js/**", "/img/**",
+                        "/h2-console/**",
+                        "/console/**").permitAll()
+                .and().headers().frameOptions().sameOrigin();
         http
                 .authorizeRequests()
                 .anyRequest().authenticated().and()
                 .formLogin()
-                    .loginPage("/login").permitAll().and()
+                .loginPage("/login").permitAll().and()
                 .headers()
-                    .frameOptions().sameOrigin().and()
+                .frameOptions().sameOrigin().and()
                 .logout()
-                    .permitAll().and()
+                .permitAll().and()
                 .requiresChannel()
-                    .requestMatchers(r -> r.getHeader("X-Forwarded-Proto") != null)
-                    .requiresSecure();
+                .requestMatchers(r -> r.getHeader("X-Forwarded-Proto") != null)
+                .requiresSecure();
     }
 
     @Bean
