@@ -136,7 +136,7 @@ function setCaption(caption) {
     return cap;
 }
 
-function statusAsDivForUpdate(status, update) {
+function statusMessage(status, update) {
     let divStatus = document.createElement("div");
     divStatus.setAttribute("class", "pop-status");
 
@@ -145,16 +145,18 @@ function statusAsDivForUpdate(status, update) {
     divStatus.appendChild(imgSuccess);
 
     let statusMessage = document.createElement("h3");
-    if (update) {
-        statusMessage.innerHTML = statusMessageTextForUpdate(status);
+    if (update === 'ADD') {
+        statusMessage.innerHTML = statusMessageForAdd(status);
+    } else if (update === 'UPDATE') {
+        statusMessage.innerHTML = statusMessageUpdate(status);
     } else {
-        statusMessage.innerHTML = statusMessageText(status);
+        statusMessage.innerHTML = statusMessageForInvoice(status);
     }
     divStatus.appendChild(statusMessage);
     return divStatus;
 }
 
-function statusMessageTextForUpdate(status) {
+function statusMessageUpdate(status) {
     let statusMessage;
     if (status) {
         statusMessage = "Successfully Updated !!";
@@ -164,12 +166,22 @@ function statusMessageTextForUpdate(status) {
     return statusMessage;
 }
 
-function statusMessageText(status) {
+function statusMessageForAdd(status) {
     let statusMessage;
     if (status) {
         statusMessage = "Successfully Added !!";
     } else {
         statusMessage = "Failed to save !!";
+    }
+    return statusMessage;
+}
+
+function statusMessageForInvoice(status) {
+    let statusMessage;
+    if (status) {
+        statusMessage = "Successfully Invoiced !!";
+    } else {
+        statusMessage = "Failed to invoice !!";
     }
     return statusMessage;
 }

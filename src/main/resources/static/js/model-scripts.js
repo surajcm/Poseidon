@@ -208,7 +208,7 @@ function showStatus(status) {
     detail.innerHTML = "";
     let saveModal = document.getElementById("saveModal");
     saveModal.style.display = "none";
-    detail.appendChild(statusAsDivForUpdate(status, false));
+    detail.appendChild(statusMessage(status, 'ADD'));
 }
 
 function rewriteTable(textReturned) {
@@ -412,5 +412,5 @@ function showUpdateStatus(status) {
     detail.innerHTML = "";
     let updateModal = document.getElementById("updateModal");
     updateModal.style.display = "none";
-    detail.appendChild(statusAsDivForUpdate(status, true));
+    detail.appendChild(statusMessage(status, 'UPDATE'));
 }

@@ -235,7 +235,7 @@ function showStatus(status) {
     detail.innerHTML = "";
     let saveSmartMake = document.getElementById("saveSmartMake");
     saveSmartMake.style.display = "none";
-    detail.appendChild(statusAsDivForUpdate(status, false));
+    detail.appendChild(statusMessage(status, 'ADD'));
 }
 
 function editMake() {
@@ -358,5 +358,5 @@ function showUpdateStatus(status) {
     detail.innerHTML = "";
     let updateMake = document.getElementById("updateMake");
     updateMake.style.display = "none";
-    detail.appendChild(statusAsDivForUpdate(status, true));
+    detail.appendChild(statusMessage(status, 'UPDATE'));
 }

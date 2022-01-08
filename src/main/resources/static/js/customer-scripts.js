@@ -355,7 +355,7 @@ function showStatus(status) {
     detail.innerHTML = "";
     let saveSmartCustomer = document.getElementById("saveSmartCustomer");
     saveSmartCustomer.style.display = "none";
-    detail.appendChild(statusAsDivForUpdate(status, false));
+    detail.appendChild(statusMessage(status, 'ADD'));
 }
 
 function editSmartCustomer() {
@@ -517,5 +517,5 @@ function showUpdateStatus(status) {
     detail.innerHTML = "";
     let updateSmartCustomer = document.getElementById("updateSmartCustomer");
     updateSmartCustomer.style.display = "none";
-    detail.appendChild(statusAsDivForUpdate(status, true));
+    detail.appendChild(statusMessage(status, 'UPDATE'));
 }

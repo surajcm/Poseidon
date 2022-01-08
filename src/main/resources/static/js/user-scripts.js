@@ -187,7 +187,7 @@ function showStatus(status) {
     detail.innerHTML = "";
     let saveModal = document.getElementById("saveModal");
     saveModal.style.display = "none";
-    detail.appendChild(statusAsDivForUpdate(status, false));
+    detail.appendChild(statusMessage(status, 'ADD'));
 }
 
 function resetUser() {
@@ -210,14 +210,20 @@ function ajaxPasswordExpire() {
     xhr.onload = function () {
         if (xhr.status === 200) {
             if (xhr.responseText != null) {
-                //rewriteTable(xhr.responseText);
                 console.log(xhr.responseText);
+                showResetStatus(true);
             }
         } else if (xhr.status !== 200) {
             console.log('Request failed.  Returned status of ' + xhr.status);
         }
     };
     xhr.send("id=" + id);
+}
+
+function showResetStatus(status) {
+    let detail = document.getElementById("resetModalBody");
+    detail.innerHTML = "";
+    detail.appendChild(statusMessage(status, 'UPDATE'));
 }
 
 function editUser() {
@@ -246,7 +252,6 @@ function formValidUserForEdit() {
     divName.setAttribute("class", "col-md-4");
     let txtName = aTextBox("updateName", "Name", true);
     divName.appendChild(txtName);
-
 
     let divEmail = document.createElement("div");
     divEmail.setAttribute("class", "col-md-4");
@@ -376,5 +381,5 @@ function showUpdateStatus(status) {
     detail.innerHTML = "";
     let updateModal = document.getElementById("updateModal");
     updateModal.style.display = "none";
-    detail.appendChild(statusAsDivForUpdate(status, true));
+    detail.appendChild(statusMessage(status, 'UPDATE'));
 }

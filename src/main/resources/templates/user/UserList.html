@@ -119,7 +119,8 @@
                         </button>
                     </div>
                     <div class="col-md-3">
-                        <button type="button" class="btn btn-primary" onclick="resetUser()">
+                        <button type="button" class="btn btn-primary"  data-bs-toggle="modal" data-bs-target="#resetUserModal"
+                                onclick="resetUser();">
                             Reset Password
                         </button>
                     </div>
@@ -154,6 +155,15 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" id="updateModal" class="btn btn-primary" onclick="updateFromModal()">Update</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="resetUserModal" class="modal fade" tabindex="-1" aria-labelledby="resetUserModal" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div id="resetModalBody" class="modal-body">
+                        <p>Lets edit the user</p>
                     </div>
                 </div>
             </div>

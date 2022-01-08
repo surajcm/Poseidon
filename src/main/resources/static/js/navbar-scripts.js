@@ -19,7 +19,7 @@ function resetPassword() {
     document.forms[0].submit();
 }
 
-function MakeMe() {
+function fetchModels() {
     document.forms[0].action = "/make/ModelList.htm";
     document.forms[0].submit();
 }
