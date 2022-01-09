@@ -17,7 +17,7 @@ public class InvoiceReportVO {
     private String companyPhoneNumber;
     private String companyWebsite;
     private String companyEmail;
-    private String companyTerms;
+    private String termsAndConditions;
     private String companyVatTin;
     private String companyCstTin;
 
@@ -149,12 +149,12 @@ public class InvoiceReportVO {
         this.companyEmail = companyEmail;
     }
 
-    public String getCompanyTerms() {
-        return companyTerms;
+    public String getTermsAndConditions() {
+        return termsAndConditions;
     }
 
-    public void setCompanyTerms(final String companyTerms) {
-        this.companyTerms = companyTerms;
+    public void setTermsAndConditions(final String termsAndConditions) {
+        this.termsAndConditions = termsAndConditions;
     }
 
     public String getCompanyVatTin() {

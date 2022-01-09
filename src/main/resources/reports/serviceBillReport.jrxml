@@ -374,7 +374,7 @@
 					<font fontName="Arial" size="11" isBold="false" isItalic="false" isUnderline="false" isStrikeThrough="false" pdfEncoding="Cp1252" isPdfEmbedded="false"/>
 					<paragraph lineSpacing="Single"/>
 				</textElement>
-				<text><![CDATA[For N2N Techno Solutions]]></text>
+				<text><![CDATA[For Poseidon Solutions]]></text>
 			</staticText>
 			<staticText>
 				<reportElement uuid="ed4638be-5a21-4284-87c2-f619d8e7d28a" mode="Transparent" x="565" y="291" width="100" height="20" forecolor="#000000" backcolor="#FFFFFF"/>

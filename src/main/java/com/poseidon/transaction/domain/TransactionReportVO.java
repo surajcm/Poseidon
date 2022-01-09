@@ -43,7 +43,7 @@ public class TransactionReportVO {
     private String companyPhoneNumber;
     private String companyWebsite;
     private String companyEmail;
-    private String companyTerms;
+    private String termsAndConditions;
 
     public Long getId() {
         return id;
@@ -269,12 +269,12 @@ public class TransactionReportVO {
         this.email = email;
     }
 
-    public String getCompanyTerms() {
-        return companyTerms;
+    public String getTermsAndConditions() {
+        return termsAndConditions;
     }
 
-    public void setCompanyTerms(final String companyTerms) {
-        this.companyTerms = companyTerms;
+    public void setTermsAndConditions(final String termsAndConditions) {
+        this.termsAndConditions = termsAndConditions;
     }
 
     public String getCompanyName() {
@@ -353,7 +353,7 @@ public class TransactionReportVO {
                 .add("companyPhoneNumber='" + companyPhoneNumber + "'")
                 .add("companyWebsite='" + companyWebsite + "'")
                 .add("companyEmail='" + companyEmail + "'")
-                .add("companyTerms='" + companyTerms + "'")
+                .add("termsAndConditions='" + termsAndConditions + "'")
                 .toString();
     }
 }

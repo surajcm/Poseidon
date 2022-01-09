@@ -65,6 +65,7 @@ public class ReportsDAO {
             currentReport.getTransactionReportVO().setCompanyPhoneNumber(companyTermsVO.getCompanyPhoneNumber());
             currentReport.getTransactionReportVO().setCompanyWebsite(companyTermsVO.getCompanyWebsite());
             currentReport.getTransactionReportVO().setCompanyEmail(companyTermsVO.getCompanyEmail());
+            currentReport.getTransactionReportVO().setTermsAndConditions(companyTermsVO.getTermsAndConditions());
             //todo : fix it
             currentReport.getTransactionReportVO().setDateReported(companyTermsVO.getCreatedDate());
         }

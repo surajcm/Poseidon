@@ -56,14 +56,14 @@ public class CompanyTermsDAO {
         companyTermsVO.setCompanyWebsite(companyTerms.getCompanyWebsite());
         companyTermsVO.setCompanyVatTin(companyTerms.getVatTin());
         companyTermsVO.setCompanyCstTin(companyTerms.getCstTin());
-        companyTermsVO.setCompanyTerms(companyTerms.getTerms());
+        companyTermsVO.setTermsAndConditions(companyTerms.getTerms());
         return companyTermsVO;
     }
 
     private CompanyTerms getCompanyTerms(final CompanyTermsVO companyTermsVO,
                                          final CompanyTerms companyTerms) {
         companyTerms.setCompanyName(companyTermsVO.getCompanyName());
-        companyTerms.setTerms(companyTermsVO.getCompanyTerms());
+        companyTerms.setTerms(companyTermsVO.getTermsAndConditions());
         companyTerms.setCompanyAddress(companyTermsVO.getCompanyAddress());
         companyTerms.setCompanyPhone(companyTermsVO.getCompanyPhoneNumber());
         companyTerms.setCompanyEmail(companyTermsVO.getCompanyEmail());

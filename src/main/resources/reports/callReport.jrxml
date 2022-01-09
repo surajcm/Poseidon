@@ -27,7 +27,7 @@
 	<field name="companyPhoneNumber" class="java.lang.String"/>
 	<field name="companyWebsite" class="java.lang.String"/>
 	<field name="companyEmail" class="java.lang.String"/>
-	<field name="companyTerms" class="java.lang.String"/>
+	<field name="termsAndConditions" class="java.lang.String"/>
 	<background>
 		<band splitType="Stretch"/>
 	</background>
@@ -326,7 +326,7 @@
 				<textElement>
 					<font fontName="Arial" size="11"/>
 				</textElement>
-				<textFieldExpression><![CDATA[$F{companyTerms}]]></textFieldExpression>
+				<textFieldExpression><![CDATA[$F{termsAndConditions}]]></textFieldExpression>
 			</textField>
 		</band>
 	</detail>

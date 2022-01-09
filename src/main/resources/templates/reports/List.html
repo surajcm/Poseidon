@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security/">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="_csrf" content="${_csrf.token}"/>
+    <meta name="_csrf_header" content="${_csrf.headerName}"/>
+    <meta name="description" content="">
+    <meta name="author" content="Suraj">
+    <link rel="shortcut icon" href="/img/Poseidon_Ico.ico" />
+    <link rel="stylesheet" href="/css/core/bootstrap-5.min.css"  type="text/css" />
+    <link rel="stylesheet" href="/css/custom.css" type="text/css" />
+    <title>Reports List</title>
+    <script type="text/javascript" src="/js/report-scripts.js"></script>
+    <script type="text/javascript" src="/js/navbar-scripts.js"></script>
+</head>
+<body onload="selectMenu()">
+<form method="POST" th:object="${reportsForm}">
+    <input type="hidden" name="loggedInUser" />
+    <input type="hidden" name="loggedInRole" />
+
+    <div th:insert="/navbar::navbar"></div>
+    <div class="container">
+        <ul class="nav nav-tabs" role="tablist">
+            <li class="nav-item" role="presentation">
+                <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#callReport" type="button" role="tab" aria-controls="callReport" aria-selected="true">Generate Call Report :</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="model-tab" data-bs-toggle="tab" data-bs-target="#modelReport" type="button" role="tab" aria-controls="modelReport" aria-selected="false">Generate Make/Model Report :</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="txn-tab" data-bs-toggle="tab" data-bs-target="#txnReport" type="button" role="tab" aria-controls="txnReport" aria-selected="false">Generate TransactionsList Report :</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="invoice-tab" data-bs-toggle="tab" data-bs-target="#invoiceReport" type="button" role="tab" aria-controls="invoiceReport" aria-selected="false">Generate Invoice Report :</button>
+            </li>
+            <li class="nav-item" role="presentation">
+                <button class="nav-link" id="invoice-list-tab" data-bs-toggle="tab" data-bs-target="#invoiceListReport" type="button" role="tab" aria-controls="invoiceListReport" aria-selected="false">Generate InvoiceList Report :</button>
+            </li>
+        </ul>
+        <div class="tab-content" th:with="currentReport=${reportsForm.currentReport}">
+            <input type="hidden" name="exportTo" id="exportTo"/>
+            <input type="hidden" id="tagNo" th:field="*{currentReport.tagNo}"/>
+            <div class="tab-pane fade show active" id="callReport" role="tabpanel" aria-labelledby="home-tab">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row g-3 needs-validation" novalidate>
+                            <div class="col-md-4">
+                                <input type="text" id="callTagNo" class="form-control" placeholder="Tag Number" aria-label="callTagNo" aria-describedby="basic-addon1">
+                                <div class="invalid-feedback">Please provide a Call Tag</div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="input-group mb-3">
+                                    <label class="input-group-text" for="callExportValue">Export To</label>
+                                    <select class="form-select" id="callExportValue" >
+                                        <option selected>Choose...</option>
+                                        <option th:each="i : ${reportsForm.exportList}" th:value="${i}" th:text="${i}">
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <button type="button" class="btn btn-primary" onclick="fetchCallReport()" >Fetch Call Report</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="modelReport" role="tabpanel" aria-labelledby="model-tab">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row g-3 needs-validation" novalidate>
+                            <div class="col-md-6">
+                                <div class="input-group mb-3">
+                                    <label class="input-group-text" for="modelReportMakeName">Make</label>
+                                    <select class="form-select" id ="modelReportMakeName" name="modelReportMakeAndModelVO.makeId" >
+                                        <option value="0" selected>Choose...</option>
+                                        <option th:each="i : ${reportsForm.makeVOs}" th:value="${i.Id}" th:text="${i.makeName}">
+                                    </select>
+                                    <div class="invalid-feedback">Please provide a valid make</div>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <input type="text" id="modelReportModelName" name="modelReportMakeAndModelVO.modelName" class="form-control" placeholder="Model Name" aria-label="callTagNo" aria-describedby="basic-addon1">
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-check">
+                                    <input type="checkbox" th:field="*{modelReportMakeAndModelVO.includes}" class="form-check-input" id="includes" value="" />
+                                    <label class="form-check-label" for="includes">
+                                        Includes
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="form-check">
+                                    <input type="checkbox" th:field="*{modelReportMakeAndModelVO.startswith}" class="form-check-input" id="startswith" value="" />
+                                    <label class="form-check-label" for="startsWith">
+                                        Starts with
+                                    </label>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="input-group mb-3">
+                                    <label class="input-group-text" for="makeExportValue">Export To</label>
+                                    <select class="form-select" id="makeExportValue" >
+                                        <option value="0" selected>Choose...</option>
+                                        <option th:each="i : ${reportsForm.exportList}" th:value="${i}" th:text="${i}">
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <button type="button" class="btn btn-primary" onclick="fetchMakeReport()" >Fetch Make Report</button>
+                            </div>
+                            <div class="col-md-3">
+                                <button type="button" class="btn btn-primary" onclick="fetchModelListReport()" >Fetch Model List Report</button>
+                            </div>
+                            <div class="col-md-3">
+                                <button type="button" class="btn btn-primary" onclick="clearOut()" >Clear</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="txnReport" role="tabpanel" aria-labelledby="txn-tab">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row g-3">
+                            <div class="col-md-3">
+                                <input type="text" id="txnReportTagNo" name="txnReportTransactionVO.TagNo" class="form-control" placeholder="Tag Number" aria-label="txnReportTagNo" aria-describedby="basic-addon1">
+                            </div>
+                            <div class="col-md-3">
+                                <input type="text" id="txnReportCustomerName" name="txnReportTransactionVO.CustomerName" class="form-control" placeholder="Customer Name" aria-label="txnReportCustomerName" aria-describedby="basic-addon1">
+                            </div>
+                            <div class="col-md-3">
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text">Reported Date (From)</span>
+                                    <input type="date" id="txnReportStartDate" class="form-control datepicker" name="txnReportTransactionVO.startDate" aria-label="Reported Date (From)">
+                                    <span class="input-group-text"><img src="/img/calendar3.svg" alt="" width="16" height="16" title="calendar" /></span>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text">Reported Date (To)</span>
+                                    <input type="date" id="txnReportEndDate" class="form-control datepicker" name="txnReportTransactionVO.endDate" aria-label="Reported Date (To)">
+                                    <span class="input-group-text"><img src="/img/calendar3.svg" alt="" width="16" height="16" title="calendar" /></span>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <input type="text" id="txnReportSerialNo" name="txnReportTransactionVO.SerialNo" class="form-control" placeholder="Serial Number" aria-label="txnReportSerialNo" aria-describedby="basic-addon1">
+                            </div>
+                            <div class="col-md-3">
+                                <div class="input-group mb-3">
+                                    <label class="input-group-text" for="txnReportMakeId">Make</label>
+                                    <select class="form-select" id ="txnReportMakeId" name="txnReportTransactionVO.makeId" onchange="changeTheModel();" >
+                                        <option value="" selected>Choose...</option>
+                                        <option th:each="i : ${reportsForm.makeVOs}" th:value="${i.Id}" th:text="${i.makeName}">
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="input-group mb-3">
+                                    <label class="input-group-text" for="txnReportModelId">Model</label>
+                                    <select class="form-select" id ="txnReportModelId" name="txnReportTransactionVO.modelId" >
+                                        <option value="" selected>Choose...</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="input-group mb-3">
+                                    <label class="input-group-text" for="txnReportStatus">Status</label>
+                                    <select class="form-select" id ="txnReportStatus" name="txnReportTransactionVO.Status" >
+                                        <option value="" selected>Choose...</option>
+                                        <option th:each="i : ${reportsForm.statusList}" th:value="${i}" th:text="${i}">
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <input type="checkbox" th:field="*{txnReportTransactionVO.includes}" class="form-check-input" id="txnReportIncludes" value="" />
+                                <label class="form-check-label" for="includes">
+                                    Includes
+                                </label>
+                            </div>
+                            <div class="col-md-6">
+                                <input type="checkbox" th:field="*{txnReportTransactionVO.startswith}" class="form-check-input" id="txnReportStartswith" value="" />
+                                <label class="form-check-label" for="startsWith">
+                                    Starts with
+                                </label>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="input-group mb-3">
+                                    <label class="input-group-text" for="txnExportValue1">Export To</label>
+                                    <select class="form-select" id="txnExportValue1" >
+                                        <option selected>Choose...</option>
+                                        <option th:each="i : ${reportsForm.exportList}" th:value="${i}" th:text="${i}">
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <button type="button" class="btn btn-primary" onclick="fetchTransactionsListReport()" >Fetch Transactions List Report</button>
+                            </div>
+                            <div class="col-md-4">
+                                <button type="button" class="btn btn-primary" onclick="clearOut()" >Clear</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="invoiceReport" role="tabpanel" aria-labelledby="invoice-tab">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row g-3">
+                            <div class="col-md-3">
+                                <input type="text" id="invoiceTagNo" class="form-control" placeholder="Tag Number" aria-label="invoiceTagNo" aria-describedby="basic-addon1">
+                                <div class="invalid-feedback">Please provide an Invoice Tag Number</div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="input-group mb-3">
+                                    <label class="input-group-text" for="invoiceExportValue">Export To</label>
+                                    <select class="form-select" id="invoiceExportValue" >
+                                        <option selected>Choose...</option>
+                                        <option th:each="i : ${reportsForm.exportList}" th:value="${i}" th:text="${i}">
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <button type="button" class="btn btn-primary" onclick="fetchInvoiceReport()" >Fetch Invoice Report</button>
+                            </div>
+                            <div class="col-md-3">
+                                <button type="button" class="btn btn-primary" onclick="clearOut()" >Clear</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="tab-pane fade" id="invoiceListReport" role="tabpanel" aria-labelledby="invoice-list-tab">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="row g-3">
+                            <div class="col-md-3">
+                                <input type="text" id="invoiceListTagNo" name="invoiceListReportTransactionVO.TagNo" class="form-control" placeholder="Tag Number" aria-label="invoiceListTagNo" aria-describedby="basic-addon1">
+                            </div>
+                            <div class="col-md-3">
+                                <input type="text" id="invoiceListCustomerName" name="invoiceListReportTransactionVO.CustomerName" class="form-control" placeholder="Customer Name" aria-label="invoiceListCustomerName" aria-describedby="basic-addon1">
+                            </div>
+                            <div class="col-md-3">
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text">Reported Date (From)</span>
+                                    <input type="date" id="invoiceListStartDate" class="form-control datepicker" name="invoiceListReportTransactionVO.startDate" aria-label="Reported Date (From)">
+                                    <span class="input-group-text"><img src="/img/calendar3.svg" alt="" width="16" height="16" title="calendar" /></span>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="input-group mb-3">
+                                    <span class="input-group-text">Reported Date (To)</span>
+                                    <input type="date" id="invoiceListEndDate" class="form-control datepicker" name="invoiceListReportTransactionVO.endDate" aria-label="Reported Date (To)">
+                                    <span class="input-group-text"><img src="/img/calendar3.svg" alt="" width="16" height="16" title="calendar" /></span>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <input type="text" id="invoiceListSerialNo" name="invoiceListReportTransactionVO.SerialNo" class="form-control" placeholder="Serial Number" aria-label="invoiceListSerialNo" aria-describedby="basic-addon1">
+                            </div>
+                            <div class="col-md-3">
+                                <div class="input-group mb-3">
+                                    <label class="input-group-text" for="invoiceListMakeId">Make</label>
+                                    <select class="form-select" id ="invoiceListMakeId" name="invoiceListReportTransactionVO.makeId" onchange="changeTheInvoiceModel();" >
+                                        <option value="" selected>Choose...</option>
+                                        <c:forEach var="n" items="${reportsForm.makeVOs}">
+                                            <option value="${n.id}">${n.makeName}</option>
+                                        </c:forEach>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="input-group mb-3">
+                                    <label class="input-group-text" for="invoiceListModelId">Model</label>
+                                    <select class="form-select" id ="invoiceListModelId" name="invoiceListReportTransactionVO.modelId" >
+                                        <option value="" selected>Choose...</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-3">
+                                <div class="input-group mb-3">
+                                    <label class="input-group-text" for="invoiceListStatus">Status</label>
+                                    <select class="form-select" id ="invoiceListStatus" name="invoiceListReportTransactionVO.Status" >
+                                        <option value="" selected>Choose...</option>
+                                        <option th:each="i : ${reportsForm.statusList}" th:value="${i}" th:text="${i}">
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="invoiceListIncludes" class="control-label">
+                                    Includes
+                                    <input type="checkbox" path="invoiceListReportTransactionVO.includes" ctyle="vertical-align:middle" id="invoiceListIncludes" value="" />
+                                </label>
+                            </div>
+                            <div class="col-md-6">
+                                <label for="invoiceListStartswith" class="control-label">
+                                    Starts with
+                                    <input type="checkbox" path="invoiceListReportTransactionVO.startswith" style="vertical-align:middle" id="invoiceListStartswith" value="" />
+                                </label>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="input-group mb-3">
+                                    <label class="input-group-text" for="txnExportValue">Export To</label>
+                                    <select class="form-select" id="txnExportValue" >
+                                        <option selected>Choose...</option>
+                                        <option th:each="i : ${reportsForm.exportList}" th:value="${i}" th:text="${i}">
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <button type="button" class="btn btn-primary" onclick="fetchTransactionsListReport()" >Fetch Invoice List Report</button>
+                            </div>
+                            <div class="col-md-4">
+                                <button type="button" class="btn btn-primary" onclick="clearOut()" >Clear</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <br />
+        <br />
+        <div class="wrap">
+            <div class="card">
+                <div class="card-header">Report :</div>
+                <iframe name="reportContent" id="reportContent" width="100%" height="420px" title="Report">
+                </iframe>
+            </div>
+        </div>
+    </div>
+    <script src="/js/core/popper.min.js" type="text/javascript"></script>
+    <script src="/js/core/bootstrap-5.min.js" type="text/javascript"></script>
+</form>
+</body>
+</html>

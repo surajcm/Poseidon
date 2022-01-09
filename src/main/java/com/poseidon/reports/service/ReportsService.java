@@ -83,6 +83,7 @@ public class ReportsService {
      * @return JasperPrint
      */
     public JasperPrint getCallReport(final JasperReport jasperReport, final ReportsVO currentReport) {
+        LOG.info("For call report, fetching details of the tag number :{}", currentReport.getTagNo());
         var transactionVO = getTransactionReportVO(currentReport.getTagNo());
         currentReport.setTransactionReportVO(transactionVO);
         var jasperPrint = new JasperPrint();
@@ -232,7 +233,7 @@ public class ReportsService {
             invoiceReportVO.setCompanyPhoneNumber(companyTermsVO.get().getCompanyPhoneNumber());
             invoiceReportVO.setCompanyWebsite(companyTermsVO.get().getCompanyWebsite());
             invoiceReportVO.setCompanyEmail(companyTermsVO.get().getCompanyEmail());
-            invoiceReportVO.setCompanyTerms(companyTermsVO.get().getCompanyTerms());
+            invoiceReportVO.setTermsAndConditions(companyTermsVO.get().getTermsAndConditions());
             invoiceReportVO.setCompanyVatTin(companyTermsVO.get().getCompanyVatTin());
             invoiceReportVO.setCompanyCstTin(companyTermsVO.get().getCompanyCstTin());
         }

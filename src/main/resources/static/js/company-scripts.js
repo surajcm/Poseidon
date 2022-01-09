@@ -14,8 +14,8 @@ function makeEverythingWritable() {
     document.getElementById('companyWebsite').readOnly = false;
     document.getElementById("companyAddress").style.background = "#FFFFFF";
     document.getElementById('companyAddress').readOnly = false;
-    document.getElementById("companyTerms").style.background = "#FFFFFF";
-    document.getElementById('companyTerms').readOnly = false;
+    document.getElementById("termsAndConditions").style.background = "#FFFFFF";
+    document.getElementById('termsAndConditions').readOnly = false;
     document.getElementById("vat_tin").style.background = "#FFFFFF";
     document.getElementById('vat_tin').readOnly = false;
     document.getElementById("cst_tin").style.background = "#FFFFFF";
@@ -48,8 +48,8 @@ function makeEverythingReadOnly() {
     document.getElementById("companyWebsite").style.background = "#A9A9A9";
     document.getElementById('companyAddress').readOnly = true;
     document.getElementById("companyAddress").style.background = "#A9A9A9";
-    document.getElementById('companyTerms').readOnly = true;
-    document.getElementById("companyTerms").style.background = "#A9A9A9";
+    document.getElementById('termsAndConditions').readOnly = true;
+    document.getElementById("termsAndConditions").style.background = "#A9A9A9";
     document.getElementById('vat_tin').readOnly = true;
     document.getElementById("vat_tin").style.background = "#A9A9A9";
     document.getElementById('cst_tin').readOnly = true;
@@ -67,7 +67,7 @@ function clearOut() {
     document.getElementById('companyEmail').value = "";
     document.getElementById('companyWebsite').value = "";
     document.getElementById('companyAddress').value = "";
-    document.getElementById('companyTerms').value = "";
+    document.getElementById('termsAndConditions').value = "";
     document.getElementById('vat_tin').value = "";
     document.getElementById('cst_tin').value = "";
 }

@@ -8,7 +8,6 @@ public class CompanyTermsVO extends CommonVO {
     private String companyPhoneNumber;
     private String companyWebsite;
     private String companyEmail;
-    private String companyTerms;
     private String termsAndConditions;
     private String companyDetails;
     private String companyVatTin;
@@ -54,14 +53,6 @@ public class CompanyTermsVO extends CommonVO {
         this.companyEmail = companyEmail;
     }
 
-    public String getCompanyTerms() {
-        return companyTerms;
-    }
-
-    public void setCompanyTerms(final String companyTerms) {
-        this.companyTerms = companyTerms;
-    }
-
     public String getTermsAndConditions() {
         return termsAndConditions;
     }
@@ -102,7 +93,6 @@ public class CompanyTermsVO extends CommonVO {
                 ", companyPhoneNumber='" + companyPhoneNumber + '\'' +
                 ", companyWebsite='" + companyWebsite + '\'' +
                 ", companyEmail='" + companyEmail + '\'' +
-                ", companyTerms='" + companyTerms + '\'' +
                 ", termsAndConditions='" + termsAndConditions + '\'' +
                 ", companyDetails='" + companyDetails + '\'' +
                 ", companyVatTin='" + companyVatTin + '\'' +
