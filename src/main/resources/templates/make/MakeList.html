@@ -33,7 +33,7 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security/">
                         <div class="row g-3">
                             <div class="col-md-6">
                                 <div class="input-group mb-3">
-                                    <label for="makeName" class="input-group-text">Make Name :</label>
+                                    <label for="makeName" class="input-group-text">Make Name</label>
                                     <select id="makeName" th:field="*{searchMakeAndModelVO.makeName}" class="form-select" tabindex="1">
                                         <option value="0" label="-- Select --"/>
                                         <option th:each="i : ${makeForm.makeVOs}" th:value="${i.id}" th:text="${i.makeName}">

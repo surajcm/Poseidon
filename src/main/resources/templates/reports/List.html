@@ -25,19 +25,16 @@
     <div class="container">
         <ul class="nav nav-tabs" role="tablist">
             <li class="nav-item" role="presentation">
-                <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#callReport" type="button" role="tab" aria-controls="callReport" aria-selected="true">Generate Call Report :</button>
+                <button class="nav-link active" id="home-tab" data-bs-toggle="tab" data-bs-target="#callReport" type="button" role="tab" aria-controls="callReport" aria-selected="true">Generate Call Report</button>
             </li>
             <li class="nav-item" role="presentation">
-                <button class="nav-link" id="model-tab" data-bs-toggle="tab" data-bs-target="#modelReport" type="button" role="tab" aria-controls="modelReport" aria-selected="false">Generate Make/Model Report :</button>
+                <button class="nav-link" id="model-tab" data-bs-toggle="tab" data-bs-target="#modelReport" type="button" role="tab" aria-controls="modelReport" aria-selected="false">Generate Make/Model Report</button>
             </li>
             <li class="nav-item" role="presentation">
-                <button class="nav-link" id="txn-tab" data-bs-toggle="tab" data-bs-target="#txnReport" type="button" role="tab" aria-controls="txnReport" aria-selected="false">Generate TransactionsList Report :</button>
+                <button class="nav-link" id="txn-tab" data-bs-toggle="tab" data-bs-target="#txnReport" type="button" role="tab" aria-controls="txnReport" aria-selected="false">Generate TransactionsList Report</button>
             </li>
             <li class="nav-item" role="presentation">
-                <button class="nav-link" id="invoice-tab" data-bs-toggle="tab" data-bs-target="#invoiceReport" type="button" role="tab" aria-controls="invoiceReport" aria-selected="false">Generate Invoice Report :</button>
-            </li>
-            <li class="nav-item" role="presentation">
-                <button class="nav-link" id="invoice-list-tab" data-bs-toggle="tab" data-bs-target="#invoiceListReport" type="button" role="tab" aria-controls="invoiceListReport" aria-selected="false">Generate InvoiceList Report :</button>
+                <button class="nav-link" id="invoice-tab" data-bs-toggle="tab" data-bs-target="#invoiceReport" type="button" role="tab" aria-controls="invoiceReport" aria-selected="false">Generate Invoice Report</button>
             </li>
         </ul>
         <div class="tab-content" th:with="currentReport=${reportsForm.currentReport}">
@@ -227,92 +224,6 @@
                                 <button type="button" class="btn btn-primary" onclick="fetchInvoiceReport()" >Fetch Invoice Report</button>
                             </div>
                             <div class="col-md-3">
-                                <button type="button" class="btn btn-primary" onclick="clearOut()" >Clear</button>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="tab-pane fade" id="invoiceListReport" role="tabpanel" aria-labelledby="invoice-list-tab">
-                <div class="card">
-                    <div class="card-body">
-                        <div class="row g-3">
-                            <div class="col-md-3">
-                                <input type="text" id="invoiceListTagNo" name="invoiceListReportTransactionVO.TagNo" class="form-control" placeholder="Tag Number" aria-label="invoiceListTagNo" aria-describedby="basic-addon1">
-                            </div>
-                            <div class="col-md-3">
-                                <input type="text" id="invoiceListCustomerName" name="invoiceListReportTransactionVO.CustomerName" class="form-control" placeholder="Customer Name" aria-label="invoiceListCustomerName" aria-describedby="basic-addon1">
-                            </div>
-                            <div class="col-md-3">
-                                <div class="input-group mb-3">
-                                    <span class="input-group-text">Reported Date (From)</span>
-                                    <input type="date" id="invoiceListStartDate" class="form-control datepicker" name="invoiceListReportTransactionVO.startDate" aria-label="Reported Date (From)">
-                                    <span class="input-group-text"><img src="/img/calendar3.svg" alt="" width="16" height="16" title="calendar" /></span>
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="input-group mb-3">
-                                    <span class="input-group-text">Reported Date (To)</span>
-                                    <input type="date" id="invoiceListEndDate" class="form-control datepicker" name="invoiceListReportTransactionVO.endDate" aria-label="Reported Date (To)">
-                                    <span class="input-group-text"><img src="/img/calendar3.svg" alt="" width="16" height="16" title="calendar" /></span>
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <input type="text" id="invoiceListSerialNo" name="invoiceListReportTransactionVO.SerialNo" class="form-control" placeholder="Serial Number" aria-label="invoiceListSerialNo" aria-describedby="basic-addon1">
-                            </div>
-                            <div class="col-md-3">
-                                <div class="input-group mb-3">
-                                    <label class="input-group-text" for="invoiceListMakeId">Make</label>
-                                    <select class="form-select" id ="invoiceListMakeId" name="invoiceListReportTransactionVO.makeId" onchange="changeTheInvoiceModel();" >
-                                        <option value="" selected>Choose...</option>
-                                        <c:forEach var="n" items="${reportsForm.makeVOs}">
-                                            <option value="${n.id}">${n.makeName}</option>
-                                        </c:forEach>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="input-group mb-3">
-                                    <label class="input-group-text" for="invoiceListModelId">Model</label>
-                                    <select class="form-select" id ="invoiceListModelId" name="invoiceListReportTransactionVO.modelId" >
-                                        <option value="" selected>Choose...</option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-md-3">
-                                <div class="input-group mb-3">
-                                    <label class="input-group-text" for="invoiceListStatus">Status</label>
-                                    <select class="form-select" id ="invoiceListStatus" name="invoiceListReportTransactionVO.Status" >
-                                        <option value="" selected>Choose...</option>
-                                        <option th:each="i : ${reportsForm.statusList}" th:value="${i}" th:text="${i}">
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <label for="invoiceListIncludes" class="control-label">
-                                    Includes
-                                    <input type="checkbox" path="invoiceListReportTransactionVO.includes" ctyle="vertical-align:middle" id="invoiceListIncludes" value="" />
-                                </label>
-                            </div>
-                            <div class="col-md-6">
-                                <label for="invoiceListStartswith" class="control-label">
-                                    Starts with
-                                    <input type="checkbox" path="invoiceListReportTransactionVO.startswith" style="vertical-align:middle" id="invoiceListStartswith" value="" />
-                                </label>
-                            </div>
-                            <div class="col-md-4">
-                                <div class="input-group mb-3">
-                                    <label class="input-group-text" for="txnExportValue">Export To</label>
-                                    <select class="form-select" id="txnExportValue" >
-                                        <option selected>Choose...</option>
-                                        <option th:each="i : ${reportsForm.exportList}" th:value="${i}" th:text="${i}">
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-md-4">
-                                <button type="button" class="btn btn-primary" onclick="fetchTransactionsListReport()" >Fetch Invoice List Report</button>
-                            </div>
-                            <div class="col-md-4">
                                 <button type="button" class="btn btn-primary" onclick="clearOut()" >Clear</button>
                             </div>
                         </div>
