@@ -55,16 +55,8 @@ public class UserController {
      *
      * @return ModelAndView to render
      */
-    /*@GetMapping("/")
-    public ModelAndView index() {
-        logger.info("Index method of user controller ");
-        var userForm = new UserForm();
-        userForm.setUser(new UserVO());
-        return new ModelAndView("MainPage", USER_FORM, userForm);
-    }*/
-
     @GetMapping("/")
-    public String welcome(final Model model) {
+    public String welcome() {
         return "MainPage";
     }
 
@@ -82,7 +74,7 @@ public class UserController {
             return "redirect:/";
         }
         if (error != null) {
-            model.addAttribute(DANGER, "Your username and password is invalid.");
+            model.addAttribute(DANGER, "Your username or password is invalid.");
         }
         if (logout != null) {
             model.addAttribute("message", "You have been logged out successfully.");
@@ -98,7 +90,6 @@ public class UserController {
     @PostMapping("/user/ToHome")
     public String toHome() {
         logger.info("Inside ToHome method of user controller");
-        //return new ModelAndView("MainPage", USER_FORM, userForm);
         return "MainPage";
     }
 
@@ -124,23 +115,6 @@ public class UserController {
      * @param userForm userForm instance
      * @return ModelAndView to render
      */
-    private ModelAndView listAll(final UserForm userForm) {
-        List<UserVO> userList = userService.getAllUserDetails();
-        if (userList.isEmpty()) {
-            userForm.setStatusMessage("No user found");
-            userForm.setStatusMessageType(DANGER);
-        }
-        userForm.setUserVOs(userList);
-        userForm.setRoleList(populateRoles());
-        return new ModelAndView(USER_LIST, USER_FORM, userForm);
-    }
-
-    /**
-     * Used to list all users (can be done only by admin user).
-     *
-     * @param userForm userForm instance
-     * @return ModelAndView to render
-     */
     @PostMapping("/user/ListAll.htm")
     public String listAllUsers(@ModelAttribute final UserForm userForm, final Model model) {
         logger.info("ListAll method of user controller ");
@@ -151,8 +125,7 @@ public class UserController {
         }
         userForm.setUserVOs(userList);
         userForm.setRoleList(populateRoles());
-        model.addAttribute("userForm", userForm);
-        //return new ModelAndView(USER_LIST, USER_FORM, userForm);
+        model.addAttribute(USER_FORM, userForm);
         return USER_LIST;
     }
 
@@ -269,9 +242,8 @@ public class UserController {
         logger.info("ChangePass of user controller from {} to {}", sanitizedCurrent,
                 sanitizedPass);
         String message;
-        var auth = SecurityContextHolder.getContext().getAuthentication();
-        // get the user info
-        var userList = userService.searchUserDetails(formSearch(auth.getName()), true, true);
+        var currentLoggedInUser = currentLoggedInUser();
+        var userList = userService.searchUserDetails(formSearch(currentLoggedInUser), true, true);
         if (userService.comparePasswords(current, userList.get(0).getPassword())) {
             var userVO = userList.get(0);
             userService.updateWithNewPassword(userVO, newPass, currentLoggedInUser());
@@ -289,8 +261,8 @@ public class UserController {
      * @return ModelAndView to render
      */
     @PostMapping("/user/DeleteUser.htm")
-    public ModelAndView deleteUser(final UserForm userForm) {
-        logger.info(" Inside DeleteUser method of user controller ");
+    public String deleteUser(final UserForm userForm, final Model model) {
+        logger.info("Inside DeleteUser method of user controller ");
         try {
             userService.deleteUser(userForm.getId());
             userForm.setStatusMessage("Successfully deleted the user");
@@ -300,9 +272,8 @@ public class UserController {
             userForm.setStatusMessageType(DANGER);
             logger.error(ex.getLocalizedMessage(), ex);
         }
-        return listAll(userForm);
+        return listAllUsers(userForm, model);
     }
-
 
     private UserVO populateUserVO(final String selectName,
                                   final String selectLogin,

@@ -39,19 +39,19 @@ public class UserDAO {
      * @throws UserException on error
      */
     public UserVO logIn(final UserVO userVO) throws UserException {
-        User user = sneak(() -> userRepository.findByEmail(userVO.getEmail()));
+        Optional<User> user = sneak(() -> userRepository.findByEmail(userVO.getEmail()));
 
-        if (user != null) {
-            LOG.info(" user details fetched successfully,for user name {}", user.getName());
-            if (!userVO.getPassword().equalsIgnoreCase(user.getPassword())) {
+        if (user.isPresent()) {
+            LOG.info(" user details fetched successfully,for user name {}", user.get().getName());
+            if (!userVO.getPassword().equalsIgnoreCase(user.get().getPassword())) {
                 throw new UserException(UserException.INCORRECT_PASSWORD);
             }
             LOG.info(" Password matched successfully, user details are {}", user);
+            return convertToUserVO(user.get());
         } else {
             // invalid user
             throw new UserException(UserException.UNKNOWN_USER);
         }
-        return convertToUserVO(user);
     }
 
     /**
@@ -116,7 +116,7 @@ public class UserDAO {
 
     public UserVO findByEmail(final String email) {
         var user = sneak(() -> userRepository.findByEmail(email));
-        return convertToUserVO(user);
+        return user.map(this::convertToUserVO).orElse(null);
     }
 
     public void expireUser(final Long id) {

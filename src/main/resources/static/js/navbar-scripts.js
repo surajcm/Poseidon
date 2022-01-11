@@ -9,8 +9,7 @@ function goToHome() {
 }
 
 function LogMeOut() {
-    document.forms[0].setAttribute("th:action", "@{/LogMeOut}");
-    //document.forms[0].action = "/LogMeOut";
+    document.forms[0].action = "/LogMeOut";
     document.forms[0].submit();
 }
 

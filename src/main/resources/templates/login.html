@@ -24,19 +24,24 @@
                                 <h1 class="mb-0 h3">Sign in Poseidon</h1>
                             </div>
                             <form th:action="@{/login}" method="post" class="mt-4" id="login-nav">
+                                <span th:text="${message}"></span>
                                 <div class="form-group mb-4"><label for="username">Your Email</label>
                                     <div class="input-group">
                                         <span class="input-group-text" id="basic-addon1"><span class="fas fa-envelope"></span></span>
                                         <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
-                                        <input id="username" name="username" type="email" class="form-control" placeholder="example@company.com" autofocus="true" required="true">
+                                        <input id="username" name="username" type="email" class="form-control" placeholder="example@company.com" autofocus="true" required="true" />
                                     </div>
                                 </div>
                                 <div class="form-group">
                                     <div class="form-group mb-4"><label for="password">Your Password</label>
                                         <div class="input-group">
-                                            <span class="input-group-text" id="basic-addon2"><span class="fas fa-unlock-alt"></span></span> <input type="password" placeholder="Password" class="form-control" id="password" name="password" required="true">
+                                            <span class="input-group-text" id="basic-addon2">
+                                                <span class="fas fa-unlock-alt"></span>
+                                            </span>
+                                            <input type="password" placeholder="Password" class="form-control" id="password" name="password" required="true" />
                                         </div>
                                     </div>
+                                    <span class="has-error" th:text="${danger}"></span>
                                     <div class="d-flex justify-content-between align-items-top mb-4">
                                         <div class="form-check">
                                             <input class="form-check-input" type="checkbox" value="" id="remember"> <label class="form-check-label mb-0" for="remember">Remember me</label>

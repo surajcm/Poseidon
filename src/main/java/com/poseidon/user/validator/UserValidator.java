@@ -29,11 +29,11 @@ public class UserValidator implements Validator {
      */
     @Override
     public void validate(final Object userVo, final Errors errors) {
-        logger.info(" Inside the validate method");
+        logger.info("Inside the validate method");
         UserVO user = (UserVO) userVo;
 
         if (user.getName().trim().length() == 0) {
-            errors.rejectValue("name", "error.required.user.name", "user Name is required");
+            errors.rejectValue("name", "error.required.user.name", "User Name is required");
         }
         if (user.getPassword().trim().length() == 0) {
             errors.rejectValue("password", "error.required.password", "Password is required");

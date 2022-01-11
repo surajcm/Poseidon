@@ -48,7 +48,7 @@ class UserDAOTest {
         var userVO = new UserVO();
         userVO.setPassword("PASS1");
         userVO.setEmail("ABC");
-        when(userRepository.findByEmail(anyString())).thenReturn(null);
+        when(userRepository.findByEmail(anyString())).thenReturn(Optional.empty());
         Assertions.assertThrows(UserException.class, () -> userDAO.logIn(userVO));
     }
 
@@ -65,7 +65,7 @@ class UserDAOTest {
 
     @Test
     void getUserDetailsFromIdSuccess() {
-        when(userRepository.findById(anyLong())).thenReturn(mockOptionalUser());
+        when(userRepository.findById(anyLong())).thenReturn(mockUser());
         Assertions.assertNotNull(userDAO.getUserDetailsFromId(1234L));
     }
 
@@ -85,7 +85,7 @@ class UserDAOTest {
 
     @Test
     void updateSuccess() {
-        when(userRepository.findById(anyLong())).thenReturn(mockOptionalUser());
+        when(userRepository.findById(anyLong())).thenReturn(mockUser());
         var vo = new UserVO();
         vo.setId(1234L);
         Assertions.assertAll(() -> userDAO.updateUser(vo, "admin"));
@@ -121,15 +121,12 @@ class UserDAOTest {
         Assertions.assertNotNull(userDAO.searchUserDetails(user, false, false));
     }
 
-    private Optional<User> mockOptionalUser() {
-        return Optional.of(mockUser());
-    }
 
     private List<User> mockUsers() {
-        return List.of(mockUser());
+        return List.of(mockUser().get());
     }
 
-    private User mockUser() {
+    private Optional<User> mockUser() {
         var user = new User();
         user.setId(1234L);
         user.setName("ABC");
@@ -138,7 +135,7 @@ class UserDAOTest {
         user.setRole("ADMIN");
         user.setCreatedBy("ADMIN");
         user.setModifiedBy("ADMIN");
-        return user;
+        return Optional.of(user);
     }
 
     private UserVO mockUserVO() {
