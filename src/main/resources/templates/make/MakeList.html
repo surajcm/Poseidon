@@ -12,6 +12,7 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security/">
     <link rel="shortcut icon" href="/img/Poseidon_Ico.ico" />
     <link rel="stylesheet" href="/css/core/bootstrap-5.min.css"  type="text/css" />
     <link rel="stylesheet" href="/css/custom.css" type="text/css" />
+    <link rel="stylesheet" href="/css/core/flag-icon.min.css" type="text/css" />
     <title>Make List</title>
     <script type="text/javascript" src="/js/common-scripts.js"></script>
     <script type="text/javascript" src="/js/make-scripts.js"></script>
@@ -22,50 +23,20 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security/">
         <input type="hidden" name="id" id="id"/>
         <input type="hidden" name="loggedInUser" path="loggedInUser"/>
         <input type="hidden" name="loggedInRole" path="loggedInRole"/>
-        <div th:insert="/navbar::navbar"></div>
+        <div th:insert="navbar :: navbar"></div>
         <div  class="container">
             <div class="wrap">
                 <div class="card">
                     <div class="card-header">
-                        Search Model
+                        Search Make
                     </div>
                     <div class="card-body">
                         <div class="row g-3">
                             <div class="col-md-6">
-                                <div class="input-group mb-3">
-                                    <label for="makeName" class="input-group-text">Make Name</label>
-                                    <select id="makeName" th:field="*{searchMakeAndModelVO.makeName}" class="form-select" tabindex="1">
-                                        <option value="0" label="-- Select --"/>
-                                        <option th:each="i : ${makeForm.makeVOs}" th:value="${i.id}" th:text="${i.makeName}">
-                                    </select>
-                                </div>
+                                <input th:field="*{searchMakeAndModelVO.makeName}" class="form-control" id="modelName" placeholder="Model Name"/>
                             </div>
                             <div class="col-md-6">
-                                <input th:field="*{searchMakeAndModelVO.modelName}" class="form-control" id="modelName" placeholder="Model Name"/>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-check">
-                                    <input type="checkbox" th:field="*{searchMakeAndModelVO.includes}" class="form-check-input"
-                                                   id="includes" value=""/>
-                                    <label class="form-check-label" for="includes">
-                                        Includes
-                                    </label>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <div class="form-check">
-                                  <input type="checkbox" th:field="*{searchMakeAndModelVO.startswith}" class="form-check-input"
-                                                   id="startswith" value=""/>
-                                  <label class="form-check-label" for="startsWith">
-                                    Starts with
-                                  </label>
-                                </div>
-                            </div>
-                            <div class="col-md-6">
-                                <input class="btn btn-primary" value="Search" type="button" onclick="search()"/>
-                            </div>
-                            <div class="col-md-6">
-                                <input class="btn btn-primary" value="Clear" type="button" onclick="clearOut()"/>
+                                <input class="btn btn-primary" value="Search" type="button" onclick="searchMakes()"/>
                             </div>
                         </div>
                     </div>

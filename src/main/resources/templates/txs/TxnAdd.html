@@ -13,6 +13,7 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security/">
         <link rel="stylesheet" href="/css/jquery-ui.css" type="text/css" />
         <link rel="stylesheet" href="/css/core/bootstrap-5.min.css"  type="text/css" />
         <link rel="stylesheet" href="/css/custom.css" type="text/css" />
+        <link rel="stylesheet" href="/css/core/flag-icon.min.css" type="text/css" />
         <title>Add Transaction</title>
         <script type="text/javascript" src="/js/txn-add-scripts.js"></script>
         <script type="text/javascript" src="/js/navbar-scripts.js"></script>
@@ -21,7 +22,7 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security/">
         <form method="POST" th:object="${transactionForm}">
             <input type="hidden" name="loggedInUser" />
             <input type="hidden" name="loggedInRole" />
-            <div th:insert="/navbar::navbar"></div>
+            <div th:insert="navbar :: navbar"></div>
             <div class="container">
                 <div class="wrap">
                     <div class="card">

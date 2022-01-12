@@ -255,6 +255,20 @@ public class MakeDao {
         return searchModels(searchMakeVo);
     }
 
+    /**
+     * search make vos.
+     *
+     * @param searchMakeVo searchMakeVo
+     * @return list of make and model vos
+     */
+    public List<MakeAndModelVO> searchMake(final MakeAndModelVO searchMakeVo) {
+        var searchMakeName = searchMakeVo.getMakeName();
+        var makes = sneak(() ->
+                StreamSupport.stream(makeRepository.findByMakeName(searchMakeName).spliterator(), true)
+                        .toList());
+        return makeAndModelEntityConverter.convertMakeToMakeAndModelVOs(makes);
+    }
+
     private List<MakeAndModelVO> searchModels(final MakeAndModelVO searchMakeVO) {
         List<MakeAndModelVO> makeAndModelVOS = new ArrayList<>();
         if (searchMakeVO.getMakeId() != null && searchMakeVO.getMakeId() > 0) {

@@ -13,6 +13,7 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security/">
     <link rel="stylesheet" href="/css/jquery-ui.css" type="text/css" />
     <link rel="stylesheet" href="/css/core/bootstrap-5.min.css"  type="text/css" />
     <link rel="stylesheet" href="/css/custom.css" type="text/css" />
+    <link rel="stylesheet" href="/css/core/flag-icon.min.css" type="text/css" />
     <title>Transaction List</title>
     <script type="text/javascript" src="/js/common-scripts.js"></script>
     <script type="text/javascript" src="/js/transaction-scripts.js"></script>
@@ -24,7 +25,7 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security/">
         <input type="hidden" name="loggedInUser" path="loggedInUser"/>
         <input type="hidden" name="loggedInRole" path="loggedInRole"/>
         <input type="hidden" name="id" id="id"/>
-        <div th:insert="/navbar::navbar"></div>
+        <div th:insert="navbar :: navbar"></div>
         <div class="container">
             <div class="wrap">
                 <div class="card">

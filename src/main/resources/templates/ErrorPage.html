@@ -10,13 +10,14 @@
     <link rel="shortcut icon" href="/img/Poseidon_Ico.ico" />
     <link rel="stylesheet" href="/css/core/bootstrap-5.min.css"  type="text/css" />
     <link rel="stylesheet" href="/css/custom.css" type="text/css" />
+    <link rel="stylesheet" href="/css/core/flag-icon.min.css" type="text/css" />
     <title>Error Page</title>
     <script type="text/javascript" src="/js/navbar-scripts.js"></script>
 </head>
 <body>
     <form method="POST">
         <input type="hidden" name="id" id="id" />
-        <div th:insert="/navbar::navbar"></div>
+        <div th:insert="navbar :: navbar"></div>
         <section class="jumbotron center">
             <div class="error">
                 <label> An error has been occurred while processing the page</label>

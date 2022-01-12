@@ -14,8 +14,8 @@ function clearOut() {
     document.getElementById('startswith').checked = false;
 }
 
-function search() {
-    document.forms[0].action = "searchModel.htm";
+function searchMakes() {
+    document.forms[0].action = "searchMake";
     document.forms[0].submit();
 }
 

@@ -10,13 +10,14 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security/">
     <link rel="shortcut icon" href="/img/Poseidon_Ico.ico" />
     <link rel="stylesheet" href="/css/core/bootstrap-5.min.css"  type="text/css" />
     <link rel="stylesheet" href="/css/custom.css" type="text/css" />
+    <link rel="stylesheet" href="/css/core/flag-icon.min.css" type="text/css" />
     <title>Terms And Company details</title>
     <script type="text/javascript" src="/js/company-scripts.js"></script>
     <script type="text/javascript" src="/js/navbar-scripts.js"></script>
 </head>
 <body onload="hideUpdate()">
     <form method="POST" th:object="${companyTermsVO}">
-        <div th:insert="/navbar::navbar"></div>
+        <div th:insert="navbar :: navbar"></div>
         <div class="container">
             <div class="wrap">
                 <div class="card">

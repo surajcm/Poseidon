@@ -101,8 +101,7 @@ public class MakeController {
         makeForm.setSearchMakeAndModelVO(new MakeAndModelVO());
         makeForm.setLoggedInRole(makeForm.getLoggedInRole());
         makeForm.setLoggedInUser(makeForm.getLoggedInUser());
-        //return new ModelAndView("make/ModelList", MAKE_FORM, makeForm);
-        model.addAttribute("makeForm", makeForm);
+        model.addAttribute(MAKE_FORM, makeForm);
         return "make/ModelList";
     }
 
@@ -153,7 +152,6 @@ public class MakeController {
         makeForm.setLoggedInRole(makeForm.getLoggedInRole());
         makeForm.setLoggedInUser(makeForm.getLoggedInUser());
         model.addAttribute("makeForm", makeForm);
-        //return new ModelAndView("make/MakeList", MAKE_FORM, makeForm);
         return "make/MakeList";
     }
 
@@ -329,6 +327,33 @@ public class MakeController {
         makeForm.setLoggedInRole(makeForm.getLoggedInRole());
         makeForm.setLoggedInUser(makeForm.getLoggedInUser());
         return new ModelAndView("make/ModelList", MAKE_FORM, makeForm);
+    }
+
+    /**
+     * search for a model.
+     *
+     * @param makeForm makeForm
+     * @return view
+     */
+    @PostMapping("/make/searchMake")
+    public ModelAndView searchMake(final MakeForm makeForm) {
+        loggingFromSearch(makeForm);
+        var makeVOs = makeService.searchMake(makeForm.getSearchMakeAndModelVO());
+        makeForm.setStatusMessage("Found " + makeVOs.size() + " Models");
+        makeForm.setStatusMessageType("info");
+        if (!makeVOs.isEmpty()) {
+            makeVOs.forEach(makeVO -> LOG.debug(MAKE_VO_IS, makeVO));
+            makeForm.setMakeAndModelVOs(makeVOs);
+        }
+        var searchMakeVOs = makeService.fetchMakes();
+        if (searchMakeVOs != null) {
+            searchMakeVOs.forEach(searchMakeVO -> LOG.debug("searchMakeVO is {}", searchMakeVO));
+            makeForm.setMakeVOs(searchMakeVOs);
+        }
+        var userName = findLoggedInUsername();
+        makeForm.setLoggedInRole(makeForm.getLoggedInRole());
+        makeForm.setLoggedInUser(makeForm.getLoggedInUser());
+        return new ModelAndView("make/MakeList", MAKE_FORM, makeForm);
     }
 
     private void loggingFromSearch(final MakeForm makeForm) {

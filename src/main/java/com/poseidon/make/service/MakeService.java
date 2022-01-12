@@ -150,4 +150,13 @@ public class MakeService {
     public List<MakeAndModelVO> getAllModelsFromMakeId(final Long id) {
         return makeDAO.getAllModelsFromMakeId(id);
     }
+
+    /**
+     * Search only makes.
+     * @param searchMakeAndModelVO MakeAndModelVO
+     * @return List of MakeAndModelVO
+     */
+    public List<MakeAndModelVO> searchMake(final MakeAndModelVO searchMakeAndModelVO) {
+        return makeDAO.searchMake(searchMakeAndModelVO);
+    }
 }
