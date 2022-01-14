@@ -64,7 +64,7 @@ class MakeDaoTest {
     @Test
     void getMakeFromIdSuccessOnEmpty() {
         when(makeRepository.findById(anyLong())).thenReturn(Optional.empty());
-        Assertions.assertNull(makeDao.getMakeFromId(1234L));
+        Assertions.assertEquals(Optional.empty(), makeDao.getMakeFromId(1234L));
     }
 
     @Test
@@ -81,7 +81,7 @@ class MakeDaoTest {
     @Test
     void getModelFromIdSuccessOnEmpty() {
         when(modelRepository.findById(anyLong())).thenReturn(Optional.empty());
-        Assertions.assertNull(makeDao.getModelFromId(1234L));
+        Assertions.assertEquals(Optional.empty(), makeDao.getModelFromId(1234L));
     }
 
     @Test

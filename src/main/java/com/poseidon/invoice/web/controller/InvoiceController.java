@@ -73,7 +73,6 @@ public class InvoiceController {
         invoiceForm.setLoggedInUser(invoiceForm.getLoggedInUser());
         invoiceForm.setLoggedInRole(invoiceForm.getLoggedInRole());
         model.addAttribute("invoiceForm", invoiceForm);
-        //return new ModelAndView(LIST_INVOICE, INVOICE_FORM, invoiceForm);
         return LIST_INVOICE;
     }
 
@@ -293,8 +292,8 @@ public class InvoiceController {
     }
 
     private String parseTagNumbers(final List<String> tags) {
-        String response = "";
-        ObjectMapper mapper = new ObjectMapper();
+        var response = "";
+        var mapper = new ObjectMapper();
         try {
             response = mapper.writeValueAsString(tags);
         } catch (IOException ex) {
@@ -305,8 +304,8 @@ public class InvoiceController {
     }
 
     private String parseInvoices(final List<InvoiceVO> invoices) {
-        String response = "";
-        ObjectMapper mapper = new ObjectMapper();
+        var response = "";
+        var mapper = new ObjectMapper();
         try {
             response = mapper.writeValueAsString(invoices);
         } catch (IOException ex) {
@@ -317,8 +316,8 @@ public class InvoiceController {
     }
 
     private String parseTransactions(final List<TransactionVO> invoices) {
-        String response = "";
-        ObjectMapper mapper = new ObjectMapper();
+        var response = "";
+        var mapper = new ObjectMapper();
         try {
             response = mapper.writeValueAsString(invoices);
         } catch (IOException ex) {
@@ -329,8 +328,8 @@ public class InvoiceController {
     }
 
     private String parseInvoiceVO(final InvoiceVO invoice) {
-        String response = "";
-        ObjectMapper mapper = new ObjectMapper();
+        var response = "";
+        var mapper = new ObjectMapper();
         try {
             response = mapper.writeValueAsString(invoice);
         } catch (IOException ex) {

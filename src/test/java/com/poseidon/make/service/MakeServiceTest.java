@@ -10,6 +10,7 @@ import org.mockito.Mockito;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.List;
+import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
@@ -41,7 +42,7 @@ class MakeServiceTest {
 
     @Test
     void getMakeFromIdSuccess() {
-        when(makeDAO.getMakeFromId(anyLong())).thenReturn(Mockito.mock(MakeAndModelVO.class));
+        when(makeDAO.getMakeFromId(anyLong())).thenReturn(Optional.of(Mockito.mock(MakeAndModelVO.class)));
         Assertions.assertNotNull(makeService.getMakeFromId(1234L));
     }
 
@@ -52,7 +53,7 @@ class MakeServiceTest {
 
     @Test
     void getModelFromIdSuccess() {
-        when(makeDAO.getModelFromId(anyLong())).thenReturn(Mockito.mock(MakeAndModelVO.class));
+        when(makeDAO.getModelFromId(anyLong())).thenReturn(Optional.of(Mockito.mock(MakeAndModelVO.class)));
         Assertions.assertNotNull(makeService.getModelFromId(1234L));
     }
 

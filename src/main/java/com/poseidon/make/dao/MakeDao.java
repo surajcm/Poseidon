@@ -13,6 +13,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.function.Function;
 import java.util.stream.StreamSupport;
 
@@ -102,11 +103,11 @@ public class MakeDao {
      * @param makeId makeId
      * @return make and model vo
      */
-    public MakeAndModelVO getMakeFromId(final Long makeId) {
-        MakeAndModelVO makeVO = null;
+    public Optional<MakeAndModelVO> getMakeFromId(final Long makeId) {
+        Optional<MakeAndModelVO> makeVO = Optional.empty();
         var optionalMake = sneak(() -> makeRepository.findById(makeId));
         if (optionalMake.isPresent()) {
-            makeVO = makeAndModelEntityConverter.getMakeVOFromMake(optionalMake.get());
+            makeVO = Optional.of(makeAndModelEntityConverter.getMakeVOFromMake(optionalMake.get()));
         }
         return makeVO;
     }
@@ -127,11 +128,11 @@ public class MakeDao {
      * @param modelId modelId
      * @return make and model vo
      */
-    public MakeAndModelVO getModelFromId(final Long modelId) {
-        MakeAndModelVO makeAndModelVO = null;
+    public Optional<MakeAndModelVO> getModelFromId(final Long modelId) {
+        Optional<MakeAndModelVO> makeAndModelVO = Optional.empty();
         var optionalModel = sneak(() -> modelRepository.findById(modelId));
         if (optionalModel.isPresent()) {
-            makeAndModelVO = makeAndModelEntityConverter.convertModelToMakeAndModelVO(optionalModel.get());
+            makeAndModelVO = Optional.of(makeAndModelEntityConverter.convertModelToMakeAndModelVO(optionalModel.get()));
         }
         return makeAndModelVO;
     }

@@ -32,13 +32,13 @@ function deleteRow() {
     let answer = confirm("Are you sure you wanted to delete the user ");
     if (answer) {
         setIdForChange();
-        document.forms[0].action = "DeleteUser.htm";
+        document.forms[0].action = "DeleteUser";
         document.forms[0].submit();
     }
 }
 
 function search() {
-    document.forms[0].action = "SearchUser.htm";
+    document.forms[0].action = "SearchUser";
     document.forms[0].submit();
 }
 
@@ -163,7 +163,7 @@ function saveFromModal() {
 
 function callAjax(addName, addEmail, addRole) {
     let xhr = new XMLHttpRequest();
-    xhr.open('POST', "/user/saveUserAjax.htm", true);
+    xhr.open('POST', "/user/saveUserAjax", true);
     let token = document.querySelector("meta[name='_csrf']").content;
     let header = document.querySelector("meta[name='_csrf_header']").content;
     //xhr.setRequestHeader(header, token);
@@ -202,7 +202,7 @@ function resetUser() {
 function ajaxPasswordExpire() {
     let id = document.getElementById("id").value;
     let xhr = new XMLHttpRequest();
-    xhr.open('POST', "/user/passwordExpire.htm", true);
+    xhr.open('POST', "/user/passwordExpire", true);
     let token = document.querySelector("meta[name='_csrf']").content;
     let header = document.querySelector("meta[name='_csrf_header']").content;
     //xhr.setRequestHeader(header, token);
@@ -285,7 +285,7 @@ function selectRoleForUpdate() {
 function getUserForEdit() {
     let id = document.getElementById("id").value;
     let xhr = new XMLHttpRequest();
-    xhr.open('GET', "/user/getForEdit.htm" + "?id=" + id, true);
+    xhr.open('GET', "/user/getForEdit" + "?id=" + id, true);
     let token = document.querySelector("meta[name='_csrf']").content;
     let header = document.querySelector("meta[name='_csrf_header']").content;
     ///xhr.setRequestHeader(header, token);
@@ -357,7 +357,7 @@ function updateFromModal() {
 function callAjaxUpdate(updateName, updateEmail, updateRole) {
     let id = document.getElementById("id").value;
     let xhr = new XMLHttpRequest();
-    xhr.open('PUT', "/user/updateUserAjax.htm", true);
+    xhr.open('PUT', "/user/updateUserAjax", true);
     let token = document.querySelector("meta[name='_csrf']").content;
     let header = document.querySelector("meta[name='_csrf_header']").content;
     //xhr.setRequestHeader(header, token);

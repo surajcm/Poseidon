@@ -76,7 +76,7 @@ function deleteRow() {
     if (answer) {
         let userRow = selectedRow();
         document.getElementById("id").value = userRow.cells[0].childNodes[0].value;
-        document.forms[0].action = "deleteMake.htm";
+        document.forms[0].action = "deleteMake";
         document.forms[0].submit();
     }
 }
@@ -262,7 +262,7 @@ function editMakeModal() {
 function getMakeForEdit() {
     let id = document.getElementById("id").value;
     let xhr = new XMLHttpRequest();
-    xhr.open('GET', "/make/makeForEdit.htm" + "?id=" + id, true);
+    xhr.open('GET', "/make/makeForEdit" + "?id=" + id, true);
     let token = document.querySelector("meta[name='_csrf']").content;
     let header = document.querySelector("meta[name='_csrf_header']").content;
     //xhr.setRequestHeader(header, token);
@@ -270,7 +270,7 @@ function getMakeForEdit() {
     xhr.onload = function () {
         if (xhr.status === 200) {
             if (xhr.responseText != null) {
-                console.log("/make/makeForEdit.htm response is " + xhr.responseText);
+                console.log("/make/makeForEdit response is " + xhr.responseText);
                 populateDataForEdit(xhr.responseText);
             }
         } else if (xhr.status !== 200) {

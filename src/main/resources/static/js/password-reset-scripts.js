@@ -51,7 +51,7 @@ function passwordChange() {
 
 function changePasswordAndSaveIt(current, newPass) {
     let xhr = new XMLHttpRequest();
-    xhr.open('POST', "/user/changePasswordAndSaveIt.htm", true);
+    xhr.open('POST', "/user/changePasswordAndSaveIt", true);
     let token = document.querySelector("meta[name='_csrf']").content;
     let header = document.querySelector("meta[name='_csrf_header']").content;
     //xhr.setRequestHeader(header, token);

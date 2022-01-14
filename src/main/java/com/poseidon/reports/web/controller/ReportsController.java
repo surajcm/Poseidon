@@ -70,7 +70,7 @@ public class ReportsController {
      * @param reportsForm form
      * @return view
      */
-    @PostMapping("/reports/List.htm")
+    @PostMapping("/reports/List")
     public String list(final ReportsForm reportsForm, final Model model) {
         var sanitizedReportsForm = CommonUtils.sanitizedString(reportsForm.toString());
         LOG.info("List method of ReportsController, form details are : {}",
@@ -101,7 +101,6 @@ public class ReportsController {
         reportsForm.setTxnReportTransactionVO(getSearchTransaction());
         reportsForm.setInvoiceListReportTransactionVO(getSearchTransaction());
         model.addAttribute("reportsForm", reportsForm);
-        //return new ModelAndView("reports/List", "reportsForm", reportsForm);
         return "reports/List";
     }
 

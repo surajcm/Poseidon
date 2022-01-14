@@ -35,17 +35,17 @@ class UserControllerTest {
 
     @Test
     void listAll() throws Exception {
-        mvc.perform(post("/user/ListAll.htm")).andExpect(status().isOk());
+        mvc.perform(post("/user/ListAll")).andExpect(status().isOk());
     }
 
     @Test
     void deleteUser() throws Exception {
-        mvc.perform(post("/user/DeleteUser.htm")).andExpect(status().isOk());
+        mvc.perform(post("/user/DeleteUser")).andExpect(status().isOk());
     }
 
     @Test
     void toHome() throws Exception {
-        mvc.perform(post("/user/ToHome")).andExpect(status().isOk());
+        mvc.perform(post("/home")).andExpect(status().isOk());
     }
 
     @Test
@@ -55,7 +55,7 @@ class UserControllerTest {
 
     @Test
     void searchUser() throws Exception {
-        mvc.perform(post("/user/SearchUser.htm")).andExpect(status().isOk());
+        mvc.perform(post("/user/SearchUser")).andExpect(status().isOk());
     }
 
     @Test
@@ -63,7 +63,7 @@ class UserControllerTest {
         String selectName = "Apple";
         String selectLogin = "apple";
         String selectRole = "admin";
-        mvc.perform(post("/user/saveUserAjax.htm")
+        mvc.perform(post("/user/saveUserAjax")
                         .param("selectName", selectName)
                         .param("selectLogin", selectLogin)
                         .param("selectRole", selectRole))

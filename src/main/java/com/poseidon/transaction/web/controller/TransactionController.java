@@ -36,7 +36,6 @@ import static com.poseidon.transaction.web.controller.TransactionStatus.populate
  * Time: 3:33:20 PM
  */
 @Controller
-//@RequestMapping("/txs")
 @SuppressWarnings("unused")
 public class TransactionController {
     private static final Logger LOG = LoggerFactory.getLogger(TransactionController.class);
@@ -70,27 +69,6 @@ public class TransactionController {
      * @param transactionForm TransactionForm
      * @return view
      */
-    public ModelAndView list(final TransactionForm transactionForm) {
-        var transactionVOs = transactionService.listAllTransactions();
-        if (transactionVOs != null) {
-            transactionVOs.stream().map(transactionVO -> " transaction vo is " + transactionVO).forEach(LOG::info);
-            transactionForm.setTransactionsList(transactionVOs);
-        }
-        //get all the make list for displaying in search
-        transactionForm.setMakeVOs(getMakeVOS());
-        transactionForm.setSearchTransaction(new TransactionVO());
-        transactionForm.setLoggedInRole(transactionForm.getLoggedInRole());
-        transactionForm.setLoggedInUser(transactionForm.getLoggedInUser());
-        transactionForm.setStatusList(populateStatus());
-        return new ModelAndView(TRANSACTION_LIST, TRANSACTION_FORM, transactionForm);
-    }
-
-    /**
-     * List all transactions.
-     *
-     * @param transactionForm TransactionForm
-     * @return view
-     */
     @PostMapping("/txs/List.htm")
     public String listPage(final TransactionForm transactionForm, final Model model) {
         var transactionVOs = transactionService.listAllTransactions();
@@ -105,7 +83,6 @@ public class TransactionController {
         transactionForm.setLoggedInUser(transactionForm.getLoggedInUser());
         transactionForm.setStatusList(populateStatus());
         model.addAttribute("transactionForm", transactionForm);
-        //return new ModelAndView(TRANSACTION_LIST, TRANSACTION_FORM, transactionForm);
         return TRANSACTION_LIST;
     }
 
@@ -181,6 +158,27 @@ public class TransactionController {
         transactionForm.setLoggedInRole(transactionForm.getLoggedInRole());
         transactionForm.setCurrentTransaction(new TransactionVO());
         return list(transactionForm);
+    }
+
+    /**
+     * List all transactions.
+     *
+     * @param transactionForm TransactionForm
+     * @return view
+     */
+    private ModelAndView list(final TransactionForm transactionForm) {
+        var transactionVOs = transactionService.listAllTransactions();
+        if (transactionVOs != null) {
+            transactionVOs.stream().map(transactionVO -> " transaction vo is " + transactionVO).forEach(LOG::info);
+            transactionForm.setTransactionsList(transactionVOs);
+        }
+        //get all the make list for displaying in search
+        transactionForm.setMakeVOs(getMakeVOS());
+        transactionForm.setSearchTransaction(new TransactionVO());
+        transactionForm.setLoggedInRole(transactionForm.getLoggedInRole());
+        transactionForm.setLoggedInUser(transactionForm.getLoggedInUser());
+        transactionForm.setStatusList(populateStatus());
+        return new ModelAndView(TRANSACTION_LIST, TRANSACTION_FORM, transactionForm);
     }
 
     private boolean hasValidCustomerId(final TransactionForm transactionForm) {

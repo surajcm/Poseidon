@@ -40,43 +40,29 @@ class MakeControllerTest {
     @Test
     void modelList() throws Exception {
         when(makeService.listAllMakesAndModels()).thenReturn(mockMakeAndModelVOs());
-        mvc.perform(post("/make/ModelList.htm")).andExpect(status().isOk());
+        mvc.perform(post("/make/ModelList")).andExpect(status().isOk());
         when(makeService.listAllMakesAndModels()).thenThrow(new RuntimeException());
         when(makeService.fetchMakes()).thenThrow(new RuntimeException());
-        mvc.perform(post("/make/ModelList.htm")).andExpect(status().isOk());
+        mvc.perform(post("/make/ModelList")).andExpect(status().isOk());
     }
 
     @Test
     void makeList() throws Exception {
-        mvc.perform(post("/make/MakeList.htm")).andExpect(status().isOk());
+        mvc.perform(post("/make/MakeList")).andExpect(status().isOk());
     }
 
     @Test
     void deleteMake() throws Exception {
-        mvc.perform(post("/make/deleteMake.htm")).andExpect(status().isOk());
+        mvc.perform(post("/make/deleteMake")).andExpect(status().isOk());
         doThrow(new RuntimeException()).when(makeService).deleteMake(null);
-        mvc.perform(post("/make/deleteMake.htm")).andExpect(status().isOk());
+        mvc.perform(post("/make/deleteMake")).andExpect(status().isOk());
     }
 
     @Test
     void testDeleteModel() throws Exception {
-        mvc.perform(post("/make/deleteModel.htm")).andExpect(status().isOk());
+        mvc.perform(post("/make/deleteModel")).andExpect(status().isOk());
         doThrow(new RuntimeException()).when(makeService).deleteModel(null);
-        mvc.perform(post("/make/deleteModel.htm")).andExpect(status().isOk());
-    }
-
-    @Test
-    void testUpdateMake() throws Exception {
-        mvc.perform(post("/make/updateMake.htm")).andExpect(status().isOk());
-        doThrow(new RuntimeException()).when(makeService).updateMake(null);
-        mvc.perform(post("/make/updateMake.htm")).andExpect(status().isOk());
-    }
-
-    @Test
-    void testUpdateModel() throws Exception {
-        mvc.perform(post("/make/updateModel.htm")).andExpect(status().isOk());
-        doThrow(new RuntimeException()).when(makeService).updateModel(any());
-        mvc.perform(post("/make/updateModel.htm")).andExpect(status().isOk());
+        mvc.perform(post("/make/deleteModel")).andExpect(status().isOk());
     }
 
     @Test

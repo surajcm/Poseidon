@@ -87,7 +87,7 @@ public class UserController {
      *
      * @return ModelAndView to render
      */
-    @PostMapping("/user/ToHome")
+    @PostMapping("/home")
     public String toHome() {
         logger.info("Inside ToHome method of user controller");
         return "MainPage";
@@ -115,7 +115,7 @@ public class UserController {
      * @param userForm userForm instance
      * @return ModelAndView to render
      */
-    @PostMapping("/user/ListAll.htm")
+    @PostMapping("/user/ListAll")
     public String listAllUsers(@ModelAttribute final UserForm userForm, final Model model) {
         logger.info("ListAll method of user controller ");
         List<UserVO> userList = userService.getAllUserDetails();
@@ -138,7 +138,7 @@ public class UserController {
      * @param result      BindingResult
      * @return String
      */
-    @PostMapping("/user/saveUserAjax.htm")
+    @PostMapping("/user/saveUserAjax")
     public @ResponseBody
     String saveUserAjax(@ModelAttribute("selectName") final String selectName,
                         @ModelAttribute("selectLogin") final String selectLogin,
@@ -157,7 +157,7 @@ public class UserController {
      * @param userForm userForm instance
      * @return ModelAndView to render
      */
-    @PostMapping("/user/SearchUser.htm")
+    @PostMapping("/user/SearchUser")
     public ModelAndView searchUser(final UserForm userForm) {
         logger.info(" Inside SearchUser method of user controller ");
         List<UserVO> userList = userService.searchUserDetails(userForm.getSearchUser(),
@@ -176,7 +176,7 @@ public class UserController {
         return new ModelAndView(USER_LIST, USER_FORM, userForm);
     }
 
-    @PostMapping("/user/passwordExpire.htm")
+    @PostMapping("/user/passwordExpire")
     public @ResponseBody
     Boolean passwordExpiry(@ModelAttribute("id") final String id,
                            final BindingResult result) {
@@ -184,7 +184,7 @@ public class UserController {
         return Boolean.TRUE;
     }
 
-    @GetMapping("/user/getForEdit.htm")
+    @GetMapping("/user/getForEdit")
     public @ResponseBody
     String getForEdit(@ModelAttribute("id") final String id,
                       final BindingResult result) {
@@ -198,7 +198,7 @@ public class UserController {
         return response;
     }
 
-    @PutMapping("/user/updateUserAjax.htm")
+    @PutMapping("/user/updateUserAjax")
     public @ResponseBody
     String updateUserAjax(@ModelAttribute("id") final String id,
                           @ModelAttribute("name") final String name,
@@ -226,13 +226,13 @@ public class UserController {
         return allUsers();
     }
 
-    @PostMapping("/user/PasswordReset.htm")
+    @PostMapping("/user/PasswordReset")
     public ModelAndView reset(final UserForm userForm) {
         logger.info("Password reset view of user controller");
         return new ModelAndView("user/PasswordReset", USER_FORM, userForm);
     }
 
-    @PostMapping("/user/changePasswordAndSaveIt.htm")
+    @PostMapping("/user/changePasswordAndSaveIt")
     public @ResponseBody
     String changePass(@ModelAttribute("current") final String current,
                       @ModelAttribute("newPass") final String newPass,
@@ -260,7 +260,7 @@ public class UserController {
      * @param userForm userForm instance
      * @return ModelAndView to render
      */
-    @PostMapping("/user/DeleteUser.htm")
+    @PostMapping("/user/DeleteUser")
     public String deleteUser(final UserForm userForm, final Model model) {
         logger.info("Inside DeleteUser method of user controller ");
         try {

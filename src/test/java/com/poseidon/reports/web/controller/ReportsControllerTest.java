@@ -38,10 +38,10 @@ class ReportsControllerTest {
 
     @Test
     void list() throws Exception {
-        mvc.perform(post("/reports/List.htm")).andExpect(status().isOk());
+        mvc.perform(post("/reports/List")).andExpect(status().isOk());
         when(reportsService.generateDailyReport()).thenThrow(new RuntimeException());
         when(makeService.fetchMakes()).thenThrow(new RuntimeException());
-        mvc.perform(post("/reports/List.htm")).andExpect(status().isOk());
+        mvc.perform(post("/reports/List")).andExpect(status().isOk());
     }
 
     @Test

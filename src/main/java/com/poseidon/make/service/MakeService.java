@@ -8,6 +8,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 /**
  * user: Suraj.
@@ -59,7 +60,7 @@ public class MakeService {
      * @param makeId makeId
      * @return make and model vo
      */
-    public MakeAndModelVO getMakeFromId(final Long makeId) {
+    public Optional<MakeAndModelVO> getMakeFromId(final Long makeId) {
         return makeDAO.getMakeFromId(makeId);
     }
 
@@ -78,7 +79,7 @@ public class MakeService {
      * @param modelId modelId
      * @return make and model vo
      */
-    public MakeAndModelVO getModelFromId(final Long modelId) {
+    public Optional<MakeAndModelVO> getModelFromId(final Long modelId) {
         return makeDAO.getModelFromId(modelId);
     }
 
