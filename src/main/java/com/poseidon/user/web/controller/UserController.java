@@ -1,10 +1,10 @@
 package com.poseidon.user.web.controller;
 
+import com.poseidon.init.util.CommonUtils;
 import com.poseidon.user.domain.UserVO;
 import com.poseidon.user.service.SecurityService;
 import com.poseidon.user.service.UserService;
 import com.poseidon.user.web.form.UserForm;
-import com.poseidon.init.util.CommonUtils;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -17,7 +17,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
@@ -99,14 +98,14 @@ public class UserController {
      * @return ModelAndView to render
      */
     @PostMapping("/LogMeOut")
-    public ModelAndView logMeOut(final HttpServletRequest request) {
+    public String logMeOut(final HttpServletRequest request) {
         logger.info("Inside LogMeOut method of user controller");
         var session = request.getSession(false);
         SecurityContextHolder.clearContext();
         if (session != null) {
             session.invalidate();
         }
-        return new ModelAndView(USER_LOG_IN, USER_FORM, new UserForm());
+        return USER_LOG_IN;
     }
 
     /**
@@ -130,7 +129,7 @@ public class UserController {
     }
 
     /**
-     * save user using ajax call.
+     * save user.
      *
      * @param selectName  String
      * @param selectLogin String
@@ -140,13 +139,13 @@ public class UserController {
      */
     @PostMapping("/user/saveUserAjax")
     public @ResponseBody
-    String saveUserAjax(@ModelAttribute("selectName") final String selectName,
-                        @ModelAttribute("selectLogin") final String selectLogin,
-                        @ModelAttribute("selectRole") final String selectRole,
-                        final BindingResult result) {
-        logger.info("SaveUserAjax method of user controller ");
-        var ajaxUserVo = populateUserVO(selectName, selectLogin, selectRole);
-        userService.save(ajaxUserVo, currentLoggedInUser());
+    String saveUser(@ModelAttribute("selectName") final String selectName,
+                    @ModelAttribute("selectLogin") final String selectLogin,
+                    @ModelAttribute("selectRole") final String selectRole,
+                    final BindingResult result) {
+        logger.info("SaveUser method of user controller ");
+        var userVO = populateUserVO(selectName, selectLogin, selectRole);
+        userService.save(userVO, currentLoggedInUser());
         logger.info("Successfully saved user");
         return allUsers();
     }
@@ -158,7 +157,7 @@ public class UserController {
      * @return ModelAndView to render
      */
     @PostMapping("/user/SearchUser")
-    public ModelAndView searchUser(final UserForm userForm) {
+    public String searchUser(final UserForm userForm, final Model model) {
         logger.info(" Inside SearchUser method of user controller ");
         List<UserVO> userList = userService.searchUserDetails(userForm.getSearchUser(),
                 userForm.isStartsWith(),
@@ -173,7 +172,14 @@ public class UserController {
         }
         userForm.setUserVOs(userList);
         userForm.setRoleList(populateRoles());
-        return new ModelAndView(USER_LIST, USER_FORM, userForm);
+        model.addAttribute(USER_FORM, userForm);
+        return USER_LIST;
+    }
+
+    @PostMapping("/user/PasswordReset")
+    public String reset() {
+        logger.info("Password reset view of user controller");
+        return "user/PasswordReset";
     }
 
     @PostMapping("/user/passwordExpire")
@@ -190,26 +196,23 @@ public class UserController {
                       final BindingResult result) {
         var sanitizedId = CommonUtils.sanitizedString(id);
         logger.info("getForEdit method of user controller : {}", sanitizedId);
-        String response = null;
-        var userVO = userService.getUserDetailsFromId(Long.valueOf(id));
-        if (userVO.isPresent()) {
-            response = parseUserVO(populateUserEditMap(userVO.get()));
-        }
-        return response;
+        return userService.getUserDetailsFromId(Long.valueOf(id))
+                .map(vo -> parseUserVO(populateUserEditMap(vo)))
+                .orElse("");
     }
 
-    @PutMapping("/user/updateUserAjax")
+    @PutMapping("/user/updateUser")
     public @ResponseBody
-    String updateUserAjax(@ModelAttribute("id") final String id,
-                          @ModelAttribute("name") final String name,
-                          @ModelAttribute("email") final String email,
-                          @ModelAttribute("role") final String role,
-                          final BindingResult result) {
+    String updateUser(@ModelAttribute("id") final String id,
+                      @ModelAttribute("name") final String name,
+                      @ModelAttribute("email") final String email,
+                      @ModelAttribute("role") final String role,
+                      final BindingResult result) {
         var sanitizedId = CommonUtils.sanitizedString(id);
         var sanitizedName = CommonUtils.sanitizedString(name);
         var sanitizedEmail = CommonUtils.sanitizedString(email);
         var sanitizedRole = CommonUtils.sanitizedString(role);
-        logger.info("updateUserAjax method of user controller with id {}, name {}, email {}, role {}",
+        logger.info("updateUser method of user controller with id {}, name {}, email {}, role {}",
                 sanitizedId, sanitizedName,
                 sanitizedEmail, sanitizedRole);
         try {
@@ -224,12 +227,6 @@ public class UserController {
             logger.error(ex.getLocalizedMessage(), ex);
         }
         return allUsers();
-    }
-
-    @PostMapping("/user/PasswordReset")
-    public ModelAndView reset(final UserForm userForm) {
-        logger.info("Password reset view of user controller");
-        return new ModelAndView("user/PasswordReset", USER_FORM, userForm);
     }
 
     @PostMapping("/user/changePasswordAndSaveIt")
@@ -287,7 +284,7 @@ public class UserController {
     }
 
     private String currentLoggedInUser() {
-        String username = "";
+        var username = "";
         var auth = SecurityContextHolder.getContext().getAuthentication();
         if (auth != null) {
             username = auth.getName();
@@ -333,7 +330,7 @@ public class UserController {
 
     private String parseUserVO(final Map<String, String> userEditMap) {
         String response;
-        ObjectMapper mapper = new ObjectMapper();
+        var mapper = new ObjectMapper();
         try {
             response = mapper.writeValueAsString(userEditMap);
         } catch (IOException ex) {

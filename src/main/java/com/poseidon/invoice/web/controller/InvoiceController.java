@@ -72,7 +72,7 @@ public class InvoiceController {
         invoiceForm.setSearchInvoiceVo(new InvoiceVO());
         invoiceForm.setLoggedInUser(invoiceForm.getLoggedInUser());
         invoiceForm.setLoggedInRole(invoiceForm.getLoggedInRole());
-        model.addAttribute("invoiceForm", invoiceForm);
+        model.addAttribute(INVOICE_FORM, invoiceForm);
         return LIST_INVOICE;
     }
 

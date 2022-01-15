@@ -17,7 +17,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
 
 import java.io.IOException;
 import java.time.OffsetDateTime;
@@ -82,7 +81,7 @@ public class TransactionController {
         transactionForm.setLoggedInRole(transactionForm.getLoggedInRole());
         transactionForm.setLoggedInUser(transactionForm.getLoggedInUser());
         transactionForm.setStatusList(populateStatus());
-        model.addAttribute("transactionForm", transactionForm);
+        model.addAttribute(TRANSACTION_FORM, transactionForm);
         return TRANSACTION_LIST;
     }
 
@@ -98,7 +97,7 @@ public class TransactionController {
      * @return view
      */
     @PostMapping("/txs/AddTxn.htm")
-    public ModelAndView addTxn(final TransactionForm transactionForm) {
+    public String addTxn(final TransactionForm transactionForm, final Model model) {
         LOG.info("AddTxn method of TransactionController ");
         //get all the make list for displaying in search
         var makeVOs = getMakeVOS();
@@ -115,7 +114,8 @@ public class TransactionController {
         }
         transactionForm.setCurrentTransaction(new TransactionVO());
         transactionForm.setCustomerVO(new CustomerVO());
-        return new ModelAndView("txs/TxnAdd", TRANSACTION_FORM, transactionForm);
+        model.addAttribute(TRANSACTION_FORM, transactionForm);
+        return "txs/TxnAdd";
     }
 
     /**
@@ -125,7 +125,7 @@ public class TransactionController {
      * @return view
      */
     @PostMapping("/txs/SaveTxn.htm")
-    public ModelAndView saveTxn(final TransactionForm transactionForm) {
+    public String saveTxn(final TransactionForm transactionForm, final Model model) {
         LOG.info("SaveTxn method of TransactionController ");
         var sanitizedForm = CommonUtils.sanitizedString(transactionForm.toString());
         LOG.info("form details are {} ", sanitizedForm);
@@ -157,28 +157,8 @@ public class TransactionController {
         transactionForm.setLoggedInUser(transactionForm.getLoggedInUser());
         transactionForm.setLoggedInRole(transactionForm.getLoggedInRole());
         transactionForm.setCurrentTransaction(new TransactionVO());
-        return list(transactionForm);
-    }
-
-    /**
-     * List all transactions.
-     *
-     * @param transactionForm TransactionForm
-     * @return view
-     */
-    private ModelAndView list(final TransactionForm transactionForm) {
-        var transactionVOs = transactionService.listAllTransactions();
-        if (transactionVOs != null) {
-            transactionVOs.stream().map(transactionVO -> " transaction vo is " + transactionVO).forEach(LOG::info);
-            transactionForm.setTransactionsList(transactionVOs);
-        }
-        //get all the make list for displaying in search
-        transactionForm.setMakeVOs(getMakeVOS());
-        transactionForm.setSearchTransaction(new TransactionVO());
-        transactionForm.setLoggedInRole(transactionForm.getLoggedInRole());
-        transactionForm.setLoggedInUser(transactionForm.getLoggedInUser());
-        transactionForm.setStatusList(populateStatus());
-        return new ModelAndView(TRANSACTION_LIST, TRANSACTION_FORM, transactionForm);
+        model.addAttribute(TRANSACTION_FORM, transactionForm);
+        return listPage(transactionForm, model);
     }
 
     private boolean hasValidCustomerId(final TransactionForm transactionForm) {
@@ -194,7 +174,7 @@ public class TransactionController {
      * @return view
      */
     @PostMapping("/txs/SearchTxn.htm")
-    public ModelAndView searchTxn(final TransactionForm transactionForm) {
+    public String searchTxn(final TransactionForm transactionForm, final Model model) {
         LOG.info("SearchTxn method of TransactionController ");
         var sanitizedForm = CommonUtils.sanitizedString(transactionForm.toString());
         LOG.info("form details are {}", sanitizedForm);
@@ -218,7 +198,8 @@ public class TransactionController {
         transactionForm.setLoggedInRole(transactionForm.getLoggedInRole());
         transactionForm.setLoggedInUser(transactionForm.getLoggedInUser());
         transactionForm.setStatusList(populateStatus());
-        return new ModelAndView(TRANSACTION_LIST, TRANSACTION_FORM, transactionForm);
+        model.addAttribute(TRANSACTION_FORM, transactionForm);
+        return TRANSACTION_LIST;
     }
 
     /**
@@ -228,7 +209,7 @@ public class TransactionController {
      * @return view
      */
     @PostMapping("/txs/EditTxn.htm")
-    public ModelAndView editTxn(final TransactionForm transactionForm) {
+    public String editTxn(final TransactionForm transactionForm, final Model model) {
         LOG.info("EditTxn method of TransactionController ");
         var sanitizedForm = CommonUtils.sanitizedString(transactionForm.toString());
         LOG.info("transactionForm is {}", sanitizedForm);
@@ -250,7 +231,8 @@ public class TransactionController {
         transactionForm.setStatusList(populateStatus());
         transactionForm.setLoggedInRole(transactionForm.getLoggedInRole());
         transactionForm.setLoggedInUser(transactionForm.getLoggedInUser());
-        return new ModelAndView("txs/TxnEdit", TRANSACTION_FORM, transactionForm);
+        model.addAttribute(TRANSACTION_FORM, transactionForm);
+        return "txs/TxnEdit";
     }
 
     private Optional<CustomerVO> getCustomerVOFromTransaction(final TransactionVO transactionVO) {
@@ -268,7 +250,7 @@ public class TransactionController {
      * @return view
      */
     @PostMapping("/txs/updateTxn.htm")
-    public ModelAndView updateTxn(final TransactionForm transactionForm) {
+    public String updateTxn(final TransactionForm transactionForm, final Model model) {
         LOG.info("UpdateTxn method of TransactionController ");
         var sanitizedForm = CommonUtils.sanitizedString(transactionForm.toString());
         LOG.info("TransactionForm values are {}", sanitizedForm);
@@ -296,7 +278,8 @@ public class TransactionController {
         transactionForm.setLoggedInRole(transactionForm.getLoggedInRole());
         transactionForm.setLoggedInUser(transactionForm.getLoggedInUser());
         transactionForm.setStatusList(populateStatus());
-        return new ModelAndView(TRANSACTION_LIST, TRANSACTION_FORM, transactionForm);
+        model.addAttribute(TRANSACTION_FORM, transactionForm);
+        return TRANSACTION_LIST;
     }
 
 
@@ -307,7 +290,7 @@ public class TransactionController {
      * @return view
      */
     @PostMapping("/txs/DeleteTxn.htm")
-    public ModelAndView deleteTxn(final TransactionForm transactionForm) {
+    public String deleteTxn(final TransactionForm transactionForm, final Model model) {
         LOG.info("DeleteTxn method of TransactionController ");
         var sanitizedForm = CommonUtils.sanitizedString(transactionForm.toString());
         LOG.info("TransactionForm values are {}", sanitizedForm);
@@ -324,7 +307,8 @@ public class TransactionController {
         transactionForm.setLoggedInRole(transactionForm.getLoggedInRole());
         transactionForm.setLoggedInUser(transactionForm.getLoggedInUser());
         transactionForm.setStatusList(populateStatus());
-        return new ModelAndView(TRANSACTION_LIST, TRANSACTION_FORM, transactionForm);
+        model.addAttribute(TRANSACTION_FORM, transactionForm);
+        return TRANSACTION_LIST;
     }
 
     /**

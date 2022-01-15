@@ -357,7 +357,7 @@ function updateFromModal() {
 function callAjaxUpdate(updateName, updateEmail, updateRole) {
     let id = document.getElementById("id").value;
     let xhr = new XMLHttpRequest();
-    xhr.open('PUT', "/user/updateUserAjax", true);
+    xhr.open('PUT', "/user/updateUser", true);
     let token = document.querySelector("meta[name='_csrf']").content;
     let header = document.querySelector("meta[name='_csrf_header']").content;
     //xhr.setRequestHeader(header, token);

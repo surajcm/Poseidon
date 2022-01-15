@@ -29,26 +29,16 @@ class CustomerControllerTest {
 
     @Test
     void list() throws Exception {
-        mvc.perform(post("/customer/List.htm")).andExpect(status().isOk());
+        mvc.perform(post("/customer/List")).andExpect(status().isOk());
     }
 
     @Test
     void deleteCustomer() throws Exception {
-        mvc.perform(post("/customer/deleteCust.htm")).andExpect(status().isOk());
-    }
-
-    @Test
-    void saveCustomer() throws Exception {
-        mvc.perform(post("/customer/saveCustomer.htm")).andExpect(status().isOk());
-    }
-
-    @Test
-    void updateCustomer() throws Exception {
-        mvc.perform(post("/customer/updateCustomer.htm")).andExpect(status().isOk());
+        mvc.perform(post("/customer/deleteCustomer")).andExpect(status().isOk());
     }
 
     @Test
     void searchCustomer() throws Exception {
-        mvc.perform(post("/customer/searchCustomer.htm")).andExpect(status().isOk());
+        mvc.perform(post("/customer/searchCustomer")).andExpect(status().isOk());
     }
 }

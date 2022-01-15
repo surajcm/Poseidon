@@ -59,7 +59,7 @@ class UserControllerTest {
     }
 
     @Test
-    void saveMakeAjax() throws Exception {
+    void saveUserAjax() throws Exception {
         String selectName = "Apple";
         String selectLogin = "apple";
         String selectRole = "admin";

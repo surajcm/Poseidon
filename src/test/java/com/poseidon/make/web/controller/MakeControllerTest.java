@@ -66,29 +66,22 @@ class MakeControllerTest {
     }
 
     @Test
-    void testSaveModel() throws Exception {
-        mvc.perform(post("/make/saveModel.htm")).andExpect(status().isOk());
-        doThrow(new RuntimeException()).when(makeService).addNewModel(any());
-        mvc.perform(post("/make/saveModel.htm")).andExpect(status().isOk());
-    }
-
-    @Test
     void testSearchModel() throws Exception {
-        mvc.perform(post("/make/searchModel.htm")).andExpect(status().isOk());
+        mvc.perform(post("/make/searchModel")).andExpect(status().isOk());
         when(makeService.searchMakeVOs(any())).thenThrow(new RuntimeException());
-        mvc.perform(post("/make/searchModel.htm")).andExpect(status().isOk());
+        mvc.perform(post("/make/searchModel")).andExpect(status().isOk());
     }
 
     @Test
-    void saveMakeAjax() throws Exception {
+    void saveMake() throws Exception {
         var selectMakeName = "Apple";
         var selectMakeDesc = "Mac book";
-        mvc.perform(post("/make/saveMakeAjax.htm")
+        mvc.perform(post("/make/saveMake")
                 .param("selectMakeName", selectMakeName)
                 .param("selectMakeDesc", selectMakeDesc))
                 .andExpect(status().isOk());
         doThrow(new RuntimeException()).when(makeService).addNewMake(any());
-        mvc.perform(post("/make/saveMakeAjax.htm")
+        mvc.perform(post("/make/saveMake")
                 .param("selectMakeName", selectMakeName)
                 .param("selectMakeDesc", selectMakeDesc))
                 .andExpect(status().isOk());
@@ -98,7 +91,7 @@ class MakeControllerTest {
     void saveModelAjax() throws Exception {
         var selectMakeId = "1234";
         var selectModelName = "Mac book";
-        mvc.perform(post("/make/saveModelAjax.htm")
+        mvc.perform(post("/make/saveModelAjax")
                 .param("selectMakeId", selectMakeId)
                 .param("selectModelName", selectModelName))
                 .andExpect(status().isOk());

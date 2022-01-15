@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
 
 import java.io.IOException;
 import java.util.List;
@@ -107,78 +106,6 @@ public class MakeController {
     }
 
     /**
-     * .
-     * list all models
-     *
-     * @param makeForm makeForm
-     * @return view
-     */
-    private ModelAndView modelList(final MakeForm makeForm) {
-        var sanitizedMakeForm = CommonUtils.sanitizedString(makeForm.toString());
-        LOG.info("Inside List method of MakeController, form details are  {}",
-                sanitizedMakeForm);
-        var makeAndModelVOs = makeService.listAllMakesAndModels();
-        if (!makeAndModelVOs.isEmpty()) {
-            makeAndModelVOs.forEach(makeAndModelVO -> LOG.info(MAKE_AND_MODEL_VO_IS, makeAndModelVO));
-            makeForm.setMakeAndModelVOs(makeAndModelVOs);
-        }
-        var makeVOs = makeService.fetchMakes();
-        if (!makeVOs.isEmpty()) {
-            makeVOs.forEach(makeVO -> LOG.debug(MAKE_VO_IS, makeVO));
-            makeForm.setMakeVOs(makeVOs);
-        }
-        makeForm.setSearchMakeAndModelVO(new MakeAndModelVO());
-        makeForm.setLoggedInRole(makeForm.getLoggedInRole());
-        makeForm.setLoggedInUser(makeForm.getLoggedInUser());
-        return new ModelAndView(MODEL_LIST_PAGE, MAKE_FORM, makeForm);
-    }
-
-    /**
-     * list out makes.
-     *
-     * @param makeForm makeForm
-     * @return view
-     */
-    private ModelAndView makeList(final MakeForm makeForm) {
-        LOG.info(" listMake List method of MakeController ");
-        var makeAndModelVOs = makeService.listAllMakes();
-        if (!makeAndModelVOs.isEmpty()) {
-            makeAndModelVOs.forEach(makeAndModelVO -> LOG.debug(MAKE_AND_MODEL_VO_IS, makeAndModelVO));
-            makeForm.setMakeAndModelVOs(makeAndModelVOs);
-        }
-        var makeVOs = makeService.fetchMakes();
-        if (!makeVOs.isEmpty()) {
-            makeVOs.forEach(makeVO -> LOG.debug(MAKE_VO_IS, makeVO));
-            makeForm.setMakeVOs(makeVOs);
-        }
-        makeForm.setSearchMakeAndModelVO(new MakeAndModelVO());
-        makeForm.setLoggedInRole(makeForm.getLoggedInRole());
-        makeForm.setLoggedInUser(makeForm.getLoggedInUser());
-        return new ModelAndView(MAKE_LIST_PAGE, MAKE_FORM, makeForm);
-    }
-
-    @GetMapping("/make/getForEdit")
-    public @ResponseBody
-    String getForEdit(@ModelAttribute("id") final String id,
-                      final BindingResult result) {
-        var sanitizedId = CommonUtils.sanitizedString(id);
-        LOG.info("getForEdit method of make controller {}}", sanitizedId);
-        var makeVO = makeService.getModelFromId(Long.valueOf(id));
-        return makeVO.map(vo -> parseMakeAndModelVO(Map.of(vo.getMakeId(), vo.getModelName()))).orElse("");
-    }
-
-
-    @GetMapping("/make/makeForEdit")
-    public @ResponseBody
-    String makeForEdit(@ModelAttribute("id") final String id,
-                       final BindingResult result) {
-        var sanitizedId = CommonUtils.sanitizedString(id);
-        LOG.info("makeForEdit method of make controller {}", sanitizedId);
-        var makeVO = makeService.getMakeFromId(Long.valueOf(id));
-        return makeVO.map(vo -> parseMakeVO(Map.of(vo.getMakeName(), vo.getDescription()))).orElse("");
-    }
-
-    /**
      * delete a make.
      *
      * @param makeForm makeForm
@@ -186,7 +113,7 @@ public class MakeController {
      */
     @PostMapping("/make/deleteMake")
     @SuppressWarnings("unused")
-    public ModelAndView deleteMake(final MakeForm makeForm) {
+    public String deleteMake(final MakeForm makeForm, final Model model) {
         LOG.debug("DeleteMake method of MakeController ");
         var sanitizedMakeForm = CommonUtils.sanitizedString(makeForm.toString());
         LOG.debug(MAKE_FORM_IS, sanitizedMakeForm);
@@ -202,7 +129,7 @@ public class MakeController {
         makeForm.setLoggedInUser(makeForm.getLoggedInUser());
         makeForm.setLoggedInRole(makeForm.getLoggedInRole());
         makeForm.setCurrentMakeAndModeVO(new MakeAndModelVO());
-        return makeList(makeForm);
+        return makeListPage(makeForm, model);
     }
 
     /**
@@ -213,7 +140,7 @@ public class MakeController {
      */
     @PostMapping("/make/deleteModel")
     @SuppressWarnings("unused")
-    public ModelAndView deleteModel(final MakeForm makeForm) {
+    public String deleteModel(final MakeForm makeForm, final Model model) {
         LOG.debug("DeleteModel method of MakeController ");
         var sanitizedMakeForm = CommonUtils.sanitizedString(makeForm.toString());
         LOG.debug(MAKE_FORM_IS, sanitizedMakeForm);
@@ -229,29 +156,27 @@ public class MakeController {
         makeForm.setLoggedInUser(makeForm.getLoggedInUser());
         makeForm.setLoggedInRole(makeForm.getLoggedInRole());
         makeForm.setCurrentMakeAndModeVO(new MakeAndModelVO());
-        return modelList(makeForm);
+        return modelListPage(makeForm, model);
     }
 
-    /**
-     * save a model.
-     *
-     * @param makeForm makeForm
-     * @return view
-     */
-    @PostMapping("/make/saveModel.htm")
-    public ModelAndView saveModel(final MakeForm makeForm) {
-        var sanitizedMakeForm = CommonUtils.sanitizedString(makeForm.toString());
-        LOG.info("SaveModel makeForm instance to add to database {}",
-                sanitizedMakeForm);
-        if (makeForm.getCurrentMakeAndModeVO() != null) {
-            var userName = findLoggedInUsername();
-            makeForm.getCurrentMakeAndModeVO().setCreatedBy(userName);
-            makeForm.getCurrentMakeAndModeVO().setModifiedBy(userName);
-        }
-        makeService.addNewModel(makeForm.getCurrentMakeAndModeVO());
-        makeForm.setStatusMessage("Saved the new Model successfully");
-        makeForm.setStatusMessageType(SUCCESS);
-        return modelList(makeForm);
+    @GetMapping("/make/getForEdit")
+    public @ResponseBody
+    String getForEdit(@ModelAttribute("id") final String id,
+                      final BindingResult result) {
+        var sanitizedId = CommonUtils.sanitizedString(id);
+        LOG.info("getForEdit method of make controller {}}", sanitizedId);
+        var makeVO = makeService.getModelFromId(Long.valueOf(id));
+        return makeVO.map(vo -> parseMakeAndModelVO(Map.of(vo.getMakeId(), vo.getModelName()))).orElse("");
+    }
+
+    @GetMapping("/make/makeForEdit")
+    public @ResponseBody
+    String makeForEdit(@ModelAttribute("id") final String id,
+                       final BindingResult result) {
+        var sanitizedId = CommonUtils.sanitizedString(id);
+        LOG.info("makeForEdit method of make controller {}", sanitizedId);
+        var makeVO = makeService.getMakeFromId(Long.valueOf(id));
+        return makeVO.map(vo -> parseMakeVO(Map.of(vo.getMakeName(), vo.getDescription()))).orElse("");
     }
 
     /**
@@ -260,8 +185,8 @@ public class MakeController {
      * @param makeForm makeForm
      * @return view
      */
-    @PostMapping("/make/searchModel.htm")
-    public ModelAndView searchModel(final MakeForm makeForm) {
+    @PostMapping("/make/searchModel")
+    public String searchModel(final MakeForm makeForm, final Model model) {
         loggingFromSearch(makeForm);
         var makeVOs = makeService.searchMakeVOs(makeForm.getSearchMakeAndModelVO());
         makeForm.setStatusMessage("Found " + makeVOs.size() + " Models");
@@ -278,7 +203,8 @@ public class MakeController {
         var userName = findLoggedInUsername();
         makeForm.setLoggedInRole(makeForm.getLoggedInRole());
         makeForm.setLoggedInUser(makeForm.getLoggedInUser());
-        return new ModelAndView(MODEL_LIST_PAGE, MAKE_FORM, makeForm);
+        model.addAttribute(MAKE_FORM, makeForm);
+        return MODEL_LIST_PAGE;
     }
 
     /**
@@ -288,7 +214,7 @@ public class MakeController {
      * @return view
      */
     @PostMapping("/make/searchMake")
-    public ModelAndView searchMake(final MakeForm makeForm) {
+    public String searchMake(final MakeForm makeForm, final Model model) {
         loggingFromSearch(makeForm);
         var makeVOs = makeService.searchMake(makeForm.getSearchMakeAndModelVO());
         makeForm.setStatusMessage("Found " + makeVOs.size() + " Models");
@@ -305,7 +231,8 @@ public class MakeController {
         var userName = findLoggedInUsername();
         makeForm.setLoggedInRole(makeForm.getLoggedInRole());
         makeForm.setLoggedInUser(makeForm.getLoggedInUser());
-        return new ModelAndView(MAKE_LIST_PAGE, MAKE_FORM, makeForm);
+        model.addAttribute(MAKE_FORM, makeForm);
+        return MAKE_LIST_PAGE;
     }
 
     private void loggingFromSearch(final MakeForm makeForm) {
@@ -320,33 +247,23 @@ public class MakeController {
     }
 
     /**
-     * save make via ajax.
+     * save make.
      *
      * @param selectMakeName selectMakeName
      * @param selectMakeDesc selectMakeDesc
      * @param result         BindingResult
      * @return as json
      */
-    @PostMapping("/make/saveMakeAjax.htm")
+    @PostMapping("/make/saveMake")
     public @ResponseBody
-    String saveMakeAjax(@ModelAttribute("selectMakeName") final String selectMakeName,
-                        @ModelAttribute("selectMakeDesc") final String selectMakeDesc,
-                        final BindingResult result) {
-        LOG.info("SaveMakeAjax1 method of MakeController ");
+    String saveMake(@ModelAttribute("selectMakeName") final String selectMakeName,
+                    @ModelAttribute("selectMakeDesc") final String selectMakeDesc,
+                    final BindingResult result) {
+        LOG.info("SaveMake method of MakeController");
         var responseString = new StringBuilder();
         if (!result.hasErrors()) {
-            var sanitizedSelectMakeName = CommonUtils.sanitizedString(selectMakeName);
-            var sanitizedSelectMakeDesc = CommonUtils.sanitizedString(selectMakeDesc);
-            LOG.info("selectMakeName : {}", sanitizedSelectMakeName);
-            LOG.info("selectMakeDesc : {}", sanitizedSelectMakeDesc);
-            var userName = findLoggedInUsername();
-            var makeAndModelVO = new MakeAndModelVO();
-            makeAndModelVO.setMakeName(selectMakeName);
-            makeAndModelVO.setDescription(selectMakeDesc);
-            makeAndModelVO.setCreatedBy(userName);
-            makeAndModelVO.setModifiedBy(userName);
             var makeForm = new MakeForm();
-            makeForm.setCurrentMakeAndModeVO(makeAndModelVO);
+            makeForm.setCurrentMakeAndModeVO(populateMakeVO(selectMakeName, selectMakeDesc));
             makeService.addNewMake(makeForm.getCurrentMakeAndModeVO());
             var makes = makeService.fetchMakes();
             responseString.append(fetchJsonMakeList(makes));
@@ -354,6 +271,20 @@ public class MakeController {
             LOG.info("errors {}", result);
         }
         return responseString.toString();
+    }
+
+    private MakeAndModelVO populateMakeVO(final String selectMakeName, final String selectMakeDesc) {
+        var sanitizedSelectMakeName = CommonUtils.sanitizedString(selectMakeName);
+        var sanitizedSelectMakeDesc = CommonUtils.sanitizedString(selectMakeDesc);
+        LOG.info("selectMakeName : {}", sanitizedSelectMakeName);
+        LOG.info("selectMakeDesc : {}", sanitizedSelectMakeDesc);
+        var userName = findLoggedInUsername();
+        var makeAndModelVO = new MakeAndModelVO();
+        makeAndModelVO.setMakeName(selectMakeName);
+        makeAndModelVO.setDescription(selectMakeDesc);
+        makeAndModelVO.setCreatedBy(userName);
+        makeAndModelVO.setModifiedBy(userName);
+        return makeAndModelVO;
     }
 
     /**
@@ -364,7 +295,7 @@ public class MakeController {
      * @param result          result
      * @return json string
      */
-    @PostMapping("/make/saveModelAjax.htm")
+    @PostMapping("/make/saveModelAjax")
     public @ResponseBody
     String saveModelAjax(@ModelAttribute("selectMakeId") final Long selectMakeId,
                          @ModelAttribute("selectModelName") final String selectModelName,
@@ -372,17 +303,7 @@ public class MakeController {
         LOG.info("SaveModelAjax method of MakeController ");
         var responseString = new StringBuilder();
         if (!result.hasErrors()) {
-            var sanitizedSelectMakeId = CommonUtils.sanitizedString(selectMakeId.toString());
-            var sanitizedSelectModelName = CommonUtils.sanitizedString(selectModelName);
-            LOG.info("selectMakeId : {}", sanitizedSelectMakeId);
-            LOG.info("selectModelName : {}", sanitizedSelectModelName);
-            var userName = findLoggedInUsername();
-            var makeAndModelVO = new MakeAndModelVO();
-            makeAndModelVO.setMakeId(selectMakeId);
-            makeAndModelVO.setModelName(selectModelName);
-            makeAndModelVO.setCreatedBy(userName);
-            makeAndModelVO.setModifiedBy(userName);
-            makeService.addNewModel(makeAndModelVO);
+            makeService.addNewModel(populateModelVO(selectMakeId, selectModelName));
             var makeAndModelVOs = makeService.listAllMakesAndModels();
             responseString.append(fetchJsonModelList(makeAndModelVOs));
         } else {
@@ -391,14 +312,28 @@ public class MakeController {
         return responseString.toString();
     }
 
-    @GetMapping("/make/getAllMakeIdsAndNames.htm")
+    private MakeAndModelVO populateModelVO(final Long selectMakeId, final String selectModelName) {
+        var sanitizedSelectMakeId = CommonUtils.sanitizedString(selectMakeId.toString());
+        var sanitizedSelectModelName = CommonUtils.sanitizedString(selectModelName);
+        LOG.info("selectMakeId : {}", sanitizedSelectMakeId);
+        LOG.info("selectModelName : {}", sanitizedSelectModelName);
+        var userName = findLoggedInUsername();
+        var makeAndModelVO = new MakeAndModelVO();
+        makeAndModelVO.setMakeId(selectMakeId);
+        makeAndModelVO.setModelName(selectModelName);
+        makeAndModelVO.setCreatedBy(userName);
+        makeAndModelVO.setModifiedBy(userName);
+        return makeAndModelVO;
+    }
+
+    @GetMapping("/make/getAllMakeIdsAndNames")
     public @ResponseBody
     String getAllMakeIdsAndNames() {
         LOG.info("GetAllMakeIdsAndNames method of MakeController ");
         return fetchJsonAllMakes(makeService.fetchMakes());
     }
 
-    @PutMapping("/make/updateModelAjax.htm")
+    @PutMapping("/make/updateModelAjax")
     public @ResponseBody
     String updateModelAjax(@ModelAttribute("id") final Long id,
                            @ModelAttribute("modalMakeName") final Long makeId,
@@ -416,16 +351,16 @@ public class MakeController {
         return responseString.toString();
     }
 
-    @PutMapping("/make/updateMakeAjax.htm")
+    @PutMapping("/make/updateMake")
     public @ResponseBody
-    String updateMakeAjax(@ModelAttribute("id") final Long id,
+    String updateMake(@ModelAttribute("id") final Long id,
                           @ModelAttribute("makeName") final String makeName,
                           @ModelAttribute("description") final String description,
                           final BindingResult result) {
         var sanitizedId = CommonUtils.sanitizedString(id.toString());
         var sanitizedMakeName = CommonUtils.sanitizedString(makeName);
         var sanitizedDescription = CommonUtils.sanitizedString(description);
-        LOG.info("updateMakeAjax method of make controller with id {}, makeName {}, description {}",
+        LOG.info("updateMake method of make controller with id {}, makeName {}, description {}",
                 sanitizedId, sanitizedMakeName, sanitizedDescription);
         var responseString = new StringBuilder();
         var makeModelVO = buildMakeModelVO(id, makeName, description);
@@ -434,7 +369,9 @@ public class MakeController {
         return responseString.append(fetchJsonMakeList(makes)).toString();
     }
 
-    private MakeAndModelVO buildMakeModelVO(final Long id, final String makeName, final String description) {
+    private MakeAndModelVO buildMakeModelVO(final Long id,
+                                            final String makeName,
+                                            final String description) {
         var vo = new MakeAndModelVO();
         vo.setMakeId(id);
         vo.setMakeName(makeName);
@@ -511,7 +448,7 @@ public class MakeController {
     }
 
     public String findLoggedInUsername() {
-        String username = "";
+        var username = "";
         var auth = SecurityContextHolder.getContext().getAuthentication();
         if (auth != null) {
             username = auth.getName();

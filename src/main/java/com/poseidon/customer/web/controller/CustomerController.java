@@ -18,17 +18,13 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
 
 import java.io.IOException;
-import java.time.OffsetDateTime;
-import java.time.ZoneId;
 import java.util.List;
 import java.util.Optional;
 
 
 @Controller
-//@RequestMapping("/customer")
 @SuppressWarnings("unused")
 public class CustomerController {
     private static final Logger logger = LoggerFactory.getLogger(CustomerController.class);
@@ -53,26 +49,7 @@ public class CustomerController {
      * @param customerForm customerForm
      * @return view
      */
-    public ModelAndView list(final CustomerForm customerForm) {
-        logIncoming(customerForm);
-        List<CustomerVO> customerVOs = customerService.listAllCustomerDetails();
-        if (!customerVOs.isEmpty()) {
-            customerVOs.forEach(customerVO -> logger.info("customerVO is {}", customerVO));
-            customerForm.setCustomerVOs(customerVOs);
-        }
-        customerForm.setSearchCustomerVO(new CustomerVO());
-        customerForm.setLoggedInRole(customerForm.getLoggedInRole());
-        customerForm.setLoggedInUser(customerForm.getLoggedInUser());
-        return new ModelAndView("customer/CustomerList", CUSTOMER_FORM, customerForm);
-    }
-
-    /**
-     * list the customers.
-     *
-     * @param customerForm customerForm
-     * @return view
-     */
-    @PostMapping("/customer/List.htm")
+    @PostMapping("/customer/List")
     public String listAllCustomers(final CustomerForm customerForm, final Model model) {
         logIncoming(customerForm);
         List<CustomerVO> customerVOs = customerService.listAllCustomerDetails();
@@ -83,7 +60,7 @@ public class CustomerController {
         customerForm.setSearchCustomerVO(new CustomerVO());
         customerForm.setLoggedInRole(customerForm.getLoggedInRole());
         customerForm.setLoggedInUser(customerForm.getLoggedInUser());
-        model.addAttribute("customerForm", customerForm);
+        model.addAttribute(CUSTOMER_FORM, customerForm);
         return "customer/CustomerList";
     }
 
@@ -93,18 +70,13 @@ public class CustomerController {
         logger.info("Form details are {}", sanitizedForm);
     }
 
-    @GetMapping("/customer/getForEdit.htm")
+    @GetMapping("/customer/getForEdit")
     public @ResponseBody
     String getForEdit(@ModelAttribute("id") final String id,
                       final BindingResult result) {
         var sanitizedId = CommonUtils.sanitizedString(id);
         logger.info("getForEdit method of user controller : {}", sanitizedId);
-        String response = null;
-        var customerVO = getCustomerVOFromId(Long.valueOf(id));
-        if (customerVO.isPresent()) {
-            response = convertToJson(customerVO.get());
-        }
-        return response;
+        return getCustomerVOFromId(Long.valueOf(id)).map(this::convertToJson).orElse("");
     }
 
     /**
@@ -113,8 +85,8 @@ public class CustomerController {
      * @param customerForm customerForm
      * @return view
      */
-    @PostMapping("/customer/deleteCust.htm")
-    public ModelAndView deleteCustomer(final CustomerForm customerForm) {
+    @PostMapping("/customer/deleteCustomer")
+    public String deleteCustomer(final CustomerForm customerForm, final Model model) {
         logger.info("DeleteCustomer method of CustomerController ");
         var sanitizedForm = CommonUtils.sanitizedString(customerForm.toString());
         logger.info(CUSTOMER_FORM_IS, sanitizedForm);
@@ -127,41 +99,12 @@ public class CustomerController {
             customerForm.setStatusMessageType(ERROR);
             logger.error(ex.getLocalizedMessage());
         }
-        return list(customerForm);
+        return listAllCustomers(customerForm, model);
     }
 
-    /**
-     * save the customer.
-     *
-     * @param customerForm customerForm
-     * @return view
-     */
-    @PostMapping("/customer/saveCustomer.htm")
-    public ModelAndView saveCustomer(final CustomerForm customerForm) {
-        logger.info("SaveCustomer method of CustomerController ");
-        var sanitizedForm = CommonUtils.sanitizedString(customerForm.toString());
-        logger.info(CUSTOMER_FORM_IS, sanitizedForm);
-        try {
-            var customerVO = customerForm.getCurrentCustomerVO();
-            customerVO.setCreatedBy(customerForm.getLoggedInUser());
-            customerVO.setModifiedBy(customerForm.getLoggedInUser());
-            //populate customer additional details
-            //todo: this need to be corrected at ui level later
-            customerVO.setCustomerAdditionalDetailsVO(populateAdditionalDetails(customerVO));
-            customerService.saveCustomer(customerVO);
-            customerForm.setStatusMessage("Added the new customer details successfully");
-            customerForm.setStatusMessageType(SUCCESS);
-        } catch (Exception ex) {
-            customerForm.setStatusMessage("Unable to add the new customer details due to a Data base error");
-            customerForm.setStatusMessageType(ERROR);
-            logger.error(ex.getLocalizedMessage());
-        }
-        return list(customerForm);
-    }
-
-    @PostMapping("/customer/saveCustomerAjax.htm")
+    @PostMapping("/customer/saveCustomer")
     public @ResponseBody
-    String saveCustomerAjax(@ModelAttribute("modalCustomerName") final String modalCustomerName,
+    String saveCustomer(@ModelAttribute("modalCustomerName") final String modalCustomerName,
                             @ModelAttribute("modalAddress") final String modalAddress,
                             @ModelAttribute("modalPhone") final String modalPhone,
                             @ModelAttribute("modalMobile") final String modalMobile,
@@ -215,9 +158,9 @@ public class CustomerController {
         return customerAdditionalDetailsVO;
     }
 
-    @PutMapping("/customer/updateCustomerAjax.htm")
+    @PutMapping("/customer/updateCustomer")
     public @ResponseBody
-    String updateCustomerAjax(@ModelAttribute("id") final String id,
+    String updateCustomer(@ModelAttribute("id") final String id,
                           @ModelAttribute("modalCustomerName") final String modalCustomerName,
                           @ModelAttribute("modalAddress") final String modalAddress,
                           @ModelAttribute("modalPhone") final String modalPhone,
@@ -231,7 +174,7 @@ public class CustomerController {
         var sanitizedName = CommonUtils.sanitizedString(modalCustomerName);
         var sanitizedAddress = CommonUtils.sanitizedString(modalAddress);
         var sanitizedEmail = CommonUtils.sanitizedString(modalEmail);
-        logger.info("updateCustomerAjax method of user controller with " +
+        logger.info("updateCustomer method of user controller with " +
                         "id {}, name {}, email {}, address {}",
                 sanitizedId, sanitizedName, sanitizedEmail, sanitizedAddress);
         try {
@@ -255,39 +198,13 @@ public class CustomerController {
     }
 
     /**
-     * update a customer.
-     *
-     * @param customerForm customerForm
-     * @return view
-     */
-    @PostMapping("/customer/updateCustomer.htm")
-    public ModelAndView updateCustomer(final CustomerForm customerForm) {
-        logger.info("UpdateCustomer method of CustomerController ");
-        var sanitizedForm = CommonUtils.sanitizedString(customerForm.toString());
-        logger.info(CUSTOMER_FORM_IS, sanitizedForm);
-        try {
-            var customerVO = customerForm.getCurrentCustomerVO();
-            customerVO.setModifiedOn(OffsetDateTime.now(ZoneId.systemDefault()));
-            customerVO.setModifiedBy(customerForm.getLoggedInUser());
-            customerService.updateCustomer(customerVO);
-            customerForm.setStatusMessage("Updated the selected customer details successfully");
-            customerForm.setStatusMessageType(SUCCESS);
-        } catch (Exception ex) {
-            customerForm.setStatusMessage("Unable to update the selected customer details due to a Data base error");
-            customerForm.setStatusMessageType(ERROR);
-            logger.error(ex.getLocalizedMessage());
-        }
-        return list(customerForm);
-    }
-
-    /**
      * search customer.
      *
      * @param customerForm customerForm
      * @return view
      */
-    @PostMapping("/customer/searchCustomer.htm")
-    public ModelAndView searchCustomer(final CustomerForm customerForm) {
+    @PostMapping("/customer/searchCustomer")
+    public String searchCustomer(final CustomerForm customerForm, final Model model) {
         logger.info("SearchCustomer method of CustomerController ");
         var sanitizedForm = CommonUtils.sanitizedString(customerForm.toString());
         logger.info(CUSTOMER_FORM_IS, sanitizedForm);
@@ -307,19 +224,15 @@ public class CustomerController {
         }
         customerForm.setLoggedInRole(customerForm.getLoggedInRole());
         customerForm.setLoggedInUser(customerForm.getLoggedInUser());
-        return new ModelAndView("customer/CustomerList", CUSTOMER_FORM, customerForm);
+        model.addAttribute(CUSTOMER_FORM, customerForm);
+        return "customer/CustomerList";
     }
 
-    @PostMapping("/customer/viewCustomer.htm")
+    @PostMapping("/customer/viewCustomer")
     public @ResponseBody
     String viewCustomer(@ModelAttribute("customerId") final String customerId) {
-        String response = null;
         var id = Long.parseLong(customerId);
-        var customerVO = getCustomerVOFromId(id);
-        if (customerVO.isPresent()) {
-            response = convertToJson(customerVO.get());
-        }
-        return response;
+        return getCustomerVOFromId(id).map(this::convertToJson).orElse("");
     }
 
     private String convertToJson(final CustomerVO customerVO) {

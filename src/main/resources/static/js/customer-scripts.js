@@ -5,7 +5,7 @@ function hideAlerts() {
 function search() {
     if (document.getElementById("customerId").value === ""
         || isNumber(document.getElementById("customerId").value)) {
-        document.forms[0].action = "searchCustomer.htm";
+        document.forms[0].action = "searchCustomer";
         document.forms[0].submit();
     } else {
         alert("Incorrect customerId format found, Please update the field with a numeric value");
@@ -47,7 +47,7 @@ function deleteRow() {
     if (answer) {
         let userRow = selectedRow();
         document.getElementById("id").value = userRow.cells[0].childNodes[0].value;
-        document.forms[0].action = "deleteCust.htm";
+        document.forms[0].action = "deleteCustomer";
         document.forms[0].submit();
     }
 }
@@ -62,13 +62,13 @@ function viewCustomer() {
 function viewRow() {
     let userRow = selectedRow();
     let customerId = userRow.cells[0].childNodes[0].value;
-    viewCustomerDetailsViaAjax(customerId);
+    viewCustomerDetails(customerId);
 }
 
 
-function viewCustomerDetailsViaAjax(customerId) {
+function viewCustomerDetails(customerId) {
     const xhr = new XMLHttpRequest();
-    xhr.open('POST', "viewCustomer.htm", true);
+    xhr.open('POST', "viewCustomer", true);
     const token = document.querySelector("meta[name='_csrf']").content;
     const header = document.querySelector("meta[name='_csrf_header']").content;
     //xhr.setRequestHeader(header, token);
@@ -284,7 +284,7 @@ function ajaxSaveCustomer(modalCustomerName,
                           modalContactMobile,
                           modalNotes) {
     let xhr = new XMLHttpRequest();
-    xhr.open('POST', "/customer/saveCustomerAjax.htm", true);
+    xhr.open('POST', "/customer/saveCustomer", true);
     let token = document.querySelector("meta[name='_csrf']").content;
     let header = document.querySelector("meta[name='_csrf_header']").content;
     //xhr.setRequestHeader(header, token);
@@ -390,7 +390,7 @@ function validateEditCustomerSelection() {
 function getCustomerForEdit() {
     let id = document.getElementById("id").value;
     let xhr = new XMLHttpRequest();
-    xhr.open('GET', "/customer/getForEdit.htm" + "?id=" + id, true);
+    xhr.open('GET', "/customer/getForEdit" + "?id=" + id, true);
     let token = document.querySelector("meta[name='_csrf']").content;
     let header = document.querySelector("meta[name='_csrf_header']").content;
     //xhr.setRequestHeader(header, token);
@@ -480,7 +480,7 @@ function callAjaxUpdate(modalCustomerName, modalAddress, modalPhone,
                         modalMobile, modalEmail, modalContact, modalContactMobile, modalNotes) {
     let id = document.getElementById("id").value;
     let xhr = new XMLHttpRequest();
-    xhr.open('PUT', "/customer/updateCustomerAjax.htm", true);
+    xhr.open('PUT', "/customer/updateCustomer", true);
     let token = document.querySelector("meta[name='_csrf']").content;
     let header = document.querySelector("meta[name='_csrf_header']").content;
     //xhr.setRequestHeader(header, token);

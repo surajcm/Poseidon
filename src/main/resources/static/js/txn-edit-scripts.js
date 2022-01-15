@@ -64,7 +64,7 @@ function editSmartCustomer() {
 function getCustomerForEdit() {
     let id = document.getElementById("customerVO.customerId").value;
     let xhr = new XMLHttpRequest();
-    xhr.open('GET', "/customer/getForEdit.htm" + "?id=" + id, true);
+    xhr.open('GET', "/customer/getForEdit" + "?id=" + id, true);
     let token = document.querySelector("meta[name='_csrf']").content;
     let header = document.querySelector("meta[name='_csrf_header']").content;
     xhr.setRequestHeader(header, token);
@@ -87,7 +87,7 @@ function callAjaxUpdate(modalCustomerName, modalAddress, modalPhone,
                         modalMobile, modalEmail, modalContact, modalContactMobile, modalNotes) {
     const id = document.getElementById("customerVO.customerId").value;
     let xhr = new XMLHttpRequest();
-    xhr.open('PUT', "/customer/updateCustomerAjax.htm", true);
+    xhr.open('PUT', "/customer/updateCustomer", true);
     let token = document.querySelector("meta[name='_csrf']").content;
     let header = document.querySelector("meta[name='_csrf_header']").content;
     xhr.setRequestHeader(header, token);

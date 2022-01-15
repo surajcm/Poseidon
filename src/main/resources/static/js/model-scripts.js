@@ -8,7 +8,7 @@ function listAllMake() {
 }
 
 function search() {
-    document.forms[0].action = "searchModel.htm";
+    document.forms[0].action = "searchModel";
     document.forms[0].submit();
 }
 
@@ -95,7 +95,7 @@ function selectedRow() {
 
 function getAllMakeIdsAndNames() {
     let xhr = new XMLHttpRequest();
-    xhr.open('GET', "/make/getAllMakeIdsAndNames.htm", true);
+    xhr.open('GET', "/make/getAllMakeIdsAndNames", true);
     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     xhr.onload = function () {
         if (xhr.status === 200) {
@@ -177,14 +177,14 @@ function saveFromModal() {
         }
     }
     if (allFieldsAreValid) {
-        ajaxSaveFromModal(modalMakeName, modalModelName);
+        saveFromModal(modalMakeName, modalModelName);
     }
 }
 
 
-function ajaxSaveFromModal(modalMakeName, modalModelName) {
+function saveFromModal(modalMakeName, modalModelName) {
     let xhr = new XMLHttpRequest();
-    xhr.open('POST', "/make/saveModelAjax.htm", true);
+    xhr.open('POST', "/make/saveModelAjax", true);
     let token = document.querySelector("meta[name='_csrf']").content;
     let header = document.querySelector("meta[name='_csrf_header']").content;
     //xhr.setRequestHeader(header, token);
@@ -387,7 +387,7 @@ function updateFromModal() {
 
 function callAjaxUpdate(productId, modalMakeName, modalModelName) {
     let xhr = new XMLHttpRequest();
-    xhr.open('PUT', "/make/updateModelAjax.htm", true);
+    xhr.open('PUT', "/make/updateModelAjax", true);
     let token = document.querySelector("meta[name='_csrf']").content;
     let header = document.querySelector("meta[name='_csrf_header']").content;
     //xhr.setRequestHeader(header, token);

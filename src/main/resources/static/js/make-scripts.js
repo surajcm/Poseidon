@@ -205,13 +205,13 @@ function saveFromModal() {
         }
     }
     if (allFieldsAreValid) {
-        ajaxSaveFromModal(modalMakeName, modalDescription);
+        saveFromModal(modalMakeName, modalDescription);
     }
 }
 
-function ajaxSaveFromModal(modalMakeName, modalDescription) {
+function saveFromModal(modalMakeName, modalDescription) {
     let xhr = new XMLHttpRequest();
-    xhr.open('POST', "/make/saveMakeAjax.htm", true);
+    xhr.open('POST', "/make/saveMake", true);
     let token = document.querySelector("meta[name='_csrf']").content;
     let header = document.querySelector("meta[name='_csrf_header']").content;
     //xhr.setRequestHeader(header, token);
@@ -333,7 +333,7 @@ function updateFromModal() {
 
 function callAjaxMakeUpdate(productId, makeName, description) {
     let xhr = new XMLHttpRequest();
-    xhr.open('PUT', "/make/updateMakeAjax.htm", true);
+    xhr.open('PUT', "/make/updateMake", true);
     let token = document.querySelector("meta[name='_csrf']").content;
     let header = document.querySelector("meta[name='_csrf_header']").content;
     //xhr.setRequestHeader(header, token);

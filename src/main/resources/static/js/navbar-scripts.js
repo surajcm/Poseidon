@@ -24,7 +24,7 @@ function fetchModels() {
 }
 
 function fetchCustomers() {
-    document.forms[0].action = "/customer/List.htm";
+    document.forms[0].action = "/customer/List";
     document.forms[0].submit();
 }
 
