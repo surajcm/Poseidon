@@ -16,7 +16,7 @@ function fetchCallReport() {
     }
     if (valid) {
         document.forms[0].target = 'reportContent';
-        document.forms[0].action = 'getCallReport.htm';
+        document.forms[0].action = 'callReport';
         document.forms[0].submit();
         document.forms[0].target = '';
     }
@@ -26,7 +26,7 @@ function fetchMakeReport() {
     const callExportValue = document.getElementById('makeExportValue');
     document.getElementById('exportTo').value = callExportValue.options[callExportValue.selectedIndex].text;
     document.forms[0].target = 'reportContent';
-    document.forms[0].action = 'getMakeDetailsReport.htm';
+    document.forms[0].action = 'makeDetailsReport';
     document.forms[0].submit();
     document.forms[0].target = '';
 }
@@ -45,7 +45,7 @@ function fetchModelListReport() {
     if (valid) {
         document.getElementById('exportTo').value = callExportValue.options[callExportValue.selectedIndex].text;
         document.forms[0].target = 'reportContent';
-        document.forms[0].action = 'getModelListReport.htm';
+        document.forms[0].action = 'modelListReport';
         document.forms[0].submit();
         document.forms[0].target = '';
     }
@@ -55,7 +55,7 @@ function fetchTransactionsListReport() {
     const txnExportValue1 = document.getElementById('txnExportValue1');
     document.getElementById('exportTo').value = txnExportValue1.options[txnExportValue1.selectedIndex].text;
     document.forms[0].target = 'reportContent';
-    document.forms[0].action = 'getTransactionsListReport.htm';
+    document.forms[0].action = 'transactionsListReport';
     document.forms[0].submit();
     document.forms[0].target = '';
 }
@@ -76,7 +76,7 @@ function fetchInvoiceReport() {
     }
     if (valid) {
         document.forms[0].target = 'reportContent';
-        document.forms[0].action = 'getInvoiceReport.htm';
+        document.forms[0].action = 'invoiceReport';
         document.forms[0].submit();
         document.forms[0].target = '';
     }

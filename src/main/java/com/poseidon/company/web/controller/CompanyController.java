@@ -28,7 +28,7 @@ public class CompanyController {
      *
      * @return on error
      */
-    @PostMapping("/company/Company.htm")
+    @PostMapping("/company/Company")
     public String list(final Model model) {
         LOG.info("Inside Company method of CompanyTermsController");
         var companyTermsVO = fetchCompanyTerms();
@@ -41,7 +41,7 @@ public class CompanyController {
      *
      * @return view
      */
-    @PostMapping("/company/updateCompanyDetails.htm")
+    @PostMapping("/company/updateCompanyDetails")
     public String updateCompanyDetails(@ModelAttribute final CompanyTermsVO companyTermsVO, final Model model) {
         LOG.info(" Inside editTerms method of CompanyTermsController");
         var updatedCompanyTermsVO = updateCompanyTermsVO(companyTermsVO);

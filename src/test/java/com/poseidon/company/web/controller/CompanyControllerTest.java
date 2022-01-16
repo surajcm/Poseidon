@@ -37,27 +37,27 @@ class CompanyControllerTest {
 
     @Test
     void listNormal() throws Exception {
-        mvc.perform(post("/company/Company.htm")).andExpect(status().isOk());
+        mvc.perform(post("/company/Company")).andExpect(status().isOk());
         when(companyTermsService.listCompanyTerms()).thenThrow(new RuntimeException());
-        mvc.perform(post("/company/Company.htm")).andExpect(status().isOk());
+        mvc.perform(post("/company/Company")).andExpect(status().isOk());
     }
 
     @Test
     void list() throws Exception {
         when(companyTermsService.listCompanyTerms()).thenReturn(Optional.of(new CompanyTermsVO()));
-        mvc.perform(post("/company/Company.htm")).andExpect(status().isOk());
+        mvc.perform(post("/company/Company")).andExpect(status().isOk());
     }
 
     @Test
     void updateCompanyDetailsSuccess() throws Exception {
-        mvc.perform(post("/company/updateCompanyDetails.htm")).andExpect(status().isOk());
+        mvc.perform(post("/company/updateCompanyDetails")).andExpect(status().isOk());
         when(companyTermsService.updateCompanyDetails(any())).thenThrow(new RuntimeException());
-        mvc.perform(post("/company/updateCompanyDetails.htm")).andExpect(status().isOk());
+        mvc.perform(post("/company/updateCompanyDetails")).andExpect(status().isOk());
     }
 
     @Test
     void updateCompanyDetails() throws Exception {
         when(companyTermsService.updateCompanyDetails(any())).thenReturn(Optional.of(new CompanyTermsVO()));
-        mvc.perform(post("/company/updateCompanyDetails.htm")).andExpect(status().isOk());
+        mvc.perform(post("/company/updateCompanyDetails")).andExpect(status().isOk());
     }
 }

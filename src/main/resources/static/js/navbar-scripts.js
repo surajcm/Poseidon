@@ -29,7 +29,7 @@ function fetchCustomers() {
 }
 
 function fetchCompany() {
-    document.forms[0].action = "/company/Company.htm";
+    document.forms[0].action = "/company/Company";
     document.forms[0].submit();
 }
 
@@ -44,6 +44,6 @@ function fetchReport() {
 }
 
 function fetchInvoice() {
-    document.forms[0].action = "/invoice/ListInvoice.htm";
+    document.forms[0].action = "/invoice/ListInvoice";
     document.forms[0].submit();
 }

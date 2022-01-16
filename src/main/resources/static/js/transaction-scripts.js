@@ -127,7 +127,7 @@ function deleteRow() {
 
 function callAjaxForAddingInvoice(addTagNumber, addDescription, addQuantity, addRate, addAmount) {
     let xhr = new XMLHttpRequest();
-    xhr.open('POST', "/invoice/saveInvoiceAjaxForTxn.htm", true);
+    xhr.open('POST', "/invoice/saveInvoiceForTxn", true);
     let token = document.querySelector("meta[name='_csrf']").content;
     let header = document.querySelector("meta[name='_csrf_header']").content;
     //xhr.setRequestHeader(header, token);

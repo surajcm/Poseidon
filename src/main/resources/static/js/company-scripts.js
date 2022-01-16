@@ -57,7 +57,7 @@ function makeEverythingReadOnly() {
 }
 
 function updateCompanyDetails() {
-    document.forms[0].action = "updateCompanyDetails.htm";
+    document.forms[0].action = "updateCompanyDetails";
     document.forms[0].submit();
 }
 
@@ -73,6 +73,6 @@ function clearOut() {
 }
 
 function cancelMe() {
-    document.forms[0].action = "List.htm";
+    document.forms[0].action = "Company";
     document.forms[0].submit();
 }

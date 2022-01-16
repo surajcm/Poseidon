@@ -55,7 +55,7 @@ public class InvoiceController {
      * @param invoiceForm InvoiceForm
      * @return ModelAndView
      */
-    @PostMapping("/invoice/ListInvoice.htm")
+    @PostMapping("/invoice/ListInvoice")
     public String listInvoice(final InvoiceForm invoiceForm, final Model model) {
         log.info("Inside ListInvoice method of InvoiceController ");
         List<InvoiceVO> invoiceVOs;
@@ -76,16 +76,16 @@ public class InvoiceController {
         return LIST_INVOICE;
     }
 
-    @PostMapping("/invoice/saveInvoiceAjax.htm")
+    @PostMapping("/invoice/saveInvoice")
     public @ResponseBody
-    String saveInvoiceAjax(@ModelAttribute("addTagNumber") final String addTagNumber,
+    String saveInvoice(@ModelAttribute("addTagNumber") final String addTagNumber,
                            @ModelAttribute("addDescription") final String addDescription,
                            @ModelAttribute("addQuantity") final String addQuantity,
                            @ModelAttribute("addRate") final String addRate,
                            @ModelAttribute("addAmount") final String addAmount,
                            final BindingResult result) {
         //todo:error handling
-        log.info("saveInvoiceAjax method of invoice controller ");
+        log.info("saveInvoice method of invoice controller ");
         try {
             var invoiceVO = populateInvoiceVO(addTagNumber, addDescription, addQuantity, addRate, addAmount);
             var id = invoiceService.addInvoice(invoiceVO);
@@ -99,16 +99,16 @@ public class InvoiceController {
         return parseInvoices(invoiceVOs);
     }
 
-    @PostMapping("/invoice/saveInvoiceAjaxForTxn.htm")
+    @PostMapping("/invoice/saveInvoiceForTxn")
     public @ResponseBody
-    String saveInvoiceAjaxForTxn(@ModelAttribute("addTagNumber") final String addTagNumber,
+    String saveInvoiceForTxn(@ModelAttribute("addTagNumber") final String addTagNumber,
                            @ModelAttribute("addDescription") final String addDescription,
                            @ModelAttribute("addQuantity") final String addQuantity,
                            @ModelAttribute("addRate") final String addRate,
                            @ModelAttribute("addAmount") final String addAmount,
                            final BindingResult result) {
         //todo:error handling
-        log.info("saveInvoiceAjaxForTxn method of invoice controller ");
+        log.info("saveInvoiceForTxn method of invoice controller ");
         try {
             var invoiceVO = populateInvoiceVO(addTagNumber, addDescription, addQuantity, addRate, addAmount);
             var id = invoiceService.addInvoice(invoiceVO);
@@ -139,14 +139,14 @@ public class InvoiceController {
         return invoiceVO;
     }
 
-    @GetMapping("/invoice/tagNumbers.htm")
+    @GetMapping("/invoice/tagNumbers")
     public @ResponseBody
     String tagNumbers() {
         List<String> tags = invoiceService.allTagNumbers();
         return parseTagNumbers(tags);
     }
 
-    @GetMapping("/invoice/getForEdit.htm")
+    @GetMapping("/invoice/getForEdit")
     public @ResponseBody
     String getForEdit(@ModelAttribute("id") final String id,
                       final BindingResult result) {
@@ -166,7 +166,7 @@ public class InvoiceController {
      * @param invoiceForm InvoiceForm
      * @return ModelAndView
      */
-    @PostMapping("/invoice/DeleteInvoice.htm")
+    @PostMapping("/invoice/DeleteInvoice")
     public ModelAndView deleteInvoice(final InvoiceForm invoiceForm) {
         log.info("Inside deleteInvoice method of InvoiceController ");
         log.info(INVOICE_FORM_DETAILS, invoiceForm);
@@ -197,7 +197,7 @@ public class InvoiceController {
      * @param invoiceForm InvoiceForm
      * @return ModelAndView
      */
-    @PostMapping("/invoice/SearchInvoice.htm")
+    @PostMapping("/invoice/SearchInvoice")
     public ModelAndView searchInvoice(final InvoiceForm invoiceForm) {
         log.info("Inside searchInvoice method of InvoiceController ");
         log.info(INVOICE_FORM_DETAILS, invoiceForm);
@@ -210,9 +210,9 @@ public class InvoiceController {
         return new ModelAndView(LIST_INVOICE, INVOICE_FORM, invoiceForm);
     }
 
-    @PutMapping("/invoice/updateInvoiceAjax.htm")
+    @PutMapping("/invoice/updateInvoice")
     public @ResponseBody
-    String updateInvoiceAjax(@ModelAttribute("id") final Long id,
+    String updateInvoice(@ModelAttribute("id") final Long id,
                              @ModelAttribute("addTagNumber") final String addTagNumber,
                              @ModelAttribute("addDescription") final String addDescription,
                              @ModelAttribute("addQuantity") final String addQuantity,
@@ -220,7 +220,7 @@ public class InvoiceController {
                              @ModelAttribute("addAmount") final String addAmount,
                              final BindingResult result) {
         //todo:error handling
-        log.info("updateInvoiceAjax method of invoice controller ");
+        log.info("updateInvoice method of invoice controller ");
         try {
             var invoiceVO = populateInvoiceVO(addTagNumber, addDescription, addQuantity, addRate, addAmount);
             invoiceVO.setId(id);
@@ -232,7 +232,7 @@ public class InvoiceController {
         return parseInvoices(invoiceVOs);
     }
 
-    @GetMapping("/invoice/addInvoiceOnAjax.htm")
+    @GetMapping("/invoice/addInvoice")
     public @ResponseBody
     String getInvoiceOfTransaction(final Long id) {
         var makeName = "";

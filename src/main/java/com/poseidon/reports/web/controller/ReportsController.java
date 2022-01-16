@@ -115,17 +115,17 @@ public class ReportsController {
     }
 
     /**
-     * getMakeDetailsReport.
+     * makeDetailsReport.
      *
      * @param httpServletRequest  HttpServletRequest
      * @param httpServletResponse HttpServletResponse
      * @param reportsForm         ReportsForm
      */
-    @RequestMapping(value = "/reports/getMakeDetailsReport.htm", method = {RequestMethod.GET, RequestMethod.POST})
-    public void getMakeDetailsReport(final HttpServletRequest httpServletRequest,
+    @RequestMapping(value = "/reports/makeDetailsReport", method = {RequestMethod.GET, RequestMethod.POST})
+    public void makeDetailsReport(final HttpServletRequest httpServletRequest,
                                      final HttpServletResponse httpServletResponse,
                                      final ReportsForm reportsForm) {
-        LOG.info("GetMakeDetailsReport method of ReportsController ");
+        LOG.info("MakeDetailsReport method of ReportsController ");
         var sanitizedReportsForm = CommonUtils.sanitizedString(reportsForm.toString());
         LOG.info(FORM_DETAILS, sanitizedReportsForm);
         try {
@@ -146,17 +146,17 @@ public class ReportsController {
     }
 
     /**
-     * getCallReport.
+     * CallReport.
      *
      * @param httpServletRequest  HttpServletRequest
      * @param httpServletResponse HttpServletResponse
      * @param reportsForm         ReportsForm
      */
-    @RequestMapping(value = "/reports/getCallReport.htm", method = {RequestMethod.GET, RequestMethod.POST})
-    public void getCallReport(final HttpServletRequest httpServletRequest,
+    @RequestMapping(value = "/reports/callReport", method = {RequestMethod.GET, RequestMethod.POST})
+    public void callReport(final HttpServletRequest httpServletRequest,
                               final HttpServletResponse httpServletResponse,
                               final ReportsForm reportsForm) {
-        LOG.info("GetCallReport method of ReportsController ");
+        LOG.info("callReport method of ReportsController ");
         var sanitizedReportsForm = CommonUtils.sanitizedString(reportsForm.toString());
         LOG.info(FORM_DETAILS, sanitizedReportsForm);
         try {
@@ -175,17 +175,17 @@ public class ReportsController {
     }
 
     /**
-     * getTransactionsListReport.
+     * transactionsListReport.
      *
      * @param httpServletRequest  HttpServletRequest
      * @param httpServletResponse HttpServletResponse
      * @param reportsForm         ReportsForm
      */
-    @RequestMapping(value = "/reports/getTransactionsListReport.htm", method = {RequestMethod.GET, RequestMethod.POST})
-    public void getTransactionsListReport(final HttpServletRequest httpServletRequest,
+    @RequestMapping(value = "/reports/transactionsListReport", method = {RequestMethod.GET, RequestMethod.POST})
+    public void transactionsListReport(final HttpServletRequest httpServletRequest,
                                           final HttpServletResponse httpServletResponse,
                                           final ReportsForm reportsForm) {
-        LOG.info("GetTransactionsListReport method of ReportsController ");
+        LOG.info("TransactionsListReport method of ReportsController ");
         var sanitizedReportsForm = CommonUtils.sanitizedString(reportsForm.toString());
         LOG.info(FORM_DETAILS, sanitizedReportsForm);
         try {
@@ -231,11 +231,11 @@ public class ReportsController {
      * @param httpServletResponse HttpServletResponse
      * @param reportsForm         ReportsForm
      */
-    @RequestMapping(value = "/reports/getModelListReport.htm", method = {RequestMethod.GET, RequestMethod.POST})
+    @RequestMapping(value = "/reports/modelListReport", method = {RequestMethod.GET, RequestMethod.POST})
     public void getModelListReport(final HttpServletRequest httpServletRequest,
                                    final HttpServletResponse httpServletResponse,
                                    final ReportsForm reportsForm) {
-        LOG.info("GetModelListReport method of ReportsController ");
+        LOG.info("ModelListReport method of ReportsController ");
         var sanitizedReportsForm = CommonUtils.sanitizedString(reportsForm.toString());
         LOG.info(FORM_DETAILS, sanitizedReportsForm);
         try {
@@ -255,17 +255,17 @@ public class ReportsController {
     }
 
     /**
-     * getInvoiceReport.
+     * invoiceReport.
      *
      * @param httpServletRequest  HttpServletRequest
      * @param httpServletResponse HttpServletResponse
      * @param reportsForm         ReportsForm
      */
-    @RequestMapping(value = "/reports/getInvoiceReport.htm", method = {RequestMethod.GET, RequestMethod.POST})
+    @RequestMapping(value = "/reports/invoiceReport", method = {RequestMethod.GET, RequestMethod.POST})
     public void getInvoiceReport(final HttpServletRequest httpServletRequest,
                                  final HttpServletResponse httpServletResponse,
                                  final ReportsForm reportsForm) {
-        LOG.info("GetInvoiceReport method of ReportsController ");
+        LOG.info("InvoiceReport method of ReportsController ");
         var sanitizedReportsForm = CommonUtils.sanitizedString(reportsForm.toString());
         LOG.info(FORM_DETAILS, sanitizedReportsForm);
         try {
@@ -290,11 +290,11 @@ public class ReportsController {
      * @param httpServletResponse HttpServletResponse
      * @param reportsForm         ReportsForm
      */
-    @RequestMapping(value = "/reports/getErrorReport.htm", method = {RequestMethod.GET, RequestMethod.POST})
+    @RequestMapping(value = "/reports/errorReport", method = {RequestMethod.GET, RequestMethod.POST})
     public void getErrorReport(final HttpServletRequest httpServletRequest,
                                final HttpServletResponse httpServletResponse,
                                final ReportsForm reportsForm) {
-        LOG.info("GetErrorReport method of ReportsController ");
+        LOG.info("ErrorReport method of ReportsController ");
         var sanitizedReportsForm = CommonUtils.sanitizedString(reportsForm.toString());
         LOG.info(FORM_DETAILS, sanitizedReportsForm);
         try {

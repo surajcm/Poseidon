@@ -58,7 +58,7 @@ class ReportsServiceTest {
     }
 
     @Test
-    void getCallReportSuccess() throws JRException {
+    void callReportSuccess() throws JRException {
         when(reportsDAO.getCallReport(any(), any(), any())).thenReturn(Mockito.mock(JasperPrint.class));
         Assertions.assertNotNull(reportsService.getCallReport(
                 Mockito.mock(JasperReport.class), new ReportsVO()));

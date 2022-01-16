@@ -45,32 +45,32 @@ class ReportsControllerTest {
     }
 
     @Test
-    void getMakeDetailsReport() throws Exception {
-        mvc.perform(post("/reports/getMakeDetailsReport.htm")).andExpect(status().isOk());
+    void makeDetailsReport() throws Exception {
+        mvc.perform(post("/reports/makeDetailsReport")).andExpect(status().isOk());
     }
 
     @Test
-    void getCallReport() throws Exception {
-        mvc.perform(post("/reports/getCallReport.htm")).andExpect(status().isOk());
+    void callReport() throws Exception {
+        mvc.perform(post("/reports/callReport")).andExpect(status().isOk());
     }
 
     @Test
     void getTransactionsListReport() throws Exception {
-        mvc.perform(post("/reports/getTransactionsListReport.htm")).andExpect(status().isOk());
+        mvc.perform(post("/reports/transactionsListReport")).andExpect(status().isOk());
     }
 
     @Test
     void getModelListReport() throws Exception {
-        mvc.perform(post("/reports/getModelListReport.htm")).andExpect(status().isOk());
+        mvc.perform(post("/reports/modelListReport")).andExpect(status().isOk());
     }
 
     @Test
     void getErrorReport() throws Exception {
-        mvc.perform(post("/reports/getErrorReport.htm")).andExpect(status().isOk());
+        mvc.perform(post("/reports/errorReport")).andExpect(status().isOk());
     }
 
     @Test
     void getInvoiceReport() throws Exception {
-        mvc.perform(post("/reports/getInvoiceReport.htm")).andExpect(status().isOk());
+        mvc.perform(post("/reports/invoiceReport")).andExpect(status().isOk());
     }
 }

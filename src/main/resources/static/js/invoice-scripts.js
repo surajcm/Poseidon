@@ -3,7 +3,7 @@ function hideAlerts() {
 }
 
 function search() {
-    document.forms[0].action = "SearchInvoice.htm";
+    document.forms[0].action = "SearchInvoice";
     document.forms[0].submit();
 }
 
@@ -47,7 +47,7 @@ function deleteRow() {
         if (document.getElementById('amount').value.length === 0) {
             document.getElementById('amount').value = "0.0";
         }
-        document.forms[0].action = "DeleteInvoice.htm";
+        document.forms[0].action = "DeleteInvoice";
         document.forms[0].submit();
     }
 
@@ -117,7 +117,7 @@ function editInvoiceModal() {
 function getInvoiceForEdit() {
     let id = document.getElementById("id").value;
     let xhr = new XMLHttpRequest();
-    xhr.open('GET', "/invoice/getForEdit.htm" + "?id=" + id, true);
+    xhr.open('GET', "/invoice/getForEdit" + "?id=" + id, true);
     let token = document.querySelector("meta[name='_csrf']").content;
     let header = document.querySelector("meta[name='_csrf_header']").content;
     //xhr.setRequestHeader(header, token);
@@ -214,7 +214,7 @@ function updateFromModal() {
 function callAjaxUpdate(addTagNumber, addDescription, addQuantity, addRate, addAmount) {
     let id = document.getElementById("id").value;
     let xhr = new XMLHttpRequest();
-    xhr.open('PUT', "/invoice/updateInvoiceAjax.htm", true);
+    xhr.open('PUT', "/invoice/updateInvoice", true);
     let token = document.querySelector("meta[name='_csrf']").content;
     let header = document.querySelector("meta[name='_csrf_header']").content;
     //xhr.setRequestHeader(header, token);
@@ -252,7 +252,7 @@ function showUpdateStatus(status) {
 
 function callAjaxForAddingInvoice(addTagNumber, addDescription, addQuantity, addRate, addAmount) {
     let xhr = new XMLHttpRequest();
-    xhr.open('POST', "/invoice/saveInvoiceAjax.htm", true);
+    xhr.open('POST', "/invoice/saveInvoice", true);
     let token = document.querySelector("meta[name='_csrf']").content;
     let header = document.querySelector("meta[name='_csrf_header']").content;
     //xhr.setRequestHeader(header, token);
