@@ -70,7 +70,7 @@ public class ReportsController {
      * @param reportsForm form
      * @return view
      */
-    @PostMapping("/reports/List")
+    @PostMapping("/reports/list")
     public String list(final ReportsForm reportsForm, final Model model) {
         var sanitizedReportsForm = CommonUtils.sanitizedString(reportsForm.toString());
         LOG.info("List method of ReportsController, form details are : {}",

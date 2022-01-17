@@ -40,10 +40,10 @@ class MakeControllerTest {
     @Test
     void modelList() throws Exception {
         when(makeService.listAllMakesAndModels()).thenReturn(mockMakeAndModelVOs());
-        mvc.perform(post("/make/ModelList")).andExpect(status().isOk());
+        mvc.perform(post("/make/modelList")).andExpect(status().isOk());
         when(makeService.listAllMakesAndModels()).thenThrow(new RuntimeException());
         when(makeService.fetchMakes()).thenThrow(new RuntimeException());
-        mvc.perform(post("/make/ModelList")).andExpect(status().isOk());
+        mvc.perform(post("/make/modelList")).andExpect(status().isOk());
     }
 
     @Test
@@ -88,10 +88,10 @@ class MakeControllerTest {
     }
 
     @Test
-    void saveModelAjax() throws Exception {
+    void saveModel() throws Exception {
         var selectMakeId = "1234";
         var selectModelName = "Mac book";
-        mvc.perform(post("/make/saveModelAjax")
+        mvc.perform(post("/make/saveModel")
                 .param("selectMakeId", selectMakeId)
                 .param("selectModelName", selectModelName))
                 .andExpect(status().isOk());

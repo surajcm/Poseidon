@@ -35,12 +35,12 @@ class UserControllerTest {
 
     @Test
     void listAll() throws Exception {
-        mvc.perform(post("/user/ListAll")).andExpect(status().isOk());
+        mvc.perform(post("/user/listAll")).andExpect(status().isOk());
     }
 
     @Test
     void deleteUser() throws Exception {
-        mvc.perform(post("/user/DeleteUser")).andExpect(status().isOk());
+        mvc.perform(post("/user/deleteUser")).andExpect(status().isOk());
     }
 
     @Test
@@ -50,20 +50,20 @@ class UserControllerTest {
 
     @Test
     void logMeOut() throws Exception {
-        mvc.perform(post("/LogMeOut")).andExpect(status().isOk());
+        mvc.perform(post("/logMeOut")).andExpect(status().isOk());
     }
 
     @Test
     void searchUser() throws Exception {
-        mvc.perform(post("/user/SearchUser")).andExpect(status().isOk());
+        mvc.perform(post("/user/searchUser")).andExpect(status().isOk());
     }
 
     @Test
-    void saveUserAjax() throws Exception {
+    void saveUser() throws Exception {
         String selectName = "Apple";
         String selectLogin = "apple";
         String selectRole = "admin";
-        mvc.perform(post("/user/saveUserAjax")
+        mvc.perform(post("/user/saveUser")
                         .param("selectName", selectName)
                         .param("selectLogin", selectLogin)
                         .param("selectRole", selectRole))

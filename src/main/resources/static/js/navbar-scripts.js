@@ -1,5 +1,5 @@
 function listMe() {
-    document.forms[0].action = "/user/ListAll";
+    document.forms[0].action = "/user/listAll";
     document.forms[0].submit();
 }
 
@@ -8,18 +8,18 @@ function goToHome() {
     document.forms[0].submit();
 }
 
-function LogMeOut() {
-    document.forms[0].action = "/LogMeOut";
+function logMeOut() {
+    document.forms[0].action = "/logMeOut";
     document.forms[0].submit();
 }
 
 function resetPassword() {
-    document.forms[0].action = "/user/PasswordReset";
+    document.forms[0].action = "/user/passwordReset";
     document.forms[0].submit();
 }
 
 function fetchModels() {
-    document.forms[0].action = "/make/ModelList";
+    document.forms[0].action = "/make/modelList";
     document.forms[0].submit();
 }
 
@@ -29,17 +29,17 @@ function fetchCustomers() {
 }
 
 function fetchCompany() {
-    document.forms[0].action = "/company/Company";
+    document.forms[0].action = "/company/company";
     document.forms[0].submit();
 }
 
 function fetchTransactions() {
-    document.forms[0].action = "/txs/List.htm";
+    document.forms[0].action = "/txs/listTransactions";
     document.forms[0].submit();
 }
 
 function fetchReport() {
-    document.forms[0].action = "/reports/List";
+    document.forms[0].action = "/reports/list";
     document.forms[0].submit();
 }
 

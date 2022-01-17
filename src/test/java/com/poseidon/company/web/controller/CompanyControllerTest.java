@@ -37,15 +37,15 @@ class CompanyControllerTest {
 
     @Test
     void listNormal() throws Exception {
-        mvc.perform(post("/company/Company")).andExpect(status().isOk());
+        mvc.perform(post("/company/company")).andExpect(status().isOk());
         when(companyTermsService.listCompanyTerms()).thenThrow(new RuntimeException());
-        mvc.perform(post("/company/Company")).andExpect(status().isOk());
+        mvc.perform(post("/company/company")).andExpect(status().isOk());
     }
 
     @Test
     void list() throws Exception {
         when(companyTermsService.listCompanyTerms()).thenReturn(Optional.of(new CompanyTermsVO()));
-        mvc.perform(post("/company/Company")).andExpect(status().isOk());
+        mvc.perform(post("/company/company")).andExpect(status().isOk());
     }
 
     @Test

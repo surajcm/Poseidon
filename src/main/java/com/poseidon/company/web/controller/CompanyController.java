@@ -28,7 +28,7 @@ public class CompanyController {
      *
      * @return on error
      */
-    @PostMapping("/company/Company")
+    @PostMapping("/company/company")
     public String list(final Model model) {
         LOG.info("Inside Company method of CompanyTermsController");
         var companyTermsVO = fetchCompanyTerms();

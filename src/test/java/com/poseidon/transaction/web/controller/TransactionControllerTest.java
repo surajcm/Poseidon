@@ -29,36 +29,36 @@ class TransactionControllerTest {
 
     @Test
     void listAll() throws Exception {
-        mvc.perform(post("/txs/List.htm")).andExpect(status().isOk());
+        mvc.perform(post("/txs/listTransactions")).andExpect(status().isOk());
     }
 
     @Test
     void addTxn() throws Exception {
-        mvc.perform(post("/txs/AddTxn.htm")).andExpect(status().isOk());
+        mvc.perform(post("/txs/addTxn")).andExpect(status().isOk());
     }
 
     @Test
     void saveTxn() throws Exception {
-        mvc.perform(post("/txs/SaveTxn.htm")).andExpect(status().isOk());
+        mvc.perform(post("/txs/saveTxn")).andExpect(status().isOk());
     }
 
     @Test
     void searchTxn() throws Exception {
-        mvc.perform(post("/txs/SearchTxn.htm")).andExpect(status().isOk());
+        mvc.perform(post("/txs/searchTxn")).andExpect(status().isOk());
     }
 
     @Test
     void editTxn() throws Exception {
-        mvc.perform(post("/txs/EditTxn.htm")).andExpect(status().isOk());
+        mvc.perform(post("/txs/editTxn")).andExpect(status().isOk());
     }
 
     @Test
     void updateTxn() throws Exception {
-        mvc.perform(post("/txs/updateTxn.htm")).andExpect(status().isOk());
+        mvc.perform(post("/txs/updateTxn")).andExpect(status().isOk());
     }
 
     @Test
     void deleteTxn() throws Exception {
-        mvc.perform(post("/txs/DeleteTxn.htm")).andExpect(status().isOk());
+        mvc.perform(post("/txs/deleteTxn")).andExpect(status().isOk());
     }
 }

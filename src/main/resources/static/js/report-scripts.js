@@ -82,32 +82,11 @@ function fetchInvoiceReport() {
     }
 }
 
-function changeTheInvoiceModel() {
-    const invoiceListMakeId = document.getElementById('invoiceListMakeId').value;
-    console.log(invoiceListMakeId);
-    const xhr = new XMLHttpRequest();
-    xhr.open('POST', "/txs/UpdateModelAjax.htm" + "?selectMakeId=" + invoiceListMakeId, true);
-    const token = document.querySelector("meta[name='_csrf']").content;
-    const header = document.querySelector("meta[name='_csrf_header']").content;
-    //xhr.setRequestHeader(header, token);
-    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-    xhr.onload = function () {
-        if (xhr.status === 200) {
-            if (xhr.responseText != null) {
-                stateChangeOnInvoice(xhr.responseText);
-            }
-        } else if (xhr.status !== 200) {
-            console.log('Request failed.  Returned status of ' + xhr.status);
-        }
-    };
-    xhr.send();
-}
-
 function changeTheModel() {
     const selectMakeId = document.getElementById('txnReportMakeId').value;
     console.log(selectMakeId);
     const xhr = new XMLHttpRequest();
-    xhr.open('POST', "/txs/UpdateModelAjax.htm" + "?selectMakeId=" + selectMakeId, true);
+    xhr.open('POST', "/txs/updateModel" + "?selectMakeId=" + selectMakeId, true);
     const token = document.querySelector("meta[name='_csrf']").content;
     const header = document.querySelector("meta[name='_csrf_header']").content;
     //xhr.setRequestHeader(header, token);

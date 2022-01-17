@@ -97,7 +97,7 @@ public class UserController {
      *
      * @return ModelAndView to render
      */
-    @PostMapping("/LogMeOut")
+    @PostMapping("/logMeOut")
     public String logMeOut(final HttpServletRequest request) {
         logger.info("Inside LogMeOut method of user controller");
         var session = request.getSession(false);
@@ -114,7 +114,7 @@ public class UserController {
      * @param userForm userForm instance
      * @return ModelAndView to render
      */
-    @PostMapping("/user/ListAll")
+    @PostMapping("/user/listAll")
     public String listAllUsers(@ModelAttribute final UserForm userForm, final Model model) {
         logger.info("ListAll method of user controller ");
         List<UserVO> userList = userService.getAllUserDetails();
@@ -137,7 +137,7 @@ public class UserController {
      * @param result      BindingResult
      * @return String
      */
-    @PostMapping("/user/saveUserAjax")
+    @PostMapping("/user/saveUser")
     public @ResponseBody
     String saveUser(@ModelAttribute("selectName") final String selectName,
                     @ModelAttribute("selectLogin") final String selectLogin,
@@ -156,7 +156,7 @@ public class UserController {
      * @param userForm userForm instance
      * @return ModelAndView to render
      */
-    @PostMapping("/user/SearchUser")
+    @PostMapping("/user/searchUser")
     public String searchUser(final UserForm userForm, final Model model) {
         logger.info(" Inside SearchUser method of user controller ");
         List<UserVO> userList = userService.searchUserDetails(userForm.getSearchUser(),
@@ -176,7 +176,7 @@ public class UserController {
         return USER_LIST;
     }
 
-    @PostMapping("/user/PasswordReset")
+    @PostMapping("/user/passwordReset")
     public String reset() {
         logger.info("Password reset view of user controller");
         return "user/PasswordReset";
@@ -257,7 +257,7 @@ public class UserController {
      * @param userForm userForm instance
      * @return ModelAndView to render
      */
-    @PostMapping("/user/DeleteUser")
+    @PostMapping("/user/deleteUser")
     public String deleteUser(final UserForm userForm, final Model model) {
         logger.info("Inside DeleteUser method of user controller ");
         try {

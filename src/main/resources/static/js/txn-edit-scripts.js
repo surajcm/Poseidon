@@ -15,20 +15,20 @@ function update() {
     } else {
         let model = document.getElementById('modelId');
         document.getElementById('modelId').value = model.value;
-        document.forms[0].action = "updateTxn.htm";
+        document.forms[0].action = "updateTxn";
         document.forms[0].submit();
     }
 }
 
 function cancel() {
-    document.forms[0].action = "List.htm";
+    document.forms[0].action = "listTransactions";
     document.forms[0].submit();
 }
 
 function changeTheModel() {
     const selectMakeId = document.getElementById('makeId').value;
     let xhr = new XMLHttpRequest();
-    xhr.open('POST', "/txs/UpdateModelAjax.htm", true);
+    xhr.open('POST', "/txs/updateModel", true);
     let token = document.querySelector("meta[name='_csrf']").content;
     let header = document.querySelector("meta[name='_csrf_header']").content;
     //xhr.setRequestHeader(header, token);

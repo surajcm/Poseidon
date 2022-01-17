@@ -19,7 +19,7 @@
     <script type="text/javascript" src="/js/navbar-scripts.js"></script>
 </head>
 <body onload="hideAlerts()">
-    <form method="POST" action="listAll.htm" th:object="${userForm}">
+    <form method="POST" action="/user/listAll" th:object="${userForm}">
         <input type="hidden" name="id" id="id" />
         <input type="hidden" name="addInProgress" id="addInProgress" />
         <input type="hidden" name="loggedInUser" />

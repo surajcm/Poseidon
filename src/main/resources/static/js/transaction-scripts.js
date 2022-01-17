@@ -3,12 +3,12 @@ function hideAlerts() {
 }
 
 function addNew() {
-    document.forms[0].action = "AddTxn.htm";
+    document.forms[0].action = "addTxn";
     document.forms[0].submit();
 }
 
 function search() {
-    document.forms[0].action = "SearchTxn.htm";
+    document.forms[0].action = "searchTxn";
     document.forms[0].submit();
 }
 
@@ -29,7 +29,7 @@ function changeTheModel() {
     const selectMakeId = document.getElementById("makeId").value;
     console.log(selectMakeId);
     const xhr = new XMLHttpRequest();
-    xhr.open('POST', "/txs/UpdateModelAjax.htm" + "?selectMakeId=" + selectMakeId, true);
+    xhr.open('POST', "/txs/updateModel" + "?selectMakeId=" + selectMakeId, true);
     const token = document.querySelector("meta[name='_csrf']").content;
     const header = document.querySelector("meta[name='_csrf_header']").content;
     //xhr.setRequestHeader(header, token);
@@ -80,7 +80,7 @@ function editRow() {
     if (checks.checked) {
         userRow = document.getElementById("myTable").rows[0];
         document.getElementById("id").value = userRow.cells[0].childNodes[0].value;
-        document.forms[0].action = "EditTxn.htm";
+        document.forms[0].action = "editTxn";
         document.forms[0].submit();
     } else {
         for (let i = 0; i < checks.length; i++) {
@@ -89,7 +89,7 @@ function editRow() {
             }
         }
         document.getElementById("id").value = userRow.cells[0].childNodes[0].value;
-        document.forms[0].action = "EditTxn.htm";
+        document.forms[0].action = "editTxn";
         document.forms[0].submit();
     }
 }
@@ -110,7 +110,7 @@ function deleteRow() {
         if (checks.checked) {
             userRow = document.getElementById("myTable").rows[0];
             document.getElementById("id").value = userRow.cells[0].childNodes[0].value;
-            document.forms[0].action = "DeleteTxn.htm";
+            document.forms[0].action = "deleteTxn";
             document.forms[0].submit();
         } else {
             for (let i = 0; i < checks.length; i++) {
@@ -119,7 +119,7 @@ function deleteRow() {
                 }
             }
             document.getElementById("id").value = userRow.cells[0].childNodes[0].value;
-            document.forms[0].action = "DeleteTxn.htm";
+            document.forms[0].action = "deleteTxn";
             document.forms[0].submit();
         }
     }

@@ -3,7 +3,7 @@ function hideAlerts() {
 }
 
 function listAllModel() {
-    document.forms[0].action = "ModelList.htm";
+    document.forms[0].action = "ModelList";
     document.forms[0].submit();
 }
 
@@ -16,11 +16,6 @@ function clearOut() {
 
 function searchMakes() {
     document.forms[0].action = "searchMake";
-    document.forms[0].submit();
-}
-
-function printMe() {
-    document.forms[0].action = "printMake.htm";
     document.forms[0].submit();
 }
 

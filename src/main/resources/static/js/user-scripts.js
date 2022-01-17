@@ -32,13 +32,13 @@ function deleteRow() {
     let answer = confirm("Are you sure you wanted to delete the user ");
     if (answer) {
         setIdForChange();
-        document.forms[0].action = "DeleteUser";
+        document.forms[0].action = "deleteUser";
         document.forms[0].submit();
     }
 }
 
 function search() {
-    document.forms[0].action = "SearchUser";
+    document.forms[0].action = "searchUser";
     document.forms[0].submit();
 }
 
@@ -163,7 +163,7 @@ function saveFromModal() {
 
 function callAjax(addName, addEmail, addRole) {
     let xhr = new XMLHttpRequest();
-    xhr.open('POST', "/user/saveUserAjax", true);
+    xhr.open('POST', "/user/saveUser", true);
     let token = document.querySelector("meta[name='_csrf']").content;
     let header = document.querySelector("meta[name='_csrf_header']").content;
     //xhr.setRequestHeader(header, token);

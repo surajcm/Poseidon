@@ -57,7 +57,7 @@ public class MakeController {
      * @param makeForm makeForm
      * @return view
      */
-    @RequestMapping(value = MODEL_LIST_PAGE, method = {RequestMethod.POST, RequestMethod.GET})
+    @RequestMapping(value = "make/modelList", method = {RequestMethod.POST, RequestMethod.GET})
     public String modelListPage(final MakeForm makeForm, final Model model) {
         var sanitizedMakeForm = CommonUtils.sanitizedString(makeForm.toString());
         LOG.info("Inside List method of MakeController, form details are  {}",
@@ -288,19 +288,19 @@ public class MakeController {
     }
 
     /**
-     * saveModelAjax.
+     * saveModel.
      *
      * @param selectMakeId    selectMakeId
      * @param selectModelName selectModelName
      * @param result          result
      * @return json string
      */
-    @PostMapping("/make/saveModelAjax")
+    @PostMapping("/make/saveModel")
     public @ResponseBody
-    String saveModelAjax(@ModelAttribute("selectMakeId") final Long selectMakeId,
-                         @ModelAttribute("selectModelName") final String selectModelName,
-                         final BindingResult result) {
-        LOG.info("SaveModelAjax method of MakeController ");
+    String saveModel(@ModelAttribute("selectMakeId") final Long selectMakeId,
+                     @ModelAttribute("selectModelName") final String selectModelName,
+                     final BindingResult result) {
+        LOG.info("SaveModel method of MakeController ");
         var responseString = new StringBuilder();
         if (!result.hasErrors()) {
             makeService.addNewModel(populateModelVO(selectMakeId, selectModelName));
@@ -333,16 +333,16 @@ public class MakeController {
         return fetchJsonAllMakes(makeService.fetchMakes());
     }
 
-    @PutMapping("/make/updateModelAjax")
+    @PutMapping("/make/updateModel")
     public @ResponseBody
-    String updateModelAjax(@ModelAttribute("id") final Long id,
-                           @ModelAttribute("modalMakeName") final Long makeId,
-                           @ModelAttribute("modalModelName") final String modalModelName,
-                           final BindingResult result) {
+    String updateModel(@ModelAttribute("id") final Long id,
+                       @ModelAttribute("modalMakeName") final Long makeId,
+                       @ModelAttribute("modalModelName") final String modalModelName,
+                       final BindingResult result) {
         var sanitizedId = CommonUtils.sanitizedString(id.toString());
         var sanitizedMakeId = CommonUtils.sanitizedString(makeId.toString());
         var sanitizedModelName = CommonUtils.sanitizedString(modalModelName);
-        LOG.info("UpdateModelAjax method of make controller with id {}, makeId {}, modalModelName {}",
+        LOG.info("UpdateModel method of make controller with id {}, makeId {}, modalModelName {}",
                 sanitizedId, sanitizedMakeId, sanitizedModelName);
         var responseString = new StringBuilder();
         makeService.updateModel(id, makeId, modalModelName);
@@ -354,9 +354,9 @@ public class MakeController {
     @PutMapping("/make/updateMake")
     public @ResponseBody
     String updateMake(@ModelAttribute("id") final Long id,
-                          @ModelAttribute("makeName") final String makeName,
-                          @ModelAttribute("description") final String description,
-                          final BindingResult result) {
+                      @ModelAttribute("makeName") final String makeName,
+                      @ModelAttribute("description") final String description,
+                      final BindingResult result) {
         var sanitizedId = CommonUtils.sanitizedString(id.toString());
         var sanitizedMakeName = CommonUtils.sanitizedString(makeName);
         var sanitizedDescription = CommonUtils.sanitizedString(description);

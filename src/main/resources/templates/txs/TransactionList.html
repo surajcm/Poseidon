@@ -21,7 +21,7 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security/">
     <script type="text/javascript" src="/js/navbar-scripts.js"></script>
 </head>
 <body onload="hideAlerts()">
-    <form method="POST" action="List.htm" th:object="${transactionForm}">
+    <form method="POST" action="listTransactions" th:object="${transactionForm}">
         <input type="hidden" name="loggedInUser" path="loggedInUser"/>
         <input type="hidden" name="loggedInRole" path="loggedInRole"/>
         <input type="hidden" name="id" id="id"/>

@@ -68,7 +68,7 @@ public class TransactionController {
      * @param transactionForm TransactionForm
      * @return view
      */
-    @PostMapping("/txs/List.htm")
+    @PostMapping("/txs/listTransactions")
     public String listPage(final TransactionForm transactionForm, final Model model) {
         var transactionVOs = transactionService.listAllTransactions();
         if (transactionVOs != null) {
@@ -96,7 +96,7 @@ public class TransactionController {
      * @param transactionForm TransactionForm
      * @return view
      */
-    @PostMapping("/txs/AddTxn.htm")
+    @PostMapping("/txs/addTxn")
     public String addTxn(final TransactionForm transactionForm, final Model model) {
         LOG.info("AddTxn method of TransactionController ");
         //get all the make list for displaying in search
@@ -124,7 +124,7 @@ public class TransactionController {
      * @param transactionForm TransactionForm
      * @return view
      */
-    @PostMapping("/txs/SaveTxn.htm")
+    @PostMapping("/txs/saveTxn")
     public String saveTxn(final TransactionForm transactionForm, final Model model) {
         LOG.info("SaveTxn method of TransactionController ");
         var sanitizedForm = CommonUtils.sanitizedString(transactionForm.toString());
@@ -173,7 +173,7 @@ public class TransactionController {
      * @param transactionForm TransactionForm
      * @return view
      */
-    @PostMapping("/txs/SearchTxn.htm")
+    @PostMapping("/txs/searchTxn")
     public String searchTxn(final TransactionForm transactionForm, final Model model) {
         LOG.info("SearchTxn method of TransactionController ");
         var sanitizedForm = CommonUtils.sanitizedString(transactionForm.toString());
@@ -208,7 +208,7 @@ public class TransactionController {
      * @param transactionForm TransactionForm
      * @return view
      */
-    @PostMapping("/txs/EditTxn.htm")
+    @PostMapping("/txs/editTxn")
     public String editTxn(final TransactionForm transactionForm, final Model model) {
         LOG.info("EditTxn method of TransactionController ");
         var sanitizedForm = CommonUtils.sanitizedString(transactionForm.toString());
@@ -249,7 +249,7 @@ public class TransactionController {
      * @param transactionForm TransactionForm
      * @return view
      */
-    @PostMapping("/txs/updateTxn.htm")
+    @PostMapping("/txs/updateTxn")
     public String updateTxn(final TransactionForm transactionForm, final Model model) {
         LOG.info("UpdateTxn method of TransactionController ");
         var sanitizedForm = CommonUtils.sanitizedString(transactionForm.toString());
@@ -289,7 +289,7 @@ public class TransactionController {
      * @param transactionForm TransactionForm
      * @return view
      */
-    @PostMapping("/txs/DeleteTxn.htm")
+    @PostMapping("/txs/deleteTxn")
     public String deleteTxn(final TransactionForm transactionForm, final Model model) {
         LOG.info("DeleteTxn method of TransactionController ");
         var sanitizedForm = CommonUtils.sanitizedString(transactionForm.toString());
@@ -316,12 +316,12 @@ public class TransactionController {
      *
      * @param selectMakeId selectMakeId
      */
-    @PostMapping(value = "/txs/UpdateModelAjax.htm")
+    @PostMapping(value = "/txs/updateModel")
     public @ResponseBody
-    String updateModelAjax(@ModelAttribute("selectMakeId") final String selectMakeId) {
+    String updateModel(@ModelAttribute("selectMakeId") final String selectMakeId) {
         var responseString = "";
         var sanitizedMakeId = CommonUtils.sanitizedString(selectMakeId);
-        LOG.info("At UpdateModelAjax, selectMakeId is : {}", sanitizedMakeId);
+        LOG.info("At UpdateModel, selectMakeId is : {}", sanitizedMakeId);
         try {
             var makeAndModelVOs = makeService.getAllModelsFromMakeId(Long.valueOf(selectMakeId));
             if (makeAndModelVOs != null && !makeAndModelVOs.isEmpty()) {

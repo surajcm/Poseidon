@@ -110,7 +110,7 @@ function getAllMakeIdsAndNames() {
     xhr.send();
 }
 
-function AddModel() {
+function addModel() {
     let saveModal = document.getElementById("saveModal");
     saveModal.style.display = "block";
     let detail = document.getElementById("modelModalBody");
@@ -177,14 +177,13 @@ function saveFromModal() {
         }
     }
     if (allFieldsAreValid) {
-        saveFromModal(modalMakeName, modalModelName);
+        saveModel(modalMakeName, modalModelName);
     }
 }
 
-
-function saveFromModal(modalMakeName, modalModelName) {
+function saveModel(modalMakeName, modalModelName) {
     let xhr = new XMLHttpRequest();
-    xhr.open('POST', "/make/saveModelAjax", true);
+    xhr.open('POST', "/make/saveModel", true);
     let token = document.querySelector("meta[name='_csrf']").content;
     let header = document.querySelector("meta[name='_csrf_header']").content;
     //xhr.setRequestHeader(header, token);

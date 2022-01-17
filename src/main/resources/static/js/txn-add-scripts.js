@@ -14,7 +14,7 @@ function save() {
     } else if (document.getElementById('modelId').value.length === 0) {
         alert("Please enter a valid Model detail");
     } else {
-        document.forms[0].action = "SaveTxn.htm";
+        document.forms[0].action = "saveTxn";
         document.forms[0].submit();
     }
 }
@@ -49,7 +49,7 @@ function clearOut() {
 function changeTheNewModel() {
     const selectMakeId = document.getElementById('makeId').value;
     const xhr = new XMLHttpRequest();
-    xhr.open('POST', "/txs/UpdateModelAjax.htm" + "?selectMakeId=" + selectMakeId, true);
+    xhr.open('POST', "/txs/updateModel" + "?selectMakeId=" + selectMakeId, true);
     const token = document.querySelector("meta[name='_csrf']").content;
     const header = document.querySelector("meta[name='_csrf_header']").content;
     //xhr.setRequestHeader(header, token);
@@ -67,16 +67,14 @@ function changeTheNewModel() {
 }
 
 function stateChangeOnTxn(textReturned) {
-    console.log("Received :" + textReturned);
+    //console.log("Received :" + textReturned);
     if (textReturned !== "") {
         const mmList = JSON.parse(textReturned);
         const modelId = document.getElementById('modelId');
         modelId.options.length = mmList - 1;
         modelId.options[0] = new Option("<-- Select -->", "");
         for (let i = 0; i < mmList.length; i++) {
-            console.log("i is " + i);
             const singleMM = mmList[i];
-            console.log("singleMM is " + singleMM.modelName);
             modelId.options[i + 1] = new Option(singleMM.modelName, singleMM.id);
         }
     } else {
