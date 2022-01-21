@@ -53,9 +53,29 @@ function deleteRow() {
 }
 
 function viewCustomer() {
-    let rowCheck = validateSelection();
+    let rowCheck = validateCustomerSelection();
+    console.log("rowCheck returned :"+rowCheck);
     if (rowCheck) {
         viewRow();
+    }
+}
+
+function validateCustomerSelection() {
+    let detail = document.getElementById("detail");
+    detail.innerHTML = "";
+    let check = 'false';
+    let count = selectedRowCount();
+    if (count > 0) {
+        check = 'true';
+    }
+    if (check === 'true') {
+        if (count === 1) {
+            return true;
+        } else {
+            detail.innerHTML = "<p>Only one row can be selected at a time, please select one row</p>";
+        }
+    } else {
+        detail.innerHTML = "<p>No rows selected, please select one row</p>";
     }
 }
 
@@ -225,6 +245,8 @@ function customerOnModal() {
 }
 
 function editCustomerModal() {
+    let footer = document.getElementById("edit-footer");
+    footer.style.display = "block";
     let updateModal = document.getElementById("updateSmartCustomer");
     updateModal.style.display = "block";
     let detail = document.getElementById("editCustomerBody");
@@ -369,6 +391,8 @@ function editSmartCustomer() {
 }
 
 function validateEditCustomerSelection() {
+    let footer = document.getElementById("edit-footer");
+    footer.style.display = "none";
     let detail = document.getElementById("editCustomerBody");
     detail.innerHTML = "";
     let check = 'false';

@@ -138,7 +138,6 @@ function rewriteTable(textReturned) {
         tbody.appendChild(trx);
     }
     myTable.appendChild(tbody);
-    //todo: optional message saving update is done !!
 }
 
 function addMake() {
@@ -185,9 +184,10 @@ function makeOnModal() {
     return formValidMake;
 }
 
-function saveFromModal() {
+function saveMakeFromModal() {
     let modalMakeName = document.getElementById("modalMakeName").value;
     let modalDescription = document.getElementById("modalMakeDescription").value;
+    console.log("At saveFromModal ,modalMakeName is :"+modalMakeName +", and modalDescription ="+modalDescription)
     let forms = document.getElementsByClassName('needs-validation');
     let allFieldsAreValid = true;
 
@@ -200,11 +200,11 @@ function saveFromModal() {
         }
     }
     if (allFieldsAreValid) {
-        saveFromModal(modalMakeName, modalDescription);
+        saveMake(modalMakeName, modalDescription);
     }
 }
 
-function saveFromModal(modalMakeName, modalDescription) {
+function saveMake(modalMakeName, modalDescription) {
     let xhr = new XMLHttpRequest();
     xhr.open('POST', "/make/saveMake", true);
     let token = document.querySelector("meta[name='_csrf']").content;
@@ -321,12 +321,12 @@ function updateFromModal() {
     if (allFieldsAreValid) {
         console.log("All fields are valid, calling callAjaxUpdate");
         let productId = document.getElementById("id").value
-        callAjaxMakeUpdate(productId, modalMakeName, modalMakeDescription);
+        makeUpdate(productId, modalMakeName, modalMakeDescription);
     }
 }
 
 
-function callAjaxMakeUpdate(productId, makeName, description) {
+function makeUpdate(productId, makeName, description) {
     let xhr = new XMLHttpRequest();
     xhr.open('PUT', "/make/updateMake", true);
     let token = document.querySelector("meta[name='_csrf']").content;
@@ -336,7 +336,7 @@ function callAjaxMakeUpdate(productId, makeName, description) {
     xhr.onload = function () {
         if (xhr.status === 200) {
             if (xhr.responseText != null) {
-                console.log("callAjaxUpdate success :" + xhr.responseText);
+                //console.log("makeUpdate success :" + xhr.responseText);
                 rewriteTable(xhr.responseText);
                 showUpdateStatus(true);
             }

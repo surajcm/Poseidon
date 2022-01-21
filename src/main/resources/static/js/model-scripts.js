@@ -153,7 +153,7 @@ function addModel() {
 function addMakesToSelect(response) {
     console.log("Response is " + response);
     let modelMap = JSON.parse(response);
-    let modalMakeName = document.getElementById('modalMakeName');
+    let modalMakeName = document.getElementById('modalMakeNameForUpdate');
     for (const [key, value] of Object.entries(modelMap)) {
         let mainOption = document.createElement("option");
         mainOption.text = value;
@@ -284,7 +284,7 @@ function editModelModal() {
     divName.setAttribute("class", "col-md-6");
     let selectMakeName = document.createElement("select");
     selectMakeName.setAttribute("class", "form-select");
-    selectMakeName.setAttribute("id", "modalMakeName");
+    selectMakeName.setAttribute("id", "modalMakeNameForUpdate");
     divName.appendChild(selectMakeName);
     //ajax and add
 
@@ -296,7 +296,7 @@ function editModelModal() {
     txtModelName.setAttribute("type", "text");
     txtModelName.setAttribute("class", "form-control");
     txtModelName.setAttribute("placeholder", "Model Name");
-    txtModelName.setAttribute("id", "modalModelName");
+    txtModelName.setAttribute("id", "modalModelNameForUpdate");
     txtModelName.required = true;
     divModelName.appendChild(txtModelName);
     let tt2 = document.createElement("div");
@@ -333,7 +333,7 @@ function getModelForEdit() {
 
 function populateDataForEdit(textReturned) {
     let modelMap = JSON.parse(textReturned);
-    let makeDropDown = document.getElementById("modalMakeName");
+    let makeDropDown = document.getElementById("modalMakeNameForUpdate");
     for (const [key, value] of Object.entries(modelMap)) {
         console.log("key and value are " + key + " " + value);
         for (let option of makeDropDown.options) {
@@ -342,7 +342,7 @@ function populateDataForEdit(textReturned) {
                 console.log("option set to " + option.value);
             }
         }
-        document.getElementById("modalModelName").value = value;
+        document.getElementById("modalModelNameForUpdate").value = value;
     }
 }
 
@@ -364,29 +364,29 @@ function showEditError() {
 }
 
 function updateFromModal() {
-    let modalMakeName = document.getElementById("modalMakeName").value;
-    let modalModelName = document.getElementById("modalModelName").value;
+    let modalMakeName = document.getElementById("modalMakeNameForUpdate").value;
+    let modalModelName = document.getElementById("modalModelNameForUpdate").value;
     let forms = document.getElementsByClassName('needs-validation');
     let allFieldsAreValid = true;
 
     if (forms[0].checkValidity() === false) {
         allFieldsAreValid = false;
         if (modalModelName.length === 0) {
-            document.getElementById("modalModelName").setAttribute("class", "form-control is-invalid");
+            document.getElementById("modalModelNameForUpdate").setAttribute("class", "form-control is-invalid");
         } else {
-            document.getElementById("modalModelName").setAttribute("class", "form-control was-validated");
+            document.getElementById("modalModelNameForUpdate").setAttribute("class", "form-control was-validated");
         }
     }
     if (allFieldsAreValid) {
-        console.log("All fields are valid, calling callAjaxUpdate");
+        console.log("All fields are valid, calling Update");
         let productId = document.getElementById("id").value
-        callAjaxUpdate(productId, modalMakeName, modalModelName);
+        updateModel(productId, modalMakeName, modalModelName);
     }
 }
 
-function callAjaxUpdate(productId, modalMakeName, modalModelName) {
+function updateModel(productId, modalMakeName, modalModelName) {
     let xhr = new XMLHttpRequest();
-    xhr.open('PUT', "/make/updateModelAjax", true);
+    xhr.open('PUT', "/make/updateModel", true);
     let token = document.querySelector("meta[name='_csrf']").content;
     let header = document.querySelector("meta[name='_csrf_header']").content;
     //xhr.setRequestHeader(header, token);
@@ -394,7 +394,6 @@ function callAjaxUpdate(productId, modalMakeName, modalModelName) {
     xhr.onload = function () {
         if (xhr.status === 200) {
             if (xhr.responseText != null) {
-                console.log("callAjaxUpdate success :" + xhr.responseText);
                 rewriteTable(xhr.responseText);
                 showUpdateStatus(true);
             }
