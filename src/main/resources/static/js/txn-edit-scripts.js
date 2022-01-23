@@ -14,7 +14,7 @@ function update() {
         alert("Please enter a valid Model detail");
     } else {
         let model = document.getElementById('modelId');
-        document.getElementById('modelId').value = model.value;
+        console.log("model id is : "+ model.value);
         document.forms[0].action = "updateTxn";
         document.forms[0].submit();
     }

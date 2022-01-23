@@ -25,7 +25,6 @@
             <input type="hidden" name="loggedInUser" />
             <input type="hidden" name="loggedInRole" />
             <input type="hidden" name="customer" />
-            <input type="hidden" name="model" />
             <div th:insert="navbar :: navbar"></div>
             <div class="container">
                 <div class="wrap">
@@ -37,24 +36,35 @@
                             <div class="row g-3" th:with="currentTransaction=${transactionForm.currentTransaction}">
                                 <input type="hidden" name="id" th:field="*{currentTransaction.id}"/>
                                 <div class="col-md-4">
-                                    <label for="productCategory" class="form-label">Product Category :</label>
-                                    <input type="text" class="form-control" th:field="*{currentTransaction.productCategory}" id="productCategory"/>
+                                    <div class="input-group mb-3">
+                                        <label for="productCategory" class="input-group-text">Product Category</label>
+                                        <input type="text" class="form-control" th:field="*{currentTransaction.productCategory}" id="productCategory"/>
+                                    </div>
                                 </div>
                                 <div class="col-md-4">
-                                    <label for="serialNo" class="form-label">Serial No :</label>
-                                    <input type="text" class="form-control" th:field="*{currentTransaction.serialNo}" id="serialNo"/>
+                                    <div class="input-group mb-3">
+                                        <label for="serialNo" class="input-group-text">Serial No</label>
+                                        <input type="text" class="form-control" th:field="*{currentTransaction.serialNo}" id="serialNo"/>
+                                    </div>
                                 </div>
                                 <div class="col-md-4">
-                                    <label for="dateReported" class="form-label">Transaction Date : <img src="/img/calendar3.svg" alt="" width="16" height="16" title="calendar" /></label>
-                                    <input type="text" th:field="*{currentTransaction.dateReported}" class="date-picker form-control" id="dateReported" />
+                                    <div class="input-group mb-3">
+                                        <span class="input-group-text">Transaction Date</span>
+                                        <input type="text" th:field="*{currentTransaction.startDate}" class="date-picker form-control" id="dateReported" />
+                                        <span class="input-group-text"><img src="/img/calendar3.svg" alt="" width="16" height="16" title="calendar" /></span>
+                                    </div>
                                 </div>
                                 <div class="col-md-4">
-                                    <label for="customerName" class="form-label">Customer Name :</label>
-                                    <input type="text" class="form-control" th:field="*{customerVO.customerName}" id="customerName" readonly="true"/>
+                                    <div class="input-group mb-3">
+                                        <label for="customerName" class="input-group-text">Customer Name</label>
+                                        <input type="text" class="form-control" th:field="*{customerVO.customerName}" id="customerName" readonly="true"/>
+                                    </div>
                                 </div>
                                 <div class="col-md-4">
-                                    <label for="email" class="form-label">Email :</label>
-                                    <input type="text" class="form-control" th:field="*{customerVO.email}" id="email" readonly="true"/>
+                                    <div class="input-group mb-3">
+                                        <label for="customerName" class="input-group-text">Email</label>
+                                        <input type="text" class="form-control" th:field="*{customerVO.email}" id="email" readonly="true"/>
+                                    </div>
                                 </div>
                                 <div class="col-md-4">
                                     <input type="hidden" th:field="*{customerVO.customerId}" id="customerId"/>
@@ -62,52 +72,67 @@
                                         onclick="editSmartCustomer();">Edit customer</button>
                                 </div>
                                 <div class="col-md-4">
-                                    <label for="makeId" class="form-label">Make :</label>
-                                    <select id="makeId" th:field="*{currentTransaction.makeId}" tabindex="1" class="form-control"
-                                                 onkeypress="handleEnter(event);" onchange="changeTheModel();">
-                                        <option value=""><-- Select --></option>
-                                        <option th:each="i : ${transactionForm.makeVOs}" th:value="${i.Id}" th:text="${i.makeName}">
-                                    </select>
+                                    <div class="input-group mb-3">
+                                        <label for="makeId" class="input-group-text">Make</label>
+                                        <select id="makeId" class="form-select" th:field="*{currentTransaction.makeId}" tabindex="1" onchange="changeTheModel();">
+                                            <option value=""><-- Select --></option>
+                                            <option th:each="i : ${transactionForm.makeVOs}" th:value="${i.Id}" th:text="${i.makeName}">
+                                        </select>
+                                    </div>
                                 </div>
                                 <div class="col-md-4">
-                                    <label for="modelId" class="form-label">Model :</label>
-                                        <select id="modelId" th:field="*{currentTransaction.modelId}" tabindex="2" class="form-control"
-                                                     onkeypress="handleEnter(event);" disabled="true">
+                                    <div class="input-group mb-3">
+                                        <label for="modelId" class="input-group-text">Model</label>
+                                        <select id="modelId" class="form-select" th:field="*{currentTransaction.modelId}" tabindex="2" >
                                             <option value=""><-- Select --></option>
                                             <option th:each="i : ${transactionForm.makeAndModelVOs}" th:value="${i.modelId}" th:text="${i.modelName}">
                                         </select>
+                                    </div>
                                 </div>
                                 <div class="col-md-4">
-                                    <label for="modelId" class="form-label">Status :</label>
-                                    <select id="status" th:field="*{currentTransaction.status}" class="form-control"
-                                                 onkeypress="handleEnter(event);">
-                                        <option value=""><-- Select --></option>
-                                        <option th:each="i : ${transactionForm.statusList}" th:value="${i}" th:text="${i}">
-                                    </select>
+                                    <div class="input-group mb-3">
+                                        <label for="status" class="input-group-text">Status</label>
+                                        <select id="status" class="form-select" th:field="*{currentTransaction.Status}">
+                                            <option value=""><-- Select --></option>
+                                            <option th:each="i : ${transactionForm.statusList}" th:value="${i}" th:text="${i}">
+                                        </select>
+                                    </div>
                                 </div>
                                 <div class="col-md-4">
-                                    <label for="accessories" class="form-label">Accessories :</label>
-                                    <textarea th:field="*{currentTransaction.accessories}" class="form-control" id="accessories"/>
+                                    <div class="input-group">
+                                        <span class="input-group-text">Accessories</span>
+                                        <textarea th:field="*{currentTransaction.accessories}" class="form-control" id="accessories"></textarea>
+                                    </div>
                                 </div>
                                 <div class="col-md-4">
-                                    <label for="complaintReported" class="form-label">Complaint Reported :</label>
-                                    <textarea th:field="*{currentTransaction.complaintReported}" class="form-control" id="complaintReported"/>
+                                    <div class="input-group">
+                                        <span class="input-group-text">Complaint Reported</span>
+                                        <textarea th:field="*{currentTransaction.complaintReported}" class="form-control" id="complaintReported"></textarea>
+                                    </div>
                                 </div>
                                 <div class="col-md-4">
-                                    <label for="complaintDiagnosed" class="form-label">Complaint Diagnosed :</label>
-                                    <textarea th:field="*{currentTransaction.complaintDiagnosed}" class="form-control" id="complaintDiagnosed"/>
+                                    <div class="input-group">
+                                        <span class="input-group-text">Complaint Diagnosed</span>
+                                        <textarea th:field="*{currentTransaction.complaintDiagnosed}" class="form-control" id="complaintDiagnosed"></textarea>
+                                    </div>
                                 </div>
                                 <div class="col-md-4">
-                                    <label for="enggRemark" class="form-label">Engineer Remarks :</label>
-                                    <textarea th:field="*{currentTransaction.enggRemark}" class="form-control" id="enggRemark"/>
+                                    <div class="input-group">
+                                        <span class="input-group-text">Engineer Remarks</span>
+                                        <textarea th:field="*{currentTransaction.enggRemark}" class="form-control" id="enggRemark"></textarea>
+                                    </div>
                                 </div>
                                 <div class="col-md-4">
-                                    <label for="repairAction" class="form-label">Repair Action :</label>
-                                    <textarea th:field="*{currentTransaction.repairAction}" class="form-control" id="repairAction"/>
+                                    <div class="input-group">
+                                        <span class="input-group-text">Repair Action</span>
+                                        <textarea th:field="*{currentTransaction.repairAction}" class="form-control" id="repairAction"></textarea>
+                                    </div>
                                 </div>
                                 <div class="col-md-4">
-                                    <label for="notes" class="form-label">Notes :</label>
-                                    <textarea th:field="*{currentTransaction.notes}" class="form-control" id="notes"/>
+                                    <div class="input-group">
+                                        <span class="input-group-text">Notes</span>
+                                        <textarea th:field="*{currentTransaction.notes}" class="form-control" id="notes"></textarea>
+                                    </div>
                                 </div>
                                 <div class="col-md-6">
                                     <button type="button" class="btn btn-primary btn-success" onclick="update();">Update</button>
@@ -145,9 +170,6 @@
                 {
                     $(function() {
                         $("#dateReported").datepicker();
-                    });
-                    $('#makeId').change(function() {
-                        $("#modelId").prop("disabled", false);
                     });
                 });
             </script>
