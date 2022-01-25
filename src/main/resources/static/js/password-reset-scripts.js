@@ -122,3 +122,7 @@ function clearAll() {
 function hideAlerts() {
     document.getElementById('user').text = "User <span class='sr-only'>User</span>";
 }
+
+function justClose() {
+    console.log("not yet implemented");
+}

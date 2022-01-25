@@ -32,86 +32,123 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security/">
                         <div class="card-body">
                             <div class="row g-3">
                                 <div class="col-md-4">
-                                    <label for="productCategory" class="form-label">Product Category : *</label>
-                                    <input type="text" class="form-control" th:field="*{currentTransaction.productCategory}" id="productCategory"/>
+                                    <div class="input-group mb-3">
+                                        <label for="productCategory" class="input-group-text">Product Category</label>
+                                        <input type="text" class="form-control" th:field="*{currentTransaction.productCategory}" id="productCategory"/>
+                                    </div>
                                 </div>
                                 <div class="col-md-4">
-                                    <label for="serialNo" class="form-label">Serial No :*</label>
-                                    <input type="text" class="form-control" th:field="*{currentTransaction.serialNo}" id="serialNo"/>
+                                    <div class="input-group mb-3">
+                                        <label for="serialNo" class="input-group-text">Serial No</label>
+                                        <input type="text" class="form-control" th:field="*{currentTransaction.serialNo}" id="serialNo"/>
+                                    </div>
                                 </div>
                                 <div class="col-md-4">
-                                    <label for="dateReported" class="form-label">Transaction Date :* <img src="/img/calendar3.svg" alt="" width="16" height="16" title="calendar" /></label>
-                                    <input type="text" th:field="*{currentTransaction.dateReported}" class="date-picker form-control" id="dateReported" />
+                                    <div class="input-group mb-3">
+                                        <span class="input-group-text">Transaction Date</span>
+                                        <input type="text" th:field="*{currentTransaction.dateReported}" class="date-picker form-control" id="dateReported" />
+                                        <span class="input-group-text"><img src="/img/calendar3.svg" alt="" width="16" height="16" title="calendar" /></span>
+                                    </div>
                                 </div>
                                 <div class="col-md-4">
-                                    <label for="customerId" class="form-label">Customer Id :*</label>
-                                    <input type="text" th:field="*{customerVO.customerId}" class="form-control" id="customerId"/>
+                                    <div class="input-group mb-3">
+                                        <label for="customerName" class="input-group-text">Customer Id</label>
+                                        <input type="text" class="form-control" th:field="*{customerVO.customerId}" id="customerId" />
+                                    </div>
                                 </div>
-                                <div class="col-md-8">
+                                <div class="col-md-4">
                                     <label for="customerId" class="form-label" style="font-size: .70em;color:blue;">Enter Customer Details in case of New Customer</label>
                                 </div>
                                 <div class="col-md-4">
-                                    <label for="customerName" class="form-label">Customer Name :*</label>
-                                    <input type="text" class="form-control" th:field="*{customerVO.customerName}" id="customerName"/>
+                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#customerDetail"
+                                            onclick="findCustomer()">Find Customer</button>
+                                </div>
+                                <div class="col-md-4">
+                                    <div class="input-group mb-3">
+                                        <label for="customerName" class="input-group-text">Customer Name</label>
+                                        <input type="text" class="form-control" th:field="*{customerVO.customerName}" id="customerName" />
+                                    </div>
                                 </div>
                                 <div class="col-md-8">
-                                    <label for="address1" class="form-label">Address Line :</label>
-                                    <input type="text" class="form-control" th:field="*{customerVO.address}" id="address1"/>
+                                    <div class="input-group mb-3">
+                                        <label for="address1" class="input-group-text">Address</label>
+                                        <input type="text" class="form-control" th:field="*{customerVO.address}" id="address1"/>
+                                    </div>
                                 </div>
                                 <div class="col-md-4">
-                                    <label for="phoneNo" class="form-label">Phone :</label>
-                                    <input type="text" class="form-control" th:field="*{customerVO.phoneNo}" id="phoneNo"/>
+                                    <div class="input-group mb-3">
+                                        <label for="phoneNo" class="input-group-text">Phone</label>
+                                        <input type="text" class="form-control" th:field="*{customerVO.phoneNo}" id="phoneNo"/>
+                                    </div>
                                 </div>
                                 <div class="col-md-4">
-                                    <label for="mobile" class="form-label">Mobile :</label>
-                                    <input type="text" class="form-control" th:field="*{customerVO.mobile}" id="mobile"/>
+                                    <div class="input-group mb-3">
+                                        <label for="mobile" class="input-group-text">Mobile</label>
+                                        <input type="text" class="form-control" th:field="*{customerVO.mobile}" id="mobile"/>
+                                    </div>
                                 </div>
                                 <div class="col-md-4">
-                                    <label for="email" class="form-label">Email :</label>
-                                    <input type="text" class="form-control" th:field="*{customerVO.email}" id="email"/>
+                                    <div class="input-group mb-3">
+                                        <label for="mobile" class="input-group-text">Email</label>
+                                        <input type="text" class="form-control" th:field="*{customerVO.email}" id="email"/>
+                                    </div>
                                 </div>
                                 <div class="col-md-4">
-                                    <label for="makeId" class="form-label">Make :* </label>
-                                    <select id="makeId" th:field="*{currentTransaction.makeId}" tabindex="1" class="form-control"
-                                                 onkeypress="handleEnter(event);" onchange="changeTheNewModel();">
-                                        <option value=""><-- Select --></option>
-                                        <option th:each="i : ${transactionForm.makeVOs}" th:value="${i.Id}" th:text="${i.makeName}">
-                                    </select>
+                                    <div class="input-group mb-3">
+                                        <label for="makeId" class="input-group-text">Make</label>
+                                        <select id="makeId" class="form-select" th:field="*{currentTransaction.makeId}" tabindex="1" onchange="changeTheModel();">
+                                            <option value=""><-- Select --></option>
+                                            <option th:each="i : ${transactionForm.makeVOs}" th:value="${i.Id}" th:text="${i.makeName}">
+                                        </select>
+                                    </div>
                                 </div>
                                 <div class="col-md-4">
-                                    <label for="modelId" class="form-label">Model :* </label>
-                                        <select id="modelId" th:field="*{currentTransaction.modelId}" tabindex="2" class="form-control"
-                                                     onkeypress="handleEnter(event);" disabled="true">
+                                    <div class="input-group mb-3">
+                                        <label for="modelId" class="input-group-text">Model</label>
+                                        <select id="modelId" class="form-select" th:field="*{currentTransaction.modelId}" tabindex="2" >
                                             <option value=""><-- Select --></option>
                                             <option th:each="i : ${transactionForm.makeAndModelVOs}" th:value="${i.modelId}" th:text="${i.modelName}">
                                         </select>
+                                    </div>
                                 </div>
                                 <div class="col-md-4">
-                                    <a id="gotoNewModel" href="${contextPath}/make/addModel"> Add New Model</a>
+                                    <a id="gotoNewModel" class="btn btn-primary" href="${contextPath}/make/addModel"> Add New Model</a>
                                 </div>
                                 <div class="col-md-4">
-                                    <label for="accessories" class="form-label">Accessories :*</label>
-                                    <textarea class="form-control" th:field="*{currentTransaction.accessories}" id="accessories"></textarea>
+                                    <div class="input-group">
+                                        <span class="input-group-text">Accessories</span>
+                                        <textarea th:field="*{currentTransaction.accessories}" class="form-control" id="accessories"></textarea>
+                                    </div>
                                 </div>
                                 <div class="col-md-4">
-                                    <label for="complaintReported" class="form-label">Complaint Reported :*</label>
-                                    <textarea class="form-control" th:field="*{currentTransaction.complaintReported}" id="complaintReported"></textarea>
+                                    <div class="input-group">
+                                        <span class="input-group-text">Complaint Reported</span>
+                                        <textarea th:field="*{currentTransaction.complaintReported}" class="form-control" id="complaintReported"></textarea>
+                                    </div>
                                 </div>
                                 <div class="col-md-4">
-                                    <label for="complaintDiagnosed" class="form-label">Complaint Diagnosed :*</label>
-                                    <textarea class="form-control" th:field="*{currentTransaction.complaintDiagnosed}" id="complaintDiagnosed"></textarea>
+                                    <div class="input-group">
+                                        <span class="input-group-text">Complaint Diagnosed</span>
+                                        <textarea th:field="*{currentTransaction.complaintDiagnosed}" class="form-control" id="complaintDiagnosed"></textarea>
+                                    </div>
                                 </div>
                                 <div class="col-md-4">
-                                    <label for="enggRemark" class="form-label">Engineer Remarks :*</label>
-                                    <textarea class="form-control" th:field="*{currentTransaction.enggRemark}" id="enggRemark"></textarea>
+                                    <div class="input-group">
+                                        <span class="input-group-text">Engineer Remarks</span>
+                                        <textarea th:field="*{currentTransaction.enggRemark}" class="form-control" id="enggRemark"></textarea>
+                                    </div>
                                 </div>
                                 <div class="col-md-4">
-                                    <label for="repairAction" class="form-label">Repair Action :*</label>
-                                    <textarea class="form-control" th:field="*{currentTransaction.repairAction}" id="repairAction"></textarea>
+                                    <div class="input-group">
+                                        <span class="input-group-text">Repair Action</span>
+                                        <textarea th:field="*{currentTransaction.repairAction}" class="form-control" id="repairAction"></textarea>
+                                    </div>
                                 </div>
                                 <div class="col-md-4">
-                                    <label for="notes" class="form-label">Notes :*</label>
-                                    <textarea class="form-control" th:field="*{currentTransaction.notes}" id="notes"></textarea>
+                                    <div class="input-group">
+                                        <span class="input-group-text">Notes</span>
+                                        <textarea th:field="*{currentTransaction.notes}" class="form-control" id="notes"></textarea>
+                                    </div>
                                 </div>
                                 <div class="col-md-6">
                                     <button type="button" class="btn btn-primary btn-success" onclick="save();">
@@ -122,6 +159,22 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security/">
                                     <button type="button" class="btn btn-primary" onclick="clearOut();">Clear</button>
                                 </div>
                             </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div id="customerDetail" class="modal fade" tabindex="-1" aria-labelledby="customerDetail" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title">Customer Details</h5>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div id="detail" class="modal-body">
+                            <p>Details of the customer.....</p>
+                        </div>
+                        <div id="edit-footer" class="modal-footer">
+                            <button type="button" id="searchForCustomer" class="btn btn-primary" onclick="searchForCustomer();">Search</button>
                         </div>
                     </div>
                 </div>

@@ -46,39 +46,37 @@ function clearOut() {
     document.getElementById("notes").value = "";
 }
 
-function changeTheNewModel() {
+function changeTheModel() {
     const selectMakeId = document.getElementById('makeId').value;
-    const xhr = new XMLHttpRequest();
-    xhr.open('POST', "/txs/updateModel" + "?selectMakeId=" + selectMakeId, true);
-    const token = document.querySelector("meta[name='_csrf']").content;
-    const header = document.querySelector("meta[name='_csrf_header']").content;
+    let xhr = new XMLHttpRequest();
+    xhr.open('POST', "/txs/updateModel", true);
+    let token = document.querySelector("meta[name='_csrf']").content;
+    let header = document.querySelector("meta[name='_csrf_header']").content;
     //xhr.setRequestHeader(header, token);
     xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
     xhr.onload = function () {
         if (xhr.status === 200) {
             if (xhr.responseText != null) {
-                stateChangeOnTxn(xhr.responseText);
+                rebuildDropDown(xhr.responseText);
             }
         } else if (xhr.status !== 200) {
             console.log('Request failed.  Returned status of ' + xhr.status);
         }
     };
-    xhr.send();
+    xhr.send("selectMakeId=" + selectMakeId + "&${_csrf.parameterName}=${_csrf.token}");
 }
 
-function stateChangeOnTxn(textReturned) {
-    //console.log("Received :" + textReturned);
-    if (textReturned !== "") {
-        const mmList = JSON.parse(textReturned);
-        const modelId = document.getElementById('modelId');
-        modelId.options.length = mmList - 1;
-        modelId.options[0] = new Option("<-- Select -->", "");
-        for (let i = 0; i < mmList.length; i++) {
-            const singleMM = mmList[i];
-            modelId.options[i + 1] = new Option(singleMM.modelName, singleMM.id);
-        }
-    } else {
-        modelId.options.length = 0;
-        modelId.options[0] = new Option("<-- Select -->", "");
+function rebuildDropDown(textReturned) {
+    const makeModelList = JSON.parse(textReturned);
+    let model = document.getElementById('modelId');
+    model.options.length = makeModelList.length;
+    for (let i = 0; i < (makeModelList.length); i++) {
+        const singleModel = makeModelList[i];
+        model.options[i] = new Option(singleModel.modelName, singleModel.id);
     }
+    document.getElementById('modelId').value = model.options[0].value;
+}
+
+function findCustomer() {
+    alert("On find customer");
 }
