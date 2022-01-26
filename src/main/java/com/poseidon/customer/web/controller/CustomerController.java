@@ -174,7 +174,7 @@ public class CustomerController {
         var sanitizedName = CommonUtils.sanitizedString(modalCustomerName);
         var sanitizedAddress = CommonUtils.sanitizedString(modalAddress);
         var sanitizedEmail = CommonUtils.sanitizedString(modalEmail);
-        logger.info("updateCustomer method of user controller with " +
+        logger.info("updateCustomer method of customer controller with " +
                         "id {}, name {}, email {}, address {}",
                 sanitizedId, sanitizedName, sanitizedEmail, sanitizedAddress);
         try {
@@ -226,6 +226,22 @@ public class CustomerController {
         customerForm.setLoggedInUser(customerForm.getLoggedInUser());
         model.addAttribute(CUSTOMER_FORM, customerForm);
         return "customer/CustomerList";
+    }
+
+
+    @GetMapping("/customer/searchFromTransaction")
+    public @ResponseBody
+    String searchFromTransaction(@ModelAttribute("searchCustomerId") final String searchCustomerId,
+                          @ModelAttribute("searchCustomerName") final String searchCustomerName,
+                          @ModelAttribute("searchMobile") final String searchMobile,
+                          final BindingResult result) {
+        var sanitizedId = CommonUtils.sanitizedString(searchCustomerId);
+        var sanitizedName = CommonUtils.sanitizedString(searchCustomerName);
+        var sanitizedMobile = CommonUtils.sanitizedString(searchMobile);
+        logger.info("searchFromTransaction method of customer controller with " +
+                        "id {}, name {}, mobile {}",
+                sanitizedId, sanitizedName, sanitizedMobile);
+        return "hi";
     }
 
     @PostMapping("/customer/viewCustomer")

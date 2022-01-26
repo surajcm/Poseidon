@@ -60,8 +60,8 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security/">
                                     <label for="customerId" class="form-label" style="font-size: .70em;color:blue;">Enter Customer Details in case of New Customer</label>
                                 </div>
                                 <div class="col-md-4">
-                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#customerDetail"
-                                            onclick="findCustomer()">Find Customer</button>
+                                    <button type="button" class="btn btn-primary" data-bs-toggle="modal"
+                                            data-bs-target="#customerDetail" >Find Customer</button>
                                 </div>
                                 <div class="col-md-4">
                                     <div class="input-group mb-3">
@@ -167,14 +167,24 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security/">
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title">Customer Details</h5>
+                            <h5 class="modal-title">Find Customer</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div id="detail" class="modal-body">
-                            <p>Details of the customer.....</p>
+                            <div class="row g-3">
+                                <div class="col-md-2">
+                                    <input class="form-control" id="searchCustomerId" placeholder="Id" />
+                                </div>
+                                <div class="col-md-6">
+                                    <input class="form-control" id="searchCustomerName" placeholder="Customer Name" />
+                                </div>
+                                <div class="col-md-4">
+                                    <input class="form-control" id="searchMobile" placeholder="Mobile" />
+                                </div>
+                            </div>
                         </div>
                         <div id="edit-footer" class="modal-footer">
-                            <button type="button" id="searchForCustomer" class="btn btn-primary" onclick="searchForCustomer();">Search</button>
+                            <button type="button" id="searchCustomer" class="btn btn-primary" onclick="searchForCustomer();">Search</button>
                         </div>
                     </div>
                 </div>
