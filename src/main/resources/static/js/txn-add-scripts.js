@@ -78,12 +78,14 @@ function rebuildDropDown(textReturned) {
 }
 
 function searchForCustomer() {
-    console.log("inside searchForCustomer");
     const searchCustomerId = document.getElementById('searchCustomerId').value;
     const searchCustomerName = document.getElementById('searchCustomerName').value;
     const searchMobile = document.getElementById('searchMobile').value;
+    console.log("inside searchForCustomer with id "+searchCustomerId +
+        " and name "+searchCustomerName +
+        " and mobile "+searchMobile);
     let xhr = new XMLHttpRequest();
-    xhr.open('GET', "/customer/searchFromTransaction", true);
+    xhr.open('POST', "/customer/searchFromTransaction", true);
     let token = document.querySelector("meta[name='_csrf']").content;
     let header = document.querySelector("meta[name='_csrf_header']").content;
     //xhr.setRequestHeader(header, token);

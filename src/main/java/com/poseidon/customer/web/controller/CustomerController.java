@@ -5,6 +5,7 @@ import com.poseidon.customer.domain.CustomerVO;
 import com.poseidon.customer.service.CustomerService;
 import com.poseidon.customer.web.form.CustomerForm;
 import com.poseidon.init.util.CommonUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.codehaus.jackson.map.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -229,9 +230,9 @@ public class CustomerController {
     }
 
 
-    @GetMapping("/customer/searchFromTransaction")
+    @PostMapping("/customer/searchFromTransaction")
     public @ResponseBody
-    String searchFromTransaction(@ModelAttribute("searchCustomerId") final String searchCustomerId,
+    List<CustomerVO> searchFromTransaction(@ModelAttribute("searchCustomerId") final String searchCustomerId,
                           @ModelAttribute("searchCustomerName") final String searchCustomerName,
                           @ModelAttribute("searchMobile") final String searchMobile,
                           final BindingResult result) {
@@ -241,7 +242,40 @@ public class CustomerController {
         logger.info("searchFromTransaction method of customer controller with " +
                         "id {}, name {}, mobile {}",
                 sanitizedId, sanitizedName, sanitizedMobile);
-        return "hi";
+        var requestCustomerVO = createCustomerVO(sanitizedId, sanitizedName, sanitizedMobile);
+        List<CustomerVO> customerVOs = null;
+        try {
+            customerVOs = customerService.searchCustomer(requestCustomerVO);
+            logger.info("Found " + customerVOs.size() + " customer details");
+        } catch (Exception ex) {
+            logger.error(ex.getLocalizedMessage());
+        }
+        if (customerVOs != null) {
+            customerVOs.forEach(customerVO -> logger.info(" customerVO is {}", customerVO));
+        }
+        return customerVOs;
+    }
+
+    private CustomerVO createCustomerVO(final String id,
+                                        final String name,
+                                        final String mobile) {
+        var search = new CustomerVO();
+        if (StringUtils.isNotBlank(id)) {
+            search.setCustomerId(Long.valueOf(id));
+        }
+        if (StringUtils.isNotBlank(name)) {
+            search.setCustomerName(name);
+        } else {
+            search.setCustomerName("");
+        }
+        if (StringUtils.isNotBlank(mobile)) {
+            search.setMobile(mobile);
+        } else {
+            search.setMobile("");
+        }
+        search.setIncludes(true);
+        search.setStartsWith(true);
+        return search;
     }
 
     @PostMapping("/customer/viewCustomer")

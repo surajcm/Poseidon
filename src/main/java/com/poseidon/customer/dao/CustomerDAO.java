@@ -226,7 +226,7 @@ public class CustomerDAO {
         var customerSpec = new CustomerSpecification();
         var search = populateSearchOperation(searchVO);
         if (!ObjectUtils.isEmpty(searchVO.getCustomerId())) {
-            customerSpec.add(new SearchCriteria("id", searchVO.getCustomerId(), search));
+            customerSpec.add(new SearchCriteria("id", searchVO.getCustomerId(), SearchOperation.EQUAL));
         }
         if (StringUtils.trimWhitespace(searchVO.getCustomerName()).length() > 0) {
             customerSpec.add(new SearchCriteria("name", searchVO.getCustomerName(), search));
