@@ -115,8 +115,88 @@ function rewriteTable(textReturned) {
     const thead = tableHead();
     myTable.appendChild(thead);
     myTable.appendChild(tableBodyCreation(textReturned));
+    document.getElementById('searchCustomer').style.display = "none";
+    const footer = document.getElementById('edit-footer');
+    const pickMe = createChooseButton();
+    footer.appendChild(pickMe);
 }
 
+function createChooseButton() {
+    const button = document.createElement("button");
+    button.id = "pickMe";
+    button.className = "btn btn-primary";
+    button.textContent = "Select";
+    button.type = "button";
+    button.onclick = function () {
+        chooseCustomer()
+    };
+    return button;
+}
+
+function chooseCustomer() {
+    console.log('going to choose');
+    const rowCheck = validateCustomerSelection();
+    if (rowCheck) {
+        let rowId = findSelectedRowId();
+        alert("Customer Id is : "+rowId);
+    }
+}
+
+function findSelectedRowId() {
+    let checks = document.getElementsByName('checkField');
+    let rowId;
+    if (checks.length === 1) {
+        rowId = checks[0].value;
+    } else {
+        for (let i = 0; i < checks.length; i++) {
+            if (checks[i].checked) {
+                rowId = checks[i].value;
+            }
+        }
+    }
+    return rowId;
+}
+
+function validateCustomerSelection() {
+    let check = 'false';
+    const count = getRowCount();
+    if (count > 0) {
+        check = 'true';
+    }
+    if (check === 'true') {
+        if (count === 1) {
+            return true;
+        } else {
+            alert("Only one row can be selected at a time, please select one row");
+            return false;
+        }
+    } else {
+        alert("No rows selected, please select one row");
+        return false;
+    }
+}
+
+function getRowCount() {
+    let checks = document.getElementsByName('checkField');
+    let count = 0;
+    if (checks) {
+        //if total number of rows is one
+        if (checks.checked) {
+            count = 1;
+        } else {
+            if (checks.length === 1) {
+                count = 1;
+            } else {
+                for (let i = 0; i < checks.length; i++) {
+                    if (checks[i].checked) {
+                        count = count + 1;
+                    }
+                }
+            }
+        }
+    }
+    return count;
+}
 
 function tableHeaderRow() {
     const tr1 = document.createElement("tr");
@@ -125,7 +205,6 @@ function tableHeaderRow() {
     tr1.appendChild(tableHeader("id"));
     tr1.appendChild(tableHeader("Name"));
     tr1.appendChild(tableHeader("Address"));
-    tr1.appendChild(tableHeader("Phone"));
     tr1.appendChild(tableHeader("Mobile"));
     tr1.appendChild(tableHeader("Email"));
     return tr1;
@@ -137,7 +216,6 @@ function singleRowInTheTable(singleCustomer) {
     trx.appendChild(tdElement(singleCustomer.customerId));
     trx.appendChild(tdElement(singleCustomer.customerName));
     trx.appendChild(tdElement(singleCustomer.address));
-    trx.appendChild(tdElement(singleCustomer.phoneNo));
     trx.appendChild(tdElement(singleCustomer.mobile));
     trx.appendChild(tdElement(singleCustomer.email));
     return trx;
