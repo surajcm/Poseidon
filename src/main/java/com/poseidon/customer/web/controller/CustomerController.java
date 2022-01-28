@@ -246,7 +246,7 @@ public class CustomerController {
         List<CustomerVO> customerVOs = null;
         try {
             customerVOs = customerService.searchCustomer(requestCustomerVO);
-            logger.info("Found " + customerVOs.size() + " customer details");
+            logger.info("Found {} customer details" , customerVOs.size());
         } catch (Exception ex) {
             logger.error(ex.getLocalizedMessage());
         }

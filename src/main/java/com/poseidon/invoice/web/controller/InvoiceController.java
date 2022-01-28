@@ -38,6 +38,8 @@ public class InvoiceController {
     private static final String INVOICE_FORM = "invoiceForm";
     private static final String INVOICE_FORM_DETAILS = "Invoice Form details are {}";
     private static final String SUCCESS = "success";
+    public static final String ERROR_OCCURRED = "Error occurred";
+    public static final String ERROR_PARSING_TO_JSON = "Error parsing to json : {}";
 
     private final InvoiceService invoiceService;
 
@@ -93,7 +95,7 @@ public class InvoiceController {
             var status = "INVOICED";
             transactionService.updateTransactionStatus(id, status);
         } catch (Exception ex) {
-            log.error("Error occurred", ex);
+            log.error(ERROR_OCCURRED, ex);
         }
         var invoiceVOs = invoiceService.fetchInvoiceForListOfTransactions();
         return parseInvoices(invoiceVOs);
@@ -116,7 +118,7 @@ public class InvoiceController {
             var status = "INVOICED";
             transactionService.updateTransactionStatus(id, status);
         } catch (Exception ex) {
-            log.error("Error occurred", ex);
+            log.error(ERROR_OCCURRED, ex);
         }
         var allTransactions = transactionService.listAllTransactions();
         return parseTransactions(allTransactions);
@@ -169,7 +171,8 @@ public class InvoiceController {
     @PostMapping("/invoice/DeleteInvoice")
     public ModelAndView deleteInvoice(final InvoiceForm invoiceForm) {
         log.info("Inside deleteInvoice method of InvoiceController ");
-        log.info(INVOICE_FORM_DETAILS, invoiceForm);
+        var sanitizedForm = CommonUtils.sanitizedString(invoiceForm.toString());
+        log.info(INVOICE_FORM_DETAILS, sanitizedForm);
         try {
             var invoiceVo = invoiceService.fetchInvoiceVOFromId(invoiceForm.getId());
             invoiceService.deleteInvoice(invoiceForm.getId());
@@ -200,7 +203,8 @@ public class InvoiceController {
     @PostMapping("/invoice/SearchInvoice")
     public ModelAndView searchInvoice(final InvoiceForm invoiceForm) {
         log.info("Inside searchInvoice method of InvoiceController ");
-        log.info(INVOICE_FORM_DETAILS, invoiceForm);
+        var sanitizedForm = CommonUtils.sanitizedString(invoiceForm.toString());
+        log.info(INVOICE_FORM_DETAILS, sanitizedForm);
         var invoiceVOs = invoiceService.findInvoices(invoiceForm.getSearchInvoiceVo());
         if (invoiceVOs != null && !invoiceVOs.isEmpty()) {
             invoiceForm.setInvoiceVos(invoiceVOs);
@@ -226,7 +230,7 @@ public class InvoiceController {
             invoiceVO.setId(id);
             invoiceService.updateInvoice(invoiceVO);
         } catch (Exception ex) {
-            log.error("Error occurred", ex);
+            log.error(ERROR_OCCURRED, ex);
         }
         var invoiceVOs = invoiceService.fetchInvoiceForListOfTransactions();
         return parseInvoices(invoiceVOs);
@@ -297,7 +301,7 @@ public class InvoiceController {
         try {
             response = mapper.writeValueAsString(tags);
         } catch (IOException ex) {
-            log.error("Error parsing to json : {}", ex.getMessage());
+            log.error(ERROR_PARSING_TO_JSON, ex.getMessage());
         }
         log.info("tags list json : {}", response);
         return response;
@@ -309,7 +313,7 @@ public class InvoiceController {
         try {
             response = mapper.writeValueAsString(invoices);
         } catch (IOException ex) {
-            log.error("Error parsing to json : {}", ex.getMessage());
+            log.error(ERROR_PARSING_TO_JSON, ex.getMessage());
         }
         log.info("invoices list json : {}", response);
         return response;
@@ -321,7 +325,7 @@ public class InvoiceController {
         try {
             response = mapper.writeValueAsString(invoices);
         } catch (IOException ex) {
-            log.error("Error parsing to json : {}", ex.getMessage());
+            log.error(ERROR_PARSING_TO_JSON, ex.getMessage());
         }
         log.info("transactions list json : {}", response);
         return response;
@@ -333,7 +337,7 @@ public class InvoiceController {
         try {
             response = mapper.writeValueAsString(invoice);
         } catch (IOException ex) {
-            log.error("Error parsing to json : {}", ex.getMessage());
+            log.error(ERROR_PARSING_TO_JSON, ex.getMessage());
         }
         log.info("invoice json : {}", response);
         return response;

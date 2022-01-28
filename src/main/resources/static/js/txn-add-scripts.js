@@ -94,7 +94,7 @@ function searchForCustomer() {
         if (xhr.status === 200) {
             if (xhr.responseText != null) {
                 console.log(xhr.responseText);
-                //rebuildDropDown(xhr.responseText);
+                rewriteTable(xhr.responseText);
             }
         } else if (xhr.status !== 200) {
             console.log('Request failed.  Returned status of ' + xhr.status);
@@ -105,4 +105,40 @@ function searchForCustomer() {
         "&searchMobile=" + searchMobile +
         "&${_csrf.parameterName}=${_csrf.token}");
 
+}
+
+function rewriteTable(textReturned) {
+    document.getElementById('detail').innerHTML = "";
+    const myTable = document.getElementById("detail");
+    myTable.setAttribute("class", "table table-bordered table-striped table-hover caption-top");
+    myTable.appendChild(setCaption("Customer Details"));
+    const thead = tableHead();
+    myTable.appendChild(thead);
+    myTable.appendChild(tableBodyCreation(textReturned));
+}
+
+
+function tableHeaderRow() {
+    const tr1 = document.createElement("tr");
+    const th1 = tableHeader("#");
+    tr1.appendChild(th1);
+    tr1.appendChild(tableHeader("id"));
+    tr1.appendChild(tableHeader("Name"));
+    tr1.appendChild(tableHeader("Address"));
+    tr1.appendChild(tableHeader("Phone"));
+    tr1.appendChild(tableHeader("Mobile"));
+    tr1.appendChild(tableHeader("Email"));
+    return tr1;
+}
+
+function singleRowInTheTable(singleCustomer) {
+    const trx = document.createElement("tr");
+    trx.appendChild(sideHeader(singleCustomer.customerId));
+    trx.appendChild(tdElement(singleCustomer.customerId));
+    trx.appendChild(tdElement(singleCustomer.customerName));
+    trx.appendChild(tdElement(singleCustomer.address));
+    trx.appendChild(tdElement(singleCustomer.phoneNo));
+    trx.appendChild(tdElement(singleCustomer.mobile));
+    trx.appendChild(tdElement(singleCustomer.email));
+    return trx;
 }

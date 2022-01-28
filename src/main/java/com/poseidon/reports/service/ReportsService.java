@@ -2,6 +2,7 @@ package com.poseidon.reports.service;
 
 import com.poseidon.company.domain.CompanyTermsVO;
 import com.poseidon.company.service.CompanyTermsService;
+import com.poseidon.init.util.CommonUtils;
 import com.poseidon.invoice.domain.InvoiceReportVO;
 import com.poseidon.invoice.domain.InvoiceVO;
 import com.poseidon.invoice.service.InvoiceService;
@@ -83,8 +84,9 @@ public class ReportsService {
      * @return JasperPrint
      */
     public JasperPrint getCallReport(final JasperReport jasperReport, final ReportsVO currentReport) {
-        LOG.info("For call report, fetching details of the tag number :{}", currentReport.getTagNo());
-        var transactionVO = getTransactionReportVO(currentReport.getTagNo());
+        var sanitizedTagNo = CommonUtils.sanitizedString(currentReport.getTagNo());
+        LOG.info("For call report, fetching details of the tag number :{}", sanitizedTagNo);
+        var transactionVO = getTransactionReportVO(sanitizedTagNo);
         currentReport.setTransactionReportVO(transactionVO);
         var jasperPrint = new JasperPrint();
         var companyTerms = getCompanyTerms();
