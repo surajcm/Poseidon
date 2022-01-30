@@ -134,12 +134,43 @@ function createChooseButton() {
 }
 
 function chooseCustomer() {
-    console.log('going to choose');
     const rowCheck = validateCustomerSelection();
     if (rowCheck) {
         let rowId = findSelectedRowId();
-        alert("Customer Id is : "+rowId);
+        console.log("Customer Id is : "+rowId);
+        getSpecificCustomer(rowId);
+        document.getElementById('modal-close').click();
     }
+}
+
+function getSpecificCustomer(customerId) {
+    let xhr = new XMLHttpRequest();
+    xhr.open('GET', "/customer/getForEdit" + "?id=" + customerId, true);
+    let token = document.querySelector("meta[name='_csrf']").content;
+    let header = document.querySelector("meta[name='_csrf_header']").content;
+    //xhr.setRequestHeader(header, token);
+    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    xhr.onload = function () {
+        if (xhr.status === 200) {
+            if (xhr.responseText != null) {
+                console.log(xhr.responseText);
+                putCustomerInAddTxn(xhr.responseText);
+            }
+        } else if (xhr.status !== 200) {
+            console.log('Request failed.  Returned status of ' + xhr.status);
+        }
+    };
+    xhr.send();
+}
+
+function putCustomerInAddTxn(textReturned) {
+    let customerInfo = JSON.parse(textReturned);
+    document.getElementById("customerId").value = customerInfo.customerId;
+    document.getElementById("customerName").value = customerInfo.customerName;
+    document.getElementById("address1").value = customerInfo.address;
+    document.getElementById("phoneNo").value = customerInfo.phoneNo;
+    document.getElementById("mobile").value = customerInfo.mobile;
+    document.getElementById("email").value = customerInfo.email;
 }
 
 function findSelectedRowId() {

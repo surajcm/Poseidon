@@ -52,17 +52,12 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security/">
                                     </div>
                                 </div>
                                 <div class="col-md-4">
-                                    <div class="input-group mb-3">
-                                        <label for="customerName" class="input-group-text">Customer Id</label>
-                                        <input type="text" class="form-control" th:field="*{customerVO.customerId}" id="customerId" />
-                                    </div>
-                                </div>
-                                <div class="col-md-4">
-                                    <label for="customerId" class="form-label" style="font-size: .70em;color:blue;">Enter Customer Details in case of New Customer</label>
-                                </div>
-                                <div class="col-md-4">
                                     <button type="button" class="btn btn-primary" data-bs-toggle="modal"
                                             data-bs-target="#customerDetail" >Find Customer</button>
+                                </div>
+                                <div class="col-md-8">
+                                    <label for="customerId" class="form-label" style="font-size: .70em;color:blue;">Enter Customer Details in case of New Customer</label>
+                                    <input type="hidden" class="form-control" th:field="*{customerVO.customerId}" id="customerId" />
                                 </div>
                                 <div class="col-md-4">
                                     <div class="input-group mb-3">
@@ -169,7 +164,7 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security/">
                     <div class="modal-content">
                         <div class="modal-header">
                             <h5 class="modal-title">Find Customer</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            <button type="button" id="modal-close" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div id="detail" class="modal-body">
                             <div class="row g-3">
