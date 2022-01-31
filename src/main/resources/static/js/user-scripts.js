@@ -157,11 +157,11 @@ function saveFromModal() {
     }
 
     if (allFieldsAreValid) {
-        callAjax(addName, addEmail, addRole);
+        saveThisUser(addName, addEmail, addRole);
     }
 }
 
-function callAjax(addName, addEmail, addRole) {
+function saveThisUser(addName, addEmail, addRole) {
     let xhr = new XMLHttpRequest();
     xhr.open('POST', "/user/saveUser", true);
     let token = document.querySelector("meta[name='_csrf']").content;

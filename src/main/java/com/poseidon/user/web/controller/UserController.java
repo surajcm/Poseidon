@@ -139,7 +139,7 @@ public class UserController {
      */
     @PostMapping("/user/saveUser")
     public @ResponseBody
-    String saveUser(@ModelAttribute("selectName") final String selectName,
+    List<UserVO> saveUser(@ModelAttribute("selectName") final String selectName,
                     @ModelAttribute("selectLogin") final String selectLogin,
                     @ModelAttribute("selectRole") final String selectRole,
                     final BindingResult result) {
@@ -203,7 +203,7 @@ public class UserController {
 
     @PutMapping("/user/updateUser")
     public @ResponseBody
-    String updateUser(@ModelAttribute("id") final String id,
+    List<UserVO> updateUser(@ModelAttribute("id") final String id,
                       @ModelAttribute("name") final String name,
                       @ModelAttribute("email") final String email,
                       @ModelAttribute("role") final String role,
@@ -292,32 +292,11 @@ public class UserController {
         return username;
     }
 
-    private String allUsers() {
+    private List<UserVO> allUsers() {
         List<UserVO> userList = userService.getAllUserDetails();
-        // todo: return a map instead
         userList.forEach(u -> u.setPassword(""));
-        return fetchJsonUserList(userList);
+        return userList;
     }
-
-    /**
-     * fetch user list as json.
-     *
-     * @param userList List of UserVO
-     * @return String
-     */
-    private String fetchJsonUserList(final List<UserVO> userList) {
-        String response;
-        ObjectMapper mapper = new ObjectMapper();
-        try {
-            response = mapper.writeValueAsString(userList);
-        } catch (IOException ex) {
-            response = DANGER;
-            logger.error("error parsing to json : {}", ex.getMessage());
-        }
-        logger.info("user list json : {}", response);
-        return response;
-    }
-
 
     private Map<String, String> populateUserEditMap(final UserVO userVO) {
         Map<String, String> userEditMap = new HashMap<>();

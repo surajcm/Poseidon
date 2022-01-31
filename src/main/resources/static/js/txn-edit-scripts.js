@@ -57,8 +57,15 @@ function rebuildDropDown(textReturned) {
 }
 
 function editSmartCustomer() {
-    editCustomerModal();
-    getCustomerForEdit()
+    console.log('editSmartCustomer');
+}
+
+function changeCustomer() {
+    console.log('changeCustomer');
+}
+
+function addNewCustomer() {
+    console.log('addNewCustomer');
 }
 
 function getCustomerForEdit() {

@@ -1,5 +1,5 @@
 ## Things to do
-* Remove htm from the target names, remove model whenever possible
+* Remove ModelAndView whenever possible
 * email / phone no validation at create customer / transactions pages
 * Combine Make & Model screen , its add /edit/updates.
 * Better login page with customer registration.
