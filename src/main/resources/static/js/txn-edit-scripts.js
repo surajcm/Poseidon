@@ -56,8 +56,135 @@ function rebuildDropDown(textReturned) {
     document.getElementById('modelId').value = model.options[0].value;
 }
 
-function editSmartCustomer() {
-    console.log('editSmartCustomer');
+function editCurrentCustomer() {
+    const customerId = document.getElementById('customerId').value;
+    console.log('In editCurrentCustomer, '+ customerId);
+    //getFromId
+    let detail = document.getElementById("editCustomerBody");
+    detail.innerHTML = "";
+    detail.appendChild(customerOnModal());
+    getCustomerForEditAgain(customerId);
+}
+
+function customerOnModal() {
+    let formValidCustomer = document.createElement("form");
+    formValidCustomer.setAttribute("class", "row g-3 needs-validation");
+    formValidCustomer.novalidate = true;
+
+    let divName = document.createElement("div");
+    divName.setAttribute("class", "col-md-6");
+    let txtCustomerName = aTextBox("modalCustomerName", "Customer Name", true);
+    divName.appendChild(txtCustomerName);
+
+    let tt1 = document.createElement("div");
+    tt1.setAttribute("class", "invalid-tooltip");
+    tt1.innerHTML = "Please provide a valid Name";
+    divName.appendChild(tt1);
+
+    let divAddress = document.createElement("div");
+    divAddress.setAttribute("class", "col-md-6");
+    let txtAddress = aTextArea("modalAddress", "Address", true);
+    divAddress.appendChild(txtAddress);
+
+    let tt2 = document.createElement("div");
+    tt2.setAttribute("class", "invalid-tooltip");
+    tt2.innerHTML = "Please provide a valid Address";
+    divAddress.appendChild(tt2);
+
+    let divPhone = document.createElement("div");
+    divPhone.setAttribute("class", "col-md-4");
+    let txtPhone = aTextBox("modalPhone", "Phone", false);
+    divPhone.appendChild(txtPhone);
+
+    let divMobile = document.createElement("div");
+    divMobile.setAttribute("class", "col-md-4");
+    let txtMobile = aTextBox("modalMobile", "Mobile", true);
+    divMobile.appendChild(txtMobile);
+
+    let ttM = document.createElement("div");
+    ttM.setAttribute("class", "invalid-tooltip");
+    ttM.innerHTML = "Please provide a valid Mobile number";
+    divMobile.appendChild(ttM);
+
+    let divEmail = document.createElement("div");
+    divEmail.setAttribute("class", "col-md-4");
+    let txtEmail = aTextBox("modalEmail", "Email", false);
+    divEmail.appendChild(txtEmail);
+
+    let divContact = document.createElement("div");
+    divContact.setAttribute("class", "col-md-4");
+    let txtContact = aTextBox("modalContact", "Contact Person", false);
+    divContact.appendChild(txtContact);
+
+    let divContactMobile = document.createElement("div");
+    divContactMobile.setAttribute("class", "col-md-4");
+    let txtContactMobile = aTextBox("modalContactMobile", "Mobile of Contact Person", false);
+    divContactMobile.appendChild(txtContactMobile);
+
+    let divNotes = document.createElement("div");
+    divNotes.setAttribute("class", "col-md-4");
+    let txtNotes = aTextArea("modalNotes", "Notes", false);
+    divNotes.appendChild(txtNotes);
+
+    formValidCustomer.appendChild(divName);
+    formValidCustomer.appendChild(divAddress);
+    formValidCustomer.appendChild(divPhone);
+    formValidCustomer.appendChild(divMobile);
+    formValidCustomer.appendChild(divEmail);
+    formValidCustomer.appendChild(divContact);
+    formValidCustomer.appendChild(divContactMobile);
+    formValidCustomer.appendChild(divNotes);
+    return formValidCustomer;
+}
+
+function getCustomerForEditAgain(customerId) {
+    let xhr = new XMLHttpRequest();
+    xhr.open('GET', "/customer/getForEdit" + "?id=" + customerId, true);
+    let token = document.querySelector("meta[name='_csrf']").content;
+    let header = document.querySelector("meta[name='_csrf_header']").content;
+    //xhr.setRequestHeader(header, token);
+    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    xhr.onload = function () {
+        if (xhr.status === 200) {
+            if (xhr.responseText != null) {
+                console.log(xhr.responseText);
+                populateDataForEdit(xhr.responseText);
+            }
+        } else if (xhr.status !== 200) {
+            console.log('Request failed.  Returned status of ' + xhr.status);
+            showEditError();
+        }
+    };
+    xhr.send();
+}
+
+function populateDataForEdit(textReturned) {
+    let customerInfo = JSON.parse(textReturned);
+    document.getElementById("modalCustomerName").value = customerInfo.customerName;
+    document.getElementById("modalAddress").value = customerInfo.address;
+    document.getElementById("modalPhone").value = customerInfo.phoneNo;
+    document.getElementById("modalMobile").value = customerInfo.mobile;
+    document.getElementById("modalEmail").value = customerInfo.email;
+    document.getElementById("modalContact").value = customerInfo.contactPerson;
+    document.getElementById("modalContactMobile").value = customerInfo.contactMobile;
+    document.getElementById("modalNotes").value = customerInfo.notes;
+}
+
+function showEditError() {
+    let detail = document.getElementById("editCustomerBody");
+    detail.innerHTML = "";
+    let updateModal = document.getElementById("updateSmartCustomer");
+    updateModal.style.display = "none";
+    let divStatus = document.createElement("div");
+    divStatus.setAttribute("class", "pop-status");
+    let imgSuccess = document.createElement("img");
+
+    divStatus.appendChild(imgSuccess);
+    let statusMessage = document.createElement("h3");
+    imgSuccess.setAttribute("src", "/img/cross.svg");
+    statusMessage.innerHTML = "Failed to populate data !!";
+    divStatus.appendChild(statusMessage);
+    detail.appendChild(divStatus);
 }
 
 function changeCustomer() {

@@ -20,11 +20,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
 import java.io.IOException;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
 import static com.poseidon.user.web.form.Role.populateRoles;
+import static java.util.Map.entry;
 
 
 @Controller
@@ -299,12 +299,12 @@ public class UserController {
     }
 
     private Map<String, String> populateUserEditMap(final UserVO userVO) {
-        Map<String, String> userEditMap = new HashMap<>();
-        userEditMap.put("id", String.valueOf(userVO.getId()));
-        userEditMap.put("name", userVO.getName());
-        userEditMap.put("email", userVO.getEmail());
-        userEditMap.put("role", userVO.getRole());
-        return userEditMap;
+        return Map.ofEntries(
+                entry("id", String.valueOf(userVO.getId())),
+                entry("name", userVO.getName()),
+                entry("email", userVO.getEmail()),
+                entry("role", userVO.getRole())
+        );
     }
 
     private String parseUserVO(final Map<String, String> userEditMap) {
