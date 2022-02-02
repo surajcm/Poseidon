@@ -495,12 +495,12 @@ function updateFromModal() {
     }
     if (allFieldsAreValid) {
         console.log("all fields are valid");
-        callAjaxUpdate(modalCustomerName, modalAddress, modalPhone,
+        updateSmartCustomer(modalCustomerName, modalAddress, modalPhone,
             modalMobile, modalEmail, modalContact, modalContactMobile, modalNotes);
     }
 }
 
-function callAjaxUpdate(modalCustomerName, modalAddress, modalPhone,
+function updateSmartCustomer(modalCustomerName, modalAddress, modalPhone,
                         modalMobile, modalEmail, modalContact, modalContactMobile, modalNotes) {
     let id = document.getElementById("id").value;
     let xhr = new XMLHttpRequest();

@@ -187,6 +187,93 @@ function showEditError() {
     detail.appendChild(divStatus);
 }
 
+function updateFromModal() {
+    let modalCustomerName = document.getElementById("modalCustomerName").value;
+    let modalAddress = document.getElementById("modalAddress").value;
+    let modalPhone = document.getElementById("modalPhone").value;
+    let modalMobile = document.getElementById("modalMobile").value;
+    let modalEmail = document.getElementById("modalEmail").value;
+    let modalContact = document.getElementById("modalContact").value;
+    let modalContactMobile = document.getElementById("modalContactMobile").value;
+    let modalNotes = document.getElementById("modalNotes").value;
+
+    let forms = document.getElementsByClassName('needs-validation');
+    let allFieldsAreValid = true;
+
+    if (forms[0].checkValidity() === false) {
+        allFieldsAreValid = false;
+        if (modalCustomerName.length === 0) {
+            document.getElementById("modalCustomerName").setAttribute("class", "form-control is-invalid");
+        } else {
+            document.getElementById("modalCustomerName").setAttribute("class", "form-control was-validated");
+        }
+        if (modalAddress.length === 0) {
+            document.getElementById("modalAddress").setAttribute("class", "form-control is-invalid");
+        } else {
+            document.getElementById("modalAddress").setAttribute("class", "form-control was-validated");
+        }
+        if (modalMobile.length === 0) {
+            document.getElementById("modalMobile").setAttribute("class", "form-control is-invalid");
+        } else {
+            document.getElementById("modalMobile").setAttribute("class", "form-control was-validated");
+        }
+    }
+    if (allFieldsAreValid) {
+        console.log("all fields are valid");
+        updateSmartCustomer(modalCustomerName, modalAddress, modalPhone,
+            modalMobile, modalEmail, modalContact, modalContactMobile, modalNotes);
+    }
+}
+
+function updateSmartCustomer(modalCustomerName, modalAddress, modalPhone,
+                             modalMobile, modalEmail, modalContact, modalContactMobile, modalNotes) {
+    const customerId = document.getElementById('customerId').value;
+    let xhr = new XMLHttpRequest();
+    xhr.open('PUT', "/customer/updateCustomer", true);
+    let token = document.querySelector("meta[name='_csrf']").content;
+    let header = document.querySelector("meta[name='_csrf_header']").content;
+    //xhr.setRequestHeader(header, token);
+    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    xhr.onload = function () {
+        if (xhr.status === 200) {
+            if (xhr.responseText != null) {
+                console.log(xhr.responseText);
+                updateTransactionWithCustomer(xhr.responseText);
+                showUpdateStatus(true);
+            } else {
+                console.log("Empty response");
+                showUpdateStatus(false);
+            }
+        } else if (xhr.status !== 200) {
+            console.log('Request failed.  Returned status of ' + xhr.status);
+            showUpdateStatus(false);
+        }
+    };
+    xhr.send("id=" +
+        customerId +
+        "&modalCustomerName=" + modalCustomerName +
+        "&modalAddress=" + modalAddress +
+        "&modalPhone=" + modalPhone +
+        "&modalMobile=" + modalMobile +
+        "&modalEmail=" + modalEmail +
+        "&modalContact=" + modalContact +
+        "&modalContactMobile=" + modalContactMobile +
+        "&modalNotes=" + modalNotes);
+}
+
+function updateTransactionWithCustomer(textReturned) {
+    console.log("response received :" + textReturned);
+    const customerId = document.getElementById('customerId').value;
+    const elementList = JSON.parse(textReturned);
+    for (let i = 0; i < elementList.length; i++) {
+        const singleElement = elementList[i];
+        if (parseInt(customerId) === parseInt(singleElement.customerId)) {
+            document.getElementById('customerName').value = singleElement.customerName;
+            document.getElementById('email').value = singleElement.email;
+        }
+    }
+}
+
 function changeCustomer() {
     console.log('changeCustomer');
 }
@@ -263,4 +350,12 @@ function rewriteTable(textReturned) {
             document.getElementById("email").value = singleElement.email;
         }
     }
+}
+
+function showUpdateStatus(status) {
+    let detail = document.getElementById("editCustomerBody");
+    detail.innerHTML = "";
+    let updateSmartCustomer = document.getElementById("updateCurrentCustomer");
+    updateSmartCustomer.style.display = "none";
+    detail.appendChild(statusMessage(status, 'UPDATE'));
 }
