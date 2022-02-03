@@ -172,14 +172,24 @@
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title">Change Customer</h5>
-                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            <h5 class="modal-title">Find Customer</h5>
+                            <button type="button" class="btn-close" id="modal-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
-                        <div id="changeCustomerBody" class="modal-body">
-                            <p>Lets change customer....</p>
+                        <div id="detail" class="modal-body">
+                            <div class="row g-3">
+                                <div class="col-md-2">
+                                    <input class="form-control" id="searchCustomerId" placeholder="Id" />
+                                </div>
+                                <div class="col-md-6">
+                                    <input class="form-control" id="searchCustomerName" placeholder="Customer Name" />
+                                </div>
+                                <div class="col-md-4">
+                                    <input class="form-control" id="searchMobile" placeholder="Mobile" />
+                                </div>
+                            </div>
                         </div>
-                        <div class="modal-footer">
-                            <button type="button" id="updateToCustomer" class="btn btn-primary" onclick="updateFromModal();">Update</button>
+                        <div id="edit-footer" class="modal-footer">
+                            <button type="button" id="searchCustomer" class="btn btn-primary" onclick="updateFromModal();">Update</button>
                         </div>
                     </div>
                 </div>
@@ -188,7 +198,7 @@
                 <div class="modal-dialog">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title">Change Customer</h5>
+                            <h5 class="modal-title">Add Customer</h5>
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                         </div>
                         <div id="newCustomerBody" class="modal-body">
