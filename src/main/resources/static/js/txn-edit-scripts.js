@@ -448,7 +448,9 @@ function putCustomerInEditTxn(textReturned) {
 }
 
 function addNewCustomer() {
-    console.log('addNewCustomer');
+    let detail = document.getElementById("newCustomerBody");
+    detail.innerHTML = "";
+    detail.appendChild(customerOnModal());
 }
 
 function getCustomerForEdit() {
