@@ -276,7 +276,7 @@ function saveFromModal() {
     }
     if (allFieldsAreValid) {
         console.log("all fields are valid, going to save");
-        ajaxSaveCustomer(modalCustomerName.value,
+        saveNewCustomer(modalCustomerName.value,
             modalAddress.value,
             modalPhone.value,
             modalMobile.value,
@@ -297,7 +297,7 @@ function markValidity(element) {
     }
 }
 
-function ajaxSaveCustomer(modalCustomerName,
+function saveNewCustomer(modalCustomerName,
                           modalAddress,
                           modalPhone,
                           modalMobile,

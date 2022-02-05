@@ -133,6 +133,37 @@ public class CustomerController {
         return listCustomersAsString();
     }
 
+    @PostMapping("/customer/saveCustomer2")
+    public @ResponseBody
+    CustomerVO saveCustomer2(@ModelAttribute("modalCustomerName") final String modalCustomerName,
+                            @ModelAttribute("modalAddress") final String modalAddress,
+                            @ModelAttribute("modalPhone") final String modalPhone,
+                            @ModelAttribute("modalMobile") final String modalMobile,
+                            @ModelAttribute("modalEmail") final String modalEmail,
+                            @ModelAttribute("modalContact") final String modalContact,
+                            @ModelAttribute("modalContactMobile") final String modalContactMobile,
+                            @ModelAttribute("modalNotes") final String modalNotes) {
+        var customerVO = new CustomerVO();
+        customerVO.setCustomerName(modalCustomerName);
+        customerVO.setAddress(modalAddress);
+        customerVO.setPhoneNo(modalPhone);
+        customerVO.setMobile(modalMobile);
+        customerVO.setEmail(modalEmail);
+        customerVO.setContactPerson(modalContact);
+        customerVO.setContactMobile(modalContactMobile);
+        customerVO.setNotes(modalNotes);
+        var userName = findLoggedInUsername();
+        customerVO.setCreatedBy(userName);
+        customerVO.setModifiedBy(userName);
+        CustomerVO result = null;
+        try {
+            result = customerService.saveCustomer(customerVO);
+        } catch (Exception ex) {
+            logger.error(ex.getMessage());
+        }
+        return result;
+    }
+
     private String listCustomersAsString() {
         List<CustomerVO> customerVOs = customerService.listAllCustomerDetails();
         return convertCustomerVosToString(customerVOs);

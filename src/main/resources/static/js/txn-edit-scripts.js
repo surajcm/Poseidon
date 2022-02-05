@@ -530,3 +530,89 @@ function showUpdateStatus(status) {
     updateSmartCustomer.style.display = "none";
     detail.appendChild(statusMessage(status, 'UPDATE'));
 }
+
+function saveFromModal() {
+    let modalCustomerName = document.getElementById("modalCustomerName");
+    let modalAddress = document.getElementById("modalAddress");
+    let modalPhone = document.getElementById("modalPhone");
+    let modalMobile = document.getElementById("modalMobile");
+    let modalEmail = document.getElementById("modalEmail");
+    let modalContact = document.getElementById("modalContact");
+    let modalContactMobile = document.getElementById("modalContactMobile");
+    let modalNotes = document.getElementById("modalNotes");
+    let forms = document.getElementsByClassName('needs-validation');
+    let allFieldsAreValid = true;
+
+    if (forms[0].checkValidity() === false) {
+        let validName = markValidity(modalCustomerName);
+        let validAddress = markValidity(modalAddress);
+        let validMobile = markValidity(modalMobile);
+        allFieldsAreValid = validName && validAddress && validMobile;
+    }
+    if (allFieldsAreValid) {
+        console.log("all fields are valid, going to save");
+        saveNewCustomer(modalCustomerName.value,
+            modalAddress.value,
+            modalPhone.value,
+            modalMobile.value,
+            modalEmail.value,
+            modalContact.value,
+            modalContactMobile.value,
+            modalNotes.value);
+    }
+}
+
+function markValidity(element) {
+    if (element.value.length === 0) {
+        element.setAttribute("class", "form-control is-invalid");
+        return false;
+    } else {
+        element.setAttribute("class", "form-control was-validated");
+        return true;
+    }
+}
+
+function saveNewCustomer(modalCustomerName,
+                         modalAddress,
+                         modalPhone,
+                         modalMobile,
+                         modalEmail,
+                         modalContact,
+                         modalContactMobile,
+                         modalNotes) {
+    let xhr = new XMLHttpRequest();
+    xhr.open('POST', "/customer/saveCustomer2", true);
+    let token = document.querySelector("meta[name='_csrf']").content;
+    let header = document.querySelector("meta[name='_csrf_header']").content;
+    //xhr.setRequestHeader(header, token);
+    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    xhr.onload = function () {
+        if (xhr.status === 200) {
+            if (xhr.responseText != null && xhr.responseText !== "") {
+                //console.log(xhr.responseText);
+                insertNewUser(xhr.responseText);
+            } else {
+                console.log("Empty response");
+            }
+        } else if (xhr.status !== 200) {
+            console.log('Request failed.  Returned status of ' + xhr.status);
+        }
+        document.getElementById('new-modal-close').click();
+    };
+    xhr.send("modalCustomerName=" + modalCustomerName
+        + "&modalAddress=" + modalAddress
+        + "&modalPhone=" + modalPhone
+        + "&modalMobile=" + modalMobile
+        + "&modalEmail=" + modalEmail
+        + "&modalContact=" + modalContact
+        + "&modalContactMobile=" + modalContactMobile
+        + "&modalNotes=" + modalNotes
+        + "&${_csrf.parameterName}=${_csrf.token}");
+}
+
+function insertNewUser(textReturned) {
+    const customer = JSON.parse(textReturned);
+    document.getElementById("customerId").value = customer.customerId;
+    document.getElementById("customerName").value = customer.customerName;
+    document.getElementById("email").value = customer.email;
+}
