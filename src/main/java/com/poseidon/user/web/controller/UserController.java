@@ -52,7 +52,7 @@ public class UserController {
     /**
      * Used in automatic redirect to Log in screen.
      *
-     * @return ModelAndView to render
+     * @return MainPage screen
      */
     @GetMapping("/")
     public String welcome() {
@@ -84,7 +84,7 @@ public class UserController {
     /**
      * Screen to home.
      *
-     * @return ModelAndView to render
+     * @return to home screen
      */
     @PostMapping("/home")
     public String toHome() {
@@ -95,7 +95,7 @@ public class UserController {
     /**
      * Screen to log out.
      *
-     * @return ModelAndView to render
+     * @return to logout screen
      */
     @PostMapping("/logMeOut")
     public String logMeOut(final HttpServletRequest request) {
@@ -112,7 +112,7 @@ public class UserController {
      * Used to list all users (can be done only by admin user).
      *
      * @param userForm userForm instance
-     * @return ModelAndView to render
+     * @return to user list screen
      */
     @PostMapping("/user/listAll")
     public String listAllUsers(@ModelAttribute final UserForm userForm, final Model model) {
@@ -154,7 +154,7 @@ public class UserController {
      * Screen to search for a user.
      *
      * @param userForm userForm instance
-     * @return ModelAndView to render
+     * @return to user list screen
      */
     @PostMapping("/user/searchUser")
     public String searchUser(final UserForm userForm, final Model model) {
@@ -255,7 +255,7 @@ public class UserController {
      * delete the user.
      *
      * @param userForm userForm instance
-     * @return ModelAndView to render
+     * @return to user list screen
      */
     @PostMapping("/user/deleteUser")
     public String deleteUser(final UserForm userForm, final Model model) {

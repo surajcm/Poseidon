@@ -23,7 +23,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.servlet.ModelAndView;
 
 import java.io.IOException;
 import java.util.List;
@@ -55,7 +54,7 @@ public class InvoiceController {
      * list invoice.
      *
      * @param invoiceForm InvoiceForm
-     * @return ModelAndView
+     * @return listInvoice screen
      */
     @PostMapping("/invoice/ListInvoice")
     public String listInvoice(final InvoiceForm invoiceForm, final Model model) {
@@ -166,10 +165,10 @@ public class InvoiceController {
      * delete invoice.
      *
      * @param invoiceForm InvoiceForm
-     * @return ModelAndView
+     * @return listInvoice screen
      */
     @PostMapping("/invoice/DeleteInvoice")
-    public ModelAndView deleteInvoice(final InvoiceForm invoiceForm) {
+    public String deleteInvoice(final InvoiceForm invoiceForm, final Model model) {
         log.info("Inside deleteInvoice method of InvoiceController ");
         var sanitizedForm = CommonUtils.sanitizedString(invoiceForm.toString());
         log.info(INVOICE_FORM_DETAILS, sanitizedForm);
@@ -191,17 +190,17 @@ public class InvoiceController {
         }
         var invoiceVOs = fetchInvoices(invoiceForm);
         invoiceForm.setSearchInvoiceVo(new InvoiceVO());
-        return new ModelAndView(LIST_INVOICE, INVOICE_FORM, invoiceForm);
+        return listInvoice(invoiceForm, model);
     }
 
     /**
      * search invoice.
      *
      * @param invoiceForm InvoiceForm
-     * @return ModelAndView
+     * @return listInvoice screen
      */
     @PostMapping("/invoice/SearchInvoice")
-    public ModelAndView searchInvoice(final InvoiceForm invoiceForm) {
+    public String searchInvoice(final InvoiceForm invoiceForm, final Model model) {
         log.info("Inside searchInvoice method of InvoiceController ");
         var sanitizedForm = CommonUtils.sanitizedString(invoiceForm.toString());
         log.info(INVOICE_FORM_DETAILS, sanitizedForm);
@@ -211,7 +210,8 @@ public class InvoiceController {
             invoiceForm.setStatusMessage("Found " + invoiceVOs.size() + " invoice details");
         }
         invoiceForm.setStatusMessageType("info");
-        return new ModelAndView(LIST_INVOICE, INVOICE_FORM, invoiceForm);
+        model.addAttribute(INVOICE_FORM, invoiceForm);
+        return LIST_INVOICE;
     }
 
     @PutMapping("/invoice/updateInvoice")
