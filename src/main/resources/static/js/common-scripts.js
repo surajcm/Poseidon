@@ -27,8 +27,7 @@ function selectedRowCount() {
 }
 
 function validateSelection() {
-    console.debug("at validateSelection in common-scripts");
-    let check = 'false';
+        let check = 'false';
     let count = selectedRowCount();
     if (count > 0) {
         check = 'true';

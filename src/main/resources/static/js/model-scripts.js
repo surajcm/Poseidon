@@ -124,7 +124,7 @@ function addModel() {
     divName.setAttribute("class", "col-md-4");
     let selectMakeName = document.createElement("select");
     selectMakeName.setAttribute("class", "form-select");
-    selectMakeName.setAttribute("id", "modalMakeName");
+    selectMakeName.setAttribute("id", "modalMakeNameForUpdate");
     divName.appendChild(selectMakeName);
     //ajax and add
 
@@ -163,7 +163,7 @@ function addMakesToSelect(response) {
 }
 
 function saveFromModal() {
-    let modalMakeName = document.getElementById("modalMakeName").value;
+    let modalMakeName = document.getElementById("modalMakeNameForUpdate").value;
     let modalModelName = document.getElementById("modalModelName").value;
     let forms = document.getElementsByClassName('needs-validation');
     let allFieldsAreValid = true;
