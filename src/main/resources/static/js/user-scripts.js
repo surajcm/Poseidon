@@ -322,10 +322,10 @@ function showEditError() {
 }
 
 function populateDataForEdit(textReturned) {
-    let userMap = JSON.parse(textReturned);
-    document.getElementById("updateName").value = userMap.name;
-    document.getElementById("updateEmail").value = userMap.email;
-    document.getElementById("updateRole").value = userMap.role;
+    let user = JSON.parse(textReturned);
+    document.getElementById("updateName").value = user.name;
+    document.getElementById("updateEmail").value = user.email;
+    document.getElementById("updateRole").value = user.role;
 }
 
 function updateFromModal() {

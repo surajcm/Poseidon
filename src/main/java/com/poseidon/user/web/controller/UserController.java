@@ -24,7 +24,6 @@ import java.util.List;
 import java.util.Map;
 
 import static com.poseidon.user.web.form.Role.populateRoles;
-import static java.util.Map.entry;
 
 
 @Controller
@@ -192,13 +191,12 @@ public class UserController {
 
     @GetMapping("/user/getForEdit")
     public @ResponseBody
-    String getForEdit(@ModelAttribute("id") final String id,
+    UserVO getForEdit(@ModelAttribute("id") final String id,
                       final BindingResult result) {
         var sanitizedId = CommonUtils.sanitizedString(id);
         logger.info("getForEdit method of user controller : {}", sanitizedId);
         return userService.getUserDetailsFromId(Long.valueOf(id))
-                .map(vo -> parseUserVO(populateUserEditMap(vo)))
-                .orElse("");
+                .orElse(null);
     }
 
     @PutMapping("/user/updateUser")
@@ -296,28 +294,6 @@ public class UserController {
         List<UserVO> userList = userService.getAllUserDetails();
         userList.forEach(u -> u.setPassword(""));
         return userList;
-    }
-
-    private Map<String, String> populateUserEditMap(final UserVO userVO) {
-        return Map.ofEntries(
-                entry("id", String.valueOf(userVO.getId())),
-                entry("name", userVO.getName()),
-                entry("email", userVO.getEmail()),
-                entry("role", userVO.getRole())
-        );
-    }
-
-    private String parseUserVO(final Map<String, String> userEditMap) {
-        String response;
-        var mapper = new ObjectMapper();
-        try {
-            response = mapper.writeValueAsString(userEditMap);
-        } catch (IOException ex) {
-            response = DANGER;
-            logger.error("Error parsing to json : {}", ex.getMessage());
-        }
-        logger.info("User list json : {}", response);
-        return response;
     }
 
     private UserVO formSearch(final String name) {
