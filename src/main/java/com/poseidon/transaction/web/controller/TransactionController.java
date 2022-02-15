@@ -9,7 +9,6 @@ import com.poseidon.make.service.MakeService;
 import com.poseidon.transaction.domain.TransactionVO;
 import com.poseidon.transaction.service.TransactionService;
 import com.poseidon.transaction.web.form.TransactionForm;
-import org.codehaus.jackson.map.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -18,7 +17,6 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.io.IOException;
 import java.time.OffsetDateTime;
 import java.time.ZoneId;
 import java.util.HashMap;
@@ -318,34 +316,10 @@ public class TransactionController {
      */
     @PostMapping(value = "/txs/updateModel")
     public @ResponseBody
-    String updateModel(@ModelAttribute("selectMakeId") final String selectMakeId) {
-        var responseString = "";
+    List<MakeAndModelVO> updateModel(@ModelAttribute("selectMakeId") final String selectMakeId) {
         var sanitizedMakeId = CommonUtils.sanitizedString(selectMakeId);
         LOG.info("At UpdateModel, selectMakeId is : {}", sanitizedMakeId);
-        try {
-            var makeAndModelVOs = makeService.getAllModelsFromMakeId(Long.valueOf(selectMakeId));
-            if (makeAndModelVOs != null && !makeAndModelVOs.isEmpty()) {
-                responseString = makeAndModelJson(makeAndModelVOs);
-            }
-        } catch (Exception ex) {
-            LOG.error(ex.getLocalizedMessage());
-        }
-        return responseString;
-    }
-
-    private String makeAndModelJson(final List<MakeAndModelVO> makeAndModelVOs) {
-        String response;
-        var makeAndModelList =
-                makeAndModelVOs.stream().map(this::getMakeModelMap).toList();
-        var mapper = new ObjectMapper();
-        try {
-            response = mapper.writeValueAsString(makeAndModelList);
-        } catch (IOException ex) {
-            response = DANGER;
-            LOG.error("error parsing to json : {} ", ex.getMessage());
-        }
-        LOG.info("response json : {}", response);
-        return response;
+        return makeService.getAllModelsFromMakeId(Long.valueOf(selectMakeId));
     }
 
     private Map<String, String> getMakeModelMap(final MakeAndModelVO makeAndModelVO) {

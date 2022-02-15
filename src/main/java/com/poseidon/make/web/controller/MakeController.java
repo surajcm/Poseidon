@@ -297,19 +297,16 @@ public class MakeController {
      */
     @PostMapping("/make/saveModel")
     public @ResponseBody
-    String saveModel(@ModelAttribute("selectMakeId") final Long selectMakeId,
+    List<MakeAndModelVO> saveModel(@ModelAttribute("selectMakeId") final Long selectMakeId,
                      @ModelAttribute("selectModelName") final String selectModelName,
                      final BindingResult result) {
         LOG.info("SaveModel method of MakeController ");
-        var responseString = new StringBuilder();
         if (!result.hasErrors()) {
             makeService.addNewModel(populateModelVO(selectMakeId, selectModelName));
-            var makeAndModelVOs = makeService.listAllMakesAndModels();
-            responseString.append(fetchJsonModelList(makeAndModelVOs));
         } else {
             LOG.info("errors {}", result);
         }
-        return responseString.toString();
+        return makeService.listAllMakesAndModels();
     }
 
     private MakeAndModelVO populateModelVO(final Long selectMakeId, final String selectModelName) {
@@ -335,7 +332,7 @@ public class MakeController {
 
     @PutMapping("/make/updateModel")
     public @ResponseBody
-    String updateModel(@ModelAttribute("id") final Long id,
+    List<MakeAndModelVO> updateModel(@ModelAttribute("id") final Long id,
                        @ModelAttribute("modalMakeName") final Long makeId,
                        @ModelAttribute("modalModelName") final String modalModelName,
                        final BindingResult result) {
@@ -344,11 +341,8 @@ public class MakeController {
         var sanitizedModelName = CommonUtils.sanitizedString(modalModelName);
         LOG.info("UpdateModel method of make controller with id {}, makeId {}, modalModelName {}",
                 sanitizedId, sanitizedMakeId, sanitizedModelName);
-        var responseString = new StringBuilder();
         makeService.updateModel(id, makeId, modalModelName);
-        var makeAndModelVOs = makeService.listAllMakesAndModels();
-        responseString.append(fetchJsonModelList(makeAndModelVOs));
-        return responseString.toString();
+        return makeService.listAllMakesAndModels();
     }
 
     @PutMapping("/make/updateMake")
@@ -411,19 +405,6 @@ public class MakeController {
         var mapper = new ObjectMapper();
         try {
             response = mapper.writeValueAsString(makeVOS);
-        } catch (IOException ex) {
-            response = DANGER;
-            LOG.error(ex.getMessage());
-        }
-        LOG.info(response);
-        return response;
-    }
-
-    private String fetchJsonModelList(final List<MakeAndModelVO> makeAndModelVOs) {
-        String response;
-        var mapper = new ObjectMapper();
-        try {
-            response = mapper.writeValueAsString(makeAndModelVOs);
         } catch (IOException ex) {
             response = DANGER;
             LOG.error(ex.getMessage());
