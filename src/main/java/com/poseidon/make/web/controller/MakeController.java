@@ -256,21 +256,17 @@ public class MakeController {
      */
     @PostMapping("/make/saveMake")
     public @ResponseBody
-    String saveMake(@ModelAttribute("selectMakeName") final String selectMakeName,
+    List<MakeVO> saveMake(@ModelAttribute("selectMakeName") final String selectMakeName,
                     @ModelAttribute("selectMakeDesc") final String selectMakeDesc,
                     final BindingResult result) {
         LOG.info("SaveMake method of MakeController");
-        var responseString = new StringBuilder();
-        if (!result.hasErrors()) {
-            var makeForm = new MakeForm();
-            makeForm.setCurrentMakeAndModeVO(populateMakeVO(selectMakeName, selectMakeDesc));
-            makeService.addNewMake(makeForm.getCurrentMakeAndModeVO());
-            var makes = makeService.fetchMakes();
-            responseString.append(fetchJsonMakeList(makes));
-        } else {
+        if (result.hasErrors()) {
             LOG.info("errors {}", result);
         }
-        return responseString.toString();
+        var makeForm = new MakeForm();
+        makeForm.setCurrentMakeAndModeVO(populateMakeVO(selectMakeName, selectMakeDesc));
+        makeService.addNewMake(makeForm.getCurrentMakeAndModeVO());
+        return makeService.fetchMakes();
     }
 
     private MakeAndModelVO populateMakeVO(final String selectMakeName, final String selectMakeDesc) {
@@ -347,7 +343,7 @@ public class MakeController {
 
     @PutMapping("/make/updateMake")
     public @ResponseBody
-    String updateMake(@ModelAttribute("id") final Long id,
+    List<MakeVO> updateMake(@ModelAttribute("id") final Long id,
                       @ModelAttribute("makeName") final String makeName,
                       @ModelAttribute("description") final String description,
                       final BindingResult result) {
@@ -359,8 +355,7 @@ public class MakeController {
         var responseString = new StringBuilder();
         var makeModelVO = buildMakeModelVO(id, makeName, description);
         makeService.updateMake(makeModelVO);
-        var makes = makeService.fetchMakes();
-        return responseString.append(fetchJsonMakeList(makes)).toString();
+        return makeService.fetchMakes();
     }
 
     private MakeAndModelVO buildMakeModelVO(final Long id,
@@ -392,19 +387,6 @@ public class MakeController {
         var mapper = new ObjectMapper();
         try {
             response = mapper.writeValueAsString(modelEditMap);
-        } catch (IOException ex) {
-            response = DANGER;
-            LOG.error(ex.getMessage());
-        }
-        LOG.info(response);
-        return response;
-    }
-
-    private String fetchJsonMakeList(final List<MakeVO> makeVOS) {
-        String response;
-        var mapper = new ObjectMapper();
-        try {
-            response = mapper.writeValueAsString(makeVOS);
         } catch (IOException ex) {
             response = DANGER;
             LOG.error(ex.getMessage());
