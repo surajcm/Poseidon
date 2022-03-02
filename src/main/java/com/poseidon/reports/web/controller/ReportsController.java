@@ -1,7 +1,6 @@
 package com.poseidon.reports.web.controller;
 
 import com.poseidon.init.util.CommonUtils;
-import com.poseidon.make.domain.MakeAndModelVO;
 import com.poseidon.make.domain.MakeVO;
 import com.poseidon.make.service.MakeService;
 import com.poseidon.reports.domain.ExportList;
@@ -9,6 +8,7 @@ import com.poseidon.reports.domain.InvoiceStatus;
 import com.poseidon.reports.domain.ReportsVO;
 import com.poseidon.reports.service.ReportsService;
 import com.poseidon.reports.util.ReportingConfigurations;
+import com.poseidon.reports.util.ReportsUtil;
 import com.poseidon.reports.web.form.ReportsForm;
 import com.poseidon.transaction.domain.TransactionVO;
 import net.sf.jasperreports.engine.JRException;
@@ -25,8 +25,6 @@ import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -55,13 +53,17 @@ public class ReportsController {
     private static final String TEXT_HTML = "text/html";
     private static final String CONTENT_DISPOSITION = "Content-disposition";
     private static final String CONTENT_DISPOSITION1 = "Content-Disposition";
+
     private final ReportsService reportsService;
-
     private final MakeService makeService;
+    private final ReportsUtil reportsUtil;
 
-    public ReportsController(final ReportsService reportsService, final MakeService makeService) {
+    public ReportsController(final ReportsService reportsService,
+                             final MakeService makeService,
+                             final ReportsUtil reportsUtil) {
         this.reportsService = reportsService;
         this.makeService = makeService;
+        this.reportsUtil = reportsUtil;
     }
 
     /**
@@ -97,9 +99,9 @@ public class ReportsController {
         reportsForm.setExportList(ExportList.asList());
         reportsForm.setStatusList(InvoiceStatus.asList());
         reportsForm.setCurrentReport(new ReportsVO());
-        reportsForm.setModelReportMakeAndModelVO(getSearchMakeAndModelVO());
-        reportsForm.setTxnReportTransactionVO(getSearchTransaction());
-        reportsForm.setInvoiceListReportTransactionVO(getSearchTransaction());
+        reportsForm.setModelReportMakeAndModelVO(reportsUtil.getSearchMakeAndModelVO());
+        reportsForm.setTxnReportTransactionVO(reportsUtil.getSearchTransaction());
+        reportsForm.setInvoiceListReportTransactionVO(reportsUtil.getSearchTransaction());
         model.addAttribute("reportsForm", reportsForm);
         return "reports/List";
     }
@@ -121,7 +123,7 @@ public class ReportsController {
      * @param httpServletResponse HttpServletResponse
      * @param reportsForm         ReportsForm
      */
-    @RequestMapping(value = "/reports/makeDetailsReport", method = {RequestMethod.GET, RequestMethod.POST})
+    @PostMapping(value = "/reports/makeDetailsReport")
     public void makeDetailsReport(final HttpServletRequest httpServletRequest,
                                      final HttpServletResponse httpServletResponse,
                                      final ReportsForm reportsForm) {
@@ -152,7 +154,7 @@ public class ReportsController {
      * @param httpServletResponse HttpServletResponse
      * @param reportsForm         ReportsForm
      */
-    @RequestMapping(value = "/reports/callReport", method = {RequestMethod.GET, RequestMethod.POST})
+    @PostMapping(value = "/reports/callReport")
     public void callReport(final HttpServletRequest httpServletRequest,
                               final HttpServletResponse httpServletResponse,
                               final ReportsForm reportsForm) {
@@ -181,7 +183,7 @@ public class ReportsController {
      * @param httpServletResponse HttpServletResponse
      * @param reportsForm         ReportsForm
      */
-    @RequestMapping(value = "/reports/transactionsListReport", method = {RequestMethod.GET, RequestMethod.POST})
+    @PostMapping(value = "/reports/transactionsListReport")
     public void transactionsListReport(final HttpServletRequest httpServletRequest,
                                           final HttpServletResponse httpServletResponse,
                                           final ReportsForm reportsForm) {
@@ -195,7 +197,7 @@ public class ReportsController {
             var reportFileName = "transactionsListReport";
             var jasperReport = createJasperReport(reportFileName);
             var reportsVO = reportsForm.getCurrentReport();
-            //modify the dates
+            //todo : modify the dates
             var newTransactionVO = modifyDateFormat(reportsForm.getTxnReportTransactionVO());
             var jasperPrint = reportsService.getTransactionsListReport(jasperReport,
                     reportsVO,
@@ -231,7 +233,7 @@ public class ReportsController {
      * @param httpServletResponse HttpServletResponse
      * @param reportsForm         ReportsForm
      */
-    @RequestMapping(value = "/reports/modelListReport", method = {RequestMethod.GET, RequestMethod.POST})
+    @PostMapping(value = "/reports/modelListReport")
     public void getModelListReport(final HttpServletRequest httpServletRequest,
                                    final HttpServletResponse httpServletResponse,
                                    final ReportsForm reportsForm) {
@@ -261,7 +263,7 @@ public class ReportsController {
      * @param httpServletResponse HttpServletResponse
      * @param reportsForm         ReportsForm
      */
-    @RequestMapping(value = "/reports/invoiceReport", method = {RequestMethod.GET, RequestMethod.POST})
+    @PostMapping(value = "/reports/invoiceReport")
     public void getInvoiceReport(final HttpServletRequest httpServletRequest,
                                  final HttpServletResponse httpServletResponse,
                                  final ReportsForm reportsForm) {
@@ -290,7 +292,7 @@ public class ReportsController {
      * @param httpServletResponse HttpServletResponse
      * @param reportsForm         ReportsForm
      */
-    @RequestMapping(value = "/reports/errorReport", method = {RequestMethod.GET, RequestMethod.POST})
+    @PostMapping(value = "/reports/errorReport")
     public void getErrorReport(final HttpServletRequest httpServletRequest,
                                final HttpServletResponse httpServletResponse,
                                final ReportsForm reportsForm) {
@@ -424,18 +426,6 @@ public class ReportsController {
     }
 
 
-    private TransactionVO getSearchTransaction() {
-        var searchVO = new TransactionVO();
-        searchVO.setModelId(0L);
-        searchVO.setMakeId(0L);
-        return searchVO;
-    }
 
-    private MakeAndModelVO getSearchMakeAndModelVO() {
-        var searchVO = new MakeAndModelVO();
-        searchVO.setMakeId(0L);
-        searchVO.setModelId(0L);
-        return searchVO;
-    }
 
 }

@@ -31,7 +31,7 @@ public class ReportingConfigurations {
     public static SimpleHtmlReportConfiguration configurationForHTML() {
         var configuration = new SimpleHtmlReportConfiguration();
         configuration.setWhitePageBackground(true);
-        configuration.setRemoveEmptySpaceBetweenRows(true);
+        //configuration.setRemoveEmptySpaceBetweenRows(true);
         configuration.setWrapBreakWord(true);
         return configuration;
     }
