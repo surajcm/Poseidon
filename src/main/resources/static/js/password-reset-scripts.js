@@ -77,34 +77,22 @@ function setMessagesAfterSave(responseText) {
         document.getElementById("current").setAttribute("class", "form-control is-invalid");
         document.getElementById("current_message").innerHTML = userMap.message;
     }
-
+    let detail = document.getElementById("passwordResetModal");
+    detail.innerHTML = "";
+    let divStatus = document.createElement("div");
+    divStatus.setAttribute("class", "pop-status");
+    let imgStatus = document.createElement("img");
+    let statusMessage = document.createElement("h3");
     if (userMap.success != null) {
-        let detail = document.getElementById("passwordResetModal");
-        detail.innerHTML = "";
-        let divStatus = document.createElement("div");
-        divStatus.setAttribute("class", "pop-status");
-        let imgSuccess = document.createElement("img");
-        divStatus.appendChild(imgSuccess);
-        let statusMessage = document.createElement("h3");
-        imgSuccess.setAttribute("src", "/img/tick.png");
         statusMessage.innerHTML = userMap.success;
-        divStatus.appendChild(statusMessage);
-        detail.appendChild(divStatus);
+        imgStatus.setAttribute("src", "/img/tick.png");
+    } else {
+        statusMessage.innerHTML = userMap.message;
+        imgStatus.setAttribute("src", "/img/cross.svg");
     }
-
-    if (userMap.error != null) {
-        let detail = document.getElementById("passwordResetModal");
-        detail.innerHTML = "";
-        let divStatus = document.createElement("div");
-        divStatus.setAttribute("class", "pop-status");
-        let imgSuccess = document.createElement("img");
-        divStatus.appendChild(imgSuccess);
-        let statusMessage = document.createElement("h3");
-        imgSuccess.setAttribute("src", "/img/cross.svg");
-        statusMessage.innerHTML = userMap.error;
-        divStatus.appendChild(statusMessage);
-        detail.appendChild(divStatus);
-    }
+    divStatus.appendChild(imgStatus);
+    divStatus.appendChild(statusMessage);
+    detail.appendChild(divStatus);
 }
 
 function clearMessage() {

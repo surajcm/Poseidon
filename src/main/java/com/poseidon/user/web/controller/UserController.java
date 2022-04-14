@@ -5,7 +5,6 @@ import com.poseidon.user.domain.UserVO;
 import com.poseidon.user.service.SecurityService;
 import com.poseidon.user.service.UserService;
 import com.poseidon.user.web.form.UserForm;
-import org.codehaus.jackson.map.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -19,9 +18,8 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import javax.servlet.http.HttpServletRequest;
-import java.io.IOException;
+import java.util.AbstractMap;
 import java.util.List;
-import java.util.Map;
 
 import static com.poseidon.user.web.form.Role.populateRoles;
 
@@ -38,6 +36,7 @@ public class UserController {
     private static final String UNKNOWN_ERROR = " An Unknown Error has been occurred !!";
     private static final String DB_ERROR = " An error occurred while fetching data from database. !! ";
     private static final String EXCEPTION_IN_CONTROLLER = " Exception type in controller {}";
+    private static final String MESSAGE = "message";
 
     private final UserService userService;
 
@@ -75,7 +74,7 @@ public class UserController {
             model.addAttribute(DANGER, "Your username or password is invalid.");
         }
         if (logout != null) {
-            model.addAttribute("message", "You have been logged out successfully.");
+            model.addAttribute(MESSAGE, "You have been logged out successfully.");
         }
         return USER_LOG_IN;
     }
@@ -116,7 +115,7 @@ public class UserController {
     @PostMapping("/user/listAll")
     public String listAllUsers(@ModelAttribute final UserForm userForm, final Model model) {
         logger.info("ListAll method of user controller ");
-        List<UserVO> userList = userService.getAllUserDetails();
+        var userList = userService.getAllUserDetails();
         if (userList.isEmpty()) {
             userForm.setStatusMessage("No user found");
             userForm.setStatusMessageType(DANGER);
@@ -139,9 +138,9 @@ public class UserController {
     @PostMapping("/user/saveUser")
     public @ResponseBody
     List<UserVO> saveUser(@ModelAttribute("selectName") final String selectName,
-                    @ModelAttribute("selectLogin") final String selectLogin,
-                    @ModelAttribute("selectRole") final String selectRole,
-                    final BindingResult result) {
+                          @ModelAttribute("selectLogin") final String selectLogin,
+                          @ModelAttribute("selectRole") final String selectRole,
+                          final BindingResult result) {
         logger.info("SaveUser method of user controller ");
         var userVO = populateUserVO(selectName, selectLogin, selectRole);
         userService.save(userVO, currentLoggedInUser());
@@ -158,7 +157,7 @@ public class UserController {
     @PostMapping("/user/searchUser")
     public String searchUser(final UserForm userForm, final Model model) {
         logger.info(" Inside SearchUser method of user controller ");
-        List<UserVO> userList = userService.searchUserDetails(userForm.getSearchUser(),
+        var userList = userService.searchUserDetails(userForm.getSearchUser(),
                 userForm.isStartsWith(),
                 userForm.isIncludes());
         if (!userList.isEmpty()) {
@@ -202,10 +201,10 @@ public class UserController {
     @PutMapping("/user/updateUser")
     public @ResponseBody
     List<UserVO> updateUser(@ModelAttribute("id") final String id,
-                      @ModelAttribute("name") final String name,
-                      @ModelAttribute("email") final String email,
-                      @ModelAttribute("role") final String role,
-                      final BindingResult result) {
+                            @ModelAttribute("name") final String name,
+                            @ModelAttribute("email") final String email,
+                            @ModelAttribute("role") final String role,
+                            final BindingResult result) {
         var sanitizedId = CommonUtils.sanitizedString(id);
         var sanitizedName = CommonUtils.sanitizedString(name);
         var sanitizedEmail = CommonUtils.sanitizedString(email);
@@ -229,24 +228,26 @@ public class UserController {
 
     @PostMapping("/user/changePasswordAndSaveIt")
     public @ResponseBody
-    String changePass(@ModelAttribute("current") final String current,
-                      @ModelAttribute("newPass") final String newPass,
-                      final BindingResult result) {
+    AbstractMap.SimpleEntry<String, String> changePass(@ModelAttribute("current") final String current,
+                                                       @ModelAttribute("newPass") final String newPass,
+                                                       final BindingResult result) {
         var sanitizedCurrent = CommonUtils.sanitizedString(current);
         var sanitizedPass = CommonUtils.sanitizedString(newPass);
         logger.info("ChangePass of user controller from {} to {}", sanitizedCurrent,
                 sanitizedPass);
-        String message;
         var currentLoggedInUser = currentLoggedInUser();
         var userList = userService.searchUserDetails(formSearch(currentLoggedInUser), true, true);
+        AbstractMap.SimpleEntry<String, String> entry;
+
         if (userService.comparePasswords(current, userList.get(0).getPassword())) {
             var userVO = userList.get(0);
             userService.updateWithNewPassword(userVO, newPass, currentLoggedInUser());
-            message = messageJSON(SUCCESS, "The password has been reset !!");
+            entry = new AbstractMap.SimpleEntry<>(SUCCESS, "The password has been reset !!");
         } else {
-            message = messageJSON("message", "The password didnt match with the one already saved !!");
+            entry = new AbstractMap.SimpleEntry<>(MESSAGE,
+                    "The password didnt match with the one already saved !!");
         }
-        return message;
+        return entry;
     }
 
     /**
@@ -291,7 +292,7 @@ public class UserController {
     }
 
     private List<UserVO> allUsers() {
-        List<UserVO> userList = userService.getAllUserDetails();
+        var userList = userService.getAllUserDetails();
         userList.forEach(u -> u.setPassword(""));
         return userList;
     }
@@ -300,18 +301,5 @@ public class UserController {
         var userVO = new UserVO();
         userVO.setName(name);
         return userVO;
-    }
-
-    private String messageJSON(final String type, final String message) {
-        String response;
-        Map<String, String> messageMap = Map.of(type, message);
-        ObjectMapper mapper = new ObjectMapper();
-        try {
-            response = mapper.writeValueAsString(messageMap);
-        } catch (IOException ex) {
-            response = DANGER;
-            logger.error("Error parsing to json : {}", ex.getMessage());
-        }
-        return response;
     }
 }
