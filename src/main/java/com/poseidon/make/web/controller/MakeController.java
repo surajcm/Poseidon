@@ -21,6 +21,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -161,12 +162,12 @@ public class MakeController {
 
     @GetMapping("/make/getForEdit")
     public @ResponseBody
-    String getForEdit(@ModelAttribute("id") final String id,
+    Map<Long, String> getForEdit(@ModelAttribute("id") final String id,
                       final BindingResult result) {
         var sanitizedId = CommonUtils.sanitizedString(id);
         LOG.info("getForEdit method of make controller {}}", sanitizedId);
         var makeVO = makeService.getModelFromId(Long.valueOf(id));
-        return makeVO.map(vo -> parseMakeAndModelVO(Map.of(vo.getMakeId(), vo.getModelName()))).orElse("");
+        return makeVO.map(vo -> Map.of(vo.getMakeId(), vo.getModelName())).orElse(Collections.EMPTY_MAP);
     }
 
     @GetMapping("/make/makeForEdit")
@@ -368,20 +369,7 @@ public class MakeController {
         vo.setModifiedBy(findLoggedInUsername());
         return vo;
     }
-
-    private String parseMakeAndModelVO(final Map<Long, String> modelEditMap) {
-        String response;
-        var mapper = new ObjectMapper();
-        try {
-            response = mapper.writeValueAsString(modelEditMap);
-        } catch (IOException ex) {
-            response = DANGER;
-            LOG.error(ex.getMessage());
-        }
-        LOG.info(response);
-        return response;
-    }
-
+    
     private String parseMakeVO(final Map<String, String> modelEditMap) {
         String response;
         var mapper = new ObjectMapper();
