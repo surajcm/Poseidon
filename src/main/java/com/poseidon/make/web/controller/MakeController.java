@@ -16,8 +16,6 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.io.IOException;
@@ -58,10 +56,10 @@ public class MakeController {
      * @param makeForm makeForm
      * @return view
      */
-    @RequestMapping(value = "make/modelList", method = {RequestMethod.POST, RequestMethod.GET})
+    @PostMapping(value = MODEL_LIST_PAGE)
     public String modelListPage(final MakeForm makeForm, final Model model) {
         var sanitizedMakeForm = CommonUtils.sanitizedString(makeForm.toString());
-        LOG.info("Inside List method of MakeController, form details are  {}",
+        LOG.info("Inside model List method of MakeController, form details are  {}",
                 sanitizedMakeForm);
         var makeAndModelVOs = makeService.listAllMakesAndModels();
         if (!makeAndModelVOs.isEmpty()) {
@@ -369,7 +367,7 @@ public class MakeController {
         vo.setModifiedBy(findLoggedInUsername());
         return vo;
     }
-    
+
     private String parseMakeVO(final Map<String, String> modelEditMap) {
         String response;
         var mapper = new ObjectMapper();
