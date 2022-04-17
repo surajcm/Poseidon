@@ -40,10 +40,10 @@ class MakeControllerTest {
     @Test
     void modelList() throws Exception {
         when(makeService.listAllMakesAndModels()).thenReturn(mockMakeAndModelVOs());
-        mvc.perform(post("/make/modelList")).andExpect(status().isOk());
+        mvc.perform(post("/make/ModelList")).andExpect(status().isOk());
         when(makeService.listAllMakesAndModels()).thenThrow(new RuntimeException());
         when(makeService.fetchMakes()).thenThrow(new RuntimeException());
-        mvc.perform(post("/make/modelList")).andExpect(status().isOk());
+        mvc.perform(post("/make/ModelList")).andExpect(status().isOk());
     }
 
     @Test
