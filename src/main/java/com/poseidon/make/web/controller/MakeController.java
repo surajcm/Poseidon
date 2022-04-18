@@ -170,12 +170,12 @@ public class MakeController {
 
     @GetMapping("/make/makeForEdit")
     public @ResponseBody
-    String makeForEdit(@ModelAttribute("id") final String id,
+    Map<String, String> makeForEdit(@ModelAttribute("id") final String id,
                        final BindingResult result) {
         var sanitizedId = CommonUtils.sanitizedString(id);
         LOG.info("makeForEdit method of make controller {}", sanitizedId);
         var makeVO = makeService.getMakeFromId(Long.valueOf(id));
-        return makeVO.map(vo -> parseMakeVO(Map.of(vo.getMakeName(), vo.getDescription()))).orElse("");
+        return makeVO.map(vo -> Map.of(vo.getMakeName(), vo.getDescription())).orElse(Collections.EMPTY_MAP);
     }
 
     /**
@@ -366,19 +366,6 @@ public class MakeController {
         vo.setDescription(description);
         vo.setModifiedBy(findLoggedInUsername());
         return vo;
-    }
-
-    private String parseMakeVO(final Map<String, String> modelEditMap) {
-        String response;
-        var mapper = new ObjectMapper();
-        try {
-            response = mapper.writeValueAsString(modelEditMap);
-        } catch (IOException ex) {
-            response = DANGER;
-            LOG.error(ex.getMessage());
-        }
-        LOG.info(response);
-        return response;
     }
 
     private String fetchJsonAllMakes(final List<MakeVO> makeVOS) {
