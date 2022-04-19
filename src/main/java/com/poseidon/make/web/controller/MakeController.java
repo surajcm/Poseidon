@@ -5,7 +5,6 @@ import com.poseidon.make.domain.MakeAndModelVO;
 import com.poseidon.make.domain.MakeVO;
 import com.poseidon.make.service.MakeService;
 import com.poseidon.make.web.form.MakeForm;
-import org.codehaus.jackson.map.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -18,7 +17,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.io.IOException;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
@@ -161,7 +159,7 @@ public class MakeController {
     @GetMapping("/make/getForEdit")
     public @ResponseBody
     Map<Long, String> getForEdit(@ModelAttribute("id") final String id,
-                      final BindingResult result) {
+                                 final BindingResult result) {
         var sanitizedId = CommonUtils.sanitizedString(id);
         LOG.info("getForEdit method of make controller {}}", sanitizedId);
         var makeVO = makeService.getModelFromId(Long.valueOf(id));
@@ -171,7 +169,7 @@ public class MakeController {
     @GetMapping("/make/makeForEdit")
     public @ResponseBody
     Map<String, String> makeForEdit(@ModelAttribute("id") final String id,
-                       final BindingResult result) {
+                                    final BindingResult result) {
         var sanitizedId = CommonUtils.sanitizedString(id);
         LOG.info("makeForEdit method of make controller {}", sanitizedId);
         var makeVO = makeService.getMakeFromId(Long.valueOf(id));
@@ -256,8 +254,8 @@ public class MakeController {
     @PostMapping("/make/saveMake")
     public @ResponseBody
     List<MakeVO> saveMake(@ModelAttribute("selectMakeName") final String selectMakeName,
-                    @ModelAttribute("selectMakeDesc") final String selectMakeDesc,
-                    final BindingResult result) {
+                          @ModelAttribute("selectMakeDesc") final String selectMakeDesc,
+                          final BindingResult result) {
         LOG.info("SaveMake method of MakeController");
         if (result.hasErrors()) {
             LOG.info("errors {}", result);
@@ -293,8 +291,8 @@ public class MakeController {
     @PostMapping("/make/saveModel")
     public @ResponseBody
     List<MakeAndModelVO> saveModel(@ModelAttribute("selectMakeId") final Long selectMakeId,
-                     @ModelAttribute("selectModelName") final String selectModelName,
-                     final BindingResult result) {
+                                   @ModelAttribute("selectModelName") final String selectModelName,
+                                   final BindingResult result) {
         LOG.info("SaveModel method of MakeController ");
         if (!result.hasErrors()) {
             makeService.addNewModel(populateModelVO(selectMakeId, selectModelName));
@@ -320,17 +318,19 @@ public class MakeController {
 
     @GetMapping("/make/getAllMakeIdsAndNames")
     public @ResponseBody
-    String getAllMakeIdsAndNames() {
+    Map<Long, String> getAllMakeIdsAndNames() {
         LOG.info("GetAllMakeIdsAndNames method of MakeController ");
-        return fetchJsonAllMakes(makeService.fetchMakes());
+        var makeVOS = makeService.fetchMakes();
+        return makeVOS.stream()
+                .collect(Collectors.toMap(MakeVO::getId, MakeVO::getMakeName, (a, b) -> b));
     }
 
     @PutMapping("/make/updateModel")
     public @ResponseBody
     List<MakeAndModelVO> updateModel(@ModelAttribute("id") final Long id,
-                       @ModelAttribute("modalMakeName") final Long makeId,
-                       @ModelAttribute("modalModelName") final String modalModelName,
-                       final BindingResult result) {
+                                     @ModelAttribute("modalMakeName") final Long makeId,
+                                     @ModelAttribute("modalModelName") final String modalModelName,
+                                     final BindingResult result) {
         var sanitizedId = CommonUtils.sanitizedString(id.toString());
         var sanitizedMakeId = CommonUtils.sanitizedString(makeId.toString());
         var sanitizedModelName = CommonUtils.sanitizedString(modalModelName);
@@ -343,9 +343,9 @@ public class MakeController {
     @PutMapping("/make/updateMake")
     public @ResponseBody
     List<MakeVO> updateMake(@ModelAttribute("id") final Long id,
-                      @ModelAttribute("makeName") final String makeName,
-                      @ModelAttribute("description") final String description,
-                      final BindingResult result) {
+                            @ModelAttribute("makeName") final String makeName,
+                            @ModelAttribute("description") final String description,
+                            final BindingResult result) {
         var sanitizedId = CommonUtils.sanitizedString(id.toString());
         var sanitizedMakeName = CommonUtils.sanitizedString(makeName);
         var sanitizedDescription = CommonUtils.sanitizedString(description);
@@ -366,21 +366,6 @@ public class MakeController {
         vo.setDescription(description);
         vo.setModifiedBy(findLoggedInUsername());
         return vo;
-    }
-
-    private String fetchJsonAllMakes(final List<MakeVO> makeVOS) {
-        String response;
-        var mapper = new ObjectMapper();
-        Map<Long, String> idNameMap = makeVOS.stream()
-                .collect(Collectors.toMap(MakeVO::getId, MakeVO::getMakeName, (a, b) -> b));
-        try {
-            response = mapper.writeValueAsString(idNameMap);
-        } catch (IOException ex) {
-            response = DANGER;
-            LOG.error(ex.getMessage());
-        }
-        LOG.info(response);
-        return response;
     }
 
     public String findLoggedInUsername() {
