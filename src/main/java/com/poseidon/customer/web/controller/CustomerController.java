@@ -73,11 +73,11 @@ public class CustomerController {
 
     @GetMapping("/customer/getForEdit")
     public @ResponseBody
-    String getForEdit(@ModelAttribute("id") final String id,
+    CustomerVO getForEdit(@ModelAttribute("id") final String id,
                       final BindingResult result) {
         var sanitizedId = CommonUtils.sanitizedString(id);
         logger.info("getForEdit method of user controller : {}", sanitizedId);
-        return getCustomerVOFromId(Long.valueOf(id)).map(this::convertToJson).orElse("");
+        return getCustomerVOFromId(Long.valueOf(id)).orElse(null);
     }
 
     /**
@@ -311,22 +311,9 @@ public class CustomerController {
 
     @PostMapping("/customer/viewCustomer")
     public @ResponseBody
-    String viewCustomer(@ModelAttribute("customerId") final String customerId) {
+    CustomerVO viewCustomer(@ModelAttribute("customerId") final String customerId) {
         var id = Long.parseLong(customerId);
-        return getCustomerVOFromId(id).map(this::convertToJson).orElse("");
-    }
-
-    private String convertToJson(final CustomerVO customerVO) {
-        String response;
-        var mapper = new ObjectMapper();
-        try {
-            response = mapper.writeValueAsString(customerVO);
-        } catch (IOException ex) {
-            response = ERROR;
-            logger.error(ex.getMessage());
-        }
-        logger.info(response);
-        return response;
+        return getCustomerVOFromId(id).orElse(null);
     }
 
     private String convertCustomerVosToString(final List<CustomerVO> customerVOS) {
