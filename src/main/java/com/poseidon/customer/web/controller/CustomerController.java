@@ -6,7 +6,6 @@ import com.poseidon.customer.service.CustomerService;
 import com.poseidon.customer.web.form.CustomerForm;
 import com.poseidon.init.util.CommonUtils;
 import org.apache.commons.lang3.StringUtils;
-import org.codehaus.jackson.map.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -20,7 +19,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -74,7 +72,7 @@ public class CustomerController {
     @GetMapping("/customer/getForEdit")
     public @ResponseBody
     CustomerVO getForEdit(@ModelAttribute("id") final String id,
-                      final BindingResult result) {
+                          final BindingResult result) {
         var sanitizedId = CommonUtils.sanitizedString(id);
         logger.info("getForEdit method of user controller : {}", sanitizedId);
         return getCustomerVOFromId(Long.valueOf(id)).orElse(null);
@@ -105,14 +103,14 @@ public class CustomerController {
 
     @PostMapping("/customer/saveCustomer")
     public @ResponseBody
-    String saveCustomer(@ModelAttribute("modalCustomerName") final String modalCustomerName,
-                            @ModelAttribute("modalAddress") final String modalAddress,
-                            @ModelAttribute("modalPhone") final String modalPhone,
-                            @ModelAttribute("modalMobile") final String modalMobile,
-                            @ModelAttribute("modalEmail") final String modalEmail,
-                            @ModelAttribute("modalContact") final String modalContact,
-                            @ModelAttribute("modalContactMobile") final String modalContactMobile,
-                            @ModelAttribute("modalNotes") final String modalNotes) {
+    List<CustomerVO> saveCustomer(@ModelAttribute("modalCustomerName") final String modalCustomerName,
+                                  @ModelAttribute("modalAddress") final String modalAddress,
+                                  @ModelAttribute("modalPhone") final String modalPhone,
+                                  @ModelAttribute("modalMobile") final String modalMobile,
+                                  @ModelAttribute("modalEmail") final String modalEmail,
+                                  @ModelAttribute("modalContact") final String modalContact,
+                                  @ModelAttribute("modalContactMobile") final String modalContactMobile,
+                                  @ModelAttribute("modalNotes") final String modalNotes) {
         var customerVO = new CustomerVO();
         customerVO.setCustomerName(modalCustomerName);
         customerVO.setAddress(modalAddress);
@@ -130,19 +128,19 @@ public class CustomerController {
         } catch (Exception ex) {
             logger.error(ex.getMessage());
         }
-        return listCustomersAsString();
+        return listCustomers();
     }
 
     @PostMapping("/customer/saveCustomer2")
     public @ResponseBody
     CustomerVO saveCustomer2(@ModelAttribute("modalCustomerName") final String modalCustomerName,
-                            @ModelAttribute("modalAddress") final String modalAddress,
-                            @ModelAttribute("modalPhone") final String modalPhone,
-                            @ModelAttribute("modalMobile") final String modalMobile,
-                            @ModelAttribute("modalEmail") final String modalEmail,
-                            @ModelAttribute("modalContact") final String modalContact,
-                            @ModelAttribute("modalContactMobile") final String modalContactMobile,
-                            @ModelAttribute("modalNotes") final String modalNotes) {
+                             @ModelAttribute("modalAddress") final String modalAddress,
+                             @ModelAttribute("modalPhone") final String modalPhone,
+                             @ModelAttribute("modalMobile") final String modalMobile,
+                             @ModelAttribute("modalEmail") final String modalEmail,
+                             @ModelAttribute("modalContact") final String modalContact,
+                             @ModelAttribute("modalContactMobile") final String modalContactMobile,
+                             @ModelAttribute("modalNotes") final String modalNotes) {
         var customerVO = new CustomerVO();
         customerVO.setCustomerName(modalCustomerName);
         customerVO.setAddress(modalAddress);
@@ -164,9 +162,8 @@ public class CustomerController {
         return result;
     }
 
-    private String listCustomersAsString() {
-        List<CustomerVO> customerVOs = customerService.listAllCustomerDetails();
-        return convertCustomerVosToString(customerVOs);
+    private List<CustomerVO> listCustomers() {
+        return customerService.listAllCustomerDetails();
     }
 
     public String findLoggedInUsername() {
@@ -192,16 +189,16 @@ public class CustomerController {
 
     @PutMapping("/customer/updateCustomer")
     public @ResponseBody
-    String updateCustomer(@ModelAttribute("id") final String id,
-                          @ModelAttribute("modalCustomerName") final String modalCustomerName,
-                          @ModelAttribute("modalAddress") final String modalAddress,
-                          @ModelAttribute("modalPhone") final String modalPhone,
-                          @ModelAttribute("modalMobile") final String modalMobile,
-                          @ModelAttribute("modalEmail") final String modalEmail,
-                          @ModelAttribute("modalContact") final String modalContact,
-                          @ModelAttribute("modalContactMobile") final String modalContactMobile,
-                          @ModelAttribute("modalNotes") final String modalNotes,
-                          final BindingResult result) {
+    List<CustomerVO> updateCustomer(@ModelAttribute("id") final String id,
+                                    @ModelAttribute("modalCustomerName") final String modalCustomerName,
+                                    @ModelAttribute("modalAddress") final String modalAddress,
+                                    @ModelAttribute("modalPhone") final String modalPhone,
+                                    @ModelAttribute("modalMobile") final String modalMobile,
+                                    @ModelAttribute("modalEmail") final String modalEmail,
+                                    @ModelAttribute("modalContact") final String modalContact,
+                                    @ModelAttribute("modalContactMobile") final String modalContactMobile,
+                                    @ModelAttribute("modalNotes") final String modalNotes,
+                                    final BindingResult result) {
         var sanitizedId = CommonUtils.sanitizedString(id);
         var sanitizedName = CommonUtils.sanitizedString(modalCustomerName);
         var sanitizedAddress = CommonUtils.sanitizedString(modalAddress);
@@ -226,7 +223,7 @@ public class CustomerController {
         } catch (Exception ex) {
             logger.error(ex.getLocalizedMessage());
         }
-        return listCustomersAsString();
+        return listCustomers();
     }
 
     /**
@@ -264,9 +261,9 @@ public class CustomerController {
     @PostMapping("/customer/searchFromTransaction")
     public @ResponseBody
     List<CustomerVO> searchFromTransaction(@ModelAttribute("searchCustomerId") final String searchCustomerId,
-                          @ModelAttribute("searchCustomerName") final String searchCustomerName,
-                          @ModelAttribute("searchMobile") final String searchMobile,
-                          final BindingResult result) {
+                                           @ModelAttribute("searchCustomerName") final String searchCustomerName,
+                                           @ModelAttribute("searchMobile") final String searchMobile,
+                                           final BindingResult result) {
         var sanitizedId = CommonUtils.sanitizedString(searchCustomerId);
         var sanitizedName = CommonUtils.sanitizedString(searchCustomerName);
         var sanitizedMobile = CommonUtils.sanitizedString(searchMobile);
@@ -277,7 +274,7 @@ public class CustomerController {
         List<CustomerVO> customerVOs = null;
         try {
             customerVOs = customerService.searchCustomer(requestCustomerVO);
-            logger.info("Found {} customer details" , customerVOs.size());
+            logger.info("Found {} customer details", customerVOs.size());
         } catch (Exception ex) {
             logger.error(ex.getLocalizedMessage());
         }
@@ -314,18 +311,6 @@ public class CustomerController {
     CustomerVO viewCustomer(@ModelAttribute("customerId") final String customerId) {
         var id = Long.parseLong(customerId);
         return getCustomerVOFromId(id).orElse(null);
-    }
-
-    private String convertCustomerVosToString(final List<CustomerVO> customerVOS) {
-        String response = null;
-        var mapper = new ObjectMapper();
-        try {
-            response = mapper.writeValueAsString(customerVOS);
-        } catch (IOException ex) {
-            logger.error(ex.getMessage());
-        }
-        logger.info(response);
-        return response;
     }
 
     private Optional<CustomerVO> getCustomerVOFromId(final Long id) {
