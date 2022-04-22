@@ -7,7 +7,6 @@ import com.poseidon.invoice.web.form.InvoiceForm;
 import com.poseidon.transaction.domain.TransactionReportVO;
 import com.poseidon.transaction.domain.TransactionVO;
 import com.poseidon.transaction.service.TransactionService;
-import org.codehaus.jackson.map.ObjectMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.propertyeditors.CustomNumberEditor;
@@ -24,7 +23,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.Optional;
 
@@ -101,12 +99,12 @@ public class InvoiceController {
 
     @PostMapping("/invoice/saveInvoiceForTxn")
     public @ResponseBody
-    String saveInvoiceForTxn(@ModelAttribute("addTagNumber") final String addTagNumber,
-                             @ModelAttribute("addDescription") final String addDescription,
-                             @ModelAttribute("addQuantity") final String addQuantity,
-                             @ModelAttribute("addRate") final String addRate,
-                             @ModelAttribute("addAmount") final String addAmount,
-                             final BindingResult result) {
+    List<TransactionVO> saveInvoiceForTxn(@ModelAttribute("addTagNumber") final String addTagNumber,
+                                          @ModelAttribute("addDescription") final String addDescription,
+                                          @ModelAttribute("addQuantity") final String addQuantity,
+                                          @ModelAttribute("addRate") final String addRate,
+                                          @ModelAttribute("addAmount") final String addAmount,
+                                          final BindingResult result) {
         //todo:error handling
         log.info("saveInvoiceForTxn method of invoice controller ");
         try {
@@ -118,8 +116,7 @@ public class InvoiceController {
         } catch (Exception ex) {
             log.error(ERROR_OCCURRED, ex);
         }
-        var allTransactions = transactionService.listAllTransactions();
-        return parseTransactions(allTransactions);
+        return transactionService.listAllTransactions();
     }
 
     private InvoiceVO populateInvoiceVO(final String addTagNumber,
@@ -147,16 +144,13 @@ public class InvoiceController {
 
     @GetMapping("/invoice/getForEdit")
     public @ResponseBody
-    String getForEdit(@ModelAttribute("id") final String id,
-                      final BindingResult result) {
+    InvoiceVO getForEdit(@ModelAttribute("id") final String id,
+                         final BindingResult result) {
         var sanitizedId = CommonUtils.sanitizedString(id);
         log.info("getForEdit method of user controller : {}", sanitizedId);
         String response = null;
-        var invoiceVo = invoiceService.fetchInvoiceVOFromId(Long.valueOf(id));
-        if (invoiceVo.isPresent()) {
-            response = parseInvoiceVO(invoiceVo.get());
-        }
-        return response;
+        return invoiceService.fetchInvoiceVOFromId(
+                Long.valueOf(id)).orElse(null);
     }
 
     /**
@@ -235,7 +229,7 @@ public class InvoiceController {
 
     @GetMapping("/invoice/addInvoice")
     public @ResponseBody
-    String getInvoiceOfTransaction(final Long id) {
+    InvoiceVO getInvoiceOfTransaction(final Long id) {
         var makeName = "";
         var modelName = "";
         var transactionVo = transactionService.fetchTransactionFromId(id);
@@ -249,7 +243,7 @@ public class InvoiceController {
             invoiceVo.setTagNo(transactionVo.getTagNo());
             invoiceVo.setDescription("SERVICE CHARGES FOR " + makeName + " " + modelName);
         }
-        return parseInvoiceVO(invoiceVo);
+        return invoiceVo;
     }
 
 
@@ -290,29 +284,5 @@ public class InvoiceController {
             transactionVo = Optional.of(transactionVOs.get(0));
         }
         return transactionVo;
-    }
-
-    private String parseTransactions(final List<TransactionVO> invoices) {
-        var response = "";
-        var mapper = new ObjectMapper();
-        try {
-            response = mapper.writeValueAsString(invoices);
-        } catch (IOException ex) {
-            log.error(ERROR_PARSING_TO_JSON, ex.getMessage());
-        }
-        log.info("transactions list json : {}", response);
-        return response;
-    }
-
-    private String parseInvoiceVO(final InvoiceVO invoice) {
-        var response = "";
-        var mapper = new ObjectMapper();
-        try {
-            response = mapper.writeValueAsString(invoice);
-        } catch (IOException ex) {
-            log.error(ERROR_PARSING_TO_JSON, ex.getMessage());
-        }
-        log.info("invoice json : {}", response);
-        return response;
     }
 }
