@@ -79,12 +79,12 @@ public class InvoiceController {
 
     @PostMapping("/invoice/saveInvoice")
     public @ResponseBody
-    String saveInvoice(@ModelAttribute("addTagNumber") final String addTagNumber,
-                           @ModelAttribute("addDescription") final String addDescription,
-                           @ModelAttribute("addQuantity") final String addQuantity,
-                           @ModelAttribute("addRate") final String addRate,
-                           @ModelAttribute("addAmount") final String addAmount,
-                           final BindingResult result) {
+    List<InvoiceVO> saveInvoice(@ModelAttribute("addTagNumber") final String addTagNumber,
+                                @ModelAttribute("addDescription") final String addDescription,
+                                @ModelAttribute("addQuantity") final String addQuantity,
+                                @ModelAttribute("addRate") final String addRate,
+                                @ModelAttribute("addAmount") final String addAmount,
+                                final BindingResult result) {
         //todo:error handling
         log.info("saveInvoice method of invoice controller ");
         try {
@@ -96,18 +96,17 @@ public class InvoiceController {
         } catch (Exception ex) {
             log.error(ERROR_OCCURRED, ex);
         }
-        var invoiceVOs = invoiceService.fetchInvoiceForListOfTransactions();
-        return parseInvoices(invoiceVOs);
+        return invoiceService.fetchInvoiceForListOfTransactions();
     }
 
     @PostMapping("/invoice/saveInvoiceForTxn")
     public @ResponseBody
     String saveInvoiceForTxn(@ModelAttribute("addTagNumber") final String addTagNumber,
-                           @ModelAttribute("addDescription") final String addDescription,
-                           @ModelAttribute("addQuantity") final String addQuantity,
-                           @ModelAttribute("addRate") final String addRate,
-                           @ModelAttribute("addAmount") final String addAmount,
-                           final BindingResult result) {
+                             @ModelAttribute("addDescription") final String addDescription,
+                             @ModelAttribute("addQuantity") final String addQuantity,
+                             @ModelAttribute("addRate") final String addRate,
+                             @ModelAttribute("addAmount") final String addAmount,
+                             final BindingResult result) {
         //todo:error handling
         log.info("saveInvoiceForTxn method of invoice controller ");
         try {
@@ -142,9 +141,8 @@ public class InvoiceController {
 
     @GetMapping("/invoice/tagNumbers")
     public @ResponseBody
-    String tagNumbers() {
-        List<String> tags = invoiceService.allTagNumbers();
-        return parseTagNumbers(tags);
+    List<String> tagNumbers() {
+        return invoiceService.allTagNumbers();
     }
 
     @GetMapping("/invoice/getForEdit")
@@ -216,13 +214,13 @@ public class InvoiceController {
 
     @PutMapping("/invoice/updateInvoice")
     public @ResponseBody
-    String updateInvoice(@ModelAttribute("id") final Long id,
-                             @ModelAttribute("addTagNumber") final String addTagNumber,
-                             @ModelAttribute("addDescription") final String addDescription,
-                             @ModelAttribute("addQuantity") final String addQuantity,
-                             @ModelAttribute("addRate") final String addRate,
-                             @ModelAttribute("addAmount") final String addAmount,
-                             final BindingResult result) {
+    List<InvoiceVO> updateInvoice(@ModelAttribute("id") final Long id,
+                                  @ModelAttribute("addTagNumber") final String addTagNumber,
+                                  @ModelAttribute("addDescription") final String addDescription,
+                                  @ModelAttribute("addQuantity") final String addQuantity,
+                                  @ModelAttribute("addRate") final String addRate,
+                                  @ModelAttribute("addAmount") final String addAmount,
+                                  final BindingResult result) {
         //todo:error handling
         log.info("updateInvoice method of invoice controller ");
         try {
@@ -232,8 +230,7 @@ public class InvoiceController {
         } catch (Exception ex) {
             log.error(ERROR_OCCURRED, ex);
         }
-        var invoiceVOs = invoiceService.fetchInvoiceForListOfTransactions();
-        return parseInvoices(invoiceVOs);
+        return invoiceService.fetchInvoiceForListOfTransactions();
     }
 
     @GetMapping("/invoice/addInvoice")
@@ -293,30 +290,6 @@ public class InvoiceController {
             transactionVo = Optional.of(transactionVOs.get(0));
         }
         return transactionVo;
-    }
-
-    private String parseTagNumbers(final List<String> tags) {
-        var response = "";
-        var mapper = new ObjectMapper();
-        try {
-            response = mapper.writeValueAsString(tags);
-        } catch (IOException ex) {
-            log.error(ERROR_PARSING_TO_JSON, ex.getMessage());
-        }
-        log.info("tags list json : {}", response);
-        return response;
-    }
-
-    private String parseInvoices(final List<InvoiceVO> invoices) {
-        var response = "";
-        var mapper = new ObjectMapper();
-        try {
-            response = mapper.writeValueAsString(invoices);
-        } catch (IOException ex) {
-            log.error(ERROR_PARSING_TO_JSON, ex.getMessage());
-        }
-        log.info("invoices list json : {}", response);
-        return response;
     }
 
     private String parseTransactions(final List<TransactionVO> invoices) {
