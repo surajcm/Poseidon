@@ -1,6 +1,6 @@
 package com.poseidon.init.util;
 
-public class CommonUtils {
+public final class CommonUtils {
 
     private CommonUtils() {
 

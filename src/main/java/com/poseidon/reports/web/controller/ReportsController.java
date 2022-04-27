@@ -110,7 +110,7 @@ public class ReportsController {
      * @param httpServletResponse HttpServletResponse
      * @param reportsForm         ReportsForm
      */
-    @PostMapping(value = "/reports/makeDetailsReport")
+    @PostMapping("/reports/makeDetailsReport")
     public void makeDetailsReport(final HttpServletRequest httpServletRequest,
                                      final HttpServletResponse httpServletResponse,
                                      final ReportsForm reportsForm) {
@@ -141,7 +141,7 @@ public class ReportsController {
      * @param httpServletResponse HttpServletResponse
      * @param reportsForm         ReportsForm
      */
-    @PostMapping(value = "/reports/callReport")
+    @PostMapping("/reports/callReport")
     public void callReport(final HttpServletRequest httpServletRequest,
                               final HttpServletResponse httpServletResponse,
                               final ReportsForm reportsForm) {
@@ -159,7 +159,7 @@ public class ReportsController {
             reportsUtil.generateJasperReport(httpServletResponse, jasperPrint, reportFileName, reportType);
         } catch (Exception ex) {
             LOG.error(ex.getLocalizedMessage());
-            getErrorReport(httpServletRequest, httpServletResponse, reportsForm);
+            generateErrorReport(httpServletRequest, httpServletResponse, reportsForm);
         }
     }
 
@@ -170,7 +170,7 @@ public class ReportsController {
      * @param httpServletResponse HttpServletResponse
      * @param reportsForm         ReportsForm
      */
-    @PostMapping(value = "/reports/transactionsListReport")
+    @PostMapping("/reports/transactionsListReport")
     public void transactionsListReport(final HttpServletRequest httpServletRequest,
                                           final HttpServletResponse httpServletResponse,
                                           final ReportsForm reportsForm) {
@@ -220,10 +220,10 @@ public class ReportsController {
      * @param httpServletResponse HttpServletResponse
      * @param reportsForm         ReportsForm
      */
-    @PostMapping(value = "/reports/modelListReport")
-    public void getModelListReport(final HttpServletRequest httpServletRequest,
-                                   final HttpServletResponse httpServletResponse,
-                                   final ReportsForm reportsForm) {
+    @PostMapping("/reports/modelListReport")
+    public void generateModelListReport(final HttpServletRequest httpServletRequest,
+                                        final HttpServletResponse httpServletResponse,
+                                        final ReportsForm reportsForm) {
         LOG.info("ModelListReport method of ReportsController ");
         var sanitizedReportsForm = CommonUtils.sanitizedString(reportsForm.toString());
         LOG.info(FORM_DETAILS, sanitizedReportsForm);
@@ -250,10 +250,10 @@ public class ReportsController {
      * @param httpServletResponse HttpServletResponse
      * @param reportsForm         ReportsForm
      */
-    @PostMapping(value = "/reports/invoiceReport")
-    public void getInvoiceReport(final HttpServletRequest httpServletRequest,
-                                 final HttpServletResponse httpServletResponse,
-                                 final ReportsForm reportsForm) {
+    @PostMapping("/reports/invoiceReport")
+    public void generateInvoiceReport(final HttpServletRequest httpServletRequest,
+                                      final HttpServletResponse httpServletResponse,
+                                      final ReportsForm reportsForm) {
         LOG.info("InvoiceReport method of ReportsController ");
         var sanitizedReportsForm = CommonUtils.sanitizedString(reportsForm.toString());
         LOG.info(FORM_DETAILS, sanitizedReportsForm);
@@ -268,7 +268,7 @@ public class ReportsController {
             reportsUtil.generateJasperReport(httpServletResponse, jasperPrint, reportFileName, reportType);
         } catch (Exception ex) {
             LOG.error(ex.getLocalizedMessage());
-            getErrorReport(httpServletRequest, httpServletResponse, reportsForm);
+            generateErrorReport(httpServletRequest, httpServletResponse, reportsForm);
         }
     }
 
@@ -279,10 +279,10 @@ public class ReportsController {
      * @param httpServletResponse HttpServletResponse
      * @param reportsForm         ReportsForm
      */
-    @PostMapping(value = "/reports/errorReport")
-    public void getErrorReport(final HttpServletRequest httpServletRequest,
-                               final HttpServletResponse httpServletResponse,
-                               final ReportsForm reportsForm) {
+    @PostMapping("/reports/errorReport")
+    public void generateErrorReport(final HttpServletRequest httpServletRequest,
+                                    final HttpServletResponse httpServletResponse,
+                                    final ReportsForm reportsForm) {
         LOG.info("ErrorReport method of ReportsController ");
         var sanitizedReportsForm = CommonUtils.sanitizedString(reportsForm.toString());
         LOG.info(FORM_DETAILS, sanitizedReportsForm);
@@ -311,7 +311,4 @@ public class ReportsController {
         LOG.info(COMPILE_REPORT);
         return JasperCompileManager.compileReport(filePath);
     }
-
-
-
 }

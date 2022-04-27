@@ -13,6 +13,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class UserSpecification implements Specification<User> {
+
+    public static final long serialVersionUID = 4328743;
+    
     private final List<SearchCriteria> list;
 
     public UserSpecification() {
@@ -25,10 +28,10 @@ public class UserSpecification implements Specification<User> {
 
     @Override
     public Predicate toPredicate(final Root<User> root, final CriteriaQuery<?> query, final CriteriaBuilder builder) {
-        //create a new predicate list
+        //Create a new predicate list
         List<Predicate> predicates = new ArrayList<>();
 
-        //add add criteria to predicates
+        //Add criteria to predicates
         for (SearchCriteria criteria : list) {
             if (criteria.getOperation().equals(SearchOperation.EQUAL)) {
                 predicates.add(builder.equal(

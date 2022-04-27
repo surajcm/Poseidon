@@ -1,6 +1,7 @@
 package com.poseidon.user.validator;
 
 import com.poseidon.user.domain.UserVO;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
@@ -27,10 +28,10 @@ public class UserValidator implements Validator {
     public void validate(final Object userVo, final Errors errors) {
         UserVO user = (UserVO) userVo;
 
-        if (user.getName().trim().length() == 0) {
+        if (StringUtils.isEmpty(user.getName())) {
             errors.rejectValue("name", "error.required.user.name", "User Name is required");
         }
-        if (user.getPassword().trim().length() == 0) {
+        if (StringUtils.isEmpty(user.getPassword())) {
             errors.rejectValue("password", "error.required.password", "Password is required");
         }
     }

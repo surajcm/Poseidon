@@ -33,15 +33,15 @@ public class CustomerDAO {
 
     private final CustomerRepository customerRepository;
 
-    private final CustomerAdditionalDetailsRepository customerAdditionalDetailsRepository;
+    private final CustomerAdditionalDetailsRepository detailsRepository;
 
     @PersistenceContext
     private EntityManager em;
 
     public CustomerDAO(final CustomerRepository customerRepository,
-                       final CustomerAdditionalDetailsRepository customerAdditionalDetailsRepository) {
+                       final CustomerAdditionalDetailsRepository detailsRepository) {
         this.customerRepository = customerRepository;
-        this.customerAdditionalDetailsRepository = customerAdditionalDetailsRepository;
+        this.detailsRepository = detailsRepository;
     }
 
     /**
@@ -106,7 +106,7 @@ public class CustomerDAO {
             if (isAdditionalDetailsPresent(currentCustomerVo)) {
                 CustomerAdditionalDetails customerAdditionalDetails = populateDetails(customer);
                 updateAdditionalDetails(currentCustomerVo, customerAdditionalDetails);
-                sneak(() -> customerAdditionalDetailsRepository.save(customerAdditionalDetails));
+                sneak(() -> detailsRepository.save(customerAdditionalDetails));
             }
         }
     }
@@ -123,7 +123,7 @@ public class CustomerDAO {
     }
 
     private Optional<CustomerAdditionalDetails> getAdditionalDetailsOfCustomerId(final Long id) {
-        return sneak(() -> customerAdditionalDetailsRepository.findByCustomerId(id));
+        return sneak(() -> detailsRepository.findByCustomerId(id));
     }
 
     private CustomerVO getAdditionalDetailsToVO(final CustomerVO customerVO) {
@@ -139,14 +139,14 @@ public class CustomerDAO {
         currentCustomerVo.setCustomerAdditionalDetailsVO(additionalDetails);
         var newAdditionalDetails = convertToCustomerAdditionalDetails(
                 newCustomer.getId(), currentCustomerVo.getCustomerAdditionalDetailsVO());
-        sneak(() -> customerAdditionalDetailsRepository.save(newAdditionalDetails));
+        sneak(() -> detailsRepository.save(newAdditionalDetails));
     }
 
 
     private void deleteAdditionalDetails(final Long id) {
         var additionalDetails = getAdditionalDetailsOfCustomerId(id);
         additionalDetails.ifPresent(details ->
-                customerAdditionalDetailsRepository.deleteById(details.getId()));
+                detailsRepository.deleteById(details.getId()));
     }
 
     private Optional<Customer> getCustomer(final Long id) {

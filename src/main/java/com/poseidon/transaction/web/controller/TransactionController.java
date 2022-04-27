@@ -314,7 +314,7 @@ public class TransactionController {
      *
      * @param selectMakeId selectMakeId
      */
-    @PostMapping(value = "/txs/updateModel")
+    @PostMapping("/txs/updateModel")
     public @ResponseBody
     List<MakeAndModelVO> updateModel(@ModelAttribute("selectMakeId") final String selectMakeId) {
         var sanitizedMakeId = CommonUtils.sanitizedString(selectMakeId);

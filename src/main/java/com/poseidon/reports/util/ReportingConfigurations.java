@@ -11,7 +11,7 @@ import net.sf.jasperreports.export.SimpleXlsReportConfiguration;
 
 import java.io.OutputStream;
 
-public class ReportingConfigurations {
+public final class ReportingConfigurations {
 
     private ReportingConfigurations() {
     }

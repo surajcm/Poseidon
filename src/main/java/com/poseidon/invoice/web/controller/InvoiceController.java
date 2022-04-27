@@ -148,7 +148,6 @@ public class InvoiceController {
                          final BindingResult result) {
         var sanitizedId = CommonUtils.sanitizedString(id);
         log.info("getForEdit method of user controller : {}", sanitizedId);
-        String response = null;
         return invoiceService.fetchInvoiceVOFromId(
                 Long.valueOf(id)).orElse(null);
     }
@@ -180,7 +179,6 @@ public class InvoiceController {
             invoiceForm.setStatusMessageType(ERROR);
             log.error(ex.getLocalizedMessage());
         }
-        var invoiceVOs = fetchInvoices(invoiceForm);
         invoiceForm.setSearchInvoiceVo(new InvoiceVO());
         return listInvoice(invoiceForm, model);
     }
