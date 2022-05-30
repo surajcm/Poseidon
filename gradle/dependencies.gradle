@@ -12,7 +12,7 @@ dependencies {
     runtimeOnly("org.springframework.boot:spring-boot-devtools")
 
     implementation("javax.xml.bind:jaxb-api:2.3.1")
-    implementation("org.apache.commons:commons-collections4:4.2")
+    implementation("org.apache.commons:commons-collections4:4.4")
     implementation("org.codehaus.jackson:jackson-mapper-asl:1.9.13")
     implementation("org.slf4j:jcl-over-slf4j:1.7.25")
 
