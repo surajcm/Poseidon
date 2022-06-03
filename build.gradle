@@ -16,7 +16,7 @@ plugins {
     id 'java'
     id 'idea'
     id 'org.springframework.boot' version '2.7.0'
-    id 'io.spring.dependency-management' version '1.0.8.RELEASE'
+    id 'io.spring.dependency-management' version '1.0.11.RELEASE'
     id 'net.ltgt.errorprone' version '2.0.2'
     //id 'com.github.spotbugs' version '1.6.8' apply false
     id 'de.aaschmid.cpd' version '3.3'
