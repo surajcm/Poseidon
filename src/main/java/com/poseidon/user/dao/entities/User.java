@@ -12,7 +12,7 @@ import javax.persistence.Table;
 
 @EntityListeners(AuditingEntityListener.class)
 @Entity
-@Table(name = "user")
+@Table(name = "member")
 public class User extends CommonEntity {
 
     @Column(name = "name")
