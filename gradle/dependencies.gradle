@@ -27,7 +27,7 @@ dependencies {
     implementation("org.apache.poi:poi:4.1.2")
     implementation("org.apache.poi:poi-ooxml:4.1.2")
 
-    implementation("net.sf.jasperreports:jasperreports:6.18.1")
+    implementation("net.sf.jasperreports:jasperreports:6.20.0")
     implementation("net.sf.jasperreports:jasperreports-fonts:6.20.0")
     implementation("com.lowagie:itext:2.1.7")
 
