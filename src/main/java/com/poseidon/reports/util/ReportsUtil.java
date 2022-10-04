@@ -60,7 +60,7 @@ public class ReportsUtil {
             switch (reportType) {
                 case EXCEL -> {
                     httpServletResponse.setContentType("application/vnd.ms-excel");
-                    httpServletResponse.setHeader(CONTENT_DISPOSITION1, FILENAME + reportFileName + ";");
+                    httpServletResponse.setHeader(CONTENT_DISPOSITION1, FILENAME + reportFileName + ".xls;");
                     generateExcelReport(httpServletResponse, jasperPrint);
                 }
                 case PDF -> {
@@ -72,7 +72,7 @@ public class ReportsUtil {
                 }
                 case WORD -> {
                     httpServletResponse.addHeader(CONTENT_DISPOSITION,
-                            FILENAME + reportFileName + ".doc;");
+                            FILENAME + reportFileName + ".docx;");
                     httpServletResponse.setContentType("application/vnd.ms-word");
                     generateWordReport(httpServletResponse, jasperPrint);
                 }
@@ -124,7 +124,7 @@ public class ReportsUtil {
                                      final JasperPrint jasperPrint) throws JRException, IOException {
         var xlsExporter = new JRXlsExporter();
         xlsExporter.setExporterInput(ReportingConfigurations.exporter(jasperPrint));
-        xlsExporter.setConfiguration(ReportingConfigurations.configurationReportXls());
+        xlsExporter.setConfiguration(ReportingConfigurations.configurationReportXlsx());
         var outputStream = new ByteArrayOutputStream();
         xlsExporter.setExporterOutput(ReportingConfigurations.exporterOutput(outputStream));
         xlsExporter.exportReport();

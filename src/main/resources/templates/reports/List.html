@@ -39,7 +39,7 @@
             </li>
         </ul>
         <div class="tab-content" th:with="currentReport=${reportsForm.currentReport}">
-            <input type="hidden" name="exportTo" id="exportTo"/>
+            <input type="hidden" name="currentReport.exportTo" id="currentReport.exportTo"/>
             <input type="hidden" id="tagNo" th:field="*{currentReport.tagNo}"/>
             <div class="tab-pane fade show active" id="callReport" role="tabpanel" aria-labelledby="home-tab">
                 <div class="card">

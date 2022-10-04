@@ -20,15 +20,13 @@ dependencies {
 
     implementation("com.h2database:h2:2.1.214")
     implementation("org.apache.tomcat.embed:tomcat-embed-jasper")
-    //implementation("jstl:jstl:1.2")
     implementation('com.rainerhahnekamp:sneakythrow:1.2.0')
 
     //todo: update this
     implementation("org.apache.poi:poi:4.1.2")
     implementation("org.apache.poi:poi-ooxml:4.1.2")
 
-    implementation("net.sf.jasperreports:jasperreports:6.18.1")
-    implementation("net.sf.jasperreports:jasperreports-fonts:6.20.0")
+    implementation("net.sf.jasperreports:jasperreports:6.20.0")
     implementation("com.lowagie:itext:2.1.7")
 
     testImplementation("org.springframework.boot:spring-boot-starter-test") {

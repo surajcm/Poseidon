@@ -5,13 +5,13 @@ import com.poseidon.customer.domain.CustomerVO;
 import com.poseidon.customer.service.CustomerService;
 import com.poseidon.customer.web.form.CustomerForm;
 import com.poseidon.init.util.CommonUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.User;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -288,15 +288,15 @@ public class CustomerController {
                                         final String name,
                                         final String mobile) {
         var search = new CustomerVO();
-        if (StringUtils.isNotBlank(id)) {
+        if (!StringUtils.isEmpty(id)) {
             search.setCustomerId(Long.valueOf(id));
         }
-        if (StringUtils.isNotBlank(name)) {
+        if (!StringUtils.isEmpty(name)) {
             search.setCustomerName(name);
         } else {
             search.setCustomerName("");
         }
-        if (StringUtils.isNotBlank(mobile)) {
+        if (!StringUtils.isEmpty(mobile)) {
             search.setMobile(mobile);
         } else {
             search.setMobile("");

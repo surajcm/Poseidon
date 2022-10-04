@@ -1,7 +1,7 @@
 package com.poseidon.user.validator;
 
 import com.poseidon.user.domain.UserVO;
-import org.apache.commons.lang3.StringUtils;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 

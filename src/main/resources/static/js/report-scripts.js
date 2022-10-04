@@ -5,7 +5,7 @@ function selectMenu() {
 function fetchCallReport() {
     let valid = false;
     const callExportValue = document.getElementById('callExportValue');
-    document.getElementById('exportTo').value = callExportValue.options[callExportValue.selectedIndex].text;
+    document.getElementById('currentReport.exportTo').value = callExportValue.options[callExportValue.selectedIndex].text;
     const callTag = document.getElementById('callTagNo');
     document.getElementById('tagNo').value = callTag.value;
     if (callTag.value.length === 0) {
@@ -24,7 +24,7 @@ function fetchCallReport() {
 
 function fetchMakeReport() {
     const callExportValue = document.getElementById('makeExportValue');
-    document.getElementById('exportTo').value = callExportValue.options[callExportValue.selectedIndex].text;
+    document.getElementById('currentReport.exportTo').value = callExportValue.options[callExportValue.selectedIndex].text;
     document.forms[0].target = 'reportContent';
     document.forms[0].action = 'makeDetailsReport';
     document.forms[0].submit();
@@ -43,7 +43,7 @@ function fetchModelListReport() {
         valid = true;
     }
     if (valid) {
-        document.getElementById('exportTo').value = callExportValue.options[callExportValue.selectedIndex].text;
+        document.getElementById('currentReport.exportTo').value = callExportValue.options[callExportValue.selectedIndex].text;
         document.forms[0].target = 'reportContent';
         document.forms[0].action = 'modelListReport';
         document.forms[0].submit();
@@ -53,7 +53,7 @@ function fetchModelListReport() {
 
 function fetchTransactionsListReport() {
     const txnExportValue1 = document.getElementById('txnExportValue1');
-    document.getElementById('exportTo').value = txnExportValue1.options[txnExportValue1.selectedIndex].text;
+    document.getElementById('currentReport.exportTo').value = txnExportValue1.options[txnExportValue1.selectedIndex].text;
     document.forms[0].target = 'reportContent';
     document.forms[0].action = 'transactionsListReport';
     document.forms[0].submit();
@@ -64,7 +64,7 @@ function fetchTransactionsListReport() {
 function fetchInvoiceReport() {
     let valid = false;
     const callExportValue = document.getElementById('invoiceExportValue');
-    document.getElementById('exportTo').value = callExportValue.options[callExportValue.selectedIndex].text;
+    document.getElementById('currentReport.exportTo').value = callExportValue.options[callExportValue.selectedIndex].text;
     const invoiceTagNo = document.getElementById('invoiceTagNo');
     document.getElementById('tagNo').value = invoiceTagNo.value;
     if (invoiceTagNo.value.length === 0) {

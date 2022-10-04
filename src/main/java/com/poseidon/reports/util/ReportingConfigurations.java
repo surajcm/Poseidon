@@ -7,7 +7,7 @@ import net.sf.jasperreports.export.SimpleHtmlExporterOutput;
 import net.sf.jasperreports.export.SimpleHtmlReportConfiguration;
 import net.sf.jasperreports.export.SimpleOutputStreamExporterOutput;
 import net.sf.jasperreports.export.SimplePdfReportConfiguration;
-import net.sf.jasperreports.export.SimpleXlsReportConfiguration;
+import net.sf.jasperreports.export.SimpleXlsxReportConfiguration;
 
 import java.io.OutputStream;
 
@@ -16,22 +16,16 @@ public final class ReportingConfigurations {
     private ReportingConfigurations() {
     }
 
-    public static SimpleXlsReportConfiguration configurationReportXls() {
-        var xlsReportConfiguration = new SimpleXlsReportConfiguration();
-        xlsReportConfiguration.setOnePagePerSheet(false);
-        xlsReportConfiguration.setWhitePageBackground(true);
-        xlsReportConfiguration.setRemoveEmptySpaceBetweenRows(true);
-        xlsReportConfiguration.setRemoveEmptySpaceBetweenColumns(true);
-        xlsReportConfiguration.setDetectCellType(true);
-        xlsReportConfiguration.setFontSizeFixEnabled(false);
-        xlsReportConfiguration.setIgnoreCellBorder(true);
-        return xlsReportConfiguration;
+    public static SimpleXlsxReportConfiguration configurationReportXlsx() {
+        var configuration = new SimpleXlsxReportConfiguration();
+        configuration.setOnePagePerSheet(true);
+        configuration.setIgnoreGraphics(false);
+        return configuration;
     }
 
     public static SimpleHtmlReportConfiguration configurationForHTML() {
         var configuration = new SimpleHtmlReportConfiguration();
         configuration.setWhitePageBackground(true);
-        //configuration.setRemoveEmptySpaceBetweenRows(true);
         configuration.setWrapBreakWord(true);
         return configuration;
     }
