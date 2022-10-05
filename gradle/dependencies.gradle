@@ -22,9 +22,8 @@ dependencies {
     implementation("org.apache.tomcat.embed:tomcat-embed-jasper")
     implementation('com.rainerhahnekamp:sneakythrow:1.2.0')
 
-    //todo: update this
-    implementation("org.apache.poi:poi:4.1.2")
-    implementation("org.apache.poi:poi-ooxml:4.1.2")
+    implementation("org.apache.poi:poi:5.2.3")
+    implementation("org.apache.poi:poi-ooxml:5.2.3")
 
     implementation("net.sf.jasperreports:jasperreports:6.20.0")
     implementation("com.lowagie:itext:2.1.7")
