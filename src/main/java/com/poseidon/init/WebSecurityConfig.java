@@ -39,7 +39,8 @@ public class WebSecurityConfig {
                 .authorizeRequests()
                 .anyRequest().authenticated().and()
                 .formLogin()
-                .loginPage("/login").permitAll().and()
+                .loginPage("/login")
+                .defaultSuccessUrl("/", true).permitAll().and()
                 .headers()
                 .frameOptions().sameOrigin().and()
                 .logout()
@@ -47,6 +48,7 @@ public class WebSecurityConfig {
                 .requiresChannel()
                 .requestMatchers(r -> r.getHeader("X-Forwarded-Proto") != null)
                 .requiresSecure();
+
         return http.build();
     }
 
