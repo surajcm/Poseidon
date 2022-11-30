@@ -22,6 +22,9 @@ public class CompanyTerms extends CommonEntity {
     @Column(name = "companyName")
     private String companyName;
 
+    @Column(name = "companyCode")
+    private String companyCode;
+
     @Column(name = "companyPhone")
     private String companyPhone;
 
@@ -59,6 +62,14 @@ public class CompanyTerms extends CommonEntity {
 
     public void setCompanyName(final String companyName) {
         this.companyName = companyName;
+    }
+
+    public String getCompanyCode() {
+        return companyCode;
+    }
+
+    public void setCompanyCode(final String companyCode) {
+        this.companyCode = companyCode;
     }
 
     public String getCompanyPhone() {

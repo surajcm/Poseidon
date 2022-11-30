@@ -4,6 +4,7 @@ import com.poseidon.init.domain.CommonVO;
 
 public class CompanyTermsVO extends CommonVO {
     private String companyName;
+    private String companyCode;
     private String companyAddress;
     private String companyPhoneNumber;
     private String companyWebsite;
@@ -19,6 +20,14 @@ public class CompanyTermsVO extends CommonVO {
 
     public void setCompanyName(final String companyName) {
         this.companyName = companyName;
+    }
+
+    public String getCompanyCode() {
+        return companyCode;
+    }
+
+    public void setCompanyCode(final String companyCode) {
+        this.companyCode = companyCode;
     }
 
     public String getCompanyAddress() {
@@ -89,6 +98,7 @@ public class CompanyTermsVO extends CommonVO {
     public String toString() {
         return "CompanyTermsVO{" +
                 "companyName='" + companyName + '\'' +
+                ", companyCode='" + companyCode + '\'' +
                 ", companyAddress='" + companyAddress + '\'' +
                 ", companyPhoneNumber='" + companyPhoneNumber + '\'' +
                 ", companyWebsite='" + companyWebsite + '\'' +

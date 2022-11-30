@@ -16,9 +16,9 @@ insert into member (id, name, email, password, role, expired, createdOn, modifie
 (4, 'manager2', 'manager.2@manager.com', '$2a$10$mNTOvX7clxxtPcNmk1LI0.Daz5f66RyeBwijmNOT7aEpuDdn2nULK', 'ADMIN', false,
 '2019-10-15 00:00:00','2019-10-15 00:00:00','admin','admin');
 
-insert into companyterms (id, companyName, companyAddress, companyPhone, companyEmail, companyWebsite, 
+insert into companyterms (id, companyName, companyCode, companyAddress, companyPhone, companyEmail, companyWebsite,
 	vatTin, cstTin, terms,createdOn, modifiedOn, createdBy, modifiedBy) values
-(1, 'Queen Consolidated', 'Star City; Washington', '9999993939','oliver@queen.com', 
+(1, 'Queen Consolidated', 'QC01' ,'Star City; Washington', '9999993939','oliver@queen.com',
 	'www.queen-industries.com','VAT12345TT','CST12345TT',
 	'Queen Consolidated was a company founded by Robert Queen and run primarily by the Queen family.',
 	'2012-06-02 00:00:00','2012-06-02 00:00:00','admin','admin');
