@@ -52,15 +52,19 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security/">
                               <textarea th:field="*{termsAndConditions}" rows="5" cols="30" class="form-control"
                                            id="termsAndConditions"></textarea>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-3">
+                              <label for="vat_tin" class="form-label">Company code :</label>
+                              <input th:field="*{companyCode}" class="form-control" id="companyCode"/>
+                            </div>
+                            <div class="col-md-3">
                               <label for="vat_tin" class="form-label">Company's VAT TIN :</label>
                               <input th:field="*{companyVatTin}" class="form-control" id="vat_tin"/>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                               <label for="cst_tin" class="form-label">Company's CST TIN :</label>
                               <input th:field="*{companyCstTin}" class="form-control" id="cst_tin"/>
                             </div>
-                            <div class="col-md-4">
+                            <div class="col-md-3">
                               <label for="uploadImage" class="form-label">Company Logo :</label>
                               <input class="btn" value="Upload New Image" type="button" id="uploadImage" onclick="uploadImage();"/>
                             </div>

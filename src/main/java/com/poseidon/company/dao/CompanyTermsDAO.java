@@ -54,6 +54,7 @@ public class CompanyTermsDAO {
         companyTermsVO.setCompanyPhoneNumber(companyTerms.getCompanyPhone());
         companyTermsVO.setCompanyEmail(companyTerms.getCompanyEmail());
         companyTermsVO.setCompanyWebsite(companyTerms.getCompanyWebsite());
+        companyTermsVO.setCompanyCode(companyTerms.getCompanyCode());
         companyTermsVO.setCompanyVatTin(companyTerms.getVatTin());
         companyTermsVO.setCompanyCstTin(companyTerms.getCstTin());
         companyTermsVO.setTermsAndConditions(companyTerms.getTerms());
@@ -68,6 +69,7 @@ public class CompanyTermsDAO {
         companyTerms.setCompanyPhone(companyTermsVO.getCompanyPhoneNumber());
         companyTerms.setCompanyEmail(companyTermsVO.getCompanyEmail());
         companyTerms.setCompanyWebsite(companyTermsVO.getCompanyWebsite());
+        companyTerms.setCompanyCode(companyTermsVO.getCompanyCode());
         companyTerms.setVatTin(companyTermsVO.getCompanyVatTin());
         companyTerms.setCstTin(companyTermsVO.getCompanyCstTin());
         companyTerms.setModifiedBy(companyTermsVO.getModifiedBy());
