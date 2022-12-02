@@ -6,21 +6,28 @@ insert into companyterms (id, companyName, companyCode, companyAddress, companyP
      'Queen Consolidated was a company founded by Robert Queen and run primarily by the Queen family.',
      '2012-06-02 00:00:00','2012-06-02 00:00:00','admin','admin');
 
+insert into companyterms (id, companyName, companyCode, companyAddress, companyPhone, companyEmail, companyWebsite,
+                          vatTin, cstTin, terms,createdOn, modifiedOn, createdBy, modifiedBy) values
+    (2, 'Wayne Enterprises', 'WE01' ,'Gotham City; New Jersey', '9999993940','bruce@wayne.com',
+     'www.wayne-enterprises.com','VAT12567TT','CST12567TT',
+     'Wayne Enterprises and the Wayne Foundation are largely run by Bruce Waynes business manager, Lucius Fox.',
+     '2012-06-02 00:00:00','2012-06-02 00:00:00','admin','admin');
 
-insert into member (id, name, email, password, role, expired, createdOn, modifiedOn, createdBy, modifiedBy) values
-(1, 'admin', 'admin@admin.com', '$2a$10$swK6dfjfSwe9Ql0twZnvCecSYCu2v4Sp659pVg2DdIoWtoDcr/xMq', 'ADMIN', false,
+
+insert into member (id, name, email, password, role, companyCode, expired, createdOn, modifiedOn, createdBy, modifiedBy) values
+(1, 'admin', 'admin@admin.com', '$2a$10$swK6dfjfSwe9Ql0twZnvCecSYCu2v4Sp659pVg2DdIoWtoDcr/xMq', 'ADMIN', 'QC01', false,
 '2012-06-02 00:00:00','2012-06-02 00:00:00','admin','admin');
 
-insert into member (id, name, email, password, role, expired, createdOn, modifiedOn, createdBy, modifiedBy) values
-(2, 'guest', 'guest@guest.com', '$2a$10$mNTOvX7clxxtPcNmk1LI0.Daz5f66RyeBwijmNOT7aEpuDdn2nULK', 'GUEST', false,
+insert into member (id, name, email, password, role, companyCode, expired, createdOn, modifiedOn, createdBy, modifiedBy) values
+(2, 'guest', 'guest@guest.com', '$2a$10$mNTOvX7clxxtPcNmk1LI0.Daz5f66RyeBwijmNOT7aEpuDdn2nULK', 'GUEST', 'QC01', false,
 '2019-10-15 00:00:00','2019-10-15 00:00:00','admin','admin');
 
-insert into member (id, name, email, password, role, expired, createdOn, modifiedOn, createdBy, modifiedBy) values
-(3, 'manager1', 'manager@manager.com', '$2a$10$mNTOvX7clxxtPcNmk1LI0.Daz5f66RyeBwijmNOT7aEpuDdn2nULK', 'ADMIN', false,
+insert into member (id, name, email, password, role, companyCode, expired, createdOn, modifiedOn, createdBy, modifiedBy) values
+(3, 'manager1', 'manager@manager.com', '$2a$10$mNTOvX7clxxtPcNmk1LI0.Daz5f66RyeBwijmNOT7aEpuDdn2nULK', 'ADMIN', 'WE01', false,
 '2019-10-15 00:00:00','2019-10-15 00:00:00','admin','admin');
 
-insert into member (id, name, email, password, role, expired, createdOn, modifiedOn, createdBy, modifiedBy) values
-(4, 'manager2', 'manager.2@manager.com', '$2a$10$mNTOvX7clxxtPcNmk1LI0.Daz5f66RyeBwijmNOT7aEpuDdn2nULK', 'ADMIN', false,
+insert into member (id, name, email, password, role, companyCode, expired, createdOn, modifiedOn, createdBy, modifiedBy) values
+(4, 'manager2', 'manager.2@manager.com', '$2a$10$mNTOvX7clxxtPcNmk1LI0.Daz5f66RyeBwijmNOT7aEpuDdn2nULK', 'ADMIN', 'WE01', false,
 '2019-10-15 00:00:00','2019-10-15 00:00:00','admin','admin');
 
 insert into make (id, makeName, description, createdOn, modifiedOn, createdBy, modifiedBy) values
