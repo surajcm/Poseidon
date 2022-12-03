@@ -15,7 +15,6 @@ import org.springframework.util.StringUtils;
 
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.StreamSupport;
 
 import static com.rainerhahnekamp.sneakythrow.Sneaky.sneak;
 import static com.rainerhahnekamp.sneakythrow.Sneaky.sneaked;
@@ -59,10 +58,12 @@ public class UserDAO {
      *
      * @return List of user
      */
-    public List<UserVO> getAllUserDetails() {
+    public List<UserVO> getAllUserDetails(final String companyCode) {
         return sneak(() ->
-                StreamSupport.stream(userRepository.findAll().spliterator(), true)
-                        .map(this::convertToUserVO).toList());
+                userRepository.findByCompanyCode(companyCode)
+                        .stream()
+                        .map(this::convertToUserVO)
+                        .toList());
     }
 
     /**
@@ -171,6 +172,7 @@ public class UserDAO {
         user.setPassword(userVO.getPassword());
         user.setExpired(userVO.getExpired());
         user.setRole(userVO.getRole());
+        user.setCompanyCode(userVO.getCompanyCode());
         user.setCreatedBy(currentLoggedInUser);
         user.setModifiedBy(currentLoggedInUser);
         return user;
@@ -183,6 +185,7 @@ public class UserDAO {
         userVO.setEmail(user.getEmail());
         userVO.setPassword(user.getPassword());
         userVO.setRole(user.getRole());
+        userVO.setCompanyCode(user.getCompanyCode());
         userVO.setExpired(user.getExpired());
         return userVO;
     }
@@ -198,5 +201,10 @@ public class UserDAO {
             searchOperation = SearchOperation.EQUAL;
         }
         return searchOperation;
+    }
+
+    public UserVO findUserFromName(final String name) {
+        var user = userRepository.findByName(name);
+        return convertToUserVO(user);
     }
 }

@@ -22,7 +22,7 @@ class UserServiceTest {
 
     @Test
     void getAllUserDetailsSuccess() {
-        Assertions.assertNotNull(userService.getAllUserDetails());
+        Assertions.assertNotNull(userService.getAllUserDetails("admin"));
     }
 
     @Test

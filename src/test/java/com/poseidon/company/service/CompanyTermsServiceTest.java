@@ -20,8 +20,8 @@ class CompanyTermsServiceTest {
 
     @Test
     void listCompanyTermsSuccess() {
-        when(companyTermsDAO.listCompanyTerms()).thenReturn(mockCompanyTermsVO());
-        var companyTermsVO = companyTermsService.listCompanyTerms();
+        when(companyTermsDAO.listCompanyTerms("QC01")).thenReturn(mockCompanyTermsVO());
+        var companyTermsVO = companyTermsService.listCompanyTerms("QC01");
         Assertions.assertEquals("ABC", companyTermsVO.get().getCompanyName());
     }
 

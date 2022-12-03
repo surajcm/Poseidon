@@ -54,8 +54,8 @@ class UserDAOTest {
 
     @Test
     void getAllUserDetailsSuccess() {
-        when(userRepository.findAll()).thenReturn(mockUsers());
-        Assertions.assertTrue(userDAO.getAllUserDetails().size() > 0);
+        when(userRepository.findByCompanyCode(anyString())).thenReturn(mockUsers());
+        Assertions.assertTrue(userDAO.getAllUserDetails("admin").size() > 0);
     }
 
     @Test

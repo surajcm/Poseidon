@@ -31,8 +31,8 @@ public class UserService {
      *
      * @return List of user
      */
-    public List<UserVO> getAllUserDetails() {
-        return userDAO.getAllUserDetails();
+    public List<UserVO> getAllUserDetails(final String companyCode) {
+        return userDAO.getAllUserDetails(companyCode);
     }
 
     /**
@@ -98,6 +98,10 @@ public class UserService {
     public void updateWithNewPassword(final UserVO userVO, final String newPass, final String currentLoggedInUser) {
         userVO.setPassword(bcryptPasswordEncoder.encode(newPass));
         userDAO.updateUser(userVO, currentLoggedInUser);
+    }
+
+    public UserVO findUserFromName(final String name) {
+        return userDAO.findUserFromName(name);
     }
 
 }

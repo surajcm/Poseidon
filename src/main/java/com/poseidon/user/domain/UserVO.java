@@ -9,6 +9,7 @@ public class UserVO {
     private String email;
     private String password;
     private String role;
+    private String companyCode;
     private Boolean expired;
 
     public Long getId() {
@@ -43,6 +44,14 @@ public class UserVO {
         this.role = role;
     }
 
+    public String getCompanyCode() {
+        return companyCode;
+    }
+
+    public void setCompanyCode(final String companyCode) {
+        this.companyCode = companyCode;
+    }
+
     public Boolean getExpired() {
         return expired;
     }
@@ -66,6 +75,7 @@ public class UserVO {
                 .add("name='" + name + "'")
                 .add("email='" + email + "'")
                 .add("role='" + role + "'")
+                .add("companyCode='" + companyCode + "'")
                 .toString();
     }
 }

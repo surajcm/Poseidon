@@ -115,7 +115,9 @@ public class UserController {
     @PostMapping("/user/listAll")
     public String listAllUsers(@ModelAttribute final UserForm userForm, final Model model) {
         logger.info("ListAll method of user controller ");
-        var userList = userService.getAllUserDetails();
+        var companyCode = activeCompanyCode();
+        logger.info("companyCode is {}", companyCode);
+        var userList = userService.getAllUserDetails(companyCode);
         if (userList.isEmpty()) {
             userForm.setStatusMessage("No user found");
             userForm.setStatusMessageType(DANGER);
@@ -292,7 +294,7 @@ public class UserController {
     }
 
     private List<UserVO> allUsers() {
-        var userList = userService.getAllUserDetails();
+        var userList = userService.getAllUserDetails(activeCompanyCode());
         userList.forEach(u -> u.setPassword(""));
         return userList;
     }
@@ -301,5 +303,11 @@ public class UserController {
         var userVO = new UserVO();
         userVO.setName(name);
         return userVO;
+    }
+
+    private String activeCompanyCode() {
+        var currentLoggedInUser = currentLoggedInUser();
+        var user = userService.findUserFromName(currentLoggedInUser);
+        return user.getCompanyCode();
     }
 }

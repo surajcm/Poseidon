@@ -99,7 +99,7 @@ public class ReportsService {
     }
 
     private CompanyTermsVO getCompanyTerms() {
-        var companyTermsVO = companyTermsService.listCompanyTerms();
+        var companyTermsVO = companyTermsService.listCompanyTerms("QC01");
         CompanyTermsVO companyTerms = null;
         if (companyTermsVO.isPresent()) {
             companyTerms = companyTermsVO.get();
@@ -228,7 +228,7 @@ public class ReportsService {
     }
 
     private void updateCompanyInfo(final InvoiceReportVO invoiceReportVO) {
-        var companyTermsVO = companyTermsService.listCompanyTerms();
+        var companyTermsVO = companyTermsService.listCompanyTerms("QC01");
         if (companyTermsVO.isPresent()) {
             invoiceReportVO.setCompanyName(companyTermsVO.get().getCompanyName());
             invoiceReportVO.setCompanyAddress(companyTermsVO.get().getCompanyAddress());

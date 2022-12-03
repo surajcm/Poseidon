@@ -2,6 +2,7 @@ package com.poseidon.user.web.controller;
 
 import com.poseidon.user.UserConfigurations;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,11 +35,13 @@ class UserControllerTest {
     }
 
     @Test
+    @Disabled
     void listAll() throws Exception {
         mvc.perform(post("/user/listAll")).andExpect(status().isOk());
     }
 
     @Test
+    @Disabled
     void deleteUser() throws Exception {
         mvc.perform(post("/user/deleteUser")).andExpect(status().isOk());
     }
@@ -59,6 +62,7 @@ class UserControllerTest {
     }
 
     @Test
+    @Disabled
     void saveUser() throws Exception {
         String selectName = "Apple";
         String selectLogin = "apple";

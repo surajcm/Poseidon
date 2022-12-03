@@ -26,6 +26,8 @@ public class User extends CommonEntity {
 
     @Column(name = "role")
     private String role;
+    @Column(name = "companyCode")
+    private String companyCode;
 
     @Column(name = "expired")
     private Boolean expired;
@@ -70,4 +72,11 @@ public class User extends CommonEntity {
         this.role = role;
     }
 
+    public String getCompanyCode() {
+        return companyCode;
+    }
+
+    public void setCompanyCode(final String companyCode) {
+        this.companyCode = companyCode;
+    }
 }

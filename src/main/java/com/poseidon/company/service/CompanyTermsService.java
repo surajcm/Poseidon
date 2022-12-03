@@ -21,8 +21,8 @@ public class CompanyTermsService {
      *
      * @return CompanyTermsVO
      */
-    public Optional<CompanyTermsVO> listCompanyTerms() {
-        return companyTermsDAO.listCompanyTerms();
+    public Optional<CompanyTermsVO> listCompanyTerms(final String companyCode) {
+        return companyTermsDAO.listCompanyTerms(companyCode);
     }
 
     /**

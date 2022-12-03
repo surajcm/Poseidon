@@ -22,13 +22,13 @@ class CompanyTermsDAOTest {
     @Test
     void listCompanyTermsSuccess() {
         when(companyTermsRepository.findFirstByOrderByIdAsc()).thenReturn(Optional.of(mockCompanyTerms()));
-        Assertions.assertNotNull(companyTermsDAO.listCompanyTerms());
+        Assertions.assertNotNull(companyTermsDAO.listCompanyTerms("QC01"));
     }
 
     @Test
     void listCompanyTermsEmpty() {
         when(companyTermsRepository.findFirstByOrderByIdAsc()).thenReturn(Optional.empty());
-        Assertions.assertTrue(companyTermsDAO.listCompanyTerms().isEmpty());
+        Assertions.assertTrue(companyTermsDAO.listCompanyTerms("QC01").isEmpty());
     }
 
     @Test

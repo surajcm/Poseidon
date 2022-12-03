@@ -27,7 +27,7 @@ public class CompanyTermsDAO {
 
      * @return CompanyTermsVO
      */
-    public Optional<CompanyTermsVO> listCompanyTerms() {
+    public Optional<CompanyTermsVO> listCompanyTerms(final String companyCode) {
         var companyTerms = sneak(companyTermsRepository::findFirstByOrderByIdAsc);
         return companyTerms.map(this::convertToCompanyTermsVO);
     }

@@ -108,7 +108,7 @@ class ReportsServiceTest {
     void getInvoiceReportCompanyFailure() throws JRException {
         when(transactionService.fetchTransactionFromTag(any()))
                 .thenReturn(Mockito.mock(TransactionReportVO.class));
-        when(companyTermsService.listCompanyTerms()).thenReturn(Optional.empty());
+        when(companyTermsService.listCompanyTerms("QC01")).thenReturn(Optional.empty());
         when(reportsDAO.getInvoiceReport(any(), any())).thenThrow(new JRException("ERROR"));
         Assertions.assertNotNull(reportsService.getInvoiceReport(Mockito.mock(JasperReport.class),
                 new ReportsVO()));
@@ -121,7 +121,7 @@ class ReportsServiceTest {
         List<InvoiceVO> invoiceVO = new ArrayList<>();
         invoiceVO.add(Mockito.mock(InvoiceVO.class));
         when(invoiceService.findInvoices(any())).thenReturn(invoiceVO);
-        when(companyTermsService.listCompanyTerms()).thenReturn(Optional.of(Mockito.mock(CompanyTermsVO.class)));
+        when(companyTermsService.listCompanyTerms("QC01")).thenReturn(Optional.of(Mockito.mock(CompanyTermsVO.class)));
         when(reportsDAO.getInvoiceReport(any(), any())).thenThrow(new JRException("ERROR"));
         Assertions.assertNotNull(reportsService.getInvoiceReport(Mockito.mock(JasperReport.class),
                 new ReportsVO()));
