@@ -19,15 +19,15 @@ insert into member (id, name, email, password, role, companyCode, expired, creat
 '2012-06-02 00:00:00','2012-06-02 00:00:00','admin','admin');
 
 insert into member (id, name, email, password, role, companyCode, expired, createdOn, modifiedOn, createdBy, modifiedBy) values
-(2, 'guest', 'guest@guest.com', '$2a$10$mNTOvX7clxxtPcNmk1LI0.Daz5f66RyeBwijmNOT7aEpuDdn2nULK', 'GUEST', 'QC01', false,
+(2, 'guest', 'guest@guest.com', '$2a$10$mYqHoY9ku7MfbKBzrLBkT.NOwbFkXlYDDdns6XwFY0nRA1EdJPWTi', 'GUEST', 'QC01', false,
 '2019-10-15 00:00:00','2019-10-15 00:00:00','admin','admin');
 
 insert into member (id, name, email, password, role, companyCode, expired, createdOn, modifiedOn, createdBy, modifiedBy) values
-(3, 'manager1', 'manager@manager.com', '$2a$10$mNTOvX7clxxtPcNmk1LI0.Daz5f66RyeBwijmNOT7aEpuDdn2nULK', 'ADMIN', 'WE01', false,
+(3, 'manager1', 'manager@manager.com', '$2a$10$sOirKTjm2JSRLlkOTik6FeGnXJJG1PH5UtQtYUfHccRo0xB086YiC', 'ADMIN', 'WE01', false,
 '2019-10-15 00:00:00','2019-10-15 00:00:00','admin','admin');
 
 insert into member (id, name, email, password, role, companyCode, expired, createdOn, modifiedOn, createdBy, modifiedBy) values
-(4, 'manager2', 'manager.2@manager.com', '$2a$10$mNTOvX7clxxtPcNmk1LI0.Daz5f66RyeBwijmNOT7aEpuDdn2nULK', 'ADMIN', 'WE01', false,
+(4, 'manager2', 'manager.2@manager.com', '$2a$10$f6GSOdoeKUsVobCrb4dVn.RqWNXps.fQOyE5IWxHFld5nsxwQjnhS', 'ADMIN', 'WE01', false,
 '2019-10-15 00:00:00','2019-10-15 00:00:00','admin','admin');
 
 insert into make (id, makeName, description, createdOn, modifiedOn, createdBy, modifiedBy) values
