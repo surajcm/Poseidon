@@ -1,7 +1,7 @@
 package com.poseidon.reports.service;
 
 import com.poseidon.company.domain.CompanyTermsVO;
-import com.poseidon.company.service.CompanyTermsService;
+import com.poseidon.company.service.CompanyService;
 import com.poseidon.invoice.domain.InvoiceVO;
 import com.poseidon.invoice.service.InvoiceService;
 import com.poseidon.make.domain.MakeAndModelVO;
@@ -32,11 +32,11 @@ class ReportsServiceTest {
     private final ReportsDAO reportsDAO = Mockito.mock(ReportsDAO.class);
     private final MakeService makeService = Mockito.mock(MakeService.class);
     private final TransactionService transactionService = Mockito.mock(TransactionService.class);
-    private final CompanyTermsService companyTermsService = Mockito.mock(CompanyTermsService.class);
+    private final CompanyService companyService = Mockito.mock(CompanyService.class);
     private final InvoiceService invoiceService = Mockito.mock(InvoiceService.class);
     private final ReportsService reportsService = new ReportsService(reportsDAO,
             makeService, transactionService,
-            companyTermsService, invoiceService);
+            companyService, invoiceService);
 
     @Test
     void generateDailyReportSuccess() {
@@ -108,7 +108,7 @@ class ReportsServiceTest {
     void getInvoiceReportCompanyFailure() throws JRException {
         when(transactionService.fetchTransactionFromTag(any()))
                 .thenReturn(Mockito.mock(TransactionReportVO.class));
-        when(companyTermsService.listCompanyTerms("QC01")).thenReturn(Optional.empty());
+        when(companyService.listCompanyTerms("QC01")).thenReturn(Optional.empty());
         when(reportsDAO.getInvoiceReport(any(), any())).thenThrow(new JRException("ERROR"));
         Assertions.assertNotNull(reportsService.getInvoiceReport(Mockito.mock(JasperReport.class),
                 new ReportsVO()));
@@ -121,7 +121,7 @@ class ReportsServiceTest {
         List<InvoiceVO> invoiceVO = new ArrayList<>();
         invoiceVO.add(Mockito.mock(InvoiceVO.class));
         when(invoiceService.findInvoices(any())).thenReturn(invoiceVO);
-        when(companyTermsService.listCompanyTerms("QC01")).thenReturn(Optional.of(Mockito.mock(CompanyTermsVO.class)));
+        when(companyService.listCompanyTerms("QC01")).thenReturn(Optional.of(Mockito.mock(CompanyTermsVO.class)));
         when(reportsDAO.getInvoiceReport(any(), any())).thenThrow(new JRException("ERROR"));
         Assertions.assertNotNull(reportsService.getInvoiceReport(Mockito.mock(JasperReport.class),
                 new ReportsVO()));

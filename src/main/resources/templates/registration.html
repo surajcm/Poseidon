@@ -27,6 +27,9 @@
                             <div th:if="${param.success}">
                                 <div class="alert alert-info alert-dismissible fade show d-flex align-items-center">You've successfully registered</div>
                             </div>
+                            <div th:if="${param.failure}">
+                                <div class="alert alert-danger alert-dismissible fade show d-flex align-items-center">An error occurred, please double-check your input and try again !!!</div>
+                            </div>
                             <div class="form-group mb-4"><label for="name">First Name </label>
                                 <div class="input-group">
                                     <span class="input-group-text" id="basic-addon1"><span class="fas fa-envelope"></span></span>

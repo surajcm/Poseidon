@@ -1,6 +1,6 @@
 package com.poseidon.company.service;
 
-import com.poseidon.company.dao.CompanyTermsDAO;
+import com.poseidon.company.dao.CompanyDAO;
 import com.poseidon.company.domain.CompanyTermsVO;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -14,21 +14,21 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
-class CompanyTermsServiceTest {
-    private final CompanyTermsDAO companyTermsDAO = Mockito.mock(CompanyTermsDAO.class);
-    private final CompanyTermsService companyTermsService = new CompanyTermsService(companyTermsDAO);
+class CompanyServiceTest {
+    private final CompanyDAO companyDAO = Mockito.mock(CompanyDAO.class);
+    private final CompanyService companyService = new CompanyService(companyDAO);
 
     @Test
     void listCompanyTermsSuccess() {
-        when(companyTermsDAO.listCompanyTerms("QC01")).thenReturn(mockCompanyTermsVO());
-        var companyTermsVO = companyTermsService.listCompanyTerms("QC01");
+        when(companyDAO.listCompanyTerms("QC01")).thenReturn(mockCompanyTermsVO());
+        var companyTermsVO = companyService.listCompanyTerms("QC01");
         Assertions.assertEquals("ABC", companyTermsVO.get().getCompanyName());
     }
 
     @Test
     void updateCompanyDetailsSuccess() {
-        when(companyTermsDAO.updateCompanyDetails(any())).thenReturn(mockCompanyTermsVO());
-        var companyTermsVO = companyTermsService.updateCompanyDetails(new CompanyTermsVO());
+        when(companyDAO.updateCompanyDetails(any())).thenReturn(mockCompanyTermsVO());
+        var companyTermsVO = companyService.updateCompanyDetails(new CompanyTermsVO());
         Assertions.assertEquals("ABC", companyTermsVO.get().getCompanyName());
     }
 

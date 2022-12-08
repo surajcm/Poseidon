@@ -2,7 +2,7 @@ package com.poseidon.company.web.controller;
 
 import com.poseidon.company.CompanyTermsConfigurations;
 import com.poseidon.company.domain.CompanyTermsVO;
-import com.poseidon.company.service.CompanyTermsService;
+import com.poseidon.company.service.CompanyService;
 import com.poseidon.user.domain.UserVO;
 import com.poseidon.user.service.UserService;
 import org.junit.jupiter.api.BeforeEach;
@@ -32,7 +32,7 @@ class CompanyControllerTest {
     @Autowired
     private CompanyController companyController;
     @Autowired
-    private CompanyTermsService companyTermsService;
+    private CompanyService companyService;
     @Autowired
     private UserService userService;
 
@@ -46,7 +46,7 @@ class CompanyControllerTest {
     void listNormal() throws Exception {
         when(userService.findUserFromName(anyString())).thenReturn(mockUser());
         mvc.perform(post("/company/company")).andExpect(status().isOk());
-        when(companyTermsService.listCompanyTerms(anyString())).thenThrow(new RuntimeException());
+        when(companyService.listCompanyTerms(anyString())).thenThrow(new RuntimeException());
         mvc.perform(post("/company/company")).andExpect(status().isOk());
     }
 
@@ -64,20 +64,20 @@ class CompanyControllerTest {
     @Test
     void list() throws Exception {
         when(userService.findUserFromName(anyString())).thenReturn(mockUser());
-        when(companyTermsService.listCompanyTerms(anyString())).thenReturn(Optional.of(new CompanyTermsVO()));
+        when(companyService.listCompanyTerms(anyString())).thenReturn(Optional.of(new CompanyTermsVO()));
         mvc.perform(post("/company/company")).andExpect(status().isOk());
     }
 
     @Test
     void updateCompanyDetailsSuccess() throws Exception {
         mvc.perform(post("/company/updateCompanyDetails")).andExpect(status().isOk());
-        when(companyTermsService.updateCompanyDetails(any())).thenThrow(new RuntimeException());
+        when(companyService.updateCompanyDetails(any())).thenThrow(new RuntimeException());
         mvc.perform(post("/company/updateCompanyDetails")).andExpect(status().isOk());
     }
 
     @Test
     void updateCompanyDetails() throws Exception {
-        when(companyTermsService.updateCompanyDetails(any())).thenReturn(Optional.of(new CompanyTermsVO()));
+        when(companyService.updateCompanyDetails(any())).thenReturn(Optional.of(new CompanyTermsVO()));
         mvc.perform(post("/company/updateCompanyDetails")).andExpect(status().isOk());
     }
 }

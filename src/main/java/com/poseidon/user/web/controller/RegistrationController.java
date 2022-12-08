@@ -1,5 +1,6 @@
 package com.poseidon.user.web.controller;
 
+import com.poseidon.company.service.CompanyService;
 import com.poseidon.user.domain.UserVO;
 import com.poseidon.user.service.UserService;
 import org.slf4j.Logger;
@@ -16,10 +17,12 @@ public class RegistrationController {
 
     private static final Logger logger = LoggerFactory.getLogger(RegistrationController.class);
     private final UserService userService;
+    private final CompanyService companyService;
 
-
-    public RegistrationController(final UserService userService) {
+    public RegistrationController(final UserService userService,
+                                  final CompanyService companyService) {
         this.userService = userService;
+        this.companyService = companyService;
     }
 
     @ModelAttribute("userVO")
@@ -35,10 +38,14 @@ public class RegistrationController {
 
     @PostMapping
     public String registerUser(final UserVO userVO) {
-        logger.info("Submitted registration: {}", userVO);
-        //todo: add support for all roles
         userVO.setRole("GUEST");
-        userService.save(userVO, "signup");
+        logger.info("Submitted registration: {}", userVO);
+        if (companyService.isValidCompanyCode(userVO.getCompanyCode())) {
+            userService.save(userVO, "signup");
+        } else {
+            logger.error("Invalid companyCode found, {}", userVO.getCompanyCode());
+            return "redirect:/registration?failure";
+        }
         return "redirect:/registration?success";
     }
 }

@@ -1,7 +1,7 @@
 package com.poseidon.reports.service;
 
 import com.poseidon.company.domain.CompanyTermsVO;
-import com.poseidon.company.service.CompanyTermsService;
+import com.poseidon.company.service.CompanyService;
 import com.poseidon.init.util.CommonUtils;
 import com.poseidon.invoice.domain.InvoiceReportVO;
 import com.poseidon.invoice.domain.InvoiceVO;
@@ -34,18 +34,18 @@ public class ReportsService {
     private final ReportsDAO reportsDAO;
     private final MakeService makeService;
     private final TransactionService transactionService;
-    private final CompanyTermsService companyTermsService;
+    private final CompanyService companyService;
     private final InvoiceService invoiceService;
 
     public ReportsService(final ReportsDAO reportsDAO,
                           final MakeService makeService,
                           final TransactionService transactionService,
-                          final CompanyTermsService companyTermsService,
+                          final CompanyService companyService,
                           final InvoiceService invoiceService) {
         this.reportsDAO = reportsDAO;
         this.makeService = makeService;
         this.transactionService = transactionService;
-        this.companyTermsService = companyTermsService;
+        this.companyService = companyService;
         this.invoiceService = invoiceService;
     }
 
@@ -99,7 +99,7 @@ public class ReportsService {
     }
 
     private CompanyTermsVO getCompanyTerms() {
-        var companyTermsVO = companyTermsService.listCompanyTerms("QC01");
+        var companyTermsVO = companyService.listCompanyTerms("QC01");
         CompanyTermsVO companyTerms = null;
         if (companyTermsVO.isPresent()) {
             companyTerms = companyTermsVO.get();
@@ -228,7 +228,7 @@ public class ReportsService {
     }
 
     private void updateCompanyInfo(final InvoiceReportVO invoiceReportVO) {
-        var companyTermsVO = companyTermsService.listCompanyTerms("QC01");
+        var companyTermsVO = companyService.listCompanyTerms("QC01");
         if (companyTermsVO.isPresent()) {
             invoiceReportVO.setCompanyName(companyTermsVO.get().getCompanyName());
             invoiceReportVO.setCompanyAddress(companyTermsVO.get().getCompanyAddress());

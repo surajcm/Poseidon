@@ -276,10 +276,12 @@ public class UserController {
     private UserVO populateUserVO(final String selectName,
                                   final String selectLogin,
                                   final String selectRole) {
+        var companyCode = activeCompanyCode();
         var ajaxUserVo = new UserVO();
         ajaxUserVo.setName(selectName);
         ajaxUserVo.setEmail(selectLogin);
         ajaxUserVo.setRole(selectRole);
+        ajaxUserVo.setCompanyCode(companyCode);
         ajaxUserVo.setPassword("password");
         return ajaxUserVo;
     }

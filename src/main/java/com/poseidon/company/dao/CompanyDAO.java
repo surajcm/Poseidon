@@ -1,7 +1,7 @@
 package com.poseidon.company.dao;
 
 import com.poseidon.company.dao.entities.CompanyTerms;
-import com.poseidon.company.dao.repo.CompanyTermsRepository;
+import com.poseidon.company.dao.repo.CompanyRepository;
 import com.poseidon.company.domain.CompanyTermsVO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,13 +13,13 @@ import static com.rainerhahnekamp.sneakythrow.Sneaky.sneak;
 
 @Service
 @SuppressWarnings("unused")
-public class CompanyTermsDAO {
-    private static final Logger logger = LoggerFactory.getLogger(CompanyTermsDAO.class);
+public class CompanyDAO {
+    private static final Logger logger = LoggerFactory.getLogger(CompanyDAO.class);
 
-    private final CompanyTermsRepository companyTermsRepository;
+    private final CompanyRepository companyRepository;
 
-    public CompanyTermsDAO(final CompanyTermsRepository companyTermsRepository) {
-        this.companyTermsRepository = companyTermsRepository;
+    public CompanyDAO(final CompanyRepository companyRepository) {
+        this.companyRepository = companyRepository;
     }
 
     /**
@@ -28,7 +28,7 @@ public class CompanyTermsDAO {
      * @return CompanyTermsVO
      */
     public Optional<CompanyTermsVO> listCompanyTerms(final String companyCode) {
-        var companyTerms = companyTermsRepository.findByCompanyCode(companyCode);
+        var companyTerms = companyRepository.findByCompanyCode(companyCode);
         return companyTerms.map(this::convertToCompanyTermsVO);
     }
 
@@ -40,10 +40,10 @@ public class CompanyTermsDAO {
      */
     public Optional<CompanyTermsVO> updateCompanyDetails(final CompanyTermsVO companyTermsVO) {
         var optionalCompanyTerms =
-                sneak(companyTermsRepository::findFirstByOrderByIdAsc);
+                sneak(companyRepository::findFirstByOrderByIdAsc);
         return optionalCompanyTerms
                 .map(terms -> getCompanyTerms(companyTermsVO, terms))
-                .map(companyTermsRepository::save)
+                .map(companyRepository::save)
                 .map(this::convertToCompanyTermsVO);
     }
 
@@ -74,5 +74,10 @@ public class CompanyTermsDAO {
         companyTerms.setCstTin(companyTermsVO.getCompanyCstTin());
         companyTerms.setModifiedBy(companyTermsVO.getModifiedBy());
         return companyTerms;
+    }
+
+    public Boolean isValidCompanyCode(final String companyCode) {
+        var companyTerms = companyRepository.findByCompanyCode(companyCode);
+        return companyTerms.isPresent();
     }
 }

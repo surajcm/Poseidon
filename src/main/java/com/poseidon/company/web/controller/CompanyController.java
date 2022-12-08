@@ -1,7 +1,7 @@
 package com.poseidon.company.web.controller;
 
 import com.poseidon.company.domain.CompanyTermsVO;
-import com.poseidon.company.service.CompanyTermsService;
+import com.poseidon.company.service.CompanyService;
 import com.poseidon.user.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -18,13 +18,13 @@ import java.util.Optional;
 public class CompanyController {
     private static final Logger logger = LoggerFactory.getLogger(CompanyController.class);
 
-    private final CompanyTermsService companyTermsService;
+    private final CompanyService companyService;
 
     private final UserService userService;
 
-    public CompanyController(final CompanyTermsService companyTermsService,
+    public CompanyController(final CompanyService companyService,
                              final UserService userService) {
-        this.companyTermsService = companyTermsService;
+        this.companyService = companyService;
         this.userService = userService;
     }
 
@@ -57,7 +57,7 @@ public class CompanyController {
     }
 
     private Optional<CompanyTermsVO> fetchCompanyTerms(final String companyCode) {
-        return companyTermsService.listCompanyTerms(companyCode);
+        return companyService.listCompanyTerms(companyCode);
     }
 
     private Optional<CompanyTermsVO> updateCompanyTermsVO(final CompanyTermsVO companyTermsVO) {
@@ -68,7 +68,7 @@ public class CompanyController {
                 companyTermsVO.setModifiedBy(username);
             }
         }
-        return companyTermsService.updateCompanyDetails(companyTermsVO);
+        return companyService.updateCompanyDetails(companyTermsVO);
     }
 
     private String activeCompanyCode() {

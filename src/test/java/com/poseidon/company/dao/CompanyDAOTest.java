@@ -1,7 +1,7 @@
 package com.poseidon.company.dao;
 
 import com.poseidon.company.dao.entities.CompanyTerms;
-import com.poseidon.company.dao.repo.CompanyTermsRepository;
+import com.poseidon.company.dao.repo.CompanyRepository;
 import com.poseidon.company.domain.CompanyTermsVO;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -15,33 +15,33 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
-class CompanyTermsDAOTest {
-    private final CompanyTermsRepository companyTermsRepository = Mockito.mock(CompanyTermsRepository.class);
-    private final CompanyTermsDAO companyTermsDAO = new CompanyTermsDAO(companyTermsRepository);
+class CompanyDAOTest {
+    private final CompanyRepository companyRepository = Mockito.mock(CompanyRepository.class);
+    private final CompanyDAO companyDAO = new CompanyDAO(companyRepository);
 
     @Test
     void listCompanyTermsSuccess() {
-        when(companyTermsRepository.findFirstByOrderByIdAsc()).thenReturn(Optional.of(mockCompanyTerms()));
-        Assertions.assertNotNull(companyTermsDAO.listCompanyTerms("QC01"));
+        when(companyRepository.findFirstByOrderByIdAsc()).thenReturn(Optional.of(mockCompanyTerms()));
+        Assertions.assertNotNull(companyDAO.listCompanyTerms("QC01"));
     }
 
     @Test
     void listCompanyTermsEmpty() {
-        when(companyTermsRepository.findFirstByOrderByIdAsc()).thenReturn(Optional.empty());
-        Assertions.assertTrue(companyTermsDAO.listCompanyTerms("QC01").isEmpty());
+        when(companyRepository.findFirstByOrderByIdAsc()).thenReturn(Optional.empty());
+        Assertions.assertTrue(companyDAO.listCompanyTerms("QC01").isEmpty());
     }
 
     @Test
     void updateCompanyDetailsSuccessWithNull() {
-        when(companyTermsRepository.findFirstByOrderByIdAsc()).thenReturn(Optional.empty());
-        Assertions.assertTrue(companyTermsDAO.updateCompanyDetails(new CompanyTermsVO()).isEmpty());
+        when(companyRepository.findFirstByOrderByIdAsc()).thenReturn(Optional.empty());
+        Assertions.assertTrue(companyDAO.updateCompanyDetails(new CompanyTermsVO()).isEmpty());
     }
 
     @Test
     void updateCompanyDetailsSuccessWithNotNull() {
-        when(companyTermsRepository.findFirstByOrderByIdAsc()).thenReturn(Optional.of(mockCompanyTerms()));
-        when(companyTermsRepository.save(any())).thenReturn(mockCompanyTerms());
-        Assertions.assertNotNull(companyTermsDAO.updateCompanyDetails(new CompanyTermsVO()));
+        when(companyRepository.findFirstByOrderByIdAsc()).thenReturn(Optional.of(mockCompanyTerms()));
+        when(companyRepository.save(any())).thenReturn(mockCompanyTerms());
+        Assertions.assertNotNull(companyDAO.updateCompanyDetails(new CompanyTermsVO()));
     }
 
     private CompanyTerms mockCompanyTerms() {

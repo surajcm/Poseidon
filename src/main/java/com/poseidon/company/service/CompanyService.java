@@ -1,19 +1,19 @@
 package com.poseidon.company.service;
 
 
-import com.poseidon.company.dao.CompanyTermsDAO;
+import com.poseidon.company.dao.CompanyDAO;
 import com.poseidon.company.domain.CompanyTermsVO;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
 
 @Service
-public class CompanyTermsService {
+public class CompanyService {
 
-    private final CompanyTermsDAO companyTermsDAO;
+    private final CompanyDAO companyDAO;
 
-    public CompanyTermsService(final CompanyTermsDAO companyTermsDAO) {
-        this.companyTermsDAO = companyTermsDAO;
+    public CompanyService(final CompanyDAO companyDAO) {
+        this.companyDAO = companyDAO;
     }
 
     /**
@@ -22,7 +22,7 @@ public class CompanyTermsService {
      * @return CompanyTermsVO
      */
     public Optional<CompanyTermsVO> listCompanyTerms(final String companyCode) {
-        return companyTermsDAO.listCompanyTerms(companyCode);
+        return companyDAO.listCompanyTerms(companyCode);
     }
 
     /**
@@ -32,7 +32,11 @@ public class CompanyTermsService {
      * @return company terms vo
      */
     public Optional<CompanyTermsVO> updateCompanyDetails(final CompanyTermsVO companyTermsVO) {
-        return companyTermsDAO.updateCompanyDetails(companyTermsVO);
+        return companyDAO.updateCompanyDetails(companyTermsVO);
+    }
+
+    public Boolean isValidCompanyCode(final String companyCode) {
+        return companyDAO.isValidCompanyCode(companyCode);
     }
 
 }
