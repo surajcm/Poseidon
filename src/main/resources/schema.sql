@@ -22,7 +22,7 @@ create table member (
     password varchar(255),
     role varchar(45),
     companyCode varchar(45),
-    expired boolean default false not null,
+    enabled boolean default false not null,
     createdOn datetime,
     modifiedOn datetime,
     createdBy varchar(45),

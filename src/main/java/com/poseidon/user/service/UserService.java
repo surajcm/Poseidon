@@ -42,7 +42,7 @@ public class UserService {
      */
     public void save(final UserVO user, final String currentLoggedInUser) {
         user.setPassword(bcryptPasswordEncoder.encode(user.getPassword()));
-        user.setExpired(false);
+        user.setEnabled(false);
         userDAO.save(user, currentLoggedInUser);
     }
 

@@ -113,6 +113,8 @@
                             <th scope="col">Name</th>
                             <th scope="col">email</th>
                             <th scope="col">Role</th>
+                            <th scope="col">Enabled</th>
+                            <th scope="col"></th>
                         </tr>
                     </thead>
                     <tbody>
@@ -122,6 +124,8 @@
                             <td><span th:text="${iterationUser.name}"></span></td>
                             <td><span th:text="${iterationUser.email}"></span></td>
                             <td><span th:text="${iterationUser.role}"></span></td>
+                            <td><span th:text="${iterationUser.enabled}"></span></td>
+                            <td>Edit &nbsp; Delete</td>
                         </tr>
                     </tbody>
                 </table>

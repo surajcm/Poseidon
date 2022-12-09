@@ -76,7 +76,7 @@ public class CompanyDAO {
         return companyTerms;
     }
 
-    public Boolean isValidCompanyCode(final String companyCode) {
+    public boolean isValidCompanyCode(final String companyCode) {
         var companyTerms = companyRepository.findByCompanyCode(companyCode);
         return companyTerms.isPresent();
     }

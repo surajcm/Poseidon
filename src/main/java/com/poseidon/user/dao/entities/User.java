@@ -4,10 +4,10 @@ package com.poseidon.user.dao.entities;
 import com.poseidon.init.entity.CommonEntity;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EntityListeners;
-import javax.persistence.Table;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EntityListeners;
+import jakarta.persistence.Table;
 
 
 @EntityListeners(AuditingEntityListener.class)
@@ -29,8 +29,8 @@ public class User extends CommonEntity {
     @Column(name = "companyCode")
     private String companyCode;
 
-    @Column(name = "expired")
-    private Boolean expired;
+    @Column(name = "enabled")
+    private Boolean enabled;
 
     public String getName() {
         return name;
@@ -56,12 +56,12 @@ public class User extends CommonEntity {
         this.password = password;
     }
 
-    public Boolean getExpired() {
-        return expired;
+    public Boolean getEnabled() {
+        return enabled;
     }
 
-    public void setExpired(final Boolean expired) {
-        this.expired = expired;
+    public void setEnabled(final Boolean expired) {
+        this.enabled = expired;
     }
 
     public String getRole() {

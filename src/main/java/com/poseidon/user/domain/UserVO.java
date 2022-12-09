@@ -10,7 +10,7 @@ public class UserVO {
     private String password;
     private String role;
     private String companyCode;
-    private Boolean expired;
+    private Boolean enabled;
 
     public Long getId() {
         return id;
@@ -52,12 +52,12 @@ public class UserVO {
         this.companyCode = companyCode;
     }
 
-    public Boolean getExpired() {
-        return expired;
+    public Boolean getEnabled() {
+        return enabled;
     }
 
-    public void setExpired(final Boolean expired) {
-        this.expired = expired;
+    public void setEnabled(final Boolean enabled) {
+        this.enabled = enabled;
     }
 
     public String getEmail() {

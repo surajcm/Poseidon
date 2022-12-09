@@ -35,7 +35,7 @@ public class CompanyService {
         return companyDAO.updateCompanyDetails(companyTermsVO);
     }
 
-    public Boolean isValidCompanyCode(final String companyCode) {
+    public boolean isValidCompanyCode(final String companyCode) {
         return companyDAO.isValidCompanyCode(companyCode);
     }
 

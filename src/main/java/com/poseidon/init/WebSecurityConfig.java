@@ -1,17 +1,19 @@
 package com.poseidon.init;
 
 import org.springframework.context.annotation.Bean;
+import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
-import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 
+@Configuration
 @EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true, jsr250Enabled = true)
+@EnableMethodSecurity(securedEnabled = true, jsr250Enabled = true)
 public class WebSecurityConfig {
     private final UserDetailsService userDetailsService;
 
@@ -28,16 +30,14 @@ public class WebSecurityConfig {
     public SecurityFilterChain filterChain(final HttpSecurity http) throws Exception {
         http.csrf().disable();
         http
-                .authorizeRequests()
-                .antMatchers("/resources/**",
-                        "/registration",
-                        "/css/**", "/js/**", "/img/**",
-                        "/h2-console/**",
-                        "/console/**").permitAll()
-                .and().headers().frameOptions().sameOrigin();
-        http
-                .authorizeRequests()
-                .anyRequest().authenticated().and()
+                .authorizeHttpRequests(auth -> auth
+                    .requestMatchers("/resources/**",
+                            "/registration",
+                            "/css/**", "/js/**", "/img/**",
+                            "/h2-console/**",
+                            "/console/**").permitAll()
+                    .anyRequest().authenticated()
+                )
                 .formLogin()
                 .loginPage("/login")
                 .defaultSuccessUrl("/", true).permitAll().and()

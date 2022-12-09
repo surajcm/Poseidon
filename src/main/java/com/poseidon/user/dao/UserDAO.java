@@ -123,7 +123,7 @@ public class UserDAO {
     public void expireUser(final Long id) {
         var user = sneak(() -> userRepository.findById(id));
         if (user.isPresent()) {
-            user.get().setExpired(true);
+            user.get().setEnabled(true);
             sneak(() -> userRepository.save(user.get()));
         }
     }
@@ -170,7 +170,7 @@ public class UserDAO {
         user.setName(userVO.getName());
         user.setEmail(userVO.getEmail());
         user.setPassword(userVO.getPassword());
-        user.setExpired(userVO.getExpired());
+        user.setEnabled(userVO.getEnabled());
         user.setRole(userVO.getRole());
         user.setCompanyCode(userVO.getCompanyCode());
         user.setCreatedBy(currentLoggedInUser);
@@ -186,7 +186,7 @@ public class UserDAO {
         userVO.setPassword(user.getPassword());
         userVO.setRole(user.getRole());
         userVO.setCompanyCode(user.getCompanyCode());
-        userVO.setExpired(user.getExpired());
+        userVO.setEnabled(user.getEnabled());
         return userVO;
     }
 
