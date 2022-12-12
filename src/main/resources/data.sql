@@ -30,6 +30,18 @@ insert into member (id, name, email, password, role, companyCode, enabled, creat
 (4, 'manager2', 'manager.2@manager.com', '$2a$10$f6GSOdoeKUsVobCrb4dVn.RqWNXps.fQOyE5IWxHFld5nsxwQjnhS', 'ADMIN', 'WE01', true,
 '2019-10-15 00:00:00','2019-10-15 00:00:00','admin','admin');
 
+insert into roles (id, name, description, createdOn, modifiedOn, createdBy, modifiedBy) values
+(1, 'ADMIN', 'Administrator of the poseidon','2022-12-12 00:00:00','2022-12-12 06:56:00','admin','admin');
+
+insert into roles (id, name, description, createdOn, modifiedOn, createdBy, modifiedBy) values
+(2, 'MANAGER', 'Manager for a single company','2022-12-12 00:00:00','2022-12-12 06:56:00','admin','admin');
+
+insert into roles (id, name, description, createdOn, modifiedOn, createdBy, modifiedBy) values
+(3, 'FRONT_DESK', 'Front desk executive for a single company','2022-12-12 00:00:00','2022-12-12 06:56:00','admin','admin');
+
+insert into roles (id, name, description, createdOn, modifiedOn, createdBy, modifiedBy) values
+(4, 'CUSTOMER', 'Customer for a single company','2022-12-12 00:00:00','2022-12-12 06:56:00','admin','admin');
+
 insert into make (id, makeName, description, createdOn, modifiedOn, createdBy, modifiedBy) values
 (1, 'Apple', 'Apple Computers','2019-08-01 00:00:00','2019-08-01 06:56:00','admin','admin');
 
