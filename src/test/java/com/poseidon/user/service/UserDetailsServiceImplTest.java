@@ -1,6 +1,7 @@
 package com.poseidon.user.service;
 
 import com.poseidon.user.dao.UserDAO;
+import com.poseidon.user.dao.entities.Role;
 import com.poseidon.user.domain.UserVO;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -36,7 +37,7 @@ class UserDetailsServiceImplTest {
         var user = new UserVO();
         user.setName("admin");
         user.setPassword("pass");
-        user.setRole("admin");
+        user.addRole(new Role(1L, "ADMIN"));
         return user;
     }
 }

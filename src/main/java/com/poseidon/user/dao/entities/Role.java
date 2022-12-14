@@ -18,6 +18,18 @@ public class Role extends CommonEntity  {
         return name;
     }
 
+    public Role() {
+    }
+
+    public Role(final Long id) {
+        this.setId(id);
+    }
+
+    public Role(final Long id, final String name) {
+        this.setId(id);
+        this.setName(name);
+    }
+
     public void setName(final String name) {
         this.name = name;
     }

@@ -1,5 +1,6 @@
 package com.poseidon.user.dao;
 
+import com.poseidon.user.dao.entities.Role;
 import com.poseidon.user.dao.entities.User;
 import com.poseidon.user.dao.repo.UserRepository;
 import com.poseidon.user.dao.spec.UserSpecification;
@@ -117,7 +118,6 @@ class UserDAOTest {
         var user = mockUserVO();
         user.setName(null);
         user.setEmail(null);
-        user.setRole(null);
         Assertions.assertNotNull(userDAO.searchUserDetails(user, false, false));
     }
 
@@ -132,7 +132,7 @@ class UserDAOTest {
         user.setName("ABC");
         user.setEmail("ABC");
         user.setPassword("PASS");
-        user.setRole("ADMIN");
+        //user.setRole("ADMIN");
         user.setCreatedBy("ADMIN");
         user.setModifiedBy("ADMIN");
         return Optional.of(user);
@@ -144,7 +144,7 @@ class UserDAOTest {
         user.setName("ABC");
         user.setEmail("ABC");
         user.setPassword("PASS");
-        user.setRole("ADMIN");
+        user.addRole(new Role(1L));
         return user;
     }
 

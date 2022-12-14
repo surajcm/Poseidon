@@ -1,5 +1,9 @@
 package com.poseidon.user.domain;
 
+import com.poseidon.user.dao.entities.Role;
+
+import java.util.HashSet;
+import java.util.Set;
 import java.util.StringJoiner;
 
 @SuppressWarnings("unused")
@@ -8,7 +12,7 @@ public class UserVO {
     private String name;
     private String email;
     private String password;
-    private String role;
+    private Set<Role> roles;
     private String companyCode;
     private Boolean enabled;
 
@@ -36,12 +40,27 @@ public class UserVO {
         this.password = password;
     }
 
-    public String getRole() {
+    /*public String getRole() {
         return role;
     }
 
     public void setRole(final String role) {
         this.role = role;
+    }*/
+
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(final Set<Role> roles) {
+        this.roles = roles;
+    }
+
+    public void addRole(final Role role) {
+        if (this.roles == null) {
+            this.roles = new HashSet<>();
+        }
+        this.roles.add(role);
     }
 
     public String getCompanyCode() {
@@ -74,7 +93,7 @@ public class UserVO {
                 .add("id=" + id)
                 .add("name='" + name + "'")
                 .add("email='" + email + "'")
-                .add("role='" + role + "'")
+                .add("role='" + roles + "'")
                 .add("companyCode='" + companyCode + "'")
                 .toString();
     }

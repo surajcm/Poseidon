@@ -1,6 +1,7 @@
 package com.poseidon.user.service;
 
 import com.poseidon.user.dao.UserDAO;
+import com.poseidon.user.dao.repo.RoleRepository;
 import com.poseidon.user.domain.UserVO;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -17,8 +18,9 @@ import static org.mockito.Mockito.when;
 @ExtendWith(SpringExtension.class)
 class UserServiceTest {
     private final UserDAO userDAO = Mockito.mock(UserDAO.class);
+    private final RoleRepository roleRepository = Mockito.mock(RoleRepository.class);
     private final BCryptPasswordEncoder bcryptPasswordEncoder = Mockito.mock(BCryptPasswordEncoder.class);
-    private final UserService userService = new UserService(userDAO, bcryptPasswordEncoder);
+    private final UserService userService = new UserService(userDAO, bcryptPasswordEncoder, roleRepository);
 
     @Test
     void getAllUserDetailsSuccess() {

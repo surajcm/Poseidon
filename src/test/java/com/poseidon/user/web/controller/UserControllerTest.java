@@ -1,6 +1,7 @@
 package com.poseidon.user.web.controller;
 
 import com.poseidon.user.UserConfigurations;
+import com.poseidon.user.dao.entities.Role;
 import com.poseidon.user.domain.UserVO;
 import com.poseidon.user.service.UserService;
 import org.junit.jupiter.api.BeforeEach;
@@ -54,7 +55,7 @@ class UserControllerTest {
         user.setName("ABC");
         user.setEmail("ABC");
         user.setPassword("PASS");
-        user.setRole("ADMIN");
+        user.addRole(new Role(1L));
         user.setCompanyCode("QC01");
         return user;
     }

@@ -20,7 +20,6 @@ create table member (
     name varchar(225),
     email varchar(225),
     password varchar(255),
-    role varchar(45),
     companyCode varchar(45),
     enabled boolean default false not null,
     createdOn datetime,
@@ -37,6 +36,11 @@ create table roles (
     modifiedOn datetime,
     createdBy varchar(45),
     modifiedBy varchar(45)
+);
+
+create table users_roles(
+        user_id bigint,
+        role_id bigint
 );
 
 create table make (

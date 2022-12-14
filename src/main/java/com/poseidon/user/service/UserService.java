@@ -1,14 +1,18 @@
 package com.poseidon.user.service;
 
 import com.poseidon.user.dao.UserDAO;
+import com.poseidon.user.dao.entities.Role;
+import com.poseidon.user.dao.repo.RoleRepository;
 import com.poseidon.user.domain.UserVO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 
 @Service
@@ -18,12 +22,16 @@ public class UserService {
     private static final String EXCEPTION_TYPE_IN_SERVICE_IMPL = "Exception type in service impl {}";
 
     private final UserDAO userDAO;
+    private final RoleRepository roleRepository;
 
     private final BCryptPasswordEncoder bcryptPasswordEncoder;
 
-    public UserService(final UserDAO userDAO, final BCryptPasswordEncoder bcryptPasswordEncoder) {
+    public UserService(final UserDAO userDAO,
+                       final BCryptPasswordEncoder bcryptPasswordEncoder,
+                       final RoleRepository roleRepository) {
         this.userDAO = userDAO;
         this.bcryptPasswordEncoder = bcryptPasswordEncoder;
+        this.roleRepository = roleRepository;
     }
 
     /**
@@ -102,6 +110,10 @@ public class UserService {
 
     public UserVO findUserFromName(final String name) {
         return userDAO.findUserFromName(name);
+    }
+
+    public Set<Role> getAllRoles() {
+        return new HashSet<>(roleRepository.findAll());
     }
 
 }

@@ -99,7 +99,7 @@ public class UserDAO {
             user.setName(userVO.getName());
             user.setEmail(userVO.getEmail());
             user.setPassword(userVO.getPassword());
-            user.setRole(userVO.getRole());
+            user.setRoles(userVO.getRoles());
             user.setModifiedBy(loggedInUser);
             sneak(() -> userRepository.save(user));
         }
@@ -158,9 +158,6 @@ public class UserDAO {
         if (StringUtils.hasText(searchUser.getEmail())) {
             userSpec.add(new SearchCriteria("email", searchUser.getEmail(), search));
         }
-        if (StringUtils.hasText(searchUser.getRole())) {
-            userSpec.add(new SearchCriteria("role", searchUser.getRole(), search));
-        }
         List<User> resultUsers = userRepository.findAll(userSpec);
         return resultUsers.stream().map(this::convertToUserVO).toList();
     }
@@ -171,7 +168,7 @@ public class UserDAO {
         user.setEmail(userVO.getEmail());
         user.setPassword(userVO.getPassword());
         user.setEnabled(userVO.getEnabled());
-        user.setRole(userVO.getRole());
+        user.setRoles(userVO.getRoles());
         user.setCompanyCode(userVO.getCompanyCode());
         user.setCreatedBy(currentLoggedInUser);
         user.setModifiedBy(currentLoggedInUser);
@@ -184,7 +181,7 @@ public class UserDAO {
         userVO.setName(user.getName());
         userVO.setEmail(user.getEmail());
         userVO.setPassword(user.getPassword());
-        userVO.setRole(user.getRole());
+        userVO.setRoles(user.getRoles());
         userVO.setCompanyCode(user.getCompanyCode());
         userVO.setEnabled(user.getEnabled());
         return userVO;

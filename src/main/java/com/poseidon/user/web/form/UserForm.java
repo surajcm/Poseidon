@@ -1,9 +1,11 @@
 package com.poseidon.user.web.form;
 
+import com.poseidon.user.dao.entities.Role;
 import com.poseidon.user.domain.UserVO;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Set;
 import java.util.StringJoiner;
 
 @SuppressWarnings("unused")
@@ -12,7 +14,7 @@ public class UserForm {
     private String name;
     private String email;
     private String password;
-    private String role;
+    private Set<Role> roles;
     private String message;
     private UserVO user;
     private Collection<UserVO> userVOs;
@@ -57,12 +59,20 @@ public class UserForm {
         this.password = password;
     }
 
-    public String getRole() {
+    /*public String getRole() {
         return role;
     }
 
     public void setRole(final String role) {
         this.role = role;
+    }*/
+
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(final Set<Role> roles) {
+        this.roles = roles;
     }
 
     public String getMessage() {
@@ -163,7 +173,7 @@ public class UserForm {
         userVo.setName(getName());
         userVo.setEmail(getEmail());
         userVo.setPassword(getPassword());
-        userVo.setRole(getRole());
+        userVo.setRoles(getRoles());
         return userVo;
     }
 
@@ -171,7 +181,7 @@ public class UserForm {
     public String toString() {
         return new StringJoiner(", ", UserForm.class.getSimpleName() + "[", "]")
                 .add("id=" + id).add("name='" + name + "'").add("email='" + email + "'")
-                .add("password='" + password + "'").add("role='" + role + "'")
+                .add("password='" + password + "'").add("roles='" + roles + "'")
                 .add("message='" + message + "'").add("user=" + user).add("userVOs=" + userVOs)
                 .add("loggedInUser='" + loggedInUser + "'").add("loggedInRole='" + loggedInRole + "'")
                 .add("searchUser=" + searchUser).add("statusMessage='" + statusMessage + "'")

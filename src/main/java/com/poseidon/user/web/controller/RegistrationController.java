@@ -1,6 +1,7 @@
 package com.poseidon.user.web.controller;
 
 import com.poseidon.company.service.CompanyService;
+import com.poseidon.user.dao.entities.Role;
 import com.poseidon.user.domain.UserVO;
 import com.poseidon.user.service.UserService;
 import org.slf4j.Logger;
@@ -38,7 +39,7 @@ public class RegistrationController {
 
     @PostMapping
     public String registerUser(final UserVO userVO) {
-        userVO.setRole("GUEST");
+        userVO.addRole(new Role(2L));
         logger.info("Submitted registration: {}", userVO);
         if (companyService.isValidCompanyCode(userVO.getCompanyCode())) {
             userService.save(userVO, "signup");

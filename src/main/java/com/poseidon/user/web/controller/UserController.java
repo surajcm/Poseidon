@@ -21,8 +21,6 @@ import jakarta.servlet.http.HttpServletRequest;
 import java.util.AbstractMap;
 import java.util.List;
 
-import static com.poseidon.user.web.form.Role.populateRoles;
-
 
 @Controller
 @SuppressWarnings("unused")
@@ -123,7 +121,7 @@ public class UserController {
             userForm.setStatusMessageType(DANGER);
         }
         userForm.setUserVOs(userList);
-        userForm.setRoleList(populateRoles());
+        userForm.setRoles(userService.getAllRoles());
         model.addAttribute(USER_FORM, userForm);
         return USER_LIST;
     }
@@ -171,7 +169,7 @@ public class UserController {
             userForm.setStatusMessageType(DANGER);
         }
         userForm.setUserVOs(userList);
-        userForm.setRoleList(populateRoles());
+        userForm.setRoles(userService.getAllRoles());
         model.addAttribute(USER_FORM, userForm);
         return USER_LIST;
     }
@@ -219,7 +217,7 @@ public class UserController {
             if (userVO.isPresent()) {
                 userVO.get().setName(name);
                 userVO.get().setEmail(email);
-                userVO.get().setRole(role);
+                //userVO.get().setRoles(role);
                 userService.updateUser(userVO.get(), currentLoggedInUser());
             }
         } catch (Exception ex) {
@@ -280,7 +278,7 @@ public class UserController {
         var ajaxUserVo = new UserVO();
         ajaxUserVo.setName(selectName);
         ajaxUserVo.setEmail(selectLogin);
-        ajaxUserVo.setRole(selectRole);
+        //ajaxUserVo.setRole(selectRole);
         ajaxUserVo.setCompanyCode(companyCode);
         ajaxUserVo.setPassword("password");
         return ajaxUserVo;

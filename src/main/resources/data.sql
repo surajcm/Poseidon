@@ -14,20 +14,20 @@ insert into companyterms (id, companyName, companyCode, companyAddress, companyP
      '2012-06-02 00:00:00','2012-06-02 00:00:00','admin','admin');
 
 
-insert into member (id, name, email, password, role, companyCode, enabled, createdOn, modifiedOn, createdBy, modifiedBy) values
-(1, 'admin', 'admin@admin.com', '$2a$10$swK6dfjfSwe9Ql0twZnvCecSYCu2v4Sp659pVg2DdIoWtoDcr/xMq', 'ADMIN', 'QC01', true,
+insert into member (id, name, email, password, companyCode, enabled, createdOn, modifiedOn, createdBy, modifiedBy) values
+(1, 'admin', 'admin@admin.com', '$2a$10$swK6dfjfSwe9Ql0twZnvCecSYCu2v4Sp659pVg2DdIoWtoDcr/xMq',  'QC01', true,
 '2012-06-02 00:00:00','2012-06-02 00:00:00','admin','admin');
 
-insert into member (id, name, email, password, role, companyCode, enabled, createdOn, modifiedOn, createdBy, modifiedBy) values
-(2, 'guest', 'guest@guest.com', '$2a$10$mYqHoY9ku7MfbKBzrLBkT.NOwbFkXlYDDdns6XwFY0nRA1EdJPWTi', 'GUEST', 'QC01', true,
+insert into member (id, name, email, password, companyCode, enabled, createdOn, modifiedOn, createdBy, modifiedBy) values
+(2, 'guest', 'guest@guest.com', '$2a$10$mYqHoY9ku7MfbKBzrLBkT.NOwbFkXlYDDdns6XwFY0nRA1EdJPWTi',  'QC01', true,
 '2019-10-15 00:00:00','2019-10-15 00:00:00','admin','admin');
 
-insert into member (id, name, email, password, role, companyCode, enabled, createdOn, modifiedOn, createdBy, modifiedBy) values
-(3, 'manager1', 'manager@manager.com', '$2a$10$sOirKTjm2JSRLlkOTik6FeGnXJJG1PH5UtQtYUfHccRo0xB086YiC', 'ADMIN', 'WE01', true,
+insert into member (id, name, email, password, companyCode, enabled, createdOn, modifiedOn, createdBy, modifiedBy) values
+(3, 'manager1', 'manager@manager.com', '$2a$10$sOirKTjm2JSRLlkOTik6FeGnXJJG1PH5UtQtYUfHccRo0xB086YiC',  'WE01', true,
 '2019-10-15 00:00:00','2019-10-15 00:00:00','admin','admin');
 
-insert into member (id, name, email, password, role, companyCode, enabled, createdOn, modifiedOn, createdBy, modifiedBy) values
-(4, 'manager2', 'manager.2@manager.com', '$2a$10$f6GSOdoeKUsVobCrb4dVn.RqWNXps.fQOyE5IWxHFld5nsxwQjnhS', 'ADMIN', 'WE01', true,
+insert into member (id, name, email, password, companyCode, enabled, createdOn, modifiedOn, createdBy, modifiedBy) values
+(4, 'manager2', 'manager.2@manager.com', '$2a$10$f6GSOdoeKUsVobCrb4dVn.RqWNXps.fQOyE5IWxHFld5nsxwQjnhS',  'WE01', true,
 '2019-10-15 00:00:00','2019-10-15 00:00:00','admin','admin');
 
 insert into roles (id, name, description, createdOn, modifiedOn, createdBy, modifiedBy) values
@@ -41,6 +41,11 @@ insert into roles (id, name, description, createdOn, modifiedOn, createdBy, modi
 
 insert into roles (id, name, description, createdOn, modifiedOn, createdBy, modifiedBy) values
 (4, 'CUSTOMER', 'Customer for a single company','2022-12-12 00:00:00','2022-12-12 06:56:00','admin','admin');
+
+insert into users_roles(user_id, role_id) values (1, 1);
+insert into users_roles(user_id, role_id) values (2, 2);
+insert into users_roles(user_id, role_id) values (3, 3);
+insert into users_roles(user_id, role_id) values (4, 4);
 
 insert into make (id, makeName, description, createdOn, modifiedOn, createdBy, modifiedBy) values
 (1, 'Apple', 'Apple Computers','2019-08-01 00:00:00','2019-08-01 06:56:00','admin','admin');

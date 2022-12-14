@@ -1,11 +1,13 @@
 package com.poseidon.user.dao.repo;
 
+import com.poseidon.user.dao.entities.Role;
 import com.poseidon.user.dao.entities.User;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.jdbc.AutoConfigureTestDatabase;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
+import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 
 import java.time.LocalDateTime;
 import java.time.ZoneId;
@@ -16,6 +18,9 @@ class UserRepositoryTest {
     @Autowired
     private UserRepository repository;
 
+    @Autowired
+    private TestEntityManager entityManager;
+
     @Test
     void testCreateDummyUser() {
         var user = getUser();
@@ -24,11 +29,12 @@ class UserRepositoryTest {
     }
 
     private User getUser() {
+        var roleAdmin = entityManager.find(Role.class, 1);
         var user = new User();
         user.setName("timmy");
         user.setEmail("timmy@timmy.com");
         user.setPassword("complicated");
-        user.setRole("ADMIN");
+        user.addRole(roleAdmin);
         user.setCompanyCode("QE01");
         user.setEnabled(false);
         user.setCreatedBy("admin");
