@@ -42,10 +42,10 @@
                             <div class="col-md-4">
                                 <div class="input-group mb-3">
                                     <label for="role" class="input-group-text">Role</label>
-                                    <select id="role" th:field="*{searchUser.role}" class="form-select"
+                                    <select id="role" th:field="*{searchUser.roles}" class="form-select"
                                                  onkeypress="handleEnter(event);">
                                         <option value=""><-- Select --></option>
-                                        <option th:each="i : ${userForm.roleList}" th:value="${i}" th:text="${i}">
+                                        <option th:each="i : ${allRoles}" th:value="${i}" th:text="${i}">
                                         </option>
                                     </select>
                                 </div>
@@ -112,7 +112,7 @@
                             <th scope="col">id</th>
                             <th scope="col">Name</th>
                             <th scope="col">email</th>
-                            <th scope="col">Role</th>
+                            <th scope="col">Roles</th>
                             <th scope="col">Enabled</th>
                             <th scope="col"></th>
                         </tr>
@@ -123,7 +123,7 @@
                                        th:value="${iterationUser.id}" /></th>
                             <td><span th:text="${iterationUser.name}"></span></td>
                             <td><span th:text="${iterationUser.email}"></span></td>
-                            <td><span th:text="${iterationUser.role}"></span></td>
+                            <td><span th:text="${iterationUser.roles}"></span></td>
                             <td><span th:text="${iterationUser.enabled}"></span></td>
                             <td>Edit &nbsp; Delete</td>
                         </tr>

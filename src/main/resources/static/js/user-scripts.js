@@ -124,6 +124,8 @@ function selectRole() {
     let selectRole = document.createElement("select");
     selectRole.setAttribute("class", "form-select");
     selectRole.setAttribute("id", "addRole");
+    // let's make an ajax call and get all roles
+
     let adminOption = document.createElement("option");
     adminOption.text = 'ADMIN';
     adminOption.value = 'ADMIN';

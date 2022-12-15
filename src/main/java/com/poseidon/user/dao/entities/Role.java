@@ -41,4 +41,9 @@ public class Role extends CommonEntity  {
     public void setDescription(final String description) {
         this.description = description;
     }
+
+    @Override
+    public String toString() {
+        return name;
+    }
 }

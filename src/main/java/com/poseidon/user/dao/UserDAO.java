@@ -6,7 +6,7 @@ import com.poseidon.user.dao.entities.User;
 import com.poseidon.user.dao.repo.UserRepository;
 import com.poseidon.user.dao.spec.UserSpecification;
 import com.poseidon.user.domain.UserVO;
-import com.poseidon.user.exception.UserException;
+//import com.poseidon.user.exception.UserException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataAccessException;
@@ -37,9 +37,8 @@ public class UserDAO {
      * @return user instance from database
      * @throws UserException on error
      */
-    public UserVO logIn(final UserVO userVO) throws UserException {
+    /*public UserVO logIn(final UserVO userVO) throws UserException {
         Optional<User> user = sneak(() -> userRepository.findByEmail(userVO.getEmail()));
-
         if (user.isPresent()) {
             LOG.info(" user details fetched successfully,for user name {}", user.get().getName());
             if (!userVO.getPassword().equalsIgnoreCase(user.get().getPassword())) {
@@ -48,31 +47,25 @@ public class UserDAO {
             LOG.info(" Password matched successfully, user details are {}", user);
             return convertToUserVO(user.get());
         } else {
-            // invalid user
             throw new UserException(UserException.UNKNOWN_USER);
         }
-    }
+    }*/
 
     /**
      * getAllUserDetails to list all user details.
      *
      * @return List of user
      */
-    public List<UserVO> getAllUserDetails(final String companyCode) {
-        return sneak(() ->
-                userRepository.findByCompanyCode(companyCode)
-                        .stream()
-                        .map(this::convertToUserVO)
-                        .toList());
+    public List<User> getAllUserDetails(final String companyCode) {
+        return sneak(() -> userRepository.findByCompanyCode(companyCode));
     }
 
     /**
      * save to add a new user.
      *
-     * @param userVO user
+     * @param user user
      */
-    public void save(final UserVO userVO, final String currentLoggedInUser) {
-        var user = convertToUser(userVO, currentLoggedInUser);
+    public void save(final User user, final String currentLoggedInUser) {
         sneak(() -> userRepository.save(user));
     }
 
@@ -82,9 +75,8 @@ public class UserDAO {
      * @param id id
      * @return UserVO
      */
-    public Optional<UserVO> getUserDetailsFromId(final Long id) {
-        var optionalUser = sneak(() -> userRepository.findById(id));
-        return optionalUser.map(this::convertToUserVO);
+    public Optional<User> getUserDetailsFromId(final Long id) {
+        return sneak(() -> userRepository.findById(id));
     }
 
     /**
@@ -115,9 +107,8 @@ public class UserDAO {
         consumer.accept(id);
     }
 
-    public UserVO findByEmail(final String email) {
-        var user = sneak(() -> userRepository.findByEmail(email));
-        return user.map(this::convertToUserVO).orElse(null);
+    public Optional<User> findByEmail(final String email) {
+        return sneak(() -> userRepository.findByEmail(email));
     }
 
     public void expireUser(final Long id) {
@@ -134,7 +125,7 @@ public class UserDAO {
      * @param searchUser UserVO
      * @return List of user
      */
-    public List<UserVO> searchUserDetails(final UserVO searchUser,
+    public List<User> searchUserDetails(final User searchUser,
                                           final boolean startsWith,
                                           final boolean includes) {
         return sneak(() -> searchAllUsers(searchUser, startsWith, includes));
@@ -147,7 +138,7 @@ public class UserDAO {
      * @return List of users
      * @throws DataAccessException on error
      */
-    private List<UserVO> searchAllUsers(final UserVO searchUser,
+    private List<User> searchAllUsers(final User searchUser,
                                         final boolean startsWith,
                                         final boolean includes) {
         var userSpec = new UserSpecification();
@@ -158,21 +149,7 @@ public class UserDAO {
         if (StringUtils.hasText(searchUser.getEmail())) {
             userSpec.add(new SearchCriteria("email", searchUser.getEmail(), search));
         }
-        List<User> resultUsers = userRepository.findAll(userSpec);
-        return resultUsers.stream().map(this::convertToUserVO).toList();
-    }
-
-    private User convertToUser(final UserVO userVO, final String currentLoggedInUser) {
-        var user = new User();
-        user.setName(userVO.getName());
-        user.setEmail(userVO.getEmail());
-        user.setPassword(userVO.getPassword());
-        user.setEnabled(userVO.getEnabled());
-        user.setRoles(userVO.getRoles());
-        user.setCompanyCode(userVO.getCompanyCode());
-        user.setCreatedBy(currentLoggedInUser);
-        user.setModifiedBy(currentLoggedInUser);
-        return user;
+        return userRepository.findAll(userSpec);
     }
 
     private UserVO convertToUserVO(final User user) {
@@ -200,8 +177,7 @@ public class UserDAO {
         return searchOperation;
     }
 
-    public UserVO findUserFromName(final String name) {
-        var user = userRepository.findByName(name);
-        return convertToUserVO(user);
+    public User findUserFromName(final String name) {
+        return userRepository.findByName(name);
     }
 }

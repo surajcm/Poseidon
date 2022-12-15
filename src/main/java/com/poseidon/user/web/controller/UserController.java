@@ -121,7 +121,7 @@ public class UserController {
             userForm.setStatusMessageType(DANGER);
         }
         userForm.setUserVOs(userList);
-        userForm.setRoles(userService.getAllRoles());
+        model.addAttribute("allRoles", userService.getAllRoles());
         model.addAttribute(USER_FORM, userForm);
         return USER_LIST;
     }

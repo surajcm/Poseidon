@@ -2,6 +2,7 @@ package com.poseidon.user.service;
 
 import com.poseidon.user.dao.UserDAO;
 import com.poseidon.user.dao.entities.Role;
+import com.poseidon.user.dao.entities.User;
 import com.poseidon.user.dao.repo.RoleRepository;
 import com.poseidon.user.domain.UserVO;
 import org.slf4j.Logger;
@@ -40,18 +41,44 @@ public class UserService {
      * @return List of user
      */
     public List<UserVO> getAllUserDetails(final String companyCode) {
-        return userDAO.getAllUserDetails(companyCode);
+        return userDAO.getAllUserDetails(companyCode).stream().map(this::convertToUserVO).toList();
+    }
+
+    private UserVO convertToUserVO(final User user) {
+        var userVO = new UserVO();
+        userVO.setId(user.getId());
+        userVO.setName(user.getName());
+        userVO.setEmail(user.getEmail());
+        userVO.setPassword(user.getPassword());
+        userVO.setRoles(user.getRoles());
+        userVO.setCompanyCode(user.getCompanyCode());
+        userVO.setEnabled(user.getEnabled());
+        return userVO;
     }
 
     /**
      * create new user.
      *
-     * @param user user
+     * @param userVO UserVO
      */
-    public void save(final UserVO user, final String currentLoggedInUser) {
-        user.setPassword(bcryptPasswordEncoder.encode(user.getPassword()));
-        user.setEnabled(false);
+    public void save(final UserVO userVO, final String currentLoggedInUser) {
+        userVO.setPassword(bcryptPasswordEncoder.encode(userVO.getPassword()));
+        userVO.setEnabled(false);
+        var user = convertToUser(userVO, currentLoggedInUser);
         userDAO.save(user, currentLoggedInUser);
+    }
+
+    private User convertToUser(final UserVO userVO, final String currentLoggedInUser) {
+        var user = new User();
+        user.setName(userVO.getName());
+        user.setEmail(userVO.getEmail());
+        user.setPassword(userVO.getPassword());
+        user.setEnabled(userVO.getEnabled());
+        user.setRoles(userVO.getRoles());
+        user.setCompanyCode(userVO.getCompanyCode());
+        user.setCreatedBy(currentLoggedInUser);
+        user.setModifiedBy(currentLoggedInUser);
+        return user;
     }
 
     /**
@@ -61,7 +88,7 @@ public class UserService {
      * @return UserVO
      */
     public Optional<UserVO> getUserDetailsFromId(final Long id) {
-        return userDAO.getUserDetailsFromId(id);
+        return userDAO.getUserDetailsFromId(id).map(this::convertToUserVO);
     }
 
 
@@ -92,7 +119,9 @@ public class UserService {
     public List<UserVO> searchUserDetails(final UserVO searchUser,
                                           final boolean startsWith,
                                           final boolean includes) {
-        return userDAO.searchUserDetails(searchUser, startsWith, includes);
+        var searcher = convertToUser(searchUser, "");
+        var  resultUsers = userDAO.searchUserDetails(searcher, startsWith, includes);
+        return resultUsers.stream().map(this::convertToUserVO).toList();
     }
 
     public void expireUser(final Long id) {
@@ -109,7 +138,7 @@ public class UserService {
     }
 
     public UserVO findUserFromName(final String name) {
-        return userDAO.findUserFromName(name);
+        return convertToUserVO(userDAO.findUserFromName(name));
     }
 
     public Set<Role> getAllRoles() {

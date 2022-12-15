@@ -2,13 +2,15 @@ package com.poseidon.user.service;
 
 import com.poseidon.user.dao.UserDAO;
 import com.poseidon.user.dao.entities.Role;
-import com.poseidon.user.domain.UserVO;
+import com.poseidon.user.dao.entities.User;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
+
+import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
@@ -20,7 +22,7 @@ class UserDetailsServiceImplTest {
 
     @Test
     void loadUserByNullUsername() {
-        when(userDAO.findByEmail(anyString())).thenReturn(null);
+        when(userDAO.findByEmail(anyString())).thenReturn(Optional.empty());
         Assertions.assertThrows(UsernameNotFoundException.class,
                 () -> userDetailsService.loadUserByUsername("admin"));
     }
@@ -29,15 +31,16 @@ class UserDetailsServiceImplTest {
     void loadUserByValidUsername() {
         var userName = "admin";
         when(userDAO.findByEmail(anyString())).thenReturn(mockUser());
-        var userDetails = userDetailsService.loadUserByUsername("admin");
+        var userDetails = userDetailsService.loadUserByUsername("admin@admin.com");
         Assertions.assertEquals(userName, userDetails.getUsername());
     }
 
-    private UserVO mockUser() {
-        var user = new UserVO();
+    private Optional<User> mockUser() {
+        var user = new User();
         user.setName("admin");
+        user.setEmail("admin@admin.com");
         user.setPassword("pass");
         user.addRole(new Role(1L, "ADMIN"));
-        return user;
+        return Optional.of(user);
     }
 }

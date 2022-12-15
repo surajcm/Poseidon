@@ -1,6 +1,7 @@
 package com.poseidon.user.service;
 
 import com.poseidon.user.dao.UserDAO;
+import com.poseidon.user.dao.entities.User;
 import com.poseidon.user.dao.repo.RoleRepository;
 import com.poseidon.user.domain.UserVO;
 import org.junit.jupiter.api.Assertions;
@@ -34,7 +35,7 @@ class UserServiceTest {
 
     @Test
     void getUserDetailsFromIdSuccess() {
-        when(userDAO.getUserDetailsFromId(anyLong())).thenReturn(Optional.of(new UserVO()));
+        when(userDAO.getUserDetailsFromId(anyLong())).thenReturn(Optional.of(new User()));
         Assertions.assertNotNull(userService.getUserDetailsFromId(1234L));
     }
 
