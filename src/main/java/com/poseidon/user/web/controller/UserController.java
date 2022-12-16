@@ -1,6 +1,7 @@
 package com.poseidon.user.web.controller;
 
 import com.poseidon.init.util.CommonUtils;
+import com.poseidon.user.dao.entities.User;
 import com.poseidon.user.domain.UserVO;
 import com.poseidon.user.service.SecurityService;
 import com.poseidon.user.service.UserService;
@@ -115,7 +116,7 @@ public class UserController {
         logger.info("ListAll method of user controller ");
         var companyCode = activeCompanyCode();
         logger.info("companyCode is {}", companyCode);
-        var userList = userService.getAllUserDetails(companyCode);
+        var userList = userService.getAllUserDetails(companyCode).stream().map(this::convertToUserVO).toList();
         if (userList.isEmpty()) {
             userForm.setStatusMessage("No user found");
             userForm.setStatusMessageType(DANGER);
@@ -124,6 +125,18 @@ public class UserController {
         model.addAttribute("allRoles", userService.getAllRoles());
         model.addAttribute(USER_FORM, userForm);
         return USER_LIST;
+    }
+
+    private UserVO convertToUserVO(final User user) {
+        var userVO = new UserVO();
+        userVO.setId(user.getId());
+        userVO.setName(user.getName());
+        userVO.setEmail(user.getEmail());
+        userVO.setPassword(user.getPassword());
+        userVO.setRoles(user.getRoles());
+        userVO.setCompanyCode(user.getCompanyCode());
+        userVO.setEnabled(user.getEnabled());
+        return userVO;
     }
 
     /**
@@ -159,7 +172,7 @@ public class UserController {
         logger.info(" Inside SearchUser method of user controller ");
         var userList = userService.searchUserDetails(userForm.getSearchUser(),
                 userForm.isStartsWith(),
-                userForm.isIncludes());
+                userForm.isIncludes()).stream().map(this::convertToUserVO).toList();
         if (!userList.isEmpty()) {
             userForm.setStatusMessage("Successfully fetched " + userList.size() + " Users");
             userForm.setStatusMessageType("info");
@@ -194,7 +207,7 @@ public class UserController {
                       final BindingResult result) {
         var sanitizedId = CommonUtils.sanitizedString(id);
         logger.info("getForEdit method of user controller : {}", sanitizedId);
-        return userService.getUserDetailsFromId(Long.valueOf(id))
+        return userService.getUserDetailsFromId(Long.valueOf(id)).map(this::convertToUserVO)
                 .orElse(null);
     }
 
@@ -213,7 +226,7 @@ public class UserController {
                 sanitizedId, sanitizedName,
                 sanitizedEmail, sanitizedRole);
         try {
-            var userVO = userService.getUserDetailsFromId(Long.valueOf(id));
+            var userVO = userService.getUserDetailsFromId(Long.valueOf(id)).map(this::convertToUserVO);
             if (userVO.isPresent()) {
                 userVO.get().setName(name);
                 userVO.get().setEmail(email);
@@ -236,7 +249,8 @@ public class UserController {
         logger.info("ChangePass of user controller from {} to {}", sanitizedCurrent,
                 sanitizedPass);
         var currentLoggedInUser = currentLoggedInUser();
-        var userList = userService.searchUserDetails(formSearch(currentLoggedInUser), true, true);
+        var userList = userService.searchUserDetails(formSearch(currentLoggedInUser), true, true)
+                .stream().map(this::convertToUserVO).toList();
         AbstractMap.SimpleEntry<String, String> entry;
 
         if (userService.comparePasswords(current, userList.get(0).getPassword())) {
@@ -294,7 +308,7 @@ public class UserController {
     }
 
     private List<UserVO> allUsers() {
-        var userList = userService.getAllUserDetails(activeCompanyCode());
+        var userList = userService.getAllUserDetails(activeCompanyCode()).stream().map(this::convertToUserVO).toList();
         userList.forEach(u -> u.setPassword(""));
         return userList;
     }

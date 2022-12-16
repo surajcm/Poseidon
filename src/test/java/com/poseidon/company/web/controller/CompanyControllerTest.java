@@ -4,7 +4,7 @@ import com.poseidon.company.CompanyTermsConfigurations;
 import com.poseidon.company.domain.CompanyTermsVO;
 import com.poseidon.company.service.CompanyService;
 import com.poseidon.user.dao.entities.Role;
-import com.poseidon.user.domain.UserVO;
+import com.poseidon.user.dao.entities.User;
 import com.poseidon.user.service.UserService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -51,8 +51,8 @@ class CompanyControllerTest {
         mvc.perform(post("/company/company")).andExpect(status().isOk());
     }
 
-    private UserVO mockUser() {
-        var user = new UserVO();
+    private User mockUser() {
+        var user = new User();
         user.setId(1234L);
         user.setName("ABC");
         user.setEmail("ABC");

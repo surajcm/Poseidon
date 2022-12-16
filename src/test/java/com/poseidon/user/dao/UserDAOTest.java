@@ -3,10 +3,7 @@ package com.poseidon.user.dao;
 import com.poseidon.user.dao.entities.User;
 import com.poseidon.user.dao.repo.UserRepository;
 import com.poseidon.user.dao.spec.UserSpecification;
-import com.poseidon.user.domain.UserVO;
-import com.poseidon.user.exception.UserException;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
@@ -26,37 +23,6 @@ class UserDAOTest {
     private final UserDAO userDAO = new UserDAO(userRepository);
 
     @Test
-    @Disabled
-    void logInSuccess() throws UserException {
-        var userVO = new UserVO();
-        userVO.setPassword("PASS");
-        userVO.setEmail("ABC");
-        when(userRepository.findByEmail(anyString())).thenReturn(mockUser());
-        //var result = userDAO.logIn(userVO);
-        //Assertions.assertEquals("ABC", result.getName());
-    }
-
-    @Test
-    @Disabled
-    void logInWithIncorrectPassword() {
-        var userVO = new UserVO();
-        userVO.setPassword("PASS1");
-        userVO.setEmail("ABC");
-        when(userRepository.findByEmail(anyString())).thenReturn(mockUser());
-        //Assertions.assertThrows(UserException.class, () -> userDAO.logIn(userVO));
-    }
-
-    @Test
-    @Disabled
-    void logInWithUnknownUser() {
-        var userVO = new UserVO();
-        userVO.setPassword("PASS1");
-        userVO.setEmail("ABC");
-        when(userRepository.findByEmail(anyString())).thenReturn(Optional.empty());
-        //Assertions.assertThrows(UserException.class, () -> userDAO.logIn(userVO));
-    }
-
-    @Test
     void getAllUserDetailsSuccess() {
         when(userRepository.findByCompanyCode(anyString())).thenReturn(mockUsers());
         Assertions.assertTrue(userDAO.getAllUserDetails("admin").size() > 0);
@@ -64,7 +30,7 @@ class UserDAOTest {
 
     @Test
     void saveSuccess() {
-        Assertions.assertAll(() -> userDAO.save(new User(), "admin"));
+        Assertions.assertAll(() -> userDAO.save(new User()));
     }
 
     @Test
@@ -82,7 +48,7 @@ class UserDAOTest {
     @Test
     void updateEmpty() {
         when(userRepository.findById(anyLong())).thenReturn(Optional.empty());
-        var vo = new UserVO();
+        var vo = new User();
         vo.setId(1234L);
         Assertions.assertAll(() -> userDAO.updateUser(vo, "admin"));
     }
@@ -90,7 +56,7 @@ class UserDAOTest {
     @Test
     void updateSuccess() {
         when(userRepository.findById(anyLong())).thenReturn(mockUser());
-        var vo = new UserVO();
+        var vo = new User();
         vo.setId(1234L);
         Assertions.assertAll(() -> userDAO.updateUser(vo, "admin"));
     }

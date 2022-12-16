@@ -40,8 +40,8 @@ public class UserService {
      *
      * @return List of user
      */
-    public List<UserVO> getAllUserDetails(final String companyCode) {
-        return userDAO.getAllUserDetails(companyCode).stream().map(this::convertToUserVO).toList();
+    public List<User> getAllUserDetails(final String companyCode) {
+        return userDAO.getAllUserDetails(companyCode);
     }
 
     private UserVO convertToUserVO(final User user) {
@@ -65,7 +65,7 @@ public class UserService {
         userVO.setPassword(bcryptPasswordEncoder.encode(userVO.getPassword()));
         userVO.setEnabled(false);
         var user = convertToUser(userVO, currentLoggedInUser);
-        userDAO.save(user, currentLoggedInUser);
+        userDAO.save(user);
     }
 
     private User convertToUser(final UserVO userVO, final String currentLoggedInUser) {
@@ -87,8 +87,8 @@ public class UserService {
      * @param id id
      * @return UserVO
      */
-    public Optional<UserVO> getUserDetailsFromId(final Long id) {
-        return userDAO.getUserDetailsFromId(id).map(this::convertToUserVO);
+    public Optional<User> getUserDetailsFromId(final Long id) {
+        return userDAO.getUserDetailsFromId(id);
     }
 
 
@@ -98,7 +98,8 @@ public class UserService {
      * @param user user
      */
     public void updateUser(final UserVO user, final String loggedInUser) {
-        userDAO.updateUser(user, loggedInUser);
+        var originalUser = convertToUser(user, loggedInUser);
+        userDAO.updateUser(originalUser, loggedInUser);
     }
 
     /**
@@ -116,12 +117,11 @@ public class UserService {
      * @param searchUser UserVO
      * @return List of user
      */
-    public List<UserVO> searchUserDetails(final UserVO searchUser,
+    public List<User> searchUserDetails(final UserVO searchUser,
                                           final boolean startsWith,
                                           final boolean includes) {
         var searcher = convertToUser(searchUser, "");
-        var  resultUsers = userDAO.searchUserDetails(searcher, startsWith, includes);
-        return resultUsers.stream().map(this::convertToUserVO).toList();
+        return userDAO.searchUserDetails(searcher, startsWith, includes);
     }
 
     public void expireUser(final Long id) {
@@ -134,11 +134,12 @@ public class UserService {
 
     public void updateWithNewPassword(final UserVO userVO, final String newPass, final String currentLoggedInUser) {
         userVO.setPassword(bcryptPasswordEncoder.encode(newPass));
-        userDAO.updateUser(userVO, currentLoggedInUser);
+        var originalUser = convertToUser(userVO, currentLoggedInUser);
+        userDAO.updateUser(originalUser, currentLoggedInUser);
     }
 
-    public UserVO findUserFromName(final String name) {
-        return convertToUserVO(userDAO.findUserFromName(name));
+    public User findUserFromName(final String name) {
+        return userDAO.findUserFromName(name);
     }
 
     public Set<Role> getAllRoles() {

@@ -2,7 +2,7 @@ package com.poseidon.user.web.controller;
 
 import com.poseidon.user.UserConfigurations;
 import com.poseidon.user.dao.entities.Role;
-import com.poseidon.user.domain.UserVO;
+import com.poseidon.user.dao.entities.User;
 import com.poseidon.user.service.UserService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -49,8 +49,8 @@ class UserControllerTest {
         mvc.perform(post("/user/listAll")).andExpect(status().isOk());
     }
 
-    private UserVO mockUser() {
-        var user = new UserVO();
+    private User mockUser() {
+        var user = new User();
         user.setId(1234L);
         user.setName("ABC");
         user.setEmail("ABC");

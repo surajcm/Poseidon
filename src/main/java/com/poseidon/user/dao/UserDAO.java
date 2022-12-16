@@ -5,8 +5,6 @@ import com.poseidon.init.specs.SearchOperation;
 import com.poseidon.user.dao.entities.User;
 import com.poseidon.user.dao.repo.UserRepository;
 import com.poseidon.user.dao.spec.UserSpecification;
-import com.poseidon.user.domain.UserVO;
-//import com.poseidon.user.exception.UserException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataAccessException;
@@ -31,27 +29,6 @@ public class UserDAO {
     }
 
     /**
-     * LOG in.
-     *
-     * @param userVO userVO
-     * @return user instance from database
-     * @throws UserException on error
-     */
-    /*public UserVO logIn(final UserVO userVO) throws UserException {
-        Optional<User> user = sneak(() -> userRepository.findByEmail(userVO.getEmail()));
-        if (user.isPresent()) {
-            LOG.info(" user details fetched successfully,for user name {}", user.get().getName());
-            if (!userVO.getPassword().equalsIgnoreCase(user.get().getPassword())) {
-                throw new UserException(UserException.INCORRECT_PASSWORD);
-            }
-            LOG.info(" Password matched successfully, user details are {}", user);
-            return convertToUserVO(user.get());
-        } else {
-            throw new UserException(UserException.UNKNOWN_USER);
-        }
-    }*/
-
-    /**
      * getAllUserDetails to list all user details.
      *
      * @return List of user
@@ -65,7 +42,7 @@ public class UserDAO {
      *
      * @param user user
      */
-    public void save(final User user, final String currentLoggedInUser) {
+    public void save(final User user) {
         sneak(() -> userRepository.save(user));
     }
 
@@ -82,16 +59,16 @@ public class UserDAO {
     /**
      * updateUser.
      *
-     * @param userVO user
+     * @param userToUpdate user
      */
-    public void updateUser(final UserVO userVO, final String loggedInUser) {
-        var optionalUser = sneak(() -> userRepository.findById(userVO.getId()));
+    public void updateUser(final User userToUpdate, final String loggedInUser) {
+        var optionalUser = sneak(() -> userRepository.findById(userToUpdate.getId()));
         if (optionalUser.isPresent()) {
             var user = optionalUser.get();
-            user.setName(userVO.getName());
-            user.setEmail(userVO.getEmail());
-            user.setPassword(userVO.getPassword());
-            user.setRoles(userVO.getRoles());
+            user.setName(userToUpdate.getName());
+            user.setEmail(userToUpdate.getEmail());
+            user.setPassword(userToUpdate.getPassword());
+            user.setRoles(userToUpdate.getRoles());
             user.setModifiedBy(loggedInUser);
             sneak(() -> userRepository.save(user));
         }
@@ -150,18 +127,6 @@ public class UserDAO {
             userSpec.add(new SearchCriteria("email", searchUser.getEmail(), search));
         }
         return userRepository.findAll(userSpec);
-    }
-
-    private UserVO convertToUserVO(final User user) {
-        var userVO = new UserVO();
-        userVO.setId(user.getId());
-        userVO.setName(user.getName());
-        userVO.setEmail(user.getEmail());
-        userVO.setPassword(user.getPassword());
-        userVO.setRoles(user.getRoles());
-        userVO.setCompanyCode(user.getCompanyCode());
-        userVO.setEnabled(user.getEnabled());
-        return userVO;
     }
 
     private SearchOperation populateSearchOperation(final boolean startsWith,
