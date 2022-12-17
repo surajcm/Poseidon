@@ -125,20 +125,23 @@ function selectRole() {
     selectRole.setAttribute("class", "form-select");
     selectRole.setAttribute("id", "addRole");
     // let's make an ajax call and get all roles
-    getAllRolesToDropDown();
-    let adminOption = document.createElement("option");
-    adminOption.text = 'ADMIN';
-    adminOption.value = 'ADMIN';
-    let guestOption = document.createElement("option");
-    guestOption.text = 'GUEST';
-    guestOption.value = 'GUEST';
-    selectRole.appendChild(adminOption);
-    selectRole.appendChild(guestOption);
+    getAllRolesToDropDown(selectRole);
     return selectRole;
 }
 
+function createRolesFromJson(textReturned, selectRole) {
+    //console.log("/roles/ response is " + textReturned);
+    let idNameMap = JSON.parse(textReturned);
+    for (const [key, value] of Object.entries(idNameMap)) {
+        //console.log("key and value are " + key + " " + value);
+        let singleRole = document.createElement("option");
+        singleRole.text = value;
+        singleRole.value = key;
+        selectRole.appendChild(singleRole);
+    }
+}
 
-function getAllRolesToDropDown() {
+function getAllRolesToDropDown(selectRole) {
     let xhr = new XMLHttpRequest();
     xhr.open('GET', "/roles/", true);
     let token = document.querySelector("meta[name='_csrf']").content;
@@ -148,8 +151,7 @@ function getAllRolesToDropDown() {
     xhr.onload = function () {
         if (xhr.status === 200) {
             if (xhr.responseText != null) {
-                console.log("/roles/ response is " + xhr.responseText);
-
+                createRolesFromJson(xhr.responseText, selectRole);
             }
         } else if (xhr.status !== 200) {
             console.log('Request failed.  Returned status of ' + xhr.status);

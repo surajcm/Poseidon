@@ -22,7 +22,8 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.AbstractMap;
 import java.util.List;
-import java.util.Set;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 
 @Controller
@@ -267,9 +268,9 @@ public class UserController {
     }
 
     @GetMapping("/roles/")
-    public @ResponseBody Set<Role> allRoles() {
+    public @ResponseBody Map<Long, String> allRoles() {
         logger.info("Inside allRoles method of user controller ");
-        return userService.getAllRoles();
+        return userService.getAllRoles().stream().collect(Collectors.toMap(Role::getId, Role::getName));
     }
 
     /**
