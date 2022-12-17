@@ -125,7 +125,7 @@ function selectRole() {
     selectRole.setAttribute("class", "form-select");
     selectRole.setAttribute("id", "addRole");
     // let's make an ajax call and get all roles
-
+    getAllRolesToDropDown();
     let adminOption = document.createElement("option");
     adminOption.text = 'ADMIN';
     adminOption.value = 'ADMIN';
@@ -135,6 +135,28 @@ function selectRole() {
     selectRole.appendChild(adminOption);
     selectRole.appendChild(guestOption);
     return selectRole;
+}
+
+
+function getAllRolesToDropDown() {
+    let xhr = new XMLHttpRequest();
+    xhr.open('GET', "/roles/", true);
+    let token = document.querySelector("meta[name='_csrf']").content;
+    let header = document.querySelector("meta[name='_csrf_header']").content;
+    //xhr.setRequestHeader(header, token);
+    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    xhr.onload = function () {
+        if (xhr.status === 200) {
+            if (xhr.responseText != null) {
+                console.log("/roles/ response is " + xhr.responseText);
+
+            }
+        } else if (xhr.status !== 200) {
+            console.log('Request failed.  Returned status of ' + xhr.status);
+            //showError();
+        }
+    };
+    xhr.send();
 }
 
 function saveFromModal() {

@@ -1,6 +1,7 @@
 package com.poseidon.user.web.controller;
 
 import com.poseidon.init.util.CommonUtils;
+import com.poseidon.user.dao.entities.Role;
 import com.poseidon.user.dao.entities.User;
 import com.poseidon.user.domain.UserVO;
 import com.poseidon.user.service.SecurityService;
@@ -21,6 +22,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import jakarta.servlet.http.HttpServletRequest;
 import java.util.AbstractMap;
 import java.util.List;
+import java.util.Set;
 
 
 @Controller
@@ -262,6 +264,12 @@ public class UserController {
                     "The password didnt match with the one already saved !!");
         }
         return entry;
+    }
+
+    @GetMapping("/roles/")
+    public @ResponseBody Set<Role> allRoles() {
+        logger.info("Inside allRoles method of user controller ");
+        return userService.getAllRoles();
     }
 
     /**
