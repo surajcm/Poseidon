@@ -30,7 +30,7 @@ class UserServiceTest {
 
     @Test
     void saveSuccess() {
-        Assertions.assertAll(() -> userService.save(new UserVO(), "admin"));
+        Assertions.assertAll(() -> userService.save(new User()));
     }
 
     @Test

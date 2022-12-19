@@ -59,12 +59,11 @@ public class UserService {
     /**
      * create new user.
      *
-     * @param userVO UserVO
+     * @param user User
      */
-    public void save(final UserVO userVO, final String currentLoggedInUser) {
-        userVO.setPassword(bcryptPasswordEncoder.encode(userVO.getPassword()));
-        userVO.setEnabled(false);
-        var user = convertToUser(userVO, currentLoggedInUser);
+    public void save(final User user) {
+        user.setPassword(bcryptPasswordEncoder.encode(user.getPassword()));
+        user.setEnabled(false);
         userDAO.save(user);
     }
 

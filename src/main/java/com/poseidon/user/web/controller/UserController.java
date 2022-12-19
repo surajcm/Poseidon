@@ -158,10 +158,27 @@ public class UserController {
                           @ModelAttribute("selectRole") final String selectRole,
                           final BindingResult result) {
         logger.info("SaveUser method of user controller ");
-        var userVO = populateUserVO(selectName, selectLogin, selectRole);
-        userService.save(userVO, currentLoggedInUser());
+        var user = populateUser(selectName, selectLogin, selectRole);
+        userService.save(user);
         logger.info("Successfully saved user");
         return allUsers();
+    }
+
+    private User populateUser(final String selectName,
+                                  final String selectLogin,
+                                  final String selectRole) {
+        var companyCode = activeCompanyCode();
+        var currentLoggedInUser = currentLoggedInUser();
+        var user = new User();
+        user.setName(selectName);
+        user.setEmail(selectLogin);
+        user.setPassword("password");
+        user.setEnabled(false);
+        user.addRole(new Role(3L));
+        user.setCompanyCode(companyCode);
+        user.setCreatedBy(currentLoggedInUser);
+        user.setModifiedBy(currentLoggedInUser);
+        return user;
     }
 
     /**
@@ -292,19 +309,6 @@ public class UserController {
             logger.error(ex.getLocalizedMessage(), ex);
         }
         return listAllUsers(userForm, model);
-    }
-
-    private UserVO populateUserVO(final String selectName,
-                                  final String selectLogin,
-                                  final String selectRole) {
-        var companyCode = activeCompanyCode();
-        var ajaxUserVo = new UserVO();
-        ajaxUserVo.setName(selectName);
-        ajaxUserVo.setEmail(selectLogin);
-        //ajaxUserVo.setRole(selectRole);
-        ajaxUserVo.setCompanyCode(companyCode);
-        ajaxUserVo.setPassword("password");
-        return ajaxUserVo;
     }
 
     private String currentLoggedInUser() {
