@@ -117,15 +117,13 @@ public class UserController {
     @PostMapping("/user/listAll")
     public String listAllUsers(@ModelAttribute final UserForm userForm, final Model model) {
         logger.info("ListAll method of user controller ");
-        var companyCode = activeCompanyCode();
-        logger.info("companyCode is {}", companyCode);
-        var userList = userService.getAllUserDetails(companyCode).stream().map(this::convertToUserVO).toList();
+        var userList = allUsers();
         if (userList.isEmpty()) {
             userForm.setStatusMessage("No user found");
             userForm.setStatusMessageType(DANGER);
         }
         userForm.setUserVOs(userList);
-        model.addAttribute("allRoles", userService.getAllRoles());
+        model.addAttribute("allRoles", fullRoleMap());
         model.addAttribute(USER_FORM, userForm);
         return USER_LIST;
     }
@@ -145,36 +143,37 @@ public class UserController {
     /**
      * save user.
      *
-     * @param selectName  String
-     * @param selectLogin String
-     * @param selectRole  String
+     * @param name  String
+     * @param email String
+     * @param role  String
      * @param result      BindingResult
      * @return String
      */
     @PostMapping("/user/saveUser")
     public @ResponseBody
-    List<UserVO> saveUser(@ModelAttribute("selectName") final String selectName,
-                          @ModelAttribute("selectLogin") final String selectLogin,
-                          @ModelAttribute("selectRole") final String selectRole,
+    List<UserVO> saveUser(@ModelAttribute("selectName") final String name,
+                          @ModelAttribute("selectLogin") final String email,
+                          @ModelAttribute("selectRole") final String role,
                           final BindingResult result) {
         logger.info("SaveUser method of user controller ");
-        var user = populateUser(selectName, selectLogin, selectRole);
+        logger.info("inputs are : name {}, email {}, role {}", name, email, role);
+        var user = populateUser(name, email, role);
         userService.save(user);
         logger.info("Successfully saved user");
         return allUsers();
     }
 
-    private User populateUser(final String selectName,
-                                  final String selectLogin,
-                                  final String selectRole) {
+    private User populateUser(final String name,
+                                  final String email,
+                                  final String role) {
         var companyCode = activeCompanyCode();
         var currentLoggedInUser = currentLoggedInUser();
         var user = new User();
-        user.setName(selectName);
-        user.setEmail(selectLogin);
+        user.setName(name);
+        user.setEmail(email);
         user.setPassword("password");
         user.setEnabled(false);
-        user.addRole(new Role(3L));
+        user.addRole(new Role(Long.valueOf(role)));
         user.setCompanyCode(companyCode);
         user.setCreatedBy(currentLoggedInUser);
         user.setModifiedBy(currentLoggedInUser);
@@ -227,8 +226,15 @@ public class UserController {
                       final BindingResult result) {
         var sanitizedId = CommonUtils.sanitizedString(id);
         logger.info("getForEdit method of user controller : {}", sanitizedId);
-        return userService.getUserDetailsFromId(Long.valueOf(id)).map(this::convertToUserVO)
+        return userService.getUserDetailsFromId(Long.valueOf(id))
+                .map(this::convertToUserVO)
+                .map(this::removePassword)
                 .orElse(null);
+    }
+
+    private UserVO  removePassword(final UserVO userVO) {
+        userVO.setPassword("");
+        return userVO;
     }
 
     @PutMapping("/user/updateUser")
@@ -287,6 +293,10 @@ public class UserController {
     @GetMapping("/roles/")
     public @ResponseBody Map<Long, String> allRoles() {
         logger.info("Inside allRoles method of user controller ");
+        return fullRoleMap();
+    }
+
+    private Map<Long, String> fullRoleMap() {
         return userService.getAllRoles().stream().collect(Collectors.toMap(Role::getId, Role::getName));
     }
 
@@ -321,7 +331,9 @@ public class UserController {
     }
 
     private List<UserVO> allUsers() {
-        var userList = userService.getAllUserDetails(activeCompanyCode()).stream().map(this::convertToUserVO).toList();
+        var userList = userService.getAllUserDetails(activeCompanyCode())
+                .stream().map(this::convertToUserVO).toList();
+        logger.info("user list is {}", userList);
         userList.forEach(u -> u.setPassword(""));
         return userList;
     }

@@ -59,12 +59,22 @@ function rewriteTable(textReturned) {
 }
 
 function singleRowInTheTable(singleUser) {
+    console.log(singleUser);
     let trx = document.createElement("tr");
     trx.appendChild(sideHeader(singleUser.id));
     trx.appendChild(tdElement(singleUser.name));
     trx.appendChild(tdElement(singleUser.email));
-    trx.appendChild(tdElement(singleUser.role));
+    //console.log(showAllRoles(singleUser.roles));
+    trx.appendChild(tdElement(showAllRoles(singleUser.roles)));
     return trx;
+}
+
+function showAllRoles(roles) {
+    let allRoles = Array();
+    for (let i = 0; i < roles.length; i++) {
+        allRoles.push(roles[i].name);
+    }
+    return "[" + allRoles.join(",") + "]";
 }
 
 function tableHeaderRow() {
@@ -297,14 +307,8 @@ function selectRoleForUpdate() {
     let selectRole = document.createElement("select");
     selectRole.setAttribute("class", "form-select");
     selectRole.setAttribute("id", "updateRole");
-    let adminOption = document.createElement("option");
-    adminOption.text = 'ADMIN';
-    adminOption.value = 'ADMIN';
-    let guestOption = document.createElement("option");
-    guestOption.text = 'GUEST';
-    guestOption.value = 'GUEST';
-    selectRole.appendChild(adminOption);
-    selectRole.appendChild(guestOption);
+    // let's make an ajax call and get all roles
+    getAllRolesToDropDown(selectRole);
     return selectRole;
 }
 
@@ -351,7 +355,8 @@ function populateDataForEdit(textReturned) {
     let user = JSON.parse(textReturned);
     document.getElementById("updateName").value = user.name;
     document.getElementById("updateEmail").value = user.email;
-    document.getElementById("updateRole").value = user.role;
+    console.log(user.roles);
+    document.getElementById("updateRole").value = user.roles[0].id;
 }
 
 function updateFromModal() {

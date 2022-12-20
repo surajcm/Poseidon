@@ -45,7 +45,7 @@
                                     <select id="role" th:field="*{searchUser.roles}" class="form-select"
                                                  onkeypress="handleEnter(event);">
                                         <option value=""><-- Select --></option>
-                                        <option th:each="i : ${allRoles}" th:value="${i}" th:text="${i}">
+                                        <option th:each="i : ${allRoles}" th:value="${i.key}" th:text="${i.value}">
                                         </option>
                                     </select>
                                 </div>
