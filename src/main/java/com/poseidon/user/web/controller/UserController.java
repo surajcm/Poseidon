@@ -20,7 +20,10 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import jakarta.servlet.http.HttpServletRequest;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
 import java.util.AbstractMap;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -115,9 +118,11 @@ public class UserController {
      * @return to user list screen
      */
     @PostMapping("/user/listAll")
-    public String listAllUsers(@ModelAttribute final UserForm userForm, final Model model) {
+    public String listAllUsers(@ModelAttribute final UserForm userForm,
+                               final Model model,
+                               final RedirectAttributes redirectAttributes) {
         logger.info("ListAll method of user controller ");
-        var userList = allUsers();
+        var userList = new HashSet<>(allUsers());
         if (userList.isEmpty()) {
             userForm.setStatusMessage("No user found");
             userForm.setStatusMessageType(DANGER);
@@ -189,18 +194,21 @@ public class UserController {
     @PostMapping("/user/searchUser")
     public String searchUser(final UserForm userForm, final Model model) {
         logger.info(" Inside SearchUser method of user controller ");
-        var userList = userService.searchUserDetails(userForm.getSearchUser(),
+        var searcher = convertToUser(userForm.getSearchUser(), "");
+        var users = userService.searchUserDetails(searcher,
                 userForm.isStartsWith(),
-                userForm.isIncludes()).stream().map(this::convertToUserVO).toList();
-        if (!userList.isEmpty()) {
-            userForm.setStatusMessage("Successfully fetched " + userList.size() + " Users");
+                userForm.isIncludes())
+                .stream().map(this::convertToUserVO)
+                .collect(Collectors.toSet());
+        if (!users.isEmpty()) {
+            userForm.setStatusMessage("Successfully fetched " + users.size() + " Users");
             userForm.setStatusMessageType("info");
-            userList.stream().map(UserVO::toString).forEach(logger::info);
+            users.stream().map(UserVO::toString).forEach(logger::info);
         } else {
             userForm.setStatusMessage("No results found");
             userForm.setStatusMessageType(DANGER);
         }
-        userForm.setUserVOs(userList);
+        userForm.setUserVOs(users);
         userForm.setRoles(userService.getAllRoles());
         model.addAttribute(USER_FORM, userForm);
         return USER_LIST;
@@ -232,7 +240,7 @@ public class UserController {
                 .orElse(null);
     }
 
-    private UserVO  removePassword(final UserVO userVO) {
+    private UserVO removePassword(final UserVO userVO) {
         userVO.setPassword("");
         return userVO;
     }
@@ -252,17 +260,33 @@ public class UserController {
                 sanitizedId, sanitizedName,
                 sanitizedEmail, sanitizedRole);
         try {
-            var userVO = userService.getUserDetailsFromId(Long.valueOf(id)).map(this::convertToUserVO);
-            if (userVO.isPresent()) {
-                userVO.get().setName(name);
-                userVO.get().setEmail(email);
-                //userVO.get().setRoles(role);
-                userService.updateUser(userVO.get(), currentLoggedInUser());
+            var user = userService.getUserDetailsFromId(Long.valueOf(id));
+            if (user.isPresent()) {
+                var newUser = user.get();
+                newUser.setName(name);
+                newUser.setEmail(email);
+                newUser.addRole(new Role(Long.valueOf(role)));
+                var loggedInUser = currentLoggedInUser();
+                userService.updateUser(newUser, loggedInUser);
             }
         } catch (Exception ex) {
             logger.error(ex.getLocalizedMessage(), ex);
         }
         return allUsers();
+    }
+
+
+    private User convertToUser(final UserVO userVO, final String currentLoggedInUser) {
+        var user = new User();
+        user.setName(userVO.getName());
+        user.setEmail(userVO.getEmail());
+        user.setPassword(userVO.getPassword());
+        user.setEnabled(userVO.getEnabled());
+        user.setRoles(userVO.getRoles());
+        user.setCompanyCode(userVO.getCompanyCode());
+        user.setCreatedBy(currentLoggedInUser);
+        user.setModifiedBy(currentLoggedInUser);
+        return user;
     }
 
     @PostMapping("/user/changePasswordAndSaveIt")
@@ -275,13 +299,15 @@ public class UserController {
         logger.info("ChangePass of user controller from {} to {}", sanitizedCurrent,
                 sanitizedPass);
         var currentLoggedInUser = currentLoggedInUser();
-        var userList = userService.searchUserDetails(formSearch(currentLoggedInUser), true, true)
+        var searcher = convertToUser(formSearch(currentLoggedInUser), currentLoggedInUser);
+        var userList = userService.searchUserDetails(searcher, true, true)
                 .stream().map(this::convertToUserVO).toList();
         AbstractMap.SimpleEntry<String, String> entry;
 
         if (userService.comparePasswords(current, userList.get(0).getPassword())) {
             var userVO = userList.get(0);
-            userService.updateWithNewPassword(userVO, newPass, currentLoggedInUser());
+            var originalUser = convertToUser(userVO, currentLoggedInUser);
+            userService.updateWithNewPassword(originalUser, newPass, currentLoggedInUser());
             entry = new AbstractMap.SimpleEntry<>(SUCCESS, "The password has been reset !!");
         } else {
             entry = new AbstractMap.SimpleEntry<>(MESSAGE,
@@ -307,7 +333,9 @@ public class UserController {
      * @return to user list screen
      */
     @PostMapping("/user/deleteUser")
-    public String deleteUser(final UserForm userForm, final Model model) {
+    public String deleteUser(final UserForm userForm,
+                             final Model model,
+                             final RedirectAttributes redirectAttributes) {
         logger.info("Inside DeleteUser method of user controller ");
         try {
             userService.deleteUser(userForm.getId());
@@ -318,7 +346,7 @@ public class UserController {
             userForm.setStatusMessageType(DANGER);
             logger.error(ex.getLocalizedMessage(), ex);
         }
-        return listAllUsers(userForm, model);
+        return listAllUsers(userForm, model, redirectAttributes);
     }
 
     private String currentLoggedInUser() {

@@ -4,7 +4,6 @@ import com.poseidon.user.dao.UserDAO;
 import com.poseidon.user.dao.entities.Role;
 import com.poseidon.user.dao.entities.User;
 import com.poseidon.user.dao.repo.RoleRepository;
-import com.poseidon.user.domain.UserVO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -44,40 +43,10 @@ public class UserService {
         return userDAO.getAllUserDetails(companyCode);
     }
 
-    private UserVO convertToUserVO(final User user) {
-        var userVO = new UserVO();
-        userVO.setId(user.getId());
-        userVO.setName(user.getName());
-        userVO.setEmail(user.getEmail());
-        userVO.setPassword(user.getPassword());
-        userVO.setRoles(user.getRoles());
-        userVO.setCompanyCode(user.getCompanyCode());
-        userVO.setEnabled(user.getEnabled());
-        return userVO;
-    }
-
-    /**
-     * create new user.
-     *
-     * @param user User
-     */
     public void save(final User user) {
         user.setPassword(bcryptPasswordEncoder.encode(user.getPassword()));
         user.setEnabled(false);
         userDAO.save(user);
-    }
-
-    private User convertToUser(final UserVO userVO, final String currentLoggedInUser) {
-        var user = new User();
-        user.setName(userVO.getName());
-        user.setEmail(userVO.getEmail());
-        user.setPassword(userVO.getPassword());
-        user.setEnabled(userVO.getEnabled());
-        user.setRoles(userVO.getRoles());
-        user.setCompanyCode(userVO.getCompanyCode());
-        user.setCreatedBy(currentLoggedInUser);
-        user.setModifiedBy(currentLoggedInUser);
-        return user;
     }
 
     /**
@@ -90,15 +59,13 @@ public class UserService {
         return userDAO.getUserDetailsFromId(id);
     }
 
-
     /**
      * updates the current user details.
      *
      * @param user user
      */
-    public void updateUser(final UserVO user, final String loggedInUser) {
-        var originalUser = convertToUser(user, loggedInUser);
-        userDAO.updateUser(originalUser, loggedInUser);
+    public void updateUser(final User user, final String loggedInUser) {
+        userDAO.updateUser(user, loggedInUser);
     }
 
     /**
@@ -116,11 +83,10 @@ public class UserService {
      * @param searchUser UserVO
      * @return List of user
      */
-    public List<User> searchUserDetails(final UserVO searchUser,
+    public List<User> searchUserDetails(final User searchUser,
                                           final boolean startsWith,
                                           final boolean includes) {
-        var searcher = convertToUser(searchUser, "");
-        return userDAO.searchUserDetails(searcher, startsWith, includes);
+        return userDAO.searchUserDetails(searchUser, startsWith, includes);
     }
 
     public void expireUser(final Long id) {
@@ -131,10 +97,11 @@ public class UserService {
         return bcryptPasswordEncoder.matches(passedIn, currentUserPass);
     }
 
-    public void updateWithNewPassword(final UserVO userVO, final String newPass, final String currentLoggedInUser) {
-        userVO.setPassword(bcryptPasswordEncoder.encode(newPass));
-        var originalUser = convertToUser(userVO, currentLoggedInUser);
-        userDAO.updateUser(originalUser, currentLoggedInUser);
+    public void updateWithNewPassword(final User user,
+                                      final String newPass,
+                                      final String currentLoggedInUser) {
+        user.setPassword(bcryptPasswordEncoder.encode(newPass));
+        userDAO.updateUser(user, currentLoggedInUser);
     }
 
     public User findUserFromName(final String name) {

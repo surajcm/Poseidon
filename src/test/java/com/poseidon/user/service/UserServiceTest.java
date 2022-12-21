@@ -3,7 +3,6 @@ package com.poseidon.user.service;
 import com.poseidon.user.dao.UserDAO;
 import com.poseidon.user.dao.entities.User;
 import com.poseidon.user.dao.repo.RoleRepository;
-import com.poseidon.user.domain.UserVO;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -41,7 +40,7 @@ class UserServiceTest {
 
     @Test
     void updateUserSuccess() {
-        Assertions.assertAll(() -> userService.updateUser(new UserVO(), "admin"));
+        Assertions.assertAll(() -> userService.updateUser(new User(), "admin"));
     }
 
     @Test
@@ -51,6 +50,6 @@ class UserServiceTest {
 
     @Test
     void searchUserDetailsSuccess() {
-        Assertions.assertNotNull(userService.searchUserDetails(new UserVO(), false, false));
+        Assertions.assertNotNull(userService.searchUserDetails(new User(), false, false));
     }
 }

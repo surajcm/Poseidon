@@ -3,8 +3,6 @@ package com.poseidon.user.web.form;
 import com.poseidon.user.dao.entities.Role;
 import com.poseidon.user.domain.UserVO;
 
-import java.util.Collection;
-import java.util.List;
 import java.util.Set;
 import java.util.StringJoiner;
 
@@ -17,13 +15,12 @@ public class UserForm {
     private Set<Role> roles;
     private String message;
     private UserVO user;
-    private Collection<UserVO> userVOs;
+    private Set<UserVO> userVOs;
     private String loggedInUser;
     private String loggedInRole;
     private UserVO searchUser;
     private String statusMessage;
     private String statusMessageType;
-    private List<String> roleList;
     private boolean startsWith;
     private boolean includes;
 
@@ -59,14 +56,6 @@ public class UserForm {
         this.password = password;
     }
 
-    /*public String getRole() {
-        return role;
-    }
-
-    public void setRole(final String role) {
-        this.role = role;
-    }*/
-
     public Set<Role> getRoles() {
         return roles;
     }
@@ -91,11 +80,11 @@ public class UserForm {
         this.user = user;
     }
 
-    public Collection<UserVO> getUserVOs() {
+    public Set<UserVO> getUserVOs() {
         return userVOs;
     }
 
-    public void setUserVOs(final Collection<UserVO> userVOs) {
+    public void setUserVOs(final Set<UserVO> userVOs) {
         this.userVOs = userVOs;
     }
 
@@ -139,14 +128,6 @@ public class UserForm {
         this.statusMessageType = statusMessageType;
     }
 
-    public List<String> getRoleList() {
-        return roleList;
-    }
-
-    public void setRoleList(final List<String> roleList) {
-        this.roleList = roleList;
-    }
-
     public boolean isStartsWith() {
         return startsWith;
     }
@@ -185,7 +166,7 @@ public class UserForm {
                 .add("message='" + message + "'").add("user=" + user).add("userVOs=" + userVOs)
                 .add("loggedInUser='" + loggedInUser + "'").add("loggedInRole='" + loggedInRole + "'")
                 .add("searchUser=" + searchUser).add("statusMessage='" + statusMessage + "'")
-                .add("statusMessageType='" + statusMessageType + "'").add("roleList=" + roleList)
+                .add("statusMessageType='" + statusMessageType + "'")
                 .toString();
     }
 }

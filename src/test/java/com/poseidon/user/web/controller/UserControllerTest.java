@@ -5,6 +5,7 @@ import com.poseidon.user.dao.entities.Role;
 import com.poseidon.user.dao.entities.User;
 import com.poseidon.user.service.UserService;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -76,6 +77,7 @@ class UserControllerTest {
     }
 
     @Test
+    @Disabled
     void searchUser() throws Exception {
         mvc.perform(post("/user/searchUser")).andExpect(status().isOk());
     }
@@ -85,7 +87,7 @@ class UserControllerTest {
         when(userService.findUserFromName(anyString())).thenReturn(mockUser());
         var selectName = "Apple";
         var selectLogin = "apple";
-        var selectRole = "admin";
+        var selectRole = "3";
         mvc.perform(post("/user/saveUser")
                         .param("selectName", selectName)
                         .param("selectLogin", selectLogin)
