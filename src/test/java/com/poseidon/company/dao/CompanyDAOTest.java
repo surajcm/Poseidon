@@ -12,6 +12,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
@@ -42,6 +43,12 @@ class CompanyDAOTest {
         when(companyRepository.findFirstByOrderByIdAsc()).thenReturn(Optional.of(mockCompanyTerms()));
         when(companyRepository.save(any())).thenReturn(mockCompanyTerms());
         Assertions.assertNotNull(companyDAO.updateCompanyDetails(new CompanyTermsVO()));
+    }
+
+    @Test
+    void isValidCompanyCode() {
+        when(companyRepository.findByCompanyCode(anyString())).thenReturn(Optional.of(mockCompanyTerms()));
+        Assertions.assertTrue(companyDAO.isValidCompanyCode("ABC"));
     }
 
     private CompanyTerms mockCompanyTerms() {

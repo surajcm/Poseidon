@@ -47,6 +47,11 @@ public class CompanyDAO {
                 .map(this::convertToCompanyTermsVO);
     }
 
+    public boolean isValidCompanyCode(final String companyCode) {
+        var companyTerms = companyRepository.findByCompanyCode(companyCode);
+        return companyTerms.isPresent();
+    }
+
     private CompanyTermsVO convertToCompanyTermsVO(final CompanyTerms companyTerms) {
         var companyTermsVO = new CompanyTermsVO();
         companyTermsVO.setCompanyName(companyTerms.getCompanyName());
@@ -74,10 +79,5 @@ public class CompanyDAO {
         companyTerms.setCstTin(companyTermsVO.getCompanyCstTin());
         companyTerms.setModifiedBy(companyTermsVO.getModifiedBy());
         return companyTerms;
-    }
-
-    public boolean isValidCompanyCode(final String companyCode) {
-        var companyTerms = companyRepository.findByCompanyCode(companyCode);
-        return companyTerms.isPresent();
     }
 }

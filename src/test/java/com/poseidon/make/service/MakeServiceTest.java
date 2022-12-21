@@ -78,6 +78,11 @@ class MakeServiceTest {
     }
 
     @Test
+    void updateModelWithId() {
+        Assertions.assertAll(() -> makeService.updateModel(2L, 2L, "Apple"));
+    }
+
+    @Test
     void searchMakeVOsSuccess() {
         when(makeDAO.searchMakeVOs(any(MakeAndModelVO.class))).thenReturn(mockListOfMakeAndModelVO());
         var makeVOs = makeService.searchMakeVOs(Mockito.mock(MakeAndModelVO.class));
@@ -96,6 +101,13 @@ class MakeServiceTest {
         when(makeDAO.getAllModelsFromMakeId(anyLong())).thenReturn(mockListOfMakeAndModelVO());
         var makeVOs = makeService.getAllModelsFromMakeId(1234L);
         Assertions.assertEquals(1234L, makeVOs.get(0).getId());
+    }
+
+    @Test
+    void searchMake() {
+        when(makeDAO.searchMake(any())).thenReturn(mockListOfMakeAndModelVO());
+        var makeVos = makeService.searchMake(new MakeAndModelVO());
+        Assertions.assertEquals(makeVos.get(0).getId(), 1234L);
     }
 
     private List<MakeAndModelVO> mockListOfMakeAndModelVO() {
