@@ -76,6 +76,12 @@ class InvoiceServiceTest {
         Assertions.assertNotNull(invoiceService.findInvoices(Mockito.mock(InvoiceVO.class)));
     }
 
+    @Test
+    void allTagNumbers() {
+        when(transactionService.allTagNumbers()).thenReturn(List.of("ABC", "DEF"));
+        Assertions.assertTrue(invoiceService.allTagNumbers().contains("ABC"));
+    }
+
     private List<TransactionVO> mockListOfTransactionVOs() {
         var transactionVO1 = new TransactionVO();
         transactionVO1.setTagNo("1234");

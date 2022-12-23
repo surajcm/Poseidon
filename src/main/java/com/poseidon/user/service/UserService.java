@@ -37,9 +37,9 @@ public class UserService {
     /**
      * getAllUserDetails to list all user details.
      *
-     * @return List of user
+     * @return Set of user
      */
-    public List<User> getAllUserDetails(final String companyCode) {
+    public Set<User> getAllUserDetails(final String companyCode) {
         return userDAO.getAllUserDetails(companyCode);
     }
 

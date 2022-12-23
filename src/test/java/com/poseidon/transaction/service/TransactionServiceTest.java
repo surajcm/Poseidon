@@ -4,18 +4,16 @@ import com.poseidon.transaction.dao.TransactionDAO;
 import com.poseidon.transaction.domain.TransactionVO;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
-import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
-@ExtendWith(SpringExtension.class)
 class TransactionServiceTest {
     private final TransactionDAO transactionDAO = Mockito.mock(TransactionDAO.class);
     private final TransactionService transactionService = new TransactionService(transactionDAO);
@@ -67,4 +65,11 @@ class TransactionServiceTest {
         when(transactionDAO.listAllTransactions()).thenReturn(new ArrayList<>());
         Assertions.assertNotNull(transactionService.listAllTransactions());
     }
+
+    @Test
+    void allTagNumbers() {
+        when(transactionService.allTagNumbers()).thenReturn(List.of("ABC", "DEF"));
+        Assertions.assertTrue(transactionService.allTagNumbers().contains("ABC"));
+    }
+
 }

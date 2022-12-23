@@ -23,9 +23,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.AbstractMap;
-import java.util.HashSet;
-import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 
@@ -119,30 +118,17 @@ public class UserController {
      */
     @PostMapping("/user/listAll")
     public String listAllUsers(@ModelAttribute final UserForm userForm,
-                               final Model model,
-                               final RedirectAttributes redirectAttributes) {
+                               final Model model) {
         logger.info("ListAll method of user controller ");
-        var userList = new HashSet<>(allUsers());
-        if (userList.isEmpty()) {
+        var users = allUsers();
+        if (users.isEmpty()) {
             userForm.setStatusMessage("No user found");
             userForm.setStatusMessageType(DANGER);
         }
-        userForm.setUserVOs(userList);
+        userForm.setUsers(users);
         model.addAttribute("allRoles", fullRoleMap());
         model.addAttribute(USER_FORM, userForm);
         return USER_LIST;
-    }
-
-    private UserVO convertToUserVO(final User user) {
-        var userVO = new UserVO();
-        userVO.setId(user.getId());
-        userVO.setName(user.getName());
-        userVO.setEmail(user.getEmail());
-        userVO.setPassword(user.getPassword());
-        userVO.setRoles(user.getRoles());
-        userVO.setCompanyCode(user.getCompanyCode());
-        userVO.setEnabled(user.getEnabled());
-        return userVO;
     }
 
     /**
@@ -156,7 +142,7 @@ public class UserController {
      */
     @PostMapping("/user/saveUser")
     public @ResponseBody
-    List<UserVO> saveUser(@ModelAttribute("selectName") final String name,
+    Set<User> saveUser(@ModelAttribute("selectName") final String name,
                           @ModelAttribute("selectLogin") final String email,
                           @ModelAttribute("selectRole") final String role,
                           final BindingResult result) {
@@ -209,9 +195,21 @@ public class UserController {
             userForm.setStatusMessageType(DANGER);
         }
         userForm.setUserVOs(users);
-        userForm.setRoles(userService.getAllRoles());
+        model.addAttribute("allRoles", fullRoleMap());
         model.addAttribute(USER_FORM, userForm);
         return USER_LIST;
+    }
+
+    private UserVO convertToUserVO(final User user) {
+        var userVO = new UserVO();
+        userVO.setId(user.getId());
+        userVO.setName(user.getName());
+        userVO.setEmail(user.getEmail());
+        userVO.setPassword(user.getPassword());
+        userVO.setRoles(user.getRoles());
+        userVO.setCompanyCode(user.getCompanyCode());
+        userVO.setEnabled(user.getEnabled());
+        return userVO;
     }
 
     @PostMapping("/user/passwordReset")
@@ -230,24 +228,23 @@ public class UserController {
 
     @GetMapping("/user/getForEdit")
     public @ResponseBody
-    UserVO getForEdit(@ModelAttribute("id") final String id,
+    User getForEdit(@ModelAttribute("id") final String id,
                       final BindingResult result) {
         var sanitizedId = CommonUtils.sanitizedString(id);
         logger.info("getForEdit method of user controller : {}", sanitizedId);
         return userService.getUserDetailsFromId(Long.valueOf(id))
-                .map(this::convertToUserVO)
                 .map(this::removePassword)
                 .orElse(null);
     }
 
-    private UserVO removePassword(final UserVO userVO) {
-        userVO.setPassword("");
-        return userVO;
+    private User removePassword(final User user) {
+        user.setPassword("");
+        return user;
     }
 
     @PutMapping("/user/updateUser")
     public @ResponseBody
-    List<UserVO> updateUser(@ModelAttribute("id") final String id,
+    Set<User> updateUser(@ModelAttribute("id") final String id,
                             @ModelAttribute("name") final String name,
                             @ModelAttribute("email") final String email,
                             @ModelAttribute("role") final String role,
@@ -346,7 +343,7 @@ public class UserController {
             userForm.setStatusMessageType(DANGER);
             logger.error(ex.getLocalizedMessage(), ex);
         }
-        return listAllUsers(userForm, model, redirectAttributes);
+        return listAllUsers(userForm, model);
     }
 
     private String currentLoggedInUser() {
@@ -358,12 +355,11 @@ public class UserController {
         return username;
     }
 
-    private List<UserVO> allUsers() {
-        var userList = userService.getAllUserDetails(activeCompanyCode())
-                .stream().map(this::convertToUserVO).toList();
-        logger.info("user list is {}", userList);
-        userList.forEach(u -> u.setPassword(""));
-        return userList;
+    private Set<User> allUsers() {
+        var users = userService.getAllUserDetails(activeCompanyCode());
+        logger.info("users are {}", users);
+        users.forEach(u -> u.setPassword(""));
+        return users;
     }
 
     private UserVO formSearch(final String name) {

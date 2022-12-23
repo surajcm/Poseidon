@@ -1,6 +1,6 @@
 package com.poseidon.user.web.form;
 
-import com.poseidon.user.dao.entities.Role;
+import com.poseidon.user.dao.entities.User;
 import com.poseidon.user.domain.UserVO;
 
 import java.util.Set;
@@ -9,13 +9,9 @@ import java.util.StringJoiner;
 @SuppressWarnings("unused")
 public class UserForm {
     private Long id;
-    private String name;
-    private String email;
-    private String password;
-    private Set<Role> roles;
-    private String message;
     private UserVO user;
     private Set<UserVO> userVOs;
+    private Set<User> users;
     private String loggedInUser;
     private String loggedInRole;
     private UserVO searchUser;
@@ -32,46 +28,6 @@ public class UserForm {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public void setName(final String name) {
-        this.name = name;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(final String email) {
-        this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(final String password) {
-        this.password = password;
-    }
-
-    public Set<Role> getRoles() {
-        return roles;
-    }
-
-    public void setRoles(final Set<Role> roles) {
-        this.roles = roles;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(final String message) {
-        this.message = message;
-    }
-
     public UserVO getUser() {
         return user;
     }
@@ -86,6 +42,14 @@ public class UserForm {
 
     public void setUserVOs(final Set<UserVO> userVOs) {
         this.userVOs = userVOs;
+    }
+
+    public Set<User> getUsers() {
+        return users;
+    }
+
+    public void setUsers(final Set<User> users) {
+        this.users = users;
     }
 
     public String getLoggedInUser() {
@@ -144,26 +108,11 @@ public class UserForm {
         this.includes = includes;
     }
 
-    /**
-     * for equivalent vo of form.
-     *
-     * @return user vo instance
-     */
-    public UserVO getCurrentUser() {
-        UserVO userVo = new UserVO();
-        userVo.setName(getName());
-        userVo.setEmail(getEmail());
-        userVo.setPassword(getPassword());
-        userVo.setRoles(getRoles());
-        return userVo;
-    }
 
     @Override
     public String toString() {
         return new StringJoiner(", ", UserForm.class.getSimpleName() + "[", "]")
-                .add("id=" + id).add("name='" + name + "'").add("email='" + email + "'")
-                .add("password='" + password + "'").add("roles='" + roles + "'")
-                .add("message='" + message + "'").add("user=" + user).add("userVOs=" + userVOs)
+                .add("id=" + id).add("user=" + user).add("userVOs=" + userVOs)
                 .add("loggedInUser='" + loggedInUser + "'").add("loggedInRole='" + loggedInRole + "'")
                 .add("searchUser=" + searchUser).add("statusMessage='" + statusMessage + "'")
                 .add("statusMessageType='" + statusMessageType + "'")

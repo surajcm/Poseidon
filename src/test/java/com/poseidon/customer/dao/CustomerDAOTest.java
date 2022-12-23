@@ -1,6 +1,7 @@
 package com.poseidon.customer.dao;
 
 import com.poseidon.customer.dao.entities.Customer;
+import com.poseidon.customer.dao.entities.CustomerAdditionalDetails;
 import com.poseidon.customer.dao.repo.CustomerAdditionalDetailsRepository;
 import com.poseidon.customer.dao.repo.CustomerRepository;
 import com.poseidon.customer.dao.spec.CustomerSpecification;
@@ -42,6 +43,13 @@ class CustomerDAOTest {
 
     @Test
     void getCustomerFromIdSuccess() {
+        when(customerRepository.findById(anyLong())).thenReturn(Optional.of(mockCustomer()));
+        when(customerAdditionalDetailsRepository.findByCustomerId(anyLong())).thenReturn(additionalDetails());
+        Assertions.assertNotNull(customerDAO.getCustomerFromId(1234L));
+    }
+
+    @Test
+    void getCustomerFromIdSuccessWithAdditionalDetails() {
         when(customerRepository.findById(anyLong())).thenReturn(Optional.of(mockCustomer()));
         Assertions.assertNotNull(customerDAO.getCustomerFromId(1234L));
     }
@@ -123,5 +131,15 @@ class CustomerDAOTest {
         customer.setPhone("ABC");
         customer.setMobile("ABC");
         customer.setEmail("ABC");
+    }
+
+    private Optional<CustomerAdditionalDetails> additionalDetails() {
+        var additionalDetails = new CustomerAdditionalDetails();
+        additionalDetails.setId(1234L);
+        additionalDetails.setCustomerId(1234L);
+        additionalDetails.setContactPerson("HULK");
+        additionalDetails.setContactPerson("90909090");
+        additionalDetails.setNote("Notes");
+        return Optional.of(additionalDetails);
     }
 }

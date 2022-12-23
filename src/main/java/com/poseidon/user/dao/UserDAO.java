@@ -11,8 +11,10 @@ import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
+import java.util.Set;
 
 import static com.rainerhahnekamp.sneakythrow.Sneaky.sneak;
 import static com.rainerhahnekamp.sneakythrow.Sneaky.sneaked;
@@ -31,10 +33,10 @@ public class UserDAO {
     /**
      * getAllUserDetails to list all user details.
      *
-     * @return List of user
+     * @return Set of user
      */
-    public List<User> getAllUserDetails(final String companyCode) {
-        return sneak(() -> userRepository.findByCompanyCode(companyCode));
+    public Set<User> getAllUserDetails(final String companyCode) {
+        return new HashSet<>(sneak(() -> userRepository.findByCompanyCode(companyCode)));
     }
 
     /**

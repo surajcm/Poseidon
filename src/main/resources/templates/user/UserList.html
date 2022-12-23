@@ -118,7 +118,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr th:each="iterationUser : ${userForm.userVOs}">
+                        <tr th:each="iterationUser : ${userForm.users}">
                             <th scope="row"><input type="checkbox" name="checkField" onclick="checkCall(this)"
                                        th:value="${iterationUser.id}" /></th>
                             <td><span th:text="${iterationUser.name}"></span></td>
