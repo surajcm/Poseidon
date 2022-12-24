@@ -3,7 +3,6 @@ package com.poseidon.user.web.controller;
 import com.poseidon.init.util.CommonUtils;
 import com.poseidon.user.dao.entities.Role;
 import com.poseidon.user.dao.entities.User;
-import com.poseidon.user.domain.UserVO;
 import com.poseidon.user.service.SecurityService;
 import com.poseidon.user.service.UserService;
 import com.poseidon.user.web.form.UserForm;
@@ -23,6 +22,7 @@ import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.AbstractMap;
+import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -125,8 +125,8 @@ public class UserController {
             userForm.setStatusMessage("No user found");
             userForm.setStatusMessageType(DANGER);
         }
-        userForm.setUsers(users);
         model.addAttribute("allRoles", fullRoleMap());
+        model.addAttribute("users", users);
         model.addAttribute(USER_FORM, userForm);
         return USER_LIST;
     }
@@ -180,36 +180,22 @@ public class UserController {
     @PostMapping("/user/searchUser")
     public String searchUser(final UserForm userForm, final Model model) {
         logger.info(" Inside SearchUser method of user controller ");
-        var searcher = convertToUser(userForm.getSearchUser(), "");
-        var users = userService.searchUserDetails(searcher,
+        var searcher = userForm.getSearchUser();
+        var users = new HashSet<>(userService.searchUserDetails(searcher,
                 userForm.isStartsWith(),
-                userForm.isIncludes())
-                .stream().map(this::convertToUserVO)
-                .collect(Collectors.toSet());
+                userForm.isIncludes()));
         if (!users.isEmpty()) {
             userForm.setStatusMessage("Successfully fetched " + users.size() + " Users");
             userForm.setStatusMessageType("info");
-            users.stream().map(UserVO::toString).forEach(logger::info);
+            users.stream().map(User::toString).forEach(logger::info);
         } else {
             userForm.setStatusMessage("No results found");
             userForm.setStatusMessageType(DANGER);
         }
-        userForm.setUserVOs(users);
+        model.addAttribute("users", users);
         model.addAttribute("allRoles", fullRoleMap());
         model.addAttribute(USER_FORM, userForm);
         return USER_LIST;
-    }
-
-    private UserVO convertToUserVO(final User user) {
-        var userVO = new UserVO();
-        userVO.setId(user.getId());
-        userVO.setName(user.getName());
-        userVO.setEmail(user.getEmail());
-        userVO.setPassword(user.getPassword());
-        userVO.setRoles(user.getRoles());
-        userVO.setCompanyCode(user.getCompanyCode());
-        userVO.setEnabled(user.getEnabled());
-        return userVO;
     }
 
     @PostMapping("/user/passwordReset")
@@ -272,20 +258,6 @@ public class UserController {
         return allUsers();
     }
 
-
-    private User convertToUser(final UserVO userVO, final String currentLoggedInUser) {
-        var user = new User();
-        user.setName(userVO.getName());
-        user.setEmail(userVO.getEmail());
-        user.setPassword(userVO.getPassword());
-        user.setEnabled(userVO.getEnabled());
-        user.setRoles(userVO.getRoles());
-        user.setCompanyCode(userVO.getCompanyCode());
-        user.setCreatedBy(currentLoggedInUser);
-        user.setModifiedBy(currentLoggedInUser);
-        return user;
-    }
-
     @PostMapping("/user/changePasswordAndSaveIt")
     public @ResponseBody
     AbstractMap.SimpleEntry<String, String> changePass(@ModelAttribute("current") final String current,
@@ -296,15 +268,13 @@ public class UserController {
         logger.info("ChangePass of user controller from {} to {}", sanitizedCurrent,
                 sanitizedPass);
         var currentLoggedInUser = currentLoggedInUser();
-        var searcher = convertToUser(formSearch(currentLoggedInUser), currentLoggedInUser);
+        var searcher = formSearch(currentLoggedInUser);
         var userList = userService.searchUserDetails(searcher, true, true)
-                .stream().map(this::convertToUserVO).toList();
+                .stream().toList();
         AbstractMap.SimpleEntry<String, String> entry;
-
         if (userService.comparePasswords(current, userList.get(0).getPassword())) {
-            var userVO = userList.get(0);
-            var originalUser = convertToUser(userVO, currentLoggedInUser);
-            userService.updateWithNewPassword(originalUser, newPass, currentLoggedInUser());
+            var user = userList.get(0);
+            userService.updateWithNewPassword(user, newPass, currentLoggedInUser());
             entry = new AbstractMap.SimpleEntry<>(SUCCESS, "The password has been reset !!");
         } else {
             entry = new AbstractMap.SimpleEntry<>(MESSAGE,
@@ -362,10 +332,10 @@ public class UserController {
         return users;
     }
 
-    private UserVO formSearch(final String name) {
-        var userVO = new UserVO();
-        userVO.setName(name);
-        return userVO;
+    private User formSearch(final String name) {
+        var user = new User();
+        user.setName(name);
+        return user;
     }
 
     private String activeCompanyCode() {

@@ -3,7 +3,6 @@ package com.poseidon.user.web.controller;
 import com.poseidon.company.service.CompanyService;
 import com.poseidon.user.dao.entities.Role;
 import com.poseidon.user.dao.entities.User;
-import com.poseidon.user.domain.UserVO;
 import com.poseidon.user.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -27,9 +26,9 @@ public class RegistrationController {
         this.companyService = companyService;
     }
 
-    @ModelAttribute("userVO")
-    public UserVO userVO() {
-        return new UserVO();
+    @ModelAttribute("user")
+    public User user() {
+        return new User();
     }
 
     @GetMapping
@@ -39,29 +38,15 @@ public class RegistrationController {
     }
 
     @PostMapping
-    public String registerUser(final UserVO userVO) {
-        userVO.addRole(new Role(2L));
-        logger.info("Submitted registration: {}", userVO);
-        if (companyService.isValidCompanyCode(userVO.getCompanyCode())) {
-            var user = convertToUser(userVO, "signup");
+    public String registerUser(final User user) {
+        user.addRole(new Role(2L));
+        logger.info("Submitted registration: {}", user);
+        if (companyService.isValidCompanyCode(user.getCompanyCode())) {
             userService.save(user);
         } else {
-            logger.error("Invalid companyCode found, {}", userVO.getCompanyCode());
+            logger.error("Invalid companyCode found, {}", user.getCompanyCode());
             return "redirect:/registration?failure";
         }
         return "redirect:/registration?success";
-    }
-
-    private User convertToUser(final UserVO userVO, final String currentLoggedInUser) {
-        var user = new User();
-        user.setName(userVO.getName());
-        user.setEmail(userVO.getEmail());
-        user.setPassword(userVO.getPassword());
-        user.setEnabled(userVO.getEnabled());
-        user.setRoles(userVO.getRoles());
-        user.setCompanyCode(userVO.getCompanyCode());
-        user.setCreatedBy(currentLoggedInUser);
-        user.setModifiedBy(currentLoggedInUser);
-        return user;
     }
 }

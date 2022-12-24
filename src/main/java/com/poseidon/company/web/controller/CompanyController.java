@@ -2,8 +2,6 @@ package com.poseidon.company.web.controller;
 
 import com.poseidon.company.domain.CompanyTermsVO;
 import com.poseidon.company.service.CompanyService;
-import com.poseidon.user.dao.entities.User;
-import com.poseidon.user.domain.UserVO;
 import com.poseidon.user.service.UserService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -75,20 +73,8 @@ public class CompanyController {
 
     private String activeCompanyCode() {
         var currentLoggedInUser = currentLoggedInUser();
-        var user = convertToUserVO(userService.findUserFromName(currentLoggedInUser));
+        var user = userService.findUserFromName(currentLoggedInUser);
         return user.getCompanyCode();
-    }
-
-    private UserVO convertToUserVO(final User user) {
-        var userVO = new UserVO();
-        userVO.setId(user.getId());
-        userVO.setName(user.getName());
-        userVO.setEmail(user.getEmail());
-        userVO.setPassword(user.getPassword());
-        userVO.setRoles(user.getRoles());
-        userVO.setCompanyCode(user.getCompanyCode());
-        userVO.setEnabled(user.getEnabled());
-        return userVO;
     }
 
     private String currentLoggedInUser() {

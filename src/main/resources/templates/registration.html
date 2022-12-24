@@ -1,5 +1,4 @@
 <!DOCTYPE html>
-<!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
       xmlns:sec="http://www.thymeleaf.org/extras/spring-security/">
 <head>
@@ -23,7 +22,7 @@
                         <div class="text-center text-md-center mb-4 mt-md-0">
                             <h1 class="mb-0 h3">Registration</h1>
                         </div>
-                        <form th:action="@{/registration}" class="mt-4" method="post" th:object="${userVO}">
+                        <form th:action="@{/registration}" class="mt-4" method="post" th:object="${user}">
                             <div th:if="${param.success}">
                                 <div class="alert alert-info alert-dismissible fade show d-flex align-items-center">You've successfully registered</div>
                             </div>

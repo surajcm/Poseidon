@@ -42,14 +42,14 @@ class CustomerDAOTest {
     }
 
     @Test
-    void getCustomerFromIdSuccess() {
+    void getCustomerFromIdSuccessWithAdditionalDetails() {
         when(customerRepository.findById(anyLong())).thenReturn(Optional.of(mockCustomer()));
         when(customerAdditionalDetailsRepository.findByCustomerId(anyLong())).thenReturn(additionalDetails());
         Assertions.assertNotNull(customerDAO.getCustomerFromId(1234L));
     }
 
     @Test
-    void getCustomerFromIdSuccessWithAdditionalDetails() {
+    void getCustomerFromIdSuccess() {
         when(customerRepository.findById(anyLong())).thenReturn(Optional.of(mockCustomer()));
         Assertions.assertNotNull(customerDAO.getCustomerFromId(1234L));
     }
@@ -62,6 +62,12 @@ class CustomerDAOTest {
 
     @Test
     void deleteCustomerFromIdSuccess() {
+        Assertions.assertAll(() -> customerDAO.deleteCustomerFromId(1234L));
+    }
+
+    @Test
+    void deleteCustomerFromIdSuccessWithDetails() {
+        when(customerAdditionalDetailsRepository.findByCustomerId(anyLong())).thenReturn(additionalDetails());
         Assertions.assertAll(() -> customerDAO.deleteCustomerFromId(1234L));
     }
 

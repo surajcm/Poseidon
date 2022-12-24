@@ -2,7 +2,6 @@ package com.poseidon.company.dao;
 
 import com.poseidon.company.dao.entities.CompanyTerms;
 import com.poseidon.company.dao.repo.CompanyRepository;
-import com.poseidon.company.domain.CompanyTermsVO;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -35,14 +34,14 @@ class CompanyDAOTest {
     @Test
     void updateCompanyDetailsSuccessWithNull() {
         when(companyRepository.findFirstByOrderByIdAsc()).thenReturn(Optional.empty());
-        Assertions.assertTrue(companyDAO.updateCompanyDetails(new CompanyTermsVO()).isEmpty());
+        Assertions.assertTrue(companyDAO.updateCompanyDetails(new CompanyTerms()).isEmpty());
     }
 
     @Test
     void updateCompanyDetailsSuccessWithNotNull() {
         when(companyRepository.findFirstByOrderByIdAsc()).thenReturn(Optional.of(mockCompanyTerms()));
         when(companyRepository.save(any())).thenReturn(mockCompanyTerms());
-        Assertions.assertNotNull(companyDAO.updateCompanyDetails(new CompanyTermsVO()));
+        Assertions.assertNotNull(companyDAO.updateCompanyDetails(new CompanyTerms()));
     }
 
     @Test

@@ -1,20 +1,15 @@
 package com.poseidon.user.web.form;
 
 import com.poseidon.user.dao.entities.User;
-import com.poseidon.user.domain.UserVO;
 
-import java.util.Set;
 import java.util.StringJoiner;
 
 @SuppressWarnings("unused")
 public class UserForm {
     private Long id;
-    private UserVO user;
-    private Set<UserVO> userVOs;
-    private Set<User> users;
     private String loggedInUser;
     private String loggedInRole;
-    private UserVO searchUser;
+    private User searchUser;
     private String statusMessage;
     private String statusMessageType;
     private boolean startsWith;
@@ -26,30 +21,6 @@ public class UserForm {
 
     public void setId(final Long id) {
         this.id = id;
-    }
-
-    public UserVO getUser() {
-        return user;
-    }
-
-    public void setUser(final UserVO user) {
-        this.user = user;
-    }
-
-    public Set<UserVO> getUserVOs() {
-        return userVOs;
-    }
-
-    public void setUserVOs(final Set<UserVO> userVOs) {
-        this.userVOs = userVOs;
-    }
-
-    public Set<User> getUsers() {
-        return users;
-    }
-
-    public void setUsers(final Set<User> users) {
-        this.users = users;
     }
 
     public String getLoggedInUser() {
@@ -68,11 +39,11 @@ public class UserForm {
         this.loggedInRole = loggedInRole;
     }
 
-    public UserVO getSearchUser() {
+    public User getSearchUser() {
         return searchUser;
     }
 
-    public void setSearchUser(final UserVO searchUser) {
+    public void setSearchUser(final User searchUser) {
         this.searchUser = searchUser;
     }
 
@@ -112,7 +83,7 @@ public class UserForm {
     @Override
     public String toString() {
         return new StringJoiner(", ", UserForm.class.getSimpleName() + "[", "]")
-                .add("id=" + id).add("user=" + user).add("userVOs=" + userVOs)
+                .add("id=" + id)
                 .add("loggedInUser='" + loggedInUser + "'").add("loggedInRole='" + loggedInRole + "'")
                 .add("searchUser=" + searchUser).add("statusMessage='" + statusMessage + "'")
                 .add("statusMessageType='" + statusMessageType + "'")

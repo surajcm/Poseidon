@@ -1,6 +1,7 @@
 package com.poseidon.company.service;
 
 import com.poseidon.company.dao.CompanyDAO;
+import com.poseidon.company.dao.entities.CompanyTerms;
 import com.poseidon.company.domain.CompanyTermsVO;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -17,14 +18,14 @@ class CompanyServiceTest {
 
     @Test
     void listCompanyTermsSuccess() {
-        when(companyDAO.listCompanyTerms("QC01")).thenReturn(mockCompanyTermsVO());
+        when(companyDAO.listCompanyTerms("QC01")).thenReturn(mockCompanyTerms());
         var companyTermsVO = companyService.listCompanyTerms("QC01");
         Assertions.assertEquals("ABC", companyTermsVO.get().getCompanyName());
     }
 
     @Test
     void updateCompanyDetailsSuccess() {
-        when(companyDAO.updateCompanyDetails(any())).thenReturn(mockCompanyTermsVO());
+        when(companyDAO.updateCompanyDetails(any())).thenReturn(mockCompanyTerms());
         var companyTermsVO = companyService.updateCompanyDetails(new CompanyTermsVO());
         Assertions.assertEquals("ABC", companyTermsVO.get().getCompanyName());
     }
@@ -35,9 +36,9 @@ class CompanyServiceTest {
         Assertions.assertTrue(companyService.isValidCompanyCode("ABC"));
     }
 
-    private Optional<CompanyTermsVO> mockCompanyTermsVO() {
-        var companyTermsVO = new CompanyTermsVO();
-        companyTermsVO.setCompanyName("ABC");
-        return Optional.of(companyTermsVO);
+    private Optional<CompanyTerms> mockCompanyTerms() {
+        var companyTerms = new CompanyTerms();
+        companyTerms.setCompanyName("ABC");
+        return Optional.of(companyTerms);
     }
 }

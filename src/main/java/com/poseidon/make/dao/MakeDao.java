@@ -15,7 +15,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 import java.util.function.Function;
-import java.util.stream.StreamSupport;
 
 import static com.rainerhahnekamp.sneakythrow.Sneaky.sneak;
 import static com.rainerhahnekamp.sneakythrow.Sneaky.sneaked;
@@ -51,7 +50,7 @@ public class MakeDao {
      */
     public List<MakeAndModelVO> listAllMakes() {
         var makes = sneak(() ->
-                StreamSupport.stream(makeRepository.findAll().spliterator(), true)
+                makeRepository.findAll().parallelStream()
                         .toList());
         return makeAndModelEntityConverter.convertMakeToMakeAndModelVOs(makes);
     }
@@ -63,7 +62,7 @@ public class MakeDao {
      */
     public List<MakeAndModelVO> listAllMakesAndModels() {
         var models = sneak(() ->
-                StreamSupport.stream(modelRepository.findAll().spliterator(), true)
+                modelRepository.findAll().parallelStream()
                         .toList());
         //todo: better MakeAndModelVO to render things in a better way
         return makeAndModelEntityConverter.convertModelsToMakeAndModelVOs(models);
@@ -198,7 +197,7 @@ public class MakeDao {
      */
     public List<MakeVO> fetchMakes() {
         var makes = sneak(() ->
-                StreamSupport.stream(makeRepository.findAll().spliterator(), true)
+                makeRepository.findAll().parallelStream()
                         .toList());
         return convertMakeToMakeVO(makes);
     }
@@ -265,7 +264,7 @@ public class MakeDao {
     public List<MakeAndModelVO> searchMake(final MakeAndModelVO searchMakeVo) {
         var searchMakeName = searchMakeVo.getMakeName();
         var makes = sneak(() ->
-                StreamSupport.stream(makeRepository.findByMakeName(searchMakeName).spliterator(), true)
+                makeRepository.findByMakeName(searchMakeName).parallelStream()
                         .toList());
         return makeAndModelEntityConverter.convertMakeToMakeAndModelVOs(makes);
     }

@@ -19,14 +19,14 @@
     <script type="text/javascript" src="/js/navbar-scripts.js"></script>
 </head>
 <body onload="hideAlerts();">
-    <form method="POST" action="/user/listAll" th:object="${userForm}">
-        <input type="hidden" name="id" id="id" />
-        <input type="hidden" name="addInProgress" id="addInProgress" />
-        <input type="hidden" name="loggedInUser" />
-        <input type="hidden" name="loggedInRole" />
-        <div th:insert="navbar :: navbar"></div>
-        <div class="container">
-            <div class="wrap">
+    <div th:insert="navbar :: navbar"></div>
+    <div class="container">
+        <div class="wrap">
+            <form method="POST" action="/user/listAll" th:object="${userForm}">
+                <input type="hidden" name="id" id="id" />
+                <input type="hidden" name="addInProgress" id="addInProgress" />
+                <input type="hidden" name="loggedInUser" />
+                <input type="hidden" name="loggedInRole" />
                 <div class="card">
                     <div class="card-header">
                         Search User Details
@@ -118,7 +118,7 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr th:each="iterationUser : ${userForm.users}">
+                        <tr th:each="iterationUser : ${users}">
                             <th scope="row"><input type="checkbox" name="checkField" onclick="checkCall(this)"
                                        th:value="${iterationUser.id}" /></th>
                             <td><span th:text="${iterationUser.name}"></span></td>
@@ -129,74 +129,74 @@
                         </tr>
                     </tbody>
                 </table>
-                <div class="row g-3">
-                    <div class="col-md-3">
-                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#newUserModal"
-                            onclick="addNewUser();">Add New User</button>
-                    </div>
-                    <div class="col-md-3">
-                        <button type="button" class="btn btn-primary"  data-bs-toggle="modal" data-bs-target="#editUserModal"
-                            onclick="editUser();">
-                            Edit User
-                        </button>
-                    </div>
-                    <div class="col-md-3">
-                        <button type="button" class="btn btn-primary" onclick="deleteUser()">
-                            Delete User
-                        </button>
-                    </div>
-                    <div class="col-md-3">
-                        <button type="button" class="btn btn-primary"  data-bs-toggle="modal" data-bs-target="#resetUserModal"
-                                onclick="resetUser();">
-                            Reset Password
-                        </button>
-                    </div>
+            </form>
+            <div class="row g-3">
+                <div class="col-md-3">
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#newUserModal"
+                        onclick="addNewUser();">Add New User</button>
+                </div>
+                <div class="col-md-3">
+                    <button type="button" class="btn btn-primary"  data-bs-toggle="modal" data-bs-target="#editUserModal"
+                        onclick="editUser();">
+                        Edit User
+                    </button>
+                </div>
+                <div class="col-md-3">
+                    <button type="button" class="btn btn-primary" onclick="deleteUser()">
+                        Delete User
+                    </button>
+                </div>
+                <div class="col-md-3">
+                    <button type="button" class="btn btn-primary"  data-bs-toggle="modal" data-bs-target="#resetUserModal"
+                            onclick="resetUser();">
+                        Reset Password
+                    </button>
                 </div>
             </div>
         </div>
-        <div id="newUserModal" class="modal fade" tabindex="-1" aria-labelledby="newUserModal" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">Add new User</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div id="userModalBody" class="modal-body">
-                        <p>Lets add some users....</p>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" id="saveModal" class="btn btn-primary" onclick="saveFromModal()">Save</button>
-                    </div>
+    </div>
+    <div id="newUserModal" class="modal fade" tabindex="-1" aria-labelledby="newUserModal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Add new User</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div id="userModalBody" class="modal-body">
+                    <p>Lets add some users....</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="saveModal" class="btn btn-primary" onclick="saveFromModal()">Save</button>
                 </div>
             </div>
         </div>
-        <div id="editUserModal" class="modal fade" tabindex="-1" aria-labelledby="editUserModal" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <h5 class="modal-title">Edit User</h5>
-                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                    </div>
-                    <div id="userEditModalBody" class="modal-body">
-                        <p>Lets edit the user</p>
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" id="updateModal" class="btn btn-primary" onclick="updateFromModal()">Update</button>
-                    </div>
+    </div>
+    <div id="editUserModal" class="modal fade" tabindex="-1" aria-labelledby="editUserModal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Edit User</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div id="userEditModalBody" class="modal-body">
+                    <p>Lets edit the user</p>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" id="updateModal" class="btn btn-primary" onclick="updateFromModal()">Update</button>
                 </div>
             </div>
         </div>
-        <div id="resetUserModal" class="modal fade" tabindex="-1" aria-labelledby="resetUserModal" aria-hidden="true">
-            <div class="modal-dialog">
-                <div class="modal-content">
-                    <div id="resetModalBody" class="modal-body">
-                        <p>Lets edit the user</p>
-                    </div>
+    </div>
+    <div id="resetUserModal" class="modal fade" tabindex="-1" aria-labelledby="resetUserModal" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div id="resetModalBody" class="modal-body">
+                    <p>Lets edit the user</p>
                 </div>
             </div>
         </div>
-        <script src="/js/core/popper.min.js" type="text/javascript"></script>
-        <script src="/js/core/bootstrap-5.min.js" type="text/javascript"></script>
-    </form>
+    </div>
+    <script src="/js/core/popper.min.js" type="text/javascript"></script>
+    <script src="/js/core/bootstrap-5.min.js" type="text/javascript"></script>
 </body>
 </html>

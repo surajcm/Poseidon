@@ -2,7 +2,6 @@ package com.poseidon.company.dao;
 
 import com.poseidon.company.dao.entities.CompanyTerms;
 import com.poseidon.company.dao.repo.CompanyRepository;
-import com.poseidon.company.domain.CompanyTermsVO;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
@@ -27,24 +26,22 @@ public class CompanyDAO {
 
      * @return CompanyTermsVO
      */
-    public Optional<CompanyTermsVO> listCompanyTerms(final String companyCode) {
-        var companyTerms = companyRepository.findByCompanyCode(companyCode);
-        return companyTerms.map(this::convertToCompanyTermsVO);
+    public Optional<CompanyTerms> listCompanyTerms(final String companyCode) {
+        return companyRepository.findByCompanyCode(companyCode);
     }
 
     /**
      * update company details.
      *
-     * @param companyTermsVO companyTermsVO
+     * @param companyTerms companyTerms
      * @return CompanyTermsVO
      */
-    public Optional<CompanyTermsVO> updateCompanyDetails(final CompanyTermsVO companyTermsVO) {
+    public Optional<CompanyTerms> updateCompanyDetails(final CompanyTerms companyTerms) {
         var optionalCompanyTerms =
                 sneak(companyRepository::findFirstByOrderByIdAsc);
         return optionalCompanyTerms
-                .map(terms -> getCompanyTerms(companyTermsVO, terms))
-                .map(companyRepository::save)
-                .map(this::convertToCompanyTermsVO);
+                .map(c -> updateCompany(c, companyTerms))
+                .map(companyRepository::save);
     }
 
     public boolean isValidCompanyCode(final String companyCode) {
@@ -52,32 +49,18 @@ public class CompanyDAO {
         return companyTerms.isPresent();
     }
 
-    private CompanyTermsVO convertToCompanyTermsVO(final CompanyTerms companyTerms) {
-        var companyTermsVO = new CompanyTermsVO();
-        companyTermsVO.setCompanyName(companyTerms.getCompanyName());
-        companyTermsVO.setCompanyAddress(companyTerms.getCompanyAddress());
-        companyTermsVO.setCompanyPhoneNumber(companyTerms.getCompanyPhone());
-        companyTermsVO.setCompanyEmail(companyTerms.getCompanyEmail());
-        companyTermsVO.setCompanyWebsite(companyTerms.getCompanyWebsite());
-        companyTermsVO.setCompanyCode(companyTerms.getCompanyCode());
-        companyTermsVO.setCompanyVatTin(companyTerms.getVatTin());
-        companyTermsVO.setCompanyCstTin(companyTerms.getCstTin());
-        companyTermsVO.setTermsAndConditions(companyTerms.getTerms());
-        return companyTermsVO;
-    }
-
-    private CompanyTerms getCompanyTerms(final CompanyTermsVO companyTermsVO,
+    private CompanyTerms updateCompany(final CompanyTerms fromDB,
                                          final CompanyTerms companyTerms) {
-        companyTerms.setCompanyName(companyTermsVO.getCompanyName());
-        companyTerms.setTerms(companyTermsVO.getTermsAndConditions());
-        companyTerms.setCompanyAddress(companyTermsVO.getCompanyAddress());
-        companyTerms.setCompanyPhone(companyTermsVO.getCompanyPhoneNumber());
-        companyTerms.setCompanyEmail(companyTermsVO.getCompanyEmail());
-        companyTerms.setCompanyWebsite(companyTermsVO.getCompanyWebsite());
-        companyTerms.setCompanyCode(companyTermsVO.getCompanyCode());
-        companyTerms.setVatTin(companyTermsVO.getCompanyVatTin());
-        companyTerms.setCstTin(companyTermsVO.getCompanyCstTin());
-        companyTerms.setModifiedBy(companyTermsVO.getModifiedBy());
-        return companyTerms;
+        fromDB.setCompanyName(companyTerms.getCompanyName());
+        fromDB.setTerms(companyTerms.getTerms());
+        fromDB.setCompanyAddress(companyTerms.getCompanyAddress());
+        fromDB.setCompanyPhone(companyTerms.getCompanyPhone());
+        fromDB.setCompanyEmail(companyTerms.getCompanyEmail());
+        fromDB.setCompanyWebsite(companyTerms.getCompanyWebsite());
+        fromDB.setCompanyCode(companyTerms.getCompanyCode());
+        fromDB.setVatTin(companyTerms.getVatTin());
+        fromDB.setCstTin(companyTerms.getCstTin());
+        fromDB.setModifiedBy(companyTerms.getModifiedBy());
+        return fromDB;
     }
 }
