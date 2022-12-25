@@ -14,10 +14,10 @@ import jakarta.persistence.Table;
 public class CompanyTerms extends CommonEntity {
 
     @Column(name = "name")
-    private String companyName;
+    private String name;
 
     @Column(name = "code")
-    private String companyCode;
+    private String code;
 
     @Column(name = "address")
     private String companyAddress;
@@ -56,20 +56,20 @@ public class CompanyTerms extends CommonEntity {
         this.companyAddress = companyAddress;
     }
 
-    public String getCompanyName() {
-        return companyName;
+    public String getName() {
+        return name;
     }
 
-    public void setCompanyName(final String companyName) {
-        this.companyName = companyName;
+    public void setName(final String companyName) {
+        this.name = companyName;
     }
 
-    public String getCompanyCode() {
-        return companyCode;
+    public String getCode() {
+        return code;
     }
 
-    public void setCompanyCode(final String companyCode) {
-        this.companyCode = companyCode;
+    public void setCode(final String companyCode) {
+        this.code = companyCode;
     }
 
     public String getCompanyPhone() {

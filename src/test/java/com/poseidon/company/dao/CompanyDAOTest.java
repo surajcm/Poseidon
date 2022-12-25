@@ -46,13 +46,13 @@ class CompanyDAOTest {
 
     @Test
     void isValidCompanyCode() {
-        when(companyRepository.findByCompanyCode(anyString())).thenReturn(Optional.of(mockCompanyTerms()));
+        when(companyRepository.findByCode(anyString())).thenReturn(Optional.of(mockCompanyTerms()));
         Assertions.assertTrue(companyDAO.isValidCompanyCode("ABC"));
     }
 
     private CompanyTerms mockCompanyTerms() {
         var companyTerms = new CompanyTerms();
-        companyTerms.setCompanyName("ABC");
+        companyTerms.setName("ABC");
         companyTerms.setTerms("ABC");
         companyTerms.setCompanyAddress("ABC");
         companyTerms.setCompanyPhone("ABC");

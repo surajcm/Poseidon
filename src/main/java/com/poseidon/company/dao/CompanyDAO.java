@@ -27,7 +27,7 @@ public class CompanyDAO {
      * @return CompanyTermsVO
      */
     public Optional<CompanyTerms> listCompanyTerms(final String companyCode) {
-        return companyRepository.findByCompanyCode(companyCode);
+        return companyRepository.findByCode(companyCode);
     }
 
     /**
@@ -45,19 +45,19 @@ public class CompanyDAO {
     }
 
     public boolean isValidCompanyCode(final String companyCode) {
-        var companyTerms = companyRepository.findByCompanyCode(companyCode);
+        var companyTerms = companyRepository.findByCode(companyCode);
         return companyTerms.isPresent();
     }
 
     private CompanyTerms updateCompany(final CompanyTerms fromDB,
                                          final CompanyTerms companyTerms) {
-        fromDB.setCompanyName(companyTerms.getCompanyName());
+        fromDB.setName(companyTerms.getName());
         fromDB.setTerms(companyTerms.getTerms());
         fromDB.setCompanyAddress(companyTerms.getCompanyAddress());
         fromDB.setCompanyPhone(companyTerms.getCompanyPhone());
         fromDB.setCompanyEmail(companyTerms.getCompanyEmail());
         fromDB.setCompanyWebsite(companyTerms.getCompanyWebsite());
-        fromDB.setCompanyCode(companyTerms.getCompanyCode());
+        fromDB.setCode(companyTerms.getCode());
         fromDB.setVatTin(companyTerms.getVatTin());
         fromDB.setCstTin(companyTerms.getCstTin());
         fromDB.setModifiedBy(companyTerms.getModifiedBy());

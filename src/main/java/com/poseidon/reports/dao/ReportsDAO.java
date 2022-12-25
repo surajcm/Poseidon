@@ -60,7 +60,7 @@ public class ReportsDAO {
                                      final ReportsVO currentReport,
                                      final CompanyTerms companyTerms) throws JRException {
         if (companyTerms != null) {
-            currentReport.getTransactionReportVO().setCompanyName(companyTerms.getCompanyName());
+            currentReport.getTransactionReportVO().setCompanyName(companyTerms.getName());
             currentReport.getTransactionReportVO().setCompanyAddress(companyTerms.getCompanyAddress());
             currentReport.getTransactionReportVO().setCompanyPhoneNumber(companyTerms.getCompanyPhone());
             currentReport.getTransactionReportVO().setCompanyWebsite(companyTerms.getCompanyWebsite());

@@ -10,5 +10,5 @@ import java.util.Optional;
 public interface CompanyRepository extends JpaRepository<CompanyTerms, Long> {
     Optional<CompanyTerms> findFirstByOrderByIdAsc();
 
-    Optional<CompanyTerms> findByCompanyCode(String companyCode);
+    Optional<CompanyTerms> findByCode(String code);
 }

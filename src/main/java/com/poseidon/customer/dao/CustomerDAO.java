@@ -14,13 +14,11 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
-import org.springframework.util.StringUtils;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.StreamSupport;
 
 import static com.rainerhahnekamp.sneakythrow.Sneaky.sneak;
 import static com.rainerhahnekamp.sneakythrow.Sneaky.sneaked;
@@ -49,11 +47,9 @@ public class CustomerDAO {
      *
      * @return list customer vo
      */
-    public List<CustomerVO> listAllCustomerDetails() {
-        var customers = sneak(() ->
-                StreamSupport.stream(customerRepository.findAll().spliterator(), true)
-                        .toList());
-        return convertToCustomerVO(customers);
+    public List<Customer> listAllCustomerDetails() {
+        return sneak(() ->
+                customerRepository.findAll().parallelStream().toList());
     }
 
     /**
@@ -71,13 +67,12 @@ public class CustomerDAO {
     /**
      * save customer.
      *
-     * @param currentCustomerVo currentCustomerVo
+     * @param currentCustomerVO currentCustomerVo
      * @return long
      */
-    public CustomerVO saveCustomer(final CustomerVO currentCustomerVo) {
-        var customer = convertToSingleCustomer(currentCustomerVo);
+    public CustomerVO saveCustomer(final CustomerVO currentCustomerVO, final Customer customer) {
         var newCustomer = sneak(() -> customerRepository.save(customer));
-        saveAdditionalDetails(currentCustomerVo, newCustomer);
+        saveAdditionalDetails(currentCustomerVO, newCustomer);
         return convertToSingleCustomerVO(newCustomer);
     }
 
@@ -228,10 +223,10 @@ public class CustomerDAO {
         if (!ObjectUtils.isEmpty(searchVO.getCustomerId())) {
             customerSpec.add(new SearchCriteria("id", searchVO.getCustomerId(), SearchOperation.EQUAL));
         }
-        if (StringUtils.trimWhitespace(searchVO.getCustomerName()).length() > 0) {
+        if (searchVO.getCustomerName().strip().length() > 0) {
             customerSpec.add(new SearchCriteria("name", searchVO.getCustomerName(), search));
         }
-        if (StringUtils.trimWhitespace(searchVO.getMobile()).length() > 0) {
+        if (searchVO.getMobile().strip().length() > 0) {
             customerSpec.add(new SearchCriteria(MOBILE, searchVO.getMobile(), search));
         }
         List<Customer> resultCustomers = sneak(() -> customerRepository.findAll(customerSpec));

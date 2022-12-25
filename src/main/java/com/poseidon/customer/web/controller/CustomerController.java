@@ -1,5 +1,6 @@
 package com.poseidon.customer.web.controller;
 
+import com.poseidon.customer.dao.entities.Customer;
 import com.poseidon.customer.domain.CustomerAdditionalDetailsVO;
 import com.poseidon.customer.domain.CustomerVO;
 import com.poseidon.customer.service.CustomerService;
@@ -51,7 +52,7 @@ public class CustomerController {
     @PostMapping("/customer/List")
     public String listAllCustomers(final CustomerForm customerForm, final Model model) {
         logIncoming(customerForm);
-        List<CustomerVO> customerVOs = customerService.listAllCustomerDetails();
+        List<CustomerVO> customerVOs = listCustomers();
         if (!customerVOs.isEmpty()) {
             customerVOs.forEach(customerVO -> logger.info("customerVO is {}", customerVO));
             customerForm.setCustomerVOs(customerVOs);
@@ -163,7 +164,8 @@ public class CustomerController {
     }
 
     private List<CustomerVO> listCustomers() {
-        return customerService.listAllCustomerDetails();
+        var customers =  customerService.listAllCustomerDetails();
+        return convertToCustomerVO(customers);
     }
 
     public String findLoggedInUsername() {
@@ -315,6 +317,23 @@ public class CustomerController {
 
     private Optional<CustomerVO> getCustomerVOFromId(final Long id) {
         return customerService.getCustomerFromId(id);
+    }
+
+    private List<CustomerVO> convertToCustomerVO(final List<Customer> customers) {
+        return customers.stream().map(this::convertToSingleCustomerVO).toList();
+    }
+
+    private CustomerVO convertToSingleCustomerVO(final Customer customer) {
+        var customerVO = new CustomerVO();
+        customerVO.setCustomerId(customer.getId());
+        customerVO.setCustomerName(customer.getName());
+        customerVO.setAddress(customer.getAddress());
+        customerVO.setPhoneNo(customer.getPhone());
+        customerVO.setMobile(customer.getMobile());
+        customerVO.setEmail(customer.getEmail());
+        customerVO.setCreatedBy(customer.getCreatedBy());
+        customerVO.setModifiedBy(customer.getModifiedBy());
+        return customerVO;
     }
 
 }

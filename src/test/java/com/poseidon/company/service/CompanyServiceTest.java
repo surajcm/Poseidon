@@ -20,7 +20,7 @@ class CompanyServiceTest {
         when(companyDAO.listCompanyTerms("QC01")).thenReturn(mockCompanyTerms());
         var companyTermsVO = companyService.listCompanyTerms("QC01");
         Assertions.assertTrue(companyTermsVO.isPresent());
-        Assertions.assertEquals("ABC", companyTermsVO.get().getCompanyName());
+        Assertions.assertEquals("ABC", companyTermsVO.get().getName());
     }
 
     @Test
@@ -28,7 +28,7 @@ class CompanyServiceTest {
         when(companyDAO.updateCompanyDetails(any())).thenReturn(mockCompanyTerms());
         var companyTermsVO = companyService.updateCompanyDetails(new CompanyTerms());
         Assertions.assertTrue(companyTermsVO.isPresent());
-        Assertions.assertEquals("ABC", companyTermsVO.get().getCompanyName());
+        Assertions.assertEquals("ABC", companyTermsVO.get().getName());
     }
 
     @Test
@@ -39,7 +39,7 @@ class CompanyServiceTest {
 
     private Optional<CompanyTerms> mockCompanyTerms() {
         var companyTerms = new CompanyTerms();
-        companyTerms.setCompanyName("ABC");
+        companyTerms.setName("ABC");
         return Optional.of(companyTerms);
     }
 }

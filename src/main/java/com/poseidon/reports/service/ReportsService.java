@@ -234,7 +234,7 @@ public class ReportsService {
     private void updateCompanyInfo(final InvoiceReportVO invoiceReportVO, final String companyCode) {
         var companyTerms = companyService.listCompanyTerms(companyCode);
         if (companyTerms.isPresent()) {
-            invoiceReportVO.setCompanyName(companyTerms.get().getCompanyName());
+            invoiceReportVO.setCompanyName(companyTerms.get().getName());
             invoiceReportVO.setCompanyAddress(companyTerms.get().getCompanyAddress());
             invoiceReportVO.setCompanyPhoneNumber(companyTerms.get().getCompanyPhone());
             invoiceReportVO.setCompanyWebsite(companyTerms.get().getCompanyWebsite());

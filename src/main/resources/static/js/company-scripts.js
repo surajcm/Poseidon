@@ -4,8 +4,8 @@ function editMe() {
 }
 
 function makeEverythingWritable() {
-    document.getElementById("companyName").style.background = "#FFFFFF";
-    document.getElementById('companyName').readOnly = false;
+    document.getElementById("name").style.background = "#FFFFFF";
+    document.getElementById('name').readOnly = false;
     document.getElementById("companyPhone").style.background = "#FFFFFF";
     document.getElementById('companyPhone').readOnly = false;
     document.getElementById("companyEmail").style.background = "#FFFFFF";
@@ -16,8 +16,8 @@ function makeEverythingWritable() {
     document.getElementById('companyAddress').readOnly = false;
     document.getElementById("terms").style.background = "#FFFFFF";
     document.getElementById('terms').readOnly = false;
-    document.getElementById("companyCode").style.background = "#FFFFFF";
-    document.getElementById('companyCode').readOnly = false;
+    document.getElementById("code").style.background = "#FFFFFF";
+    document.getElementById('code').readOnly = false;
     document.getElementById("vatTin").style.background = "#FFFFFF";
     document.getElementById('vatTin').readOnly = false;
     document.getElementById("cstTin").style.background = "#FFFFFF";
@@ -40,8 +40,8 @@ function hideUpdate() {
 }
 
 function makeEverythingReadOnly() {
-    document.getElementById('companyName').readOnly = true;
-    document.getElementById("companyName").style.background = "#A9A9A9";
+    document.getElementById('name').readOnly = true;
+    document.getElementById("name").style.background = "#A9A9A9";
     document.getElementById('companyPhone').readOnly = true;
     document.getElementById("companyPhone").style.background = "#A9A9A9";
     document.getElementById('companyEmail').readOnly = true;
@@ -52,8 +52,8 @@ function makeEverythingReadOnly() {
     document.getElementById("companyAddress").style.background = "#A9A9A9";
     document.getElementById('terms').readOnly = true;
     document.getElementById("terms").style.background = "#A9A9A9";
-    document.getElementById('companyCode').readOnly = true;
-    document.getElementById("companyCode").style.background = "#A9A9A9";
+    document.getElementById('code').readOnly = true;
+    document.getElementById("code").style.background = "#A9A9A9";
     document.getElementById('vatTin').readOnly = true;
     document.getElementById("vatTin").style.background = "#A9A9A9";
     document.getElementById('cstTin').readOnly = true;
@@ -66,13 +66,13 @@ function updateCompanyDetails() {
 }
 
 function clearOut() {
-    document.getElementById('companyName').value = "";
+    document.getElementById('name').value = "";
     document.getElementById('companyPhone').value = "";
     document.getElementById('companyEmail').value = "";
     document.getElementById('companyWebsite').value = "";
     document.getElementById('companyAddress').value = "";
     document.getElementById('terms').value = "";
-    document.getElementById('companyCode').value = "";
+    document.getElementById('code').value = "";
     document.getElementById('vatTin').value = "";
     document.getElementById('cstTin').value = "";
 }
