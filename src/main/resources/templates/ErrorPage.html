@@ -15,16 +15,16 @@
     <script type="text/javascript" src="/js/navbar-scripts.js"></script>
 </head>
 <body>
+    <div th:insert="~{navbar :: navbar}"></div>
     <form method="POST">
         <input type="hidden" name="id" id="id" />
-        <div th:insert="navbar :: navbar"></div>
         <section class="jumbotron center">
             <div class="error">
                 <label> An error has been occurred while processing the page</label>
             </div>
         </section>
-        <script src="/js/core/popper.min.js" type="text/javascript"></script>
-        <script src="/js/core/bootstrap-5.min.js" type="text/javascript"></script>
     </form>
+    <script src="/js/core/popper.min.js" type="text/javascript"></script>
+    <script src="/js/core/bootstrap-5.min.js" type="text/javascript"></script>
 </body>
 </html>

@@ -13,26 +13,26 @@ import jakarta.persistence.Table;
 @Table(name = "companyterms")
 public class CompanyTerms extends CommonEntity {
 
-    @Column(name = "terms")
-    private String terms;
-
-    @Column(name = "companyAddress")
-    private String companyAddress;
-
-    @Column(name = "companyName")
+    @Column(name = "name")
     private String companyName;
 
-    @Column(name = "companyCode")
+    @Column(name = "code")
     private String companyCode;
 
-    @Column(name = "companyPhone")
+    @Column(name = "address")
+    private String companyAddress;
+
+    @Column(name = "phone")
     private String companyPhone;
 
-    @Column(name = "companyEmail")
+    @Column(name = "email")
     private String companyEmail;
 
-    @Column(name = "companyWebsite")
+    @Column(name = "website")
     private String companyWebsite;
+
+    @Column(name = "terms")
+    private String terms;
 
     @Column(name = "vatTin")
     private String vatTin;

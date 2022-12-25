@@ -1,6 +1,6 @@
 package com.poseidon.reports.dao;
 
-import com.poseidon.company.domain.CompanyTermsVO;
+import com.poseidon.company.dao.entities.CompanyTerms;
 import com.poseidon.reports.domain.ReportsVO;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperFillManager;
@@ -52,22 +52,22 @@ public class ReportsDAO {
      *
      * @param jasperReport   jasperReport
      * @param currentReport  currentReport
-     * @param companyTermsVO companyTermsVO
+     * @param companyTerms companyTerms
      * @return JasperPrint
      * @throws JRException on error
      */
     public JasperPrint getCallReport(final JasperReport jasperReport,
                                      final ReportsVO currentReport,
-                                     final CompanyTermsVO companyTermsVO) throws JRException {
-        if (companyTermsVO != null) {
-            currentReport.getTransactionReportVO().setCompanyName(companyTermsVO.getCompanyName());
-            currentReport.getTransactionReportVO().setCompanyAddress(companyTermsVO.getCompanyAddress());
-            currentReport.getTransactionReportVO().setCompanyPhoneNumber(companyTermsVO.getCompanyPhoneNumber());
-            currentReport.getTransactionReportVO().setCompanyWebsite(companyTermsVO.getCompanyWebsite());
-            currentReport.getTransactionReportVO().setCompanyEmail(companyTermsVO.getCompanyEmail());
-            currentReport.getTransactionReportVO().setTermsAndConditions(companyTermsVO.getTermsAndConditions());
+                                     final CompanyTerms companyTerms) throws JRException {
+        if (companyTerms != null) {
+            currentReport.getTransactionReportVO().setCompanyName(companyTerms.getCompanyName());
+            currentReport.getTransactionReportVO().setCompanyAddress(companyTerms.getCompanyAddress());
+            currentReport.getTransactionReportVO().setCompanyPhoneNumber(companyTerms.getCompanyPhone());
+            currentReport.getTransactionReportVO().setCompanyWebsite(companyTerms.getCompanyWebsite());
+            currentReport.getTransactionReportVO().setCompanyEmail(companyTerms.getCompanyEmail());
+            currentReport.getTransactionReportVO().setTermsAndConditions(companyTerms.getTerms());
             //todo : fix it
-            currentReport.getTransactionReportVO().setDateReported(companyTermsVO.getCreatedDate());
+            currentReport.getTransactionReportVO().setDateReported(companyTerms.getCreatedOn());
         }
         var reportVOs =
                 Collections.singletonList(currentReport.getTransactionReportVO());

@@ -1,7 +1,7 @@
 package com.poseidon.company.web.controller;
 
 import com.poseidon.company.CompanyTermsConfigurations;
-import com.poseidon.company.domain.CompanyTermsVO;
+import com.poseidon.company.dao.entities.CompanyTerms;
 import com.poseidon.company.service.CompanyService;
 import com.poseidon.user.dao.entities.Role;
 import com.poseidon.user.dao.entities.User;
@@ -65,7 +65,7 @@ class CompanyControllerTest {
     @Test
     void list() throws Exception {
         when(userService.findUserFromName(anyString())).thenReturn(mockUser());
-        when(companyService.listCompanyTerms(anyString())).thenReturn(Optional.of(new CompanyTermsVO()));
+        when(companyService.listCompanyTerms(anyString())).thenReturn(Optional.of(new CompanyTerms()));
         mvc.perform(post("/company/company")).andExpect(status().isOk());
     }
 
@@ -78,7 +78,7 @@ class CompanyControllerTest {
 
     @Test
     void updateCompanyDetails() throws Exception {
-        when(companyService.updateCompanyDetails(any())).thenReturn(Optional.of(new CompanyTermsVO()));
+        when(companyService.updateCompanyDetails(any())).thenReturn(Optional.of(new CompanyTerms()));
         mvc.perform(post("/company/updateCompanyDetails")).andExpect(status().isOk());
     }
 }

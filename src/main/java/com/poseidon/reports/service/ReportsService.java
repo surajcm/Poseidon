@@ -1,6 +1,6 @@
 package com.poseidon.reports.service;
 
-import com.poseidon.company.domain.CompanyTermsVO;
+import com.poseidon.company.dao.entities.CompanyTerms;
 import com.poseidon.company.service.CompanyService;
 import com.poseidon.init.util.CommonUtils;
 import com.poseidon.invoice.domain.InvoiceReportVO;
@@ -98,13 +98,13 @@ public class ReportsService {
         return jasperPrint;
     }
 
-    private CompanyTermsVO getCompanyTerms() {
-        var companyTermsVO = companyService.listCompanyTerms("QC01");
-        CompanyTermsVO companyTerms = null;
-        if (companyTermsVO.isPresent()) {
-            companyTerms = companyTermsVO.get();
+    private CompanyTerms getCompanyTerms() {
+        var companyTerms = companyService.listCompanyTerms("QC01");
+        CompanyTerms terms = null;
+        if (companyTerms.isPresent()) {
+            terms = companyTerms.get();
         }
-        return companyTerms;
+        return terms;
     }
 
     private TransactionReportVO getTransactionReportVO(final String tagNo) {
@@ -179,11 +179,13 @@ public class ReportsService {
      * @param currentReport currentReport
      * @return JasperPrint
      */
-    public JasperPrint getInvoiceReport(final JasperReport jasperReport, final ReportsVO currentReport) {
+    public JasperPrint getInvoiceReport(final JasperReport jasperReport,
+                                        final ReportsVO currentReport,
+                                        final String companyCode) {
         var transaction = getTransactionReportVO(currentReport.getTagNo());
         var invoiceVO = getInvoiceVOFromTag(transaction);
         if (invoiceVO != null) {
-            currentReport.setInvoiceReportVO(getInvoiceReportVO(transaction, invoiceVO));
+            currentReport.setInvoiceReportVO(getInvoiceReportVO(transaction, invoiceVO, companyCode));
         }
         var jasperPrint = new JasperPrint();
         try {
@@ -202,11 +204,13 @@ public class ReportsService {
         return invoiceVO;
     }
 
-    private InvoiceReportVO getInvoiceReportVO(final TransactionReportVO transactionVO, final InvoiceVO invoiceVO) {
+    private InvoiceReportVO getInvoiceReportVO(final TransactionReportVO transactionVO,
+                                               final InvoiceVO invoiceVO,
+                                               final String companyCode) {
         var invoiceReportVO = new InvoiceReportVO();
         updateInvoiceInfo(invoiceReportVO, invoiceVO);
         updateTransactionInfo(invoiceReportVO, transactionVO);
-        updateCompanyInfo(invoiceReportVO);
+        updateCompanyInfo(invoiceReportVO, companyCode);
         return invoiceReportVO;
     }
 
@@ -227,17 +231,17 @@ public class ReportsService {
         invoiceReportVO.setCustomerAddress(transactionVO.getAddress());
     }
 
-    private void updateCompanyInfo(final InvoiceReportVO invoiceReportVO) {
-        var companyTermsVO = companyService.listCompanyTerms("QC01");
-        if (companyTermsVO.isPresent()) {
-            invoiceReportVO.setCompanyName(companyTermsVO.get().getCompanyName());
-            invoiceReportVO.setCompanyAddress(companyTermsVO.get().getCompanyAddress());
-            invoiceReportVO.setCompanyPhoneNumber(companyTermsVO.get().getCompanyPhoneNumber());
-            invoiceReportVO.setCompanyWebsite(companyTermsVO.get().getCompanyWebsite());
-            invoiceReportVO.setCompanyEmail(companyTermsVO.get().getCompanyEmail());
-            invoiceReportVO.setTermsAndConditions(companyTermsVO.get().getTermsAndConditions());
-            invoiceReportVO.setCompanyVatTin(companyTermsVO.get().getCompanyVatTin());
-            invoiceReportVO.setCompanyCstTin(companyTermsVO.get().getCompanyCstTin());
+    private void updateCompanyInfo(final InvoiceReportVO invoiceReportVO, final String companyCode) {
+        var companyTerms = companyService.listCompanyTerms(companyCode);
+        if (companyTerms.isPresent()) {
+            invoiceReportVO.setCompanyName(companyTerms.get().getCompanyName());
+            invoiceReportVO.setCompanyAddress(companyTerms.get().getCompanyAddress());
+            invoiceReportVO.setCompanyPhoneNumber(companyTerms.get().getCompanyPhone());
+            invoiceReportVO.setCompanyWebsite(companyTerms.get().getCompanyWebsite());
+            invoiceReportVO.setCompanyEmail(companyTerms.get().getCompanyEmail());
+            invoiceReportVO.setTermsAndConditions(companyTerms.get().getTerms());
+            invoiceReportVO.setCompanyVatTin(companyTerms.get().getVatTin());
+            invoiceReportVO.setCompanyCstTin(companyTerms.get().getCstTin());
         }
     }
 

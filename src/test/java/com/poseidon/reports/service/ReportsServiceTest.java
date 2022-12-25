@@ -1,6 +1,6 @@
 package com.poseidon.reports.service;
 
-import com.poseidon.company.domain.CompanyTermsVO;
+import com.poseidon.company.dao.entities.CompanyTerms;
 import com.poseidon.company.service.CompanyService;
 import com.poseidon.invoice.domain.InvoiceVO;
 import com.poseidon.invoice.service.InvoiceService;
@@ -101,7 +101,7 @@ class ReportsServiceTest {
     void getInvoiceReportSuccess() throws JRException {
         when(reportsDAO.getInvoiceReport(any(), any())).thenReturn(Mockito.mock(JasperPrint.class));
         Assertions.assertNotNull(reportsService.getInvoiceReport(Mockito.mock(JasperReport.class),
-                new ReportsVO()));
+                new ReportsVO(), "QC01"));
     }
 
     @Test
@@ -111,7 +111,7 @@ class ReportsServiceTest {
         when(companyService.listCompanyTerms("QC01")).thenReturn(Optional.empty());
         when(reportsDAO.getInvoiceReport(any(), any())).thenThrow(new JRException("ERROR"));
         Assertions.assertNotNull(reportsService.getInvoiceReport(Mockito.mock(JasperReport.class),
-                new ReportsVO()));
+                new ReportsVO(), "QC01"));
     }
 
     @Test
@@ -121,10 +121,10 @@ class ReportsServiceTest {
         List<InvoiceVO> invoiceVO = new ArrayList<>();
         invoiceVO.add(Mockito.mock(InvoiceVO.class));
         when(invoiceService.findInvoices(any())).thenReturn(invoiceVO);
-        when(companyService.listCompanyTerms("QC01")).thenReturn(Optional.of(Mockito.mock(CompanyTermsVO.class)));
+        when(companyService.listCompanyTerms("QC01")).thenReturn(Optional.of(Mockito.mock(CompanyTerms.class)));
         when(reportsDAO.getInvoiceReport(any(), any())).thenThrow(new JRException("ERROR"));
         Assertions.assertNotNull(reportsService.getInvoiceReport(Mockito.mock(JasperReport.class),
-                new ReportsVO()));
+                new ReportsVO(), "QC01"));
     }
 
 }

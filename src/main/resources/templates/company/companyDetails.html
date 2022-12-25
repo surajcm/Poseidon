@@ -16,23 +16,23 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security/">
     <script type="text/javascript" src="/js/navbar-scripts.js"></script>
 </head>
 <body onload="hideUpdate()">
-    <form method="POST" th:object="${companyTermsVO}">
-        <div th:insert="navbar :: navbar"></div>
-        <div class="container">
-            <div class="wrap">
-                <div class="card">
-                    <div class="card-header">
-                        Company Details
-                    </div>
-                    <div class="card-body">
+    <div th:insert="~{navbar :: navbar}"></div>
+    <div class="container">
+        <div class="wrap">
+            <div class="card">
+                <div class="card-header">
+                    Company Details
+                </div>
+                <div class="card-body">
+                    <form method="POST" th:object="${companyTerms}">
                         <div class="row g-3">
                             <div class="col-md-3">
                               <label for="companyName" class="form-label">Company Name :</label>
                               <input th:field="*{companyName}" class="form-control" id="companyName"/>
                             </div>
                             <div class="col-md-3">
-                              <label for="companyPhoneNumber" class="form-label">Company Phone Number :</label>
-                              <input th:field="*{companyPhoneNumber}" class="form-control" id="companyPhoneNumber"/>
+                              <label for="companyPhone" class="form-label">Company Phone Number :</label>
+                              <input th:field="*{companyPhone}" class="form-control" id="companyPhone"/>
                             </div>
                             <div class="col-md-3">
                               <label for="companyEmail" class="form-label">Company email :</label>
@@ -48,21 +48,21 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security/">
                                           id="companyAddress"></textarea>
                             </div>
                             <div class="col-md-6">
-                              <label for="termsAndConditions" class="form-label">Company Terms & Conditions :</label>
-                              <textarea th:field="*{termsAndConditions}" rows="5" cols="30" class="form-control"
-                                           id="termsAndConditions"></textarea>
+                              <label for="terms" class="form-label">Company Terms & Conditions :</label>
+                              <textarea th:field="*{terms}" rows="5" cols="30" class="form-control"
+                                           id="terms"></textarea>
                             </div>
                             <div class="col-md-3">
                               <label for="vat_tin" class="form-label">Company code :</label>
                               <input th:field="*{companyCode}" class="form-control" id="companyCode"/>
                             </div>
                             <div class="col-md-3">
-                              <label for="vat_tin" class="form-label">Company's VAT TIN :</label>
-                              <input th:field="*{companyVatTin}" class="form-control" id="vat_tin"/>
+                              <label for="vatTin" class="form-label">Company's VAT TIN :</label>
+                              <input th:field="*{vatTin}" class="form-control" id="vatTin"/>
                             </div>
                             <div class="col-md-3">
-                              <label for="cst_tin" class="form-label">Company's CST TIN :</label>
-                              <input th:field="*{companyCstTin}" class="form-control" id="cst_tin"/>
+                              <label for="cstTin" class="form-label">Company's CST TIN :</label>
+                              <input th:field="*{cstTin}" class="form-control" id="cstTin"/>
                             </div>
                             <div class="col-md-3">
                               <label for="uploadImage" class="form-label">Company Logo :</label>
@@ -75,12 +75,12 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security/">
                                 <input type="button" class="btn btn-primary" id="cancel" value="Cancel" onclick="cancelMe();"/>
                             </div>
                         </div>
-                    </div>
+                    </form>
                 </div>
             </div>
         </div>
-        <script src="/js/core/popper.min.js" type="text/javascript"></script>
-        <script src="/js/core/bootstrap-5.min.js" type="text/javascript"></script>
-    </form>
+    </div>
+    <script src="/js/core/popper.min.js" type="text/javascript"></script>
+    <script src="/js/core/bootstrap-5.min.js" type="text/javascript"></script>
 </body>
 </html>

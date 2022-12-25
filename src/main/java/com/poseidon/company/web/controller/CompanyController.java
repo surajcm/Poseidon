@@ -1,6 +1,6 @@
 package com.poseidon.company.web.controller;
 
-import com.poseidon.company.domain.CompanyTermsVO;
+import com.poseidon.company.dao.entities.CompanyTerms;
 import com.poseidon.company.service.CompanyService;
 import com.poseidon.user.service.UserService;
 import org.slf4j.Logger;
@@ -38,9 +38,13 @@ public class CompanyController {
         logger.info("Inside Company method of CompanyTermsController");
         var companyCode = activeCompanyCode();
         logger.info("companyCode is {}", companyCode);
-        var companyTermsVO = fetchCompanyTerms(companyCode);
-        model.addAttribute("companyTermsVO", companyTermsVO);
+        var companyTerms = fetchCompanyTerms(companyCode);
+        model.addAttribute("companyTerms", companyTerms);
         return "company/companyDetails";
+    }
+
+    private Optional<CompanyTerms> fetchCompanyTerms(final String companyCode) {
+        return companyService.listCompanyTerms(companyCode);
     }
 
     /**
@@ -49,26 +53,21 @@ public class CompanyController {
      * @return view
      */
     @PostMapping("/company/updateCompanyDetails")
-    public String updateCompanyDetails(@ModelAttribute final CompanyTermsVO companyTermsVO, final Model model) {
+    public String updateCompanyDetails(@ModelAttribute final CompanyTerms companyTerms,
+                                       final Model model) {
         logger.info(" Inside editTerms method of CompanyTermsController");
-        var updatedCompanyTermsVO = updateCompanyTermsVO(companyTermsVO);
-        model.addAttribute("companyTermsVO", updatedCompanyTermsVO);
+        var updatedCompanyTerms = updateCompanyTermsVO(companyTerms);
+        model.addAttribute("companyTerms", updatedCompanyTerms);
         return "company/companyDetails";
     }
 
-    private Optional<CompanyTermsVO> fetchCompanyTerms(final String companyCode) {
-        return companyService.listCompanyTerms(companyCode);
-    }
-
-    private Optional<CompanyTermsVO> updateCompanyTermsVO(final CompanyTermsVO companyTermsVO) {
-        if (companyTermsVO != null) {
-            var auth = SecurityContextHolder.getContext().getAuthentication();
-            if (auth != null) {
-                var username = auth.getName();
-                companyTermsVO.setModifiedBy(username);
-            }
+    private Optional<CompanyTerms> updateCompanyTermsVO(final CompanyTerms updated) {
+        var auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth != null) {
+            var username = auth.getName();
+            updated.setModifiedBy(username);
         }
-        return companyService.updateCompanyDetails(companyTermsVO);
+        return companyService.updateCompanyDetails(updated);
     }
 
     private String activeCompanyCode() {
@@ -85,4 +84,5 @@ public class CompanyController {
         }
         return username;
     }
+
 }

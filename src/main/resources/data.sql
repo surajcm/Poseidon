@@ -1,12 +1,12 @@
 
-insert into companyterms (id, companyName, companyCode, companyAddress, companyPhone, companyEmail, companyWebsite,
+insert into companyterms (id, name, code, address, phone, email, website,
                           vatTin, cstTin, terms,createdOn, modifiedOn, createdBy, modifiedBy) values
     (1, 'Queen Consolidated', 'QC01' ,'Star City; Washington', '9999993939','oliver@queen.com',
      'www.queen-industries.com','VAT12345TT','CST12345TT',
      'Queen Consolidated was a company founded by Robert Queen and run primarily by the Queen family.',
      '2012-06-02 00:00:00','2012-06-02 00:00:00','admin','admin');
 
-insert into companyterms (id, companyName, companyCode, companyAddress, companyPhone, companyEmail, companyWebsite,
+insert into companyterms (id, name, code, address, phone, email, website,
                           vatTin, cstTin, terms,createdOn, modifiedOn, createdBy, modifiedBy) values
     (2, 'Wayne Enterprises', 'WE01' ,'Gotham City; New Jersey', '9999993940','bruce@wayne.com',
      'www.wayne-enterprises.com','VAT12567TT','CST12567TT',

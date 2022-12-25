@@ -4,6 +4,7 @@ import com.poseidon.make.service.MakeService;
 import com.poseidon.reports.service.ReportsService;
 import com.poseidon.reports.util.ReportsUtil;
 import com.poseidon.reports.web.controller.ReportsController;
+import com.poseidon.user.service.UserService;
 import org.mockito.Mockito;
 import org.springframework.context.annotation.Bean;
 import org.springframework.test.context.ContextConfiguration;
@@ -14,6 +15,7 @@ public class ReportsConfigurations {
     public ReportsController reportsController() {
         return new ReportsController(Mockito.mock(ReportsService.class),
                 Mockito.mock(MakeService.class),
+                Mockito.mock(UserService.class),
                 Mockito.mock(ReportsUtil.class));
     }
 

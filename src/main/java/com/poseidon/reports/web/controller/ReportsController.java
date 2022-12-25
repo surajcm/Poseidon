@@ -10,12 +10,14 @@ import com.poseidon.reports.service.ReportsService;
 import com.poseidon.reports.util.ReportsUtil;
 import com.poseidon.reports.web.form.ReportsForm;
 import com.poseidon.transaction.domain.TransactionVO;
+import com.poseidon.user.service.UserService;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperReport;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.io.ClassPathResource;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -43,13 +45,16 @@ public class ReportsController {
 
     private final ReportsService reportsService;
     private final MakeService makeService;
+    private final UserService userService;
     private final ReportsUtil reportsUtil;
 
     public ReportsController(final ReportsService reportsService,
                              final MakeService makeService,
+                             final UserService userService,
                              final ReportsUtil reportsUtil) {
         this.reportsService = reportsService;
         this.makeService = makeService;
+        this.userService = userService;
         this.reportsUtil = reportsUtil;
     }
 
@@ -257,19 +262,37 @@ public class ReportsController {
         LOG.info("InvoiceReport method of ReportsController ");
         var sanitizedReportsForm = CommonUtils.sanitizedString(reportsForm.toString());
         LOG.info(FORM_DETAILS, sanitizedReportsForm);
+        var companyCode = activeCompanyCode();
         try {
             if (reportsForm.getCurrentReport() == null) {
                 reportsForm.setCurrentReport(new ReportsVO());
             }
             var reportFileName = "serviceBillReport";
             var jasperReport = createJasperReport(reportFileName);
-            var jasperPrint = reportsService.getInvoiceReport(jasperReport, reportsForm.getCurrentReport());
+            var jasperPrint = reportsService.getInvoiceReport(jasperReport,
+                    reportsForm.getCurrentReport(),
+                    companyCode);
             var reportType = ExportList.fromName(reportsForm.getCurrentReport().getExportTo());
             reportsUtil.generateJasperReport(httpServletResponse, jasperPrint, reportFileName, reportType);
         } catch (Exception ex) {
             LOG.error(ex.getLocalizedMessage());
             generateErrorReport(httpServletRequest, httpServletResponse, reportsForm);
         }
+    }
+
+    private String activeCompanyCode() {
+        var currentLoggedInUser = currentLoggedInUser();
+        var user = userService.findUserFromName(currentLoggedInUser);
+        return user.getCompanyCode();
+    }
+
+    private String currentLoggedInUser() {
+        var username = "";
+        var auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth != null) {
+            username = auth.getName();
+        }
+        return username;
     }
 
     /**

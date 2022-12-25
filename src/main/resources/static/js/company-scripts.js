@@ -6,22 +6,22 @@ function editMe() {
 function makeEverythingWritable() {
     document.getElementById("companyName").style.background = "#FFFFFF";
     document.getElementById('companyName').readOnly = false;
-    document.getElementById("companyPhoneNumber").style.background = "#FFFFFF";
-    document.getElementById('companyPhoneNumber').readOnly = false;
+    document.getElementById("companyPhone").style.background = "#FFFFFF";
+    document.getElementById('companyPhone').readOnly = false;
     document.getElementById("companyEmail").style.background = "#FFFFFF";
     document.getElementById('companyEmail').readOnly = false;
     document.getElementById("companyWebsite").style.background = "#FFFFFF";
     document.getElementById('companyWebsite').readOnly = false;
     document.getElementById("companyAddress").style.background = "#FFFFFF";
     document.getElementById('companyAddress').readOnly = false;
-    document.getElementById("termsAndConditions").style.background = "#FFFFFF";
-    document.getElementById('termsAndConditions').readOnly = false;
+    document.getElementById("terms").style.background = "#FFFFFF";
+    document.getElementById('terms').readOnly = false;
     document.getElementById("companyCode").style.background = "#FFFFFF";
     document.getElementById('companyCode').readOnly = false;
-    document.getElementById("vat_tin").style.background = "#FFFFFF";
-    document.getElementById('vat_tin').readOnly = false;
-    document.getElementById("cst_tin").style.background = "#FFFFFF";
-    document.getElementById('cst_tin').readOnly = false;
+    document.getElementById("vatTin").style.background = "#FFFFFF";
+    document.getElementById('vatTin').readOnly = false;
+    document.getElementById("cstTin").style.background = "#FFFFFF";
+    document.getElementById('cstTin').readOnly = false;
 }
 
 function hideEditAndShowUpdate() {
@@ -42,22 +42,22 @@ function hideUpdate() {
 function makeEverythingReadOnly() {
     document.getElementById('companyName').readOnly = true;
     document.getElementById("companyName").style.background = "#A9A9A9";
-    document.getElementById('companyPhoneNumber').readOnly = true;
-    document.getElementById("companyPhoneNumber").style.background = "#A9A9A9";
+    document.getElementById('companyPhone').readOnly = true;
+    document.getElementById("companyPhone").style.background = "#A9A9A9";
     document.getElementById('companyEmail').readOnly = true;
     document.getElementById("companyEmail").style.background = "#A9A9A9";
     document.getElementById('companyWebsite').readOnly = true;
     document.getElementById("companyWebsite").style.background = "#A9A9A9";
     document.getElementById('companyAddress').readOnly = true;
     document.getElementById("companyAddress").style.background = "#A9A9A9";
-    document.getElementById('termsAndConditions').readOnly = true;
-    document.getElementById("termsAndConditions").style.background = "#A9A9A9";
+    document.getElementById('terms').readOnly = true;
+    document.getElementById("terms").style.background = "#A9A9A9";
     document.getElementById('companyCode').readOnly = true;
     document.getElementById("companyCode").style.background = "#A9A9A9";
-    document.getElementById('vat_tin').readOnly = true;
-    document.getElementById("vat_tin").style.background = "#A9A9A9";
-    document.getElementById('cst_tin').readOnly = true;
-    document.getElementById("cst_tin").style.background = "#A9A9A9";
+    document.getElementById('vatTin').readOnly = true;
+    document.getElementById("vatTin").style.background = "#A9A9A9";
+    document.getElementById('cstTin').readOnly = true;
+    document.getElementById("cstTin").style.background = "#A9A9A9";
 }
 
 function updateCompanyDetails() {
@@ -67,14 +67,14 @@ function updateCompanyDetails() {
 
 function clearOut() {
     document.getElementById('companyName').value = "";
-    document.getElementById('companyPhoneNumber').value = "";
+    document.getElementById('companyPhone').value = "";
     document.getElementById('companyEmail').value = "";
     document.getElementById('companyWebsite').value = "";
     document.getElementById('companyAddress').value = "";
-    document.getElementById('termsAndConditions').value = "";
+    document.getElementById('terms').value = "";
     document.getElementById('companyCode').value = "";
-    document.getElementById('vat_tin').value = "";
-    document.getElementById('cst_tin').value = "";
+    document.getElementById('vatTin').value = "";
+    document.getElementById('cstTin').value = "";
 }
 
 function cancelMe() {

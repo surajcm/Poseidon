@@ -20,11 +20,11 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security/">
     <script type="text/javascript" src="/js/navbar-scripts.js"></script>
 </head>
 <body onload="hideAlerts()">
+    <div th:insert="~{navbar :: navbar}"></div>
     <form method="POST" th:object="${invoiceForm}">
         <input type="hidden" name="loggedInUser" path="loggedInUser" />
         <input type="hidden" name="loggedInRole" path="loggedInRole" />
         <input type="hidden" name="id" id="id"/>
-        <div th:insert="navbar :: navbar"></div>
         <div class="container">
             <div class="wrap">
                 <div class="card">
@@ -196,8 +196,8 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security/">
                 </div>
             </div>
         </div>
-        <script src="/js/core/popper.min.js" type="text/javascript"></script>
-        <script src="/js/core/bootstrap-5.min.js" type="text/javascript"></script>
     </form>
+    <script src="/js/core/popper.min.js" type="text/javascript"></script>
+    <script src="/js/core/bootstrap-5.min.js" type="text/javascript"></script>
 </body>
 </html>

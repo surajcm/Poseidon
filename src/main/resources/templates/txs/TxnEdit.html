@@ -20,11 +20,11 @@
         <script type="text/javascript" src="/js/navbar-scripts.js"></script>
     </head>
     <body>
+        <div th:insert="~{navbar :: navbar}"></div>
         <form method="POST" th:object="${transactionForm}" >
             <input type="hidden" name="loggedInUser" />
             <input type="hidden" name="loggedInRole" />
             <input type="hidden" name="customer" />
-            <div th:insert="navbar :: navbar"></div>
             <div class="container">
                 <div class="wrap">
                     <div class="card">
@@ -210,18 +210,18 @@
                     </div>
                 </div>
             </div>
-            <script src="/js/core/jquery-3.2.1.min.js" type="text/javascript"></script>
-            <script src="/js/core/popper.min.js" type="text/javascript"></script>
-            <script src="/js/core/bootstrap-5.min.js" type="text/javascript"></script>
-            <script src="/js/core/jquery-ui.min.js" type="text/javascript"></script>
-            <script type="text/javascript">
-                $(document).ready(function()
-                {
-                    $(function() {
-                        $("#dateReported").datepicker();
-                    });
-                });
-            </script>
         </form>
+        <script src="/js/core/jquery-3.2.1.min.js" type="text/javascript"></script>
+        <script src="/js/core/popper.min.js" type="text/javascript"></script>
+        <script src="/js/core/bootstrap-5.min.js" type="text/javascript"></script>
+        <script src="/js/core/jquery-ui.min.js" type="text/javascript"></script>
+        <script type="text/javascript">
+            $(document).ready(function()
+            {
+                $(function() {
+                    $("#dateReported").datepicker();
+                });
+            });
+        </script>
     </body>
 </html>
