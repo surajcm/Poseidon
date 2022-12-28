@@ -1,6 +1,7 @@
 package com.poseidon.customer.service;
 
 import com.poseidon.customer.dao.CustomerDAO;
+import com.poseidon.customer.dao.entities.Customer;
 import com.poseidon.customer.domain.CustomerVO;
 import com.poseidon.customer.exception.CustomerException;
 import org.junit.jupiter.api.Assertions;
@@ -46,7 +47,8 @@ class CustomerServiceTest {
     @Test
     void saveCustomerSuccess() {
         //todo: fix this
-        Assertions.assertNull(customerService.saveCustomer(Mockito.mock(CustomerVO.class)));
+        Assertions.assertNull(customerService.saveCustomer(Mockito.mock(CustomerVO.class),
+                Mockito.mock(Customer.class)));
     }
 
     @Test

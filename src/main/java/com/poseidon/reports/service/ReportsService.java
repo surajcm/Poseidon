@@ -235,10 +235,10 @@ public class ReportsService {
         var companyTerms = companyService.listCompanyTerms(companyCode);
         if (companyTerms.isPresent()) {
             invoiceReportVO.setCompanyName(companyTerms.get().getName());
-            invoiceReportVO.setCompanyAddress(companyTerms.get().getCompanyAddress());
-            invoiceReportVO.setCompanyPhoneNumber(companyTerms.get().getCompanyPhone());
-            invoiceReportVO.setCompanyWebsite(companyTerms.get().getCompanyWebsite());
-            invoiceReportVO.setCompanyEmail(companyTerms.get().getCompanyEmail());
+            invoiceReportVO.setCompanyAddress(companyTerms.get().getAddress());
+            invoiceReportVO.setCompanyPhoneNumber(companyTerms.get().getPhone());
+            invoiceReportVO.setCompanyWebsite(companyTerms.get().getWebsite());
+            invoiceReportVO.setCompanyEmail(companyTerms.get().getEmail());
             invoiceReportVO.setTermsAndConditions(companyTerms.get().getTerms());
             invoiceReportVO.setCompanyVatTin(companyTerms.get().getVatTin());
             invoiceReportVO.setCompanyCstTin(companyTerms.get().getCstTin());

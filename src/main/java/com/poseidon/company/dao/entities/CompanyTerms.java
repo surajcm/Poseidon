@@ -20,16 +20,16 @@ public class CompanyTerms extends CommonEntity {
     private String code;
 
     @Column(name = "address")
-    private String companyAddress;
+    private String address;
 
     @Column(name = "phone")
-    private String companyPhone;
+    private String phone;
 
     @Column(name = "email")
-    private String companyEmail;
+    private String email;
 
     @Column(name = "website")
-    private String companyWebsite;
+    private String website;
 
     @Column(name = "terms")
     private String terms;
@@ -48,12 +48,12 @@ public class CompanyTerms extends CommonEntity {
         this.terms = terms;
     }
 
-    public String getCompanyAddress() {
-        return companyAddress;
+    public String getAddress() {
+        return address;
     }
 
-    public void setCompanyAddress(final String companyAddress) {
-        this.companyAddress = companyAddress;
+    public void setAddress(final String companyAddress) {
+        this.address = companyAddress;
     }
 
     public String getName() {
@@ -72,28 +72,28 @@ public class CompanyTerms extends CommonEntity {
         this.code = companyCode;
     }
 
-    public String getCompanyPhone() {
-        return companyPhone;
+    public String getPhone() {
+        return phone;
     }
 
-    public void setCompanyPhone(final String companyPhone) {
-        this.companyPhone = companyPhone;
+    public void setPhone(final String companyPhone) {
+        this.phone = companyPhone;
     }
 
-    public String getCompanyEmail() {
-        return companyEmail;
+    public String getEmail() {
+        return email;
     }
 
-    public void setCompanyEmail(final String companyEmail) {
-        this.companyEmail = companyEmail;
+    public void setEmail(final String companyEmail) {
+        this.email = companyEmail;
     }
 
-    public String getCompanyWebsite() {
-        return companyWebsite;
+    public String getWebsite() {
+        return website;
     }
 
-    public void setCompanyWebsite(final String companyWebsite) {
-        this.companyWebsite = companyWebsite;
+    public void setWebsite(final String companyWebsite) {
+        this.website = companyWebsite;
     }
 
     public String getVatTin() {

@@ -1,5 +1,6 @@
 package com.poseidon.transaction.web.controller;
 
+import com.poseidon.customer.dao.entities.Customer;
 import com.poseidon.customer.domain.CustomerVO;
 import com.poseidon.customer.service.CustomerService;
 import com.poseidon.init.util.CommonUtils;
@@ -143,7 +144,8 @@ public class TransactionController {
             transactionForm.getCustomerVO().setModifiedOn(OffsetDateTime.now(ZoneId.systemDefault()));
             transactionForm.getCustomerVO().setCreatedBy(transactionForm.getLoggedInUser());
             transactionForm.getCustomerVO().setModifiedBy(transactionForm.getLoggedInUser());
-            var customer = customerService.saveCustomer(transactionForm.getCustomerVO());
+            var customerInput = convertToSingleCustomer(transactionForm.getCustomerVO());
+            var customer = customerService.saveCustomer(transactionForm.getCustomerVO(), customerInput);
             var customerId = customer.getCustomerId();
             transactionForm.getCustomerVO().setCustomerId(customerId);
             transactionVO.setCustomerId(customerId);
@@ -157,6 +159,18 @@ public class TransactionController {
         transactionForm.setCurrentTransaction(new TransactionVO());
         model.addAttribute(TRANSACTION_FORM, transactionForm);
         return listPage(transactionForm, model);
+    }
+
+    private Customer convertToSingleCustomer(final CustomerVO currentCustomerVO) {
+        var customer = new Customer();
+        customer.setName(currentCustomerVO.getCustomerName());
+        customer.setAddress(currentCustomerVO.getAddress());
+        customer.setPhone(currentCustomerVO.getPhoneNo());
+        customer.setMobile(currentCustomerVO.getMobile());
+        customer.setEmail(currentCustomerVO.getEmail());
+        customer.setCreatedBy(currentCustomerVO.getCreatedBy());
+        customer.setModifiedBy(currentCustomerVO.getModifiedBy());
+        return customer;
     }
 
     private boolean hasValidCustomerId(final TransactionForm transactionForm) {

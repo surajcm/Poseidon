@@ -54,10 +54,10 @@ class CompanyDAOTest {
         var companyTerms = new CompanyTerms();
         companyTerms.setName("ABC");
         companyTerms.setTerms("ABC");
-        companyTerms.setCompanyAddress("ABC");
-        companyTerms.setCompanyPhone("ABC");
-        companyTerms.setCompanyEmail("ABC");
-        companyTerms.setCompanyWebsite("ABC");
+        companyTerms.setAddress("ABC");
+        companyTerms.setPhone("ABC");
+        companyTerms.setEmail("ABC");
+        companyTerms.setWebsite("ABC");
         companyTerms.setVatTin("ABC");
         companyTerms.setCstTin("ABC");
         companyTerms.setModifiedBy("ABC");

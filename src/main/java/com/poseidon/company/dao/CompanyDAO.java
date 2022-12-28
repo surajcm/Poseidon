@@ -53,10 +53,10 @@ public class CompanyDAO {
                                          final CompanyTerms companyTerms) {
         fromDB.setName(companyTerms.getName());
         fromDB.setTerms(companyTerms.getTerms());
-        fromDB.setCompanyAddress(companyTerms.getCompanyAddress());
-        fromDB.setCompanyPhone(companyTerms.getCompanyPhone());
-        fromDB.setCompanyEmail(companyTerms.getCompanyEmail());
-        fromDB.setCompanyWebsite(companyTerms.getCompanyWebsite());
+        fromDB.setAddress(companyTerms.getAddress());
+        fromDB.setPhone(companyTerms.getPhone());
+        fromDB.setEmail(companyTerms.getEmail());
+        fromDB.setWebsite(companyTerms.getWebsite());
         fromDB.setCode(companyTerms.getCode());
         fromDB.setVatTin(companyTerms.getVatTin());
         fromDB.setCstTin(companyTerms.getCstTin());

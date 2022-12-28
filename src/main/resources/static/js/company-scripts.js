@@ -6,14 +6,14 @@ function editMe() {
 function makeEverythingWritable() {
     document.getElementById("name").style.background = "#FFFFFF";
     document.getElementById('name').readOnly = false;
-    document.getElementById("companyPhone").style.background = "#FFFFFF";
-    document.getElementById('companyPhone').readOnly = false;
-    document.getElementById("companyEmail").style.background = "#FFFFFF";
-    document.getElementById('companyEmail').readOnly = false;
-    document.getElementById("companyWebsite").style.background = "#FFFFFF";
-    document.getElementById('companyWebsite').readOnly = false;
-    document.getElementById("companyAddress").style.background = "#FFFFFF";
-    document.getElementById('companyAddress').readOnly = false;
+    document.getElementById("phone").style.background = "#FFFFFF";
+    document.getElementById('phone').readOnly = false;
+    document.getElementById("email").style.background = "#FFFFFF";
+    document.getElementById('email').readOnly = false;
+    document.getElementById("website").style.background = "#FFFFFF";
+    document.getElementById('website').readOnly = false;
+    document.getElementById("address").style.background = "#FFFFFF";
+    document.getElementById('address').readOnly = false;
     document.getElementById("terms").style.background = "#FFFFFF";
     document.getElementById('terms').readOnly = false;
     document.getElementById("code").style.background = "#FFFFFF";
@@ -42,14 +42,14 @@ function hideUpdate() {
 function makeEverythingReadOnly() {
     document.getElementById('name').readOnly = true;
     document.getElementById("name").style.background = "#A9A9A9";
-    document.getElementById('companyPhone').readOnly = true;
-    document.getElementById("companyPhone").style.background = "#A9A9A9";
-    document.getElementById('companyEmail').readOnly = true;
-    document.getElementById("companyEmail").style.background = "#A9A9A9";
-    document.getElementById('companyWebsite').readOnly = true;
-    document.getElementById("companyWebsite").style.background = "#A9A9A9";
-    document.getElementById('companyAddress').readOnly = true;
-    document.getElementById("companyAddress").style.background = "#A9A9A9";
+    document.getElementById('phone').readOnly = true;
+    document.getElementById("phone").style.background = "#A9A9A9";
+    document.getElementById('email').readOnly = true;
+    document.getElementById("email").style.background = "#A9A9A9";
+    document.getElementById('website').readOnly = true;
+    document.getElementById("website").style.background = "#A9A9A9";
+    document.getElementById('address').readOnly = true;
+    document.getElementById("address").style.background = "#A9A9A9";
     document.getElementById('terms').readOnly = true;
     document.getElementById("terms").style.background = "#A9A9A9";
     document.getElementById('code').readOnly = true;
@@ -67,10 +67,10 @@ function updateCompanyDetails() {
 
 function clearOut() {
     document.getElementById('name').value = "";
-    document.getElementById('companyPhone').value = "";
-    document.getElementById('companyEmail').value = "";
-    document.getElementById('companyWebsite').value = "";
-    document.getElementById('companyAddress').value = "";
+    document.getElementById('phone').value = "";
+    document.getElementById('email').value = "";
+    document.getElementById('website').value = "";
+    document.getElementById('address').value = "";
     document.getElementById('terms').value = "";
     document.getElementById('code').value = "";
     document.getElementById('vatTin').value = "";

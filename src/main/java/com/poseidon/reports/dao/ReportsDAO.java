@@ -61,10 +61,10 @@ public class ReportsDAO {
                                      final CompanyTerms companyTerms) throws JRException {
         if (companyTerms != null) {
             currentReport.getTransactionReportVO().setCompanyName(companyTerms.getName());
-            currentReport.getTransactionReportVO().setCompanyAddress(companyTerms.getCompanyAddress());
-            currentReport.getTransactionReportVO().setCompanyPhoneNumber(companyTerms.getCompanyPhone());
-            currentReport.getTransactionReportVO().setCompanyWebsite(companyTerms.getCompanyWebsite());
-            currentReport.getTransactionReportVO().setCompanyEmail(companyTerms.getCompanyEmail());
+            currentReport.getTransactionReportVO().setCompanyAddress(companyTerms.getAddress());
+            currentReport.getTransactionReportVO().setCompanyPhoneNumber(companyTerms.getPhone());
+            currentReport.getTransactionReportVO().setCompanyWebsite(companyTerms.getWebsite());
+            currentReport.getTransactionReportVO().setCompanyEmail(companyTerms.getEmail());
             currentReport.getTransactionReportVO().setTermsAndConditions(companyTerms.getTerms());
             //todo : fix it
             currentReport.getTransactionReportVO().setDateReported(companyTerms.getCreatedOn());

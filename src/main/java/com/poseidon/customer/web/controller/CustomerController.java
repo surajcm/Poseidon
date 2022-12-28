@@ -124,8 +124,9 @@ public class CustomerController {
         var userName = findLoggedInUsername();
         customerVO.setCreatedBy(userName);
         customerVO.setModifiedBy(userName);
+        var customer = convertToSingleCustomer(customerVO);
         try {
-            customerService.saveCustomer(customerVO);
+            customerService.saveCustomer(customerVO, customer);
         } catch (Exception ex) {
             logger.error(ex.getMessage());
         }
@@ -155,8 +156,9 @@ public class CustomerController {
         customerVO.setCreatedBy(userName);
         customerVO.setModifiedBy(userName);
         CustomerVO result = null;
+        var customer = convertToSingleCustomer(customerVO);
         try {
-            result = customerService.saveCustomer(customerVO);
+            result = customerService.saveCustomer(customerVO, customer);
         } catch (Exception ex) {
             logger.error(ex.getMessage());
         }
@@ -334,6 +336,18 @@ public class CustomerController {
         customerVO.setCreatedBy(customer.getCreatedBy());
         customerVO.setModifiedBy(customer.getModifiedBy());
         return customerVO;
+    }
+
+    private Customer convertToSingleCustomer(final CustomerVO currentCustomerVO) {
+        var customer = new Customer();
+        customer.setName(currentCustomerVO.getCustomerName());
+        customer.setAddress(currentCustomerVO.getAddress());
+        customer.setPhone(currentCustomerVO.getPhoneNo());
+        customer.setMobile(currentCustomerVO.getMobile());
+        customer.setEmail(currentCustomerVO.getEmail());
+        customer.setCreatedBy(currentCustomerVO.getCreatedBy());
+        customer.setModifiedBy(currentCustomerVO.getModifiedBy());
+        return customer;
     }
 
 }

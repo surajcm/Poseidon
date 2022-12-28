@@ -37,8 +37,8 @@ class CustomerDAOTest {
     @Test
     void saveCustomerSuccess() {
         when(customerRepository.save(any())).thenReturn(mockCustomer());
-        CustomerVO customer = customerDAO.saveCustomer(mockCustomerVO(), mockCustomer());
-        Assertions.assertEquals(1234L, customer.getCustomerId());
+        Customer customer = customerDAO.saveCustomer(mockCustomer(), additionalDetails().get());
+        Assertions.assertEquals(1234L, customer.getId());
     }
 
     @Test

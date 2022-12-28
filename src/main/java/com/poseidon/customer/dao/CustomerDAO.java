@@ -5,7 +5,6 @@ import com.poseidon.customer.dao.entities.CustomerAdditionalDetails;
 import com.poseidon.customer.dao.repo.CustomerAdditionalDetailsRepository;
 import com.poseidon.customer.dao.repo.CustomerRepository;
 import com.poseidon.customer.dao.spec.CustomerSpecification;
-import com.poseidon.customer.domain.CustomerAdditionalDetailsVO;
 import com.poseidon.customer.domain.CustomerVO;
 import com.poseidon.customer.exception.CustomerException;
 import com.poseidon.init.specs.SearchCriteria;
@@ -67,13 +66,16 @@ public class CustomerDAO {
     /**
      * save customer.
      *
-     * @param currentCustomerVO currentCustomerVo
-     * @return long
+     * @param customer Customer
+     * @param newAdditionalDetails CustomerAdditionalDetails
+     * @return Customer
      */
-    public CustomerVO saveCustomer(final CustomerVO currentCustomerVO, final Customer customer) {
+    public Customer saveCustomer(final Customer customer,
+                                 final CustomerAdditionalDetails newAdditionalDetails) {
         var newCustomer = sneak(() -> customerRepository.save(customer));
-        saveAdditionalDetails(currentCustomerVO, newCustomer);
-        return convertToSingleCustomerVO(newCustomer);
+        newAdditionalDetails.setCustomerId(newCustomer.getId());
+        saveAdditionalDetails(newAdditionalDetails);
+        return newCustomer;
     }
 
     /**
@@ -129,11 +131,7 @@ public class CustomerDAO {
         return customerVO;
     }
 
-    private void saveAdditionalDetails(final CustomerVO currentCustomerVo, final Customer newCustomer) {
-        var additionalDetails = setAdditionalDetailsToVO(currentCustomerVo);
-        currentCustomerVo.setCustomerAdditionalDetailsVO(additionalDetails);
-        var newAdditionalDetails = convertToCustomerAdditionalDetails(
-                newCustomer.getId(), currentCustomerVo.getCustomerAdditionalDetailsVO());
+    private void saveAdditionalDetails(final CustomerAdditionalDetails newAdditionalDetails) {
         sneak(() -> detailsRepository.save(newAdditionalDetails));
     }
 
@@ -243,30 +241,5 @@ public class CustomerDAO {
             searchOperation = SearchOperation.EQUAL;
         }
         return searchOperation;
-    }
-
-    private CustomerAdditionalDetails convertToCustomerAdditionalDetails(
-            final Long customerId,
-            final CustomerAdditionalDetailsVO customerAdditionalDetailsVO) {
-        var additionalDetails = new CustomerAdditionalDetails();
-        additionalDetails.setCustomerId(customerId);
-        if (customerAdditionalDetailsVO != null) {
-            additionalDetails.setContactPerson(customerAdditionalDetailsVO.getContactPerson());
-            additionalDetails.setContactPhone(customerAdditionalDetailsVO.getContactMobile());
-            additionalDetails.setNote(customerAdditionalDetailsVO.getNotes());
-            additionalDetails.setCreatedBy(customerAdditionalDetailsVO.getCreatedBy());
-            additionalDetails.setModifiedBy(customerAdditionalDetailsVO.getModifiedBy());
-        }
-        return additionalDetails;
-    }
-
-    private CustomerAdditionalDetailsVO setAdditionalDetailsToVO(final CustomerVO currentCustomerVo) {
-        var additionalDetails = new CustomerAdditionalDetailsVO();
-        additionalDetails.setContactPerson(currentCustomerVo.getContactPerson());
-        additionalDetails.setContactMobile(currentCustomerVo.getContactMobile());
-        additionalDetails.setNotes(currentCustomerVo.getNotes());
-        additionalDetails.setCreatedBy(currentCustomerVo.getCreatedBy());
-        additionalDetails.setModifiedBy(currentCustomerVo.getModifiedBy());
-        return additionalDetails;
     }
 }

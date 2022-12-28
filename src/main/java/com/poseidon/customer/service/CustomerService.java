@@ -2,6 +2,7 @@ package com.poseidon.customer.service;
 
 import com.poseidon.customer.dao.CustomerDAO;
 import com.poseidon.customer.dao.entities.Customer;
+import com.poseidon.customer.dao.entities.CustomerAdditionalDetails;
 import com.poseidon.customer.domain.CustomerVO;
 import com.poseidon.customer.exception.CustomerException;
 import org.slf4j.Logger;
@@ -35,9 +36,21 @@ public class CustomerService {
      *
      * @param currentCustomerVO currentCustomerVO
      */
-    public CustomerVO saveCustomer(final CustomerVO currentCustomerVO) {
-        var customer = convertToSingleCustomer(currentCustomerVO);
-        return customerDAO.saveCustomer(currentCustomerVO, customer);
+    public CustomerVO saveCustomer(final CustomerVO currentCustomerVO,
+                                   final Customer customer) {
+        var newAdditionalDetails = createAdditionalDetails(currentCustomerVO);
+        var customerOut =  customerDAO.saveCustomer(customer, newAdditionalDetails);
+        return convertToSingleCustomerVO(customerOut);
+    }
+
+    private CustomerAdditionalDetails createAdditionalDetails(final CustomerVO currentCustomerVO) {
+        var additionalDetails = new CustomerAdditionalDetails();
+        additionalDetails.setContactPerson(currentCustomerVO.getContactPerson());
+        additionalDetails.setContactPhone(currentCustomerVO.getContactMobile());
+        additionalDetails.setNote(currentCustomerVO.getNotes());
+        additionalDetails.setCreatedBy(currentCustomerVO.getCreatedBy());
+        additionalDetails.setModifiedBy(currentCustomerVO.getModifiedBy());
+        return additionalDetails;
     }
 
     /**
@@ -82,9 +95,6 @@ public class CustomerService {
         return customerDAO.searchCustomer(searchCustomerVO);
     }
 
-    private List<CustomerVO> convertToCustomerVO(final List<Customer> customers) {
-        return customers.stream().map(this::convertToSingleCustomerVO).toList();
-    }
 
     private CustomerVO convertToSingleCustomerVO(final Customer customer) {
         var customerVO = new CustomerVO();
@@ -110,5 +120,4 @@ public class CustomerService {
         customer.setModifiedBy(currentCustomerVO.getModifiedBy());
         return customer;
     }
-
 }
