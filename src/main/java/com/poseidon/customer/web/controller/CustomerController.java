@@ -158,7 +158,8 @@ public class CustomerController {
         CustomerVO result = null;
         var customer = convertToSingleCustomer(customerVO);
         try {
-            result = customerService.saveCustomer(customerVO, customer);
+            var customerOut = customerService.saveCustomer(customerVO, customer);
+            result =  convertToSingleCustomerVO(customerOut);
         } catch (Exception ex) {
             logger.error(ex.getMessage());
         }

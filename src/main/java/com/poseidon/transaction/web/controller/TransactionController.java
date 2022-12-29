@@ -146,7 +146,7 @@ public class TransactionController {
             transactionForm.getCustomerVO().setModifiedBy(transactionForm.getLoggedInUser());
             var customerInput = convertToSingleCustomer(transactionForm.getCustomerVO());
             var customer = customerService.saveCustomer(transactionForm.getCustomerVO(), customerInput);
-            var customerId = customer.getCustomerId();
+            var customerId = customer.getId();
             transactionForm.getCustomerVO().setCustomerId(customerId);
             transactionVO.setCustomerId(customerId);
             LOG.info("the customer id from db is  {}", customerId);

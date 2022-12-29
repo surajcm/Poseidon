@@ -36,11 +36,10 @@ public class CustomerService {
      *
      * @param currentCustomerVO currentCustomerVO
      */
-    public CustomerVO saveCustomer(final CustomerVO currentCustomerVO,
+    public Customer saveCustomer(final CustomerVO currentCustomerVO,
                                    final Customer customer) {
         var newAdditionalDetails = createAdditionalDetails(currentCustomerVO);
-        var customerOut =  customerDAO.saveCustomer(customer, newAdditionalDetails);
-        return convertToSingleCustomerVO(customerOut);
+        return customerDAO.saveCustomer(customer, newAdditionalDetails);
     }
 
     private CustomerAdditionalDetails createAdditionalDetails(final CustomerVO currentCustomerVO) {
@@ -93,31 +92,5 @@ public class CustomerService {
      */
     public List<CustomerVO> searchCustomer(final CustomerVO searchCustomerVO) {
         return customerDAO.searchCustomer(searchCustomerVO);
-    }
-
-
-    private CustomerVO convertToSingleCustomerVO(final Customer customer) {
-        var customerVO = new CustomerVO();
-        customerVO.setCustomerId(customer.getId());
-        customerVO.setCustomerName(customer.getName());
-        customerVO.setAddress(customer.getAddress());
-        customerVO.setPhoneNo(customer.getPhone());
-        customerVO.setMobile(customer.getMobile());
-        customerVO.setEmail(customer.getEmail());
-        customerVO.setCreatedBy(customer.getCreatedBy());
-        customerVO.setModifiedBy(customer.getModifiedBy());
-        return customerVO;
-    }
-
-    private Customer convertToSingleCustomer(final CustomerVO currentCustomerVO) {
-        var customer = new Customer();
-        customer.setName(currentCustomerVO.getCustomerName());
-        customer.setAddress(currentCustomerVO.getAddress());
-        customer.setPhone(currentCustomerVO.getPhoneNo());
-        customer.setMobile(currentCustomerVO.getMobile());
-        customer.setEmail(currentCustomerVO.getEmail());
-        customer.setCreatedBy(currentCustomerVO.getCreatedBy());
-        customer.setModifiedBy(currentCustomerVO.getModifiedBy());
-        return customer;
     }
 }
