@@ -2,41 +2,6 @@ function hideAlerts() {
     document.getElementById('user').text = "User <span class='sr-only'>User</span>";
 }
 
-function validateEditModalSelection() {
-    let detail = document.getElementById("userEditModalBody");
-    detail.innerHTML = "";
-    let check = 'false';
-    let count = selectedRowCount();
-    if (count > 0) {
-        check = 'true';
-    }
-    if (check === 'true') {
-        if (count === 1) {
-            return true;
-        } else {
-            detail.innerHTML = "<p>Only one row can be selected at a time, please select one row</p>";
-        }
-    } else {
-        detail.innerHTML = "<p>No rows selected, please select one row</p>";
-    }
-}
-
-function deleteUser() {
-    let rowCheck = validateSelection();
-    if (rowCheck) {
-        deleteRow();
-    }
-}
-
-function deleteRow() {
-    let answer = confirm("Are you sure you wanted to delete the user ");
-    if (answer) {
-        setIdForChange();
-        document.forms[0].action = "deleteUser";
-        document.forms[0].submit();
-    }
-}
-
 function search() {
     document.forms[0].action = "searchUser";
     document.forms[0].submit();
@@ -226,49 +191,17 @@ function showStatus(status) {
     detail.appendChild(statusMessage(status, 'ADD'));
 }
 
-function resetUser() {
-    let rowCheck = validateSelection();
-    if (rowCheck) {
-        setIdForChange();
-        console.log("going to reset password on : " + document.getElementById("id").value);
-        ajaxPasswordExpire();
-    }
+function deleteUser(e) {
+    //console.log(e.target);
+    let yesButton = document.getElementById("yesButton");
+    let parentHref = e.target.href;
+    yesButton.setAttribute("href", parentHref);
+    return false;
 }
 
-function ajaxPasswordExpire() {
-    let id = document.getElementById("id").value;
-    let xhr = new XMLHttpRequest();
-    xhr.open('POST', "/user/passwordExpire", true);
-    let token = document.querySelector("meta[name='_csrf']").content;
-    let header = document.querySelector("meta[name='_csrf_header']").content;
-    //xhr.setRequestHeader(header, token);
-    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-    xhr.onload = function () {
-        if (xhr.status === 200) {
-            if (xhr.responseText != null) {
-                console.log(xhr.responseText);
-                showResetStatus(true);
-            }
-        } else if (xhr.status !== 200) {
-            console.log('Request failed.  Returned status of ' + xhr.status);
-        }
-    };
-    xhr.send("id=" + id);
-}
-
-function showResetStatus(status) {
-    let detail = document.getElementById("resetModalBody");
-    detail.innerHTML = "";
-    detail.appendChild(statusMessage(status, 'UPDATE'));
-}
-
-function editUser() {
-    let rowCheck = validateEditModalSelection();
-    if (rowCheck) {
-        editUserModal();
-        setIdForChange();
-        getUserForEdit();
-    }
+function editUser(id) {
+    editUserModal();
+    getUserForEdit(id);
 }
 
 function editUserModal() {
@@ -312,8 +245,7 @@ function selectRoleForUpdate() {
     return selectRole;
 }
 
-function getUserForEdit() {
-    let id = document.getElementById("id").value;
+function getUserForEdit(id) {
     let xhr = new XMLHttpRequest();
     xhr.open('GET', "/user/getForEdit" + "?id=" + id, true);
     let token = document.querySelector("meta[name='_csrf']").content;

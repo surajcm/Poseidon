@@ -90,14 +90,6 @@ public class UserDAO {
         return sneak(() -> userRepository.findByEmail(email));
     }
 
-    public void expireUser(final Long id) {
-        var user = sneak(() -> userRepository.findById(id));
-        if (user.isPresent()) {
-            user.get().setEnabled(true);
-            sneak(() -> userRepository.save(user.get()));
-        }
-    }
-
     /**
      * search for a list of users.
      *

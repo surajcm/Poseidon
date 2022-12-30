@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="/css/core/bootstrap-5.min.css"  type="text/css" />
     <link rel="stylesheet" href="/css/custom.css" type="text/css" />
     <link rel="stylesheet" href="/css/core/flag-icon.min.css" type="text/css" />
+    <link rel="stylesheet" href="/css/core/fontawesome-6.2.1/css/all.min.css" type="text/css" />
     <title>User List</title>
     <script type="text/javascript" src="/js/common-scripts.js"></script>
     <script type="text/javascript" src="/js/user-scripts.js"></script>
@@ -110,6 +111,7 @@
                     <thead class="table-dark">
                         <tr>
                             <th scope="col">id</th>
+                            <th scope="col">Photo</th>
                             <th scope="col">Name</th>
                             <th scope="col">email</th>
                             <th scope="col">Roles</th>
@@ -121,36 +123,34 @@
                         <tr th:each="iterationUser : ${users}">
                             <th scope="row"><input type="checkbox" name="checkField" onclick="checkCall(this)"
                                        th:value="${iterationUser.id}" /></th>
+                            <td><span class="fa-solid fa-user fa-3x"></span></td>
                             <td><span th:text="${iterationUser.name}"></span></td>
                             <td><span th:text="${iterationUser.email}"></span></td>
                             <td><span th:text="${iterationUser.roles}"></span></td>
-                            <td><span th:text="${iterationUser.enabled}"></span></td>
-                            <td>Edit &nbsp; Delete</td>
+                            <td>
+                                <a th:if="${iterationUser.enabled == true}" class="fa-solid fa-circle-check" href=""></a>
+                                <a th:if="${iterationUser.enabled == false}" class="fa-solid fa-circle-xmark" href=""></a>
+                            </td>
+                            <td>
+                                <a class="fa-regular fa-pen-to-square" href="" data-bs-toggle="modal" data-bs-target="#editUserModal"
+                                   th:onclick="'javascript:editUser(' + ${iterationUser.id} + ');'" title="Edit this user"></a>
+                                &nbsp;
+                                <a class="fa-solid fa-trash"
+                                   th:href="@{'/user/deleteUser/'+${iterationUser.id}}"
+                                   onclick="deleteUser(event);"
+                                   th:userId="${iterationUser.id}"
+                                   title="Delete this user"
+                                   data-bs-toggle="modal"
+                                   data-bs-target="#confirmModal"></a>
+                            </td>
                         </tr>
                     </tbody>
                 </table>
             </form>
             <div class="row g-3">
-                <div class="col-md-3">
+                <div class="col-md-12">
                     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#newUserModal"
                         onclick="addNewUser();">Add New User</button>
-                </div>
-                <div class="col-md-3">
-                    <button type="button" class="btn btn-primary"  data-bs-toggle="modal" data-bs-target="#editUserModal"
-                        onclick="editUser();">
-                        Edit User
-                    </button>
-                </div>
-                <div class="col-md-3">
-                    <button type="button" class="btn btn-primary" onclick="deleteUser()">
-                        Delete User
-                    </button>
-                </div>
-                <div class="col-md-3">
-                    <button type="button" class="btn btn-primary"  data-bs-toggle="modal" data-bs-target="#resetUserModal"
-                            onclick="resetUser();">
-                        Reset Password
-                    </button>
                 </div>
             </div>
         </div>
@@ -187,11 +187,19 @@
             </div>
         </div>
     </div>
-    <div id="resetUserModal" class="modal fade" tabindex="-1" aria-labelledby="resetUserModal" aria-hidden="true">
+    <div id="confirmModal" class="modal fade text-center" tabindex="-1" aria-labelledby="confirmModal" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
-                <div id="resetModalBody" class="modal-body">
-                    <p>Lets edit the user</p>
+                <div class="modal-header">
+                    <h4 class="modal-title">Delete Confirmation</h4>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    <span id="modalBody">Are you sure you want to delete this user ?</span>
+                </div>
+                <div class="modal-footer">
+                    <a class="btn btn-success" href="" id="yesButton">Yes</a>
+                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">No</button>
                 </div>
             </div>
         </div>

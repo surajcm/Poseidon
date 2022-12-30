@@ -89,10 +89,6 @@ public class UserService {
         return userDAO.searchUserDetails(searchUser, startsWith, includes);
     }
 
-    public void expireUser(final Long id) {
-        userDAO.expireUser(id);
-    }
-
     public boolean comparePasswords(final String passedIn, final String currentUserPass) {
         return bcryptPasswordEncoder.matches(passedIn, currentUserPass);
     }

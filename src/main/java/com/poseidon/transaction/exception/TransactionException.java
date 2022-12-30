@@ -6,6 +6,7 @@ package com.poseidon.transaction.exception;
  * Time: 4:04:19 PM
  */
 public class TransactionException extends Exception {
+    public static final long serialVersionUID = 4328743;
     /**
      * exception type for all database related errors.
      */

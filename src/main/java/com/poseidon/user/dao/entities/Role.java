@@ -7,6 +7,7 @@ import jakarta.persistence.Table;
 
 @Entity
 @Table(name = "roles")
+@SuppressWarnings("PMD.DataClass")
 public class Role extends CommonEntity  {
     @Column(name = "name")
     private String name;

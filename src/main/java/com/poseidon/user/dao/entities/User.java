@@ -19,6 +19,7 @@ import java.util.Set;
 @EntityListeners(AuditingEntityListener.class)
 @Entity
 @Table(name = "member")
+@SuppressWarnings("PMD.DataClass")
 public class User extends CommonEntity {
 
     @Column(name = "name")
@@ -32,6 +33,9 @@ public class User extends CommonEntity {
 
     @Column(name = "companyCode")
     private String companyCode;
+
+    @Column(name = "photo")
+    private String photo;
 
     @Column(name = "enabled")
     private Boolean enabled;
@@ -80,6 +84,14 @@ public class User extends CommonEntity {
 
     public void setCompanyCode(final String companyCode) {
         this.companyCode = companyCode;
+    }
+
+    public String getPhoto() {
+        return photo;
+    }
+
+    public void setPhoto(final String photo) {
+        this.photo = photo;
     }
 
     public Set<Role> getRoles() {

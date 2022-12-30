@@ -14,8 +14,11 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import jakarta.servlet.http.HttpServletRequest;
@@ -26,7 +29,6 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
-
 
 @Controller
 @SuppressWarnings("unused")
@@ -116,7 +118,7 @@ public class UserController {
      * @param userForm userForm instance
      * @return to user list screen
      */
-    @PostMapping("/user/listAll")
+    @RequestMapping(value = "/user/listAll", method = {RequestMethod.GET, RequestMethod.POST})
     public String listAllUsers(@ModelAttribute final UserForm userForm,
                                final Model model) {
         logger.info("ListAll method of user controller ");
@@ -204,14 +206,6 @@ public class UserController {
         return "user/PasswordReset";
     }
 
-    @PostMapping("/user/passwordExpire")
-    public @ResponseBody
-    Boolean passwordExpiry(@ModelAttribute("id") final String id,
-                           final BindingResult result) {
-        userService.expireUser(Long.valueOf(id));
-        return Boolean.TRUE;
-    }
-
     @GetMapping("/user/getForEdit")
     public @ResponseBody
     User getForEdit(@ModelAttribute("id") final String id,
@@ -296,24 +290,25 @@ public class UserController {
     /**
      * delete the user.
      *
-     * @param userForm userForm instance
+     * @param id id
      * @return to user list screen
      */
-    @PostMapping("/user/deleteUser")
-    public String deleteUser(final UserForm userForm,
+    @GetMapping("/user/deleteUser/{id}")
+    public String deleteUser(final @PathVariable(name = "id") Long id,
                              final Model model,
                              final RedirectAttributes redirectAttributes) {
         logger.info("Inside DeleteUser method of user controller ");
         try {
-            userService.deleteUser(userForm.getId());
-            userForm.setStatusMessage("Successfully deleted the user");
-            userForm.setStatusMessageType(SUCCESS);
+            userService.deleteUser(id);
+            model.addAttribute("allRoles", fullRoleMap());
+            //userForm.setStatusMessage("Successfully deleted the user");
+            //userForm.setStatusMessageType(SUCCESS);
         } catch (Exception ex) {
-            userForm.setStatusMessage("Error occurred during deletion");
-            userForm.setStatusMessageType(DANGER);
+            //userForm.setStatusMessage("Error occurred during deletion");
+            //userForm.setStatusMessageType(DANGER);
             logger.error(ex.getLocalizedMessage(), ex);
         }
-        return listAllUsers(userForm, model);
+        return "redirect:/user/listAll";
     }
 
     private String currentLoggedInUser() {

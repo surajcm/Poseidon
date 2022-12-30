@@ -16,6 +16,7 @@ import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
 class CompanyDAOTest {
+    private static final String COMPANY_CODE = "ABC";
     private final CompanyRepository companyRepository = Mockito.mock(CompanyRepository.class);
     private final CompanyDAO companyDAO = new CompanyDAO(companyRepository);
 
@@ -47,20 +48,20 @@ class CompanyDAOTest {
     @Test
     void isValidCompanyCode() {
         when(companyRepository.findByCode(anyString())).thenReturn(Optional.of(mockCompanyTerms()));
-        Assertions.assertTrue(companyDAO.isValidCompanyCode("ABC"));
+        Assertions.assertTrue(companyDAO.isValidCompanyCode(COMPANY_CODE));
     }
 
     private CompanyTerms mockCompanyTerms() {
         var companyTerms = new CompanyTerms();
-        companyTerms.setName("ABC");
-        companyTerms.setTerms("ABC");
-        companyTerms.setAddress("ABC");
-        companyTerms.setPhone("ABC");
-        companyTerms.setEmail("ABC");
-        companyTerms.setWebsite("ABC");
-        companyTerms.setVatTin("ABC");
-        companyTerms.setCstTin("ABC");
-        companyTerms.setModifiedBy("ABC");
+        companyTerms.setName(COMPANY_CODE);
+        companyTerms.setTerms(COMPANY_CODE);
+        companyTerms.setAddress(COMPANY_CODE);
+        companyTerms.setPhone(COMPANY_CODE);
+        companyTerms.setEmail(COMPANY_CODE);
+        companyTerms.setWebsite(COMPANY_CODE);
+        companyTerms.setVatTin(COMPANY_CODE);
+        companyTerms.setCstTin(COMPANY_CODE);
+        companyTerms.setModifiedBy(COMPANY_CODE);
         return companyTerms;
     }
 

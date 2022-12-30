@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MakeSpecification  implements Specification<Make> {
+    public static final long serialVersionUID = 4328743;
     private final List<SearchCriteria> list;
 
     public MakeSpecification() {
@@ -28,7 +29,7 @@ public class MakeSpecification  implements Specification<Make> {
         //create a new predicate list
         List<Predicate> predicates = new ArrayList<>();
 
-        //add add criteria to predicates
+        //add criteria to predicates
         for (SearchCriteria criteria : list) {
             if (criteria.getOperation().equals(SearchOperation.EQUAL)) {
                 predicates.add(builder.equal(

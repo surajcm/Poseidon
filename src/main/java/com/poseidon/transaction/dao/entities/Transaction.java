@@ -12,6 +12,7 @@ import java.time.LocalDateTime;
 @EntityListeners(AuditingEntityListener.class)
 @Entity
 @Table(name = "transaction")
+@SuppressWarnings("PMD.DataClass")
 public class Transaction extends CommonEntity {
 
     @Column(name = "tagno")

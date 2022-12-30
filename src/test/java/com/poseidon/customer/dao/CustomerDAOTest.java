@@ -22,11 +22,12 @@ import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
 class CustomerDAOTest {
+    private static final String ABC = "ABC";
     private final CustomerRepository customerRepository = Mockito.mock(CustomerRepository.class);
-    private final CustomerAdditionalDetailsRepository customerAdditionalDetailsRepository =
+    private final CustomerAdditionalDetailsRepository detailsRepository =
             Mockito.mock(CustomerAdditionalDetailsRepository.class);
     private final CustomerDAO customerDAO = new CustomerDAO(
-            customerRepository, customerAdditionalDetailsRepository);
+            customerRepository, detailsRepository);
 
     @Test
     void listAllCustomerDetailsSuccess() {
@@ -42,20 +43,20 @@ class CustomerDAOTest {
     }
 
     @Test
-    void getCustomerFromIdSuccessWithAdditionalDetails() {
+    void customerFromIdSuccessWithAdditionalDetails() {
         when(customerRepository.findById(anyLong())).thenReturn(Optional.of(mockCustomer()));
-        when(customerAdditionalDetailsRepository.findByCustomerId(anyLong())).thenReturn(additionalDetails());
+        when(detailsRepository.findByCustomerId(anyLong())).thenReturn(additionalDetails());
         Assertions.assertNotNull(customerDAO.getCustomerFromId(1234L));
     }
 
     @Test
-    void getCustomerFromIdSuccess() {
+    void customerFromWithIdSuccess() {
         when(customerRepository.findById(anyLong())).thenReturn(Optional.of(mockCustomer()));
         Assertions.assertNotNull(customerDAO.getCustomerFromId(1234L));
     }
 
     @Test
-    void getCustomerFromIdEmptySuccess() {
+    void customerFromIdEmptySuccess() {
         when(customerRepository.findById(anyLong())).thenReturn(Optional.empty());
         Assertions.assertTrue(customerDAO.getCustomerFromId(1234L).isEmpty());
     }
@@ -67,7 +68,7 @@ class CustomerDAOTest {
 
     @Test
     void deleteCustomerFromIdSuccessWithDetails() {
-        when(customerAdditionalDetailsRepository.findByCustomerId(anyLong())).thenReturn(additionalDetails());
+        when(detailsRepository.findByCustomerId(anyLong())).thenReturn(additionalDetails());
         Assertions.assertAll(() -> customerDAO.deleteCustomerFromId(1234L));
     }
 
@@ -98,22 +99,22 @@ class CustomerDAOTest {
     private CustomerVO mockCustomerVO() {
         var customerVO = new CustomerVO();
         customerVO.setCustomerId(1234L);
-        customerVO.setCustomerName("ABC");
-        customerVO.setNotes("ABC");
-        customerVO.setAddress("ABC");
+        customerVO.setCustomerName(ABC);
+        customerVO.setNotes(ABC);
+        customerVO.setAddress(ABC);
         customerVOContacts(customerVO);
-        customerVO.setNotes("ABC");
-        customerVO.setCreatedBy("ABC");
-        customerVO.setModifiedBy("ABC");
+        customerVO.setNotes(ABC);
+        customerVO.setCreatedBy(ABC);
+        customerVO.setModifiedBy(ABC);
         return customerVO;
     }
 
     private void customerVOContacts(final CustomerVO customerVO) {
-        customerVO.setPhoneNo("ABC");
-        customerVO.setMobile("ABC");
-        customerVO.setEmail("ABC");
-        customerVO.setContactPerson("ABC");
-        customerVO.setContactMobile("ABC");
+        customerVO.setPhoneNo(ABC);
+        customerVO.setMobile(ABC);
+        customerVO.setEmail(ABC);
+        customerVO.setContactPerson(ABC);
+        customerVO.setContactMobile(ABC);
     }
 
     private List<Customer> mockCustomers() {
@@ -125,18 +126,18 @@ class CustomerDAOTest {
     private Customer mockCustomer() {
         var customer = new Customer();
         customer.setId(1234L);
-        customer.setName("ABC");
-        customer.setAddress("ABC");
+        customer.setName(ABC);
+        customer.setAddress(ABC);
         setCustomerContacts(customer);
-        customer.setCreatedBy("ABC");
-        customer.setModifiedBy("ABC");
+        customer.setCreatedBy(ABC);
+        customer.setModifiedBy(ABC);
         return customer;
     }
 
     private void setCustomerContacts(final Customer customer) {
-        customer.setPhone("ABC");
-        customer.setMobile("ABC");
-        customer.setEmail("ABC");
+        customer.setPhone(ABC);
+        customer.setMobile(ABC);
+        customer.setEmail(ABC);
     }
 
     private Optional<CustomerAdditionalDetails> additionalDetails() {

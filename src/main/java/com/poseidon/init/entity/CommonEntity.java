@@ -11,6 +11,7 @@ import jakarta.persistence.MappedSuperclass;
 import java.time.LocalDateTime;
 
 @MappedSuperclass
+@SuppressWarnings("PMD.DataClass")
 public class CommonEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

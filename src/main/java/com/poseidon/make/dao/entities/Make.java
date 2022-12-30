@@ -13,6 +13,7 @@ import java.util.List;
 @EntityListeners(AuditingEntityListener.class)
 @Entity
 @Table(name = "make")
+@SuppressWarnings("PMD.DataClass")
 public class Make extends CommonEntity {
 
     @Column(name = "makeName")

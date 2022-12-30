@@ -3,6 +3,7 @@ package com.poseidon.init.specs;
 import java.io.Serializable;
 
 public class SearchCriteria implements Serializable {
+    public static final long serialVersionUID = 4328743;
     private String key;
     private transient Object value;
     private SearchOperation operation;

@@ -13,6 +13,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class CustomerSpecification  implements Specification<Customer> {
+    public static final long serialVersionUID = 4328743;
     private final List<SearchCriteria> list;
 
     public CustomerSpecification() {

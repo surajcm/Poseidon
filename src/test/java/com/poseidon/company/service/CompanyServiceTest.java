@@ -12,6 +12,7 @@ import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
 class CompanyServiceTest {
+    private static final String COMPANY_CODE = "ABC";
     private final CompanyDAO companyDAO = Mockito.mock(CompanyDAO.class);
     private final CompanyService companyService = new CompanyService(companyDAO);
 
@@ -20,7 +21,7 @@ class CompanyServiceTest {
         when(companyDAO.listCompanyTerms("QC01")).thenReturn(mockCompanyTerms());
         var companyTermsVO = companyService.listCompanyTerms("QC01");
         Assertions.assertTrue(companyTermsVO.isPresent());
-        Assertions.assertEquals("ABC", companyTermsVO.get().getName());
+        Assertions.assertEquals(COMPANY_CODE, companyTermsVO.get().getName());
     }
 
     @Test
@@ -28,18 +29,18 @@ class CompanyServiceTest {
         when(companyDAO.updateCompanyDetails(any())).thenReturn(mockCompanyTerms());
         var companyTermsVO = companyService.updateCompanyDetails(new CompanyTerms());
         Assertions.assertTrue(companyTermsVO.isPresent());
-        Assertions.assertEquals("ABC", companyTermsVO.get().getName());
+        Assertions.assertEquals(COMPANY_CODE, companyTermsVO.get().getName());
     }
 
     @Test
     void isValidCompanyCode() {
         when(companyDAO.isValidCompanyCode(anyString())).thenReturn(true);
-        Assertions.assertTrue(companyService.isValidCompanyCode("ABC"));
+        Assertions.assertTrue(companyService.isValidCompanyCode(COMPANY_CODE));
     }
 
     private Optional<CompanyTerms> mockCompanyTerms() {
         var companyTerms = new CompanyTerms();
-        companyTerms.setName("ABC");
+        companyTerms.setName(COMPANY_CODE);
         return Optional.of(companyTerms);
     }
 }

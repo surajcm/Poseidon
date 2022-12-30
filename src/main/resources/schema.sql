@@ -21,6 +21,7 @@ create table member (
     email       varchar(225),
     password    varchar(255),
     companyCode varchar(45),
+    photo       varchar(45),
     enabled     boolean default false not null,
     createdOn   datetime,
     modifiedOn  datetime,

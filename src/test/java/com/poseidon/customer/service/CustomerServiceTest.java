@@ -32,6 +32,8 @@ import static org.mockito.Mockito.when;
 @ExtendWith(SpringExtension.class)
 @ContextConfiguration(classes = {CustomerServiceConfiguration.class})
 class CustomerServiceTest {
+    private static final String PHONE_NO = "000000";
+    private static final String ADMIN = "admin";
     private CustomerService customerService;
 
     @Autowired
@@ -61,12 +63,12 @@ class CustomerServiceTest {
         customer.setId(1L);
         customer.setName("Moon Knight");
         customer.setAddress("Egypt");
-        customer.setPhone("000000");
-        customer.setMobile("000000");
+        customer.setPhone(PHONE_NO);
+        customer.setMobile(PHONE_NO);
         customer.setEmail("email@email.com");
-        customer.setCreatedBy("admin");
+        customer.setCreatedBy(ADMIN);
         customer.setCreatedOn(LocalDateTime.now(ZoneId.systemDefault()));
-        customer.setModifiedBy("admin");
+        customer.setModifiedBy(ADMIN);
         customer.setModifiedOn(LocalDateTime.now(ZoneId.systemDefault()));
         return customer;
     }
@@ -76,16 +78,16 @@ class CustomerServiceTest {
         customerVO.setCustomerId(1L);
         customerVO.setCustomerName("Moon Knight");
         customerVO.setAddress("Egypt");
-        customerVO.setPhoneNo("000000");
-        customerVO.setMobile("000000");
+        customerVO.setPhoneNo(PHONE_NO);
+        customerVO.setMobile(PHONE_NO);
         customerVO.setEmail("email@email.com");
         customerVO.setContactPerson("No one");
-        customerVO.setContactMobile("000000");
+        customerVO.setContactMobile(PHONE_NO);
         customerVO.setNotes("Notes");
         customerVO.setCustomerAdditionalDetailsVO(mockAdditionalDetailsVO());
-        customerVO.setCreatedBy("admin");
+        customerVO.setCreatedBy(ADMIN);
         customerVO.setCreatedOn(OffsetDateTime.now(ZoneId.systemDefault()));
-        customerVO.setModifiedBy("admin");
+        customerVO.setModifiedBy(ADMIN);
         customerVO.setModifiedOn(OffsetDateTime.now(ZoneId.systemDefault()));
         return customerVO;
     }
@@ -94,17 +96,17 @@ class CustomerServiceTest {
         var additionalDetails = new CustomerAdditionalDetailsVO();
         additionalDetails.setCustomerId(1L);
         additionalDetails.setContactPerson("No One");
-        additionalDetails.setContactMobile("000000");
+        additionalDetails.setContactMobile(PHONE_NO);
         additionalDetails.setNotes("Notes");
-        additionalDetails.setCreatedBy("admin");
+        additionalDetails.setCreatedBy(ADMIN);
         additionalDetails.setCreatedOn(OffsetDateTime.now(ZoneId.systemDefault()));
-        additionalDetails.setModifiedBy("admin");
+        additionalDetails.setModifiedBy(ADMIN);
         additionalDetails.setModifiedOn(OffsetDateTime.now(ZoneId.systemDefault()));
         return additionalDetails;
     }
 
     @Test
-    void getCustomerFromIdSuccess() {
+    void customerFromIdSuccess() {
         when(customerDAO.getCustomerFromId(anyLong())).thenReturn(Optional.of(new CustomerVO()));
         Assertions.assertNotNull(customerService.getCustomerFromId(1234L));
     }

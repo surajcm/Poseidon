@@ -11,6 +11,7 @@ import jakarta.persistence.Table;
 @EntityListeners(AuditingEntityListener.class)
 @Entity
 @Table(name = "companyterms")
+@SuppressWarnings("PMD.DataClass")
 public class CompanyTerms extends CommonEntity {
 
     @Column(name = "name")

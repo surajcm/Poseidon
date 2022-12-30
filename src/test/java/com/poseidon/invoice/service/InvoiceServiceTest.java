@@ -8,7 +8,6 @@ import com.poseidon.transaction.service.TransactionService;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.ArgumentMatchers;
 import org.mockito.Mockito;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
@@ -39,7 +38,7 @@ class InvoiceServiceTest {
     @Test
     void fetchInvoiceForListOfTransactionsSuccess() {
         when(transactionService.listTodaysTransactions()).thenReturn(mockListOfTransactionVOs());
-        when(invoiceDAO.fetchInvoiceForListOfTransactions(ArgumentMatchers.any()))
+        when(invoiceDAO.fetchInvoiceForListOfTransactions(any()))
                 .thenReturn(new ArrayList<>());
         Assertions.assertNotNull(invoiceService.fetchInvoiceForListOfTransactions());
     }
