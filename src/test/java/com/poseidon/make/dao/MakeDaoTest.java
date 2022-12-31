@@ -56,13 +56,13 @@ class MakeDaoTest {
     }
 
     @Test
-    void getMakeFromIdSuccess() {
+    void makeFromIdSuccess() {
         when(makeRepository.findById(anyLong())).thenReturn(Optional.of(mockMake()));
         Assertions.assertNotNull(makeDao.getMakeFromId(1234L));
     }
 
     @Test
-    void getMakeFromIdSuccessOnEmpty() {
+    void makeFromIdSuccessOnEmpty() {
         when(makeRepository.findById(anyLong())).thenReturn(Optional.empty());
         Assertions.assertEquals(Optional.empty(), makeDao.getMakeFromId(1234L));
     }
@@ -73,13 +73,13 @@ class MakeDaoTest {
     }
 
     @Test
-    void getModelFromIdSuccess() {
+    void modelFromIdSuccess() {
         when(modelRepository.findById(anyLong())).thenReturn(Optional.of(mockModel()));
         Assertions.assertNotNull(makeDao.getModelFromId(1234L));
     }
 
     @Test
-    void getModelFromIdSuccessOnEmpty() {
+    void modelFromIdSuccessOnEmpty() {
         when(modelRepository.findById(anyLong())).thenReturn(Optional.empty());
         Assertions.assertEquals(Optional.empty(), makeDao.getModelFromId(1234L));
     }
@@ -117,7 +117,7 @@ class MakeDaoTest {
     }
 
     @Test
-    void getAllModelsFromMakeIdSuccess() {
+    void allModelsFromMakeIdSuccess() {
         var mockMake = mockMake();
         mockMake.setModels(mockModels());
         when(makeRepository.findById(anyLong())).thenReturn(Optional.of(mockMake));
@@ -125,13 +125,13 @@ class MakeDaoTest {
     }
 
     @Test
-    void getAllModelsFromMakeIdSuccessOnEmpty() {
+    void allModelsFromMakeIdSuccessOnEmpty() {
         when(makeRepository.findById(anyLong())).thenReturn(Optional.empty());
         Assertions.assertNull(makeDao.getAllModelsFromMakeId(1234L));
     }
 
     @Test
-    void getAllModelsFromMakeIdSuccessOnEmptyModels() {
+    void allModelsFromMakeIdSuccessOnEmptyModels() {
         when(makeRepository.findById(anyLong())).thenReturn(Optional.of(mockMake()));
         Assertions.assertNull(makeDao.getAllModelsFromMakeId(1234L));
     }

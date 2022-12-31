@@ -192,7 +192,6 @@ function showStatus(status) {
 }
 
 function deleteUser(e) {
-    //console.log(e.target);
     let yesButton = document.getElementById("yesButton");
     let parentHref = e.target.href;
     yesButton.setAttribute("href", parentHref);

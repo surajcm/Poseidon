@@ -41,7 +41,7 @@ class MakeServiceTest {
     }
 
     @Test
-    void getMakeFromIdSuccess() {
+    void makeFromIdSuccess() {
         when(makeDAO.getMakeFromId(anyLong())).thenReturn(Optional.of(Mockito.mock(MakeAndModelVO.class)));
         Assertions.assertNotNull(makeService.getMakeFromId(1234L));
     }
@@ -52,7 +52,7 @@ class MakeServiceTest {
     }
 
     @Test
-    void getModelFromIdSuccess() {
+    void modelFromIdSuccess() {
         when(makeDAO.getModelFromId(anyLong())).thenReturn(Optional.of(Mockito.mock(MakeAndModelVO.class)));
         Assertions.assertNotNull(makeService.getModelFromId(1234L));
     }
@@ -97,7 +97,7 @@ class MakeServiceTest {
     }
 
     @Test
-    void getAllModelsFromMakeIdSuccess() {
+    void allModelsFromMakeIdSuccess() {
         when(makeDAO.getAllModelsFromMakeId(anyLong())).thenReturn(mockListOfMakeAndModelVO());
         var makeVOs = makeService.getAllModelsFromMakeId(1234L);
         Assertions.assertEquals(1234L, makeVOs.get(0).getId());

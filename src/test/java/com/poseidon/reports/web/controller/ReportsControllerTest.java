@@ -56,23 +56,23 @@ class ReportsControllerTest {
     }
 
     @Test
-    void getTransactionsListReport() throws Exception {
+    void transactionsListReport() throws Exception {
         mvc.perform(post("/reports/transactionsListReport")).andExpect(status().isOk());
     }
 
     @Test
-    void getModelListReport() throws Exception {
+    void modelListReport() throws Exception {
         mvc.perform(post("/reports/modelListReport")).andExpect(status().isOk());
     }
 
     @Test
-    void getErrorReport() throws Exception {
+    void errorReport() throws Exception {
         mvc.perform(post("/reports/errorReport")).andExpect(status().isOk());
     }
 
     @Test
     @Disabled
-    void getInvoiceReport() throws Exception {
+    void invoiceReport() throws Exception {
         mvc.perform(post("/reports/invoiceReport")).andExpect(status().isOk());
     }
 }

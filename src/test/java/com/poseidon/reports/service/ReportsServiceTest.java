@@ -29,6 +29,8 @@ import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
 class ReportsServiceTest {
+    private static final String ERROR = "ERROR";
+    private static final String COMPANY_CODE = "QC01";
     private final ReportsDAO reportsDAO = Mockito.mock(ReportsDAO.class);
     private final MakeService makeService = Mockito.mock(MakeService.class);
     private final TransactionService transactionService = Mockito.mock(TransactionService.class);
@@ -44,15 +46,15 @@ class ReportsServiceTest {
     }
 
     @Test
-    void getMakeDetailsChartSuccess() throws JRException {
+    void makeDetailsChartSuccess() throws JRException {
         when(reportsDAO.getMakeDetailsChart(any(), any())).thenReturn(Mockito.mock(JasperPrint.class));
         Assertions.assertNotNull(reportsService.getMakeDetailsChart(
                 Mockito.mock(JasperReport.class), new ReportsVO()));
     }
 
     @Test
-    void getMakeDetailsChartFailure() throws JRException {
-        when(reportsDAO.getMakeDetailsChart(any(), any())).thenThrow(new JRException("ERROR"));
+    void makeDetailsChartFailure() throws JRException {
+        when(reportsDAO.getMakeDetailsChart(any(), any())).thenThrow(new JRException(ERROR));
         Assertions.assertNotNull(reportsService.getMakeDetailsChart(
                 Mockito.mock(JasperReport.class), new ReportsVO()));
     }
@@ -65,66 +67,66 @@ class ReportsServiceTest {
     }
 
     @Test
-    void getTransactionsListReportSuccess() throws JRException {
+    void transactionsListReportSuccess() throws JRException {
         when(reportsDAO.getTransactionsListReport(any(), any())).thenReturn(Mockito.mock(JasperPrint.class));
         Assertions.assertNotNull(reportsService.getTransactionsListReport(
                 Mockito.mock(JasperReport.class), new ReportsVO(), new TransactionVO()));
     }
 
     @Test
-    void getModelListReportSuccess() throws JRException {
+    void modelListReportSuccess() throws JRException {
         when(reportsDAO.getModelListReport(any(), any())).thenReturn(Mockito.mock(JasperPrint.class));
         Assertions.assertNotNull(reportsService.getModelListReport(
                 Mockito.mock(JasperReport.class), new ReportsVO(), new MakeAndModelVO()));
     }
 
     @Test
-    void getModelListReportFailure() throws JRException {
-        when(reportsDAO.getModelListReport(any(), any())).thenThrow(new JRException("ERROR"));
+    void modelListReportFailure() throws JRException {
+        when(reportsDAO.getModelListReport(any(), any())).thenThrow(new JRException(ERROR));
         Assertions.assertNotNull(reportsService.getModelListReport(
                 Mockito.mock(JasperReport.class), new ReportsVO(), new MakeAndModelVO()));
     }
 
     @Test
-    void getErrorReportSuccess() throws JRException {
+    void errorReportSuccess() throws JRException {
         when(reportsDAO.getErrorReport(any())).thenReturn(Mockito.mock(JasperPrint.class));
         Assertions.assertNotNull(reportsService.getErrorReport(Mockito.mock(JasperReport.class)));
     }
 
     @Test
-    void getErrorReportFailure() throws JRException {
-        when(reportsDAO.getErrorReport(any())).thenThrow(new JRException("ERROR"));
+    void errorReportFailure() throws JRException {
+        when(reportsDAO.getErrorReport(any())).thenThrow(new JRException(ERROR));
         Assertions.assertNotNull(reportsService.getErrorReport(Mockito.mock(JasperReport.class)));
     }
 
     @Test
-    void getInvoiceReportSuccess() throws JRException {
+    void invoiceReportSuccess() throws JRException {
         when(reportsDAO.getInvoiceReport(any(), any())).thenReturn(Mockito.mock(JasperPrint.class));
         Assertions.assertNotNull(reportsService.getInvoiceReport(Mockito.mock(JasperReport.class),
-                new ReportsVO(), "QC01"));
+                new ReportsVO(), COMPANY_CODE));
     }
 
     @Test
-    void getInvoiceReportCompanyFailure() throws JRException {
+    void invoiceReportCompanyFailure() throws JRException {
         when(transactionService.fetchTransactionFromTag(any()))
                 .thenReturn(Mockito.mock(TransactionReportVO.class));
-        when(companyService.listCompanyTerms("QC01")).thenReturn(Optional.empty());
-        when(reportsDAO.getInvoiceReport(any(), any())).thenThrow(new JRException("ERROR"));
+        when(companyService.listCompanyTerms(COMPANY_CODE)).thenReturn(Optional.empty());
+        when(reportsDAO.getInvoiceReport(any(), any())).thenThrow(new JRException(ERROR));
         Assertions.assertNotNull(reportsService.getInvoiceReport(Mockito.mock(JasperReport.class),
-                new ReportsVO(), "QC01"));
+                new ReportsVO(), COMPANY_CODE));
     }
 
     @Test
-    void getInvoiceReportFailure() throws JRException {
+    void invoiceReportFailure() throws JRException {
         when(transactionService.fetchTransactionFromTag(any()))
                 .thenReturn(Mockito.mock(TransactionReportVO.class));
         List<InvoiceVO> invoiceVO = new ArrayList<>();
         invoiceVO.add(Mockito.mock(InvoiceVO.class));
         when(invoiceService.findInvoices(any())).thenReturn(invoiceVO);
-        when(companyService.listCompanyTerms("QC01")).thenReturn(Optional.of(Mockito.mock(CompanyTerms.class)));
-        when(reportsDAO.getInvoiceReport(any(), any())).thenThrow(new JRException("ERROR"));
+        when(companyService.listCompanyTerms(COMPANY_CODE)).thenReturn(Optional.of(Mockito.mock(CompanyTerms.class)));
+        when(reportsDAO.getInvoiceReport(any(), any())).thenThrow(new JRException(ERROR));
         Assertions.assertNotNull(reportsService.getInvoiceReport(Mockito.mock(JasperReport.class),
-                new ReportsVO(), "QC01"));
+                new ReportsVO(), COMPANY_CODE));
     }
 
 }

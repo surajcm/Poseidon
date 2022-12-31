@@ -23,7 +23,7 @@ class UserServiceTest {
     private final UserService userService = new UserService(userDAO, bcryptPasswordEncoder, roleRepository);
 
     @Test
-    void getAllUserDetailsSuccess() {
+    void allUserDetailsSuccess() {
         Assertions.assertNotNull(userService.getAllUserDetails("admin"));
     }
 
@@ -33,7 +33,7 @@ class UserServiceTest {
     }
 
     @Test
-    void getUserDetailsFromIdSuccess() {
+    void userDetailsFromIdSuccess() {
         when(userDAO.getUserDetailsFromId(anyLong())).thenReturn(Optional.of(new User()));
         Assertions.assertNotNull(userService.getUserDetailsFromId(1234L));
     }

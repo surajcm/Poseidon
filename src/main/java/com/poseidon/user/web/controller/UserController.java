@@ -3,7 +3,6 @@ package com.poseidon.user.web.controller;
 import com.poseidon.init.util.CommonUtils;
 import com.poseidon.user.dao.entities.Role;
 import com.poseidon.user.dao.entities.User;
-import com.poseidon.user.service.SecurityService;
 import com.poseidon.user.service.UserService;
 import com.poseidon.user.web.form.UserForm;
 import org.slf4j.Logger;
@@ -21,7 +20,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.AbstractMap;
@@ -43,93 +41,27 @@ public class UserController {
     private static final String DB_ERROR = " An error occurred while fetching data from database. !! ";
     private static final String EXCEPTION_IN_CONTROLLER = " Exception type in controller {}";
     private static final String MESSAGE = "message";
+    private static final String ALL_ROLES = "allRoles";
 
     private final UserService userService;
 
-    private final SecurityService securityService;
-
-    public UserController(final UserService userService, final SecurityService securityService) {
+    public UserController(final UserService userService) {
         this.userService = userService;
-        this.securityService = securityService;
     }
 
-    /**
-     * Used in automatic redirect to Log in screen.
-     *
-     * @return MainPage screen
-     */
-    @GetMapping("/")
-    public String welcome() {
-        return "MainPage";
-    }
-
-    /**
-     * log in.
-     *
-     * @param model  Model
-     * @param error  String
-     * @param logout String
-     * @return String
-     */
-    @GetMapping("/login")
-    public String login(final Model model, final String error, final String logout) {
-        if (securityService.isAuthenticated()) {
-            return "redirect:/";
-        }
-        if (error != null) {
-            model.addAttribute(DANGER, "Your username or password is invalid.");
-        }
-        if (logout != null) {
-            model.addAttribute(MESSAGE, "You have been logged out successfully.");
-        }
-        return USER_LOG_IN;
-    }
-
-    /**
-     * Screen to home.
-     *
-     * @return to home screen
-     */
-    @PostMapping("/home")
-    public String toHome() {
-        logger.info("Inside ToHome method of user controller");
-        return "MainPage";
-    }
-
-    /**
-     * Screen to log out.
-     *
-     * @return to logout screen
-     */
-    @PostMapping("/logMeOut")
-    public String logMeOut(final HttpServletRequest request) {
-        logger.info("Inside LogMeOut method of user controller");
-        var session = request.getSession(false);
-        SecurityContextHolder.clearContext();
-        if (session != null) {
-            session.invalidate();
-        }
-        return USER_LOG_IN;
-    }
 
     /**
      * Used to list all users (can be done only by admin user).
      *
-     * @param userForm userForm instance
      * @return to user list screen
      */
     @RequestMapping(value = "/user/listAll", method = {RequestMethod.GET, RequestMethod.POST})
-    public String listAllUsers(@ModelAttribute final UserForm userForm,
-                               final Model model) {
+    public String listAllUsers(final Model model) {
         logger.info("ListAll method of user controller ");
         var users = allUsers();
-        if (users.isEmpty()) {
-            userForm.setStatusMessage("No user found");
-            userForm.setStatusMessageType(DANGER);
-        }
-        model.addAttribute("allRoles", fullRoleMap());
+        model.addAttribute(ALL_ROLES, fullRoleMap());
         model.addAttribute("users", users);
-        model.addAttribute(USER_FORM, userForm);
+        model.addAttribute(USER_FORM, new UserForm());
         return USER_LIST;
     }
 
@@ -195,15 +127,9 @@ public class UserController {
             userForm.setStatusMessageType(DANGER);
         }
         model.addAttribute("users", users);
-        model.addAttribute("allRoles", fullRoleMap());
+        model.addAttribute(ALL_ROLES, fullRoleMap());
         model.addAttribute(USER_FORM, userForm);
         return USER_LIST;
-    }
-
-    @PostMapping("/user/passwordReset")
-    public String reset() {
-        logger.info("Password reset view of user controller");
-        return "user/PasswordReset";
     }
 
     @GetMapping("/user/getForEdit")
@@ -300,7 +226,7 @@ public class UserController {
         logger.info("Inside DeleteUser method of user controller ");
         try {
             userService.deleteUser(id);
-            model.addAttribute("allRoles", fullRoleMap());
+            model.addAttribute(ALL_ROLES, fullRoleMap());
             //userForm.setStatusMessage("Successfully deleted the user");
             //userForm.setStatusMessageType(SUCCESS);
         } catch (Exception ex) {

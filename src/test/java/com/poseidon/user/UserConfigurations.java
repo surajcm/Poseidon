@@ -1,7 +1,8 @@
 package com.poseidon.user;
 
-import com.poseidon.user.service.UserService;
 import com.poseidon.user.service.SecurityService;
+import com.poseidon.user.service.UserService;
+import com.poseidon.user.web.controller.HomeController;
 import com.poseidon.user.web.controller.UserController;
 import org.mockito.Mockito;
 import org.springframework.context.annotation.Bean;
@@ -12,8 +13,7 @@ public class UserConfigurations {
     @Bean
     public UserController userController() {
         return new UserController(
-                Mockito.mock(UserService.class),
-                Mockito.mock(SecurityService.class));
+                Mockito.mock(UserService.class));
     }
 
     @Bean
@@ -22,7 +22,7 @@ public class UserConfigurations {
     }
 
     @Bean
-    public SecurityService securityService() {
-        return Mockito.mock(SecurityService.class);
+    public HomeController homeController() {
+        return new HomeController(Mockito.mock(SecurityService.class));
     }
 }

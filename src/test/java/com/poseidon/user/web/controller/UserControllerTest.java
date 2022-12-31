@@ -14,7 +14,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.test.web.servlet.MockMvc;
-import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import static org.mockito.ArgumentMatchers.anyString;
@@ -41,11 +40,6 @@ class UserControllerTest {
     }
 
     @Test
-    void index() throws Exception {
-        mvc.perform(MockMvcRequestBuilders.get("/")).andExpect(status().isOk());
-    }
-
-    @Test
     void listAll() throws Exception {
         when(userService.findUserFromName(anyString())).thenReturn(mockUser());
         mvc.perform(post("/user/listAll")).andExpect(status().isOk());
@@ -65,16 +59,6 @@ class UserControllerTest {
     @Test
     void deleteUser() throws Exception {
         mvc.perform(get("/user/deleteUser/2")).andExpect(status().is(302));
-    }
-
-    @Test
-    void toHome() throws Exception {
-        mvc.perform(post("/home")).andExpect(status().isOk());
-    }
-
-    @Test
-    void logMeOut() throws Exception {
-        mvc.perform(post("/logMeOut")).andExpect(status().isOk());
     }
 
     @Test

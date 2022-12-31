@@ -27,6 +27,7 @@ import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
 class TransactionDAOTest {
+    private static final String ABC = "ABC";
     private final TransactionRepository transactionRepository = Mockito.mock(TransactionRepository.class);
     private final CustomerRepository customerRepository = Mockito.mock(CustomerRepository.class);
     private final MakeRepository makeRepository = Mockito.mock(MakeRepository.class);
@@ -94,7 +95,7 @@ class TransactionDAOTest {
         when(makeRepository.findById(anyLong())).thenReturn(mockMake());
         when(modelRepository.findById(anyLong())).thenReturn(mockModel());
         when(transactionRepository.findBytagno(anyString())).thenReturn(mockTransaction());
-        Assertions.assertNotNull(transactionDAO.fetchTransactionFromTag("ABC"));
+        Assertions.assertNotNull(transactionDAO.fetchTransactionFromTag(ABC));
     }
 
     @Test
@@ -125,45 +126,45 @@ class TransactionDAOTest {
     private Transaction mockTransaction() {
         var transaction = new Transaction();
         transaction.setId(1234L);
-        transaction.setTagno("ABC");
+        transaction.setTagno(ABC);
         transaction.setDateReported(LocalDateTime.now(ZoneId.systemDefault()));
-        transaction.setProductCategory("ABC");
+        transaction.setProductCategory(ABC);
         transaction.setCustomerId(1234L);
         transaction.setMakeId(1234L);
         transaction.setModelId(1234L);
-        transaction.setSerialNumber("ABC");
+        transaction.setSerialNumber(ABC);
         transaction.setStatus("PENDING");
-        transaction.setAccessories("ABC");
+        transaction.setAccessories(ABC);
         addAdditionalRemarks(transaction);
         return transaction;
     }
 
     private void addAdditionalRemarks(final Transaction transaction) {
-        transaction.setComplaintReported("ABC");
-        transaction.setComplaintDiagnosed("ABC");
-        transaction.setEngineerRemarks("ABC");
-        transaction.setRepairAction("ABC");
-        transaction.setNote("ABC");
+        transaction.setComplaintReported(ABC);
+        transaction.setComplaintDiagnosed(ABC);
+        transaction.setEngineerRemarks(ABC);
+        transaction.setRepairAction(ABC);
+        transaction.setNote(ABC);
     }
 
     private Customer mockCustomer() {
         var customer = new Customer();
         customer.setId(1234L);
-        customer.setName("ABC");
+        customer.setName(ABC);
         return customer;
     }
 
     private Optional<Make> mockMake() {
         var make = new Make();
         make.setId(1234L);
-        make.setMakeName("ABC");
+        make.setMakeName(ABC);
         return Optional.of(make);
     }
 
     private Optional<Model> mockModel() {
         var model = new Model();
         model.setModelId(1234L);
-        model.setModelName("ABC");
+        model.setModelName(ABC);
         return Optional.of(model);
     }
 }

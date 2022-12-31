@@ -23,7 +23,7 @@ class UserDAOTest {
     private final UserDAO userDAO = new UserDAO(userRepository);
 
     @Test
-    void getAllUserDetailsSuccess() {
+    void allUserDetailsSuccess() {
         when(userRepository.findByCompanyCode(anyString())).thenReturn(mockUsers());
         Assertions.assertTrue(userDAO.getAllUserDetails("admin").size() > 0);
     }
@@ -34,13 +34,13 @@ class UserDAOTest {
     }
 
     @Test
-    void getUserDetailsFromIdSuccess() {
+    void userDetailsFromIdSuccess() {
         when(userRepository.findById(anyLong())).thenReturn(mockUser());
         Assertions.assertNotNull(userDAO.getUserDetailsFromId(1234L));
     }
 
     @Test
-    void getUserDetailsFromIdSuccessOnEmpty() {
+    void userDetailsFromIdSuccessOnEmpty() {
         when(userRepository.findById(anyLong())).thenReturn(Optional.empty());
         Assertions.assertTrue(userDAO.getUserDetailsFromId(1234L).isEmpty());
     }
