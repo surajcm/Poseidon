@@ -24,14 +24,70 @@ function rewriteTable(textReturned) {
 }
 
 function singleRowInTheTable(singleUser) {
-    console.log(singleUser);
+    //console.log(singleUser);
     let trx = document.createElement("tr");
     trx.appendChild(sideHeader(singleUser.id));
+    trx.appendChild(photoIconOnTD());
     trx.appendChild(tdElement(singleUser.name));
     trx.appendChild(tdElement(singleUser.email));
-    //console.log(showAllRoles(singleUser.roles));
     trx.appendChild(tdElement(showAllRoles(singleUser.roles)));
+    trx.appendChild(enabledSwitcher(singleUser.enabled));
+    trx.appendChild(editDeleteIcons(singleUser.id));
     return trx;
+}
+function photoIconOnTD() {
+    const td2 = document.createElement("td");
+    const photoSpan = document.createElement("span")
+    photoSpan.setAttribute("class", "fa-solid fa-user fa-3x");
+    td2.appendChild(photoSpan);
+    return td2;
+}
+
+function enabledSwitcher(enabled) {
+    const td2 = document.createElement("td");
+    const enabledLink = document.createElement("a");
+    if (enabled) {
+        enabledLink.setAttribute("class", "fa-solid fa-circle-check");
+    } else {
+        enabledLink.setAttribute("class", "fa-solid fa-circle icon-dark");
+    }
+    enabledLink.setAttribute("href", "");
+    td2.appendChild(enabledLink);
+    return td2;
+}
+function editDeleteIcons(id) {
+    const td2 = document.createElement("td");
+    const editor = editIcon(id);
+    const deleter = deleteIcon(id);
+    td2.appendChild(editor);
+    let str = td2.innerHTML;
+    str += '&nbsp';
+    td2.innerHTML = str;
+    td2.appendChild(deleter);
+    return td2;
+}
+
+function editIcon(id) {
+    const editor = document.createElement("a");
+    editor.setAttribute("class", "fa-regular fa-pen-to-square");
+    editor.setAttribute("href", "");
+    editor.setAttribute("data-bs-toggle", "modal");
+    editor.setAttribute("data-bs-target", "#editUserModal");
+    editor.setAttribute("title", "Edit this user");
+    editor.setAttribute("onclick", "javascript:editUser("+id+")");
+    return editor;
+}
+
+function deleteIcon(id) {
+    const deleter = document.createElement("a");
+    deleter.setAttribute("class", "fa-solid fa-trash");
+    deleter.setAttribute("href", "/user/deleteUser/" + id);
+    deleter.setAttribute("onclick", "javascript:deleteUser(event)");
+    deleter.setAttribute("userId", id);
+    deleter.setAttribute("title", "Delete this user");
+    deleter.setAttribute("data-bs-toggle", "modal");
+    deleter.setAttribute("data-bs-target", "#confirmModal");
+    return deleter;
 }
 
 function showAllRoles(roles) {
@@ -44,11 +100,14 @@ function showAllRoles(roles) {
 
 function tableHeaderRow() {
     let tr1 = document.createElement("tr");
-    const th1 = tableHeader("id");
+    const th1 = tableHeader("");
     tr1.appendChild(th1);
+    tr1.appendChild(tableHeader("Photo"));
     tr1.appendChild(tableHeader("Name"));
     tr1.appendChild(tableHeader("email"));
-    tr1.appendChild(tableHeader("Role"));
+    tr1.appendChild(tableHeader("Roles"));
+    tr1.appendChild(tableHeader("Enabled"));
+    tr1.appendChild(tableHeader(""));
     return tr1;
 }
 
@@ -194,12 +253,14 @@ function showStatus(status) {
 function deleteUser(e) {
     let yesButton = document.getElementById("yesButton");
     let parentHref = e.target.href;
+    //console.log(parentHref);
     yesButton.setAttribute("href", parentHref);
     return false;
 }
 
 function editUser(id) {
     editUserModal();
+    document.getElementById("id").value = id;
     getUserForEdit(id);
 }
 

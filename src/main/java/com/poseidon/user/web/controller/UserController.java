@@ -223,7 +223,7 @@ public class UserController {
     public String deleteUser(final @PathVariable(name = "id") Long id,
                              final Model model,
                              final RedirectAttributes redirectAttributes) {
-        logger.info("Inside DeleteUser method of user controller ");
+        logger.info("Inside DeleteUser method of user controller with id {}", id);
         try {
             userService.deleteUser(id);
             model.addAttribute(ALL_ROLES, fullRoleMap());

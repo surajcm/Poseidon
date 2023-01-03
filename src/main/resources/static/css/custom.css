@@ -52,3 +52,7 @@ table {
 	background-color: #FFBABA;
 	background-image: url('/img/Error.png' );
 }
+
+*.icon-dark {
+	color: grey;
+}

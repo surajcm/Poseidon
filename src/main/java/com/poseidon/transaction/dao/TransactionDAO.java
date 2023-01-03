@@ -22,7 +22,6 @@ import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.StreamSupport;
 
 import static com.rainerhahnekamp.sneakythrow.Sneaky.sneak;
 import static com.rainerhahnekamp.sneakythrow.Sneaky.sneaked;
@@ -65,7 +64,7 @@ public class TransactionDAO {
      */
     public List<TransactionVO> listAllTransactions() {
         var transactions = sneak(transactionRepository::findAll);
-        return StreamSupport.stream(transactions.spliterator(), true)
+        return transactions.parallelStream()
                 .map(this::convertToVO).toList();
     }
 
@@ -104,7 +103,7 @@ public class TransactionDAO {
     }
 
     public List<String> allTagNumbers() {
-        return StreamSupport.stream(transactionRepository.findAll().spliterator(), true)
+        return transactionRepository.findAll().parallelStream()
                 .map(Transaction::getTagno).toList();
     }
 

@@ -58,9 +58,18 @@ public class CustomerDAO {
      * @return customer vo
      */
     public Optional<CustomerVO> getCustomerFromId(final Long id) {
-        return sneak(() -> customerRepository.findById(id))
-                .map(this::convertToSingleCustomerVO)
-                .map(this::getAdditionalDetailsToVO);
+        var customer = sneak(() -> customerRepository.findById(id));
+        Optional<CustomerVO> customerVOWithDetails = Optional.empty();
+        var customerVO = customer.map(this::convertToSingleCustomerVO);
+        if (customer.isPresent()) {
+            var additionalDetails =
+                    getAdditionalDetailsOfCustomerId(customer.get().getId());
+            if (!customerVO.isEmpty() && additionalDetails.isPresent()) {
+                updateCustomerWithAdditionalDetails(customerVO.get(), additionalDetails.get());
+            }
+            customerVOWithDetails = customerVO;
+        }
+        return customerVOWithDetails;
     }
 
     /**
@@ -121,14 +130,6 @@ public class CustomerDAO {
 
     private Optional<CustomerAdditionalDetails> getAdditionalDetailsOfCustomerId(final Long id) {
         return sneak(() -> detailsRepository.findByCustomerId(id));
-    }
-
-    private CustomerVO getAdditionalDetailsToVO(final CustomerVO customerVO) {
-        var additionalDetails =
-                getAdditionalDetailsOfCustomerId(customerVO.getCustomerId());
-        additionalDetails.ifPresent(customerAdditionalDetails ->
-                updateCustomerWithAdditionalDetails(customerVO, customerAdditionalDetails));
-        return customerVO;
     }
 
     private void saveAdditionalDetails(final CustomerAdditionalDetails newAdditionalDetails) {

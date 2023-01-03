@@ -110,7 +110,7 @@
                     <caption>User Details</caption>
                     <thead class="table-dark">
                         <tr>
-                            <th scope="col">id</th>
+                            <th scope="col"></th>
                             <th scope="col">Photo</th>
                             <th scope="col">Name</th>
                             <th scope="col">email</th>
@@ -129,7 +129,7 @@
                             <td><span th:text="${iterationUser.roles}"></span></td>
                             <td>
                                 <a th:if="${iterationUser.enabled == true}" class="fa-solid fa-circle-check" href=""></a>
-                                <a th:if="${iterationUser.enabled == false}" class="fa-solid fa-circle" href=""></a>
+                                <a th:if="${iterationUser.enabled == false}" class="fa-solid fa-circle icon-dark" href=""></a>
                             </td>
                             <td>
                                 <a class="fa-regular fa-pen-to-square" href="" data-bs-toggle="modal" data-bs-target="#editUserModal"
