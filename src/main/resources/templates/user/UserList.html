@@ -77,6 +77,12 @@
                     </div>
                 </div>
                 <br />
+                <div class="row g-3">
+                    <div class="col-md-12">
+                        <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#newUserModal"
+                                onclick="addNewUser();">Add New User</button>
+                    </div>
+                </div>
                 <br />
                 <svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
                     <symbol id="check-circle-fill" fill="currentColor" viewBox="0 0 16 16">
@@ -110,7 +116,6 @@
                     <caption>User Details</caption>
                     <thead class="table-dark">
                         <tr>
-                            <th scope="col"></th>
                             <th scope="col">Photo</th>
                             <th scope="col">Name</th>
                             <th scope="col">email</th>
@@ -121,8 +126,6 @@
                     </thead>
                     <tbody>
                         <tr th:each="iterationUser : ${users}">
-                            <th scope="row"><input type="checkbox" name="checkField" onclick="checkCall(this)"
-                                       th:value="${iterationUser.id}" /></th>
                             <td><span class="fa-solid fa-user fa-3x"></span></td>
                             <td><span th:text="${iterationUser.name}"></span></td>
                             <td><span th:text="${iterationUser.email}"></span></td>
@@ -147,12 +150,6 @@
                     </tbody>
                 </table>
             </form>
-            <div class="row g-3">
-                <div class="col-md-12">
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#newUserModal"
-                        onclick="addNewUser();">Add New User</button>
-                </div>
-            </div>
         </div>
     </div>
     <div id="newUserModal" class="modal fade" tabindex="-1" aria-labelledby="newUserModal" aria-hidden="true">

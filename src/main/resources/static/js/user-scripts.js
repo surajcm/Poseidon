@@ -26,7 +26,6 @@ function rewriteTable(textReturned) {
 function singleRowInTheTable(singleUser) {
     //console.log(singleUser);
     let trx = document.createElement("tr");
-    trx.appendChild(sideHeader(singleUser.id));
     trx.appendChild(photoIconOnTD());
     trx.appendChild(tdElement(singleUser.name));
     trx.appendChild(tdElement(singleUser.email));
@@ -100,8 +99,6 @@ function showAllRoles(roles) {
 
 function tableHeaderRow() {
     let tr1 = document.createElement("tr");
-    const th1 = tableHeader("");
-    tr1.appendChild(th1);
     tr1.appendChild(tableHeader("Photo"));
     tr1.appendChild(tableHeader("Name"));
     tr1.appendChild(tableHeader("email"));
@@ -259,12 +256,12 @@ function deleteUser(e) {
 }
 
 function editUser(id) {
-    editUserModal();
     document.getElementById("id").value = id;
+    showEditModal();
     getUserForEdit(id);
 }
 
-function editUserModal() {
+function showEditModal() {
     let updateModal = document.getElementById("updateModal");
     updateModal.style.display = "block";
     let detail = document.getElementById("userEditModalBody");
@@ -290,9 +287,15 @@ function formValidUserForEdit() {
     let divRole = document.createElement("div");
     divRole.setAttribute("class", "col-md-4");
     divRole.appendChild(selectRoleForUpdate());
+
+    let divRoles = document.createElement("div");
+    divRoles.setAttribute("class", "col-md-12");
+    divRoles.setAttribute("id", "divRoles");
+
     formValidUser.appendChild(divName);
     formValidUser.appendChild(divEmail);
     formValidUser.appendChild(divRole);
+    formValidUser.appendChild(divRoles);
     return formValidUser;
 }
 
@@ -348,7 +351,64 @@ function populateDataForEdit(textReturned) {
     document.getElementById("updateName").value = user.name;
     document.getElementById("updateEmail").value = user.email;
     console.log(user.roles);
+    // let's get all roles
+    populateAllRoles(user.roles);
     document.getElementById("updateRole").value = user.roles[0].id;
+}
+
+function populateAllRoles(activeRoles) {
+    let xhr = new XMLHttpRequest();
+    xhr.open('GET', "/roles/" , true);
+    let token = document.querySelector("meta[name='_csrf']").content;
+    let header = document.querySelector("meta[name='_csrf_header']").content;
+    ///xhr.setRequestHeader(header, token);
+    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    xhr.onload = function () {
+        if (xhr.status === 200) {
+            if (xhr.responseText != null) {
+                //console.log(xhr.responseText);
+                fillRolesToCheckBox(xhr.responseText, activeRoles);
+            }
+        } else if (xhr.status !== 200) {
+            console.log('Request failed.  Returned status of ' + xhr.status);
+        }
+    };
+    xhr.send();
+}
+
+function fillRolesToCheckBox(textReturned, activeRoles) {
+    let roles = JSON.parse(textReturned);
+    let rolesDiv = document.getElementById("divRoles");
+    for (const [key, value] of Object.entries(roles)) {
+        console.log("key and value are " + key + " " + value);
+        let checkDiv = roleSingleCheckAndLabel(key, value);
+        rolesDiv.appendChild(checkDiv);
+    }
+}
+
+function roleSingleCheckAndLabel(key, value) {
+    let checkDiv = document.createElement('div');
+    checkDiv.setAttribute("class", "form-check");
+    let check = roleCheckBoxes(key);
+    let labelForCheck = roleLabelsWithValue(value);
+    checkDiv.appendChild(check);
+    checkDiv.appendChild(labelForCheck);
+    return checkDiv;
+}
+
+function roleCheckBoxes(key) {
+    let check = document.createElement('input');
+    check.setAttribute("type", "checkbox");
+    check.setAttribute("value", key);
+    check.setAttribute("class", "form-check-input");
+    return check;
+}
+
+function roleLabelsWithValue(message) {
+    let labelForCheck = document.createElement('label');
+    labelForCheck.setAttribute("class", "form-check-label");
+    labelForCheck.innerHTML = message;
+    return labelForCheck;
 }
 
 function updateFromModal() {
