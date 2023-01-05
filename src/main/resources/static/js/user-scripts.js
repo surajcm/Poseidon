@@ -145,9 +145,15 @@ function userOnModal() {
     divRole.setAttribute("class", "col-md-4");
     divRole.appendChild(selectRole());
 
+    let divRoles = document.createElement("div");
+    divRoles.setAttribute("class", "col-md-12");
+    divRoles.setAttribute("id", "divRoles");
+    populateAllRoles('');
+
     formValidUser.appendChild(divName);
     formValidUser.appendChild(divEmail);
     formValidUser.appendChild(divRole);
+    formValidUser.appendChild(divRoles);
     return formValidUser;
 }
 
@@ -161,7 +167,6 @@ function selectRole() {
 }
 
 function createRolesFromJson(textReturned, selectRole) {
-    //console.log("/roles/ response is " + textReturned);
     let idNameMap = JSON.parse(textReturned);
     for (const [key, value] of Object.entries(idNameMap)) {
         //console.log("key and value are " + key + " " + value);
