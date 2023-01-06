@@ -141,10 +141,6 @@ function userOnModal() {
     tt2.innerHTML = "Please provide a valid email.";
     divEmail.appendChild(tt2);
 
-    let divRole = document.createElement("div");
-    divRole.setAttribute("class", "col-md-4");
-    divRole.appendChild(selectRole());
-
     let divRoles = document.createElement("div");
     divRoles.setAttribute("class", "col-md-12");
     divRoles.setAttribute("id", "divRoles");
@@ -152,18 +148,8 @@ function userOnModal() {
 
     formValidUser.appendChild(divName);
     formValidUser.appendChild(divEmail);
-    formValidUser.appendChild(divRole);
     formValidUser.appendChild(divRoles);
     return formValidUser;
-}
-
-function selectRole() {
-    let selectRole = document.createElement("select");
-    selectRole.setAttribute("class", "form-select");
-    selectRole.setAttribute("id", "addRole");
-    // let's make an ajax call and get all roles
-    getAllRolesToDropDown(selectRole);
-    return selectRole;
 }
 
 function createRolesFromJson(textReturned, selectRole) {
@@ -177,34 +163,18 @@ function createRolesFromJson(textReturned, selectRole) {
     }
 }
 
-function getAllRolesToDropDown(selectRole) {
-    let xhr = new XMLHttpRequest();
-    xhr.open('GET', "/roles/", true);
-    let token = document.querySelector("meta[name='_csrf']").content;
-    let header = document.querySelector("meta[name='_csrf_header']").content;
-    //xhr.setRequestHeader(header, token);
-    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-    xhr.onload = function () {
-        if (xhr.status === 200) {
-            if (xhr.responseText != null) {
-                createRolesFromJson(xhr.responseText, selectRole);
-            }
-        } else if (xhr.status !== 200) {
-            console.log('Request failed.  Returned status of ' + xhr.status);
-            //showError();
-        }
-    };
-    xhr.send();
-}
-
 function saveFromModal() {
-    let addName = document.getElementById("addName").value;
-    let addEmail = document.getElementById("addEmail").value;
-    let addRole = document.getElementById("addRole").value;
-    let forms = document.getElementsByClassName('needs-validation');
+    const addName = document.getElementById("addName").value;
+    const addEmail = document.getElementById("addEmail").value;
+    const forms = document.getElementsByClassName('needs-validation');
     let allFieldsAreValid = true;
-
-    if (forms[0].checkValidity() === false) {
+    let addRole = [];
+    const checkboxes = document.querySelectorAll('input[type=checkbox]:checked');
+    for (let i = 0; i < checkboxes.length; i++) {
+        addRole.push(checkboxes[i].value);
+        console.log(checkboxes[i].value)
+    }
+    if (checkboxes.length === 0 || forms[0].checkValidity() === false) {
         allFieldsAreValid = false;
         if (addName.length === 0) {
             document.getElementById("addName").setAttribute("class", "form-control is-invalid");
@@ -215,6 +185,14 @@ function saveFromModal() {
             document.getElementById("addEmail").setAttribute("class", "form-control is-invalid");
         } else {
             document.getElementById("addEmail").setAttribute("class", "form-control was-validated");
+        }
+        console.log(addRole.length)
+        const allChecks = document.querySelectorAll('input[type=checkbox]');
+        if (checkboxes.length === 0) {
+            //this is not working, lets fix it later
+            for (let i = 0; i < allChecks.length; i++) {
+                allChecks[i].nextElementSibling.setAttribute("class", "form-check-label is-invalid")
+            }
         }
     }
 
@@ -313,6 +291,27 @@ function selectRoleForUpdate() {
     return selectRole;
 }
 
+function getAllRolesToDropDown(selectRole) {
+    let xhr = new XMLHttpRequest();
+    xhr.open('GET', "/roles/", true);
+    let token = document.querySelector("meta[name='_csrf']").content;
+    let header = document.querySelector("meta[name='_csrf_header']").content;
+    //xhr.setRequestHeader(header, token);
+    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+    xhr.onload = function () {
+        if (xhr.status === 200) {
+            if (xhr.responseText != null) {
+                createRolesFromJson(xhr.responseText, selectRole);
+            }
+        } else if (xhr.status !== 200) {
+            console.log('Request failed.  Returned status of ' + xhr.status);
+            //showError();
+        }
+    };
+    xhr.send();
+}
+
+
 function getUserForEdit(id) {
     let xhr = new XMLHttpRequest();
     xhr.open('GET', "/user/getForEdit" + "?id=" + id, true);
@@ -355,9 +354,15 @@ function populateDataForEdit(textReturned) {
     let user = JSON.parse(textReturned);
     document.getElementById("updateName").value = user.name;
     document.getElementById("updateEmail").value = user.email;
-    console.log(user.roles);
+    //console.log(user.roles);
+    let roleValues = []
+    if (user.roles.length !== 0) {
+        for (let i = 0; i < user.roles.length; i++) {
+            roleValues.push(user.roles[i].id);
+        }
+    }
     // let's get all roles
-    populateAllRoles(user.roles);
+    populateAllRoles(roleValues);
     document.getElementById("updateRole").value = user.roles[0].id;
 }
 
@@ -383,29 +388,37 @@ function populateAllRoles(activeRoles) {
 
 function fillRolesToCheckBox(textReturned, activeRoles) {
     let roles = JSON.parse(textReturned);
+    console.log('selected role is '+ activeRoles);
     let rolesDiv = document.getElementById("divRoles");
     for (const [key, value] of Object.entries(roles)) {
-        console.log("key and value are " + key + " " + value);
-        let checkDiv = roleSingleCheckAndLabel(key, value);
+        //console.log("key and value are " + key + " " + value);
+        let checkDiv = roleSingleCheckAndLabel(key, value, activeRoles);
         rolesDiv.appendChild(checkDiv);
     }
 }
 
-function roleSingleCheckAndLabel(key, value) {
+function roleSingleCheckAndLabel(key, value, activeRoles) {
     let checkDiv = document.createElement('div');
     checkDiv.setAttribute("class", "form-check");
-    let check = roleCheckBoxes(key);
+    let check = roleCheckBoxes(key, activeRoles);
     let labelForCheck = roleLabelsWithValue(value);
     checkDiv.appendChild(check);
     checkDiv.appendChild(labelForCheck);
     return checkDiv;
 }
 
-function roleCheckBoxes(key) {
+function roleCheckBoxes(key, activeRoles) {
     let check = document.createElement('input');
     check.setAttribute("type", "checkbox");
     check.setAttribute("value", key);
     check.setAttribute("class", "form-check-input");
+    if (activeRoles.length !== 0) {
+        for (let i = 0; i < activeRoles.length; i++) {
+            if (activeRoles[i] === parseInt(key)) {
+                check.checked = true;
+            }
+        }
+    }
     return check;
 }
 

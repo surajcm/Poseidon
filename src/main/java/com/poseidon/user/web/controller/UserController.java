@@ -70,7 +70,7 @@ public class UserController {
      *
      * @param name  String
      * @param email String
-     * @param role  String
+     * @param roles  Set of String
      * @param result      BindingResult
      * @return String
      */
@@ -78,11 +78,11 @@ public class UserController {
     public @ResponseBody
     Set<User> saveUser(@ModelAttribute("selectName") final String name,
                           @ModelAttribute("selectLogin") final String email,
-                          @ModelAttribute("selectRole") final String role,
+                          @ModelAttribute("selectRole") final Set<Long> roles,
                           final BindingResult result) {
         logger.info("SaveUser method of user controller ");
-        logger.info("inputs are : name {}, email {}, role {}", name, email, role);
-        var user = populateUser(name, email, role);
+        logger.info("inputs are : name {}, email {}, role {}", name, email, roles);
+        var user = populateUser(name, email, roles);
         userService.save(user);
         logger.info("Successfully saved user");
         return allUsers();
@@ -90,7 +90,7 @@ public class UserController {
 
     private User populateUser(final String name,
                                   final String email,
-                                  final String role) {
+                              final Set<Long> roles) {
         var companyCode = activeCompanyCode();
         var currentLoggedInUser = currentLoggedInUser();
         var user = new User();
@@ -98,7 +98,7 @@ public class UserController {
         user.setEmail(email);
         user.setPassword("password");
         user.setEnabled(false);
-        user.addRole(new Role(Long.valueOf(role)));
+        user.setRoles(roles.stream().map(Role::new).collect(Collectors.toSet()));
         user.setCompanyCode(companyCode);
         user.setCreatedBy(currentLoggedInUser);
         user.setModifiedBy(currentLoggedInUser);
