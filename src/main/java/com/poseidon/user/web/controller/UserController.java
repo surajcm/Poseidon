@@ -153,22 +153,21 @@ public class UserController {
     Set<User> updateUser(@ModelAttribute("id") final String id,
                             @ModelAttribute("name") final String name,
                             @ModelAttribute("email") final String email,
-                            @ModelAttribute("role") final String role,
+                            @ModelAttribute("roles") final Set<Long> roles,
                             final BindingResult result) {
         var sanitizedId = CommonUtils.sanitizedString(id);
         var sanitizedName = CommonUtils.sanitizedString(name);
         var sanitizedEmail = CommonUtils.sanitizedString(email);
-        var sanitizedRole = CommonUtils.sanitizedString(role);
-        logger.info("updateUser method of user controller with id {}, name {}, email {}, role {}",
+        logger.info("updateUser method of user controller with id {}, name {}, email {}, roles {}",
                 sanitizedId, sanitizedName,
-                sanitizedEmail, sanitizedRole);
+                sanitizedEmail, roles);
         try {
             var user = userService.getUserDetailsFromId(Long.valueOf(id));
             if (user.isPresent()) {
                 var newUser = user.get();
                 newUser.setName(name);
                 newUser.setEmail(email);
-                newUser.addRole(new Role(Long.valueOf(role)));
+                newUser.setRoles(roles.stream().map(Role::new).collect(Collectors.toSet()));
                 var loggedInUser = currentLoggedInUser();
                 userService.updateUser(newUser, loggedInUser);
             }

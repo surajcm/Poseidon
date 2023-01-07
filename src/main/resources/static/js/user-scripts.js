@@ -122,7 +122,7 @@ function userOnModal() {
     formValidUser.novalidate = true;
 
     let divName = document.createElement("div");
-    divName.setAttribute("class", "col-md-4");
+    divName.setAttribute("class", "col-md-6");
 
     let txtName = aTextBox("addName", "Name", true);
     divName.appendChild(txtName);
@@ -133,7 +133,7 @@ function userOnModal() {
     divName.appendChild(tt1);
 
     let divEmail = document.createElement("div");
-    divEmail.setAttribute("class", "col-md-4");
+    divEmail.setAttribute("class", "col-md-6");
     let txtEmail = aTextBox("addEmail", "email", true);
     divEmail.appendChild(txtEmail);
     let tt2 = document.createElement("div");
@@ -150,17 +150,6 @@ function userOnModal() {
     formValidUser.appendChild(divEmail);
     formValidUser.appendChild(divRoles);
     return formValidUser;
-}
-
-function createRolesFromJson(textReturned, selectRole) {
-    let idNameMap = JSON.parse(textReturned);
-    for (const [key, value] of Object.entries(idNameMap)) {
-        //console.log("key and value are " + key + " " + value);
-        let singleRole = document.createElement("option");
-        singleRole.text = value;
-        singleRole.value = key;
-        selectRole.appendChild(singleRole);
-    }
 }
 
 function saveFromModal() {
@@ -258,18 +247,14 @@ function formValidUserForEdit() {
     formValidUser.novalidate = true;
 
     let divName = document.createElement("div");
-    divName.setAttribute("class", "col-md-4");
+    divName.setAttribute("class", "col-md-6");
     let txtName = aTextBox("updateName", "Name", true);
     divName.appendChild(txtName);
 
     let divEmail = document.createElement("div");
-    divEmail.setAttribute("class", "col-md-4");
+    divEmail.setAttribute("class", "col-md-6");
     let txtEmail = aTextBox("updateEmail", "email", true);
     divEmail.appendChild(txtEmail);
-
-    let divRole = document.createElement("div");
-    divRole.setAttribute("class", "col-md-4");
-    divRole.appendChild(selectRoleForUpdate());
 
     let divRoles = document.createElement("div");
     divRoles.setAttribute("class", "col-md-12");
@@ -277,40 +262,9 @@ function formValidUserForEdit() {
 
     formValidUser.appendChild(divName);
     formValidUser.appendChild(divEmail);
-    formValidUser.appendChild(divRole);
     formValidUser.appendChild(divRoles);
     return formValidUser;
 }
-
-function selectRoleForUpdate() {
-    let selectRole = document.createElement("select");
-    selectRole.setAttribute("class", "form-select");
-    selectRole.setAttribute("id", "updateRole");
-    // let's make an ajax call and get all roles
-    getAllRolesToDropDown(selectRole);
-    return selectRole;
-}
-
-function getAllRolesToDropDown(selectRole) {
-    let xhr = new XMLHttpRequest();
-    xhr.open('GET', "/roles/", true);
-    let token = document.querySelector("meta[name='_csrf']").content;
-    let header = document.querySelector("meta[name='_csrf_header']").content;
-    //xhr.setRequestHeader(header, token);
-    xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
-    xhr.onload = function () {
-        if (xhr.status === 200) {
-            if (xhr.responseText != null) {
-                createRolesFromJson(xhr.responseText, selectRole);
-            }
-        } else if (xhr.status !== 200) {
-            console.log('Request failed.  Returned status of ' + xhr.status);
-            //showError();
-        }
-    };
-    xhr.send();
-}
-
 
 function getUserForEdit(id) {
     let xhr = new XMLHttpRequest();
@@ -430,13 +384,19 @@ function roleLabelsWithValue(message) {
 }
 
 function updateFromModal() {
-    let updateName = document.getElementById("updateName").value;
-    let updateEmail = document.getElementById("updateEmail").value;
-    let updateRole = document.getElementById("updateRole").value;
-    let forms = document.getElementsByClassName('needs-validation');
+    const updateName = document.getElementById("updateName").value;
+    const updateEmail = document.getElementById("updateEmail").value;
+    const forms = document.getElementsByClassName('needs-validation');
     let allFieldsAreValid = true;
 
-    if (forms[0].checkValidity() === false) {
+    let updateRole = [];
+    const checkboxes = document.querySelectorAll('input[type=checkbox]:checked');
+    for (let i = 0; i < checkboxes.length; i++) {
+        updateRole.push(checkboxes[i].value);
+        console.log(checkboxes[i].value)
+    }
+
+    if (checkboxes.length === 0 || forms[0].checkValidity() === false) {
         allFieldsAreValid = false;
         if (updateName.length === 0) {
             document.getElementById("updateName").setAttribute("class", "form-control is-invalid");
@@ -447,6 +407,14 @@ function updateFromModal() {
             document.getElementById("updateEmail").setAttribute("class", "form-control is-invalid");
         } else {
             document.getElementById("updateEmail").setAttribute("class", "form-control was-validated");
+        }
+        console.log(updateRole.length)
+        const allChecks = document.querySelectorAll('input[type=checkbox]');
+        if (checkboxes.length === 0) {
+            //this is not working, lets fix it later
+            for (let i = 0; i < allChecks.length; i++) {
+                allChecks[i].nextElementSibling.setAttribute("class", "form-check-label is-invalid")
+            }
         }
     }
 
@@ -474,7 +442,7 @@ function callAjaxUpdate(updateName, updateEmail, updateRole) {
             showUpdateStatus(false);
         }
     };
-    xhr.send("id=" + id + "&name=" + updateName + "&email=" + updateEmail + "&role=" + updateRole);
+    xhr.send("id=" + id + "&name=" + updateName + "&email=" + updateEmail + "&roles=" + updateRole);
 }
 
 function showUpdateStatus(status) {

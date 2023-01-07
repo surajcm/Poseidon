@@ -40,8 +40,25 @@
                 </li>
             </ul>
             <ul class="navbar-nav ms-auto">
-                <li class="nav-item" id="locale_switch">
-                    <a class="nav-link" href="#" ><span class="flag-icon flag-icon-us flag-icon-squared" aria-hidden="true"></span>&nbsp;EN</a>
+                <li class="nav-item dropdown" id="locale_switch">
+                    <a class="nav-link dropdown-toggle" href="#" id="dropdownLocale" role="button" data-bs-toggle="dropdown" aria-expanded="false">
+                        <i class="flag-icon flag-icon-us flag-icon-squared"></i>
+                    </a>
+                    <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownLocale">
+                        <li>
+                            <a class="dropdown-item" href="#"><i class="flag-icon flag-icon-us flag-icon-squared">
+                            </i>English <i class="fa fa-check text-success ms-2"></i>
+                            </a>
+                        </li>
+                        <li><hr class="dropdown-divider" /></li>
+                        <li>
+                            <a class="dropdown-item" href="#"><i class="flag-icon flag-icon-pl flag-icon-squared"></i>Polski</a>
+                        </li>
+                        <li>
+                            <a class="dropdown-item" href="#"><i class="flag-icon flag-icon-cn flag-icon-squared"></i>中文</a>
+                        </li>
+                    </ul>
+
                 </li>
                 <li class="nav-item dropdown">
                     <a class='nav-link dropdown-toggle' href='#' id='dropdownMenu1' role="button" data-bs-toggle='dropdown' aria-expanded='false'>
