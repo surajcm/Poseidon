@@ -5,6 +5,7 @@ import com.poseidon.init.specs.SearchOperation;
 import com.poseidon.user.dao.entities.User;
 import com.poseidon.user.dao.repo.UserRepository;
 import com.poseidon.user.dao.spec.UserSpecification;
+import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataAccessException;
@@ -20,6 +21,7 @@ import static com.rainerhahnekamp.sneakythrow.Sneaky.sneak;
 import static com.rainerhahnekamp.sneakythrow.Sneaky.sneaked;
 
 @Repository
+@Transactional
 @SuppressWarnings("unused")
 public class UserDAO {
     private static final Logger LOG = LoggerFactory.getLogger(UserDAO.class);
@@ -138,5 +140,9 @@ public class UserDAO {
 
     public User findUserFromName(final String name) {
         return userRepository.findByName(name);
+    }
+
+    public void enableUser(final Long id, final boolean enabled) {
+        userRepository.updateEnabledStatus(id, enabled);
     }
 }

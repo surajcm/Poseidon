@@ -131,8 +131,12 @@
                             <td><span th:text="${iterationUser.email}"></span></td>
                             <td><span th:text="${iterationUser.roles}"></span></td>
                             <td>
-                                <a th:if="${iterationUser.enabled == true}" class="fa-solid fa-circle-check" href=""></a>
-                                <a th:if="${iterationUser.enabled == false}" class="fa-solid fa-circle icon-dark" href=""></a>
+                                <a th:if="${iterationUser.enabled == true}" class="fa-solid fa-circle-check"
+                                   th:href="@{'/users/' + ${iterationUser.id} + '/enabled/false'}"
+                                   title="Disable this user"></a>
+                                <a th:if="${iterationUser.enabled == false}" class="fa-solid fa-circle icon-dark"
+                                   th:href="@{'/users/' + ${iterationUser.id} + '/enabled/true'}"
+                                   title="Enable this user"></a>
                             </td>
                             <td>
                                 <a class="fa-regular fa-pen-to-square" href="" data-bs-toggle="modal" data-bs-target="#editUserModal"

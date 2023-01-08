@@ -108,4 +108,8 @@ public class UserService {
         return new HashSet<>(roleRepository.findAll());
     }
 
+    public void enableUser(final Long id, final boolean enabled) {
+        userDAO.enableUser(id, enabled);
+    }
+
 }

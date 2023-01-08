@@ -68,18 +68,18 @@ public class UserController {
     /**
      * save user.
      *
-     * @param name  String
-     * @param email String
+     * @param name   String
+     * @param email  String
      * @param roles  Set of String
-     * @param result      BindingResult
+     * @param result BindingResult
      * @return String
      */
     @PostMapping("/user/saveUser")
     public @ResponseBody
     Set<User> saveUser(@ModelAttribute("selectName") final String name,
-                          @ModelAttribute("selectLogin") final String email,
-                          @ModelAttribute("selectRole") final Set<Long> roles,
-                          final BindingResult result) {
+                       @ModelAttribute("selectLogin") final String email,
+                       @ModelAttribute("selectRole") final Set<Long> roles,
+                       final BindingResult result) {
         logger.info("SaveUser method of user controller ");
         logger.info("inputs are : name {}, email {}, role {}", name, email, roles);
         var user = populateUser(name, email, roles);
@@ -89,7 +89,7 @@ public class UserController {
     }
 
     private User populateUser(final String name,
-                                  final String email,
+                              final String email,
                               final Set<Long> roles) {
         var companyCode = activeCompanyCode();
         var currentLoggedInUser = currentLoggedInUser();
@@ -135,7 +135,7 @@ public class UserController {
     @GetMapping("/user/getForEdit")
     public @ResponseBody
     User getForEdit(@ModelAttribute("id") final String id,
-                      final BindingResult result) {
+                    final BindingResult result) {
         var sanitizedId = CommonUtils.sanitizedString(id);
         logger.info("getForEdit method of user controller : {}", sanitizedId);
         return userService.getUserDetailsFromId(Long.valueOf(id))
@@ -151,10 +151,10 @@ public class UserController {
     @PutMapping("/user/updateUser")
     public @ResponseBody
     Set<User> updateUser(@ModelAttribute("id") final String id,
-                            @ModelAttribute("name") final String name,
-                            @ModelAttribute("email") final String email,
-                            @ModelAttribute("roles") final Set<Long> roles,
-                            final BindingResult result) {
+                         @ModelAttribute("name") final String name,
+                         @ModelAttribute("email") final String email,
+                         @ModelAttribute("roles") final Set<Long> roles,
+                         final BindingResult result) {
         var sanitizedId = CommonUtils.sanitizedString(id);
         var sanitizedName = CommonUtils.sanitizedString(name);
         var sanitizedEmail = CommonUtils.sanitizedString(email);
@@ -262,5 +262,16 @@ public class UserController {
         var currentLoggedInUser = currentLoggedInUser();
         var user = userService.findUserFromName(currentLoggedInUser);
         return user.getCompanyCode();
+    }
+
+    @GetMapping("/users/{id}/enabled/{status}")
+    public String enableUser(final @PathVariable(name = "id") Long id,
+                             final @PathVariable(name = "status") boolean status,
+                             final RedirectAttributes redirectAttributes) {
+        userService.enableUser(id, status);
+        var responseStatus = status ? "enabled" : "disabled";
+        var message = "The user has been " + responseStatus;
+        redirectAttributes.addFlashAttribute(MESSAGE, message);
+        return "redirect:/user/listAll";
     }
 }
