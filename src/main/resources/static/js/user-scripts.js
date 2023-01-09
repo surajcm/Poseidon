@@ -146,9 +146,21 @@ function userOnModal() {
     divRoles.setAttribute("id", "divRoles");
     populateAllRoles('');
 
+    let divPhotos = document.createElement("div");
+    divPhotos.setAttribute("class", "col-md-12");
+    let photoLabel = document.createElement("label");
+    photoLabel.textContent = "Photos :";
+    let fileSelector = document.createElement("input");
+    fileSelector.setAttribute("type", "file");
+    fileSelector.setAttribute("id", "fileImage");
+    fileSelector.setAttribute("accept", "image/png, image/jpeg");
+    divPhotos.appendChild(photoLabel);
+    divPhotos.appendChild(fileSelector);
+
     formValidUser.appendChild(divName);
     formValidUser.appendChild(divEmail);
     formValidUser.appendChild(divRoles);
+    formValidUser.appendChild(divPhotos);
     return formValidUser;
 }
 

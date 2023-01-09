@@ -1,11 +1,13 @@
 package com.poseidon.user.web.controller;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.poseidon.user.UserConfigurations;
 import com.poseidon.user.dao.entities.Role;
 import com.poseidon.user.dao.entities.User;
 import com.poseidon.user.service.UserService;
+import com.poseidon.user.web.form.UserForm;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -62,9 +64,22 @@ class UserControllerTest {
     }
 
     @Test
-    @Disabled
     void searchUser() throws Exception {
-        mvc.perform(post("/user/searchUser")).andExpect(status().isOk());
+        mvc.perform(post("/user/searchUser")
+                .param("userForm", searchForm())).andExpect(status().isOk());
+    }
+
+    private String searchForm() throws JsonProcessingException {
+        var form = new UserForm();
+        form.setSearchUser(searchableUser());
+        form.setStartsWith(false);
+        form.setIncludes(false);
+        var ow = new ObjectMapper().writer().withDefaultPrettyPrinter();
+        return ow.writeValueAsString(form);
+    }
+
+    private User searchableUser() {
+        return new User();
     }
 
     @Test
