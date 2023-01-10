@@ -146,21 +146,36 @@ function userOnModal() {
     divRoles.setAttribute("id", "divRoles");
     populateAllRoles('');
 
-    let divPhotos = document.createElement("div");
-    divPhotos.setAttribute("class", "col-md-12");
+    let divPhotos1 = document.createElement("div");
+    divPhotos1.setAttribute("class", "col-md-3");
     let photoLabel = document.createElement("label");
     photoLabel.textContent = "Photos :";
+    divPhotos1.appendChild(photoLabel);
+
+    let divPhotos2 = document.createElement("div");
+    divPhotos2.setAttribute("class", "col-md-3");
     let fileSelector = document.createElement("input");
     fileSelector.setAttribute("type", "file");
     fileSelector.setAttribute("id", "fileImage");
     fileSelector.setAttribute("accept", "image/png, image/jpeg");
-    divPhotos.appendChild(photoLabel);
-    divPhotos.appendChild(fileSelector);
+    divPhotos2.appendChild(fileSelector);
+
+    let divPhotos3 = document.createElement("div");
+    divPhotos3.setAttribute("class", "col-md-6");
+    let thumbnail = document.createElement("img");
+    thumbnail.setAttribute("id", "thumbnail");
+    thumbnail.setAttribute("src", "/img/default-user-photo.svg");
+    thumbnail.setAttribute("alt", "Photo preview");
+    thumbnail.setAttribute("style", "max-width:50%;");
+    thumbnail.setAttribute("class", "icon-photo img-fluid img-thumbnail");
+    divPhotos3.appendChild(thumbnail);
 
     formValidUser.appendChild(divName);
     formValidUser.appendChild(divEmail);
     formValidUser.appendChild(divRoles);
-    formValidUser.appendChild(divPhotos);
+    formValidUser.appendChild(divPhotos1);
+    formValidUser.appendChild(divPhotos2);
+    formValidUser.appendChild(divPhotos3);
     return formValidUser;
 }
 

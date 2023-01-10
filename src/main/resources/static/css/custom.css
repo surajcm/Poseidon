@@ -56,3 +56,8 @@ table {
 *.icon-dark {
 	color: grey;
 }
+.icon-photo {
+	display: block;
+	max-width: 100%;
+	height: auto;
+}
