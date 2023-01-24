@@ -157,7 +157,9 @@ function userOnModal() {
     let fileSelector = document.createElement("input");
     fileSelector.setAttribute("type", "file");
     fileSelector.setAttribute("id", "fileImage");
+    fileSelector.setAttribute("class", "form-control");
     fileSelector.setAttribute("accept", "image/png, image/jpeg");
+    fileSelector.setAttribute("onchange", "javascript:showImageThumbnail(this);");
     divPhotos2.appendChild(fileSelector);
 
     let divPhotos3 = document.createElement("div");
@@ -177,6 +179,25 @@ function userOnModal() {
     formValidUser.appendChild(divPhotos2);
     formValidUser.appendChild(divPhotos3);
     return formValidUser;
+}
+
+function showImageThumbnail(fileInput) {
+    let file = fileInput.files[0];
+    let fileSize = fileInput.files[0].size;
+   if (fileSize > 1048576) {
+        fileInput.setCustomValidity("You must choose an image less than 1MB !!");
+        fileInput.reportValidity();
+    } else {
+        fileInput.setCustomValidity("");
+        let reader = new FileReader();
+        reader.readAsDataURL(file);
+        reader.onload = (function (f) {
+            return function (e) {
+                let thumb = document.getElementById("thumbnail");
+                thumb.setAttribute("src", e.target.result);
+            };
+        })(file);
+    }
 }
 
 function saveFromModal() {
