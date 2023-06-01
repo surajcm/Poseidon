@@ -18,8 +18,10 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.AbstractMap;
@@ -68,19 +70,27 @@ public class UserController {
     /**
      * save user.
      *
-     * @param name   String
-     * @param email  String
-     * @param roles  Set of String
-     * @param result BindingResult
+     * @param thumbnail          thumbnail image
+     * @param name               String
+     * @param email              String
+     * @param roles              Set of String
+     * @param redirectAttributes RedirectAttributes
      * @return String
      */
     @PostMapping("/user/saveUser")
     public @ResponseBody
-    Set<User> saveUser(@ModelAttribute("selectName") final String name,
-                       @ModelAttribute("selectLogin") final String email,
-                       @ModelAttribute("selectRole") final Set<Long> roles,
-                       final BindingResult result) {
+    Set<User> saveUser(
+            @RequestParam(value = "thumbnail", required = false) final MultipartFile thumbnail,
+            @RequestParam("selectName") final String name,
+            @RequestParam("selectLogin") final String email,
+            @RequestParam("selectRole") final HashSet<Long> roles,
+            final RedirectAttributes redirectAttributes) {
         logger.info("SaveUser method of user controller ");
+        if (thumbnail != null) {
+            logger.info("Image file name is, {}", thumbnail.getOriginalFilename());
+        } else {
+            logger.info("Thumbnail is null");
+        }
         logger.info("inputs are : name {}, email {}, role {}", name, email, roles);
         var user = populateUser(name, email, roles);
         userService.save(user);

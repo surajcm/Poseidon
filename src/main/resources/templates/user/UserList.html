@@ -23,7 +23,7 @@
     <div th:insert="~{navbar :: navbar}"></div>
     <div class="container">
         <div class="wrap">
-            <form method="POST" action="/user/listAll" th:object="${userForm}">
+            <form method="POST" action="/user/listAll" th:object="${userForm}" enctype="multipart/form-data">
                 <input type="hidden" name="id" id="id" />
                 <input type="hidden" name="addInProgress" id="addInProgress" />
                 <input type="hidden" name="loggedInUser" />
