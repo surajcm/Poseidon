@@ -9,6 +9,8 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+
+import java.util.Locale;
 import java.util.UUID;
 
 @Component
@@ -62,7 +64,7 @@ public class Slf4jMDCFilter extends OncePerRequestFilter {
                 StringUtils.hasText(request.getHeader(requestHeader))) {
             token = request.getHeader(requestHeader);
         } else {
-            token = UUID.randomUUID().toString().toUpperCase().replace("-", "");
+            token = UUID.randomUUID().toString().toUpperCase(Locale.getDefault()).replace("-", "");
         }
         return token;
     }

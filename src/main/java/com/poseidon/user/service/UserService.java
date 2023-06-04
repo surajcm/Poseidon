@@ -43,10 +43,10 @@ public class UserService {
         return userDAO.getAllUserDetails(companyCode);
     }
 
-    public void save(final User user) {
+    public User save(final User user) {
         user.setPassword(bcryptPasswordEncoder.encode(user.getPassword()));
         user.setEnabled(false);
-        userDAO.save(user);
+        return userDAO.save(user);
     }
 
     /**

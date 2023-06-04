@@ -11,6 +11,7 @@ import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class UserSpecification implements Specification<User> {
 
@@ -39,11 +40,11 @@ public class UserSpecification implements Specification<User> {
             } else if (criteria.getOperation().equals(SearchOperation.MATCH)) {
                 predicates.add(builder.like(
                         builder.lower(root.get(criteria.getKey())),
-                        "%" + criteria.getValue().toString().toLowerCase() + "%"));
+                        "%" + criteria.getValue().toString().toLowerCase(Locale.getDefault()) + "%"));
             } else if (criteria.getOperation().equals(SearchOperation.MATCH_START)) {
                 predicates.add(builder.like(
                         builder.lower(root.get(criteria.getKey())),
-                        "%" + criteria.getValue().toString().toLowerCase() + "%"));
+                        "%" + criteria.getValue().toString().toLowerCase(Locale.getDefault()) + "%"));
             }
         }
 

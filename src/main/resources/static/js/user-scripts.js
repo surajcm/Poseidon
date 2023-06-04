@@ -263,8 +263,6 @@ function saveThisUser(addName, addEmail, addRole, thumbnail) {
   let token = document.querySelector("meta[name='_csrf']").content;
   let header = document.querySelector("meta[name='_csrf_header']").content;
   //xhr.setRequestHeader(header, token);
-  //xhr.setRequestHeader("Content-Type", "mutlipart/form-data");
-  //xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
   let formData = new FormData();
   if (typeof thumbnail !== "undefined") {
     formData.append('thumbnail', thumbnail, thumbnail.name);
@@ -275,7 +273,7 @@ function saveThisUser(addName, addEmail, addRole, thumbnail) {
   xhr.onload = function () {
     if (xhr.status === 200) {
       if (xhr.responseText != null) {
-        console.log(xhr.responseText);
+        //console.log(xhr.responseText);
         rewriteTable(xhr.responseText);
         showStatus(true);
       }

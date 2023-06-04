@@ -11,6 +11,7 @@ import jakarta.persistence.criteria.Predicate;
 import jakarta.persistence.criteria.Root;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Locale;
 
 public class MakeSpecification  implements Specification<Make> {
     public static final long serialVersionUID = 4328743;
@@ -37,11 +38,11 @@ public class MakeSpecification  implements Specification<Make> {
             } else if (criteria.getOperation().equals(SearchOperation.MATCH)) {
                 predicates.add(builder.like(
                         builder.lower(root.get(criteria.getKey())),
-                        "%" + criteria.getValue().toString().toLowerCase() + "%"));
+                        "%" + criteria.getValue().toString().toLowerCase(Locale.getDefault()) + "%"));
             } else if (criteria.getOperation().equals(SearchOperation.MATCH_START)) {
                 predicates.add(builder.like(
                         builder.lower(root.get(criteria.getKey())),
-                        "%" + criteria.getValue().toString().toLowerCase() + "%"));
+                        "%" + criteria.getValue().toString().toLowerCase(Locale.getDefault()) + "%"));
             }
         }
 

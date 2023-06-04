@@ -163,7 +163,7 @@ public class MakeController {
         var sanitizedId = CommonUtils.sanitizedString(id);
         LOG.info("getForEdit method of make controller {}}", sanitizedId);
         var makeVO = makeService.getModelFromId(Long.valueOf(id));
-        return makeVO.map(vo -> Map.of(vo.getMakeId(), vo.getModelName())).orElse(Collections.EMPTY_MAP);
+        return makeVO.map(vo -> Map.of(vo.getMakeId(), vo.getModelName())).orElse(Collections.emptyMap());
     }
 
     @GetMapping("/make/makeForEdit")
@@ -173,7 +173,7 @@ public class MakeController {
         var sanitizedId = CommonUtils.sanitizedString(id);
         LOG.info("makeForEdit method of make controller {}", sanitizedId);
         var makeVO = makeService.getMakeFromId(Long.valueOf(id));
-        return makeVO.map(vo -> Map.of(vo.getMakeName(), vo.getDescription())).orElse(Collections.EMPTY_MAP);
+        return makeVO.map(vo -> Map.of(vo.getMakeName(), vo.getDescription())).orElse(Collections.emptyMap());
     }
 
     /**

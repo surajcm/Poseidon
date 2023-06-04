@@ -1,6 +1,7 @@
 package com.poseidon.user.web.controller;
 
 import com.poseidon.init.util.CommonUtils;
+import com.poseidon.init.util.FileUploadUtil;
 import com.poseidon.user.dao.entities.Role;
 import com.poseidon.user.dao.entities.User;
 import com.poseidon.user.service.UserService;
@@ -10,6 +11,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -24,6 +26,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.io.IOException;
 import java.util.AbstractMap;
 import java.util.HashSet;
 import java.util.Map;
@@ -84,16 +87,21 @@ public class UserController {
             @RequestParam("selectName") final String name,
             @RequestParam("selectLogin") final String email,
             @RequestParam("selectRole") final HashSet<Long> roles,
-            final RedirectAttributes redirectAttributes) {
+            final RedirectAttributes redirectAttributes) throws IOException {
         logger.info("SaveUser method of user controller ");
-        if (thumbnail != null) {
-            logger.info("Image file name is, {}", thumbnail.getOriginalFilename());
-        } else {
-            logger.info("Thumbnail is null");
-        }
         logger.info("inputs are : name {}, email {}, role {}", name, email, roles);
         var user = populateUser(name, email, roles);
-        userService.save(user);
+        if (thumbnail != null) {
+            logger.info("Image file name is, {}", thumbnail.getOriginalFilename());
+            var fileName = StringUtils.cleanPath(thumbnail.getOriginalFilename());
+            user.setPhoto(fileName);
+            var savedUser = userService.save(user);
+            var uploadDir = "user-photos/" + savedUser.getId();
+            FileUploadUtil.saveFile(uploadDir, fileName, thumbnail);
+        } else {
+            logger.info("Thumbnail is null");
+            userService.save(user);
+        }
         logger.info("Successfully saved user");
         return allUsers();
     }

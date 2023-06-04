@@ -46,8 +46,8 @@ public class UserDAO {
      *
      * @param user user
      */
-    public void save(final User user) {
-        sneak(() -> userRepository.save(user));
+    public User save(final User user) {
+        return userRepository.save(user);
     }
 
     /**
