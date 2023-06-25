@@ -91,7 +91,7 @@ public class UserController {
         logger.info("SaveUser method of user controller ");
         logger.info("inputs are : name {}, email {}, role {}", name, email, roles);
         var user = populateUser(name, email, roles);
-        if (thumbnail != null) {
+        if (thumbnail != null && thumbnail.getOriginalFilename() != null) {
             logger.info("Image file name is, {}", thumbnail.getOriginalFilename());
             var fileName = StringUtils.cleanPath(thumbnail.getOriginalFilename());
             user.setPhoto(fileName);
@@ -244,11 +244,7 @@ public class UserController {
         try {
             userService.deleteUser(id);
             model.addAttribute(ALL_ROLES, fullRoleMap());
-            //userForm.setStatusMessage("Successfully deleted the user");
-            //userForm.setStatusMessageType(SUCCESS);
         } catch (Exception ex) {
-            //userForm.setStatusMessage("Error occurred during deletion");
-            //userForm.setStatusMessageType(DANGER);
             logger.error(ex.getLocalizedMessage(), ex);
         }
         return "redirect:/user/listAll";

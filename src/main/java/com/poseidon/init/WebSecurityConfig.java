@@ -30,26 +30,14 @@ public class WebSecurityConfig {
     @Bean
     public SecurityFilterChain filterChain(final HttpSecurity http) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable);
-        http
-                .authorizeHttpRequests(auth -> auth
-                    .requestMatchers("/resources/**",
-                            "/registration",
-                            "/css/**", "/js/**", "/img/**",
-                            "/h2-console/**",
-                            "/console/**").permitAll()
-                    .anyRequest().authenticated()
-                )
-                .formLogin()
-                .loginPage("/login")
-                .defaultSuccessUrl("/", true).permitAll().and()
-                .headers()
-                .frameOptions().sameOrigin().and()
-                .logout()
-                .permitAll().and()
-                .requiresChannel()
-                .requestMatchers(r -> r.getHeader("X-Forwarded-Proto") != null)
-                .requiresSecure();
-
+        http.authorizeHttpRequests(auth -> auth
+                .requestMatchers("/resources/**",
+                    "/registration",
+                    "/css/**", "/js/**", "/img/**",
+                    "/h2-console/**",
+                    "/console/**").permitAll()
+                .anyRequest().authenticated()
+        );
         return http.build();
     }
 
