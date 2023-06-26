@@ -2,15 +2,15 @@ package com.poseidon.user.dao.entities;
 
 
 import com.poseidon.init.entity.CommonEntity;
-import jakarta.persistence.JoinColumn;
-import jakarta.persistence.JoinTable;
-import jakarta.persistence.ManyToMany;
-import org.springframework.data.jpa.domain.support.AuditingEntityListener;
-
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EntityListeners;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.JoinTable;
+import jakarta.persistence.ManyToMany;
 import jakarta.persistence.Table;
+import jakarta.persistence.Transient;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.util.HashSet;
 import java.util.Set;
@@ -104,5 +104,13 @@ public class User extends CommonEntity {
 
     public void addRole(final Role role) {
         this.roles.add(role);
+    }
+
+    @Transient
+    public String getPhotosImagePath() {
+        if (this.getId() == null || this.getPhoto() == null) {
+            return "/img/default-user-photo.svg";
+        }
+        return "/user-photos/" + this.getId() + "/" + this.getPhoto();
     }
 }

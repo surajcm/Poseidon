@@ -126,7 +126,10 @@
                     </thead>
                     <tbody>
                         <tr th:each="iterationUser : ${users}">
-                            <td><span class="fa-solid fa-user fa-3x"></span></td>
+                            <td>
+                                <span th:if="${iterationUser.photo == null}" class="fa-solid fa-user fa-3x"></span>
+                                <img th:if="${iterationUser.photo != null}" th:src="@{${iterationUser.photosImagePath}}" />
+                            </td>
                             <td><span th:text="${iterationUser.name}"></span></td>
                             <td><span th:text="${iterationUser.email}"></span></td>
                             <td><span th:text="${iterationUser.roles}"></span></td>

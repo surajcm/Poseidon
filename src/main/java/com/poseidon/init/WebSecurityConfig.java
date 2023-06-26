@@ -38,6 +38,16 @@ public class WebSecurityConfig {
                     "/console/**").permitAll()
                 .anyRequest().authenticated()
         );
+        http.formLogin()
+                .loginPage("/login")
+                .defaultSuccessUrl("/", true).permitAll().and()
+                .headers()
+                .frameOptions().sameOrigin().and()
+                .logout()
+                .permitAll().and()
+                .requiresChannel()
+                .requestMatchers(r -> r.getHeader("X-Forwarded-Proto") != null)
+                .requiresSecure();
         return http.build();
     }
 
