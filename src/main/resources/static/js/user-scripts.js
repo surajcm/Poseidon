@@ -423,6 +423,7 @@ function populateDataForEdit(textReturned) {
   // let's get all roles
   populateAllRoles(roleValues);
   //document.getElementById("updateRole").value = user.roles[0].id;
+  document.getElementById("thumbnail").src = user.photosImagePath;
 }
 
 function populateAllRoles(activeRoles) {
@@ -491,6 +492,8 @@ function roleLabelsWithValue(message) {
 function updateFromModal() {
   const updateName = document.getElementById("updateName").value;
   const updateEmail = document.getElementById("updateEmail").value;
+  const thumbnail = document.getElementById("fileImage").files[0];
+  console.log("thumbnail src is :" + thumbnail);
   const forms = document.getElementsByClassName("needs-validation");
   let allFieldsAreValid = true;
 
@@ -535,18 +538,26 @@ function updateFromModal() {
   }
 
   if (allFieldsAreValid) {
-    callAjaxUpdate(updateName, updateEmail, updateRole);
+    callAjaxUpdate(updateName, updateEmail, updateRole, thumbnail);
   }
 }
 
-function callAjaxUpdate(updateName, updateEmail, updateRole) {
+function callAjaxUpdate(updateName, updateEmail, updateRole, thumbnail) {
   let id = document.getElementById("id").value;
   let xhr = new XMLHttpRequest();
   xhr.open("PUT", "/user/updateUser", true);
   let token = document.querySelector("meta[name='_csrf']").content;
   let header = document.querySelector("meta[name='_csrf_header']").content;
   //xhr.setRequestHeader(header, token);
-  xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+  //xhr.setRequestHeader("Content-Type", "application/x-www-form-urlencoded");
+  let formData = new FormData();
+  if (typeof thumbnail !== "undefined") {
+    formData.append('thumbnail', thumbnail, thumbnail.name);
+  }
+  formData.append("id", id);
+  formData.append("name", updateName);
+  formData.append("email", updateEmail);
+  formData.append("roles", updateRole);
   xhr.onload = function () {
     if (xhr.status === 200) {
       if (xhr.responseText != null) {
@@ -558,16 +569,7 @@ function callAjaxUpdate(updateName, updateEmail, updateRole) {
       showUpdateStatus(false);
     }
   };
-  xhr.send(
-    "id=" +
-      id +
-      "&name=" +
-      updateName +
-      "&email=" +
-      updateEmail +
-      "&roles=" +
-      updateRole
-  );
+  xhr.send(formData);
 }
 
 function showUpdateStatus(status) {

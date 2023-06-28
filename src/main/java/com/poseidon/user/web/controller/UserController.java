@@ -168,17 +168,23 @@ public class UserController {
 
     @PutMapping("/user/updateUser")
     public @ResponseBody
-    Set<User> updateUser(@ModelAttribute("id") final String id,
-                         @ModelAttribute("name") final String name,
-                         @ModelAttribute("email") final String email,
-                         @ModelAttribute("roles") final Set<Long> roles,
-                         final BindingResult result) {
+    Set<User> updateUser(@RequestParam(value = "thumbnail", required = false) final MultipartFile thumbnail,
+                         @RequestParam("id") final String id,
+                         @RequestParam("name") final String name,
+                         @RequestParam("email") final String email,
+                         @RequestParam("roles") final Set<Long> roles,
+                         final RedirectAttributes redirectAttributes) {
         var sanitizedId = CommonUtils.sanitizedString(id);
         var sanitizedName = CommonUtils.sanitizedString(name);
         var sanitizedEmail = CommonUtils.sanitizedString(email);
         logger.info("updateUser method of user controller with id {}, name {}, email {}, roles {}",
                 sanitizedId, sanitizedName,
                 sanitizedEmail, roles);
+        if (thumbnail != null && thumbnail.getOriginalFilename() != null) {
+            logger.info("Image file name is, {}", thumbnail.getOriginalFilename());
+        } else {
+            logger.info("Thumbnail is null");
+        }
         try {
             var user = userService.getUserDetailsFromId(Long.valueOf(id));
             if (user.isPresent()) {
