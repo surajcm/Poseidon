@@ -65,17 +65,9 @@ public class UserDAO {
      *
      * @param userToUpdate user
      */
-    public void updateUser(final User userToUpdate, final String loggedInUser) {
-        var optionalUser = sneak(() -> userRepository.findById(userToUpdate.getId()));
-        if (optionalUser.isPresent()) {
-            var user = optionalUser.get();
-            user.setName(userToUpdate.getName());
-            user.setEmail(userToUpdate.getEmail());
-            user.setPassword(userToUpdate.getPassword());
-            user.setRoles(userToUpdate.getRoles());
-            user.setModifiedBy(loggedInUser);
-            sneak(() -> userRepository.save(user));
-        }
+    public User updateUser(final User userToUpdate, final String loggedInUser) {
+        userToUpdate.setModifiedBy(loggedInUser);
+        return userRepository.save(userToUpdate);
     }
 
     /**
@@ -99,8 +91,8 @@ public class UserDAO {
      * @return List of user
      */
     public List<User> searchUserDetails(final User searchUser,
-                                          final boolean startsWith,
-                                          final boolean includes) {
+                                        final boolean startsWith,
+                                        final boolean includes) {
         return sneak(() -> searchAllUsers(searchUser, startsWith, includes));
     }
 
@@ -112,8 +104,8 @@ public class UserDAO {
      * @throws DataAccessException on error
      */
     private List<User> searchAllUsers(final User searchUser,
-                                        final boolean startsWith,
-                                        final boolean includes) {
+                                      final boolean startsWith,
+                                      final boolean includes) {
         var userSpec = new UserSpecification();
         var search = populateSearchOperation(startsWith, includes);
         if (StringUtils.hasText(searchUser.getName())) {

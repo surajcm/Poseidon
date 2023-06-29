@@ -180,11 +180,6 @@ public class UserController {
         logger.info("updateUser method of user controller with id {}, name {}, email {}, roles {}",
                 sanitizedId, sanitizedName,
                 sanitizedEmail, roles);
-        if (thumbnail != null && thumbnail.getOriginalFilename() != null) {
-            logger.info("Image file name is, {}", thumbnail.getOriginalFilename());
-        } else {
-            logger.info("Thumbnail is null");
-        }
         try {
             var user = userService.getUserDetailsFromId(Long.valueOf(id));
             if (user.isPresent()) {
@@ -193,6 +188,17 @@ public class UserController {
                 newUser.setEmail(email);
                 newUser.setRoles(roles.stream().map(Role::new).collect(Collectors.toSet()));
                 var loggedInUser = currentLoggedInUser();
+                if (thumbnail != null && thumbnail.getOriginalFilename() != null) {
+                    logger.info("Image file name is, {}", thumbnail.getOriginalFilename());
+                    var fileName = StringUtils.cleanPath(thumbnail.getOriginalFilename());
+                    newUser.setPhoto(fileName);
+                    var savedUser = userService.updateUser(newUser, loggedInUser);;
+                    var uploadDir = "user-photos/" + savedUser.getId();
+                    FileUploadUtil.saveFile(uploadDir, fileName, thumbnail);
+                } else {
+                    logger.info("Thumbnail is null");
+                    userService.updateUser(newUser, loggedInUser);
+                }
                 userService.updateUser(newUser, loggedInUser);
             }
         } catch (Exception ex) {

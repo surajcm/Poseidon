@@ -64,8 +64,8 @@ public class UserService {
      *
      * @param user user
      */
-    public void updateUser(final User user, final String loggedInUser) {
-        userDAO.updateUser(user, loggedInUser);
+    public User updateUser(final User user, final String loggedInUser) {
+        return userDAO.updateUser(user, loggedInUser);
     }
 
     /**
