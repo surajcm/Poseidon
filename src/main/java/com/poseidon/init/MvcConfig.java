@@ -14,6 +14,6 @@ public class MvcConfig implements WebMvcConfigurer {
         var userPhotoDirectory = Paths.get(userPhotoLoc);
         var userPhotosLocation = userPhotoDirectory.toFile().getAbsoluteFile();
         registry.addResourceHandler("/" + userPhotoLoc + "/**")
-                .addResourceLocations("file:/" + userPhotosLocation + "/");
+                .addResourceLocations("file:" + userPhotosLocation + "/");
     }
 }

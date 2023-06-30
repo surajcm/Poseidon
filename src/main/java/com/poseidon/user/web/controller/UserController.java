@@ -194,6 +194,7 @@ public class UserController {
                     newUser.setPhoto(fileName);
                     var savedUser = userService.updateUser(newUser, loggedInUser);;
                     var uploadDir = "user-photos/" + savedUser.getId();
+                    FileUploadUtil.cleanDir(uploadDir);
                     FileUploadUtil.saveFile(uploadDir, fileName, thumbnail);
                 } else {
                     logger.info("Thumbnail is null");
