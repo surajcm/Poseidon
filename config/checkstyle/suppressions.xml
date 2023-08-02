@@ -47,5 +47,6 @@ WHAT AND WHY CHECKS SUPPRESSED
     <suppress files="UserController.java" checks="IllegalCatch"/>
     <suppress files="UserDAO.java" checks="IllegalCatch"/>
     <suppress files="WebSecurityConfig.java" checks="MethodLength"/>
+    <suppress files="WebSecurityConfig.java" checks="IllegalCatch"/>
     <suppress files="CustomerServiceTest.java" checks="MethodLength"/>
 </suppressions>

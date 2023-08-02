@@ -8,9 +8,13 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
+import org.springframework.security.config.annotation.web.configurers.HeadersConfigurer;
+import org.springframework.security.config.annotation.web.configurers.LogoutConfigurer;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.servlet.util.matcher.MvcRequestMatcher;
+import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
 
 @Configuration
 @EnableWebSecurity
@@ -28,26 +32,31 @@ public class WebSecurityConfig {
     }
 
     @Bean
-    public SecurityFilterChain filterChain(final HttpSecurity http) throws Exception {
+    public SecurityFilterChain filterChain(final HttpSecurity http,
+                                           final HandlerMappingIntrospector introspect) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable);
-        http.authorizeHttpRequests(auth -> auth
-                .requestMatchers("/resources/**",
-                    "/registration",
-                    "/css/**", "/js/**", "/img/**",
-                    "/h2-console/**",
-                    "/console/**").permitAll()
-                .anyRequest().authenticated()
-        );
-        http.formLogin()
-                .loginPage("/login")
-                .defaultSuccessUrl("/", true).permitAll().and()
-                .headers()
-                .frameOptions().sameOrigin().and()
-                .logout()
-                .permitAll().and()
-                .requiresChannel()
-                .requestMatchers(r -> r.getHeader("X-Forwarded-Proto") != null)
-                .requiresSecure();
+        var mvcMatcherBuilder = new MvcRequestMatcher.Builder(introspect);
+        for (var paths: matchingPaths()) {
+            http.authorizeHttpRequests(auth -> auth
+                    .requestMatchers(mvcMatcherBuilder.pattern(paths)).permitAll()
+            );
+        }
+        http.authorizeHttpRequests(auth -> auth.anyRequest().authenticated());
+
+        http.formLogin((formLogin) -> {
+            try {
+                formLogin.loginPage("/login")
+                .defaultSuccessUrl("/", true).permitAll();
+            } catch (Exception ex) {
+                //todo : clean up
+                throw new RuntimeException(ex);
+            }
+        });
+        http.headers((headers) ->
+                headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin));
+        http.logout(LogoutConfigurer::permitAll);
+        http.requiresChannel(c -> c.requestMatchers(r ->
+                r.getHeader("X-Forwarded-Proto") != null).requiresSecure());
         return http.build();
     }
 
@@ -55,10 +64,18 @@ public class WebSecurityConfig {
     public AuthenticationManager authManager(final HttpSecurity http,
                                              final BCryptPasswordEncoder bCryptPasswordEncoder)
             throws Exception {
-        return http.getSharedObject(AuthenticationManagerBuilder.class)
+        var managerBuilder =  http.getSharedObject(AuthenticationManagerBuilder.class)
                 .userDetailsService(userDetailsService)
-                .passwordEncoder(bCryptPasswordEncoder)
-                .and()
-                .build();
+                .passwordEncoder(bCryptPasswordEncoder);
+        return managerBuilder.and().build();
+    }
+
+    private String[] matchingPaths() {
+        return new String[] {"/resources/**",
+                "/registration",
+                "/css/**", "/js/**", "/img/**",
+                "/h2-console/**",
+                "/console/**"
+        };
     }
 }
