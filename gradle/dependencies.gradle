@@ -18,7 +18,7 @@ dependencies {
 
     implementation("org.thymeleaf.extras:thymeleaf-extras-springsecurity6")
 
-    implementation("com.h2database:h2:2.1.214")
+    implementation("com.h2database:h2:2.2.224")
     implementation("org.apache.tomcat.embed:tomcat-embed-jasper")
     implementation('com.rainerhahnekamp:sneakythrow:1.2.0')
 
