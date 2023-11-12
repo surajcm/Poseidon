@@ -351,7 +351,6 @@ public class MakeController {
         var sanitizedDescription = CommonUtils.sanitizedString(description);
         LOG.info("updateMake method of make controller with id {}, makeName {}, description {}",
                 sanitizedId, sanitizedMakeName, sanitizedDescription);
-        var responseString = new StringBuilder();
         var makeModelVO = buildMakeModelVO(id, makeName, description);
         makeService.updateMake(makeModelVO);
         return makeService.fetchMakes();

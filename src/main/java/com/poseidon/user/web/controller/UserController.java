@@ -86,7 +86,7 @@ public class UserController {
             @RequestParam(value = "thumbnail", required = false) final MultipartFile thumbnail,
             @RequestParam("selectName") final String name,
             @RequestParam("selectLogin") final String email,
-            @RequestParam("selectRole") final HashSet<Long> roles,
+            @RequestParam("selectRole") final Set<Long> roles,
             final RedirectAttributes redirectAttributes) throws IOException {
         logger.info("SaveUser method of user controller ");
         logger.info("inputs are : name {}, email {}, role {}", name, email, roles);

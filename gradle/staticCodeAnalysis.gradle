@@ -31,7 +31,7 @@ pmd {
 }
 
 jacoco {
-    toolVersion = "0.8.10"
+    toolVersion = "0.8.11"
     reportsDirectory = file("build/reports/jacoco/")
 }
 
@@ -91,6 +91,7 @@ sonarqube {
         property "sonar.jacoco.reportPaths", "${project.buildDir}/jacoco/test.exec"
         property "sonar.java.codeCoveragePlugin", "jacoco"
         property "sonar.junit.reportPaths", "${project.buildDir}/test-results/test/"
+        property 'sonar.gradle.skipCompile' , 'true'
    }
 }
 

@@ -8,6 +8,7 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.util.stream.Stream;
 
 public class FileUploadUtil {
     public static void saveFile(final String uploadLocation, final String fileName, final MultipartFile file)
@@ -26,8 +27,8 @@ public class FileUploadUtil {
 
     public static void cleanDir(final String dir) {
         var dirPath = Paths.get(dir);
-        try {
-            Files.list(dirPath).forEach(FileUploadUtil::deleteFiles);
+        try (Stream<Path> stream = Files.list(dirPath)) {
+            stream.forEach(FileUploadUtil::deleteFiles);
         } catch (IOException exception) {
             System.out.println("Could not list directory : " + dirPath);
         }
