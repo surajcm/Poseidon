@@ -41,12 +41,10 @@ public class RegistrationController {
     public String registerUser(final User user) {
         user.addRole(new Role(2L));
         logger.info("Submitted registration: {}", user);
-        if (companyService.isValidCompanyCode(user.getCompanyCode())) {
-            userService.save(user);
-        } else {
-            logger.error("Invalid companyCode found, {}", user.getCompanyCode());
-            return "redirect:/registration?failure";
+        if (!companyService.isValidCompanyCode(user.getCompanyCode())) {
+            user.setCompanyCode("NEW");
         }
+        userService.save(user);
         return "redirect:/registration?success";
     }
 }
