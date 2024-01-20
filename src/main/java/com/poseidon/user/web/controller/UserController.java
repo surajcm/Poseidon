@@ -8,6 +8,7 @@ import com.poseidon.user.service.UserService;
 import com.poseidon.user.web.form.UserForm;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.repository.query.Param;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -22,7 +23,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
-
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -300,5 +300,10 @@ public class UserController {
         var message = "The user has been " + responseStatus;
         redirectAttributes.addFlashAttribute(MESSAGE, message);
         return "redirect:/user/listAll";
+    }
+
+    @PostMapping("/users/check_email")
+    public String checkDuplicateEmail(final @Param("email") String email) {
+        return userService.isEmailUnique(email) ? "OK" : "DUP";
     }
 }

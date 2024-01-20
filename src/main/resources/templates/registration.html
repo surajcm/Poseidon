@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security/">
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security/" lang="en">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -11,6 +11,12 @@
     <link rel="stylesheet" href="/css/core/bootstrap-5.3.1/bootstrap.min.css"  type="text/css"/>
     <link rel="stylesheet" href="/css/logInStyles.css"  type="text/css" />
     <title>Registration</title>
+    <script type="text/javascript">
+        function checkEmailUnique(form) {
+            console.log("check Email Unique triggered");
+            return false;
+        }
+    </script>
 </head>
 <body>
 <main>
@@ -22,7 +28,7 @@
                         <div class="text-center text-md-center mb-4 mt-md-0">
                             <h1 class="mb-0 h3">Registration</h1>
                         </div>
-                        <form th:action="@{/registration}" class="mt-4" method="post" th:object="${user}">
+                        <form th:action="@{/registration}" class="mt-4" method="post" th:object="${user}" onsubmit="checkEmailUnique(this);">
                             <div th:if="${param.success}">
                                 <div class="alert alert-info alert-dismissible fade show d-flex align-items-center">You've successfully registered</div>
                             </div>

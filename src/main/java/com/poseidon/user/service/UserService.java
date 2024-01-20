@@ -84,8 +84,8 @@ public class UserService {
      * @return List of user
      */
     public List<User> searchUserDetails(final User searchUser,
-                                          final boolean startsWith,
-                                          final boolean includes) {
+                                        final boolean startsWith,
+                                        final boolean includes) {
         return userDAO.searchUserDetails(searchUser, startsWith, includes);
     }
 
@@ -112,4 +112,8 @@ public class UserService {
         userDAO.enableUser(id, enabled);
     }
 
+    public boolean isEmailUnique(final String email) {
+        var user = userDAO.findByEmail(email);
+        return user.isEmpty();
+    }
 }
