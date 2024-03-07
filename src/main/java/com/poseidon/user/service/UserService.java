@@ -6,6 +6,7 @@ import com.poseidon.user.dao.entities.User;
 import com.poseidon.user.dao.repo.RoleRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -41,6 +42,10 @@ public class UserService {
      */
     public Set<User> getAllUserDetails(final String companyCode) {
         return userDAO.getAllUserDetails(companyCode);
+    }
+
+    public Page<User> getAllUsers(final int pageNumber, final String companyCode) {
+        return userDAO.getAllUsers(pageNumber, companyCode);
     }
 
     public User save(final User user) {

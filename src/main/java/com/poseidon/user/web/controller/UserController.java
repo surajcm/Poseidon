@@ -2,6 +2,7 @@ package com.poseidon.user.web.controller;
 
 import com.poseidon.init.util.CommonUtils;
 import com.poseidon.init.util.FileUploadUtil;
+import com.poseidon.user.dao.UserDAO;
 import com.poseidon.user.dao.entities.Role;
 import com.poseidon.user.dao.entities.User;
 import com.poseidon.user.service.UserService;
@@ -61,11 +62,25 @@ public class UserController {
      * @return to user list screen
      */
     @RequestMapping(value = "/user/listAll", method = {RequestMethod.GET, RequestMethod.POST})
-    public String listAllUsers(final Model model) {
-        logger.info("ListAll method of user controller ");
-        var users = allUsers();
+    public String listFirstPage(final Model model) {
+        return listByPage(1, model);
+    }
+
+    @RequestMapping("/user/page/{pageNumber}")
+    public String listByPage(final @PathVariable(name = "pageNumber") int pageNumber,
+                             final Model model) {
+        logger.info("ListByPage method of user controller ");
+        var page = userService.getAllUsers(pageNumber, activeCompanyCode());
+        var startCount = (pageNumber - 1) * UserDAO.USERS_PER_PAGE + 1;
+        long endCount = (long) startCount + UserDAO.USERS_PER_PAGE - 1;
+        if (endCount > page.getTotalElements()) {
+            endCount = page.getTotalElements();
+        }
+        model.addAttribute("startCount", startCount);
+        model.addAttribute("endCount", endCount);
+        model.addAttribute("titleItems", page.getTotalElements());
         model.addAttribute(ALL_ROLES, fullRoleMap());
-        model.addAttribute("users", users);
+        model.addAttribute("users", page.getContent());
         model.addAttribute(USER_FORM, new UserForm());
         return USER_LIST;
     }
@@ -192,7 +207,7 @@ public class UserController {
                     logger.info("Image file name is, {}", thumbnail.getOriginalFilename());
                     var fileName = StringUtils.cleanPath(thumbnail.getOriginalFilename());
                     newUser.setPhoto(fileName);
-                    var savedUser = userService.updateUser(newUser, loggedInUser);;
+                    var savedUser = userService.updateUser(newUser, loggedInUser);
                     var uploadDir = "user-photos/" + savedUser.getId();
                     FileUploadUtil.cleanDir(uploadDir);
                     FileUploadUtil.saveFile(uploadDir, fileName, thumbnail);
@@ -274,7 +289,7 @@ public class UserController {
 
     private Set<User> allUsers() {
         var users = userService.getAllUserDetails(activeCompanyCode());
-        logger.info("users are {}", users);
+        logger.info("users are  of size {}", users.size());
         users.forEach(u -> u.setPassword(""));
         return users;
     }

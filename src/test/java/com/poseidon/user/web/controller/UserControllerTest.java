@@ -12,12 +12,19 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.util.ReflectionTestUtils;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -43,8 +50,14 @@ class UserControllerTest {
 
     @Test
     void listAll() throws Exception {
-        when(userService.findUserFromName(anyString())).thenReturn(mockUser());
+        when(userService.getAllUsers(anyInt(), anyString())).thenReturn(mockedPages());
         mvc.perform(post("/user/listAll")).andExpect(status().isOk());
+    }
+
+    private Page<User> mockedPages() {
+        List<User> users = new ArrayList<>();
+        users.add(mockUser());
+        return new PageImpl<>(users, PageRequest.of(0, users.size()), users.size());
     }
 
     private User mockUser() {

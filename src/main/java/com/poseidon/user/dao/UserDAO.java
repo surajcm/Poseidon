@@ -9,6 +9,8 @@ import jakarta.transaction.Transactional;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.dao.DataAccessException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
@@ -24,12 +26,20 @@ import static com.rainerhahnekamp.sneakythrow.Sneaky.sneaked;
 @Transactional
 @SuppressWarnings("unused")
 public class UserDAO {
+
+    public static final int USERS_PER_PAGE = 4;
+
     private static final Logger LOG = LoggerFactory.getLogger(UserDAO.class);
 
     private final UserRepository userRepository;
 
     public UserDAO(final UserRepository userRepository) {
         this.userRepository = userRepository;
+    }
+
+    public Page<User> getAllUsers(final int pageNumber, final String companyCode) {
+        var pageable = PageRequest.of(pageNumber - 1, USERS_PER_PAGE);
+        return userRepository.findByCompanyCode(pageable, companyCode);
     }
 
     /**
