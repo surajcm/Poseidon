@@ -81,12 +81,11 @@ public class MakeDao {
     /**
      * update make.
      *
-     * @param currentMakeVo currentMakeVo
+     * @param make Make
      */
-    public void updateMake(final MakeAndModelVO currentMakeVo) {
-        var make = makeAndModelEntityConverter.convertToMake(currentMakeVo);
+    public void updateMake(final Make make) {
         var optionalMake =
-                sneak(() -> makeRepository.findById(currentMakeVo.getMakeId()));
+                sneak(() -> makeRepository.findById(make.getId()));
         if (optionalMake.isPresent()) {
             var newMake = optionalMake.get();
             newMake.setMakeName(make.getMakeName());
@@ -267,6 +266,11 @@ public class MakeDao {
                 makeRepository.findByMakeName(searchMakeName).parallelStream()
                         .toList());
         return makeAndModelEntityConverter.convertMakeToMakeAndModelVOs(makes);
+    }
+
+    public List<MakeVO> searchMakes(final String makeName) {
+        var makes =  makeRepository.findByMakeName(makeName);
+        return convertMakeToMakeVO(makes);
     }
 
     private List<MakeAndModelVO> searchModels(final MakeAndModelVO searchMakeVO) {

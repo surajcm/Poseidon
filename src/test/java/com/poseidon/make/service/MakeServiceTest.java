@@ -1,6 +1,7 @@
 package com.poseidon.make.service;
 
 import com.poseidon.make.dao.MakeDao;
+import com.poseidon.make.dao.mapper.MakeAndModelEntityConverter;
 import com.poseidon.make.domain.MakeAndModelVO;
 import com.poseidon.make.domain.MakeVO;
 import org.junit.jupiter.api.Assertions;
@@ -19,7 +20,8 @@ import static org.mockito.Mockito.when;
 @ExtendWith(SpringExtension.class)
 class MakeServiceTest {
     private final MakeDao makeDAO = Mockito.mock(MakeDao.class);
-    private final MakeService makeService = new MakeService(makeDAO);
+    private final MakeAndModelEntityConverter makeAndModelEntityConverter = new MakeAndModelEntityConverter();
+    private final MakeService makeService = new MakeService(makeDAO, makeAndModelEntityConverter);
 
     @Test
     void listAllMakesAndModelsSuccess() {

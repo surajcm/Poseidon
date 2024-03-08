@@ -19,6 +19,7 @@ import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
+import static com.poseidon.init.Constants.PAGE_SIZE;
 import static com.rainerhahnekamp.sneakythrow.Sneaky.sneak;
 import static com.rainerhahnekamp.sneakythrow.Sneaky.sneaked;
 
@@ -26,8 +27,6 @@ import static com.rainerhahnekamp.sneakythrow.Sneaky.sneaked;
 @Transactional
 @SuppressWarnings("unused")
 public class UserDAO {
-
-    public static final int USERS_PER_PAGE = 4;
 
     private static final Logger LOG = LoggerFactory.getLogger(UserDAO.class);
 
@@ -38,7 +37,7 @@ public class UserDAO {
     }
 
     public Page<User> getAllUsers(final int pageNumber, final String companyCode) {
-        var pageable = PageRequest.of(pageNumber - 1, USERS_PER_PAGE);
+        var pageable = PageRequest.of(pageNumber - 1, PAGE_SIZE);
         return userRepository.findByCompanyCode(pageable, companyCode);
     }
 

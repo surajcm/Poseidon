@@ -25,6 +25,14 @@ function deleteMake() {
     }
 }
 
+function deleteMake(e) {
+    let yesButton = document.getElementById("yesButton");
+    let parentHref = e.target.href;
+    //console.log(parentHref);
+    yesButton.setAttribute("href", parentHref);
+    return false;
+}
+
 function verifyCheckPresent() {
     let check = 'false';
     let count = selectedRowCount();
@@ -240,6 +248,12 @@ function editMake() {
         setIdForChange();
         getMakeForEdit();
     }
+}
+
+function editMakeNew(id) {
+    document.getElementById("id").value = id;
+    editMakeModal();
+    getMakeForEdit();
 }
 
 function editMakeModal() {

@@ -1,7 +1,6 @@
 package com.poseidon.make.web.controller;
 
 import com.poseidon.make.MakeConfigurations;
-import com.poseidon.make.domain.MakeAndModelVO;
 import com.poseidon.make.service.MakeService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -12,9 +11,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doThrow;
@@ -38,15 +34,6 @@ class MakeControllerTest {
     }
 
     @Test
-    void modelList() throws Exception {
-        when(makeService.listAllMakesAndModels()).thenReturn(mockMakeAndModelVOs());
-        mvc.perform(post("/make/ModelList")).andExpect(status().isOk());
-        when(makeService.listAllMakesAndModels()).thenThrow(new RuntimeException());
-        when(makeService.fetchMakes()).thenThrow(new RuntimeException());
-        mvc.perform(post("/make/ModelList")).andExpect(status().isOk());
-    }
-
-    @Test
     void makeList() throws Exception {
         mvc.perform(post("/make/MakeList")).andExpect(status().isOk());
     }
@@ -56,13 +43,6 @@ class MakeControllerTest {
         mvc.perform(post("/make/deleteMake")).andExpect(status().isOk());
         doThrow(new RuntimeException()).when(makeService).deleteMake(null);
         mvc.perform(post("/make/deleteMake")).andExpect(status().isOk());
-    }
-
-    @Test
-    void testDeleteModel() throws Exception {
-        mvc.perform(post("/make/deleteModel")).andExpect(status().isOk());
-        doThrow(new RuntimeException()).when(makeService).deleteModel(null);
-        mvc.perform(post("/make/deleteModel")).andExpect(status().isOk());
     }
 
     @Test
@@ -97,10 +77,4 @@ class MakeControllerTest {
                 .andExpect(status().isOk());
     }
 
-    private List<MakeAndModelVO> mockMakeAndModelVOs() {
-        List<MakeAndModelVO> makeAndModelVOs = new ArrayList<>();
-        makeAndModelVOs.add(new MakeAndModelVO());
-        makeAndModelVOs.add(new MakeAndModelVO());
-        return makeAndModelVOs;
-    }
 }

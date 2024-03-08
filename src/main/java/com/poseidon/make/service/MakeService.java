@@ -1,6 +1,7 @@
 package com.poseidon.make.service;
 
 import com.poseidon.make.dao.MakeDao;
+import com.poseidon.make.dao.mapper.MakeAndModelEntityConverter;
 import com.poseidon.make.domain.MakeAndModelVO;
 import com.poseidon.make.domain.MakeVO;
 import org.slf4j.Logger;
@@ -22,9 +23,11 @@ public class MakeService {
     private static final Logger LOG = LoggerFactory.getLogger(MakeService.class);
 
     private final MakeDao makeDAO;
+    private final MakeAndModelEntityConverter makeAndModelEntityConverter;
 
-    public MakeService(final MakeDao makeDAO) {
+    public MakeService(final MakeDao makeDAO, final MakeAndModelEntityConverter makeAndModelEntityConverter) {
         this.makeDAO = makeDAO;
+        this.makeAndModelEntityConverter = makeAndModelEntityConverter;
     }
 
     /**
@@ -98,7 +101,8 @@ public class MakeService {
      * @param currentMakeVO currentMakeVO
      */
     public void updateMake(final MakeAndModelVO currentMakeVO) {
-        makeDAO.updateMake(currentMakeVO);
+        var make = makeAndModelEntityConverter.convertToMake(currentMakeVO);
+        makeDAO.updateMake(make);
     }
 
     /**
@@ -131,6 +135,10 @@ public class MakeService {
      */
     public List<MakeAndModelVO> searchMakeVOs(final MakeAndModelVO searchMakeVO) {
         return makeDAO.searchMakeVOs(searchMakeVO);
+    }
+
+    public List<MakeVO> searchMakes(final String makeName) {
+        return makeDAO.searchMakes(makeName);
     }
 
     /**

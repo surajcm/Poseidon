@@ -41,7 +41,7 @@ jacocoTestReport {
     }
 }
 
-tasks.withType(Checkstyle) {
+tasks.withType(Checkstyle).configureEach {
     reports {
         xml.required = false
         html.required = true
@@ -49,7 +49,7 @@ tasks.withType(Checkstyle) {
     }
 }
 
-tasks.withType(Pmd) {
+tasks.withType(Pmd).configureEach {
     reports {
         xml.required = false
         html.required = true

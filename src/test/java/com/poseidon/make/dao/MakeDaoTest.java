@@ -46,13 +46,13 @@ class MakeDaoTest {
     @Test
     void updateMakeSuccess() {
         when(makeRepository.findById(anyLong())).thenReturn(Optional.of(mockMake()));
-        Assertions.assertAll(() -> makeDao.updateMake(mockMakeAndModelVO()));
+        Assertions.assertAll(() -> makeDao.updateMake(mockMake()));
     }
 
     @Test
     void updateMakeSuccessOnEmpty() {
         when(makeRepository.findById(anyLong())).thenReturn(Optional.empty());
-        Assertions.assertAll(() -> makeDao.updateMake(mockMakeAndModelVO()));
+        Assertions.assertAll(() -> makeDao.updateMake(mockMake()));
     }
 
     @Test

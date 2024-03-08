@@ -30,7 +30,7 @@ import java.util.stream.Collectors;
 @Controller
 @SuppressWarnings("unused")
 public class MakeController {
-    private static final Logger LOG = LoggerFactory.getLogger(MakeController.class);
+    private static final Logger logger = LoggerFactory.getLogger(MakeController.class);
     private static final String DANGER = "danger";
     private static final String MAKE_FORM = "makeForm";
     private static final String SUCCESS = "success";
@@ -48,35 +48,6 @@ public class MakeController {
     }
 
     /**
-     * .
-     * list all models
-     *
-     * @param makeForm makeForm
-     * @return view
-     */
-    @PostMapping(value = MODEL_LIST_PAGE)
-    public String modelListPage(final MakeForm makeForm, final Model model) {
-        var sanitizedMakeForm = CommonUtils.sanitizedString(makeForm.toString());
-        LOG.info("Inside model List method of MakeController, form details are  {}",
-                sanitizedMakeForm);
-        var makeAndModelVOs = makeService.listAllMakesAndModels();
-        if (!makeAndModelVOs.isEmpty()) {
-            makeAndModelVOs.forEach(makeAndModelVO -> LOG.info(MAKE_AND_MODEL_VO_IS, makeAndModelVO));
-            makeForm.setMakeAndModelVOs(makeAndModelVOs);
-        }
-        var makeVOs = makeService.fetchMakes();
-        if (!makeVOs.isEmpty()) {
-            makeVOs.forEach(makeVO -> LOG.debug(MAKE_VO_IS, makeVO));
-            makeForm.setMakeVOs(makeVOs);
-        }
-        makeForm.setSearchMakeAndModelVO(new MakeAndModelVO());
-        makeForm.setLoggedInRole(makeForm.getLoggedInRole());
-        makeForm.setLoggedInUser(makeForm.getLoggedInUser());
-        model.addAttribute(MAKE_FORM, makeForm);
-        return MODEL_LIST_PAGE;
-    }
-
-    /**
      * list out makes.
      *
      * @param makeForm makeForm
@@ -84,20 +55,12 @@ public class MakeController {
      */
     @PostMapping(MAKE_LIST_PAGE)
     public String makeListPage(final MakeForm makeForm, final Model model) {
-        LOG.info("ListMake List method of MakeController ");
-        var makeAndModelVOs = makeService.listAllMakes();
-        if (!makeAndModelVOs.isEmpty()) {
-            makeAndModelVOs.forEach(makeAndModelVO -> LOG.debug(MAKE_AND_MODEL_VO_IS, makeAndModelVO));
-            makeForm.setMakeAndModelVOs(makeAndModelVOs);
-        }
+        logger.info("ListMake List method of MakeController ");
         var makeVOs = makeService.fetchMakes();
         if (!makeVOs.isEmpty()) {
-            makeVOs.forEach(makeVO -> LOG.debug(MAKE_VO_IS, makeVO));
+            makeVOs.forEach(makeVO -> logger.debug(MAKE_VO_IS, makeVO));
             makeForm.setMakeVOs(makeVOs);
         }
-        makeForm.setSearchMakeAndModelVO(new MakeAndModelVO());
-        makeForm.setLoggedInRole(makeForm.getLoggedInRole());
-        makeForm.setLoggedInUser(makeForm.getLoggedInUser());
         model.addAttribute(MAKE_FORM, makeForm);
         return MAKE_LIST_PAGE;
     }
@@ -111,9 +74,9 @@ public class MakeController {
     @PostMapping("/make/deleteMake")
     @SuppressWarnings("unused")
     public String deleteMake(final MakeForm makeForm, final Model model) {
-        LOG.debug("DeleteMake method of MakeController ");
+        logger.debug("DeleteMake method of MakeController ");
         var sanitizedMakeForm = CommonUtils.sanitizedString(makeForm.toString());
-        LOG.debug(MAKE_FORM_IS, sanitizedMakeForm);
+        logger.debug(MAKE_FORM_IS, sanitizedMakeForm);
         try {
             makeService.deleteMake(makeForm.getId());
             makeForm.setStatusMessage("Successfully deleted the selected Make");
@@ -121,47 +84,19 @@ public class MakeController {
         } catch (Exception ex) {
             makeForm.setStatusMessage("Error occurred during deletion");
             makeForm.setStatusMessageType(DANGER);
-            LOG.error(ex.getLocalizedMessage(), ex);
+            logger.error(ex.getLocalizedMessage(), ex);
         }
-        makeForm.setLoggedInUser(makeForm.getLoggedInUser());
-        makeForm.setLoggedInRole(makeForm.getLoggedInRole());
-        makeForm.setCurrentMakeAndModeVO(new MakeAndModelVO());
         return makeListPage(makeForm, model);
     }
 
-    /**
-     * delete model.
-     *
-     * @param makeForm makeForm
-     * @return view
-     */
-    @PostMapping("/make/deleteModel")
-    @SuppressWarnings("unused")
-    public String deleteModel(final MakeForm makeForm, final Model model) {
-        LOG.debug("DeleteModel method of MakeController ");
-        var sanitizedMakeForm = CommonUtils.sanitizedString(makeForm.toString());
-        LOG.debug(MAKE_FORM_IS, sanitizedMakeForm);
-        try {
-            makeService.deleteModel(makeForm.getId());
-            makeForm.setStatusMessage("Successfully deleted the selected Model");
-            makeForm.setStatusMessageType(SUCCESS);
-        } catch (Exception ex) {
-            makeForm.setStatusMessage("Error occurred during deletion");
-            makeForm.setStatusMessageType(DANGER);
-            LOG.error(ex.getLocalizedMessage(), ex);
-        }
-        makeForm.setLoggedInUser(makeForm.getLoggedInUser());
-        makeForm.setLoggedInRole(makeForm.getLoggedInRole());
-        makeForm.setCurrentMakeAndModeVO(new MakeAndModelVO());
-        return modelListPage(makeForm, model);
-    }
+
 
     @GetMapping("/make/getForEdit")
     public @ResponseBody
     Map<Long, String> getForEdit(@ModelAttribute("id") final String id,
                                  final BindingResult result) {
         var sanitizedId = CommonUtils.sanitizedString(id);
-        LOG.info("getForEdit method of make controller {}}", sanitizedId);
+        logger.info("getForEdit method of make controller {}}", sanitizedId);
         var makeVO = makeService.getModelFromId(Long.valueOf(id));
         return makeVO.map(vo -> Map.of(vo.getMakeId(), vo.getModelName())).orElse(Collections.emptyMap());
     }
@@ -171,7 +106,7 @@ public class MakeController {
     Map<String, String> makeForEdit(@ModelAttribute("id") final String id,
                                     final BindingResult result) {
         var sanitizedId = CommonUtils.sanitizedString(id);
-        LOG.info("makeForEdit method of make controller {}", sanitizedId);
+        logger.info("makeForEdit method of make controller {}", sanitizedId);
         var makeVO = makeService.getMakeFromId(Long.valueOf(id));
         return makeVO.map(vo -> Map.of(vo.getMakeName(), vo.getDescription())).orElse(Collections.emptyMap());
     }
@@ -189,12 +124,12 @@ public class MakeController {
         makeForm.setStatusMessage("Found " + makeVOs.size() + " Models");
         makeForm.setStatusMessageType("info");
         if (!makeVOs.isEmpty()) {
-            makeVOs.forEach(makeVO -> LOG.debug(MAKE_VO_IS, makeVO));
+            makeVOs.forEach(makeVO -> logger.debug(MAKE_VO_IS, makeVO));
             makeForm.setMakeAndModelVOs(makeVOs);
         }
         var searchMakeVOs = makeService.fetchMakes();
         if (searchMakeVOs != null) {
-            searchMakeVOs.forEach(searchMakeVO -> LOG.debug("SearchMakeVO is {}", searchMakeVO));
+            searchMakeVOs.forEach(searchMakeVO -> logger.debug("SearchMakeVO is {}", searchMakeVO));
             makeForm.setMakeVOs(searchMakeVOs);
         }
         var userName = findLoggedInUsername();
@@ -213,33 +148,25 @@ public class MakeController {
     @PostMapping("/make/searchMake")
     public String searchMake(final MakeForm makeForm, final Model model) {
         loggingFromSearch(makeForm);
-        var makeVOs = makeService.searchMake(makeForm.getSearchMakeAndModelVO());
-        makeForm.setStatusMessage("Found " + makeVOs.size() + " Models");
+        var searchMakeVOs = makeService.searchMakes(makeForm.getSearchMakeAndModelVO().getMakeName());
+        makeForm.setStatusMessage("Found " + searchMakeVOs.size() + " Models");
         makeForm.setStatusMessageType("info");
-        if (!makeVOs.isEmpty()) {
-            makeVOs.forEach(makeVO -> LOG.debug(MAKE_VO_IS, makeVO));
-            makeForm.setMakeAndModelVOs(makeVOs);
-        }
-        var searchMakeVOs = makeService.fetchMakes();
         if (searchMakeVOs != null) {
-            searchMakeVOs.forEach(searchMakeVO -> LOG.debug("searchMakeVO is {}", searchMakeVO));
+            searchMakeVOs.forEach(searchMakeVO -> logger.debug("searchMakeVO is {}", searchMakeVO));
             makeForm.setMakeVOs(searchMakeVOs);
         }
-        var userName = findLoggedInUsername();
-        makeForm.setLoggedInRole(makeForm.getLoggedInRole());
-        makeForm.setLoggedInUser(makeForm.getLoggedInUser());
         model.addAttribute(MAKE_FORM, makeForm);
         return MAKE_LIST_PAGE;
     }
 
     private void loggingFromSearch(final MakeForm makeForm) {
-        LOG.debug("SearchModel method of MakeController ");
+        logger.debug("SearchModel method of MakeController ");
         var sanitizedMakeForm = CommonUtils.sanitizedString(makeForm.toString());
-        LOG.debug("MakeForm instance to search {}", sanitizedMakeForm);
+        logger.debug("MakeForm instance to search {}", sanitizedMakeForm);
         if (makeForm.getSearchMakeAndModelVO() != null) {
             var sanitizedSearchModel = CommonUtils.sanitizedString(
                     makeForm.getSearchMakeAndModelVO().toString());
-            LOG.debug("SearchVO instance to search {}", sanitizedSearchModel);
+            logger.debug("SearchVO instance to search {}", sanitizedSearchModel);
         }
     }
 
@@ -256,9 +183,9 @@ public class MakeController {
     List<MakeVO> saveMake(@ModelAttribute("selectMakeName") final String selectMakeName,
                           @ModelAttribute("selectMakeDesc") final String selectMakeDesc,
                           final BindingResult result) {
-        LOG.info("SaveMake method of MakeController");
+        logger.info("SaveMake method of MakeController");
         if (result.hasErrors()) {
-            LOG.info("errors {}", result);
+            logger.info("errors {}", result);
         }
         var makeForm = new MakeForm();
         makeForm.setCurrentMakeAndModeVO(populateMakeVO(selectMakeName, selectMakeDesc));
@@ -269,8 +196,8 @@ public class MakeController {
     private MakeAndModelVO populateMakeVO(final String selectMakeName, final String selectMakeDesc) {
         var sanitizedSelectMakeName = CommonUtils.sanitizedString(selectMakeName);
         var sanitizedSelectMakeDesc = CommonUtils.sanitizedString(selectMakeDesc);
-        LOG.info("selectMakeName : {}", sanitizedSelectMakeName);
-        LOG.info("selectMakeDesc : {}", sanitizedSelectMakeDesc);
+        logger.info("selectMakeName : {}", sanitizedSelectMakeName);
+        logger.info("selectMakeDesc : {}", sanitizedSelectMakeDesc);
         var userName = findLoggedInUsername();
         var makeAndModelVO = new MakeAndModelVO();
         makeAndModelVO.setMakeName(selectMakeName);
@@ -293,11 +220,11 @@ public class MakeController {
     List<MakeAndModelVO> saveModel(@ModelAttribute("selectMakeId") final Long selectMakeId,
                                    @ModelAttribute("selectModelName") final String selectModelName,
                                    final BindingResult result) {
-        LOG.info("SaveModel method of MakeController ");
+        logger.info("SaveModel method of MakeController ");
         if (!result.hasErrors()) {
             makeService.addNewModel(populateModelVO(selectMakeId, selectModelName));
         } else {
-            LOG.info("errors {}", result);
+            logger.info("errors {}", result);
         }
         return makeService.listAllMakesAndModels();
     }
@@ -305,8 +232,8 @@ public class MakeController {
     private MakeAndModelVO populateModelVO(final Long selectMakeId, final String selectModelName) {
         var sanitizedSelectMakeId = CommonUtils.sanitizedString(selectMakeId.toString());
         var sanitizedSelectModelName = CommonUtils.sanitizedString(selectModelName);
-        LOG.info("selectMakeId : {}", sanitizedSelectMakeId);
-        LOG.info("selectModelName : {}", sanitizedSelectModelName);
+        logger.info("selectMakeId : {}", sanitizedSelectMakeId);
+        logger.info("selectModelName : {}", sanitizedSelectModelName);
         var userName = findLoggedInUsername();
         var makeAndModelVO = new MakeAndModelVO();
         makeAndModelVO.setMakeId(selectMakeId);
@@ -319,7 +246,7 @@ public class MakeController {
     @GetMapping("/make/getAllMakeIdsAndNames")
     public @ResponseBody
     Map<Long, String> getAllMakeIdsAndNames() {
-        LOG.info("GetAllMakeIdsAndNames method of MakeController ");
+        logger.info("GetAllMakeIdsAndNames method of MakeController ");
         var makeVOS = makeService.fetchMakes();
         return makeVOS.stream()
                 .collect(Collectors.toMap(MakeVO::getId, MakeVO::getMakeName, (a, b) -> b));
@@ -334,7 +261,7 @@ public class MakeController {
         var sanitizedId = CommonUtils.sanitizedString(id.toString());
         var sanitizedMakeId = CommonUtils.sanitizedString(makeId.toString());
         var sanitizedModelName = CommonUtils.sanitizedString(modalModelName);
-        LOG.info("UpdateModel method of make controller with id {}, makeId {}, modalModelName {}",
+        logger.info("UpdateModel method of make controller with id {}, makeId {}, modalModelName {}",
                 sanitizedId, sanitizedMakeId, sanitizedModelName);
         makeService.updateModel(id, makeId, modalModelName);
         return makeService.listAllMakesAndModels();
@@ -349,7 +276,7 @@ public class MakeController {
         var sanitizedId = CommonUtils.sanitizedString(id.toString());
         var sanitizedMakeName = CommonUtils.sanitizedString(makeName);
         var sanitizedDescription = CommonUtils.sanitizedString(description);
-        LOG.info("updateMake method of make controller with id {}, makeName {}, description {}",
+        logger.info("updateMake method of make controller with id {}, makeName {}, description {}",
                 sanitizedId, sanitizedMakeName, sanitizedDescription);
         var makeModelVO = buildMakeModelVO(id, makeName, description);
         makeService.updateMake(makeModelVO);

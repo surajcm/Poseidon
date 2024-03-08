@@ -13,6 +13,7 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security/">
     <link rel="stylesheet" href="/css/core/bootstrap-5.3.1/bootstrap.min.css"  type="text/css" />
     <link rel="stylesheet" href="/css/custom.css" type="text/css" />
     <link rel="stylesheet" href="/css/core/flag-icon.min.css" type="text/css" />
+    <link rel="stylesheet" href="/css/core/fontawesome-6.2.1/css/all.min.css" type="text/css" />
     <title>Make List</title>
     <script type="text/javascript" src="/js/common-scripts.js"></script>
     <script type="text/javascript" src="/js/make-scripts.js"></script>
@@ -22,8 +23,6 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security/">
     <div th:insert="~{navbar :: navbar}"></div>
     <form method="POST" th:object="${makeForm}">
         <input type="hidden" name="id" id="id"/>
-        <input type="hidden" name="loggedInUser" path="loggedInUser"/>
-        <input type="hidden" name="loggedInRole" path="loggedInRole"/>
         <div  class="container">
             <div class="wrap">
                 <div class="card">
@@ -55,7 +54,7 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security/">
                     <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
                 </symbol>
             </svg>
-            <span th:if="${makeForm.statusMessage != null}">
+            <div th:if="${makeForm.statusMessage != null}">
                 <div class="alert alert-dismissible fade show d-flex align-items-center" th:classappend="'alert-' + ${makeForm.statusMessageType}" role="alert">
                     <div th:switch="${makeForm.statusMessageType}">
                       <div th:case="info">
@@ -71,7 +70,7 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security/">
                     [[${makeForm.statusMessage}]]
                     <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
                 </div>
-            </span>
+            </div>
             <table id='myTable' class="table table-bordered table-striped table-hover caption-top">
                 <caption>Make Details</caption>
                 <thead class="table-dark">
@@ -79,14 +78,27 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security/">
                         <th scope="col">#</th>
                         <th scope="col">Make Name</th>
                         <th scope="col">Description</th>
+                        <th scope="col"></th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr th:each="iterationMake : ${makeForm.makeAndModelVOs}">
+                    <tr th:each="iterationMake : ${makeForm.makeVOs}">
                         <th scope="row"><input type="checkbox" name="checkField" onclick="checkCall(this)"
-                                   th:value="${iterationMake.makeId}"/></th>
+                                   th:value="${iterationMake.id}"/></th>
                         <td><span th:text="${iterationMake.makeName}"></span></td>
                         <td><span th:text="${iterationMake.description}"></span></td>
+                        <td>
+                            <a class="fa-regular fa-pen-to-square" href="" data-bs-toggle="modal" data-bs-target="#editMakeModal"
+                               th:onclick="'javascript:editMakeNew(' + ${iterationMake.id} + ');'" title="Edit this make"></a>
+                            &nbsp;
+                            <a class="fa-solid fa-trash"
+                               th:href="@{'/user/deleteMake/'+${iterationMake.id}}"
+                               onclick="deleteMake(event);"
+                               th:userId="${iterationMake.id}"
+                               title="Delete this make"
+                               data-bs-toggle="modal"
+                               data-bs-target="#confirmModal"></a>
+                        </td>
                     </tr>
                 </tbody>
             </table>
@@ -131,7 +143,7 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security/">
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
                     <div id="makeEditModalBody" class="modal-body">
-                        <p>Lets edit the make</p>
+                        <p>Let's edit the make</p>
                     </div>
                     <div class="modal-footer">
                         <button type="button" id="updateMake" class="btn btn-primary" onclick="updateFromModal()">Update</button>

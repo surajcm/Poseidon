@@ -2,7 +2,6 @@ package com.poseidon.user.web.controller;
 
 import com.poseidon.init.util.CommonUtils;
 import com.poseidon.init.util.FileUploadUtil;
-import com.poseidon.user.dao.UserDAO;
 import com.poseidon.user.dao.entities.Role;
 import com.poseidon.user.dao.entities.User;
 import com.poseidon.user.service.UserService;
@@ -33,6 +32,8 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
+
+import static com.poseidon.init.Constants.PAGE_SIZE;
 
 @Controller
 @SuppressWarnings("unused")
@@ -71,14 +72,16 @@ public class UserController {
                              final Model model) {
         logger.info("ListByPage method of user controller ");
         var page = userService.getAllUsers(pageNumber, activeCompanyCode());
-        var startCount = (pageNumber - 1) * UserDAO.USERS_PER_PAGE + 1;
-        long endCount = (long) startCount + UserDAO.USERS_PER_PAGE - 1;
+        var startCount = (pageNumber - 1) * PAGE_SIZE + 1;
+        long endCount = (long) startCount + PAGE_SIZE - 1;
         if (endCount > page.getTotalElements()) {
             endCount = page.getTotalElements();
         }
+        model.addAttribute("currentPage", pageNumber);
+        model.addAttribute("totalPages", page.getTotalPages());
         model.addAttribute("startCount", startCount);
         model.addAttribute("endCount", endCount);
-        model.addAttribute("titleItems", page.getTotalElements());
+        model.addAttribute("totalItems", page.getTotalElements());
         model.addAttribute(ALL_ROLES, fullRoleMap());
         model.addAttribute("users", page.getContent());
         model.addAttribute(USER_FORM, new UserForm());

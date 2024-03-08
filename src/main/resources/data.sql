@@ -117,6 +117,24 @@ insert into make (id, makeName, description, createdOn, modifiedOn, createdBy, m
 insert into make (id, makeName, description, createdOn, modifiedOn, createdBy, modifiedBy) values
 (5, 'Toshiba', 'Toshiba','2019-08-01 00:00:00','2019-08-01 09:21:00','admin','admin');
 
+insert into make (id, makeName, description, createdOn, modifiedOn, createdBy, modifiedBy) values
+(6, 'Asus', 'Asus','2024-03-07 00:00:00','2024-03-07 09:21:00','admin','admin');
+
+insert into make (id, makeName, description, createdOn, modifiedOn, createdBy, modifiedBy) values
+(7, 'Acer', 'Acer','2024-03-07 00:00:00','2024-03-07 09:21:00','admin','admin');
+
+insert into make (id, makeName, description, createdOn, modifiedOn, createdBy, modifiedBy) values
+(8, 'Microsoft', 'Microsoft','2024-03-07 00:00:00','2024-03-07 09:21:00','admin','admin');
+
+insert into make (id, makeName, description, createdOn, modifiedOn, createdBy, modifiedBy) values
+(9, 'LG', 'LG','2024-03-07 00:00:00','2024-03-07 09:21:00','admin','admin');
+
+insert into make (id, makeName, description, createdOn, modifiedOn, createdBy, modifiedBy) values
+(10, 'Razer', 'Razer','2024-03-07 00:00:00','2024-03-07 09:21:00','admin','admin');
+
+insert into make (id, makeName, description, createdOn, modifiedOn, createdBy, modifiedBy) values
+(11, 'MSI', 'MSI','2024-03-07 00:00:00','2024-03-07 09:21:00','admin','admin');
+
 insert into model (id, modelId, modelName, makeId, createdOn, modifiedOn, createdBy, modifiedBy) values
 (1, 1, 'MacBook Pro', 1 ,'2019-08-01 00:00:00','2019-08-01 06:56:00','admin','admin');
 
@@ -124,10 +142,40 @@ insert into model (id, modelId, modelName, makeId, createdOn, modifiedOn, create
 (2, 2, 'MacBook Air', 1 ,'2019-08-01 00:00:00','2019-08-01 09:23:00','admin','admin');
 
 insert into model (id, modelId, modelName, makeId, createdOn, modifiedOn, createdBy, modifiedBy) values
-(3, 3, 'Inspiron', 2 ,'2019-08-01 00:00:00','2019-08-01 09:23:00','admin','admin');
+(3, 3, 'HP Spectre x360', 2 ,'2019-08-01 00:00:00','2019-08-01 09:23:00','admin','admin');
 
 insert into model (id, modelId, modelName, makeId, createdOn, modifiedOn, createdBy, modifiedBy) values
-(4, 4, 'ThinkPad', 3 ,'2019-08-01 00:00:00','2019-08-01 09:25:00','admin','admin');
+(4, 4, 'Lenovo ThinkPad X1 Carbon', 3 ,'2019-08-01 00:00:00','2019-08-01 09:25:00','admin','admin');
+
+insert into model (id, modelId, modelName, makeId, createdOn, modifiedOn, createdBy, modifiedBy) values
+(5, 5, 'XPS 13', 2 ,'2024-03-07 00:00:00','2024-03-07 09:25:00','admin','admin');
+
+insert into model (id, modelId, modelName, makeId, createdOn, modifiedOn, createdBy, modifiedBy) values
+(6, 6, 'Inspiron 14 5000', 2 ,'2024-03-07 00:00:00','2024-03-07 09:25:00','admin','admin');
+
+insert into model (id, modelId, modelName, makeId, createdOn, modifiedOn, createdBy, modifiedBy) values
+(7, 7, 'HP Spectre x360', 4 ,'2024-03-07 00:00:00','2024-03-07 09:25:00','admin','admin');
+
+insert into model (id, modelId, modelName, makeId, createdOn, modifiedOn, createdBy, modifiedBy) values
+(8, 8, 'Acer Swift 3', 7 ,'2024-03-07 00:00:00','2024-03-07 09:25:00','admin','admin');
+
+insert into model (id, modelId, modelName, makeId, createdOn, modifiedOn, createdBy, modifiedBy) values
+(9, 9, 'Lenovo Yoga C940', 3 ,'2024-03-07 00:00:00','2024-03-07 09:25:00','admin','admin');
+
+insert into model (id, modelId, modelName, makeId, createdOn, modifiedOn, createdBy, modifiedBy) values
+(10, 10, 'Acer Predator Helios 300', 7 ,'2024-03-07 00:00:00','2024-03-07 09:25:00','admin','admin');
+
+insert into model (id, modelId, modelName, makeId, createdOn, modifiedOn, createdBy, modifiedBy) values
+(11, 11, 'Asus ZenBook 14', 6 ,'2024-03-07 00:00:00','2024-03-07 09:25:00','admin','admin');
+
+insert into model (id, modelId, modelName, makeId, createdOn, modifiedOn, createdBy, modifiedBy) values
+(12, 12, 'Asus ROG Zephyrus G14', 6 ,'2024-03-07 00:00:00','2024-03-07 09:25:00','admin','admin');
+
+insert into model (id, modelId, modelName, makeId, createdOn, modifiedOn, createdBy, modifiedBy) values
+(13, 13, 'Surface Laptop 4', 8 ,'2024-03-07 00:00:00','2024-03-07 09:25:00','admin','admin');
+
+insert into model (id, modelId, modelName, makeId, createdOn, modifiedOn, createdBy, modifiedBy) values
+(14, 14, 'Surface Pro 7', 8 ,'2024-03-07 00:00:00','2024-03-07 09:25:00','admin','admin');
 
 insert into customer (id, name, address, phone, mobile, email,createdBy, createdOn, modifiedBy, modifiedOn)
 values (1, 'John Wick', '5630 N Sheridan, Chicago', '0404 232323', '555888999', 'test@testmail.com',
@@ -165,7 +213,6 @@ insert into customer_additional_details (id, customerId, contactPerson, contactP
  (4, 4, 'Oliver Queen', '70707070', 'Find Lazarus Pit',
  'admin', CURRENT_DATE, 'admin', CURRENT_DATE);
 
-
 insert into customer (id, name, address, phone, mobile, email, createdBy, createdOn, modifiedBy, modifiedOn)
 values (5, 'Vision', 'Brooklyn, New York', '0808 2021', '20112020', 'vis@mcu.com',
         'admin', CURRENT_DATE, 'admin', CURRENT_DATE);
@@ -174,6 +221,63 @@ insert into customer_additional_details (id, customerId, contactPerson, contactP
                                          note, createdBy, createdOn, modifiedBy, modifiedOn) values
     (5, 5, 'Wanda Maximoff', '929203', 'Become Scarlet Witch',
      'admin', CURRENT_DATE, 'admin', CURRENT_DATE);
+
+insert into customer (id, name, address, phone, mobile, email, createdBy, createdOn, modifiedBy, modifiedOn)
+values (6, 'Bruce Wayne', 'Wayne Manor, Gotham City', '0808 2021', '20112020', 'batman@dcu.com',
+        'admin', CURRENT_DATE, 'admin', CURRENT_DATE);
+
+insert into customer_additional_details (id, customerId, contactPerson, contactPhone,
+                                         note, createdBy, createdOn, modifiedBy, modifiedOn) values
+    (6, 6, 'Alfred Pennyworth', '929203', 'Fix Batmobile','admin', CURRENT_DATE, 'admin', CURRENT_DATE);
+
+insert into customer (id, name, address, phone, mobile, email, createdBy, createdOn, modifiedBy, modifiedOn)
+values (7, 'Clark Kent', 'Smallville, Kansas', '0808 2021', '20112020', 'super.man@dcu.com',
+        'admin', CURRENT_DATE, 'admin', CURRENT_DATE);
+
+insert into customer_additional_details (id, customerId, contactPerson, contactPhone,
+                                         note, createdBy, createdOn, modifiedBy, modifiedOn) values
+    (7, 7, 'Lois Lane', '929203', 'Fix Daily Planet','admin', CURRENT_DATE, 'admin', CURRENT_DATE);
+
+insert into customer (id, name, address, phone, mobile, email, createdBy, createdOn, modifiedBy, modifiedOn)
+values (8, 'Diana Prince', 'Themyscira', '0808 2021', '20112020', 'wonder.woman@dcu.com',
+        'admin', CURRENT_DATE, 'admin', CURRENT_DATE);
+
+insert into customer_additional_details (id, customerId, contactPerson, contactPhone,
+                                         note, createdBy, createdOn, modifiedBy, modifiedOn) values
+    (8, 8, 'Steve Trevor', '929203', 'Fix Invisible Jet','admin', CURRENT_DATE, 'admin', CURRENT_DATE);
+
+insert into customer (id, name, address, phone, mobile, email, createdBy, createdOn, modifiedBy, modifiedOn)
+values (9, 'Barry Allen', 'Central City', '0808 2021', '20112020', 'flash@dcu.com',
+        'admin', CURRENT_DATE, 'admin', CURRENT_DATE);
+
+insert into customer_additional_details (id, customerId, contactPerson, contactPhone,
+                                         note, createdBy, createdOn, modifiedBy, modifiedOn) values
+    (9, 9, 'Iris West', '929203', 'Fix Speed Force','admin', CURRENT_DATE, 'admin', CURRENT_DATE);
+
+insert into customer (id, name, address, phone, mobile, email, createdBy, createdOn, modifiedBy, modifiedOn)
+values (10, 'Hal Jordan', 'Coast City', '0808 2021', '20112020', 'green.lantern@dcu.com',
+        'admin', CURRENT_DATE, 'admin', CURRENT_DATE);
+
+insert into customer_additional_details (id, customerId, contactPerson, contactPhone,
+                                         note, createdBy, createdOn, modifiedBy, modifiedOn) values
+    (10, 10, 'Carol Ferris', '929203', 'Fix Power Ring','admin', CURRENT_DATE, 'admin', CURRENT_DATE);
+
+insert into customer (id, name, address, phone, mobile, email, createdBy, createdOn, modifiedBy, modifiedOn)
+values (11, 'Arthur Curry', 'Atlantis', '0808 2021', '20112020', 'aqua.man@dcu.com',
+        'admin', CURRENT_DATE, 'admin', CURRENT_DATE);
+
+insert into customer_additional_details (id, customerId, contactPerson, contactPhone,
+                                         note, createdBy, createdOn, modifiedBy, modifiedOn) values
+    (11, 11, 'Mera', '929203', 'Fix Trident','admin', CURRENT_DATE, 'admin', CURRENT_DATE);
+
+insert into customer (id, name, address, phone, mobile, email, createdBy, createdOn, modifiedBy, modifiedOn)
+values (12, 'Victor Stone', 'S.T.A.R. Labs', '0808 2021', '20112020', 'cyborg@dcu.com',
+        'admin', CURRENT_DATE, 'admin', CURRENT_DATE);
+
+insert into customer_additional_details (id, customerId, contactPerson, contactPhone,
+                                         note, createdBy, createdOn, modifiedBy, modifiedOn) values
+    (12, 12, 'Silas Stone', '929203', 'Fix Cyborg','admin', CURRENT_DATE, 'admin', CURRENT_DATE);
+
 
 insert into transaction (id, tagNo, dateReported, customerId, productCategory, makeId, modelId,
 serialNumber, accessories, complaintReported, complaintDiagnosed, engineerRemarks, repairAction, note, status,

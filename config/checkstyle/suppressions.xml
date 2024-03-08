@@ -26,6 +26,8 @@ WHAT AND WHY CHECKS SUPPRESSED
     <suppress files="MakeSpecification.java" checks="MethodLength"/>
     <suppress files="MakeAndModelVO.java" checks="MethodLength"/>
     <suppress files="MakeController.java" checks="MethodLength"/>
+    <suppress files="ModelController.java" checks="MethodLength"/>
+    <suppress files="ModelController.java" checks="IllegalCatch"/>
     <suppress files="ReportsController.java" checks="MethodLength"/>
     <suppress files="ReportsUtil.java" checks="MethodLength"/>
     <suppress files="TransactionDAO.java" checks="MethodLength"/>

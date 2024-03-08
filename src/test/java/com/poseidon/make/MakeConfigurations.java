@@ -2,6 +2,7 @@ package com.poseidon.make;
 
 import com.poseidon.make.service.MakeService;
 import com.poseidon.make.web.controller.MakeController;
+import com.poseidon.make.web.controller.ModelController;
 import org.mockito.Mockito;
 import org.springframework.context.annotation.Bean;
 import org.springframework.test.context.ContextConfiguration;
@@ -12,6 +13,11 @@ public class MakeConfigurations {
     @Bean
     public MakeController makeController() {
         return new MakeController(Mockito.mock(MakeService.class));
+    }
+
+    @Bean
+    public ModelController modelController() {
+        return new ModelController(Mockito.mock(MakeService.class));
     }
 
     @Bean
