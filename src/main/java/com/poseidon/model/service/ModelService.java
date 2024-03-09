@@ -1,4 +1,4 @@
-package com.poseidon.make.service;
+package com.poseidon.model.service;
 
 import com.poseidon.make.dao.MakeDao;
 import org.springframework.stereotype.Service;

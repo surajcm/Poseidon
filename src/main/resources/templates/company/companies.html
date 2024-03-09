@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
+xmlns:sec="http://www.thymeleaf.org/extras/spring-security/">
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="">
+    <meta name="author" content="Suraj">
+    <link rel="shortcut icon" href="/img/Poseidon_Ico.ico" />
+    <link rel="stylesheet" href="/css/core/bootstrap-5.3.1/bootstrap.min.css"  type="text/css" />
+    <link rel="stylesheet" href="/css/custom.css" type="text/css" />
+    <link rel="stylesheet" href="/css/core/flag-icon.min.css" type="text/css" />
+    <link rel="stylesheet" href="/css/core/fontawesome-6.2.1/css/all.min.css" type="text/css" />
+    <title>Companies</title>
+    <script type="text/javascript" src="/js/company-scripts.js"></script>
+    <script type="text/javascript" src="/js/navbar-scripts.js"></script>
+</head>
+<body onload="hideUpdate()">
+    <div th:insert="~{navbar :: navbar}"></div>
+    <div th:if="${message != null}">
+        <div class="alert alert-success text-center" role="alert">
+            [[${message}]]
+        </div>
+    </div>
+    <div class="container">
+        <div class="wrap">
+            <div class="card">
+                <div class="card-header">
+                    Company Details
+                </div>
+                <div class="card-body">
+                    <form method="POST" th:object="${companies}">
+                        <table id='myTable' class="table table-bordered table-striped table-hover caption-top">
+                            <thead class="table-dark">
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Company Name</th>
+                                    <th scope="col">Code</th>
+                                    <th scope="col"></th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr th:each="company, iterStat : ${companies}">
+                                    <td th:text="${iterStat.count}"></td>
+                                    <td th:text="${company.name}"></td>
+                                    <td th:text="${company.code}"></td>
+                                    <td>
+                                        <a class="fas fa-edit fa-2x icon-green" th:href="@{'/company/edit/' + ${company.id}}" title="Edit this company"></a>
+                                        &nbsp;
+                                        <a class="fas fa-trash fa-2x icon-dark" th:href="@{'/company/delete/' + ${company.id}}"
+                                           th:companyId="${company.id}"
+                                           title="Delete this company"></a>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </form>
+                    <div class="modal fade text-center" id="confirmModal">
+                        <div class="modal-dialog">
+                            <div class="modal-content">
+                                <div class="modal-header">
+                                    <h4 class="modal-title" id="modalTitle">Delete Confirmation</h4>
+                                    <button type="button" class="btn-close" data-bs-dismiss="modal">&times;</button>
+                                </div>
+                                <div class="modal-body">
+                                    <span id="confirmText"></span>
+                                </div>
+                                <div class="modal-footer">
+                                    <a class="btn btn-success" href="">Yes</a>
+                                    <button type="button" class="btn btn-danger" data-bs-dismiss="modal">No</button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script type="text/javascript">
+        window.onload = function() {
+            const deleteLinks = document.querySelectorAll('a[title="Delete this company"]');
+
+            deleteLinks.forEach(function(link) {
+                const companyId = link.getAttribute('companyId');
+                link.addEventListener('click', function(event) {
+                    event.preventDefault();
+                    document.getElementById('confirmText').innerText = 'Are you sure you want to delete company ID ' + companyId + '?';
+
+                    // Open the modal
+                    const myModal = new bootstrap.Modal(document.getElementById('confirmModal'));
+                    myModal.show();
+
+                    // Set the href of the confirmation button to the href of the delete link
+                    const confirmButton = document.querySelector('#confirmModal .btn-success');
+                    confirmButton.href = this.href;
+                });
+            });
+        };
+    </script>
+    <script src="/js/core/popper.min.js" type="text/javascript"></script>
+    <script src="/js/core/bootstrap-5.3.1/bootstrap.min.js" type="text/javascript"></script>
+</body>
+</html>

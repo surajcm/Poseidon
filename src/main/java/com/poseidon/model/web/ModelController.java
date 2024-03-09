@@ -1,4 +1,4 @@
-package com.poseidon.make.web.controller;
+package com.poseidon.model.web;
 
 import com.poseidon.init.util.CommonUtils;
 import com.poseidon.make.domain.MakeAndModelVO;

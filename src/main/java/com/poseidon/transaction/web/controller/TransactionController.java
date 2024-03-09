@@ -44,7 +44,7 @@ public class TransactionController {
     private static final String EXCEPTION_IN_CONTROLLER = " Exception type in controller {}";
     private static final String TRANSACTION_VO = " transaction vo is {}";
     private static final String MAKE_VO = "make vo is {}";
-    private static final String TRANSACTION_LIST = "txs/TransactionList";
+    private static final String TRANSACTION_LIST = "txs/list";
     private static final String TRANSACTION_FORM = "transactionForm";
 
     private final TransactionService transactionService;

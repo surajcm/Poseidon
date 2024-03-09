@@ -1,6 +1,6 @@
-package com.poseidon.make.dao.repo;
+package com.poseidon.model.repo;
 
-import com.poseidon.make.dao.entities.Model;
+import com.poseidon.model.entities.Model;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;

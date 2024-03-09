@@ -23,11 +23,11 @@
                 <li class="nav-item" id="make">
                     <a class="nav-link" href="#" onclick="fetchModels();" >Models</a>
                 </li>
+                <li th:if="${@securityService.hasRole('ADMIN')}">
+                    <a class="nav-link" href="#" onclick="fetchCompanies();" >Companies</a>
+                </li>
                 <li class="nav-item" id="customer">
                     <a class="nav-link" href="#" onclick="fetchCustomers();" >Customer</a>
-                </li>
-                <li class="nav-item" id="company">
-                    <a class="nav-link" href="#" onclick="fetchCompany();" >Company</a>
                 </li>
                 <li class="nav-item" id="transaction">
                     <a class="nav-link" href="#" onclick="fetchTransactions();" >Transactions</a>
@@ -65,6 +65,10 @@
                         <span class="ml-auto mr-3 order-lg-last" th:text="${#authentication.getPrincipal().getUsername()}"></span>
                     </a>
                     <ul class="dropdown-menu dropdown-menu-end" aria-labelledby="dropdownMenu1">
+                        <li th:unless="${@securityService.hasRole('ADMIN')}">
+                            <a class="dropdown-item" href="#" onclick="fetchCompany();" >My Company</a>
+                        </li>
+                        <li><hr class="dropdown-divider"></li>
                         <li>
                             <a class="dropdown-item" href="#" onclick="resetPassword();">Reset Password</a>
                         </li>

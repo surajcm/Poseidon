@@ -1,6 +1,7 @@
 package com.poseidon.make.service;
 
 import com.poseidon.make.dao.MakeDao;
+import com.poseidon.make.dao.entities.Make;
 import com.poseidon.make.dao.mapper.MakeAndModelEntityConverter;
 import com.poseidon.make.domain.MakeAndModelVO;
 import com.poseidon.make.domain.MakeVO;
@@ -36,7 +37,8 @@ public class MakeService {
      * @return list of makes and models
      */
     public List<MakeAndModelVO> listAllMakesAndModels() {
-        return makeDAO.listAllMakesAndModels();
+        var models = makeDAO.listAllModels();
+        return makeAndModelEntityConverter.convertModelsToMakeAndModelVOs(models);
     }
 
     /**
@@ -45,7 +47,8 @@ public class MakeService {
      * @return list of makes and models
      */
     public List<MakeAndModelVO> listAllMakes() {
-        return makeDAO.listAllMakes();
+        var makes = makeDAO.listAllMakes();
+        return makeAndModelEntityConverter.convertMakeToMakeAndModelVOs(makes);
     }
 
     /**
@@ -147,7 +150,8 @@ public class MakeService {
      * @return list of makes
      */
     public List<MakeVO> fetchMakes() {
-        return makeDAO.fetchMakes();
+        var makes =  makeDAO.fetchMakes();
+        return convertMakeToMakeVO(makes);
     }
 
     /**
@@ -167,5 +171,19 @@ public class MakeService {
      */
     public List<MakeAndModelVO> searchMake(final MakeAndModelVO searchMakeAndModelVO) {
         return makeDAO.searchMake(searchMakeAndModelVO);
+    }
+
+    private List<MakeVO> convertMakeToMakeVO(final List<Make> makes) {
+        return makes.stream().map(this::createMakeVO).toList();
+    }
+
+    private MakeVO createMakeVO(final Make make) {
+        var makeVO = new MakeVO();
+        makeVO.setId(make.getId());
+        makeVO.setMakeName(make.getMakeName());
+        makeVO.setDescription(make.getDescription());
+        makeVO.setCreatedBy(make.getCreatedBy());
+        makeVO.setModifiedBy(make.getModifiedBy());
+        return makeVO;
     }
 }

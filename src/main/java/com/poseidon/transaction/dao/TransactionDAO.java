@@ -3,7 +3,7 @@ package com.poseidon.transaction.dao;
 import com.poseidon.customer.dao.entities.Customer;
 import com.poseidon.customer.dao.repo.CustomerRepository;
 import com.poseidon.make.dao.repo.MakeRepository;
-import com.poseidon.make.dao.repo.ModelRepository;
+import com.poseidon.model.repo.ModelRepository;
 import com.poseidon.transaction.dao.entities.Transaction;
 import com.poseidon.transaction.dao.repo.TransactionRepository;
 import com.poseidon.transaction.domain.TransactionReportVO;

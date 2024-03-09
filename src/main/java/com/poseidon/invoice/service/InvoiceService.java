@@ -25,6 +25,23 @@ public class InvoiceService {
     }
 
     /**
+     * fetch Invoice For List Of Transactions.
+     *
+     * @return list of invoice vo
+     */
+    public List<InvoiceVO> fetchInvoiceForListOfTransactions() {
+        List<InvoiceVO> invoiceVOs = null;
+        var transactionVOs = transactionService.listAllTransactions();
+        if (transactionVOs != null) {
+            var tagNumbers = fetchTagNoFromListOfTransactionVOs(transactionVOs);
+            log.info("tag numbers are : {}", tagNumbers);
+            invoiceVOs = invoiceDAO.fetchInvoiceForListOfTransactions(tagNumbers);
+            log.info("invoice vos count : {}", invoiceVOs.size());
+        }
+        return invoiceVOs;
+    }
+
+    /**
      * add invoice.
      *
      * @param currentInvoiceVO currentInvoiceVO
@@ -38,27 +55,6 @@ public class InvoiceService {
         currentInvoiceVO.setSerialNo(transactionReportVO.getSerialNo());
         invoiceDAO.addInvoice(currentInvoiceVO);
         return transactionReportVO.getId();
-    }
-
-    /**
-     * fetch Invoice For List Of Transactions.
-     *
-     * @return list of invoice vo
-     */
-    public List<InvoiceVO> fetchInvoiceForListOfTransactions() {
-        List<InvoiceVO> invoiceVOs = null;
-        var transactionVOs = getTransactionVOS();
-        if (transactionVOs != null) {
-            var tagNumbers = fetchTagNoFromListOfTransactionVOs(transactionVOs);
-            log.info("tag numbers are : {}", tagNumbers);
-            invoiceVOs = invoiceDAO.fetchInvoiceForListOfTransactions(tagNumbers);
-            log.info("invoice vos count : {}", invoiceVOs.size());
-        }
-        return invoiceVOs;
-    }
-
-    private List<TransactionVO> getTransactionVOS() {
-        return transactionService.listAllTransactions();
     }
 
     private List<String> fetchTagNoFromListOfTransactionVOs(final List<TransactionVO> transactionVOs) {

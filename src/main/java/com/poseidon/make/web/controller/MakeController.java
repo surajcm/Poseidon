@@ -159,17 +159,6 @@ public class MakeController {
         return MAKE_LIST_PAGE;
     }
 
-    private void loggingFromSearch(final MakeForm makeForm) {
-        logger.debug("SearchModel method of MakeController ");
-        var sanitizedMakeForm = CommonUtils.sanitizedString(makeForm.toString());
-        logger.debug("MakeForm instance to search {}", sanitizedMakeForm);
-        if (makeForm.getSearchMakeAndModelVO() != null) {
-            var sanitizedSearchModel = CommonUtils.sanitizedString(
-                    makeForm.getSearchMakeAndModelVO().toString());
-            logger.debug("SearchVO instance to search {}", sanitizedSearchModel);
-        }
-    }
-
     /**
      * save make.
      *
@@ -193,20 +182,6 @@ public class MakeController {
         return makeService.fetchMakes();
     }
 
-    private MakeAndModelVO populateMakeVO(final String selectMakeName, final String selectMakeDesc) {
-        var sanitizedSelectMakeName = CommonUtils.sanitizedString(selectMakeName);
-        var sanitizedSelectMakeDesc = CommonUtils.sanitizedString(selectMakeDesc);
-        logger.info("selectMakeName : {}", sanitizedSelectMakeName);
-        logger.info("selectMakeDesc : {}", sanitizedSelectMakeDesc);
-        var userName = findLoggedInUsername();
-        var makeAndModelVO = new MakeAndModelVO();
-        makeAndModelVO.setMakeName(selectMakeName);
-        makeAndModelVO.setDescription(selectMakeDesc);
-        makeAndModelVO.setCreatedBy(userName);
-        makeAndModelVO.setModifiedBy(userName);
-        return makeAndModelVO;
-    }
-
     /**
      * saveModel.
      *
@@ -227,20 +202,6 @@ public class MakeController {
             logger.info("errors {}", result);
         }
         return makeService.listAllMakesAndModels();
-    }
-
-    private MakeAndModelVO populateModelVO(final Long selectMakeId, final String selectModelName) {
-        var sanitizedSelectMakeId = CommonUtils.sanitizedString(selectMakeId.toString());
-        var sanitizedSelectModelName = CommonUtils.sanitizedString(selectModelName);
-        logger.info("selectMakeId : {}", sanitizedSelectMakeId);
-        logger.info("selectModelName : {}", sanitizedSelectModelName);
-        var userName = findLoggedInUsername();
-        var makeAndModelVO = new MakeAndModelVO();
-        makeAndModelVO.setMakeId(selectMakeId);
-        makeAndModelVO.setModelName(selectModelName);
-        makeAndModelVO.setCreatedBy(userName);
-        makeAndModelVO.setModifiedBy(userName);
-        return makeAndModelVO;
     }
 
     @GetMapping("/make/getAllMakeIdsAndNames")
@@ -281,6 +242,45 @@ public class MakeController {
         var makeModelVO = buildMakeModelVO(id, makeName, description);
         makeService.updateMake(makeModelVO);
         return makeService.fetchMakes();
+    }
+
+    private void loggingFromSearch(final MakeForm makeForm) {
+        logger.debug("SearchModel method of MakeController ");
+        var sanitizedMakeForm = CommonUtils.sanitizedString(makeForm.toString());
+        logger.debug("MakeForm instance to search {}", sanitizedMakeForm);
+        if (makeForm.getSearchMakeAndModelVO() != null) {
+            var sanitizedSearchModel = CommonUtils.sanitizedString(
+                    makeForm.getSearchMakeAndModelVO().toString());
+            logger.debug("SearchVO instance to search {}", sanitizedSearchModel);
+        }
+    }
+
+    private MakeAndModelVO populateMakeVO(final String selectMakeName, final String selectMakeDesc) {
+        var sanitizedSelectMakeName = CommonUtils.sanitizedString(selectMakeName);
+        var sanitizedSelectMakeDesc = CommonUtils.sanitizedString(selectMakeDesc);
+        logger.info("selectMakeName : {}", sanitizedSelectMakeName);
+        logger.info("selectMakeDesc : {}", sanitizedSelectMakeDesc);
+        var userName = findLoggedInUsername();
+        var makeAndModelVO = new MakeAndModelVO();
+        makeAndModelVO.setMakeName(selectMakeName);
+        makeAndModelVO.setDescription(selectMakeDesc);
+        makeAndModelVO.setCreatedBy(userName);
+        makeAndModelVO.setModifiedBy(userName);
+        return makeAndModelVO;
+    }
+
+    private MakeAndModelVO populateModelVO(final Long selectMakeId, final String selectModelName) {
+        var sanitizedSelectMakeId = CommonUtils.sanitizedString(selectMakeId.toString());
+        var sanitizedSelectModelName = CommonUtils.sanitizedString(selectModelName);
+        logger.info("selectMakeId : {}", sanitizedSelectMakeId);
+        logger.info("selectModelName : {}", sanitizedSelectModelName);
+        var userName = findLoggedInUsername();
+        var makeAndModelVO = new MakeAndModelVO();
+        makeAndModelVO.setMakeId(selectMakeId);
+        makeAndModelVO.setModelName(selectModelName);
+        makeAndModelVO.setCreatedBy(userName);
+        makeAndModelVO.setModifiedBy(userName);
+        return makeAndModelVO;
     }
 
     private MakeAndModelVO buildMakeModelVO(final Long id,

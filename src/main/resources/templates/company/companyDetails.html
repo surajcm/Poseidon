@@ -17,6 +17,11 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security/">
 </head>
 <body onload="hideUpdate()">
     <div th:insert="~{navbar :: navbar}"></div>
+    <div th:if="${message != null}">
+        <div class="alert alert-success text-center" role="alert">
+            [[${message}]]
+        </div>
+    </div>
     <div class="container">
         <div class="wrap">
             <div class="card">
@@ -25,44 +30,45 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security/">
                 </div>
                 <div class="card-body">
                     <form method="POST" th:object="${companyTerms}">
+                        <input type="hidden" th:field="*{id}" id="id" />
                         <div class="row g-3">
                             <div class="col-md-3">
                               <label for="name" class="form-label">Company Name :</label>
-                              <input th:field="*{name}" class="form-control" id="name"/>
+                              <input th:field="*{name}" class="form-control" id="name" disabled/>
                             </div>
                             <div class="col-md-3">
                               <label for="phone" class="form-label">Company Phone Number :</label>
-                              <input th:field="*{phone}" class="form-control" id="phone"/>
+                              <input th:field="*{phone}" class="form-control" id="phone" disabled/>
                             </div>
                             <div class="col-md-3">
                               <label for="email" class="form-label">Company email :</label>
-                              <input th:field="*{email}" class="form-control" id="email"/>
+                              <input th:field="*{email}" class="form-control" id="email" disabled/>
                             </div>
                             <div class="col-md-3">
                               <label for="website" class="form-label">Company Website :</label>
-                              <input th:field="*{website}" class="form-control" id="website"/>
+                              <input th:field="*{website}" class="form-control" id="website" disabled/>
                             </div>
                             <div class="col-md-6">
                               <label for="address" class="form-label">Company Address :</label>
                                 <textarea th:field="*{address}" rows="5" cols="30" class="form-control"
-                                          id="address"></textarea>
+                                          id="address" disabled></textarea>
                             </div>
                             <div class="col-md-6">
                               <label for="terms" class="form-label">Company Terms & Conditions :</label>
                               <textarea th:field="*{terms}" rows="5" cols="30" class="form-control"
-                                           id="terms"></textarea>
+                                           id="terms" disabled></textarea>
                             </div>
                             <div class="col-md-3">
                               <label for="code" class="form-label">Company code :</label>
-                              <input th:field="*{code}" class="form-control" id="code"/>
+                              <input th:field="*{code}" class="form-control" id="code" disabled/>
                             </div>
                             <div class="col-md-3">
                               <label for="vatTin" class="form-label">Company's VAT TIN :</label>
-                              <input th:field="*{vatTin}" class="form-control" id="vatTin"/>
+                              <input th:field="*{vatTin}" class="form-control" id="vatTin" disabled/>
                             </div>
                             <div class="col-md-3">
                               <label for="cstTin" class="form-label">Company's CST TIN :</label>
-                              <input th:field="*{cstTin}" class="form-control" id="cstTin"/>
+                              <input th:field="*{cstTin}" class="form-control" id="cstTin" disabled/>
                             </div>
                             <div class="col-md-3">
                               <label for="uploadImage" class="form-label">Company Logo :</label>
@@ -71,8 +77,6 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security/">
                             <div class="col-md-12">
                                 <input type="button" class="btn btn-primary btn-success" id="edit" value="Edit" onclick="editMe();"/>
                                 <input type="button" class="btn btn-primary btn-success" id="update" value="Update" onclick="updateCompanyDetails();"/>
-                                <input type="button" class="btn btn-primary" id="clear" value="Clear" onclick="clearOut();"/>
-                                <input type="button" class="btn btn-primary" id="cancel" value="Cancel" onclick="cancelMe();"/>
                             </div>
                         </div>
                     </form>

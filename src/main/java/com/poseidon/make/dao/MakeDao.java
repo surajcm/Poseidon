@@ -1,10 +1,10 @@
 package com.poseidon.make.dao;
 
 import com.poseidon.make.dao.entities.Make;
-import com.poseidon.make.dao.entities.Model;
+import com.poseidon.model.entities.Model;
 import com.poseidon.make.dao.mapper.MakeAndModelEntityConverter;
 import com.poseidon.make.dao.repo.MakeRepository;
-import com.poseidon.make.dao.repo.ModelRepository;
+import com.poseidon.model.repo.ModelRepository;
 import com.poseidon.make.domain.MakeAndModelVO;
 import com.poseidon.make.domain.MakeVO;
 import org.slf4j.Logger;
@@ -48,24 +48,12 @@ public class MakeDao {
      *
      * @return list of make and model vo
      */
-    public List<MakeAndModelVO> listAllMakes() {
-        var makes = sneak(() ->
-                makeRepository.findAll().parallelStream()
-                        .toList());
-        return makeAndModelEntityConverter.convertMakeToMakeAndModelVOs(makes);
+    public List<Make> listAllMakes() {
+        return makeRepository.findAll();
     }
 
-    /**
-     * list all makes and models.
-     *
-     * @return list of make and model vos
-     */
-    public List<MakeAndModelVO> listAllMakesAndModels() {
-        var models = sneak(() ->
-                modelRepository.findAll().parallelStream()
-                        .toList());
-        //todo: better MakeAndModelVO to render things in a better way
-        return makeAndModelEntityConverter.convertModelsToMakeAndModelVOs(models);
+    public List<Model> listAllModels() {
+        return modelRepository.findAll();
     }
 
     /**
@@ -194,11 +182,8 @@ public class MakeDao {
      *
      * @return list of make vos
      */
-    public List<MakeVO> fetchMakes() {
-        var makes = sneak(() ->
-                makeRepository.findAll().parallelStream()
-                        .toList());
-        return convertMakeToMakeVO(makes);
+    public List<Make> fetchMakes() {
+        return makeRepository.findAll();
     }
 
     /**

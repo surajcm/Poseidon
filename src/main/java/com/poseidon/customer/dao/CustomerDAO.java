@@ -16,6 +16,7 @@ import org.springframework.util.ObjectUtils;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -62,11 +63,10 @@ public class CustomerDAO {
         Optional<CustomerVO> customerVOWithDetails = Optional.empty();
         var customerVO = customer.map(this::convertToSingleCustomerVO);
         if (customer.isPresent()) {
-            var additionalDetails =
-                    getAdditionalDetailsOfCustomerId(customer.get().getId());
-            if (!customerVO.isEmpty() && additionalDetails.isPresent()) {
-                updateCustomerWithAdditionalDetails(customerVO.get(), additionalDetails.get());
-            }
+            var additionalDetails = getAdditionalDetailsOfCustomerId(customer.get().getId());
+            additionalDetails.ifPresent(
+                    customerAdditionalDetails ->
+                            updateCustomerWithAdditionalDetails(customerVO.get(), customerAdditionalDetails));
             customerVOWithDetails = customerVO;
         }
         return customerVOWithDetails;
@@ -75,7 +75,7 @@ public class CustomerDAO {
     /**
      * save customer.
      *
-     * @param customer Customer
+     * @param customer             Customer
      * @param newAdditionalDetails CustomerAdditionalDetails
      * @return Customer
      */
@@ -94,7 +94,19 @@ public class CustomerDAO {
      * @return list of customer vo
      */
     public List<CustomerVO> searchCustomer(final CustomerVO searchCustomerVo) {
-        return searchCustomerInDetail(searchCustomerVo);
+        var customerSpec = new CustomerSpecification();
+        var search = populateSearchOperation(searchCustomerVo);
+        if (!ObjectUtils.isEmpty(searchCustomerVo.getCustomerId())) {
+            customerSpec.add(new SearchCriteria("id", searchCustomerVo.getCustomerId(), SearchOperation.EQUAL));
+        }
+        if (!searchCustomerVo.getCustomerName().isBlank()) {
+            customerSpec.add(new SearchCriteria("name", searchCustomerVo.getCustomerName(), search));
+        }
+        if (!searchCustomerVo.getMobile().isBlank()) {
+            customerSpec.add(new SearchCriteria(MOBILE, searchCustomerVo.getMobile(), search));
+        }
+        List<Customer> resultCustomers = sneak(() -> customerRepository.findAll(customerSpec));
+        return convertToCustomerVO(resultCustomers);
     }
 
     /**
@@ -216,21 +228,6 @@ public class CustomerDAO {
         return customers.stream().map(this::convertToSingleCustomerVO).toList();
     }
 
-    private List<CustomerVO> searchCustomerInDetail(final CustomerVO searchVO) {
-        var customerSpec = new CustomerSpecification();
-        var search = populateSearchOperation(searchVO);
-        if (!ObjectUtils.isEmpty(searchVO.getCustomerId())) {
-            customerSpec.add(new SearchCriteria("id", searchVO.getCustomerId(), SearchOperation.EQUAL));
-        }
-        if (searchVO.getCustomerName().strip().length() > 0) {
-            customerSpec.add(new SearchCriteria("name", searchVO.getCustomerName(), search));
-        }
-        if (searchVO.getMobile().strip().length() > 0) {
-            customerSpec.add(new SearchCriteria(MOBILE, searchVO.getMobile(), search));
-        }
-        List<Customer> resultCustomers = sneak(() -> customerRepository.findAll(customerSpec));
-        return convertToCustomerVO(resultCustomers);
-    }
 
     private SearchOperation populateSearchOperation(final CustomerVO searchVO) {
         SearchOperation searchOperation;

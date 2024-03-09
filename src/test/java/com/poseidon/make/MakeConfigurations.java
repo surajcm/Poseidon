@@ -2,7 +2,7 @@ package com.poseidon.make;
 
 import com.poseidon.make.service.MakeService;
 import com.poseidon.make.web.controller.MakeController;
-import com.poseidon.make.web.controller.ModelController;
+import com.poseidon.model.web.ModelController;
 import org.mockito.Mockito;
 import org.springframework.context.annotation.Bean;
 import org.springframework.test.context.ContextConfiguration;

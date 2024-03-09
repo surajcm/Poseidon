@@ -1,10 +1,10 @@
 package com.poseidon.make.dao;
 
 import com.poseidon.make.dao.entities.Make;
-import com.poseidon.make.dao.entities.Model;
+import com.poseidon.model.entities.Model;
 import com.poseidon.make.dao.mapper.MakeAndModelEntityConverter;
 import com.poseidon.make.dao.repo.MakeRepository;
-import com.poseidon.make.dao.repo.ModelRepository;
+import com.poseidon.model.repo.ModelRepository;
 import com.poseidon.make.domain.MakeAndModelVO;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -35,7 +35,7 @@ class MakeDaoTest {
     @Test
     void listAllMakesAndModelsSuccess() {
         when(modelRepository.findAll()).thenReturn(mockModels());
-        Assertions.assertNotNull(makeDao.listAllMakesAndModels());
+        Assertions.assertNotNull(makeDao.listAllModels());
     }
 
     @Test

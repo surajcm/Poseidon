@@ -1,9 +1,10 @@
 package com.poseidon.make.service;
 
 import com.poseidon.make.dao.MakeDao;
+import com.poseidon.make.dao.entities.Make;
+import com.poseidon.model.entities.Model;
 import com.poseidon.make.dao.mapper.MakeAndModelEntityConverter;
 import com.poseidon.make.domain.MakeAndModelVO;
-import com.poseidon.make.domain.MakeVO;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -25,14 +26,14 @@ class MakeServiceTest {
 
     @Test
     void listAllMakesAndModelsSuccess() {
-        when(makeDAO.listAllMakesAndModels()).thenReturn(mockListOfMakeAndModelVO());
+        when(makeDAO.listAllModels()).thenReturn(mockModels());
         var makeVOs = makeService.listAllMakesAndModels();
         Assertions.assertEquals(1234L, makeVOs.get(0).getId());
     }
 
     @Test
     void listAllMakesSuccess() {
-        when(makeDAO.listAllMakes()).thenReturn(mockListOfMakeAndModelVO());
+        when(makeDAO.listAllMakes()).thenReturn(mockMakes());
         var makeVOs = makeService.listAllMakes();
         Assertions.assertEquals(1234L, makeVOs.get(0).getId());
     }
@@ -93,7 +94,7 @@ class MakeServiceTest {
 
     @Test
     void fetchMakesSuccess() {
-        when(makeDAO.fetchMakes()).thenReturn(mockMakeVOs());
+        when(makeDAO.fetchMakes()).thenReturn(mockMakes());
         var makeVOs = makeService.fetchMakes();
         Assertions.assertEquals(1234L, makeVOs.get(0).getId());
     }
@@ -118,9 +119,17 @@ class MakeServiceTest {
         return List.of(makeAndModelVO);
     }
 
-    private List<MakeVO> mockMakeVOs() {
-        var makeVO = new MakeVO();
-        makeVO.setId(1234L);
-        return List.of(makeVO);
+    private List<Model> mockModels() {
+        var model = new Model();
+        model.setId(1234L);
+        model.setModelId(1234L);
+        model.setMake(mockMakes().get(0));
+        return List.of(model);
+    }
+
+    private List<Make> mockMakes() {
+        var make = new Make();
+        make.setId(1234L);
+        return List.of(make);
     }
 }

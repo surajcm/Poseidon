@@ -38,6 +38,9 @@ public class UserDAO {
 
     public Page<User> getAllUsers(final int pageNumber, final String companyCode) {
         var pageable = PageRequest.of(pageNumber - 1, PAGE_SIZE);
+        if (companyCode == null) {
+            return userRepository.findAll(pageable);
+        }
         return userRepository.findByCompanyCode(pageable, companyCode);
     }
 

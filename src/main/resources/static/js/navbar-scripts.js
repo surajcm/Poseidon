@@ -33,6 +33,11 @@ function fetchCompany() {
     document.forms[0].submit();
 }
 
+function fetchCompanies() {
+    document.forms[0].action = "/company/companies";
+    document.forms[0].submit();
+}
+
 function fetchTransactions() {
     document.forms[0].action = "/txs/listTransactions";
     document.forms[0].submit();

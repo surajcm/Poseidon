@@ -1,10 +1,11 @@
 package com.poseidon.company.service;
 
-import com.poseidon.company.dao.CompanyDAO;
 import com.poseidon.company.dao.entities.CompanyTerms;
+import com.poseidon.company.dao.repo.CompanyRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
+
 import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.any;
@@ -13,34 +14,40 @@ import static org.mockito.Mockito.when;
 
 class CompanyServiceTest {
     private static final String COMPANY_CODE = "ABC";
-    private final CompanyDAO companyDAO = Mockito.mock(CompanyDAO.class);
-    private final CompanyService companyService = new CompanyService(companyDAO);
+    private final CompanyRepository companyRepository = Mockito.mock(CompanyRepository.class);
+    private final CompanyService companyService = new CompanyService(companyRepository);
+
 
     @Test
     void listCompanyTermsSuccess() {
-        when(companyDAO.listCompanyTerms("QC01")).thenReturn(mockCompanyTerms());
-        var companyTermsVO = companyService.listCompanyTerms("QC01");
-        Assertions.assertTrue(companyTermsVO.isPresent());
-        Assertions.assertEquals(COMPANY_CODE, companyTermsVO.get().getName());
+        when(companyRepository.findByCode("QC01")).thenReturn(mockCompanyTerms());
+        var companyTerms = companyService.listCompanyTerms("QC01");
+        Assertions.assertTrue(companyTerms.isPresent());
+        Assertions.assertEquals(COMPANY_CODE, companyTerms.get().getName());
     }
 
     @Test
     void updateCompanyDetailsSuccess() {
-        when(companyDAO.updateCompanyDetails(any())).thenReturn(mockCompanyTerms());
-        var companyTermsVO = companyService.updateCompanyDetails(new CompanyTerms());
-        Assertions.assertTrue(companyTermsVO.isPresent());
-        Assertions.assertEquals(COMPANY_CODE, companyTermsVO.get().getName());
+        when(companyRepository.findById(any())).thenReturn(mockCompanyTerms());
+        when(companyRepository.save(any())).thenReturn(mockCompany());
+        var companyTerms = companyService.updateCompanyDetails(new CompanyTerms());
+        Assertions.assertTrue(companyTerms.isPresent());
+        Assertions.assertEquals(COMPANY_CODE, companyTerms.get().getName());
     }
 
     @Test
     void isValidCompanyCode() {
-        when(companyDAO.isValidCompanyCode(anyString())).thenReturn(true);
+        when(companyRepository.findByCode(anyString())).thenReturn(Optional.of(new CompanyTerms()));
         Assertions.assertTrue(companyService.isValidCompanyCode(COMPANY_CODE));
     }
 
     private Optional<CompanyTerms> mockCompanyTerms() {
+        return Optional.of(mockCompany());
+    }
+
+    private CompanyTerms mockCompany() {
         var companyTerms = new CompanyTerms();
         companyTerms.setName(COMPANY_CODE);
-        return Optional.of(companyTerms);
+        return companyTerms;
     }
 }

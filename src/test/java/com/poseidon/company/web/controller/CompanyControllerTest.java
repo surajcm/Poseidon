@@ -71,14 +71,14 @@ class CompanyControllerTest {
 
     @Test
     void updateCompanyDetailsSuccess() throws Exception {
-        mvc.perform(post("/company/updateCompanyDetails")).andExpect(status().isOk());
+        mvc.perform(post("/company/update")).andExpect(status().isOk());
         when(companyService.updateCompanyDetails(any())).thenThrow(new RuntimeException());
-        mvc.perform(post("/company/updateCompanyDetails")).andExpect(status().isOk());
+        mvc.perform(post("/company/update")).andExpect(status().isOk());
     }
 
     @Test
     void updateCompanyDetails() throws Exception {
         when(companyService.updateCompanyDetails(any())).thenReturn(Optional.of(new CompanyTerms()));
-        mvc.perform(post("/company/updateCompanyDetails")).andExpect(status().isOk());
+        mvc.perform(post("/company/update")).andExpect(status().isOk());
     }
 }

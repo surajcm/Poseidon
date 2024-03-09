@@ -112,5 +112,20 @@ public class CompanyTerms extends CommonEntity {
     public void setCstTin(final String cstTin) {
         this.cstTin = cstTin;
     }
-    
+
+    @Override
+    public String toString() {
+        return "CompanyTerms{" +
+                "id='" + getId() + '\'' +
+                "name='" + name + '\'' +
+                ", code='" + code + '\'' +
+                ", address='" + address + '\'' +
+                ", phone='" + phone + '\'' +
+                ", email='" + email + '\'' +
+                ", website='" + website + '\'' +
+                ", terms='" + terms + '\'' +
+                ", vatTin='" + vatTin + '\'' +
+                ", cstTin='" + cstTin + '\'' +
+                '}';
+    }
 }

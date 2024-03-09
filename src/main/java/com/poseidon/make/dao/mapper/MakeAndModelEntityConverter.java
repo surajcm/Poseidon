@@ -1,7 +1,7 @@
 package com.poseidon.make.dao.mapper;
 
 import com.poseidon.make.dao.entities.Make;
-import com.poseidon.make.dao.entities.Model;
+import com.poseidon.model.entities.Model;
 import com.poseidon.make.domain.MakeAndModelVO;
 import org.springframework.stereotype.Component;
 
@@ -41,6 +41,7 @@ public class MakeAndModelEntityConverter {
 
     private MakeAndModelVO createMakeAndModelVO(final Make make) {
         var makeAndModelVO = new MakeAndModelVO();
+        makeAndModelVO.setId(make.getId());
         makeAndModelVO.setMakeId(make.getId());
         makeAndModelVO.setMakeName(make.getMakeName());
         makeAndModelVO.setDescription(make.getDescription());

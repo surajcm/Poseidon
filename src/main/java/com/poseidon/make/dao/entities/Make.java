@@ -1,6 +1,7 @@
 package com.poseidon.make.dao.entities;
 
 import com.poseidon.init.entity.CommonEntity;
+import com.poseidon.model.entities.Model;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import jakarta.persistence.Column;

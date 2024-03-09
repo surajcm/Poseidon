@@ -31,7 +31,7 @@ import java.util.Optional;
 public class InvoiceController {
     private static final Logger log = LoggerFactory.getLogger(InvoiceController.class);
     private static final String ERROR = "error";
-    private static final String LIST_INVOICE = "invoice/ListInvoice";
+    private static final String LIST_INVOICE = "invoice/invoice";
     private static final String INVOICE_FORM = "invoiceForm";
     private static final String INVOICE_FORM_DETAILS = "Invoice Form details are {}";
     private static final String SUCCESS = "success";
