@@ -54,7 +54,7 @@ public class ModelController {
         makeForm.setLoggedInRole(makeForm.getLoggedInRole());
         makeForm.setLoggedInUser(makeForm.getLoggedInUser());
         model.addAttribute(MAKE_FORM, makeForm);
-        return MODEL_LIST_PAGE;
+        return "model/list";
     }
 
     /**

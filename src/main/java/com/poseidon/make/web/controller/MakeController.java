@@ -37,8 +37,8 @@ public class MakeController {
     private static final String UNKNOWN_ERROR = " An Unknown Error has been occurred !!";
     private static final String MAKE_FORM_IS = " makeForm is {}";
     private static final String MAKE_VO_IS = " makeVO is {}";
-    private static final String MODEL_LIST_PAGE = "make/ModelList";
-    private static final String MAKE_LIST_PAGE = "make/MakeList";
+    private static final String MODEL_LIST_PAGE = "model/list";
+    private static final String MAKE_LIST_PAGE = "make/list";
     private static final String MAKE_AND_MODEL_VO_IS = " MakeAndModelVO is {}";
 
     private final MakeService makeService;
@@ -53,7 +53,7 @@ public class MakeController {
      * @param makeForm makeForm
      * @return view
      */
-    @PostMapping(MAKE_LIST_PAGE)
+    @PostMapping("make/MakeList")
     public String makeListPage(final MakeForm makeForm, final Model model) {
         logger.info("ListMake List method of MakeController ");
         var makeVOs = makeService.fetchMakes();
@@ -151,10 +151,8 @@ public class MakeController {
         var searchMakeVOs = makeService.searchMakes(makeForm.getSearchMakeAndModelVO().getMakeName());
         makeForm.setStatusMessage("Found " + searchMakeVOs.size() + " Models");
         makeForm.setStatusMessageType("info");
-        if (searchMakeVOs != null) {
-            searchMakeVOs.forEach(searchMakeVO -> logger.debug("searchMakeVO is {}", searchMakeVO));
-            makeForm.setMakeVOs(searchMakeVOs);
-        }
+        searchMakeVOs.forEach(searchMakeVO -> logger.debug("searchMakeVO is {}", searchMakeVO));
+        makeForm.setMakeVOs(searchMakeVOs);
         model.addAttribute(MAKE_FORM, makeForm);
         return MAKE_LIST_PAGE;
     }

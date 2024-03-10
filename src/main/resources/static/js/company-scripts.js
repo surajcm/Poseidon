@@ -73,6 +73,6 @@ function makeEverythingReadOnly() {
 }
 
 function updateCompanyDetails() {
-    document.forms[0].action = "update";
+    document.forms[0].action = "/company/update";
     document.forms[0].submit();
 }

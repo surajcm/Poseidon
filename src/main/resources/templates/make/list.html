@@ -92,8 +92,8 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security/">
                                th:onclick="'javascript:editMakeNew(' + ${iterationMake.id} + ');'" title="Edit this make"></a>
                             &nbsp;
                             <a class="fa-solid fa-trash"
-                               th:href="@{'/user/deleteMake/'+${iterationMake.id}}"
-                               onclick="deleteMake(event);"
+                               th:href="@{'/make/delete/'+${iterationMake.id}}"
+                               onclick="deleteMe(event);"
                                th:userId="${iterationMake.id}"
                                title="Delete this make"
                                data-bs-toggle="modal"
@@ -147,6 +147,23 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security/">
                     </div>
                     <div class="modal-footer">
                         <button type="button" id="updateMake" class="btn btn-primary" onclick="updateFromModal()">Update</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal fade text-center" id="confirmModal">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title" id="modalTitle">Delete Confirmation</h4>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal">&times;</button>
+                    </div>
+                    <div class="modal-body">
+                        <span id="confirmText"></span>
+                    </div>
+                    <div class="modal-footer">
+                        <a id="yesButton" class="btn btn-success" href="">Yes</a>
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">No</button>
                     </div>
                 </div>
             </div>

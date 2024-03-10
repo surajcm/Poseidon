@@ -25,7 +25,7 @@ function deleteMake() {
     }
 }
 
-function deleteMake(e) {
+function deleteMe(e) {
     let yesButton = document.getElementById("yesButton");
     let parentHref = e.target.href;
     //console.log(parentHref);
