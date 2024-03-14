@@ -25,14 +25,6 @@ function deleteMake() {
     }
 }
 
-function deleteMe(e) {
-    let yesButton = document.getElementById("yesButton");
-    let parentHref = e.target.href;
-    //console.log(parentHref);
-    yesButton.setAttribute("href", parentHref);
-    return false;
-}
-
 function verifyCheckPresent() {
     let check = 'false';
     let count = selectedRowCount();

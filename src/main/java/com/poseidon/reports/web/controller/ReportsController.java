@@ -1,6 +1,7 @@
 package com.poseidon.reports.web.controller;
 
 import com.poseidon.init.util.CommonUtils;
+import com.poseidon.make.dao.entities.Make;
 import com.poseidon.make.domain.MakeVO;
 import com.poseidon.make.service.MakeService;
 import com.poseidon.reports.domain.ExportList;
@@ -101,11 +102,25 @@ public class ReportsController {
     private List<MakeVO> fetchMakeVOS() {
         List<MakeVO> makeVOs = null;
         try {
-            makeVOs = makeService.fetchMakes();
+            makeVOs = convertMakeToMakeVO(makeService.fetchMakes());
         } catch (Exception ex) {
             LOG.error(ex.getLocalizedMessage());
         }
         return makeVOs;
+    }
+
+    private List<MakeVO> convertMakeToMakeVO(final List<Make> makes) {
+        return makes.stream().map(this::createMakeVO).toList();
+    }
+
+    private MakeVO createMakeVO(final Make make) {
+        var makeVO = new MakeVO();
+        makeVO.setId(make.getId());
+        makeVO.setMakeName(make.getMakeName());
+        makeVO.setDescription(make.getDescription());
+        makeVO.setCreatedBy(make.getCreatedBy());
+        makeVO.setModifiedBy(make.getModifiedBy());
+        return makeVO;
     }
 
     /**

@@ -4,6 +4,7 @@ import com.poseidon.customer.dao.entities.Customer;
 import com.poseidon.customer.domain.CustomerVO;
 import com.poseidon.customer.service.CustomerService;
 import com.poseidon.init.util.CommonUtils;
+import com.poseidon.make.dao.entities.Make;
 import com.poseidon.make.domain.MakeAndModelVO;
 import com.poseidon.make.domain.MakeVO;
 import com.poseidon.make.service.MakeService;
@@ -85,7 +86,21 @@ public class TransactionController {
     }
 
     private List<MakeVO> getMakeVOS() {
-        return makeService.fetchMakes();
+        return convertMakeToMakeVO(makeService.fetchMakes());
+    }
+
+    private List<MakeVO> convertMakeToMakeVO(final List<Make> makes) {
+        return makes.stream().map(this::createMakeVO).toList();
+    }
+
+    private MakeVO createMakeVO(final Make make) {
+        var makeVO = new MakeVO();
+        makeVO.setId(make.getId());
+        makeVO.setMakeName(make.getMakeName());
+        makeVO.setDescription(make.getDescription());
+        makeVO.setCreatedBy(make.getCreatedBy());
+        makeVO.setModifiedBy(make.getModifiedBy());
+        return makeVO;
     }
 
 

@@ -1,7 +1,9 @@
 package com.poseidon.model.web;
 
 import com.poseidon.init.util.CommonUtils;
+import com.poseidon.make.dao.entities.Make;
 import com.poseidon.make.domain.MakeAndModelVO;
+import com.poseidon.make.domain.MakeVO;
 import com.poseidon.make.service.MakeService;
 import com.poseidon.make.web.form.MakeForm;
 import org.slf4j.Logger;
@@ -9,6 +11,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.PostMapping;
+
+import java.util.List;
 
 @Controller
 @SuppressWarnings("unused")
@@ -48,7 +52,7 @@ public class ModelController {
         var makeVOs = makeService.fetchMakes();
         if (!makeVOs.isEmpty()) {
             makeVOs.forEach(makeVO -> logger.debug(MAKE_VO_IS, makeVO));
-            makeForm.setMakeVOs(makeVOs);
+            makeForm.setMakeVOs(convertMakeToMakeVO(makeVOs));
         }
         makeForm.setSearchMakeAndModelVO(new MakeAndModelVO());
         makeForm.setLoggedInRole(makeForm.getLoggedInRole());
@@ -82,6 +86,20 @@ public class ModelController {
         makeForm.setLoggedInRole(makeForm.getLoggedInRole());
         makeForm.setCurrentMakeAndModeVO(new MakeAndModelVO());
         return modelListPage(makeForm, model);
+    }
+
+    private List<MakeVO> convertMakeToMakeVO(final List<Make> makes) {
+        return makes.stream().map(this::createMakeVO).toList();
+    }
+
+    private MakeVO createMakeVO(final Make make) {
+        var makeVO = new MakeVO();
+        makeVO.setId(make.getId());
+        makeVO.setMakeName(make.getMakeName());
+        makeVO.setDescription(make.getDescription());
+        makeVO.setCreatedBy(make.getCreatedBy());
+        makeVO.setModifiedBy(make.getModifiedBy());
+        return makeVO;
     }
 
 }

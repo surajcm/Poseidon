@@ -6,7 +6,9 @@ import com.poseidon.init.util.CommonUtils;
 import com.poseidon.invoice.domain.InvoiceReportVO;
 import com.poseidon.invoice.domain.InvoiceVO;
 import com.poseidon.invoice.service.InvoiceService;
+import com.poseidon.make.dao.entities.Make;
 import com.poseidon.make.domain.MakeAndModelVO;
+import com.poseidon.make.domain.MakeVO;
 import com.poseidon.make.service.MakeService;
 import com.poseidon.reports.dao.ReportsDAO;
 import com.poseidon.reports.domain.ReportsVO;
@@ -66,7 +68,7 @@ public class ReportsService {
      * @return JasperPrint
      */
     public JasperPrint getMakeDetailsChart(final JasperReport jasperReport, final ReportsVO currentReport) {
-        currentReport.setMakeVOList(makeService.fetchMakes());
+        currentReport.setMakeVOList(convertMakeToMakeVO(makeService.fetchMakes()));
         var jasperPrint = new JasperPrint();
         try {
             jasperPrint = reportsDAO.getMakeDetailsChart(jasperReport, currentReport);
@@ -74,6 +76,20 @@ public class ReportsService {
             LOG.error(ex.getLocalizedMessage());
         }
         return jasperPrint;
+    }
+
+    private List<MakeVO> convertMakeToMakeVO(final List<Make> makes) {
+        return makes.stream().map(this::createMakeVO).toList();
+    }
+
+    private MakeVO createMakeVO(final Make make) {
+        var makeVO = new MakeVO();
+        makeVO.setId(make.getId());
+        makeVO.setMakeName(make.getMakeName());
+        makeVO.setDescription(make.getDescription());
+        makeVO.setCreatedBy(make.getCreatedBy());
+        makeVO.setModifiedBy(make.getModifiedBy());
+        return makeVO;
     }
 
     /**

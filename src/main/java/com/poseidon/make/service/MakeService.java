@@ -149,9 +149,8 @@ public class MakeService {
      *
      * @return list of makes
      */
-    public List<MakeVO> fetchMakes() {
-        var makes =  makeDAO.fetchMakes();
-        return convertMakeToMakeVO(makes);
+    public List<Make> fetchMakes() {
+        return makeDAO.fetchMakes();
     }
 
     /**

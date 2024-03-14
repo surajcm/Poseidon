@@ -1,6 +1,7 @@
 package com.poseidon.make.web.controller;
 
 import com.poseidon.init.util.CommonUtils;
+import com.poseidon.make.dao.entities.Make;
 import com.poseidon.make.domain.MakeAndModelVO;
 import com.poseidon.make.domain.MakeVO;
 import com.poseidon.make.service.MakeService;
@@ -13,9 +14,13 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.Collections;
 import java.util.List;
@@ -53,16 +58,36 @@ public class MakeController {
      * @param makeForm makeForm
      * @return view
      */
-    @PostMapping("make/MakeList")
+    @RequestMapping(value = "make/MakeList", method = {RequestMethod.GET, RequestMethod.POST})
     public String makeListPage(final MakeForm makeForm, final Model model) {
         logger.info("ListMake List method of MakeController ");
-        var makeVOs = makeService.fetchMakes();
+        var makeVOs = convertMakeToMakeVO(makeService.fetchMakes());
         if (!makeVOs.isEmpty()) {
             makeVOs.forEach(makeVO -> logger.debug(MAKE_VO_IS, makeVO));
             makeForm.setMakeVOs(makeVOs);
         }
         model.addAttribute(MAKE_FORM, makeForm);
         return MAKE_LIST_PAGE;
+    }
+
+    /**
+     * delete the user.
+     *
+     * @param id id
+     * @return to user list screen
+     */
+    @GetMapping("/make/delete/{id}")
+    public String deleteMake(final @PathVariable(name = "id") Long id,
+                             final Model model,
+                             final RedirectAttributes redirectAttributes) {
+        logger.info("Inside deleteMake method of make controller with id {}", id);
+        try {
+            makeService.deleteMake(id);
+            redirectAttributes.addFlashAttribute("statusMessage", "Successfully deleted the selected Make");
+        } catch (Exception ex) {
+            logger.error(ex.getLocalizedMessage(), ex);
+        }
+        return "redirect:/make/MakeList";
     }
 
     /**
@@ -127,7 +152,7 @@ public class MakeController {
             makeVOs.forEach(makeVO -> logger.debug(MAKE_VO_IS, makeVO));
             makeForm.setMakeAndModelVOs(makeVOs);
         }
-        var searchMakeVOs = makeService.fetchMakes();
+        var searchMakeVOs = convertMakeToMakeVO(makeService.fetchMakes());
         if (searchMakeVOs != null) {
             searchMakeVOs.forEach(searchMakeVO -> logger.debug("SearchMakeVO is {}", searchMakeVO));
             makeForm.setMakeVOs(searchMakeVOs);
@@ -177,7 +202,7 @@ public class MakeController {
         var makeForm = new MakeForm();
         makeForm.setCurrentMakeAndModeVO(populateMakeVO(selectMakeName, selectMakeDesc));
         makeService.addNewMake(makeForm.getCurrentMakeAndModeVO());
-        return makeService.fetchMakes();
+        return convertMakeToMakeVO(makeService.fetchMakes());
     }
 
     /**
@@ -206,7 +231,7 @@ public class MakeController {
     public @ResponseBody
     Map<Long, String> getAllMakeIdsAndNames() {
         logger.info("GetAllMakeIdsAndNames method of MakeController ");
-        var makeVOS = makeService.fetchMakes();
+        var makeVOS = convertMakeToMakeVO(makeService.fetchMakes());
         return makeVOS.stream()
                 .collect(Collectors.toMap(MakeVO::getId, MakeVO::getMakeName, (a, b) -> b));
     }
@@ -239,7 +264,7 @@ public class MakeController {
                 sanitizedId, sanitizedMakeName, sanitizedDescription);
         var makeModelVO = buildMakeModelVO(id, makeName, description);
         makeService.updateMake(makeModelVO);
-        return makeService.fetchMakes();
+        return convertMakeToMakeVO(makeService.fetchMakes());
     }
 
     private void loggingFromSearch(final MakeForm makeForm) {
@@ -299,6 +324,20 @@ public class MakeController {
             username = auth.getName();
         }
         return username;
+    }
+
+    private List<MakeVO> convertMakeToMakeVO(final List<Make> makes) {
+        return makes.stream().map(this::createMakeVO).toList();
+    }
+
+    private MakeVO createMakeVO(final Make make) {
+        var makeVO = new MakeVO();
+        makeVO.setId(make.getId());
+        makeVO.setMakeName(make.getMakeName());
+        makeVO.setDescription(make.getDescription());
+        makeVO.setCreatedBy(make.getCreatedBy());
+        makeVO.setModifiedBy(make.getModifiedBy());
+        return makeVO;
     }
 
 }
