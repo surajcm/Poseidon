@@ -19,33 +19,6 @@ function searchMakes() {
     document.forms[0].submit();
 }
 
-function deleteMake() {
-    if (verifyCheckPresent()) {
-        deleteRow();
-    }
-}
-
-function verifyCheckPresent() {
-    let check = 'false';
-    let count = selectedRowCount();
-    console.log("count is " + count);
-    if (count > 0) {
-        check = 'true';
-    }
-    //check for validity
-    if (check === 'true') {
-        if (count === 1) {
-            return true;
-        } else {
-            alert("Only one row can be edited at a time, please select one row ");
-            return false;
-        }
-    } else {
-        alert("No rows selected, please select one row ");
-        return false;
-    }
-}
-
 function validateEditMakeSelection() {
     let check = 'false';
     let count = selectedRowCount();
@@ -63,32 +36,6 @@ function validateEditMakeSelection() {
     } else {
         detail.innerHTML = "<p>No rows selected, please select one row</p>";
     }
-}
-
-//code to delete
-function deleteRow() {
-    const answer = confirm("Are you sure you wanted to delete the make ");
-    if (answer) {
-        let userRow = selectedRow();
-        document.getElementById("id").value = userRow.cells[0].childNodes[0].value;
-        document.forms[0].action = "deleteMake";
-        document.forms[0].submit();
-    }
-}
-
-function selectedRow() {
-    let userRow;
-    let checks = document.getElementsByName('checkField');
-    if (checks.checked) {
-        userRow = document.getElementById("myTable").rows[0];
-    } else {
-        for (let i = 0; i < checks.length; i++) {
-            if (checks[i].checked) {
-                userRow = document.getElementById("myTable").rows[i + 1];
-            }
-        }
-    }
-    return userRow;
 }
 
 function rewriteTable(textReturned) {

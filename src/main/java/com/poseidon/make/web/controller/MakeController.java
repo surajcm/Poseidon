@@ -83,38 +83,13 @@ public class MakeController {
         logger.info("Inside deleteMake method of make controller with id {}", id);
         try {
             makeService.deleteMake(id);
-            redirectAttributes.addFlashAttribute("statusMessage", "Successfully deleted the selected Make");
+            redirectAttributes.addFlashAttribute("message", "Successfully deleted the selected Make");
         } catch (Exception ex) {
+            redirectAttributes.addFlashAttribute("message", "Error occurred during deletion");
             logger.error(ex.getLocalizedMessage(), ex);
         }
         return "redirect:/make/MakeList";
     }
-
-    /**
-     * delete a make.
-     *
-     * @param makeForm makeForm
-     * @return view
-     */
-    @PostMapping("/make/deleteMake")
-    @SuppressWarnings("unused")
-    public String deleteMake(final MakeForm makeForm, final Model model) {
-        logger.debug("DeleteMake method of MakeController ");
-        var sanitizedMakeForm = CommonUtils.sanitizedString(makeForm.toString());
-        logger.debug(MAKE_FORM_IS, sanitizedMakeForm);
-        try {
-            makeService.deleteMake(makeForm.getId());
-            makeForm.setStatusMessage("Successfully deleted the selected Make");
-            makeForm.setStatusMessageType(SUCCESS);
-        } catch (Exception ex) {
-            makeForm.setStatusMessage("Error occurred during deletion");
-            makeForm.setStatusMessageType(DANGER);
-            logger.error(ex.getLocalizedMessage(), ex);
-        }
-        return makeListPage(makeForm, model);
-    }
-
-
 
     @GetMapping("/make/getForEdit")
     public @ResponseBody
