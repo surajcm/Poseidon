@@ -16,6 +16,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(SpringExtension.class)
@@ -40,9 +41,7 @@ class MakeControllerTest {
 
     @Test
     void deleteMake() throws Exception {
-        mvc.perform(post("/make/deleteMake")).andExpect(status().isOk());
-        doThrow(new RuntimeException()).when(makeService).deleteMake(null);
-        mvc.perform(post("/make/deleteMake")).andExpect(status().isOk());
+        mvc.perform(get("/make/delete/2/")).andExpect(status().isFound());
     }
 
     @Test
