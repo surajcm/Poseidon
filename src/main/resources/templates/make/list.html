@@ -59,6 +59,15 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security/">
                     [[${message}]]
                 </div>
             </div>
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <input class="btn btn-primary" value="Model List" type="button" onclick="listAllModel()"/>
+                </div>
+                <div class="col-md-6">
+                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#newModelModal"
+                            onclick="addMake();">Add Make</button>
+                </div>
+            </div>
             <table id='myTable' class="table table-bordered table-striped table-hover caption-top">
                 <caption>Make Details</caption>
                 <thead class="table-dark">
@@ -89,19 +98,6 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security/">
                     </tr>
                 </tbody>
             </table>
-            <div class="row g-3">
-                <div class="col-md-4">
-                    <input class="btn btn-primary" value="Model List" type="button" onclick="listAllModel()"/>
-                </div>
-                <div class="col-md-4">
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#newModelModal"
-                        onclick="addMake();">Add Make</button>
-                </div>
-                <div class="col-md-4">
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editMakeModal"
-                        onclick="editMake();">Edit Make</button>
-                </div>
-            </div>
         </div>
         <div id="newModelModal" class="modal fade" tabindex="-1" aria-labelledby="newModelModal" aria-hidden="true">
             <div class="modal-dialog">

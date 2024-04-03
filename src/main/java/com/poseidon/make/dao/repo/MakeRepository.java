@@ -12,4 +12,5 @@ import java.util.List;
 public interface MakeRepository extends JpaRepository<Make, Long> {
     @Query("FROM Make m WHERE m.makeName LIKE :name%")
     List<Make> findByMakeName(@Param("name")String name);
+
 }

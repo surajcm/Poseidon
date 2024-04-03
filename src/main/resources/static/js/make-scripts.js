@@ -19,25 +19,6 @@ function searchMakes() {
     document.forms[0].submit();
 }
 
-function validateEditMakeSelection() {
-    let check = 'false';
-    let count = selectedRowCount();
-    if (count > 0) {
-        check = 'true';
-    }
-    //check for validity
-    let detail = document.getElementById("makeEditModalBody");
-    if (check === 'true') {
-        if (count === 1) {
-            return true;
-        } else {
-            detail.innerHTML = "<p>Only one row can be selected at a time, please select one row</p>";
-        }
-    } else {
-        detail.innerHTML = "<p>No rows selected, please select one row</p>";
-    }
-}
-
 function rewriteTable(textReturned) {
     document.getElementById('myTable').innerHTML = "";
     const myTable = document.getElementById("myTable");
@@ -60,6 +41,9 @@ function rewriteTable(textReturned) {
     th3.innerHTML = "Description";
     th3.setAttribute("scope", "col");
     tr1.appendChild(th3);
+    const th4 = document.createElement("th");
+    th4.setAttribute("scope", "col");
+    tr1.appendChild(th4);
     thead.appendChild(tr1);
     myTable.appendChild(thead);
     const makeList = JSON.parse(textReturned);
@@ -82,9 +66,50 @@ function rewriteTable(textReturned) {
         const td3 = document.createElement("td");
         td3.innerHTML = singleMake.description;
         trx.appendChild(td3);
+        const td4 = document.createElement("td");
+        td4.appendChild(editLink(singleMake.id));
+        td4.appendChild(emptySpace());
+        td4.appendChild(deleteLink(singleMake.id));
+        trx.appendChild(td4);
         tbody.appendChild(trx);
     }
     myTable.appendChild(tbody);
+}
+
+function emptySpace() {
+    const span = document.createElement("span");
+    span.innerHTML = "&nbsp;";
+    return span;
+}
+
+function editLink(makeId) {
+    const editAnchor = document.createElement("a");
+    editAnchor.setAttribute("class", "fa-regular fa-pen-to-square");
+    editAnchor.setAttribute("href", "#");
+    editAnchor.setAttribute("data-bs-toggle", "modal");
+    editAnchor.setAttribute("data-bs-target", "#editMakeModal");
+    editAnchor.setAttribute("onclick", "javascript:editMakeNew(" + makeId + ");");
+    editAnchor.setAttribute("title", "Edit this make");
+    return editAnchor;
+}
+
+function deleteLink(makeId) {
+    const deleteAnchor = document.createElement("a");
+    deleteAnchor.setAttribute("class", "fa-solid fa-trash");
+    deleteAnchor.setAttribute("href", "/make/delete/" + makeId);
+    deleteAnchor.setAttribute("data-bs-toggle", "modal");
+    deleteAnchor.setAttribute("data-bs-target", "#confirmModal");
+    deleteAnchor.setAttribute("makeId", makeId);
+    deleteAnchor.setAttribute("title", "Delete this make");
+    deleteAnchor.addEventListener('click', function(event) {
+        event.preventDefault();
+        document.getElementById('confirmText').innerText = 'Are you sure you want to delete make ID ' + makeId + '?';
+        // Set the href of the confirmation button to the href of the delete link
+        const confirmButton = document.querySelector('#confirmModal .btn-success');
+        confirmButton.href = this.href;
+    });
+
+    return deleteAnchor;
 }
 
 function addMake() {
@@ -178,15 +203,6 @@ function showStatus(status) {
     let saveSmartMake = document.getElementById("saveSmartMake");
     saveSmartMake.style.display = "none";
     detail.appendChild(statusMessage(status, 'ADD'));
-}
-
-function editMake() {
-    let rowCheck = validateEditMakeSelection();
-    if (rowCheck) {
-        editMakeModal();
-        setIdForChange();
-        getMakeForEdit();
-    }
 }
 
 function editMakeNew(id) {

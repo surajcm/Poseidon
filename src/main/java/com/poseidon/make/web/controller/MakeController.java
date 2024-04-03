@@ -71,6 +71,21 @@ public class MakeController {
     }
 
     /**
+     * list out makes.
+     *
+     * @param pageNumber int
+     * @return view
+     */
+    @GetMapping(value = "make/page/{pageNumber}")
+    public String makeListByPage(final @PathVariable(name = "pageNumber") int pageNumber,
+                                 final Model model) {
+        logger.info("ListMake with page of MakeController ");
+        var makes = makeService.fetchMakes();
+        model.addAttribute("makes", makes);
+        return MAKE_LIST_PAGE;
+    }
+
+    /**
      * delete the user.
      *
      * @param id id
