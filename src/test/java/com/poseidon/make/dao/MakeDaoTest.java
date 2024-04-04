@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
@@ -104,6 +105,13 @@ class MakeDaoTest {
     }
 
     @Test
+    void updateModelSuccess2() {
+        when(modelRepository.findById(anyLong())).thenReturn(Optional.of(mockModel()));
+        when(makeRepository.findById(anyLong())).thenReturn(Optional.of(mockMake()));
+        Assertions.assertAll(() -> makeDao.updateModel(1L, 1L, "Apple"));
+    }
+
+    @Test
     void updateModelSuccessOnEmpty() {
         when(modelRepository.findById(anyLong())).thenReturn(Optional.empty());
         var makeAndModelVO = getMakeAndModelVO();
@@ -134,6 +142,12 @@ class MakeDaoTest {
     void allModelsFromMakeIdSuccessOnEmptyModels() {
         when(makeRepository.findById(anyLong())).thenReturn(Optional.of(mockMake()));
         Assertions.assertNull(makeDao.getAllModelsFromMakeId(1234L));
+    }
+
+    @Test
+    void searchMakes() {
+        when(makeRepository.findByMakeName(anyString())).thenReturn(mockMakes());
+        Assertions.assertNotNull(makeDao.searchMakes("Apple"));
     }
 
     private List<Make> mockMakes() {
