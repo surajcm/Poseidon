@@ -79,18 +79,18 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security/">
                     </tr>
                 </thead>
                 <tbody>
-                    <tr th:each="iterationMake : ${makeForm.makeVOs}">
+                    <tr th:each="make : ${makes}">
                         <th scope="row"><input type="checkbox" name="checkField" onclick="checkCall(this)"
-                                   th:value="${iterationMake.id}"/></th>
-                        <td><span th:text="${iterationMake.makeName}"></span></td>
-                        <td><span th:text="${iterationMake.description}"></span></td>
+                                   th:value="${make.id}"/></th>
+                        <td><span th:text="${make.makeName}"></span></td>
+                        <td><span th:text="${make.description}"></span></td>
                         <td>
                             <a class="fa-regular fa-pen-to-square" href="" data-bs-toggle="modal" data-bs-target="#editMakeModal"
-                               th:onclick="'javascript:editMakeNew(' + ${iterationMake.id} + ');'" title="Edit this make"></a>
+                               th:onclick="'javascript:editMakeNew(' + ${make.id} + ');'" title="Edit this make"></a>
                             &nbsp;
                             <a class="fa-solid fa-trash"
-                               th:href="@{'/make/delete/'+${iterationMake.id}}"
-                               th:makeId="${iterationMake.id}"
+                               th:href="@{'/make/delete/'+${make.id}}"
+                               th:makeId="${make.id}"
                                title="Delete this make"
                                data-bs-toggle="modal"
                                data-bs-target="#confirmModal"></a>

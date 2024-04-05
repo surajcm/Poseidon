@@ -61,12 +61,9 @@ public class MakeController {
     @RequestMapping(value = "make/MakeList", method = {RequestMethod.GET, RequestMethod.POST})
     public String makeListPage(final MakeForm makeForm, final Model model) {
         logger.info("ListMake List method of MakeController ");
-        var makeVOs = convertMakeToMakeVO(makeService.fetchMakes());
-        if (!makeVOs.isEmpty()) {
-            makeVOs.forEach(makeVO -> logger.debug(MAKE_VO_IS, makeVO));
-            makeForm.setMakeVOs(makeVOs);
-        }
-        model.addAttribute(MAKE_FORM, makeForm);
+        var makes = makeService.fetchMakes();
+        model.addAttribute("makes", makes);
+        model.addAttribute(MAKE_FORM, new MakeForm());
         return MAKE_LIST_PAGE;
     }
 
