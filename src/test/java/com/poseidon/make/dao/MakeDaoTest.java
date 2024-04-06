@@ -74,18 +74,6 @@ class MakeDaoTest {
     }
 
     @Test
-    void modelFromIdSuccess() {
-        when(modelRepository.findById(anyLong())).thenReturn(Optional.of(mockModel()));
-        Assertions.assertNotNull(makeDao.getModelFromId(1234L));
-    }
-
-    @Test
-    void modelFromIdSuccessOnEmpty() {
-        when(modelRepository.findById(anyLong())).thenReturn(Optional.empty());
-        Assertions.assertEquals(Optional.empty(), makeDao.getModelFromId(1234L));
-    }
-
-    @Test
     void deleteModelSuccess() {
         Assertions.assertAll(() -> makeDao.deleteModel(1234L));
     }

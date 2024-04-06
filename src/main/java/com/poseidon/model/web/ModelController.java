@@ -6,13 +6,20 @@ import com.poseidon.make.domain.MakeAndModelVO;
 import com.poseidon.make.domain.MakeVO;
 import com.poseidon.make.service.MakeService;
 import com.poseidon.make.web.form.MakeForm;
+import com.poseidon.model.service.ModelService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.Map;
 
 @Controller
 @SuppressWarnings("unused")
@@ -27,9 +34,11 @@ public class ModelController {
     private static final String MAKE_FORM_IS = " makeForm is {}";
 
     private final MakeService makeService;
+    private final ModelService modelService;
 
-    public ModelController(final MakeService makeService) {
+    public ModelController(final MakeService makeService, final ModelService modelService) {
         this.makeService = makeService;
+        this.modelService = modelService;
     }
 
     /**
@@ -59,6 +68,16 @@ public class ModelController {
         makeForm.setLoggedInUser(makeForm.getLoggedInUser());
         model.addAttribute(MAKE_FORM, makeForm);
         return "model/list";
+    }
+
+    @GetMapping("/make/getForEdit")
+    public @ResponseBody
+    Map<Long, String> getForEdit(@ModelAttribute("id") final String id,
+                                 final BindingResult result) {
+        var sanitizedId = CommonUtils.sanitizedString(id);
+        logger.info("getForEdit method of make controller {}}", sanitizedId);
+        var makeVO = modelService.getModelFromId(Long.valueOf(id));
+        return makeVO.map(vo -> Map.of(vo.getMakeId(), vo.getModelName())).orElse(Collections.emptyMap());
     }
 
     /**

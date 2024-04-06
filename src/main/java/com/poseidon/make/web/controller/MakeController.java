@@ -103,16 +103,6 @@ public class MakeController {
         return "redirect:/make/MakeList";
     }
 
-    @GetMapping("/make/getForEdit")
-    public @ResponseBody
-    Map<Long, String> getForEdit(@ModelAttribute("id") final String id,
-                                 final BindingResult result) {
-        var sanitizedId = CommonUtils.sanitizedString(id);
-        logger.info("getForEdit method of make controller {}}", sanitizedId);
-        var makeVO = makeService.getModelFromId(Long.valueOf(id));
-        return makeVO.map(vo -> Map.of(vo.getMakeId(), vo.getModelName())).orElse(Collections.emptyMap());
-    }
-
     @GetMapping("/make/makeForEdit")
     public @ResponseBody
     Map<String, String> makeForEdit(@ModelAttribute("id") final String id,

@@ -80,16 +80,6 @@ public class MakeService {
     }
 
     /**
-     * get model from id.
-     *
-     * @param modelId modelId
-     * @return make and model vo
-     */
-    public Optional<MakeAndModelVO> getModelFromId(final Long modelId) {
-        return makeDAO.getModelFromId(modelId);
-    }
-
-    /**
      * delete a model.
      *
      * @param modelId modelId

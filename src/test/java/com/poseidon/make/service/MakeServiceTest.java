@@ -55,12 +55,6 @@ class MakeServiceTest {
     }
 
     @Test
-    void modelFromIdSuccess() {
-        when(makeDAO.getModelFromId(anyLong())).thenReturn(Optional.of(Mockito.mock(MakeAndModelVO.class)));
-        Assertions.assertNotNull(makeService.getModelFromId(1234L));
-    }
-
-    @Test
     void deleteModelSuccess() {
         Assertions.assertAll(() -> makeService.deleteModel(1234L));
     }

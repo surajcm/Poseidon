@@ -108,20 +108,6 @@ public class MakeDao {
         consumer.accept(makeId);
     }
 
-    /**
-     * get model from id.
-     *
-     * @param modelId modelId
-     * @return make and model vo
-     */
-    public Optional<MakeAndModelVO> getModelFromId(final Long modelId) {
-        Optional<MakeAndModelVO> makeAndModelVO = Optional.empty();
-        var optionalModel = sneak(() -> modelRepository.findById(modelId));
-        if (optionalModel.isPresent()) {
-            makeAndModelVO = Optional.of(makeAndModelEntityConverter.convertModelToMakeAndModelVO(optionalModel.get()));
-        }
-        return makeAndModelVO;
-    }
 
     /**
      * delete a model.
