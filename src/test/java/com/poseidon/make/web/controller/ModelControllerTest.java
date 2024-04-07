@@ -17,6 +17,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -51,6 +52,13 @@ class ModelControllerTest {
         mvc.perform(post("/make/deleteModel")).andExpect(status().isOk());
         doThrow(new RuntimeException()).when(makeService).deleteModel(null);
         mvc.perform(post("/make/deleteModel")).andExpect(status().isOk());
+    }
+
+    @Test
+    void testSearchModel() throws Exception {
+        mvc.perform(post("/make/searchModel")).andExpect(status().isOk());
+        when(makeService.searchMakeVOs(any())).thenThrow(new RuntimeException());
+        mvc.perform(post("/make/searchModel")).andExpect(status().isOk());
     }
 
     private List<MakeAndModelVO> mockMakeAndModelVOs() {

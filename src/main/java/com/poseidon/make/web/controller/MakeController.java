@@ -109,37 +109,11 @@ public class MakeController {
                                     final BindingResult result) {
         var sanitizedId = CommonUtils.sanitizedString(id);
         logger.info("makeForEdit method of make controller {}", sanitizedId);
-        var makeVO = makeService.getMakeFromId(Long.valueOf(id));
-        return makeVO.map(vo -> Map.of(vo.getMakeName(), vo.getDescription())).orElse(Collections.emptyMap());
+        var make = makeService.getMakeFromId(Long.valueOf(id));
+        return make.map(item -> Map.of(item.getMakeName(), item.getDescription())).orElse(Collections.emptyMap());
     }
 
-    /**
-     * search for a model.
-     *
-     * @param makeForm makeForm
-     * @return view
-     */
-    @PostMapping("/make/searchModel")
-    public String searchModel(final MakeForm makeForm, final Model model) {
-        loggingFromSearch(makeForm);
-        var makeVOs = makeService.searchMakeVOs(makeForm.getSearchMakeAndModelVO());
-        makeForm.setStatusMessage("Found " + makeVOs.size() + " Models");
-        makeForm.setStatusMessageType("info");
-        if (!makeVOs.isEmpty()) {
-            makeVOs.forEach(makeVO -> logger.debug(MAKE_VO_IS, makeVO));
-            makeForm.setMakeAndModelVOs(makeVOs);
-        }
-        var searchMakeVOs = convertMakeToMakeVO(makeService.fetchMakes());
-        if (searchMakeVOs != null) {
-            searchMakeVOs.forEach(searchMakeVO -> logger.debug("SearchMakeVO is {}", searchMakeVO));
-            makeForm.setMakeVOs(searchMakeVOs);
-        }
-        var userName = findLoggedInUsername();
-        makeForm.setLoggedInRole(makeForm.getLoggedInRole());
-        makeForm.setLoggedInUser(makeForm.getLoggedInUser());
-        model.addAttribute(MAKE_FORM, makeForm);
-        return MODEL_LIST_PAGE;
-    }
+
 
     /**
      * search for a model.

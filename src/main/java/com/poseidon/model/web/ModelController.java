@@ -9,6 +9,7 @@ import com.poseidon.make.web.form.MakeForm;
 import com.poseidon.model.service.ModelService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -107,6 +108,45 @@ public class ModelController {
         return modelListPage(makeForm, model);
     }
 
+    /**
+     * search for a model.
+     *
+     * @param makeForm makeForm
+     * @return view
+     */
+    @PostMapping("/make/searchModel")
+    public String searchModel(final MakeForm makeForm, final Model model) {
+        loggingFromSearch(makeForm);
+        var makeVOs = makeService.searchMakeVOs(makeForm.getSearchMakeAndModelVO());
+        makeForm.setStatusMessage("Found " + makeVOs.size() + " Models");
+        makeForm.setStatusMessageType("info");
+        if (!makeVOs.isEmpty()) {
+            makeVOs.forEach(makeVO -> logger.debug(MAKE_VO_IS, makeVO));
+            makeForm.setMakeAndModelVOs(makeVOs);
+        }
+        var searchMakeVOs = convertMakeToMakeVO(makeService.fetchMakes());
+        if (searchMakeVOs != null) {
+            searchMakeVOs.forEach(searchMakeVO -> logger.debug("SearchMakeVO is {}", searchMakeVO));
+            makeForm.setMakeVOs(searchMakeVOs);
+        }
+        var userName = findLoggedInUsername();
+        makeForm.setLoggedInRole(makeForm.getLoggedInRole());
+        makeForm.setLoggedInUser(makeForm.getLoggedInUser());
+        model.addAttribute(MAKE_FORM, makeForm);
+        return "model/list";
+    }
+
+    private void loggingFromSearch(final MakeForm makeForm) {
+        logger.debug("SearchModel method of MakeController ");
+        var sanitizedMakeForm = CommonUtils.sanitizedString(makeForm.toString());
+        logger.debug("MakeForm instance to search {}", sanitizedMakeForm);
+        if (makeForm.getSearchMakeAndModelVO() != null) {
+            var sanitizedSearchModel = CommonUtils.sanitizedString(
+                    makeForm.getSearchMakeAndModelVO().toString());
+            logger.debug("SearchVO instance to search {}", sanitizedSearchModel);
+        }
+    }
+
     private List<MakeVO> convertMakeToMakeVO(final List<Make> makes) {
         return makes.stream().map(this::createMakeVO).toList();
     }
@@ -119,6 +159,15 @@ public class ModelController {
         makeVO.setCreatedBy(make.getCreatedBy());
         makeVO.setModifiedBy(make.getModifiedBy());
         return makeVO;
+    }
+
+    public String findLoggedInUsername() {
+        var username = "";
+        var auth = SecurityContextHolder.getContext().getAuthentication();
+        if (auth != null) {
+            username = auth.getName();
+        }
+        return username;
     }
 
 }

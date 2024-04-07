@@ -66,7 +66,7 @@ public class MakeService {
      * @param makeId makeId
      * @return make and model vo
      */
-    public Optional<MakeAndModelVO> getMakeFromId(final Long makeId) {
+    public Optional<Make> getMakeFromId(final Long makeId) {
         return makeDAO.getMakeFromId(makeId);
     }
 

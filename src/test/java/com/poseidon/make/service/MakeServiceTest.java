@@ -45,7 +45,7 @@ class MakeServiceTest {
 
     @Test
     void makeFromIdSuccess() {
-        when(makeDAO.getMakeFromId(anyLong())).thenReturn(Optional.of(Mockito.mock(MakeAndModelVO.class)));
+        when(makeDAO.getMakeFromId(anyLong())).thenReturn(Optional.of(Mockito.mock(Make.class)));
         Assertions.assertNotNull(makeService.getMakeFromId(1234L));
     }
 

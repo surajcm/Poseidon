@@ -89,13 +89,8 @@ public class MakeDao {
      * @param makeId makeId
      * @return make and model vo
      */
-    public Optional<MakeAndModelVO> getMakeFromId(final Long makeId) {
-        Optional<MakeAndModelVO> makeVO = Optional.empty();
-        var optionalMake = sneak(() -> makeRepository.findById(makeId));
-        if (optionalMake.isPresent()) {
-            makeVO = Optional.of(makeAndModelEntityConverter.getMakeVOFromMake(optionalMake.get()));
-        }
-        return makeVO;
+    public Optional<Make> getMakeFromId(final Long makeId) {
+        return makeRepository.findById(makeId);
     }
 
     /**
