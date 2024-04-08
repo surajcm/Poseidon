@@ -118,18 +118,14 @@ public class MakeController {
     /**
      * search for a model.
      *
-     * @param makeForm makeForm
      * @return view
      */
-    @PostMapping("/make/searchMake")
-    public String searchMake(final MakeForm makeForm, final Model model) {
-        loggingFromSearch(makeForm);
-        var searchMakeVOs = makeService.searchMakes(makeForm.getSearchMakeAndModelVO().getMakeName());
-        makeForm.setStatusMessage("Found " + searchMakeVOs.size() + " Models");
-        makeForm.setStatusMessageType("info");
-        searchMakeVOs.forEach(searchMakeVO -> logger.debug("searchMakeVO is {}", searchMakeVO));
-        makeForm.setMakeVOs(searchMakeVOs);
-        model.addAttribute(MAKE_FORM, makeForm);
+    @GetMapping("/make/search/{modelName}")
+    public String searchMake(@PathVariable(name = "modelName") final String modelName, final Model model) {
+        logger.info("SearchMake method of MakeController. Params are {}", modelName);
+        var makes = makeService.searchMakes(modelName);
+        makes.forEach(make -> logger.debug("make is {}", make));
+        model.addAttribute("makes", makes);
         return MAKE_LIST_PAGE;
     }
 
@@ -219,13 +215,13 @@ public class MakeController {
     }
 
     private void loggingFromSearch(final MakeForm makeForm) {
-        logger.debug("SearchModel method of MakeController ");
+        logger.info("SearchMake method of MakeController ");
         var sanitizedMakeForm = CommonUtils.sanitizedString(makeForm.toString());
-        logger.debug("MakeForm instance to search {}", sanitizedMakeForm);
+        logger.info("MakeForm instance to search {}", sanitizedMakeForm);
         if (makeForm.getSearchMakeAndModelVO() != null) {
             var sanitizedSearchModel = CommonUtils.sanitizedString(
                     makeForm.getSearchMakeAndModelVO().toString());
-            logger.debug("SearchVO instance to search {}", sanitizedSearchModel);
+            logger.info("SearchVO instance to search {}", sanitizedSearchModel);
         }
     }
 

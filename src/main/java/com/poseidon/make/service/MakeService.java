@@ -130,7 +130,7 @@ public class MakeService {
         return makeDAO.searchMakeVOs(searchMakeVO);
     }
 
-    public List<MakeVO> searchMakes(final String makeName) {
+    public List<Make> searchMakes(final String makeName) {
         return makeDAO.searchMakes(makeName);
     }
 

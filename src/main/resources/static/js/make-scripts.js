@@ -15,7 +15,11 @@ function clearOut() {
 }
 
 function searchMakes() {
-    document.forms[0].action = "searchMake";
+    const modelName = document.getElementById('modelName').value;
+    console.log("searchMakes modelName is :"+modelName);
+    document.forms[0].method = "get";
+    document.forms[0].action = "search/"+modelName;
+    console.log(document.forms[0].action);
     document.forms[0].submit();
 }
 

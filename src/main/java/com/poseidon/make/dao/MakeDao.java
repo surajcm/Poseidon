@@ -234,9 +234,8 @@ public class MakeDao {
         return makeAndModelEntityConverter.convertMakeToMakeAndModelVOs(makes);
     }
 
-    public List<MakeVO> searchMakes(final String makeName) {
-        var makes =  makeRepository.findByMakeName(makeName);
-        return convertMakeToMakeVO(makes);
+    public List<Make> searchMakes(final String makeName) {
+        return makeRepository.findByMakeName(makeName);
     }
 
     private List<MakeAndModelVO> searchModels(final MakeAndModelVO searchMakeVO) {
