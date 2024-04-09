@@ -21,7 +21,7 @@ import java.util.Optional;
 @SuppressWarnings("unused")
 public class MakeService {
     private static final String MAKE_EXCEPTION_OCCURRED = "make Exception occurred {}";
-    private static final Logger LOG = LoggerFactory.getLogger(MakeService.class);
+    private static final Logger logger = LoggerFactory.getLogger(MakeService.class);
 
     private final MakeDao makeDAO;
     private final MakeAndModelEntityConverter makeAndModelEntityConverter;
@@ -54,10 +54,9 @@ public class MakeService {
     /**
      * add a new make.
      *
-     * @param currentMakeVO currentMakeVO
      */
-    public void addNewMake(final MakeAndModelVO currentMakeVO) {
-        makeDAO.addNewMake(currentMakeVO);
+    public void addNewMake(final String makeName, final String makeDesc, final String userName) {
+        makeDAO.addNewMake(populateMakeVO(makeName, makeDesc, userName));
     }
 
     /**
@@ -175,4 +174,17 @@ public class MakeService {
         makeVO.setModifiedBy(make.getModifiedBy());
         return makeVO;
     }
+
+    private MakeAndModelVO populateMakeVO(final String selectMakeName,
+                                          final String selectMakeDesc,
+                                          final String userName) {
+        var makeAndModelVO = new MakeAndModelVO();
+        makeAndModelVO.setMakeName(selectMakeName);
+        makeAndModelVO.setDescription(selectMakeDesc);
+        makeAndModelVO.setCreatedBy(userName);
+        makeAndModelVO.setModifiedBy(userName);
+        return makeAndModelVO;
+    }
 }
+
+

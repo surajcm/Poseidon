@@ -40,7 +40,7 @@ class MakeServiceTest {
 
     @Test
     void addNewMakeSuccess() {
-        Assertions.assertAll(() -> makeService.addNewMake(new MakeAndModelVO()));
+        Assertions.assertAll(() -> makeService.addNewMake("Apple", "Apple", "Apple"));
     }
 
     @Test

@@ -113,8 +113,6 @@ public class MakeController {
         return make.map(item -> Map.of(item.getMakeName(), item.getDescription())).orElse(Collections.emptyMap());
     }
 
-
-
     /**
      * search for a model.
      *
@@ -147,8 +145,12 @@ public class MakeController {
             logger.info("errors {}", result);
         }
         var makeForm = new MakeForm();
-        makeForm.setCurrentMakeAndModeVO(populateMakeVO(selectMakeName, selectMakeDesc));
-        makeService.addNewMake(makeForm.getCurrentMakeAndModeVO());
+        var sanitizedSelectMakeName = CommonUtils.sanitizedString(selectMakeName);
+        var sanitizedSelectMakeDesc = CommonUtils.sanitizedString(selectMakeDesc);
+        logger.info("selectMakeName : {}", sanitizedSelectMakeName);
+        logger.info("selectMakeDesc : {}", sanitizedSelectMakeDesc);
+        var userName = findLoggedInUsername();
+        makeService.addNewMake(sanitizedSelectMakeName, sanitizedSelectMakeDesc, userName);
         return convertMakeToMakeVO(makeService.fetchMakes());
     }
 
@@ -223,20 +225,6 @@ public class MakeController {
                     makeForm.getSearchMakeAndModelVO().toString());
             logger.info("SearchVO instance to search {}", sanitizedSearchModel);
         }
-    }
-
-    private MakeAndModelVO populateMakeVO(final String selectMakeName, final String selectMakeDesc) {
-        var sanitizedSelectMakeName = CommonUtils.sanitizedString(selectMakeName);
-        var sanitizedSelectMakeDesc = CommonUtils.sanitizedString(selectMakeDesc);
-        logger.info("selectMakeName : {}", sanitizedSelectMakeName);
-        logger.info("selectMakeDesc : {}", sanitizedSelectMakeDesc);
-        var userName = findLoggedInUsername();
-        var makeAndModelVO = new MakeAndModelVO();
-        makeAndModelVO.setMakeName(selectMakeName);
-        makeAndModelVO.setDescription(selectMakeDesc);
-        makeAndModelVO.setCreatedBy(userName);
-        makeAndModelVO.setModifiedBy(userName);
-        return makeAndModelVO;
     }
 
     private MakeAndModelVO populateModelVO(final Long selectMakeId, final String selectModelName) {

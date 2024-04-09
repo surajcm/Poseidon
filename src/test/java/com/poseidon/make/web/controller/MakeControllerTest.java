@@ -12,7 +12,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
-import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.doThrow;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -51,7 +51,7 @@ class MakeControllerTest {
                 .param("selectMakeName", selectMakeName)
                 .param("selectMakeDesc", selectMakeDesc))
                 .andExpect(status().isOk());
-        doThrow(new RuntimeException()).when(makeService).addNewMake(any());
+        doThrow(new RuntimeException()).when(makeService).addNewMake(anyString(), anyString(), anyString());
         mvc.perform(post("/make/saveMake")
                 .param("selectMakeName", selectMakeName)
                 .param("selectMakeDesc", selectMakeDesc))

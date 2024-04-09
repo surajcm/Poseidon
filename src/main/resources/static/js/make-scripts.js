@@ -190,6 +190,7 @@ function saveMake(modalMakeName, modalDescription) {
     xhr.onload = function () {
         if (xhr.status === 200) {
             if (xhr.responseText != null) {
+                console.log(xhr.responseText);
                 rewriteTable(xhr.responseText);
                 showStatus(true);
             }
