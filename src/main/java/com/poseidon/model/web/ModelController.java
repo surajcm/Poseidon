@@ -16,6 +16,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.Collections;
@@ -136,6 +137,43 @@ public class ModelController {
         return "model/list";
     }
 
+    /**
+     * saveModel.
+     *
+     * @param selectMakeId    selectMakeId
+     * @param selectModelName selectModelName
+     * @param result          result
+     * @return json string
+     */
+    @PostMapping("/make/saveModel")
+    public @ResponseBody
+    List<MakeAndModelVO> saveModel(@ModelAttribute("selectMakeId") final Long selectMakeId,
+                                   @ModelAttribute("selectModelName") final String selectModelName,
+                                   final BindingResult result) {
+        logger.info("SaveModel method of MakeController ");
+        if (!result.hasErrors()) {
+            makeService.addNewModel(populateModelVO(selectMakeId, selectModelName));
+        } else {
+            logger.info("errors {}", result);
+        }
+        return makeService.listAllMakesAndModels();
+    }
+
+    @PutMapping("/make/updateModel")
+    public @ResponseBody
+    List<MakeAndModelVO> updateModel(@ModelAttribute("id") final Long id,
+                                     @ModelAttribute("modalMakeName") final Long makeId,
+                                     @ModelAttribute("modalModelName") final String modalModelName,
+                                     final BindingResult result) {
+        var sanitizedId = CommonUtils.sanitizedString(id.toString());
+        var sanitizedMakeId = CommonUtils.sanitizedString(makeId.toString());
+        var sanitizedModelName = CommonUtils.sanitizedString(modalModelName);
+        logger.info("UpdateModel method of make controller with id {}, makeId {}, modalModelName {}",
+                sanitizedId, sanitizedMakeId, sanitizedModelName);
+        makeService.updateModel(id, makeId, modalModelName);
+        return makeService.listAllMakesAndModels();
+    }
+
     private void loggingFromSearch(final MakeForm makeForm) {
         logger.debug("SearchModel method of MakeController ");
         var sanitizedMakeForm = CommonUtils.sanitizedString(makeForm.toString());
@@ -168,6 +206,20 @@ public class ModelController {
             username = auth.getName();
         }
         return username;
+    }
+
+    private MakeAndModelVO populateModelVO(final Long selectMakeId, final String selectModelName) {
+        var sanitizedSelectMakeId = CommonUtils.sanitizedString(selectMakeId.toString());
+        var sanitizedSelectModelName = CommonUtils.sanitizedString(selectModelName);
+        logger.info("selectMakeId : {}", sanitizedSelectMakeId);
+        logger.info("selectModelName : {}", sanitizedSelectModelName);
+        var userName = findLoggedInUsername();
+        var makeAndModelVO = new MakeAndModelVO();
+        makeAndModelVO.setMakeId(selectMakeId);
+        makeAndModelVO.setModelName(selectModelName);
+        makeAndModelVO.setCreatedBy(userName);
+        makeAndModelVO.setModifiedBy(userName);
+        return makeAndModelVO;
     }
 
 }

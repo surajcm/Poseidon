@@ -58,14 +58,4 @@ class MakeControllerTest {
                 .andExpect(status().isOk());
     }
 
-    @Test
-    void saveModel() throws Exception {
-        var selectMakeId = "1234";
-        var selectModelName = "Mac book";
-        mvc.perform(post("/make/saveModel")
-                .param("selectMakeId", selectMakeId)
-                .param("selectModelName", selectModelName))
-                .andExpect(status().isOk());
-    }
-
 }

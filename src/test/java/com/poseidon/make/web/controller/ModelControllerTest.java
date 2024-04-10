@@ -61,6 +61,16 @@ class ModelControllerTest {
         mvc.perform(post("/make/searchModel")).andExpect(status().isOk());
     }
 
+    @Test
+    void saveModel() throws Exception {
+        var selectMakeId = "1234";
+        var selectModelName = "Mac book";
+        mvc.perform(post("/make/saveModel")
+                        .param("selectMakeId", selectMakeId)
+                        .param("selectModelName", selectModelName))
+                .andExpect(status().isOk());
+    }
+
     private List<MakeAndModelVO> mockMakeAndModelVOs() {
         List<MakeAndModelVO> makeAndModelVOs = new ArrayList<>();
         makeAndModelVOs.add(new MakeAndModelVO());

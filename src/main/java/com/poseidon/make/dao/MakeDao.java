@@ -59,9 +59,9 @@ public class MakeDao {
     /**
      * add new make.
      *
-     * @param currentMakeVo currentMakeVo
      */
-    public void addNewMake(final MakeAndModelVO currentMakeVo) {
+    public void addNewMake(final String makeName, final String makeDesc, final String userName) {
+        var currentMakeVo = populateMakeVO(makeName, makeDesc, userName);
         var make = makeAndModelEntityConverter.convertToMake(currentMakeVo);
         sneak(() -> makeRepository.save(make));
     }
@@ -278,5 +278,16 @@ public class MakeDao {
 
     private boolean hasModelName(final MakeAndModelVO searchMakeVO) {
         return searchMakeVO.getModelName() != null && searchMakeVO.getModelName().trim().length() > 0;
+    }
+
+    private MakeAndModelVO populateMakeVO(final String selectMakeName,
+                                          final String selectMakeDesc,
+                                          final String userName) {
+        var makeAndModelVO = new MakeAndModelVO();
+        makeAndModelVO.setMakeName(selectMakeName);
+        makeAndModelVO.setDescription(selectMakeDesc);
+        makeAndModelVO.setCreatedBy(userName);
+        makeAndModelVO.setModifiedBy(userName);
+        return makeAndModelVO;
     }
 }

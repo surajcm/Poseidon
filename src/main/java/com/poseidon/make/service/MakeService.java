@@ -56,7 +56,7 @@ public class MakeService {
      *
      */
     public void addNewMake(final String makeName, final String makeDesc, final String userName) {
-        makeDAO.addNewMake(populateMakeVO(makeName, makeDesc, userName));
+        makeDAO.addNewMake(makeName, makeDesc, userName);
     }
 
     /**
