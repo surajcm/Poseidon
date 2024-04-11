@@ -130,27 +130,26 @@ public class MakeController {
     /**
      * save make.
      *
-     * @param selectMakeName selectMakeName
-     * @param selectMakeDesc selectMakeDesc
+     * @param makeName selectMakeName
+     * @param makeDescription selectMakeDesc
      * @param result         BindingResult
      * @return as json
      */
     @PostMapping("/make/saveMake")
     public @ResponseBody
-    List<MakeVO> saveMake(@ModelAttribute("selectMakeName") final String selectMakeName,
-                          @ModelAttribute("selectMakeDesc") final String selectMakeDesc,
+    List<MakeVO> saveMake(@ModelAttribute("selectMakeName") final String makeName,
+                          @ModelAttribute("selectMakeDesc") final String makeDescription,
                           final BindingResult result) {
         logger.info("SaveMake method of MakeController");
         if (result.hasErrors()) {
             logger.info("errors {}", result);
         }
-        var makeForm = new MakeForm();
-        var sanitizedSelectMakeName = CommonUtils.sanitizedString(selectMakeName);
-        var sanitizedSelectMakeDesc = CommonUtils.sanitizedString(selectMakeDesc);
-        logger.info("selectMakeName : {}", sanitizedSelectMakeName);
-        logger.info("selectMakeDesc : {}", sanitizedSelectMakeDesc);
+        var name = CommonUtils.sanitizedString(makeName);
+        var description = CommonUtils.sanitizedString(makeDescription);
+        logger.info("selectMakeName : {}", name);
+        logger.info("selectMakeDesc : {}", description);
         var userName = findLoggedInUsername();
-        makeService.addNewMake(sanitizedSelectMakeName, sanitizedSelectMakeDesc, userName);
+        makeService.addNewMake(name, description, userName);
         return convertMakeToMakeVO(makeService.fetchMakes());
     }
 

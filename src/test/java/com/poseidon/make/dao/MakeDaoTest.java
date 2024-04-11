@@ -41,7 +41,7 @@ class MakeDaoTest {
 
     @Test
     void addNewMakeSuccess() {
-        Assertions.assertAll(() -> makeDao.addNewMake("Apple", "Apple", "Apple"));
+        Assertions.assertAll(() -> makeDao.addNewMake(mockMake()));
     }
 
     @Test

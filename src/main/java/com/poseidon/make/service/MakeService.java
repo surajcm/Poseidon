@@ -56,7 +56,8 @@ public class MakeService {
      *
      */
     public void addNewMake(final String makeName, final String makeDesc, final String userName) {
-        makeDAO.addNewMake(makeName, makeDesc, userName);
+        var make = populateMake(makeName, makeDesc, userName);
+        makeDAO.addNewMake(make);
     }
 
     /**
@@ -175,15 +176,13 @@ public class MakeService {
         return makeVO;
     }
 
-    private MakeAndModelVO populateMakeVO(final String selectMakeName,
-                                          final String selectMakeDesc,
-                                          final String userName) {
-        var makeAndModelVO = new MakeAndModelVO();
-        makeAndModelVO.setMakeName(selectMakeName);
-        makeAndModelVO.setDescription(selectMakeDesc);
-        makeAndModelVO.setCreatedBy(userName);
-        makeAndModelVO.setModifiedBy(userName);
-        return makeAndModelVO;
+    private Make populateMake(final String makeName, final String makeDesc, final String userName) {
+        var make = new Make();
+        make.setMakeName(makeName);
+        make.setDescription(makeDesc);
+        make.setCreatedBy(userName);
+        make.setModifiedBy(userName);
+        return make;
     }
 }
 
