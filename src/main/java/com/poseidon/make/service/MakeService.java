@@ -55,8 +55,7 @@ public class MakeService {
      * add a new make.
      *
      */
-    public void addNewMake(final String makeName, final String makeDesc, final String userName) {
-        var make = populateMake(makeName, makeDesc, userName);
+    public void addNewMake(final Make make) {
         makeDAO.addNewMake(make);
     }
 
@@ -174,15 +173,6 @@ public class MakeService {
         makeVO.setCreatedBy(make.getCreatedBy());
         makeVO.setModifiedBy(make.getModifiedBy());
         return makeVO;
-    }
-
-    private Make populateMake(final String makeName, final String makeDesc, final String userName) {
-        var make = new Make();
-        make.setMakeName(makeName);
-        make.setDescription(makeDesc);
-        make.setCreatedBy(userName);
-        make.setModifiedBy(userName);
-        return make;
     }
 }
 

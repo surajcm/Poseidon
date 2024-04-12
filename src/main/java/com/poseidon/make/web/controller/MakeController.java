@@ -149,7 +149,8 @@ public class MakeController {
         logger.info("selectMakeName : {}", name);
         logger.info("selectMakeDesc : {}", description);
         var userName = findLoggedInUsername();
-        makeService.addNewMake(name, description, userName);
+        var make = populateMake(makeName, description, userName);
+        makeService.addNewMake(make);
         return convertMakeToMakeVO(makeService.fetchMakes());
     }
 
@@ -221,6 +222,15 @@ public class MakeController {
         makeVO.setCreatedBy(make.getCreatedBy());
         makeVO.setModifiedBy(make.getModifiedBy());
         return makeVO;
+    }
+
+    private Make populateMake(final String makeName, final String makeDesc, final String userName) {
+        var make = new Make();
+        make.setMakeName(makeName);
+        make.setDescription(makeDesc);
+        make.setCreatedBy(userName);
+        make.setModifiedBy(userName);
+        return make;
     }
 
 }

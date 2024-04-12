@@ -40,7 +40,7 @@ class MakeServiceTest {
 
     @Test
     void addNewMakeSuccess() {
-        Assertions.assertAll(() -> makeService.addNewMake("Apple", "Apple", "Apple"));
+        Assertions.assertAll(() -> makeService.addNewMake(Mockito.mock(Make.class)));
     }
 
     @Test
