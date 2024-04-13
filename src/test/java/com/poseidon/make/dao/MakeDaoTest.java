@@ -34,12 +34,6 @@ class MakeDaoTest {
     }
 
     @Test
-    void listAllMakesAndModelsSuccess() {
-        when(modelRepository.findAll()).thenReturn(mockModels());
-        Assertions.assertNotNull(makeDao.listAllModels());
-    }
-
-    @Test
     void addNewMakeSuccess() {
         Assertions.assertAll(() -> makeDao.addNewMake(mockMake()));
     }

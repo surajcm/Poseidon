@@ -55,7 +55,7 @@ public class ModelController {
         var sanitizedMakeForm = CommonUtils.sanitizedString(makeForm.toString());
         logger.info("Inside model List method of MakeController, form details are  {}",
                 sanitizedMakeForm);
-        var makeAndModelVOs = makeService.listAllMakesAndModels();
+        var makeAndModelVOs = modelService.listAllMakesAndModels();
         if (!makeAndModelVOs.isEmpty()) {
             makeAndModelVOs.forEach(makeAndModelVO -> logger.info(MAKE_AND_MODEL_VO_IS, makeAndModelVO));
             makeForm.setMakeAndModelVOs(makeAndModelVOs);
@@ -156,7 +156,7 @@ public class ModelController {
         } else {
             logger.info("errors {}", result);
         }
-        return makeService.listAllMakesAndModels();
+        return modelService.listAllMakesAndModels();
     }
 
     @PutMapping("/make/updateModel")
@@ -171,7 +171,7 @@ public class ModelController {
         logger.info("UpdateModel method of make controller with id {}, makeId {}, modalModelName {}",
                 sanitizedId, sanitizedMakeId, sanitizedModelName);
         makeService.updateModel(id, makeId, modalModelName);
-        return makeService.listAllMakesAndModels();
+        return modelService.listAllMakesAndModels();
     }
 
     private void loggingFromSearch(final MakeForm makeForm) {

@@ -1,8 +1,8 @@
 package com.poseidon.make.web.controller;
 
 import com.poseidon.make.MakeConfigurations;
-import com.poseidon.make.domain.MakeAndModelVO;
 import com.poseidon.make.service.MakeService;
+import com.poseidon.model.service.ModelService;
 import com.poseidon.model.web.ModelController;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -13,9 +13,6 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.doThrow;
@@ -32,6 +29,8 @@ class ModelControllerTest {
     private ModelController modelController;
     @Autowired
     private MakeService makeService;
+    @Autowired
+    private ModelService modelService;
 
     @BeforeEach
     public void setup() {
@@ -40,9 +39,8 @@ class ModelControllerTest {
 
     @Test
     void modelList() throws Exception {
-        when(makeService.listAllMakesAndModels()).thenReturn(mockMakeAndModelVOs());
         mvc.perform(post("/make/ModelList")).andExpect(status().isOk());
-        when(makeService.listAllMakesAndModels()).thenThrow(new RuntimeException());
+        when(modelService.listAllMakesAndModels()).thenThrow(new RuntimeException());
         when(makeService.fetchMakes()).thenThrow(new RuntimeException());
         mvc.perform(post("/make/ModelList")).andExpect(status().isOk());
     }
@@ -69,12 +67,5 @@ class ModelControllerTest {
                         .param("selectMakeId", selectMakeId)
                         .param("selectModelName", selectModelName))
                 .andExpect(status().isOk());
-    }
-
-    private List<MakeAndModelVO> mockMakeAndModelVOs() {
-        List<MakeAndModelVO> makeAndModelVOs = new ArrayList<>();
-        makeAndModelVOs.add(new MakeAndModelVO());
-        makeAndModelVOs.add(new MakeAndModelVO());
-        return makeAndModelVOs;
     }
 }

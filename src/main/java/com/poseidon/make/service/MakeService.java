@@ -32,16 +32,6 @@ public class MakeService {
     }
 
     /**
-     * list all makes and models.
-     *
-     * @return list of makes and models
-     */
-    public List<MakeAndModelVO> listAllMakesAndModels() {
-        var models = makeDAO.listAllModels();
-        return makeAndModelEntityConverter.convertModelsToMakeAndModelVOs(models);
-    }
-
-    /**
      * list all makes.
      *
      * @return list of makes and models
@@ -90,10 +80,9 @@ public class MakeService {
     /**
      * update make.
      *
-     * @param currentMakeVO currentMakeVO
+     * @param make Make
      */
-    public void updateMake(final MakeAndModelVO currentMakeVO) {
-        var make = makeAndModelEntityConverter.convertToMake(currentMakeVO);
+    public void updateMake(final Make make) {
         makeDAO.updateMake(make);
     }
 

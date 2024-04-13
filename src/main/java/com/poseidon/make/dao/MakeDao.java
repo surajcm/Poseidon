@@ -52,10 +52,6 @@ public class MakeDao {
         return makeRepository.findAll();
     }
 
-    public List<Model> listAllModels() {
-        return modelRepository.findAll();
-    }
-
     /**
      * add new make.
      *

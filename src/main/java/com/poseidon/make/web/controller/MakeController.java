@@ -22,9 +22,11 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.security.Principal;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 /**
@@ -174,8 +176,8 @@ public class MakeController {
         var sanitizedDescription = CommonUtils.sanitizedString(description);
         logger.info("updateMake method of make controller with id {}, makeName {}, description {}",
                 sanitizedId, sanitizedMakeName, sanitizedDescription);
-        var makeModelVO = buildMakeModelVO(id, makeName, description);
-        makeService.updateMake(makeModelVO);
+        var make = populateMakeForUpdate(id, makeName, description);
+        makeService.updateMake(make);
         return convertMakeToMakeVO(makeService.fetchMakes());
     }
 
@@ -201,13 +203,19 @@ public class MakeController {
         return vo;
     }
 
+    private Make populateMakeForUpdate(final Long id, final String makeName, final String makeDesc) {
+        var make = new Make();
+        make.setId(id);
+        make.setMakeName(makeName);
+        make.setDescription(makeDesc);
+        make.setModifiedBy(findLoggedInUsername());
+        return make;
+    }
+
     public String findLoggedInUsername() {
-        var username = "";
-        var auth = SecurityContextHolder.getContext().getAuthentication();
-        if (auth != null) {
-            username = auth.getName();
-        }
-        return username;
+        return Optional.ofNullable(SecurityContextHolder.getContext().getAuthentication())
+                .map(Principal::getName)
+                .orElse("");
     }
 
     private List<MakeVO> convertMakeToMakeVO(final List<Make> makes) {

@@ -2,7 +2,6 @@ package com.poseidon.make.service;
 
 import com.poseidon.make.dao.MakeDao;
 import com.poseidon.make.dao.entities.Make;
-import com.poseidon.model.entities.Model;
 import com.poseidon.make.dao.mapper.MakeAndModelEntityConverter;
 import com.poseidon.make.domain.MakeAndModelVO;
 import org.junit.jupiter.api.Assertions;
@@ -23,13 +22,6 @@ class MakeServiceTest {
     private final MakeDao makeDAO = Mockito.mock(MakeDao.class);
     private final MakeAndModelEntityConverter makeAndModelEntityConverter = new MakeAndModelEntityConverter();
     private final MakeService makeService = new MakeService(makeDAO, makeAndModelEntityConverter);
-
-    @Test
-    void listAllMakesAndModelsSuccess() {
-        when(makeDAO.listAllModels()).thenReturn(mockModels());
-        var makeVOs = makeService.listAllMakesAndModels();
-        Assertions.assertEquals(1234L, makeVOs.get(0).getId());
-    }
 
     @Test
     void listAllMakesSuccess() {
@@ -61,7 +53,7 @@ class MakeServiceTest {
 
     @Test
     void updateMakeSuccess() {
-        Assertions.assertAll(() -> makeService.updateMake(new MakeAndModelVO()));
+        Assertions.assertAll(() -> makeService.updateMake(new Make()));
     }
 
     @Test
@@ -111,14 +103,6 @@ class MakeServiceTest {
         var makeAndModelVO = new MakeAndModelVO();
         makeAndModelVO.setId(1234L);
         return List.of(makeAndModelVO);
-    }
-
-    private List<Model> mockModels() {
-        var model = new Model();
-        model.setId(1234L);
-        model.setModelId(1234L);
-        model.setMake(mockMakes().get(0));
-        return List.of(model);
     }
 
     private List<Make> mockMakes() {

@@ -10,6 +10,7 @@ import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import java.util.List;
 import java.util.Optional;
 
 import static org.mockito.ArgumentMatchers.anyLong;
@@ -32,6 +33,17 @@ class ModelDaoTest {
     void modelFromIdSuccessOnEmpty() {
         when(modelRepository.findById(anyLong())).thenReturn(Optional.empty());
         Assertions.assertEquals(Optional.empty(), modelDao.getModelFromId(1234L));
+    }
+
+
+    @Test
+    void listAllMakesAndModelsSuccess() {
+        when(modelRepository.findAll()).thenReturn(mockModels());
+        Assertions.assertNotNull(modelDao.listAllModels());
+    }
+
+    private List<Model> mockModels() {
+        return List.of(mockModel());
     }
 
     private Model mockModel() {

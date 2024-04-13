@@ -50,36 +50,6 @@ public class MakeAndModelEntityConverter {
         return makeAndModelVO;
     }
 
-    /**
-     * convert make and model vo to make.
-     *
-     * @param currentMakeVO make and model vo
-     * @return make
-     */
-    public Make convertToMake(final MakeAndModelVO currentMakeVO) {
-        var make = new Make();
-        make.setId(currentMakeVO.getMakeId());
-        make.setMakeName(currentMakeVO.getMakeName());
-        make.setDescription(currentMakeVO.getDescription());
-        make.setCreatedBy(currentMakeVO.getCreatedBy());
-        make.setModifiedBy(currentMakeVO.getModifiedBy());
-        return make;
-    }
-
-    /**
-     * get make vo from make entity.
-     *
-     * @param make make
-     * @return make and model vo
-     */
-    public MakeAndModelVO getMakeVOFromMake(final Make make) {
-        var makeAndModelVO = new MakeAndModelVO();
-        makeAndModelVO.setMakeId(make.getId());
-        makeAndModelVO.setMakeName(make.getMakeName());
-        makeAndModelVO.setDescription(make.getDescription());
-        return makeAndModelVO;
-    }
-
     public MakeAndModelVO convertModelToMakeAndModelVO(final Model model) {
         var makeAndModelVO = new MakeAndModelVO();
         makeAndModelVO.setModelId(model.getModelId());

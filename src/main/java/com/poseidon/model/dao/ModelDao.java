@@ -2,9 +2,11 @@ package com.poseidon.model.dao;
 
 import com.poseidon.make.dao.mapper.MakeAndModelEntityConverter;
 import com.poseidon.make.domain.MakeAndModelVO;
+import com.poseidon.model.entities.Model;
 import com.poseidon.model.repo.ModelRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Optional;
 
 import static com.rainerhahnekamp.sneakythrow.Sneaky.sneak;
@@ -18,6 +20,10 @@ public class ModelDao {
                     final MakeAndModelEntityConverter makeAndModelEntityConverter) {
         this.modelRepository = modelRepository;
         this.makeAndModelEntityConverter = makeAndModelEntityConverter;
+    }
+
+    public List<Model> listAllModels() {
+        return modelRepository.findAll();
     }
 
     /**
