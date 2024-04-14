@@ -46,6 +46,12 @@ public class ModelServiceTest {
         Assertions.assertNotNull(modelService.getModelFromId(1234L));
     }
 
+
+    @Test
+    void deleteModelSuccess() {
+        Assertions.assertAll(() -> modelService.deleteModel(1234L));
+    }
+
     private List<Model> mockModels() {
         var model = new Model();
         model.setId(1234L);

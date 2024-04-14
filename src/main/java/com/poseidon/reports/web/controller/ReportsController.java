@@ -102,7 +102,7 @@ public class ReportsController {
     private List<MakeVO> fetchMakeVOS() {
         List<MakeVO> makeVOs = null;
         try {
-            makeVOs = convertMakeToMakeVO(makeService.fetchMakes());
+            makeVOs = convertMakeToMakeVO(makeService.fetchAllMakes());
         } catch (Exception ex) {
             LOG.error(ex.getLocalizedMessage());
         }

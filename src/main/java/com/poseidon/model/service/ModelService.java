@@ -38,4 +38,13 @@ public class ModelService {
         var models = modelDao.listAllModels();
         return makeAndModelEntityConverter.convertModelsToMakeAndModelVOs(models);
     }
+
+    /**
+     * delete a model.
+     *
+     * @param modelId modelId
+     */
+    public void deleteModel(final Long modelId) {
+        modelDao.deleteModel(modelId);
+    }
 }

@@ -68,7 +68,7 @@ public class ReportsService {
      * @return JasperPrint
      */
     public JasperPrint getMakeDetailsChart(final JasperReport jasperReport, final ReportsVO currentReport) {
-        currentReport.setMakeVOList(convertMakeToMakeVO(makeService.fetchMakes()));
+        currentReport.setMakeVOList(convertMakeToMakeVO(makeService.fetchAllMakes()));
         var jasperPrint = new JasperPrint();
         try {
             jasperPrint = reportsDAO.getMakeDetailsChart(jasperReport, currentReport);

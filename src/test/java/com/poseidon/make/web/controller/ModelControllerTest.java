@@ -41,14 +41,14 @@ class ModelControllerTest {
     void modelList() throws Exception {
         mvc.perform(post("/make/ModelList")).andExpect(status().isOk());
         when(modelService.listAllMakesAndModels()).thenThrow(new RuntimeException());
-        when(makeService.fetchMakes()).thenThrow(new RuntimeException());
+        when(makeService.fetchAllMakes()).thenThrow(new RuntimeException());
         mvc.perform(post("/make/ModelList")).andExpect(status().isOk());
     }
 
     @Test
     void testDeleteModel() throws Exception {
         mvc.perform(post("/make/deleteModel")).andExpect(status().isOk());
-        doThrow(new RuntimeException()).when(makeService).deleteModel(null);
+        doThrow(new RuntimeException()).when(modelService).deleteModel(null);
         mvc.perform(post("/make/deleteModel")).andExpect(status().isOk());
     }
 

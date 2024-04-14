@@ -47,11 +47,6 @@ class MakeServiceTest {
     }
 
     @Test
-    void deleteModelSuccess() {
-        Assertions.assertAll(() -> makeService.deleteModel(1234L));
-    }
-
-    @Test
     void updateMakeSuccess() {
         Assertions.assertAll(() -> makeService.updateMake(new Make()));
     }
@@ -79,9 +74,9 @@ class MakeServiceTest {
     }
 
     @Test
-    void fetchMakesSuccess() {
+    void fetchAllMakesSuccess() {
         when(makeDAO.fetchMakes()).thenReturn(mockMakes());
-        var makeVOs = makeService.fetchMakes();
+        var makeVOs = makeService.fetchAllMakes();
         Assertions.assertEquals(1234L, makeVOs.get(0).getId());
     }
 

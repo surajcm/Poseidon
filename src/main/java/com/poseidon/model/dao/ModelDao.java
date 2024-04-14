@@ -6,10 +6,12 @@ import com.poseidon.model.entities.Model;
 import com.poseidon.model.repo.ModelRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
 import static com.rainerhahnekamp.sneakythrow.Sneaky.sneak;
+import static com.rainerhahnekamp.sneakythrow.Sneaky.sneaked;
 
 @Service
 public class ModelDao {
@@ -23,7 +25,10 @@ public class ModelDao {
     }
 
     public List<Model> listAllModels() {
-        return modelRepository.findAll();
+        var iterable = modelRepository.findAll();
+        List<Model> models = new ArrayList<>();
+        iterable.forEach(models::add);
+        return models;
     }
 
     /**
@@ -39,6 +44,16 @@ public class ModelDao {
             makeAndModelVO = Optional.of(makeAndModelEntityConverter.convertModelToMakeAndModelVO(optionalModel.get()));
         }
         return makeAndModelVO;
+    }
+
+    /**
+     * delete a model.
+     *
+     * @param modelId id of model to be deleted
+     */
+    public void deleteModel(final Long modelId) {
+        var consumer = sneaked(modelRepository::deleteById);
+        consumer.accept(modelId);
     }
 
 }

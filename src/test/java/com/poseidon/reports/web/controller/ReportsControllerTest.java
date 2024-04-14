@@ -43,7 +43,7 @@ class ReportsControllerTest {
     void list() throws Exception {
         mvc.perform(post("/reports/list")).andExpect(status().isOk());
         when(reportsService.generateDailyReport()).thenThrow(new RuntimeException());
-        when(makeService.fetchMakes()).thenThrow(new RuntimeException());
+        when(makeService.fetchAllMakes()).thenThrow(new RuntimeException());
         mvc.perform(post("/reports/list")).andExpect(status().isOk());
     }
 

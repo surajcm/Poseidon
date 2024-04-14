@@ -42,6 +42,12 @@ class ModelDaoTest {
         Assertions.assertNotNull(modelDao.listAllModels());
     }
 
+
+    @Test
+    void deleteModelSuccess() {
+        Assertions.assertAll(() -> modelDao.deleteModel(1234L));
+    }
+
     private List<Model> mockModels() {
         return List.of(mockModel());
     }

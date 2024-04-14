@@ -49,8 +49,21 @@ public class MakeDao {
      * @return list of make and model vo
      */
     public List<Make> listAllMakes() {
-        return makeRepository.findAll();
+        return fetchMakes();
     }
+
+    /**
+     * fetch all makes.
+     *
+     * @return list of make vos
+     */
+    public List<Make> fetchMakes() {
+        var iterable = makeRepository.findAll();
+        List<Make> makes = new ArrayList<>();
+        iterable.forEach(makes::add);
+        return makes;
+    }
+
 
     /**
      * add new make.
@@ -97,17 +110,6 @@ public class MakeDao {
         consumer.accept(makeId);
     }
 
-
-    /**
-     * delete a model.
-     *
-     * @param modelId id of model to be deleted
-     */
-    public void deleteModel(final Long modelId) {
-        var consumer = sneaked(modelRepository::deleteById);
-        consumer.accept(modelId);
-    }
-
     /**
      * add a new model.
      *
@@ -152,14 +154,6 @@ public class MakeDao {
         }
     }
 
-    /**
-     * fetch all makes.
-     *
-     * @return list of make vos
-     */
-    public List<Make> fetchMakes() {
-        return makeRepository.findAll();
-    }
 
     /**
      * get all models from make id.

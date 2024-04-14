@@ -63,7 +63,7 @@ public class MakeController {
     @RequestMapping(value = "make/MakeList", method = {RequestMethod.GET, RequestMethod.POST})
     public String makeListPage(final MakeForm makeForm, final Model model) {
         logger.info("ListMake List method of MakeController ");
-        var makes = makeService.fetchMakes();
+        var makes = makeService.fetchAllMakes();
         model.addAttribute("makes", makes);
         model.addAttribute(MAKE_FORM, new MakeForm());
         return MAKE_LIST_PAGE;
@@ -79,7 +79,7 @@ public class MakeController {
     public String makeListByPage(final @PathVariable(name = "pageNumber") int pageNumber,
                                  final Model model) {
         logger.info("ListMake with page of MakeController ");
-        var makes = makeService.fetchMakes();
+        var makes = makeService.fetchAllMakes();
         model.addAttribute("makes", makes);
         return MAKE_LIST_PAGE;
     }
@@ -153,14 +153,14 @@ public class MakeController {
         var userName = findLoggedInUsername();
         var make = populateMake(makeName, description, userName);
         makeService.addNewMake(make);
-        return convertMakeToMakeVO(makeService.fetchMakes());
+        return convertMakeToMakeVO(makeService.fetchAllMakes());
     }
 
     @GetMapping("/make/getAllMakeIdsAndNames")
     public @ResponseBody
     Map<Long, String> getAllMakeIdsAndNames() {
         logger.info("GetAllMakeIdsAndNames method of MakeController ");
-        var makeVOS = convertMakeToMakeVO(makeService.fetchMakes());
+        var makeVOS = convertMakeToMakeVO(makeService.fetchAllMakes());
         return makeVOS.stream()
                 .collect(Collectors.toMap(MakeVO::getId, MakeVO::getMakeName, (a, b) -> b));
     }
@@ -178,7 +178,7 @@ public class MakeController {
                 sanitizedId, sanitizedMakeName, sanitizedDescription);
         var make = populateMakeForUpdate(id, makeName, description);
         makeService.updateMake(make);
-        return convertMakeToMakeVO(makeService.fetchMakes());
+        return convertMakeToMakeVO(makeService.fetchAllMakes());
     }
 
     private void loggingFromSearch(final MakeForm makeForm) {

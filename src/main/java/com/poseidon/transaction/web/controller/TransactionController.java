@@ -86,7 +86,7 @@ public class TransactionController {
     }
 
     private List<MakeVO> getMakeVOS() {
-        return convertMakeToMakeVO(makeService.fetchMakes());
+        return convertMakeToMakeVO(makeService.fetchAllMakes());
     }
 
     private List<MakeVO> convertMakeToMakeVO(final List<Make> makes) {

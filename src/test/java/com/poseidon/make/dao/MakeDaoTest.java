@@ -68,11 +68,6 @@ class MakeDaoTest {
     }
 
     @Test
-    void deleteModelSuccess() {
-        Assertions.assertAll(() -> makeDao.deleteModel(1234L));
-    }
-
-    @Test
     void addNewModelSuccess() {
         when(makeRepository.findById(anyLong())).thenReturn(Optional.of(mockMake()));
         Assertions.assertAll(() -> makeDao.addNewModel(mockMakeAndModelVO()));

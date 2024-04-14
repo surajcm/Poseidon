@@ -60,7 +60,7 @@ public class ModelController {
             makeAndModelVOs.forEach(makeAndModelVO -> logger.info(MAKE_AND_MODEL_VO_IS, makeAndModelVO));
             makeForm.setMakeAndModelVOs(makeAndModelVOs);
         }
-        var makeVOs = makeService.fetchMakes();
+        var makeVOs = makeService.fetchAllMakes();
         if (!makeVOs.isEmpty()) {
             makeVOs.forEach(makeVO -> logger.debug(MAKE_VO_IS, makeVO));
             makeForm.setMakeVOs(convertMakeToMakeVO(makeVOs));
@@ -95,7 +95,7 @@ public class ModelController {
         var sanitizedMakeForm = CommonUtils.sanitizedString(makeForm.toString());
         logger.debug(MAKE_FORM_IS, sanitizedMakeForm);
         try {
-            makeService.deleteModel(makeForm.getId());
+            modelService.deleteModel(makeForm.getId());
             makeForm.setStatusMessage("Successfully deleted the selected Model");
             makeForm.setStatusMessageType(SUCCESS);
         } catch (Exception ex) {
@@ -125,7 +125,7 @@ public class ModelController {
             makeVOs.forEach(makeVO -> logger.debug(MAKE_VO_IS, makeVO));
             makeForm.setMakeAndModelVOs(makeVOs);
         }
-        var searchMakeVOs = convertMakeToMakeVO(makeService.fetchMakes());
+        var searchMakeVOs = convertMakeToMakeVO(makeService.fetchAllMakes());
         if (searchMakeVOs != null) {
             searchMakeVOs.forEach(searchMakeVO -> logger.debug("SearchMakeVO is {}", searchMakeVO));
             makeForm.setMakeVOs(searchMakeVOs);

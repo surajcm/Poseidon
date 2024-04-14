@@ -69,15 +69,6 @@ public class MakeService {
     }
 
     /**
-     * delete a model.
-     *
-     * @param modelId modelId
-     */
-    public void deleteModel(final Long modelId) {
-        makeDAO.deleteModel(modelId);
-    }
-
-    /**
      * update make.
      *
      * @param make Make
@@ -127,7 +118,7 @@ public class MakeService {
      *
      * @return list of makes
      */
-    public List<Make> fetchMakes() {
+    public List<Make> fetchAllMakes() {
         return makeDAO.fetchMakes();
     }
 
