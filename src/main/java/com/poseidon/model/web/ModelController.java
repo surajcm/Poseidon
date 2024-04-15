@@ -15,6 +15,7 @@ import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -52,9 +53,6 @@ public class ModelController {
      */
     @PostMapping(value = MODEL_LIST_PAGE)
     public String modelListPage(final MakeForm makeForm, final Model model) {
-        var sanitizedMakeForm = CommonUtils.sanitizedString(makeForm.toString());
-        logger.info("Inside model List method of MakeController, form details are  {}",
-                sanitizedMakeForm);
         var makeAndModelVOs = modelService.listAllMakesAndModels();
         if (!makeAndModelVOs.isEmpty()) {
             makeAndModelVOs.forEach(makeAndModelVO -> logger.info(MAKE_AND_MODEL_VO_IS, makeAndModelVO));
@@ -70,6 +68,13 @@ public class ModelController {
         makeForm.setLoggedInUser(makeForm.getLoggedInUser());
         model.addAttribute(MAKE_FORM, makeForm);
         return "model/list";
+    }
+
+    @GetMapping(value = "model/page/{pageNumber}")
+    public String modelByPage(final @PathVariable(name = "pageNumber") int pageNumber,
+                              final Model model) {
+        var models = modelService.listModels(pageNumber);
+        return modelListPage(new MakeForm(), model);
     }
 
     @GetMapping("/make/getForEdit")

@@ -29,6 +29,8 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
+import static com.poseidon.init.Constants.PAGE_SIZE;
+
 /**
  * user: Suraj.
  * Date: Jun 2, 2012
@@ -62,11 +64,7 @@ public class MakeController {
      */
     @RequestMapping(value = "make/MakeList", method = {RequestMethod.GET, RequestMethod.POST})
     public String makeListPage(final MakeForm makeForm, final Model model) {
-        logger.info("ListMake List method of MakeController ");
-        var makes = makeService.fetchAllMakes();
-        model.addAttribute("makes", makes);
-        model.addAttribute(MAKE_FORM, new MakeForm());
-        return MAKE_LIST_PAGE;
+        return makeListByPage(1, model);
     }
 
     /**
@@ -79,8 +77,18 @@ public class MakeController {
     public String makeListByPage(final @PathVariable(name = "pageNumber") int pageNumber,
                                  final Model model) {
         logger.info("ListMake with page of MakeController ");
-        var makes = makeService.fetchAllMakes();
-        model.addAttribute("makes", makes);
+        var page = makeService.listAll(pageNumber);
+        var startCount = (pageNumber - 1) * PAGE_SIZE + 1;
+        long endCount = (long) startCount + PAGE_SIZE - 1;
+        if (endCount > page.getTotalElements()) {
+            endCount = page.getTotalElements();
+        }
+        model.addAttribute("currentPage", pageNumber);
+        model.addAttribute("totalPages", page.getTotalPages());
+        model.addAttribute("startCount", startCount);
+        model.addAttribute("endCount", endCount);
+        model.addAttribute("totalItems", page.getTotalElements());
+        model.addAttribute("makes", page.getContent());
         return MAKE_LIST_PAGE;
     }
 
@@ -132,9 +140,9 @@ public class MakeController {
     /**
      * save make.
      *
-     * @param makeName selectMakeName
+     * @param makeName        selectMakeName
      * @param makeDescription selectMakeDesc
-     * @param result         BindingResult
+     * @param result          BindingResult
      * @return as json
      */
     @PostMapping("/make/saveMake")

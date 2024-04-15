@@ -3,6 +3,8 @@ package com.poseidon.model.service;
 import com.poseidon.make.dao.mapper.MakeAndModelEntityConverter;
 import com.poseidon.make.domain.MakeAndModelVO;
 import com.poseidon.model.dao.ModelDao;
+import com.poseidon.model.entities.Model;
+import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -46,5 +48,9 @@ public class ModelService {
      */
     public void deleteModel(final Long modelId) {
         modelDao.deleteModel(modelId);
+    }
+
+    public Page<Model> listModels(final int pageNumber) {
+        return modelDao.listModels(pageNumber);
     }
 }

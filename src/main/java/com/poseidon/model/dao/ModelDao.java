@@ -4,12 +4,15 @@ import com.poseidon.make.dao.mapper.MakeAndModelEntityConverter;
 import com.poseidon.make.domain.MakeAndModelVO;
 import com.poseidon.model.entities.Model;
 import com.poseidon.model.repo.ModelRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import static com.poseidon.init.Constants.PAGE_SIZE;
 import static com.rainerhahnekamp.sneakythrow.Sneaky.sneak;
 import static com.rainerhahnekamp.sneakythrow.Sneaky.sneaked;
 
@@ -56,4 +59,8 @@ public class ModelDao {
         consumer.accept(modelId);
     }
 
+    public Page<Model> listModels(final int pageNumber) {
+        var pageable = PageRequest.of(pageNumber - 1, PAGE_SIZE);
+        return modelRepository.findAll(pageable);
+    }
 }
