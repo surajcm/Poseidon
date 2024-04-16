@@ -2,10 +2,8 @@ package com.poseidon.make.web.controller;
 
 import com.poseidon.init.util.CommonUtils;
 import com.poseidon.make.dao.entities.Make;
-import com.poseidon.make.domain.MakeAndModelVO;
 import com.poseidon.make.domain.MakeVO;
 import com.poseidon.make.service.MakeService;
-import com.poseidon.make.web.form.MakeForm;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -59,11 +57,10 @@ public class MakeController {
     /**
      * list out makes.
      *
-     * @param makeForm makeForm
      * @return view
      */
     @RequestMapping(value = "make/MakeList", method = {RequestMethod.GET, RequestMethod.POST})
-    public String makeListPage(final MakeForm makeForm, final Model model) {
+    public String makeListPage(final Model model) {
         return makeListByPage(1, model);
     }
 
@@ -187,28 +184,6 @@ public class MakeController {
         var make = populateMakeForUpdate(id, makeName, description);
         makeService.updateMake(make);
         return convertMakeToMakeVO(makeService.fetchAllMakes());
-    }
-
-    private void loggingFromSearch(final MakeForm makeForm) {
-        logger.info("SearchMake method of MakeController ");
-        var sanitizedMakeForm = CommonUtils.sanitizedString(makeForm.toString());
-        logger.info("MakeForm instance to search {}", sanitizedMakeForm);
-        if (makeForm.getSearchMakeAndModelVO() != null) {
-            var sanitizedSearchModel = CommonUtils.sanitizedString(
-                    makeForm.getSearchMakeAndModelVO().toString());
-            logger.info("SearchVO instance to search {}", sanitizedSearchModel);
-        }
-    }
-
-    private MakeAndModelVO buildMakeModelVO(final Long id,
-                                            final String makeName,
-                                            final String description) {
-        var vo = new MakeAndModelVO();
-        vo.setMakeId(id);
-        vo.setMakeName(makeName);
-        vo.setDescription(description);
-        vo.setModifiedBy(findLoggedInUsername());
-        return vo;
     }
 
     private Make populateMakeForUpdate(final Long id, final String makeName, final String makeDesc) {

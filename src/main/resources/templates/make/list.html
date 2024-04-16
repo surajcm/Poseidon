@@ -100,10 +100,10 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security/">
             </table>
             <div class="text-center m-1">
                     <span th:if="${totalItems > 0}">
-                        Showing users #[[${startCount}]] to [[${endCount}]] of [[${totalItems}]]
+                        Showing makes #[[${startCount}]] to [[${endCount}]] of [[${totalItems}]]
                     </span>
                 <span th:unless="${totalItems > 0}">
-                        No users found
+                        No makes found
                     </span>
             </div>
             <div>

@@ -24,11 +24,12 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
+import static com.poseidon.init.Constants.PAGE_SIZE;
+
 @Controller
 @SuppressWarnings("unused")
 public class ModelController {
     private static final Logger logger = LoggerFactory.getLogger(ModelController.class);
-    private static final String MODEL_LIST_PAGE = "make/ModelList";
     private static final String MAKE_AND_MODEL_VO_IS = " MakeAndModelVO is {}";
     private static final String MAKE_VO_IS = " makeVO is {}";
     private static final String MAKE_FORM = "makeForm";
@@ -51,30 +52,33 @@ public class ModelController {
      * @param makeForm makeForm
      * @return view
      */
-    @PostMapping(value = MODEL_LIST_PAGE)
+    @PostMapping(value = "make/ModelList")
     public String modelListPage(final MakeForm makeForm, final Model model) {
-        var makeAndModelVOs = modelService.listAllMakesAndModels();
-        if (!makeAndModelVOs.isEmpty()) {
-            makeAndModelVOs.forEach(makeAndModelVO -> logger.info(MAKE_AND_MODEL_VO_IS, makeAndModelVO));
-            makeForm.setMakeAndModelVOs(makeAndModelVOs);
-        }
-        var makeVOs = makeService.fetchAllMakes();
-        if (!makeVOs.isEmpty()) {
-            makeVOs.forEach(makeVO -> logger.debug(MAKE_VO_IS, makeVO));
-            makeForm.setMakeVOs(convertMakeToMakeVO(makeVOs));
-        }
-        makeForm.setSearchMakeAndModelVO(new MakeAndModelVO());
-        makeForm.setLoggedInRole(makeForm.getLoggedInRole());
-        makeForm.setLoggedInUser(makeForm.getLoggedInUser());
-        model.addAttribute(MAKE_FORM, makeForm);
-        return "model/list";
+        return modelByPage(1, model);
     }
 
     @GetMapping(value = "model/page/{pageNumber}")
     public String modelByPage(final @PathVariable(name = "pageNumber") int pageNumber,
                               final Model model) {
-        var models = modelService.listModels(pageNumber);
-        return modelListPage(new MakeForm(), model);
+        logger.info("ListByPage method of user controller ");
+        var page = modelService.listModels(pageNumber);
+        var startCount = (pageNumber - 1) * PAGE_SIZE + 1;
+        long endCount = (long) startCount + PAGE_SIZE - 1;
+        if (endCount > page.getTotalElements()) {
+            endCount = page.getTotalElements();
+        }
+        model.addAttribute("currentPage", pageNumber);
+        model.addAttribute("totalPages", page.getTotalPages());
+        model.addAttribute("startCount", startCount);
+        model.addAttribute("endCount", endCount);
+        model.addAttribute("totalItems", page.getTotalElements());
+        model.addAttribute("models", page.getContent());
+        MakeForm makeForm = new MakeForm();
+        makeForm.setSearchMakeAndModelVO(new MakeAndModelVO());
+        makeForm.setLoggedInRole(makeForm.getLoggedInRole());
+        makeForm.setLoggedInUser(makeForm.getLoggedInUser());
+        model.addAttribute(MAKE_FORM, makeForm);
+        return "model/list";
     }
 
     @GetMapping("/make/getForEdit")

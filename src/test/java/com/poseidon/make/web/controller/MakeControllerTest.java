@@ -45,7 +45,7 @@ class MakeControllerTest {
     }
 
     private Page<Make> mockPageOfMake() {
-        return new PageImpl<Make>(List.of(new Make(), new Make()));
+        return new PageImpl<>(List.of(new Make(), new Make()));
     }
 
     @Test

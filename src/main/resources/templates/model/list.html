@@ -36,7 +36,7 @@
                                     <select class="form-select" id="makeName" th:field="*{searchMakeAndModelVO.makeId}" tabindex="1"
                                                  onkeypress="handleEnter(event);" >
                                         <option value="0" label="-- Select --"/>
-                                        <option th:each="i : ${makeForm.makeVOs}" th:value="${i.id}" th:text="${i.makeName}">
+                                        <option th:each="i : ${makes}" th:value="${i.id}" th:text="${i.makeName}">
                                     </select>
                                 </div>
                             </div>
@@ -111,14 +111,43 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr th:each="iterationMake : ${makeForm.makeAndModelVOs}">
+                    <tr th:each="model : ${models}">
                         <th scope="row"><input type="checkbox" name="checkField" onclick="checkCall(this);"
-                                   th:value="${iterationMake.id}" /></th>
-                        <td><span th:text="${iterationMake.makeName}"></span></td>
-                        <td><span th:text="${iterationMake.modelName}"></span></td>
+                                   th:value="${model.id}" /></th>
+                        <td><span th:text="${model.make.makeName}"></span></td>
+                        <td><span th:text="${model.modelName}"></span></td>
                     </tr>
                 </tbody>
             </table>
+            <div class="text-center m-1">
+                    <span th:if="${totalItems > 0}">
+                        Showing models #[[${startCount}]] to [[${endCount}]] of [[${totalItems}]]
+                    </span>
+                <span th:unless="${totalItems > 0}">
+                        No models found
+                    </span>
+            </div>
+            <div>
+                <nav>
+                    <ul class="pagination justify-content-center">
+                        <li th:class="${currentPage > 1 ? 'page-item' : 'page-item disabled'} " >
+                            <a class="page-link" th:href="@{/model/page/1}">First</a>
+                        </li>
+                        <li th:class="${currentPage > 1 ? 'page-item' : 'page-item disabled'} " >
+                            <a class="page-link" th:href="@{'/model/page/' + ${currentPage - 1 }}">Previous</a>
+                        </li>
+                        <li th:class="${currentPage != i ? 'page-item' : 'page-item active'} " th:each="i : ${#numbers.sequence(1, totalPages)}">
+                            <a class="page-link" th:href="@{'/model/page/' + ${i}}">[[${i}]]</a>
+                        </li>
+                        <li th:class="${currentPage < totalPages ? 'page-item' : 'page-item disabled'}" >
+                            <a class="page-link" th:href="@{'/model/page/' + ${currentPage + 1 }}">Next</a>
+                        </li>
+                        <li th:class="${currentPage < totalPages ? 'page-item' : 'page-item disabled'}">
+                            <a class="page-link" th:href="@{'/model/page/' + ${totalPages}}">Last</a>
+                        </li>
+                    </ul>
+                </nav>
+            </div>
             <div class="row g-3">
                 <div class="col-md-3">
                     <input class="btn btn-primary" value="Make List" type="button" onclick="listAllMake();"/>

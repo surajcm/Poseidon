@@ -12,6 +12,7 @@ import org.springframework.test.context.ContextConfiguration;
 @ContextConfiguration
 public class MakeConfigurations {
     private final MakeService makeService = Mockito.mock(MakeService.class);
+    private final ModelService modelService = Mockito.mock(ModelService.class);
 
     @Bean
     public MakeController makeController() {
@@ -20,7 +21,7 @@ public class MakeConfigurations {
 
     @Bean
     public ModelController modelController() {
-        return new ModelController(Mockito.mock(MakeService.class), Mockito.mock(ModelService.class));
+        return new ModelController(makeService, modelService);
     }
 
     @Bean
@@ -30,6 +31,6 @@ public class MakeConfigurations {
 
     @Bean
     public ModelService modelService() {
-        return Mockito.mock(ModelService.class);
+        return modelService;
     }
 }
