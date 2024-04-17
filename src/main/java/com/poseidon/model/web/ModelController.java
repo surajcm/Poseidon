@@ -73,6 +73,8 @@ public class ModelController {
         model.addAttribute("endCount", endCount);
         model.addAttribute("totalItems", page.getTotalElements());
         model.addAttribute("models", page.getContent());
+        var makes = makeService.fetchAllMakes();
+        model.addAttribute("makes", makes);
         MakeForm makeForm = new MakeForm();
         makeForm.setSearchMakeAndModelVO(new MakeAndModelVO());
         makeForm.setLoggedInRole(makeForm.getLoggedInRole());

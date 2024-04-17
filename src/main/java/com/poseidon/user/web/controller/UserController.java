@@ -153,7 +153,31 @@ public class UserController {
         var searcher = userForm.getSearchUser();
         var users = new HashSet<>(userService.searchUserDetails(searcher,
                 userForm.isStartsWith(),
-                userForm.isIncludes()));
+                userForm.isIncludes(), 1));
+        if (!users.isEmpty()) {
+            userForm.setStatusMessage("Successfully fetched " + users.size() + " Users");
+            userForm.setStatusMessageType("info");
+            users.stream().map(User::toString).forEach(logger::info);
+        } else {
+            userForm.setStatusMessage("No results found");
+            userForm.setStatusMessageType(DANGER);
+        }
+        model.addAttribute("users", users);
+        model.addAttribute(ALL_ROLES, fullRoleMap());
+        model.addAttribute(USER_FORM, userForm);
+        return USER_LIST;
+    }
+
+    @PostMapping("/user/search/{pageNumber}")
+    public String searchUserPages(final @PathVariable(name = "pageNumber") int pageNumber,
+                                  final UserForm userForm,
+                                  final Model model) {
+        logger.info(" Inside SearchUser method of user controller ");
+        var searcher = userForm.getSearchUser();
+        var users = new HashSet<>(userService.searchUserDetails(searcher,
+                userForm.isStartsWith(),
+                userForm.isIncludes(),
+                pageNumber));
         if (!users.isEmpty()) {
             userForm.setStatusMessage("Successfully fetched " + users.size() + " Users");
             userForm.setStatusMessageType("info");
@@ -237,7 +261,7 @@ public class UserController {
                 sanitizedPass);
         var currentLoggedInUser = currentLoggedInUser();
         var searcher = formSearch(currentLoggedInUser);
-        var userList = userService.searchUserDetails(searcher, true, true)
+        var userList = userService.searchUserDetails(searcher, true, true, 1)
                 .stream().toList();
         AbstractMap.SimpleEntry<String, String> entry;
         if (userService.comparePasswords(current, userList.get(0).getPassword())) {

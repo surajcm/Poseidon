@@ -90,8 +90,8 @@ public class UserService {
      */
     public List<User> searchUserDetails(final User searchUser,
                                         final boolean startsWith,
-                                        final boolean includes) {
-        return userDAO.searchUserDetails(searchUser, startsWith, includes);
+                                        final boolean includes, final int pageNumber) {
+        return userDAO.searchUserDetails(searchUser, startsWith, includes, pageNumber);
     }
 
     public boolean comparePasswords(final String passedIn, final String currentUserPass) {

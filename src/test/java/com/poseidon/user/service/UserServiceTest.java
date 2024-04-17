@@ -50,6 +50,6 @@ class UserServiceTest {
 
     @Test
     void searchUserDetailsSuccess() {
-        Assertions.assertNotNull(userService.searchUserDetails(new User(), false, false));
+        Assertions.assertNotNull(userService.searchUserDetails(new User(), false, false, 1));
     }
 }

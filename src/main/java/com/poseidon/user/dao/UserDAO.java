@@ -104,8 +104,9 @@ public class UserDAO {
      */
     public List<User> searchUserDetails(final User searchUser,
                                         final boolean startsWith,
-                                        final boolean includes) {
-        return sneak(() -> searchAllUsers(searchUser, startsWith, includes));
+                                        final boolean includes,
+                                        final int pageNumber) {
+        return sneak(() -> searchAllUsers(searchUser, startsWith, includes, pageNumber));
     }
 
     /**
@@ -117,7 +118,8 @@ public class UserDAO {
      */
     private List<User> searchAllUsers(final User searchUser,
                                       final boolean startsWith,
-                                      final boolean includes) {
+                                      final boolean includes,
+                                      final int pageNumber) {
         var userSpec = new UserSpecification();
         var search = populateSearchOperation(startsWith, includes);
         if (StringUtils.hasText(searchUser.getName())) {

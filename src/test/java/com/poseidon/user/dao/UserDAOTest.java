@@ -76,10 +76,10 @@ class UserDAOTest {
     void searchUserDetailsSuccess() {
         when(userRepository.findAll(any(UserSpecification.class))).thenReturn(mockUsers());
         var user = mockUser().get();
-        Assertions.assertNotNull(userDAO.searchUserDetails(user, false, false));
-        Assertions.assertNotNull(userDAO.searchUserDetails(user, false, true));
-        Assertions.assertNotNull(userDAO.searchUserDetails(user, false, false));
-        Assertions.assertNotNull(userDAO.searchUserDetails(user, true, false));
+        Assertions.assertNotNull(userDAO.searchUserDetails(user, false, false, 1));
+        Assertions.assertNotNull(userDAO.searchUserDetails(user, false, true, 1));
+        Assertions.assertNotNull(userDAO.searchUserDetails(user, false, false, 1));
+        Assertions.assertNotNull(userDAO.searchUserDetails(user, true, false, 1));
     }
 
     @Test
@@ -87,7 +87,7 @@ class UserDAOTest {
         var user = mockUser().get();
         user.setName(null);
         user.setEmail(null);
-        Assertions.assertNotNull(userDAO.searchUserDetails(user, false, false));
+        Assertions.assertNotNull(userDAO.searchUserDetails(user, false, false, 1));
     }
 
 
