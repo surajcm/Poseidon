@@ -11,7 +11,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -88,7 +87,7 @@ public class UserService {
      * @param searchUser UserVO
      * @return List of user
      */
-    public List<User> searchUserDetails(final User searchUser,
+    public Page<User> searchUserDetails(final User searchUser,
                                         final boolean startsWith,
                                         final boolean includes, final int pageNumber) {
         return userDAO.searchUserDetails(searchUser, startsWith, includes, pageNumber);

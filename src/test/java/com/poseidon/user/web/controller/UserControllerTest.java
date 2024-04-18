@@ -24,6 +24,8 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyBoolean;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
@@ -78,6 +80,10 @@ class UserControllerTest {
 
     @Test
     void searchUser() throws Exception {
+        when(userService.searchUserDetails(any(),
+                anyBoolean(),
+                anyBoolean(),
+                anyInt())).thenReturn(mockedPages());
         mvc.perform(post("/user/searchUser")
                 .param("userForm", searchForm())).andExpect(status().isOk());
     }

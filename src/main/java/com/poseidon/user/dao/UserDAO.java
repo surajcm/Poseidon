@@ -15,7 +15,6 @@ import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Optional;
 import java.util.Set;
 
@@ -102,7 +101,7 @@ public class UserDAO {
      * @param searchUser UserVO
      * @return List of user
      */
-    public List<User> searchUserDetails(final User searchUser,
+    public Page<User> searchUserDetails(final User searchUser,
                                         final boolean startsWith,
                                         final boolean includes,
                                         final int pageNumber) {
@@ -116,7 +115,7 @@ public class UserDAO {
      * @return List of users
      * @throws DataAccessException on error
      */
-    private List<User> searchAllUsers(final User searchUser,
+    private Page<User> searchAllUsers(final User searchUser,
                                       final boolean startsWith,
                                       final boolean includes,
                                       final int pageNumber) {
@@ -128,7 +127,8 @@ public class UserDAO {
         if (StringUtils.hasText(searchUser.getEmail())) {
             userSpec.add(new SearchCriteria("email", searchUser.getEmail(), search));
         }
-        return userRepository.findAll(userSpec);
+        var pageable = PageRequest.of(pageNumber - 1, PAGE_SIZE);
+        return userRepository.findAll(userSpec, pageable);
     }
 
     private SearchOperation populateSearchOperation(final boolean startsWith,

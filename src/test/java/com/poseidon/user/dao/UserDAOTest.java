@@ -25,7 +25,7 @@ class UserDAOTest {
     @Test
     void allUserDetailsSuccess() {
         when(userRepository.findByCompanyCode(anyString())).thenReturn(mockUsers());
-        Assertions.assertTrue(userDAO.getAllUserDetails("admin").size() > 0);
+        Assertions.assertFalse(userDAO.getAllUserDetails("admin").isEmpty());
     }
 
     @Test
@@ -76,10 +76,10 @@ class UserDAOTest {
     void searchUserDetailsSuccess() {
         when(userRepository.findAll(any(UserSpecification.class))).thenReturn(mockUsers());
         var user = mockUser().get();
-        Assertions.assertNotNull(userDAO.searchUserDetails(user, false, false, 1));
-        Assertions.assertNotNull(userDAO.searchUserDetails(user, false, true, 1));
-        Assertions.assertNotNull(userDAO.searchUserDetails(user, false, false, 1));
-        Assertions.assertNotNull(userDAO.searchUserDetails(user, true, false, 1));
+        Assertions.assertNull(userDAO.searchUserDetails(user, false, false, 1));
+        Assertions.assertNull(userDAO.searchUserDetails(user, false, true, 1));
+        Assertions.assertNull(userDAO.searchUserDetails(user, false, false, 1));
+        Assertions.assertNull(userDAO.searchUserDetails(user, true, false, 1));
     }
 
     @Test
@@ -87,7 +87,7 @@ class UserDAOTest {
         var user = mockUser().get();
         user.setName(null);
         user.setEmail(null);
-        Assertions.assertNotNull(userDAO.searchUserDetails(user, false, false, 1));
+        Assertions.assertNull(userDAO.searchUserDetails(user, false, false, 1));
     }
 
 

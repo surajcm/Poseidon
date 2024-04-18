@@ -28,7 +28,6 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.io.IOException;
 import java.util.AbstractMap;
-import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -149,44 +148,40 @@ public class UserController {
      */
     @PostMapping("/user/searchUser")
     public String searchUser(final UserForm userForm, final Model model) {
-        logger.info(" Inside SearchUser method of user controller ");
-        var searcher = userForm.getSearchUser();
-        var users = new HashSet<>(userService.searchUserDetails(searcher,
-                userForm.isStartsWith(),
-                userForm.isIncludes(), 1));
-        if (!users.isEmpty()) {
-            userForm.setStatusMessage("Successfully fetched " + users.size() + " Users");
-            userForm.setStatusMessageType("info");
-            users.stream().map(User::toString).forEach(logger::info);
-        } else {
-            userForm.setStatusMessage("No results found");
-            userForm.setStatusMessageType(DANGER);
-        }
-        model.addAttribute("users", users);
-        model.addAttribute(ALL_ROLES, fullRoleMap());
-        model.addAttribute(USER_FORM, userForm);
-        return USER_LIST;
+        return searchUserPages(1, userForm, model);
     }
 
-    @PostMapping("/user/search/{pageNumber}")
+    @GetMapping("/user/search/{pageNumber}")
     public String searchUserPages(final @PathVariable(name = "pageNumber") int pageNumber,
                                   final UserForm userForm,
                                   final Model model) {
         logger.info(" Inside SearchUser method of user controller ");
         var searcher = userForm.getSearchUser();
-        var users = new HashSet<>(userService.searchUserDetails(searcher,
+        var page = userService.searchUserDetails(searcher,
                 userForm.isStartsWith(),
                 userForm.isIncludes(),
-                pageNumber));
-        if (!users.isEmpty()) {
-            userForm.setStatusMessage("Successfully fetched " + users.size() + " Users");
+                pageNumber);
+        if (!page.isEmpty()) {
+            userForm.setStatusMessage("Successfully fetched " + page.getTotalElements() + " Users");
             userForm.setStatusMessageType("info");
-            users.stream().map(User::toString).forEach(logger::info);
+            page.stream().map(User::toString).forEach(logger::info);
         } else {
             userForm.setStatusMessage("No results found");
             userForm.setStatusMessageType(DANGER);
         }
-        model.addAttribute("users", users);
+        model.addAttribute("users", page);
+
+        var startCount = (pageNumber - 1) * PAGE_SIZE + 1;
+        long endCount = (long) startCount + PAGE_SIZE - 1;
+        if (endCount > page.getTotalElements()) {
+            endCount = page.getTotalElements();
+        }
+        model.addAttribute("currentPage", pageNumber);
+        model.addAttribute("totalPages", page.getTotalPages());
+        model.addAttribute("startCount", startCount);
+        model.addAttribute("endCount", endCount);
+        model.addAttribute("totalItems", page.getTotalElements());
+        model.addAttribute("activeSearch", true);
         model.addAttribute(ALL_ROLES, fullRoleMap());
         model.addAttribute(USER_FORM, userForm);
         return USER_LIST;
