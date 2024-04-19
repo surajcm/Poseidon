@@ -127,10 +127,28 @@ public class MakeController {
      */
     @GetMapping("/make/search/{modelName}")
     public String searchMake(@PathVariable(name = "modelName") final String modelName, final Model model) {
+        return searchMakePages(1, modelName, model);
+    }
+
+
+    @GetMapping("/make/pageSearch/{pageNumber}")
+    public String searchMakePages(final @PathVariable(name = "pageNumber") int pageNumber,
+                                  final String modelName,
+                                  final Model model) {
         logger.info("SearchMake method of MakeController. Params are {}", modelName);
-        var makes = makeService.searchMakes(modelName);
-        makes.forEach(make -> logger.debug("make is {}", make));
-        model.addAttribute("makes", makes);
+        var page = makeService.searchMakes(modelName, pageNumber);
+        page.forEach(make -> logger.debug("make is {}", make));
+        var startCount = (pageNumber - 1) * PAGE_SIZE + 1;
+        long endCount = (long) startCount + PAGE_SIZE - 1;
+        if (endCount > page.getTotalElements()) {
+            endCount = page.getTotalElements();
+        }
+        model.addAttribute("currentPage", pageNumber);
+        model.addAttribute("totalPages", page.getTotalPages());
+        model.addAttribute("startCount", startCount);
+        model.addAttribute("endCount", endCount);
+        model.addAttribute("totalItems", page.getTotalElements());
+        model.addAttribute("makes", page.getContent());
         return MAKE_LIST_PAGE;
     }
 

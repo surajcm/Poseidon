@@ -1,20 +1,23 @@
 package com.poseidon.make.dao;
 
 import com.poseidon.make.dao.entities.Make;
-import com.poseidon.model.entities.Model;
 import com.poseidon.make.dao.mapper.MakeAndModelEntityConverter;
 import com.poseidon.make.dao.repo.MakeRepository;
-import com.poseidon.model.repo.ModelRepository;
 import com.poseidon.make.domain.MakeAndModelVO;
+import com.poseidon.model.entities.Model;
+import com.poseidon.model.repo.ModelRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.util.List;
 import java.util.Optional;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
@@ -123,8 +126,12 @@ class MakeDaoTest {
 
     @Test
     void searchMakes() {
-        when(makeRepository.findByMakeName(anyString())).thenReturn(mockMakes());
-        Assertions.assertNotNull(makeDao.searchMakes("Apple"));
+        when(makeRepository.findByMakeName(anyString(), any())).thenReturn(pageMakes());
+        Assertions.assertNotNull(makeDao.searchMakes("Apple", 1));
+    }
+
+    private Page<Make> pageMakes() {
+        return new PageImpl<>(mockMakes());
     }
 
     private List<Make> mockMakes() {

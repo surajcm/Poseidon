@@ -1,5 +1,16 @@
 package com.poseidon.make.dao;
 
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.function.Function;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.stereotype.Service;
+
 import com.poseidon.make.dao.entities.Make;
 import com.poseidon.make.dao.mapper.MakeAndModelEntityConverter;
 import com.poseidon.make.dao.repo.MakeRepository;
@@ -7,16 +18,6 @@ import com.poseidon.make.domain.MakeAndModelVO;
 import com.poseidon.make.domain.MakeVO;
 import com.poseidon.model.entities.Model;
 import com.poseidon.model.repo.ModelRepository;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.stereotype.Service;
-
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.function.Function;
 
 import static com.poseidon.init.Constants.PAGE_SIZE;
 import static com.rainerhahnekamp.sneakythrow.Sneaky.sneak;
@@ -230,8 +231,9 @@ public class MakeDao {
         return makeAndModelEntityConverter.convertMakeToMakeAndModelVOs(makes);
     }
 
-    public List<Make> searchMakes(final String makeName) {
-        return makeRepository.findByMakeName(makeName);
+    public Page<Make> searchMakes(final String makeName, final int pageNumber) {
+        var pageable = PageRequest.of(pageNumber - 1, PAGE_SIZE);
+        return makeRepository.findByMakeName(makeName, pageable);
     }
 
     private List<MakeAndModelVO> searchModels(final MakeAndModelVO searchMakeVO) {
