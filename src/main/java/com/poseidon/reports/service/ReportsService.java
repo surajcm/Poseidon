@@ -163,7 +163,7 @@ public class ReportsService {
     public JasperPrint getModelListReport(final JasperReport jasperReport,
                                           final ReportsVO currentReport,
                                           final MakeAndModelVO searchMakeAndModelVO) {
-        currentReport.setMakeAndModelVOs(makeService.searchMakeVOs(searchMakeAndModelVO));
+        currentReport.setMakeAndModelVOs(makeService.searchModels(searchMakeAndModelVO));
         var jasperPrint = new JasperPrint();
         try {
             jasperPrint = reportsDAO.getModelListReport(jasperReport, currentReport);

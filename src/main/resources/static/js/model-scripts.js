@@ -8,7 +8,7 @@ function listAllMake() {
 }
 
 function search() {
-    document.forms[0].action = "searchModel";
+    document.forms[0].action = "/model/searchModel";
     document.forms[0].submit();
 }
 

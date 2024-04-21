@@ -1,18 +1,17 @@
 package com.poseidon.make.service;
 
-import java.util.List;
-import java.util.Optional;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.data.domain.Page;
-import org.springframework.stereotype.Service;
-
 import com.poseidon.make.dao.MakeDao;
 import com.poseidon.make.dao.entities.Make;
 import com.poseidon.make.dao.mapper.MakeAndModelEntityConverter;
 import com.poseidon.make.domain.MakeAndModelVO;
 import com.poseidon.make.domain.MakeVO;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
+import java.util.Optional;
 
 /**
  * user: Suraj.
@@ -107,8 +106,8 @@ public class MakeService {
      * @param searchMakeVO searchMakeVO
      * @return list of make and models
      */
-    public List<MakeAndModelVO> searchMakeVOs(final MakeAndModelVO searchMakeVO) {
-        return makeDAO.searchMakeVOs(searchMakeVO);
+    public List<MakeAndModelVO> searchModels(final MakeAndModelVO searchMakeVO) {
+        return makeDAO.searchModels(searchMakeVO);
     }
 
     public Page<Make> searchMakes(final String makeName, final int pageNumber) {

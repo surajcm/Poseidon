@@ -1,16 +1,5 @@
 package com.poseidon.make.dao;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
-import java.util.function.Function;
-
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.stereotype.Service;
-
 import com.poseidon.make.dao.entities.Make;
 import com.poseidon.make.dao.mapper.MakeAndModelEntityConverter;
 import com.poseidon.make.dao.repo.MakeRepository;
@@ -18,6 +7,16 @@ import com.poseidon.make.domain.MakeAndModelVO;
 import com.poseidon.make.domain.MakeVO;
 import com.poseidon.model.entities.Model;
 import com.poseidon.model.repo.ModelRepository;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.function.Function;
 
 import static com.poseidon.init.Constants.PAGE_SIZE;
 import static com.rainerhahnekamp.sneakythrow.Sneaky.sneak;
@@ -213,8 +212,23 @@ public class MakeDao {
      * @param searchMakeVo searchMakeVo
      * @return list of make and model vos
      */
-    public List<MakeAndModelVO> searchMakeVOs(final MakeAndModelVO searchMakeVo) {
-        return searchModels(searchMakeVo);
+    public List<MakeAndModelVO> searchModels(final MakeAndModelVO searchMakeVo) {
+        List<MakeAndModelVO> makeAndModelVOS = new ArrayList<>();
+        if (searchMakeVo.getMakeId() != null && searchMakeVo.getMakeId() > 0) {
+            var optionalMake = sneak(() -> makeRepository.findById(searchMakeVo.getMakeId()));
+            if (optionalMake.isPresent()) {
+                var make = optionalMake.get();
+                var models = make.getModels();
+                Function<Model, MakeAndModelVO> converter = model -> getMakeAndModelVO(make, model);
+                makeAndModelVOS = mapItOut(models, converter);
+            }
+        }
+        if (hasModelName(searchMakeVo)) {
+            var models = getModels(searchMakeVo, searchMakeVo.getModelName());
+            Function<Model, MakeAndModelVO> converter = model -> getMakeAndModelVO(model.getMake(), model);
+            makeAndModelVOS = mapItOut(models, converter);
+        }
+        return makeAndModelVOS;
     }
 
     /**
@@ -236,24 +250,7 @@ public class MakeDao {
         return makeRepository.findByMakeName(makeName, pageable);
     }
 
-    private List<MakeAndModelVO> searchModels(final MakeAndModelVO searchMakeVO) {
-        List<MakeAndModelVO> makeAndModelVOS = new ArrayList<>();
-        if (searchMakeVO.getMakeId() != null && searchMakeVO.getMakeId() > 0) {
-            var optionalMake = sneak(() -> makeRepository.findById(searchMakeVO.getMakeId()));
-            if (optionalMake.isPresent()) {
-                var make = optionalMake.get();
-                var models = make.getModels();
-                Function<Model, MakeAndModelVO> converter = model -> getMakeAndModelVO(make, model);
-                makeAndModelVOS = mapItOut(models, converter);
-            }
-        }
-        if (hasModelName(searchMakeVO)) {
-            var models = getModels(searchMakeVO, searchMakeVO.getModelName());
-            Function<Model, MakeAndModelVO> converter = model -> getMakeAndModelVO(model.getMake(), model);
-            makeAndModelVOS = mapItOut(models, converter);
-        }
-        return makeAndModelVOS;
-    }
+
 
     private List<MakeAndModelVO> mapItOut(final List<Model> models,
                                           final Function<Model, MakeAndModelVO> converter) {

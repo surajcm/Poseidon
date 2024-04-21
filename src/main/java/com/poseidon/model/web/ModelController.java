@@ -126,10 +126,18 @@ public class ModelController {
      * @param makeForm makeForm
      * @return view
      */
-    @PostMapping("/make/searchModel")
+    @PostMapping("/model/searchModel")
     public String searchModel(final MakeForm makeForm, final Model model) {
+        return searchModelByPage(1, makeForm, model);
+    }
+
+    @GetMapping(value = "model/SearchPage/{pageNumber}")
+    public String searchModelByPage(final @PathVariable(name = "pageNumber") int pageNumber,
+                                    final MakeForm makeForm,
+                                    final Model model) {
+        logger.info("ListByPage method of user controller ");
         loggingFromSearch(makeForm);
-        var makeVOs = makeService.searchMakeVOs(makeForm.getSearchMakeAndModelVO());
+        var makeVOs = makeService.searchModels(makeForm.getSearchMakeAndModelVO());
         makeForm.setStatusMessage("Found " + makeVOs.size() + " Models");
         makeForm.setStatusMessageType("info");
         if (!makeVOs.isEmpty()) {
@@ -141,9 +149,24 @@ public class ModelController {
             searchMakeVOs.forEach(searchMakeVO -> logger.debug("SearchMakeVO is {}", searchMakeVO));
             makeForm.setMakeVOs(searchMakeVOs);
         }
-        var userName = findLoggedInUsername();
-        makeForm.setLoggedInRole(makeForm.getLoggedInRole());
-        makeForm.setLoggedInUser(makeForm.getLoggedInUser());
+        var page = modelService.listModels(pageNumber);
+        var startCount = (pageNumber - 1) * PAGE_SIZE + 1;
+        long endCount = (long) startCount + PAGE_SIZE - 1;
+        if (endCount > page.getTotalElements()) {
+            endCount = page.getTotalElements();
+        }
+        model.addAttribute("currentPage", pageNumber);
+        model.addAttribute("totalPages", page.getTotalPages());
+        model.addAttribute("startCount", startCount);
+        model.addAttribute("endCount", endCount);
+        model.addAttribute("totalItems", page.getTotalElements());
+        model.addAttribute("models", page.getContent());
+        var makes = makeService.fetchAllMakes();
+        model.addAttribute("makes", makes);
+        //MakeForm makeForm = new MakeForm();
+        //makeForm.setSearchMakeAndModelVO(new MakeAndModelVO());
+        //makeForm.setLoggedInRole(makeForm.getLoggedInRole());
+        //makeForm.setLoggedInUser(makeForm.getLoggedInUser());
         model.addAttribute(MAKE_FORM, makeForm);
         return "model/list";
     }

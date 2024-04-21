@@ -68,8 +68,8 @@ class MakeServiceTest {
 
     @Test
     void searchMakeVOsSuccess() {
-        when(makeDAO.searchMakeVOs(any(MakeAndModelVO.class))).thenReturn(mockListOfMakeAndModelVO());
-        var makeVOs = makeService.searchMakeVOs(Mockito.mock(MakeAndModelVO.class));
+        when(makeDAO.searchModels(any(MakeAndModelVO.class))).thenReturn(mockListOfMakeAndModelVO());
+        var makeVOs = makeService.searchModels(Mockito.mock(MakeAndModelVO.class));
         Assertions.assertEquals(1234L, makeVOs.get(0).getId());
     }
 

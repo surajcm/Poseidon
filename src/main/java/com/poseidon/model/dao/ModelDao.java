@@ -63,4 +63,8 @@ public class ModelDao {
         var pageable = PageRequest.of(pageNumber - 1, PAGE_SIZE);
         return modelRepository.findAll(pageable);
     }
+
+    public Page<Model> searchModels(final Long id, final String name, final int pageNumber) {
+        return null;
+    }
 }
