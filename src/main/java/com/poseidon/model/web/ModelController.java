@@ -137,19 +137,9 @@ public class ModelController {
                                     final Model model) {
         logger.info("ListByPage method of user controller ");
         loggingFromSearch(makeForm);
-        var makeVOs = makeService.searchModels(makeForm.getSearchMakeAndModelVO());
-        makeForm.setStatusMessage("Found " + makeVOs.size() + " Models");
-        makeForm.setStatusMessageType("info");
-        if (!makeVOs.isEmpty()) {
-            makeVOs.forEach(makeVO -> logger.debug(MAKE_VO_IS, makeVO));
-            makeForm.setMakeAndModelVOs(makeVOs);
-        }
-        var searchMakeVOs = convertMakeToMakeVO(makeService.fetchAllMakes());
-        if (searchMakeVOs != null) {
-            searchMakeVOs.forEach(searchMakeVO -> logger.debug("SearchMakeVO is {}", searchMakeVO));
-            makeForm.setMakeVOs(searchMakeVOs);
-        }
-        var page = modelService.listModels(pageNumber);
+        var page = modelService.searchModels(makeForm.getSearchMakeAndModelVO().getMakeId(),
+                makeForm.getSearchMakeAndModelVO().getModelName(),
+                pageNumber);
         var startCount = (pageNumber - 1) * PAGE_SIZE + 1;
         long endCount = (long) startCount + PAGE_SIZE - 1;
         if (endCount > page.getTotalElements()) {

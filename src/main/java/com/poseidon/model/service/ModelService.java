@@ -54,7 +54,7 @@ public class ModelService {
         return modelDao.listModels(pageNumber);
     }
 
-    public Page<Model> searchModels(final Long id, final String name, final int pageNumber) {
-        return modelDao.searchModels(id, name, pageNumber);
+    public Page<Model> searchModels(final Long makeId, final String name, final int pageNumber) {
+        return modelDao.searchModels(makeId, name, pageNumber);
     }
 }

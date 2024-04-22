@@ -64,7 +64,13 @@ public class ModelDao {
         return modelRepository.findAll(pageable);
     }
 
-    public Page<Model> searchModels(final Long id, final String name, final int pageNumber) {
-        return null;
+    public Page<Model> searchModels(final Long makeId, final String name, final int pageNumber) {
+        var pageable = PageRequest.of(pageNumber - 1, PAGE_SIZE);
+        // id will always be there, so is the page Number. name can be null
+        if (name == null) {
+            return modelRepository.findByMakeId(makeId, pageable);
+        } else {
+            return modelRepository.findByMakeIdAndModelNameContaining(makeId, name, pageable);
+        }
     }
 }
