@@ -13,6 +13,7 @@
     <link rel="stylesheet" href="/css/core/bootstrap-5.3.1/bootstrap.min.css"  type="text/css" />
     <link rel="stylesheet" href="/css/custom.css" type="text/css" />
     <link rel="stylesheet" href="/css/core/flag-icon.min.css" type="text/css" />
+    <link rel="stylesheet" href="/css/core/fontawesome-6.2.1/css/all.min.css" type="text/css" />
     <title>Make and Model List</title>
     <script type="text/javascript" src="/js/common-scripts.js"></script>
     <script type="text/javascript" src="/js/model-scripts.js"></script>
@@ -108,6 +109,7 @@
                         <th scope="col">id</th>
                         <th scope="col">Make Name</th>
                         <th scope="col">Model Name</th>
+                        <th scope="col"></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -116,6 +118,17 @@
                                    th:value="${model.id}" /></th>
                         <td><span th:text="${model.make.makeName}"></span></td>
                         <td><span th:text="${model.modelName}"></span></td>
+                        <td>
+                            <a class="fa-regular fa-pen-to-square" href="" data-bs-toggle="modal" data-bs-target="#editModal"
+                               th:onclick="'javascript:editModelNew(' + ${model.id} + ');'" title="Edit this model"></a>
+                            &nbsp;
+                            <a class="fa-solid fa-trash"
+                               th:href="@{'/model/delete/'+${model.id}}"
+                               th:makeId="${model.id}"
+                               title="Delete this model"
+                               data-bs-toggle="modal"
+                               data-bs-target="#confirmModal"></a>
+                        </td>
                     </tr>
                 </tbody>
             </table>

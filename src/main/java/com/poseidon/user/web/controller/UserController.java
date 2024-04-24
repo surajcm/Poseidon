@@ -100,10 +100,10 @@ public class UserController {
     @PostMapping("/user/saveUser")
     public @ResponseBody
     Set<User> saveUser(
-            @RequestParam(value = "thumbnail", required = false) final MultipartFile thumbnail,
-            @RequestParam("selectName") final String name,
-            @RequestParam("selectLogin") final String email,
-            @RequestParam("selectRole") final Set<Long> roles,
+            @RequestParam(name = "thumbnail", value = "thumbnail", required = false) final MultipartFile thumbnail,
+            @RequestParam(name = "selectName") final String name,
+            @RequestParam(name = "selectLogin") final String email,
+            @RequestParam(name = "selectRole") final Set<Long> roles,
             final RedirectAttributes redirectAttributes) throws IOException {
         logger.info("SaveUser method of user controller ");
         logger.info("inputs are : name {}, email {}, role {}", name, email, roles);
@@ -205,11 +205,12 @@ public class UserController {
 
     @PutMapping("/user/updateUser")
     public @ResponseBody
-    Set<User> updateUser(@RequestParam(value = "thumbnail", required = false) final MultipartFile thumbnail,
-                         @RequestParam("id") final String id,
-                         @RequestParam("name") final String name,
-                         @RequestParam("email") final String email,
-                         @RequestParam("roles") final Set<Long> roles,
+    Set<User> updateUser(@RequestParam(name = "thumbnail", value = "thumbnail", required = false)
+                         final MultipartFile thumbnail,
+                         @RequestParam(name = "id") final String id,
+                         @RequestParam(name = "name") final String name,
+                         @RequestParam(name = "email") final String email,
+                         @RequestParam(name = "roles") final Set<Long> roles,
                          final RedirectAttributes redirectAttributes) {
         var sanitizedId = CommonUtils.sanitizedString(id);
         var sanitizedName = CommonUtils.sanitizedString(name);
