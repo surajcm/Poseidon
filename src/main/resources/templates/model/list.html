@@ -119,12 +119,12 @@
                         <td><span th:text="${model.make.makeName}"></span></td>
                         <td><span th:text="${model.modelName}"></span></td>
                         <td>
-                            <a class="fa-regular fa-pen-to-square" href="" data-bs-toggle="modal" data-bs-target="#editModal"
+                            <a class="fa-regular fa-pen-to-square" href="" data-bs-toggle="modal" data-bs-target="#editModelModal"
                                th:onclick="'javascript:editModelNew(' + ${model.id} + ');'" title="Edit this model"></a>
                             &nbsp;
                             <a class="fa-solid fa-trash"
                                th:href="@{'/model/delete/'+${model.id}}"
-                               th:makeId="${model.id}"
+                               th:modelId="${model.id}"
                                title="Delete this model"
                                data-bs-toggle="modal"
                                data-bs-target="#confirmModal"></a>
@@ -210,7 +210,39 @@
                 </div>
             </div>
         </div>
+        <div id="confirmModal" class="modal fade" tabindex="-1" aria-labelledby="confirmModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h4 class="modal-title fs-5" id="confirmModalLabel">Delete Confirmation</h4>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        <span id="confirmText"></span>
+                    </div>
+                    <div class="modal-footer">
+                        <a id="yesButton" class="btn btn-success" href="">Yes</a>
+                        <button type="button" class="btn btn-danger" data-bs-dismiss="modal">No</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </form>
+    <script type="text/javascript">
+        window.onload = function() {
+            const deleteLinks = document.querySelectorAll('a[title="Delete this model"]');
+            deleteLinks.forEach(function(link) {
+                const modelId = link.getAttribute('modelId');
+                link.addEventListener('click', function(event) {
+                    event.preventDefault();
+                    document.getElementById('confirmText').innerText = 'Are you sure you want to delete model ID ' + modelId + '?';
+                    // Set the href of the confirmation button to the href of the delete link
+                    const confirmButton = document.querySelector('#confirmModal .btn-success');
+                    confirmButton.href = this.href;
+                });
+            });
+        };
+    </script>
     <script src="/js/core/popper.min.js" type="text/javascript"></script>
     <script src="/js/core/bootstrap-5.3.1/bootstrap.min.js" type="text/javascript"></script>
 </body>

@@ -259,6 +259,11 @@ function rewriteTable(textReturned) {
     myTable.appendChild(tbody);
 }
 
+function editModelNew(id) {
+    document.getElementById("id").value = id;
+    editModelModal();
+    getModelForEdit();
+}
 function editModel() {
     let rowCheck = validateEditModalSelection();
     if (rowCheck) {

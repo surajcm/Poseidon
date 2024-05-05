@@ -92,7 +92,7 @@ function editLink(makeId) {
     editAnchor.setAttribute("href", "#");
     editAnchor.setAttribute("data-bs-toggle", "modal");
     editAnchor.setAttribute("data-bs-target", "#editMakeModal");
-    editAnchor.setAttribute("onclick", "javascript:editMakeNew(" + makeId + ");");
+    editAnchor.setAttribute("onclick", "javascript:editMake(" + makeId + ");");
     editAnchor.setAttribute("title", "Edit this make");
     return editAnchor;
 }
@@ -210,7 +210,7 @@ function showStatus(status) {
     detail.appendChild(statusMessage(status, 'ADD'));
 }
 
-function editMakeNew(id) {
+function editMake(id) {
     document.getElementById("id").value = id;
     editMakeModal();
     getMakeForEdit();

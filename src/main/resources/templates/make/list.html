@@ -86,7 +86,7 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security/">
                         <td><span th:text="${make.description}"></span></td>
                         <td>
                             <a class="fa-regular fa-pen-to-square" href="" data-bs-toggle="modal" data-bs-target="#editMakeModal"
-                               th:onclick="'javascript:editMakeNew(' + ${make.id} + ');'" title="Edit this make"></a>
+                               th:onclick="'javascript:editMake(' + ${make.id} + ');'" title="Edit this make"></a>
                             &nbsp;
                             <a class="fa-solid fa-trash"
                                th:href="@{'/make/delete/'+${make.id}}"
