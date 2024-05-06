@@ -85,23 +85,11 @@
                     <path d="M8.982 1.566a1.13 1.13 0 0 0-1.96 0L.165 13.233c-.457.778.091 1.767.98 1.767h13.713c.889 0 1.438-.99.98-1.767L8.982 1.566zM8 5c.535 0 .954.462.9.995l-.35 3.507a.552.552 0 0 1-1.1 0L7.1 5.995A.905.905 0 0 1 8 5zm.002 6a1 1 0 1 1 0 2 1 1 0 0 1 0-2z"/>
                 </symbol>
             </svg>
-            <span th:if="${makeForm.statusMessage != null}">
-                <div class="alert alert-dismissible fade show d-flex align-items-center" th:classappend="'alert-' + ${makeForm.statusMessageType}" role="alert">
-                    <div th:switch="${makeForm.statusMessageType}">
-                      <div th:case="info">
-                          <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Info:"><use xlink:href="#info-fill"/></svg>
-                      </div>
-                      <div th:case="success">
-                          <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Success:"><use xlink:href="#check-circle-fill"/></svg>
-                      </div>
-                      <div th:case="error">
-                            <svg class="bi flex-shrink-0 me-2" width="24" height="24" role="img" aria-label="Danger:"><use xlink:href="#exclamation-triangle-fill"/></svg>
-                      </div>
-                    </div>
-                    [[${makeForm.statusMessage}]]
-                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            <div th:if="${message != null}">
+                <div class="alert alert-success text-center" role="alert">
+                    [[${message}]]
                 </div>
-            </span>
+            </div>
             <table id='myTable' class="table table-bordered table-striped table-hover caption-top">
                 <caption>Model Details</caption>
                 <thead class="table-dark">
@@ -162,18 +150,14 @@
                 </nav>
             </div>
             <div class="row g-3">
-                <div class="col-md-3">
+                <div class="col-md-4">
                     <input class="btn btn-primary" value="Make List" type="button" onclick="listAllMake();"/>
                 </div>
-                <div class="col-md-3">
+                <div class="col-md-4">
                     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#newModelModal"
                     onclick="addModel();">Add Model</button>
                 </div>
-                <div class="col-md-3">
-                    <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#editModelModal"
-                    onclick="editModel();">Edit Model</button>
-                </div>
-                <div class="col-md-3">
+                <div class="col-md-4">
                     <input class="btn btn-primary" value="Delete Model" type="button" onclick="deleteModel();"/>
                 </div>
             </div>

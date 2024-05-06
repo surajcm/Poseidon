@@ -18,7 +18,10 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.Collections;
 import java.util.List;
@@ -52,14 +55,13 @@ public class ModelController {
      * @param makeForm makeForm
      * @return view
      */
-    @PostMapping(value = "make/ModelList")
+    @RequestMapping(value = "make/ModelList", method = {RequestMethod.GET, RequestMethod.POST})
     public String modelListPage(final MakeForm makeForm, final Model model) {
         return modelByPage(1, model);
     }
 
     @GetMapping(value = "model/page/{pageNumber}")
-    public String modelByPage(final @PathVariable(name = "pageNumber") int pageNumber,
-                              final Model model) {
+    public String modelByPage(final @PathVariable(name = "pageNumber") int pageNumber, final Model model) {
         logger.info("ListByPage method of user controller ");
         var page = modelService.listModels(pageNumber);
         var startCount = (pageNumber - 1) * PAGE_SIZE + 1;
@@ -84,13 +86,32 @@ public class ModelController {
     }
 
     @GetMapping("/make/getForEdit")
-    public @ResponseBody
-    Map<Long, String> getForEdit(@ModelAttribute("id") final String id,
-                                 final BindingResult result) {
+    public @ResponseBody Map<Long, String> getForEdit(@ModelAttribute("id") final String id,
+                                                      final BindingResult result) {
         var sanitizedId = CommonUtils.sanitizedString(id);
         logger.info("getForEdit method of make controller {}}", sanitizedId);
         var makeVO = modelService.getModelFromId(Long.valueOf(id));
         return makeVO.map(vo -> Map.of(vo.getMakeId(), vo.getModelName())).orElse(Collections.emptyMap());
+    }
+
+    /**
+     * delete model.
+     *
+     * @return view
+     */
+    @GetMapping("/model/delete/{modelId}")
+    @SuppressWarnings("unused")
+    public String deleteNewModel(final @PathVariable(name = "modelId") long modelId,
+                                 final RedirectAttributes redirectAttributes) {
+        logger.debug("DeleteModel method of MakeController ");
+        try {
+            modelService.deleteModel(modelId);
+            redirectAttributes.addFlashAttribute("message", "Successfully deleted the selected Model");
+        } catch (Exception ex) {
+            redirectAttributes.addFlashAttribute("message", "Error occurred during deletion");
+            logger.error(ex.getLocalizedMessage(), ex);
+        }
+        return "redirect:/make/ModelList";
     }
 
     /**
@@ -138,8 +159,7 @@ public class ModelController {
         logger.info("ListByPage method of user controller ");
         loggingFromSearch(makeForm);
         var page = modelService.searchModels(makeForm.getSearchMakeAndModelVO().getMakeId(),
-                makeForm.getSearchMakeAndModelVO().getModelName(),
-                pageNumber);
+                makeForm.getSearchMakeAndModelVO().getModelName(), pageNumber);
         var startCount = (pageNumber - 1) * PAGE_SIZE + 1;
         long endCount = (long) startCount + PAGE_SIZE - 1;
         if (endCount > page.getTotalElements()) {
@@ -170,10 +190,9 @@ public class ModelController {
      * @return json string
      */
     @PostMapping("/make/saveModel")
-    public @ResponseBody
-    List<MakeAndModelVO> saveModel(@ModelAttribute("selectMakeId") final Long selectMakeId,
-                                   @ModelAttribute("selectModelName") final String selectModelName,
-                                   final BindingResult result) {
+    public @ResponseBody List<MakeAndModelVO> saveModel(@ModelAttribute("selectMakeId") final Long selectMakeId,
+                                                        @ModelAttribute("selectModelName") final String selectModelName,
+                                                        final BindingResult result) {
         logger.info("SaveModel method of MakeController ");
         if (!result.hasErrors()) {
             makeService.addNewModel(populateModelVO(selectMakeId, selectModelName));
@@ -184,11 +203,10 @@ public class ModelController {
     }
 
     @PutMapping("/make/updateModel")
-    public @ResponseBody
-    List<MakeAndModelVO> updateModel(@ModelAttribute("id") final Long id,
-                                     @ModelAttribute("modalMakeName") final Long makeId,
-                                     @ModelAttribute("modalModelName") final String modalModelName,
-                                     final BindingResult result) {
+    public @ResponseBody List<MakeAndModelVO> updateModel(@ModelAttribute("id") final Long id,
+                                                          @ModelAttribute("modalMakeName") final Long makeId,
+                                                          @ModelAttribute("modalModelName") final String modalModelName,
+                                                          final BindingResult result) {
         var sanitizedId = CommonUtils.sanitizedString(id.toString());
         var sanitizedMakeId = CommonUtils.sanitizedString(makeId.toString());
         var sanitizedModelName = CommonUtils.sanitizedString(modalModelName);
@@ -203,8 +221,7 @@ public class ModelController {
         var sanitizedMakeForm = CommonUtils.sanitizedString(makeForm.toString());
         logger.debug("MakeForm instance to search {}", sanitizedMakeForm);
         if (makeForm.getSearchMakeAndModelVO() != null) {
-            var sanitizedSearchModel = CommonUtils.sanitizedString(
-                    makeForm.getSearchMakeAndModelVO().toString());
+            var sanitizedSearchModel = CommonUtils.sanitizedString(makeForm.getSearchMakeAndModelVO().toString());
             logger.debug("SearchVO instance to search {}", sanitizedSearchModel);
         }
     }
