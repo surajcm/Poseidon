@@ -19,13 +19,6 @@ function clearOut() {
     document.getElementById('startswith').checked = false;
 }
 
-function deleteModel() {
-    let rowCheck = validateSelection();
-    if (rowCheck) {
-        deleteRow();
-    }
-}
-
 function validateEditModalSelection() {
     let check = 'false';
     let count = selectedRowCount();
@@ -45,52 +38,6 @@ function validateEditModalSelection() {
         detail.innerHTML = "<p>No rows selected, please select one row</p>";
         return false;
     }
-}
-
-function validateSelection() {
-    let check = 'false';
-    let count = selectedRowCount();
-    if (count > 0) {
-        check = 'true';
-    }
-    //check for validity
-    if (check === 'true') {
-        if (count === 1) {
-            return true;
-        } else {
-            alert("Only one row can be deleted at a time, please select one row ");
-            return false;
-        }
-    } else {
-        alert("No rows selected, please select one row ");
-        return false;
-    }
-}
-
-//code to delete
-function deleteRow() {
-    let answer = confirm("Are you sure you wanted to delete the user ");
-    if (answer) {
-        let userRow = selectedRow();
-        document.getElementById("id").value = userRow.cells[0].childNodes[0].value;
-        document.forms[0].action = "deleteModel";
-        document.forms[0].submit();
-    }
-}
-
-function selectedRow() {
-    let userRow;
-    let checks = document.getElementsByName('checkField');
-    if (checks.checked) {
-        userRow = document.getElementById("myTable").rows[0];
-    } else {
-        for (let i = 0; i < checks.length; i++) {
-            if (checks[i].checked) {
-                userRow = document.getElementById("myTable").rows[i + 1];
-            }
-        }
-    }
-    return userRow;
 }
 
 function getAllMakeIdsAndNames() {
@@ -259,18 +206,10 @@ function rewriteTable(textReturned) {
     myTable.appendChild(tbody);
 }
 
-function editModelNew(id) {
+function editModel(id) {
     document.getElementById("id").value = id;
     editModelModal();
     getModelForEdit();
-}
-function editModel() {
-    let rowCheck = validateEditModalSelection();
-    if (rowCheck) {
-        editModelModal();
-        setIdForChange();
-        getModelForEdit();
-    }
 }
 
 function editModelModal() {

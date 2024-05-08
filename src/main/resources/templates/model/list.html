@@ -108,7 +108,7 @@
                         <td><span th:text="${model.modelName}"></span></td>
                         <td>
                             <a class="fa-regular fa-pen-to-square" href="" data-bs-toggle="modal" data-bs-target="#editModelModal"
-                               th:onclick="'javascript:editModelNew(' + ${model.id} + ');'" title="Edit this model"></a>
+                               th:onclick="'javascript:editModel(' + ${model.id} + ');'" title="Edit this model"></a>
                             &nbsp;
                             <a class="fa-solid fa-trash"
                                th:href="@{'/model/delete/'+${model.id}}"
@@ -150,15 +150,12 @@
                 </nav>
             </div>
             <div class="row g-3">
-                <div class="col-md-4">
+                <div class="col-md-6">
                     <input class="btn btn-primary" value="Make List" type="button" onclick="listAllMake();"/>
                 </div>
-                <div class="col-md-4">
+                <div class="col-md-6">
                     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#newModelModal"
                     onclick="addModel();">Add Model</button>
-                </div>
-                <div class="col-md-4">
-                    <input class="btn btn-primary" value="Delete Model" type="button" onclick="deleteModel();"/>
                 </div>
             </div>
         </div>
