@@ -42,6 +42,16 @@ public class ModelService {
     }
 
     /**
+     * list all makes and models.
+     *
+     * @return list of makes and models
+     */
+    public List<MakeAndModelVO> listAllMakesAndModels(final int pageNumber) {
+        var models = modelDao.listModels(pageNumber).stream().toList();
+        return makeAndModelEntityConverter.convertModelsToMakeAndModelVOs(models);
+    }
+
+    /**
      * delete a model.
      *
      * @param modelId modelId

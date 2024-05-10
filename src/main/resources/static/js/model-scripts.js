@@ -179,6 +179,9 @@ function rewriteTable(textReturned) {
     th3.innerHTML = "Model Name";
     th3.setAttribute("scope", "col");
     tr1.appendChild(th3);
+    let th4 = document.createElement("th");
+    th4.setAttribute("scope", "col");
+    tr1.appendChild(th4);
     thead.appendChild(tr1);
     myTable.appendChild(thead);
     let modelList = JSON.parse(textReturned);
@@ -201,9 +204,50 @@ function rewriteTable(textReturned) {
         let td3 = document.createElement("td");
         td3.innerHTML = singleModel.modelName;
         trx.appendChild(td3);
+        let td4 = document.createElement("td");
+        td4.appendChild(editLink(singleModel.id));
+        td4.appendChild(emptySpace());
+        td4.appendChild(deleteLink(singleModel.id));
+        trx.appendChild(td4);
         tbody.appendChild(trx);
     }
     myTable.appendChild(tbody);
+}
+
+function emptySpace() {
+    const span = document.createElement("span");
+    span.innerHTML = "&nbsp;";
+    return span;
+}
+
+function editLink(modelId) {
+    const editAnchor = document.createElement("a");
+    editAnchor.setAttribute("class", "fa-regular fa-pen-to-square");
+    editAnchor.setAttribute("href", "#");
+    editAnchor.setAttribute("data-bs-toggle", "modal");
+    editAnchor.setAttribute("data-bs-target", "#editModelModal");
+    editAnchor.setAttribute("onclick", "javascript:editModel(" + modelId + ");");
+    editAnchor.setAttribute("title", "Edit this model");
+    return editAnchor;
+}
+
+function deleteLink(modelId) {
+    const deleteAnchor = document.createElement("a");
+    deleteAnchor.setAttribute("class", "fa-solid fa-trash");
+    deleteAnchor.setAttribute("href", "/model/delete/" + modelId);
+    deleteAnchor.setAttribute("data-bs-toggle", "modal");
+    deleteAnchor.setAttribute("data-bs-target", "#confirmModal");
+    deleteAnchor.setAttribute("modelId", modelId);
+    deleteAnchor.setAttribute("title", "Delete this model");
+    deleteAnchor.addEventListener('click', function(event) {
+        event.preventDefault();
+        document.getElementById('confirmText').innerText = 'Are you sure you want to delete model ID ' + modelId + '?';
+        // Set the href of the confirmation button to the href of the delete link
+        const confirmButton = document.querySelector('#confirmModal .btn-success');
+        confirmButton.href = this.href;
+    });
+
+    return deleteAnchor;
 }
 
 function editModel(id) {

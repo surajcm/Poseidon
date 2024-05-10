@@ -213,7 +213,7 @@ public class ModelController {
         logger.info("UpdateModel method of make controller with id {}, makeId {}, modalModelName {}",
                 sanitizedId, sanitizedMakeId, sanitizedModelName);
         makeService.updateModel(id, makeId, modalModelName);
-        return modelService.listAllMakesAndModels();
+        return modelService.listAllMakesAndModels(1);
     }
 
     private void loggingFromSearch(final MakeForm makeForm) {
