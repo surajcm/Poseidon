@@ -201,7 +201,8 @@ public class MakeController {
                 sanitizedId, sanitizedMakeName, sanitizedDescription);
         var make = populateMakeForUpdate(id, makeName, description);
         makeService.updateMake(make);
-        return convertMakeToMakeVO(makeService.fetchAllMakes());
+        var makes = makeService.listAll(1);
+        return convertMakeToMakeVO(makes.stream().toList());
     }
 
     private Make populateMakeForUpdate(final Long id, final String makeName, final String makeDesc) {
