@@ -76,11 +76,13 @@ public class UserController {
         if (endCount > page.getTotalElements()) {
             endCount = page.getTotalElements();
         }
+        logger.info("Page number is : {}", pageNumber);
         model.addAttribute("currentPage", pageNumber);
         model.addAttribute("totalPages", page.getTotalPages());
         model.addAttribute("startCount", startCount);
         model.addAttribute("endCount", endCount);
         model.addAttribute("totalItems", page.getTotalElements());
+        model.addAttribute("activeSearch", false);
         model.addAttribute(ALL_ROLES, fullRoleMap());
         model.addAttribute("users", page.getContent());
         model.addAttribute(USER_FORM, new UserForm());

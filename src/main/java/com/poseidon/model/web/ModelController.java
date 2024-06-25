@@ -62,13 +62,14 @@ public class ModelController {
 
     @GetMapping(value = "model/page/{pageNumber}")
     public String modelByPage(final @PathVariable(name = "pageNumber") int pageNumber, final Model model) {
-        logger.info("ListByPage method of user controller ");
+        logger.info("ListByPage method of model controller ");
         var page = modelService.listModels(pageNumber);
         var startCount = (pageNumber - 1) * PAGE_SIZE + 1;
         long endCount = (long) startCount + PAGE_SIZE - 1;
         if (endCount > page.getTotalElements()) {
             endCount = page.getTotalElements();
         }
+        logger.info("Page number is {}", pageNumber);
         model.addAttribute("currentPage", pageNumber);
         model.addAttribute("totalPages", page.getTotalPages());
         model.addAttribute("startCount", startCount);
@@ -165,6 +166,7 @@ public class ModelController {
         if (endCount > page.getTotalElements()) {
             endCount = page.getTotalElements();
         }
+        logger.info("Page number is {}", pageNumber);
         model.addAttribute("currentPage", pageNumber);
         model.addAttribute("totalPages", page.getTotalPages());
         model.addAttribute("startCount", startCount);
