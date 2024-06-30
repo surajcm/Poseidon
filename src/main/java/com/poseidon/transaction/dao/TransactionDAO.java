@@ -20,6 +20,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.ZoneId;
 import java.time.format.DateTimeFormatter;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -63,9 +64,10 @@ public class TransactionDAO {
      * @return list of transactions
      */
     public List<TransactionVO> listAllTransactions() {
-        var transactions = sneak(transactionRepository::findAll);
-        return transactions.parallelStream()
-                .map(this::convertToVO).toList();
+        List<Transaction> transaction = new ArrayList<>();
+        var iterable = sneak(transactionRepository::findAll);
+        iterable.forEach(transaction::add);
+        return transaction.stream().map(this::convertToVO).toList();
     }
 
     /**
@@ -103,8 +105,10 @@ public class TransactionDAO {
     }
 
     public List<String> allTagNumbers() {
-        return transactionRepository.findAll().parallelStream()
-                .map(Transaction::getTagno).toList();
+        List<Transaction> transaction = new ArrayList<>();
+        var iterable = sneak(transactionRepository::findAll);
+        iterable.forEach(transaction::add);
+        return transaction.stream().map(Transaction::getTagno).toList();
     }
 
     /**

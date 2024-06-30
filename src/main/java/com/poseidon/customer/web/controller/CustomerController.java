@@ -16,12 +16,15 @@ import org.springframework.util.StringUtils;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import java.util.List;
 import java.util.Optional;
+
+import static com.poseidon.init.Constants.PAGE_SIZE;
 
 
 @Controller
@@ -51,16 +54,29 @@ public class CustomerController {
      */
     @PostMapping("/customer/List")
     public String listAllCustomers(final CustomerForm customerForm, final Model model) {
-        logIncoming(customerForm);
-        List<CustomerVO> customerVOs = listCustomers();
-        if (!customerVOs.isEmpty()) {
-            customerVOs.forEach(customerVO -> logger.info("customerVO is {}", customerVO));
-            customerForm.setCustomerVOs(customerVOs);
+        return customerListByPage(1, model);
+    }
+
+    @GetMapping(value = "customer/page/{pageNumber}")
+    public String customerListByPage(final @PathVariable(name = "pageNumber") int pageNumber,
+                                 final Model model) {
+        logger.info("customerListByPage with page of CustomerController ");
+        var page = customerService.listAll(pageNumber);
+        var startCount = (pageNumber - 1) * PAGE_SIZE + 1;
+        long endCount = (long) startCount + PAGE_SIZE - 1;
+        if (endCount > page.getTotalElements()) {
+            endCount = page.getTotalElements();
         }
-        customerForm.setSearchCustomerVO(new CustomerVO());
-        customerForm.setLoggedInRole(customerForm.getLoggedInRole());
-        customerForm.setLoggedInUser(customerForm.getLoggedInUser());
-        model.addAttribute(CUSTOMER_FORM, customerForm);
+        for (Customer customer:page) {
+            System.out.println(customer.getName());
+        }
+        model.addAttribute("currentPage", pageNumber);
+        model.addAttribute("totalPages", page.getTotalPages());
+        model.addAttribute("startCount", startCount);
+        model.addAttribute("endCount", endCount);
+        model.addAttribute("totalItems", page.getTotalElements());
+        model.addAttribute("customers", page.getContent());
+        model.addAttribute(CUSTOMER_FORM, new CustomerForm());
         return "customer/CustomerList";
     }
 

@@ -9,17 +9,20 @@ import com.poseidon.customer.domain.CustomerVO;
 import com.poseidon.customer.exception.CustomerException;
 import com.poseidon.init.specs.SearchCriteria;
 import com.poseidon.init.specs.SearchOperation;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
-import jakarta.persistence.EntityManager;
-import jakarta.persistence.PersistenceContext;
-
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import static com.poseidon.init.Constants.PAGE_SIZE;
 import static com.rainerhahnekamp.sneakythrow.Sneaky.sneak;
 import static com.rainerhahnekamp.sneakythrow.Sneaky.sneaked;
 
@@ -48,8 +51,19 @@ public class CustomerDAO {
      * @return list customer vo
      */
     public List<Customer> listAllCustomerDetails() {
-        return sneak(() ->
-                customerRepository.findAll().parallelStream().toList());
+        return allCustomers();
+    }
+
+    private List<Customer> allCustomers() {
+        var iterable = customerRepository.findAll();
+        List<Customer> customers = new ArrayList<>();
+        iterable.forEach(customers::add);
+        return customers;
+    }
+
+    public Page<Customer> listAll(final int pageNumber) {
+        var pageable = PageRequest.of(pageNumber - 1, PAGE_SIZE);
+        return customerRepository.findAll(pageable);
     }
 
     /**
@@ -105,7 +119,7 @@ public class CustomerDAO {
         if (!searchCustomerVo.getMobile().isBlank()) {
             customerSpec.add(new SearchCriteria(MOBILE, searchCustomerVo.getMobile(), search));
         }
-        List<Customer> resultCustomers = sneak(() -> customerRepository.findAll(customerSpec));
+        var resultCustomers = customerRepository.findAll(customerSpec);
         return convertToCustomerVO(resultCustomers);
     }
 
