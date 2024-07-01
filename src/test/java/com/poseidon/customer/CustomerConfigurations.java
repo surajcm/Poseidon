@@ -8,13 +8,16 @@ import org.springframework.test.context.ContextConfiguration;
 
 @ContextConfiguration
 public class CustomerConfigurations {
+
+    private final CustomerService customerService = Mockito.mock(CustomerService.class);
+
     @Bean
     public CustomerController customerController() {
-        return new CustomerController(Mockito.mock(CustomerService.class));
+        return new CustomerController(customerService());
     }
 
     @Bean
     public CustomerService customerService() {
-        return Mockito.mock(CustomerService.class);
+        return customerService;
     }
 }
