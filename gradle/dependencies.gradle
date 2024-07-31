@@ -1,6 +1,6 @@
 
 dependencies {
-    errorprone("com.google.errorprone:error_prone_core:2.28.0")
+    errorprone("com.google.errorprone:error_prone_core:2.29.2")
     errorproneJavac('com.google.errorprone:javac:9+181-r4173-1')
 
     implementation("org.springframework.boot:spring-boot-starter-web")
@@ -22,8 +22,8 @@ dependencies {
     implementation("org.apache.tomcat.embed:tomcat-embed-jasper")
     implementation('com.rainerhahnekamp:sneakythrow:1.2.0')
 
-    implementation("org.apache.poi:poi:5.2.5")
-    implementation("org.apache.poi:poi-ooxml:5.2.5")
+    implementation("org.apache.poi:poi:5.3.0")
+    implementation("org.apache.poi:poi-ooxml:5.3.0")
 
     implementation("net.sf.jasperreports:jasperreports:6.21.3")
     implementation("com.lowagie:itext:4.2.2")
