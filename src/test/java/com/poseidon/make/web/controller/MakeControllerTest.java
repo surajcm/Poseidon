@@ -18,6 +18,9 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import java.util.List;
 
 import static org.mockito.ArgumentMatchers.anyInt;
+import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.Mockito.doNothing;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -49,8 +52,15 @@ class MakeControllerTest {
     }
 
     @Test
-    void deleteMake() throws Exception {
-        mvc.perform(get("/make/delete/2/")).andExpect(status().isFound());
+    void deleteMakeSuccess() throws Exception {
+        doNothing().when(makeService).deleteMake(anyLong());
+        mvc.perform(get("/make/delete/2")).andExpect(status().isFound());
+    }
+
+    @Test
+    void deleteMakeFailure() throws Exception {
+        doThrow(new RuntimeException()).when(makeService).deleteMake(anyLong());
+        mvc.perform(get("/make/delete/3")).andExpect(status().isFound());
     }
 
     @Test
