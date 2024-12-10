@@ -61,14 +61,6 @@ cpd {
     ignoreFailures = true
 }
 
-cpdCheck {
-    reports {
-        text.required = true
-        xml.required = false
-    }
-    source = sourceSets.main.allJava
-}
-
 jacocoTestCoverageVerification {
     violationRules {
         rule {
