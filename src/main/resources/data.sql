@@ -135,47 +135,47 @@ insert into make (id, makeName, description, createdOn, modifiedOn, createdBy, m
 insert into make (id, makeName, description, createdOn, modifiedOn, createdBy, modifiedBy) values
 (11, 'MSI', 'MSI','2024-03-07 00:00:00','2024-03-07 09:21:00','admin','admin');
 
-insert into model (id, modelId, modelName, makeId, createdOn, modifiedOn, createdBy, modifiedBy) values
-(1, 1, 'MacBook Pro', 1 ,'2019-08-01 00:00:00','2019-08-01 06:56:00','admin','admin');
+insert into model (id, modelId, modelName, productType, makeId, createdOn, modifiedOn, createdBy, modifiedBy) values
+(1, 1, 'MacBook Pro', 'Laptop Computer',1 ,'2019-08-01 00:00:00','2019-08-01 06:56:00','admin','admin');
 
-insert into model (id, modelId, modelName, makeId, createdOn, modifiedOn, createdBy, modifiedBy) values
-(2, 2, 'MacBook Air', 1 ,'2019-08-01 00:00:00','2019-08-01 09:23:00','admin','admin');
+insert into model (id, modelId, modelName, productType, makeId, createdOn, modifiedOn, createdBy, modifiedBy) values
+(2, 2, 'MacBook Air', 'Laptop Computer',1 ,'2019-08-01 00:00:00','2019-08-01 09:23:00','admin','admin');
 
-insert into model (id, modelId, modelName, makeId, createdOn, modifiedOn, createdBy, modifiedBy) values
-(3, 3, 'HP Spectre x360', 2 ,'2019-08-01 00:00:00','2019-08-01 09:23:00','admin','admin');
+insert into model (id, modelId, modelName, productType, makeId, createdOn, modifiedOn, createdBy, modifiedBy) values
+(3, 3, 'HP Spectre x360', 'Laptop Computer',2 ,'2019-08-01 00:00:00','2019-08-01 09:23:00','admin','admin');
 
-insert into model (id, modelId, modelName, makeId, createdOn, modifiedOn, createdBy, modifiedBy) values
-(4, 4, 'Lenovo ThinkPad X1 Carbon', 3 ,'2019-08-01 00:00:00','2019-08-01 09:25:00','admin','admin');
+insert into model (id, modelId, modelName, productType, makeId, createdOn, modifiedOn, createdBy, modifiedBy) values
+(4, 4, 'Lenovo ThinkPad X1 Carbon', 'Laptop Computer',3 ,'2019-08-01 00:00:00','2019-08-01 09:25:00','admin','admin');
 
-insert into model (id, modelId, modelName, makeId, createdOn, modifiedOn, createdBy, modifiedBy) values
-(5, 5, 'XPS 13', 2 ,'2024-03-07 00:00:00','2024-03-07 09:25:00','admin','admin');
+insert into model (id, modelId, modelName, productType, makeId, createdOn, modifiedOn, createdBy, modifiedBy) values
+(5, 5, 'XPS 13', 'Laptop Computer',2 ,'2024-03-07 00:00:00','2024-03-07 09:25:00','admin','admin');
 
-insert into model (id, modelId, modelName, makeId, createdOn, modifiedOn, createdBy, modifiedBy) values
-(6, 6, 'Inspiron 14 5000', 2 ,'2024-03-07 00:00:00','2024-03-07 09:25:00','admin','admin');
+insert into model (id, modelId, modelName, productType, makeId, createdOn, modifiedOn, createdBy, modifiedBy) values
+(6, 6, 'Inspiron 14 5000', 'Laptop Computer',2 ,'2024-03-07 00:00:00','2024-03-07 09:25:00','admin','admin');
 
-insert into model (id, modelId, modelName, makeId, createdOn, modifiedOn, createdBy, modifiedBy) values
-(7, 7, 'HP Spectre x360', 4 ,'2024-03-07 00:00:00','2024-03-07 09:25:00','admin','admin');
+insert into model (id, modelId, modelName, productType, makeId, createdOn, modifiedOn, createdBy, modifiedBy) values
+(7, 7, 'HP Spectre x360', 'Laptop Computer',4 ,'2024-03-07 00:00:00','2024-03-07 09:25:00','admin','admin');
 
-insert into model (id, modelId, modelName, makeId, createdOn, modifiedOn, createdBy, modifiedBy) values
-(8, 8, 'Acer Swift 3', 7 ,'2024-03-07 00:00:00','2024-03-07 09:25:00','admin','admin');
+insert into model (id, modelId, modelName, productType, makeId, createdOn, modifiedOn, createdBy, modifiedBy) values
+(8, 8, 'Acer Swift 3', 'Laptop Computer',7 ,'2024-03-07 00:00:00','2024-03-07 09:25:00','admin','admin');
 
-insert into model (id, modelId, modelName, makeId, createdOn, modifiedOn, createdBy, modifiedBy) values
-(9, 9, 'Lenovo Yoga C940', 3 ,'2024-03-07 00:00:00','2024-03-07 09:25:00','admin','admin');
+insert into model (id, modelId, modelName, productType, makeId, createdOn, modifiedOn, createdBy, modifiedBy) values
+(9, 9, 'Lenovo Yoga C940', 'Laptop Computer',3 ,'2024-03-07 00:00:00','2024-03-07 09:25:00','admin','admin');
 
-insert into model (id, modelId, modelName, makeId, createdOn, modifiedOn, createdBy, modifiedBy) values
-(10, 10, 'Acer Predator Helios 300', 7 ,'2024-03-07 00:00:00','2024-03-07 09:25:00','admin','admin');
+insert into model (id, modelId, modelName, productType, makeId, createdOn, modifiedOn, createdBy, modifiedBy) values
+(10, 10, 'Acer Predator Helios 300', 'Laptop Computer',7 ,'2024-03-07 00:00:00','2024-03-07 09:25:00','admin','admin');
 
-insert into model (id, modelId, modelName, makeId, createdOn, modifiedOn, createdBy, modifiedBy) values
-(11, 11, 'Asus ZenBook 14', 6 ,'2024-03-07 00:00:00','2024-03-07 09:25:00','admin','admin');
+insert into model (id, modelId, modelName, productType, makeId, createdOn, modifiedOn, createdBy, modifiedBy) values
+(11, 11, 'Asus ZenBook 14', 'Laptop Computer',6 ,'2024-03-07 00:00:00','2024-03-07 09:25:00','admin','admin');
 
-insert into model (id, modelId, modelName, makeId, createdOn, modifiedOn, createdBy, modifiedBy) values
-(12, 12, 'Asus ROG Zephyrus G14', 6 ,'2024-03-07 00:00:00','2024-03-07 09:25:00','admin','admin');
+insert into model (id, modelId, modelName, productType, makeId, createdOn, modifiedOn, createdBy, modifiedBy) values
+(12, 12, 'Asus ROG Zephyrus G14', 'Laptop Computer',6 ,'2024-03-07 00:00:00','2024-03-07 09:25:00','admin','admin');
 
-insert into model (id, modelId, modelName, makeId, createdOn, modifiedOn, createdBy, modifiedBy) values
-(13, 13, 'Surface Laptop 4', 8 ,'2024-03-07 00:00:00','2024-03-07 09:25:00','admin','admin');
+insert into model (id, modelId, modelName, productType, makeId, createdOn, modifiedOn, createdBy, modifiedBy) values
+(13, 13, 'Surface Laptop 4', 'Laptop Computer',8 ,'2024-03-07 00:00:00','2024-03-07 09:25:00','admin','admin');
 
-insert into model (id, modelId, modelName, makeId, createdOn, modifiedOn, createdBy, modifiedBy) values
-(14, 14, 'Surface Pro 7', 8 ,'2024-03-07 00:00:00','2024-03-07 09:25:00','admin','admin');
+insert into model (id, modelId, modelName, productType, makeId, createdOn, modifiedOn, createdBy, modifiedBy) values
+(14, 14, 'Surface Pro 7', 'Laptop Computer',8 ,'2024-03-07 00:00:00','2024-03-07 09:25:00','admin','admin');
 
 insert into customer (id, name, address, phone, mobile, email,createdBy, createdOn, modifiedBy, modifiedOn)
 values (1, 'John Wick', '5630 N Sheridan, Chicago', '0404 232323', '555888999', 'test@testmail.com',

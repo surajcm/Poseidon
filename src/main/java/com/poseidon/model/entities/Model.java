@@ -23,6 +23,9 @@ public class Model extends CommonEntity {
     @Column(name = "modelName")
     private String modelName;
 
+    @Column(name = "productType")
+    private String productType;
+
     @Column(name = "makeId")
     private Long makeId;
 
@@ -44,6 +47,14 @@ public class Model extends CommonEntity {
 
     public void setModelName(final String modelName) {
         this.modelName = modelName;
+    }
+
+    public String getProductType() {
+        return productType;
+    }
+
+    public void setProductType(final String productType) {
+        this.productType = productType;
     }
 
     public Long getMakeId() {

@@ -126,6 +126,7 @@ public class MakeDao {
     public void addNewModel(final MakeAndModelVO currentMakeVo) {
         var model = makeAndModelEntityConverter.convertMakeAndModelVOToModel(currentMakeVo);
         var model1 = updateModelWithMake(model);
+        model1.setProductType("Laptop Computer");
         sneak(() -> modelRepository.save(model1));
     }
 
