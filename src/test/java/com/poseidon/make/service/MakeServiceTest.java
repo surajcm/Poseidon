@@ -89,7 +89,7 @@ class MakeServiceTest {
 
     @Test
     void searchMake() {
-        when(makeDAO.searchMake(any())).thenReturn(mockListOfMakeAndModelVO());
+        when(makeDAO.searchMake(any())).thenReturn(mockMakes());
         var makeVos = makeService.searchMake(new MakeAndModelVO());
         Assertions.assertEquals(makeVos.get(0).getId(), 1234L);
     }

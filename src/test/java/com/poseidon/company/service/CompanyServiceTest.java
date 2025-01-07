@@ -22,8 +22,8 @@ class CompanyServiceTest {
     void listCompanyTermsSuccess() {
         when(companyRepository.findByCode("QC01")).thenReturn(mockCompanyTerms());
         var companyTerms = companyService.listCompanyTerms("QC01");
-        Assertions.assertTrue(companyTerms.isPresent());
-        Assertions.assertEquals(COMPANY_CODE, companyTerms.get().getName());
+        Assertions.assertEquals(COMPANY_CODE, companyTerms.get().getName(),
+                "Company code ABC does not equals to the current company code");
     }
 
     @Test
@@ -31,8 +31,8 @@ class CompanyServiceTest {
         when(companyRepository.findById(any())).thenReturn(mockCompanyTerms());
         when(companyRepository.save(any())).thenReturn(mockCompany());
         var companyTerms = companyService.updateCompanyDetails(new CompanyTerms());
-        Assertions.assertTrue(companyTerms.isPresent());
-        Assertions.assertEquals(COMPANY_CODE, companyTerms.get().getName());
+        Assertions.assertEquals(COMPANY_CODE, companyTerms.get().getName(),
+                "Company code ABC does not equals to the current company code");
     }
 
     @Test

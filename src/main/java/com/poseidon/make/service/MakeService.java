@@ -84,7 +84,8 @@ public class MakeService {
      * @param currentMakeVO currentMakeVO
      */
     public void addNewModel(final MakeAndModelVO currentMakeVO) {
-        makeDAO.addNewModel(currentMakeVO);
+        var model = makeAndModelEntityConverter.convertMakeAndModelVOToModel(currentMakeVO);
+        makeDAO.addNewModel(model);
     }
 
     /**
@@ -143,7 +144,8 @@ public class MakeService {
      * @return List of MakeAndModelVO
      */
     public List<MakeAndModelVO> searchMake(final MakeAndModelVO searchMakeAndModelVO) {
-        return makeDAO.searchMake(searchMakeAndModelVO);
+        final List<Make> makes = makeDAO.searchMake(searchMakeAndModelVO);
+        return makeAndModelEntityConverter.convertMakeToMakeAndModelVOs(makes);
     }
 
     private List<MakeVO> convertMakeToMakeVO(final List<Make> makes) {

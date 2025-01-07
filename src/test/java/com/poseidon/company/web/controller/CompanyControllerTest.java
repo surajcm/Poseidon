@@ -19,6 +19,8 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.util.Optional;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
@@ -46,9 +48,14 @@ class CompanyControllerTest {
     @Test
     void listNormal() throws Exception {
         when(userService.findUserFromName(anyString())).thenReturn(mockUser());
-        mvc.perform(post("/company/company")).andExpect(status().isOk());
+        mvc.perform(post("/company/company"))
+            .andExpect(status().isOk())
+                .andExpect(result -> assertNotNull(result.getResponse().getContentAsString()));
+
         when(companyService.listCompanyTerms(anyString())).thenThrow(new RuntimeException());
-        mvc.perform(post("/company/company")).andExpect(status().isOk());
+        mvc.perform(post("/company/company"))
+            .andExpect(status().isOk())
+                .andExpect(result -> assertEquals("", result.getResponse().getContentAsString()));
     }
 
     private User mockUser() {

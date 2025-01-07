@@ -1,7 +1,6 @@
 package com.poseidon.make.dao;
 
 import com.poseidon.make.dao.entities.Make;
-import com.poseidon.make.dao.mapper.MakeAndModelEntityConverter;
 import com.poseidon.make.dao.repo.MakeRepository;
 import com.poseidon.make.domain.MakeAndModelVO;
 import com.poseidon.make.domain.MakeVO;
@@ -36,14 +35,10 @@ public class MakeDao {
 
     private final ModelRepository modelRepository;
 
-    private final MakeAndModelEntityConverter makeAndModelEntityConverter;
-
     public MakeDao(final MakeRepository makeRepository,
-                   final ModelRepository modelRepository,
-                   final MakeAndModelEntityConverter makeAndModelEntityConverter) {
+                   final ModelRepository modelRepository) {
         this.makeRepository = makeRepository;
         this.modelRepository = modelRepository;
-        this.makeAndModelEntityConverter = makeAndModelEntityConverter;
     }
 
     /**
@@ -121,10 +116,9 @@ public class MakeDao {
     /**
      * add a new model.
      *
-     * @param currentMakeVo currentMakeVo
+     * @param model Model
      */
-    public void addNewModel(final MakeAndModelVO currentMakeVo) {
-        var model = makeAndModelEntityConverter.convertMakeAndModelVOToModel(currentMakeVo);
+    public void addNewModel(final Model model) {
         var model1 = updateModelWithMake(model);
         model1.setProductType("Laptop Computer");
         sneak(() -> modelRepository.save(model1));
@@ -238,20 +232,16 @@ public class MakeDao {
      * @param searchMakeVo searchMakeVo
      * @return list of make and model vos
      */
-    public List<MakeAndModelVO> searchMake(final MakeAndModelVO searchMakeVo) {
+    public  List<Make> searchMake(final MakeAndModelVO searchMakeVo) {
         var searchMakeName = searchMakeVo.getMakeName();
-        var makes = sneak(() ->
-                makeRepository.findByMakeName(searchMakeName).parallelStream()
+        return sneak(() -> makeRepository.findByMakeName(searchMakeName).parallelStream()
                         .toList());
-        return makeAndModelEntityConverter.convertMakeToMakeAndModelVOs(makes);
     }
 
     public Page<Make> searchMakes(final String makeName, final int pageNumber) {
         var pageable = PageRequest.of(pageNumber - 1, PAGE_SIZE);
         return makeRepository.findByMakeName(makeName, pageable);
     }
-
-
 
     private List<MakeAndModelVO> mapItOut(final List<Model> models,
                                           final Function<Model, MakeAndModelVO> converter) {

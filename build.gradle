@@ -37,6 +37,12 @@ jar {
     enabled = false
 }
 
+tasks.withType(JavaCompile).configureEach {
+    configure(options) {
+        options.compilerArgs << '-parameters'
+    }
+}
+
 test.dependsOn checkstyleMain
 test.dependsOn checkstyleTest
 bootRun.dependsOn checkstyleMain

@@ -1,7 +1,6 @@
 package com.poseidon.make.dao;
 
 import com.poseidon.make.dao.entities.Make;
-import com.poseidon.make.dao.mapper.MakeAndModelEntityConverter;
 import com.poseidon.make.dao.repo.MakeRepository;
 import com.poseidon.make.domain.MakeAndModelVO;
 import com.poseidon.model.entities.Model;
@@ -26,9 +25,7 @@ import static org.mockito.Mockito.when;
 class MakeDaoTest {
     private final MakeRepository makeRepository = Mockito.mock(MakeRepository.class);
     private final ModelRepository modelRepository = Mockito.mock(ModelRepository.class);
-    private final MakeAndModelEntityConverter makeAndModelEntityConverter = new MakeAndModelEntityConverter();
-    private final MakeDao makeDao = new MakeDao(makeRepository, modelRepository,
-            makeAndModelEntityConverter);
+    private final MakeDao makeDao = new MakeDao(makeRepository, modelRepository);
 
     @Test
     void listAllMakesSuccess() {
@@ -73,7 +70,7 @@ class MakeDaoTest {
     @Test
     void addNewModelSuccess() {
         when(makeRepository.findById(anyLong())).thenReturn(Optional.of(mockMake()));
-        Assertions.assertAll(() -> makeDao.addNewModel(mockMakeAndModelVO()));
+        Assertions.assertAll(() -> makeDao.addNewModel(mockModel()));
     }
 
     @Test
@@ -162,16 +159,6 @@ class MakeDaoTest {
         makeAndModelVO.setId(1234L);
         makeAndModelVO.setModelName("Macbook");
         makeAndModelVO.setMakeId(1234L);
-        return makeAndModelVO;
-    }
-
-    private MakeAndModelVO mockMakeAndModelVO() {
-        var makeAndModelVO = new MakeAndModelVO();
-        makeAndModelVO.setMakeId(1234L);
-        makeAndModelVO.setMakeName("Apple");
-        makeAndModelVO.setDescription("Apple computers");
-        makeAndModelVO.setCreatedBy("admin");
-        makeAndModelVO.setModifiedBy("admin");
         return makeAndModelVO;
     }
 }
