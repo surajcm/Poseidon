@@ -108,7 +108,7 @@ class CustomerServiceTest {
     @Test
     void customerFromIdSuccess() {
         when(customerDAO.getCustomerFromId(anyLong())).thenReturn(Optional.of(new CustomerVO()));
-        Assertions.assertNotNull(customerService.getCustomerFromId(1234L));
+        Assertions.assertNotNull(customerService.getCustomerFromId(1234L), "Customer should not be null");
     }
 
     @Test
@@ -131,6 +131,7 @@ class CustomerServiceTest {
     @Test
     void searchCustomerSuccess() {
         when(customerDAO.searchCustomer(Mockito.mock(CustomerVO.class))).thenReturn(new ArrayList<>());
-        Assertions.assertNotNull(customerService.searchCustomer(Mockito.mock(CustomerVO.class)));
+        Assertions.assertNotNull(customerService.searchCustomer(Mockito.mock(CustomerVO.class)),
+                "Customer should not be null");
     }
 }

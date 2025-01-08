@@ -8,7 +8,8 @@ class CommonUtilsTest {
     @Test
     void verifySanitizedString() {
         String params = "hello";
-        Assertions.assertEquals(params, CommonUtils.sanitizedString("hello"));
+        Assertions.assertEquals(params, CommonUtils.sanitizedString("hello"),
+                "Sanitized string should be equal to hello");
     }
 
 }

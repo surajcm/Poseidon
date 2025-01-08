@@ -38,7 +38,7 @@ class CompanyServiceTest {
     @Test
     void isValidCompanyCode() {
         when(companyRepository.findByCode(anyString())).thenReturn(Optional.of(new CompanyTerms()));
-        Assertions.assertTrue(companyService.isValidCompanyCode(COMPANY_CODE));
+        Assertions.assertTrue(companyService.isValidCompanyCode(COMPANY_CODE), "Company code is not valid");
     }
 
     private Optional<CompanyTerms> mockCompanyTerms() {

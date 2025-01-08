@@ -31,13 +31,14 @@ class InvoiceDAOTest {
     void fetchInvoiceForListOfTransactionsSuccess() {
         when(invoiceRepository.fetchTodaysInvoices(any())).thenReturn(mockListOfInvoices());
         var tagNumbers = List.of("ABC", "CDE");
-        Assertions.assertNotNull(invoiceDAO.fetchInvoiceForListOfTransactions(tagNumbers));
+        Assertions.assertNotNull(invoiceDAO.fetchInvoiceForListOfTransactions(tagNumbers),
+                "Invoices should not be null");
     }
 
     @Test
     void fetchInvoiceVOFromIdSuccess() {
         when(invoiceRepository.findById(anyLong())).thenReturn(Optional.of(mockInvoice()));
-        Assertions.assertNotNull(invoiceDAO.fetchInvoiceVOFromId(1234L));
+        Assertions.assertNotNull(invoiceDAO.fetchInvoiceVOFromId(1234L), "Invoice should not be null");
     }
 
     @Test

@@ -16,8 +16,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.when;
 
-public class ModelServiceTest {
-
+class ModelServiceTest {
     private final ModelDao modelDao = Mockito.mock(ModelDao.class);
     private final MakeAndModelEntityConverter makeAndModelEntityConverter = new MakeAndModelEntityConverter();
     private final ModelService modelService = new ModelService(modelDao, makeAndModelEntityConverter);
@@ -26,26 +25,23 @@ public class ModelServiceTest {
     void listAllMakesAndModelsSuccess() {
         when(modelDao.listAllModels()).thenReturn(mockModels());
         var makeVOs = modelService.listAllMakesAndModels();
-        Assertions.assertEquals(1234L, makeVOs.get(0).getId());
+        Assertions.assertEquals(1234L, makeVOs.getFirst().getId(), "MakeVOs should have ");
     }
 
     @Test
-    public void testGetModelFromId() {
+    void testGetModelFromId() {
         Long modelId = 1L;
         MakeAndModelVO makeAndModelVO = new MakeAndModelVO();
         when(modelDao.getModelFromId(modelId)).thenReturn(Optional.of(makeAndModelVO));
-
         Optional<MakeAndModelVO> result = modelService.getModelFromId(modelId);
-
-        assertEquals(Optional.of(makeAndModelVO), result);
+        assertEquals(Optional.of(makeAndModelVO), result, "Model should be returned");
     }
 
     @Test
     void modelFromIdSuccess() {
         when(modelDao.getModelFromId(anyLong())).thenReturn(Optional.of(Mockito.mock(MakeAndModelVO.class)));
-        Assertions.assertNotNull(modelService.getModelFromId(1234L));
+        Assertions.assertNotNull(modelService.getModelFromId(1234L), "Model should not be null");
     }
-
 
     @Test
     void deleteModelSuccess() {
@@ -56,7 +52,7 @@ public class ModelServiceTest {
         var model = new Model();
         model.setId(1234L);
         model.setModelId(1234L);
-        model.setMake(mockMakes().get(0));
+        model.setMake(mockMakes().getFirst());
         return List.of(model);
     }
 

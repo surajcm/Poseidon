@@ -40,19 +40,19 @@ class InvoiceServiceTest {
         when(transactionService.listTodaysTransactions()).thenReturn(mockListOfTransactionVOs());
         when(invoiceDAO.fetchInvoiceForListOfTransactions(any()))
                 .thenReturn(new ArrayList<>());
-        Assertions.assertNotNull(invoiceService.fetchInvoiceForListOfTransactions());
+        Assertions.assertNotNull(invoiceService.fetchInvoiceForListOfTransactions(), "Invoices should not be null");
     }
 
     @Test
     void fetchInvoiceVOFromIdSuccess() {
         when(invoiceDAO.fetchInvoiceVOFromId(anyLong())).thenReturn(Optional.empty());
-        Assertions.assertNotNull(invoiceService.fetchInvoiceVOFromId(1234L));
+        Assertions.assertNotNull(invoiceService.fetchInvoiceVOFromId(1234L), "Invoice should not be null");
     }
 
     @Test
     void fetchInvoiceVOFromTagNoSuccess() {
         when(invoiceDAO.fetchInvoiceVOFromTagNo(anyString())).thenReturn(Optional.empty());
-        Assertions.assertNotNull(invoiceService.fetchInvoiceVOFromTagNo("ABC"));
+        Assertions.assertNotNull(invoiceService.fetchInvoiceVOFromTagNo("ABC"), "Invoice should not be null");
     }
 
     @Test
@@ -72,13 +72,14 @@ class InvoiceServiceTest {
     @Test
     void findInvoicesSuccess() {
         when(invoiceDAO.findInvoices(any())).thenReturn(new ArrayList<>());
-        Assertions.assertNotNull(invoiceService.findInvoices(Mockito.mock(InvoiceVO.class)));
+        Assertions.assertNotNull(invoiceService.findInvoices(Mockito.mock(InvoiceVO.class)),
+                "Invoice should not be null");
     }
 
     @Test
     void allTagNumbers() {
         when(transactionService.allTagNumbers()).thenReturn(List.of("ABC", "DEF"));
-        Assertions.assertTrue(invoiceService.allTagNumbers().contains("ABC"));
+        Assertions.assertTrue(invoiceService.allTagNumbers().contains("ABC"), "Invoice should contain tag number ABC");
     }
 
     private List<TransactionVO> mockListOfTransactionVOs() {

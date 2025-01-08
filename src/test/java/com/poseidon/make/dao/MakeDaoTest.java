@@ -30,7 +30,7 @@ class MakeDaoTest {
     @Test
     void listAllMakesSuccess() {
         when(makeRepository.findAll()).thenReturn(mockMakes());
-        Assertions.assertNotNull(makeDao.listAllMakes());
+        Assertions.assertNotNull(makeDao.listAllMakes(), "Makes should not be null");
     }
 
     @Test
@@ -53,13 +53,14 @@ class MakeDaoTest {
     @Test
     void makeFromIdSuccess() {
         when(makeRepository.findById(anyLong())).thenReturn(Optional.of(mockMake()));
-        Assertions.assertNotNull(makeDao.getMakeFromId(1234L));
+        Assertions.assertNotNull(makeDao.getMakeFromId(1234L), "Make with id 1234 should not be null");
     }
 
     @Test
     void makeFromIdSuccessOnEmpty() {
         when(makeRepository.findById(anyLong())).thenReturn(Optional.empty());
-        Assertions.assertEquals(Optional.empty(), makeDao.getMakeFromId(1234L));
+        Assertions.assertEquals(Optional.empty(), makeDao.getMakeFromId(1234L),
+                "Make with id 1234 should be null");
     }
 
     @Test
@@ -98,7 +99,7 @@ class MakeDaoTest {
     @Test
     void fetchMakesSuccess() {
         when(makeRepository.findAll()).thenReturn(mockMakes());
-        Assertions.assertNotNull(makeDao.fetchMakes());
+        Assertions.assertNotNull(makeDao.fetchMakes(), "Makes should not be null");
     }
 
     @Test
@@ -106,19 +107,19 @@ class MakeDaoTest {
         var mockMake = mockMake();
         mockMake.setModels(mockModels());
         when(makeRepository.findById(anyLong())).thenReturn(Optional.of(mockMake));
-        Assertions.assertNotNull(makeDao.getAllModelsFromMakeId(1234L));
+        Assertions.assertNotNull(makeDao.getAllModelsFromMakeId(1234L), "Make with id 1234 should not be null");
     }
 
     @Test
     void allModelsFromMakeIdSuccessOnEmpty() {
         when(makeRepository.findById(anyLong())).thenReturn(Optional.empty());
-        Assertions.assertNull(makeDao.getAllModelsFromMakeId(1234L));
+        Assertions.assertNull(makeDao.getAllModelsFromMakeId(1234L), "Make with id 1234 should be null");
     }
 
     @Test
     void allModelsFromMakeIdSuccessOnEmptyModels() {
         when(makeRepository.findById(anyLong())).thenReturn(Optional.of(mockMake()));
-        Assertions.assertNull(makeDao.getAllModelsFromMakeId(1234L));
+        Assertions.assertNull(makeDao.getAllModelsFromMakeId(1234L), "Make with id 1234 should not be null");
     }
 
     @Test

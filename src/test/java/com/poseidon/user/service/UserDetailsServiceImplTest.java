@@ -32,7 +32,7 @@ class UserDetailsServiceImplTest {
         var userName = "admin";
         when(userDAO.findByEmail(anyString())).thenReturn(mockUser());
         var userDetails = userDetailsService.loadUserByUsername("admin@admin.com");
-        Assertions.assertEquals(userName, userDetails.getUsername());
+        Assertions.assertEquals(userName, userDetails.getUsername(), "Username should be admin");
     }
 
     private Optional<User> mockUser() {

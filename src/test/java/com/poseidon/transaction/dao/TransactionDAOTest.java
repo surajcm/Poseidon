@@ -44,7 +44,8 @@ class TransactionDAOTest {
         when(makeRepository.findById(anyLong())).thenReturn(mockMake());
         when(modelRepository.findById(anyLong())).thenReturn(mockModel());
         when(transactionRepository.todaysTransaction()).thenReturn(mockListOfTransactions());
-        Assertions.assertNotNull(transactionDAO.listTodaysTransactions());
+        Assertions.assertNotNull(transactionDAO.listTodaysTransactions(),
+                "Today's transactions should not be empty");
     }
 
     @Test
@@ -59,13 +60,15 @@ class TransactionDAOTest {
         when(makeRepository.findById(anyLong())).thenReturn(mockMake());
         when(modelRepository.findById(anyLong())).thenReturn(mockModel());
         when(transactionRepository.findById(anyLong())).thenReturn(Optional.of(mockTransaction()));
-        Assertions.assertNotNull(transactionDAO.fetchTransactionFromId(1234L));
+        Assertions.assertNotNull(transactionDAO.fetchTransactionFromId(1234L),
+                "Transaction with id 1234 should not be null");
     }
 
     @Test
     void fetchTransactionFromIdEmpty() {
         when(transactionRepository.findById(anyLong())).thenReturn(Optional.empty());
-        Assertions.assertNull(transactionDAO.fetchTransactionFromId(1234L));
+        Assertions.assertNull(transactionDAO.fetchTransactionFromId(1234L),
+                "Transaction with id 1234 should be null");
     }
 
     @Test
@@ -95,7 +98,8 @@ class TransactionDAOTest {
         when(makeRepository.findById(anyLong())).thenReturn(mockMake());
         when(modelRepository.findById(anyLong())).thenReturn(mockModel());
         when(transactionRepository.findBytagno(anyString())).thenReturn(mockTransaction());
-        Assertions.assertNotNull(transactionDAO.fetchTransactionFromTag(ABC));
+        Assertions.assertNotNull(transactionDAO.fetchTransactionFromTag(ABC),
+                "Transaction with tag ABC should not be null");
     }
 
     @Test
@@ -116,7 +120,7 @@ class TransactionDAOTest {
         when(makeRepository.findById(anyLong())).thenReturn(mockMake());
         when(modelRepository.findById(anyLong())).thenReturn(mockModel());
         when(transactionRepository.findAll()).thenReturn(mockListOfTransactions());
-        Assertions.assertNotNull(transactionDAO.listAllTransactions());
+        Assertions.assertNotNull(transactionDAO.listAllTransactions(), "All transactions should not be empty");
     }
 
     private List<Transaction> mockListOfTransactions() {

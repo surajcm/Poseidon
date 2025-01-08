@@ -25,7 +25,7 @@ class UserRepositoryTest {
     void testCreateDummyUser() {
         var user = getUser();
         var saved = repository.save(user);
-        Assertions.assertTrue(saved.getId() > 1);
+        Assertions.assertTrue(saved.getId() > 1, "Invalid user id generated !!");
     }
 
     private User getUser() {

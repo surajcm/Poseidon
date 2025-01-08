@@ -49,13 +49,15 @@ class CompanyControllerTest {
     void listNormal() throws Exception {
         when(userService.findUserFromName(anyString())).thenReturn(mockUser());
         mvc.perform(post("/company/company"))
-            .andExpect(status().isOk())
-                .andExpect(result -> assertNotNull(result.getResponse().getContentAsString()));
+                .andExpect(status().isOk())
+                .andExpect(result -> assertNotNull(result.getResponse().getContentAsString(),
+                        "Company details should not be null"));
 
         when(companyService.listCompanyTerms(anyString())).thenThrow(new RuntimeException());
         mvc.perform(post("/company/company"))
-            .andExpect(status().isOk())
-                .andExpect(result -> assertEquals("", result.getResponse().getContentAsString()));
+                .andExpect(status().isOk())
+                .andExpect(result -> assertEquals("", result.getResponse().getContentAsString(),
+                        "Company details should be empty"));
     }
 
     private User mockUser() {

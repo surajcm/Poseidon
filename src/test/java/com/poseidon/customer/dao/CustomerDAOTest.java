@@ -32,33 +32,33 @@ class CustomerDAOTest {
     @Test
     void listAllCustomerDetailsSuccess() {
         when(customerRepository.findAll()).thenReturn(mockCustomers());
-        Assertions.assertNotNull(customerDAO.listAllCustomerDetails());
+        Assertions.assertNotNull(customerDAO.listAllCustomerDetails(), "Customer details should not be null");
     }
 
     @Test
     void saveCustomerSuccess() {
         when(customerRepository.save(any())).thenReturn(mockCustomer());
         Customer customer = customerDAO.saveCustomer(mockCustomer(), additionalDetails().get());
-        Assertions.assertEquals(1234L, customer.getId());
+        Assertions.assertEquals(1234L, customer.getId(), "Customer id should be 1234");
     }
 
     @Test
     void customerFromIdSuccessWithAdditionalDetails() {
         when(customerRepository.findById(anyLong())).thenReturn(Optional.of(mockCustomer()));
         when(detailsRepository.findByCustomerId(anyLong())).thenReturn(additionalDetails());
-        Assertions.assertNotNull(customerDAO.getCustomerFromId(1234L));
+        Assertions.assertNotNull(customerDAO.getCustomerFromId(1234L), "Customer should not be null");
     }
 
     @Test
     void customerFromWithIdSuccess() {
         when(customerRepository.findById(anyLong())).thenReturn(Optional.of(mockCustomer()));
-        Assertions.assertNotNull(customerDAO.getCustomerFromId(1234L));
+        Assertions.assertNotNull(customerDAO.getCustomerFromId(1234L), "Customer should not be null");
     }
 
     @Test
     void customerFromIdEmptySuccess() {
         when(customerRepository.findById(anyLong())).thenReturn(Optional.empty());
-        Assertions.assertTrue(customerDAO.getCustomerFromId(1234L).isEmpty());
+        Assertions.assertTrue(customerDAO.getCustomerFromId(1234L).isEmpty(), "Customer should be empty");
     }
 
     @Test

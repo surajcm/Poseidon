@@ -26,22 +26,21 @@ class ModelDaoTest {
     @Test
     void modelFromIdSuccess() {
         when(modelRepository.findById(anyLong())).thenReturn(Optional.of(mockModel()));
-        Assertions.assertNotNull(modelDao.getModelFromId(1234L));
+        Assertions.assertNotNull(modelDao.getModelFromId(1234L), "Model should not be null");
     }
 
     @Test
     void modelFromIdSuccessOnEmpty() {
         when(modelRepository.findById(anyLong())).thenReturn(Optional.empty());
-        Assertions.assertEquals(Optional.empty(), modelDao.getModelFromId(1234L));
+        Assertions.assertEquals(Optional.empty(), modelDao.getModelFromId(1234L),
+                "Model should be empty");
     }
-
 
     @Test
     void listAllMakesAndModelsSuccess() {
         when(modelRepository.findAll()).thenReturn(mockModels());
-        Assertions.assertNotNull(modelDao.listAllModels());
+        Assertions.assertNotNull(modelDao.listAllModels(), "Model list should not be null");
     }
-
 
     @Test
     void deleteModelSuccess() {

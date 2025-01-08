@@ -24,7 +24,7 @@ class UserServiceTest {
 
     @Test
     void allUserDetailsSuccess() {
-        Assertions.assertNotNull(userService.getAllUserDetails("admin"));
+        Assertions.assertNotNull(userService.getAllUserDetails("admin"), "User details should not be null");
     }
 
     @Test
@@ -35,7 +35,7 @@ class UserServiceTest {
     @Test
     void userDetailsFromIdSuccess() {
         when(userDAO.getUserDetailsFromId(anyLong())).thenReturn(Optional.of(new User()));
-        Assertions.assertNotNull(userService.getUserDetailsFromId(1234L));
+        Assertions.assertNotNull(userService.getUserDetailsFromId(1234L), "User details should not be null");
     }
 
     @Test
@@ -50,6 +50,7 @@ class UserServiceTest {
 
     @Test
     void searchUserDetailsSuccess() {
-        Assertions.assertNull(userService.searchUserDetails(new User(), false, false, 1));
+        Assertions.assertNull(userService.searchUserDetails(new User(), false, false, 1),
+                "User details should be null");
     }
 }

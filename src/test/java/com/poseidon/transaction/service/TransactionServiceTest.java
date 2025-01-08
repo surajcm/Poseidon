@@ -21,28 +21,33 @@ class TransactionServiceTest {
     @Test
     void listTodayTransactionsSuccess() {
         when(transactionDAO.listTodaysTransactions()).thenReturn(new ArrayList<>());
-        Assertions.assertNotNull(transactionService.listTodaysTransactions());
+        Assertions.assertNotNull(transactionService.listTodaysTransactions(),
+                "Today's transactions should not be null");
     }
 
     @Test
     void saveTransactionSuccess() {
-        Assertions.assertNull(transactionService.saveTransaction(Mockito.mock(TransactionVO.class)));
+        Assertions.assertNull(transactionService.saveTransaction(Mockito.mock(TransactionVO.class)),
+                "Transaction saved should not be null");
     }
 
     @Test
     void searchTransactionsSuccess() {
         when(transactionDAO.searchTransactions(any())).thenReturn(new ArrayList<>());
-        Assertions.assertNotNull(transactionService.searchTransactions(Mockito.mock(TransactionVO.class)));
+        Assertions.assertNotNull(transactionService.searchTransactions(Mockito.mock(TransactionVO.class)),
+                "Search should not be null");
     }
 
     @Test
     void fetchTransactionFromIdSuccess() {
-        Assertions.assertNull(transactionService.fetchTransactionFromId(1234L));
+        Assertions.assertNull(transactionService.fetchTransactionFromId(1234L),
+                "Transaction should not be null");
     }
 
     @Test
     void fetchTransactionFromTagSuccess() {
-        Assertions.assertNull(transactionService.fetchTransactionFromTag("tag"));
+        Assertions.assertNull(transactionService.fetchTransactionFromTag("tag"),
+                "Transaction with tag tag should not be null");
     }
 
     @Test
@@ -63,13 +68,14 @@ class TransactionServiceTest {
     @Test
     void listAllTransactionsSuccess() {
         when(transactionDAO.listAllTransactions()).thenReturn(new ArrayList<>());
-        Assertions.assertNotNull(transactionService.listAllTransactions());
+        Assertions.assertNotNull(transactionService.listAllTransactions(),
+                "All transactions should not be null");
     }
 
     @Test
     void allTagNumbers() {
         when(transactionService.allTagNumbers()).thenReturn(List.of("ABC", "DEF"));
-        Assertions.assertTrue(transactionService.allTagNumbers().contains("ABC"));
+        Assertions.assertTrue(transactionService.allTagNumbers().contains("ABC"), "ABC should be in the list");
     }
 
 }

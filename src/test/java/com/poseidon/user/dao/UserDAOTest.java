@@ -25,7 +25,7 @@ class UserDAOTest {
     @Test
     void allUserDetailsSuccess() {
         when(userRepository.findByCompanyCode(anyString())).thenReturn(mockUsers());
-        Assertions.assertFalse(userDAO.getAllUserDetails("admin").isEmpty());
+        Assertions.assertFalse(userDAO.getAllUserDetails("admin").isEmpty(), "User details should not be empty");
     }
 
     @Test
@@ -36,13 +36,13 @@ class UserDAOTest {
     @Test
     void userDetailsFromIdSuccess() {
         when(userRepository.findById(anyLong())).thenReturn(mockUser());
-        Assertions.assertNotNull(userDAO.getUserDetailsFromId(1234L));
+        Assertions.assertNotNull(userDAO.getUserDetailsFromId(1234L), "User details should not be null");
     }
 
     @Test
     void userDetailsFromIdSuccessOnEmpty() {
         when(userRepository.findById(anyLong())).thenReturn(Optional.empty());
-        Assertions.assertTrue(userDAO.getUserDetailsFromId(1234L).isEmpty());
+        Assertions.assertTrue(userDAO.getUserDetailsFromId(1234L).isEmpty(), "User details should be empty");
     }
 
     @Test
@@ -69,13 +69,14 @@ class UserDAOTest {
     @Test
     void findByUsernameSuccess() {
         when(userRepository.findByEmail(anyString())).thenReturn(mockUser());
-        Assertions.assertNotNull(userDAO.findByEmail("ABC"));
+        Assertions.assertNotNull(userDAO.findByEmail("ABC"), "User details should not be null");
     }
 
     @Test
     void searchUserDetailsSuccess() {
         when(userRepository.findAll(any(UserSpecification.class))).thenReturn(mockUsers());
         var user = mockUser().get();
+        //TODO : there is a feature in junit does this in a better way, please check
         Assertions.assertNull(userDAO.searchUserDetails(user, false, false, 1));
         Assertions.assertNull(userDAO.searchUserDetails(user, false, true, 1));
         Assertions.assertNull(userDAO.searchUserDetails(user, false, false, 1));
@@ -87,7 +88,8 @@ class UserDAOTest {
         var user = mockUser().get();
         user.setName(null);
         user.setEmail(null);
-        Assertions.assertNull(userDAO.searchUserDetails(user, false, false, 1));
+        Assertions.assertNull(userDAO.searchUserDetails(user, false, false, 1),
+                "User details should be null");
     }
 
 
