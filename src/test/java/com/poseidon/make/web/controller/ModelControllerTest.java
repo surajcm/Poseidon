@@ -1,13 +1,16 @@
 package com.poseidon.make.web.controller;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.poseidon.make.MakeConfigurations;
 import com.poseidon.make.dao.entities.Make;
 import com.poseidon.make.domain.MakeAndModelVO;
 import com.poseidon.make.service.MakeService;
+import com.poseidon.make.web.form.MakeForm;
 import com.poseidon.model.entities.Model;
 import com.poseidon.model.service.ModelService;
 import com.poseidon.model.web.ModelController;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
@@ -42,25 +45,14 @@ class ModelControllerTest {
         mvc = MockMvcBuilders.standaloneSetup(modelController).build();
     }
 
-    //@Test
-    void modelList() throws Exception {
+    @Test
+    void modelListSuccess() throws Exception {
         when(modelService.listModels(anyInt())).thenReturn(mockModelsPage());
         when(makeService.fetchAllMakes()).thenReturn(mockMakes());
         mvc.perform(post("/make/ModelList")).andExpect(status().isOk());
-        when(modelService.listAllMakesAndModels()).thenThrow(new RuntimeException());
-        when(makeService.fetchAllMakes()).thenThrow(new RuntimeException());
-        mvc.perform(post("/make/ModelList")).andExpect(status().isOk());
     }
 
-    private List<Make> mockMakes() {
-        return List.of(new Make(), new Make());
-    }
-
-    private Page<Model> mockModelsPage() {
-        return new PageImpl<Model>(List.of(new Model(), new Model()));
-    }
-
-    //@Test
+    @Test
     void testDeleteModel() throws Exception {
         when(modelService.listModels(anyInt())).thenReturn(mockModelsPage());
         when(makeService.fetchAllMakes()).thenReturn(mockMakes());
@@ -69,7 +61,16 @@ class ModelControllerTest {
 
     //@Test
     void testSearchModel() throws Exception {
-        mvc.perform(post("/make/searchModel")).andExpect(status().isOk());
+        var makeForm = new MakeForm();
+        var searchMakeAndModelVO = new MakeAndModelVO();
+        searchMakeAndModelVO.setMakeId(1L);
+        makeForm.setSearchMakeAndModelVO(searchMakeAndModelVO);
+        var model = new Model();
+        mvc.perform(post("/model/searchModel")
+                        .content(asJsonString(makeForm))
+                        .contentType("application/json")
+                        .flashAttr("model", model))
+                .andExpect(status().isOk());
     }
 
     //@Test
@@ -81,5 +82,21 @@ class ModelControllerTest {
                         .param("selectMakeId", selectMakeId)
                         .param("selectModelName", selectModelName))
                 .andExpect(status().isOk());
+    }
+
+    private static String asJsonString(final Object obj) {
+        try {
+            return new ObjectMapper().writeValueAsString(obj);
+        } catch (Exception ex) {
+            throw new RuntimeException(ex);
+        }
+    }
+
+    private List<Make> mockMakes() {
+        return List.of(new Make(), new Make());
+    }
+
+    private Page<Model> mockModelsPage() {
+        return new PageImpl<Model>(List.of(new Model(), new Model()));
     }
 }

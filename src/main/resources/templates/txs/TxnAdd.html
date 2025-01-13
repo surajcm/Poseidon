@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
-xmlns:sec="http://www.thymeleaf.org/extras/spring-security/">
+xmlns:sec="http://www.thymeleaf.org/extras/spring-security/" lang="en">
     <head>
         <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
         <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -92,7 +92,7 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security/">
                                 <div class="col-md-4">
                                     <div class="input-group mb-3">
                                         <label for="makeId" class="input-group-text">Make</label>
-                                        <select id="makeId" class="form-select" th:field="*{currentTransaction.makeId}" tabindex="1" onchange="changeTheModel();">
+                                        <select id="makeId" class="form-select" th:field="*{currentTransaction.makeId}" tabindex="-1" onchange="changeTheModel();">
                                             <option value=""><-- Select --></option>
                                             <option th:each="i : ${transactionForm.makeVOs}" th:value="${i.Id}" th:text="${i.makeName}">
                                         </select>
@@ -101,7 +101,7 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security/">
                                 <div class="col-md-4">
                                     <div class="input-group mb-3">
                                         <label for="modelId" class="input-group-text">Model</label>
-                                        <select id="modelId" class="form-select" th:field="*{currentTransaction.modelId}" tabindex="2" >
+                                        <select id="modelId" class="form-select" th:field="*{currentTransaction.modelId}" tabindex="-2" >
                                             <option value=""><-- Select --></option>
                                             <option th:each="i : ${transactionForm.makeAndModelVOs}" th:value="${i.modelId}" th:text="${i.modelName}">
                                         </select>

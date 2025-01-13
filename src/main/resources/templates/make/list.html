@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
-xmlns:sec="http://www.thymeleaf.org/extras/spring-security/">
+xmlns:sec="http://www.thymeleaf.org/extras/spring-security/" lang="en">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -80,7 +80,8 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security/">
                 </thead>
                 <tbody>
                     <tr th:each="make : ${makes}">
-                        <th scope="row"><input type="checkbox" name="checkField" onclick="checkCall(this)"
+                        <th scope="row"><input type="checkbox" name="checkField"
+                                               onKeyDown="checkCall(this)" tabindex="0" onclick="checkCall(this)"
                                    th:value="${make.id}"/></th>
                         <td><span th:text="${make.makeName}"></span></td>
                         <td><span th:text="${make.description}"></span></td>

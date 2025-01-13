@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:th="https://www.thymeleaf.org"
-      xmlns:sec="http://www.thymeleaf.org/extras/spring-security/">
+      xmlns:sec="http://www.thymeleaf.org/extras/spring-security/" lang="en">
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -129,7 +129,7 @@
                             <td>
                                 <span th:if="${iterationUser.photo == null}" class="fa-solid fa-user fa-3x"></span>
                                 <img th:if="${iterationUser.photo != null}" th:src="@{${iterationUser.photosImagePath}}"
-                                    style="width: 100px"/>
+                                    style="width: 100px" alt="photo"/>
                             </td>
                             <td><span th:text="${iterationUser.name}"></span></td>
                             <td><span th:text="${iterationUser.email}"></span></td>

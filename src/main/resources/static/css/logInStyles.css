@@ -1025,7 +1025,6 @@ abbr[data-bs-original-title],
 abbr[title] {
     text-decoration:underline;
     -webkit-text-decoration:underline dotted;
-    text-decoration:underline dotted;
     cursor:help;
     -webkit-text-decoration-skip-ink:none;
     text-decoration-skip-ink:none
@@ -19323,7 +19322,7 @@ label {
 .accordion-button::after {
     background-image:none;
     content:'\f067';
-    font-family:"Font Awesome 5 Free";
+    font-family: "Font Awesome 5 Free", serif;
     font-size:1rem;
     font-weight:900
 }
@@ -20431,7 +20430,7 @@ label {
 }
 .breadcrumb-item+.breadcrumb-item:before {
     content:"\f101";
-    font-family:"Font Awesome 5 Free";
+    font-family: "Font Awesome 5 Free", serif;
     font-weight:900;
     color:#6b7280
 }
@@ -20871,14 +20870,14 @@ label {
 }
 .carousel-control-prev-icon::before {
     content:'\f060';
-    font-family:"Font Awesome 5 Free";
+    font-family: "Font Awesome 5 Free", serif;
     font-size:2rem
 }
 .carousel-control-next-icon {
     background-image:none
 }
 .carousel-control-next-icon:before {
-    font-family:"Font Awesome 5 Free";
+    font-family: "Font Awesome 5 Free", serif;
     content:"\f061";
     font-size:2rem
 }
@@ -20954,7 +20953,7 @@ label {
 }
 .rating-star label:before {
     content:"\f005";
-    font-family:"Font Awesome 5 Free";
+    font-family: "Font Awesome 5 Free", serif;
     font-weight:900;
     transition:all .2s ease;
     font-size:1.0625rem
