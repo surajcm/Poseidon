@@ -88,12 +88,24 @@ class CustomerDAOTest {
     void searchCustomerSuccess() {
         when(customerRepository.findAll(any(CustomerSpecification.class))).thenReturn(mockCustomers());
         var mockCustomerVO = mockCustomerVO();
-        Assertions.assertNotNull(customerDAO.searchCustomer(mockCustomerVO));
+        Assertions.assertNotNull(customerDAO.searchCustomer(mockCustomerVO), "Customer should not be null");
+    }
+
+    @Test
+    void searchCustomerSuccessWithInclude() {
+        when(customerRepository.findAll(any(CustomerSpecification.class))).thenReturn(mockCustomers());
+        var mockCustomerVO = mockCustomerVO();
         mockCustomerVO.setIncludes(Boolean.TRUE);
-        Assertions.assertNotNull(customerDAO.searchCustomer(mockCustomerVO));
+        Assertions.assertNotNull(customerDAO.searchCustomer(mockCustomerVO), "Customer should not be null");
+    }
+
+    @Test
+    void searchCustomerSuccessWithIncludeAndStartsWith() {
+        when(customerRepository.findAll(any(CustomerSpecification.class))).thenReturn(mockCustomers());
+        var mockCustomerVO = mockCustomerVO();
         mockCustomerVO.setIncludes(Boolean.FALSE);
         mockCustomerVO.setStartsWith(Boolean.TRUE);
-        Assertions.assertNotNull(customerDAO.searchCustomer(mockCustomerVO));
+        Assertions.assertNotNull(customerDAO.searchCustomer(mockCustomerVO), "Customer should not be null");
     }
 
     private CustomerVO mockCustomerVO() {

@@ -47,7 +47,7 @@ class CustomerServiceTest {
     @Test
     void verifyListAllCustomerDetailsSuccess() {
         var customerVOs = customerService.listAllCustomerDetails();
-        Assertions.assertEquals(0, customerVOs.size());
+        Assertions.assertEquals(0, customerVOs.size(), "CustomerVOs should be empty");
     }
 
     @Test
@@ -55,7 +55,7 @@ class CustomerServiceTest {
         when(customerDAO.saveCustomer(any(), any())).thenReturn(mockCustomer());
         var response = customerService.saveCustomer(mockCustomerVO(),
                 mockCustomer());
-        Assertions.assertEquals(1L, response.getId());
+        Assertions.assertEquals(1L, response.getId(), "Customer Id should be equal to the mocked one");
     }
 
     private Customer mockCustomer() {

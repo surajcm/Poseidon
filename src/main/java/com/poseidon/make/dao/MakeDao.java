@@ -263,6 +263,6 @@ public class MakeDao {
     }
 
     private boolean hasModelName(final MakeAndModelVO searchMakeVO) {
-        return searchMakeVO.getModelName() != null && !searchMakeVO.getModelName().trim().isEmpty();
+        return searchMakeVO.getModelName() != null && !searchMakeVO.getModelName().isBlank();
     }
 }

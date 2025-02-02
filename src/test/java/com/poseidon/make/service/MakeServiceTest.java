@@ -19,6 +19,7 @@ import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
 class MakeServiceTest {
+    public static final String SHOULD_CONTAIN_MAKE_WITH_ID_1234 = "Make list should contain make with id 1234";
     private final MakeDao makeDAO = Mockito.mock(MakeDao.class);
     private final MakeAndModelEntityConverter makeAndModelEntityConverter = new MakeAndModelEntityConverter();
     private final MakeService makeService = new MakeService(makeDAO, makeAndModelEntityConverter);
@@ -28,7 +29,7 @@ class MakeServiceTest {
         when(makeDAO.listAllMakes()).thenReturn(mockMakes());
         var makeVOs = makeService.listAllMakes();
         Assertions.assertEquals(1234L, makeVOs.getFirst().getId(),
-                "Make list should contain make with id 1234");
+                SHOULD_CONTAIN_MAKE_WITH_ID_1234);
     }
 
     @Test
@@ -72,7 +73,7 @@ class MakeServiceTest {
         when(makeDAO.searchModels(any(MakeAndModelVO.class))).thenReturn(mockListOfMakeAndModelVO());
         var makeVOs = makeService.searchModels(Mockito.mock(MakeAndModelVO.class));
         Assertions.assertEquals(1234L, makeVOs.getFirst().getId(),
-                "Make list should contain make with id 1234");
+                SHOULD_CONTAIN_MAKE_WITH_ID_1234);
     }
 
     @Test
@@ -80,7 +81,7 @@ class MakeServiceTest {
         when(makeDAO.fetchMakes()).thenReturn(mockMakes());
         var makeVOs = makeService.fetchAllMakes();
         Assertions.assertEquals(1234L, makeVOs.getFirst().getId(),
-                "Make list should contain make with id 1234");
+                SHOULD_CONTAIN_MAKE_WITH_ID_1234);
     }
 
     @Test
@@ -88,7 +89,7 @@ class MakeServiceTest {
         when(makeDAO.getAllModelsFromMakeId(anyLong())).thenReturn(mockListOfMakeAndModelVO());
         var makeVOs = makeService.getAllModelsFromMakeId(1234L);
         Assertions.assertEquals(1234L, makeVOs.getFirst().getId(),
-                "Make list should contain make with id 1234");
+                SHOULD_CONTAIN_MAKE_WITH_ID_1234);
     }
 
     @Test
@@ -96,7 +97,7 @@ class MakeServiceTest {
         when(makeDAO.searchMake(any())).thenReturn(mockMakes());
         var makeVos = makeService.searchMake(new MakeAndModelVO());
         Assertions.assertEquals(1234L, makeVos.getFirst().getId(),
-                "Make list should contain make with id 1234");
+                SHOULD_CONTAIN_MAKE_WITH_ID_1234);
     }
 
     private List<MakeAndModelVO> mockListOfMakeAndModelVO() {

@@ -22,8 +22,8 @@ dependencies {
     implementation("org.apache.tomcat.embed:tomcat-embed-jasper")
     implementation('com.rainerhahnekamp:sneakythrow:1.2.0')
 
-    implementation("org.apache.poi:poi:5.3.0")
-    implementation("org.apache.poi:poi-ooxml:5.3.0")
+    implementation("org.apache.poi:poi:5.4.0")
+    implementation("org.apache.poi:poi-ooxml:5.4.0")
 
     implementation("net.sf.jasperreports:jasperreports:6.21.4")
     implementation("com.lowagie:itext:4.2.2")
@@ -31,12 +31,12 @@ dependencies {
     testImplementation("org.springframework.security:spring-security-test")
     testImplementation("org.junit.jupiter:junit-jupiter-api")
     testImplementation("org.junit.jupiter:junit-jupiter-params")
-    testImplementation("org.mockito:mockito-core")
+    testImplementation("org.mockito:mockito-core:4.11.0")
     testImplementation("org.powermock:powermock-api-mockito2:2.0.9")
 }
 
 configurations {
-    all {
+    configureEach {
         exclude group: 'org.springframework.boot', module: 'spring-boot-starter-logging'
     }
 }

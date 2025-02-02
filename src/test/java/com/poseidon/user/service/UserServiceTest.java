@@ -28,6 +28,12 @@ class UserServiceTest {
     }
 
     @Test
+    void allUsersOfACompany() {
+        when(userDAO.getAllUserDetails(companyCode))
+        Assertions.assertNotNull(userService.getAllUserDetails("admin"), "User details should not be null");
+    }
+
+    @Test
     void saveSuccess() {
         Assertions.assertAll(() -> userService.save(new User()));
     }

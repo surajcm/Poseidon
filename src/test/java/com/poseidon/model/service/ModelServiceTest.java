@@ -12,7 +12,6 @@ import org.mockito.Mockito;
 import java.util.List;
 import java.util.Optional;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.Mockito.when;
 
@@ -34,7 +33,7 @@ class ModelServiceTest {
         MakeAndModelVO makeAndModelVO = new MakeAndModelVO();
         when(modelDao.getModelFromId(modelId)).thenReturn(Optional.of(makeAndModelVO));
         Optional<MakeAndModelVO> result = modelService.getModelFromId(modelId);
-        assertEquals(Optional.of(makeAndModelVO), result, "Model should be returned");
+        Assertions.assertEquals(Optional.of(makeAndModelVO), result, "Model should be returned");
     }
 
     @Test

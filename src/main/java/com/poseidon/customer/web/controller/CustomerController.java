@@ -57,7 +57,7 @@ public class CustomerController {
         return customerListByPage(1, model);
     }
 
-    @GetMapping(value = "customer/page/{pageNumber}")
+    @GetMapping("customer/page/{pageNumber}")
     public String customerListByPage(final @PathVariable(name = "pageNumber") int pageNumber,
                                  final Model model) {
         logger.info("customerListByPage with page of CustomerController ");
@@ -66,9 +66,6 @@ public class CustomerController {
         long endCount = (long) startCount + PAGE_SIZE - 1;
         if (endCount > page.getTotalElements()) {
             endCount = page.getTotalElements();
-        }
-        for (Customer customer:page) {
-            System.out.println(customer.getName());
         }
         model.addAttribute("currentPage", pageNumber);
         model.addAttribute("totalPages", page.getTotalPages());
