@@ -10,9 +10,12 @@ import org.mockito.Mockito;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
+import java.util.HashSet;
 import java.util.Optional;
+import java.util.Set;
 
 import static org.mockito.ArgumentMatchers.anyLong;
+import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(SpringExtension.class)
@@ -24,13 +27,15 @@ class UserServiceTest {
 
     @Test
     void allUserDetailsSuccess() {
-        Assertions.assertNotNull(userService.getAllUserDetails("admin"), "User details should not be null");
+        Assertions.assertNotNull(userService.getAllUserDetails("admin"),
+                "User details should not be null");
     }
 
     @Test
     void allUsersOfACompany() {
-        when(userDAO.getAllUserDetails(companyCode))
-        Assertions.assertNotNull(userService.getAllUserDetails("admin"), "User details should not be null");
+        when(userDAO.getAllUserDetails(anyString())).thenReturn(users());
+        Assertions.assertNotNull(userService.getAllUserDetails("admin"),
+                "User details should not be null");
     }
 
     @Test
@@ -58,5 +63,12 @@ class UserServiceTest {
     void searchUserDetailsSuccess() {
         Assertions.assertNull(userService.searchUserDetails(new User(), false, false, 1),
                 "User details should be null");
+    }
+
+    private Set<User> users() {
+        Set<User> users = new HashSet<>();
+        User user = new User();
+        users.add(user);
+        return users;
     }
 }
