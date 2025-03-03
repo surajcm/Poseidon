@@ -24,7 +24,7 @@ class InvoiceDAOTest {
     @Test
     void addInvoiceSuccess() {
         when(invoiceRepository.save(any())).thenReturn(mockInvoice());
-        Assertions.assertAll(() -> invoiceDAO.addInvoice(new InvoiceVO()));
+        Assertions.assertAll(() -> invoiceDAO.addInvoice(new Invoice()));
     }
 
     @Test

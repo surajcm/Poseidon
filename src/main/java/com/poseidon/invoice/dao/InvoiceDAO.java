@@ -11,6 +11,7 @@ import org.springframework.util.StringUtils;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+
 import java.util.List;
 import java.util.Optional;
 
@@ -39,10 +40,10 @@ public class InvoiceDAO {
     /**
      * add invoice.
      *
-     * @param currentInvoiceVO currentInvoiceVO
+     * @param currentInvoice currentInvoice
      */
-    public void addInvoice(final InvoiceVO currentInvoiceVO) {
-        sneak(() -> invoiceRepository.save(convertInvoiceVOToInvoice(currentInvoiceVO)));
+    public void addInvoice(final Invoice currentInvoice) {
+        sneak(() -> invoiceRepository.save(currentInvoice));
     }
 
     /**
@@ -51,9 +52,8 @@ public class InvoiceDAO {
      * @param tagNumbers tagNumbers as list
      * @return list of invoice vo
      */
-    public List<InvoiceVO> fetchInvoiceForListOfTransactions(final List<String> tagNumbers) {
-        var invoices = sneak(() -> invoiceRepository.fetchTodaysInvoices(tagNumbers));
-        return invoices.stream().map(this::getInvoiceVoFromInvoice).toList();
+    public List<Invoice> fetchInvoiceForListOfTransactions(final List<String> tagNumbers) {
+        return sneak(() -> invoiceRepository.fetchTodaysInvoices(tagNumbers));
     }
 
     /**
@@ -156,9 +156,9 @@ public class InvoiceDAO {
 
     private String pattern(final boolean includes, final boolean startsWith, final String element) {
         String patternString;
-        if (Boolean.TRUE.equals(includes)) {
+        if (includes) {
             patternString = "%" + element + "%";
-        } else if (Boolean.TRUE.equals(startsWith)) {
+        } else if (startsWith) {
             patternString = element + "%";
         } else {
             patternString = element;
@@ -217,7 +217,7 @@ public class InvoiceDAO {
     }
 
     private Invoice convertInvoiceVOToInvoice(final InvoiceVO currentInvoiceVO) {
-        var invoice =  getInvoice(currentInvoiceVO, new Invoice());
+        var invoice = getInvoice(currentInvoiceVO, new Invoice());
         invoice.setCreatedBy(currentInvoiceVO.getCreatedBy());
         return invoice;
     }
