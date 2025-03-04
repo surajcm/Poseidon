@@ -62,9 +62,8 @@ public class InvoiceDAO {
      * @param id of invoice vo
      * @return invoice vo
      */
-    public Optional<InvoiceVO> fetchInvoiceVOFromId(final Long id) {
-        var optionalInvoice = sneak(() -> invoiceRepository.findById(id));
-        return optionalInvoice.map(this::getInvoiceVoFromInvoice);
+    public Optional<Invoice> fetchInvoiceVOFromId(final Long id) {
+        return sneak(() -> invoiceRepository.findById(id));
     }
 
     /**
@@ -73,9 +72,8 @@ public class InvoiceDAO {
      * @param tagNo of invoice vo
      * @return invoice vo
      */
-    public Optional<InvoiceVO> fetchInvoiceVOFromTagNo(final String tagNo) {
-        var optionalInvoice = sneak(() -> invoiceRepository.findByTagNumber(tagNo));
-        return optionalInvoice.map(this::getInvoiceVoFromInvoice);
+    public Optional<Invoice> fetchInvoiceVOFromTagNo(final String tagNo) {
+        return sneak(() -> invoiceRepository.findByTagNumber(tagNo));
     }
 
     /**

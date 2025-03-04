@@ -72,7 +72,8 @@ public class InvoiceService {
      * @return InvoiceVO
      */
     public Optional<InvoiceVO> fetchInvoiceVOFromId(final Long id) {
-        return invoiceDAO.fetchInvoiceVOFromId(id);
+        var optionalInvoice =  invoiceDAO.fetchInvoiceVOFromId(id);
+        return optionalInvoice.map(this::getInvoiceVoFromInvoice);
     }
 
     /**
@@ -82,7 +83,8 @@ public class InvoiceService {
      * @return InvoiceVO
      */
     public Optional<InvoiceVO> fetchInvoiceVOFromTagNo(final String tagNo) {
-        return invoiceDAO.fetchInvoiceVOFromTagNo(tagNo);
+        var optionalInvoice =  invoiceDAO.fetchInvoiceVOFromTagNo(tagNo);
+        return optionalInvoice.map(this::getInvoiceVoFromInvoice);
     }
 
     /**
