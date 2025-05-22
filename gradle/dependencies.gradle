@@ -1,6 +1,6 @@
 
 dependencies {
-    errorprone("com.google.errorprone:error_prone_core:2.36.0")
+    errorprone("com.google.errorprone:error_prone_core:2.38.0")
     errorproneJavac('com.google.errorprone:javac:9+181-r4173-1')
 
     implementation("org.springframework.boot:spring-boot-starter-web")
@@ -22,8 +22,8 @@ dependencies {
     implementation("org.apache.tomcat.embed:tomcat-embed-jasper")
     implementation('com.rainerhahnekamp:sneakythrow:1.2.0')
 
-    implementation("org.apache.poi:poi:5.4.0")
-    implementation("org.apache.poi:poi-ooxml:5.4.0")
+    implementation("org.apache.poi:poi:5.4.1")
+    implementation("org.apache.poi:poi-ooxml:5.4.1")
 
     implementation("net.sf.jasperreports:jasperreports:6.21.4")
     implementation("com.lowagie:itext:4.2.2")
@@ -31,7 +31,7 @@ dependencies {
     testImplementation("org.springframework.security:spring-security-test")
     testImplementation("org.junit.jupiter:junit-jupiter-api")
     testImplementation("org.junit.jupiter:junit-jupiter-params")
-    testImplementation("org.mockito:mockito-core:4.11.0")
+    testImplementation("org.mockito:mockito-core:5.18.0")
     testImplementation("org.powermock:powermock-api-mockito2:2.0.9")
 }
 
