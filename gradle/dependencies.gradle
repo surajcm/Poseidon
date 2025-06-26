@@ -1,6 +1,6 @@
 
 dependencies {
-    errorprone("com.google.errorprone:error_prone_core:2.38.0")
+    errorprone("com.google.errorprone:error_prone_core:2.39.0")
     errorproneJavac('com.google.errorprone:javac:9+181-r4173-1')
 
     implementation("org.springframework.boot:spring-boot-starter-web")
@@ -12,7 +12,7 @@ dependencies {
     runtimeOnly("org.springframework.boot:spring-boot-devtools")
 
     implementation("javax.xml.bind:jaxb-api:2.3.1")
-    implementation("org.apache.commons:commons-collections4:4.4")
+    implementation("org.apache.commons:commons-collections4:4.5.0")
     implementation("org.codehaus.jackson:jackson-mapper-asl:1.9.13")
     //implementation("org.slf4j:jcl-over-slf4j:2.0.16")
 
