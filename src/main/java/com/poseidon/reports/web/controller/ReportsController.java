@@ -150,6 +150,7 @@ public class ReportsController {
                 reportsUtil.generateJasperReport(httpServletResponse, jasperPrint, reportFileName, reportType);
             }
         } catch (Exception ex) {
+            ex.printStackTrace();
             LOG.error(ex.getLocalizedMessage());
         }
     }
