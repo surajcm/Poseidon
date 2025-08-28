@@ -8,16 +8,16 @@ import com.poseidon.reports.domain.ExportList;
 import com.poseidon.reports.domain.InvoiceStatus;
 import com.poseidon.reports.domain.ReportsVO;
 import com.poseidon.reports.service.ReportsService;
+import com.poseidon.reports.util.DynamicReportGenerator;
+import com.poseidon.reports.util.JasperReportLoadHelper;
 import com.poseidon.reports.util.ReportsUtil;
 import com.poseidon.reports.web.form.ReportsForm;
 import com.poseidon.transaction.domain.TransactionVO;
 import com.poseidon.user.service.UserService;
 import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperReport;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,7 +25,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -340,14 +339,44 @@ public class ReportsController {
     }
 
     private JasperReport createJasperReport(final String reportFileName) throws JRException {
-        String filePath = "";
-        try {
-            var file = new ClassPathResource(REPORTS + '/' + reportFileName + JRXML).getFile();
-            filePath = file.getAbsolutePath();
-        } catch (IOException ex) {
-            LOG.error(ex.getLocalizedMessage());
-        }
         LOG.info(COMPILE_REPORT);
-        return JasperCompileManager.compileReport(filePath);
+
+        // Use dynamic report generation for supported reports to avoid XML parsing issues
+        switch (reportFileName) {
+            case "makeListReport":
+                LOG.info("Using dynamic report generation for makeListReport");
+                return DynamicReportGenerator.createMakeDetailsReport();
+
+            case "modelListReport":
+                LOG.info("Using dynamic report generation for modelListReport");
+                return DynamicReportGenerator.createModelDetailsReport();
+
+            case "callReport":
+                LOG.info("Using dynamic report generation for callReport");
+                return DynamicReportGenerator.createCallReport();
+
+            case "errorReport":
+                LOG.info("Using dynamic report generation for errorReport");
+                return DynamicReportGenerator.createErrorReport();
+
+            case "serviceBillReport":
+                LOG.info("Using dynamic report generation for serviceBillReport");
+                return DynamicReportGenerator.createServiceBillReport();
+
+            case "transactionsListReport":
+                LOG.info("Using dynamic report generation for transactionsListReport");
+                return DynamicReportGenerator.createTransactionsListReport();
+
+            default:
+                // Standard approach for reports not yet converted to dynamic generation
+                String reportPath = REPORTS + '/' + reportFileName + JRXML;
+                try {
+                    LOG.info("Using XML-based report generation for {}", reportFileName);
+                    return JasperReportLoadHelper.loadAndCompileReport(reportPath);
+                } catch (JRException ex) {
+                    LOG.error("Error compiling report {}: {}", reportFileName, ex.getMessage());
+                    throw ex;
+                }
+        }
     }
 }

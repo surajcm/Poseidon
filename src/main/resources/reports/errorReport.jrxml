@@ -1,4 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!-- Created with Jaspersoft Studio version 7.0.3.final using JasperReports Library version 7.0.3  -->
 <jasperReport xmlns="http://jasperreports.sourceforge.net/jasperreports" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://jasperreports.sourceforge.net/jasperreports http://jasperreports.sourceforge.net/xsd/jasperreport.xsd" name="errorReport" pageWidth="842" pageHeight="595" orientation="Landscape" columnWidth="802" leftMargin="20" rightMargin="20" topMargin="20" bottomMargin="20" uuid="241546f9-5f83-4fdb-85c0-3192a3eef3f2">
 	<property name="ireport.zoom" value="1.0"/>
 	<property name="ireport.x" value="0"/>
@@ -28,9 +29,9 @@
 		<groupHeader>
 			<band height="58">
 				<frame>
-					<reportElement uuid="eb444277-c521-4eb8-bcfc-a2d439470426" mode="Opaque" x="64" y="0" width="721" height="58" forecolor="#000000" backcolor="#CC0000"/>
+					<reportElement mode="Opaque" x="64" y="0" width="721" height="58" forecolor="#000000" backcolor="#CC0000" uuid="eb444277-c521-4eb8-bcfc-a2d439470426"/>
 					<staticText>
-						<reportElement uuid="27399719-728b-46de-99c6-bdf16bf38e33" x="84" y="0" width="554" height="58"/>
+						<reportElement x="84" y="0" width="554" height="58" uuid="27399719-728b-46de-99c6-bdf16bf38e33"/>
 						<textElement>
 							<font fontName="Arial" size="36"/>
 						</textElement>
