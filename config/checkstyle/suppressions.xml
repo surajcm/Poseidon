@@ -51,17 +51,6 @@ WHAT AND WHY CHECKS SUPPRESSED
     <suppress files="UserDAO.java" checks="IllegalCatch"/>
     <suppress files="WebSecurityConfig.java" checks="MethodLength"/>
     <suppress files="WebSecurityConfig.java" checks="IllegalCatch"/>
-    <suppress files="JasperReportLoadHelper.java" checks="MethodLength"/>
-    <suppress files="JasperReportLoadHelper.java" checks="FinalParameters"/>
-    <suppress files="JasperReportLoadHelper.java" checks="ParameterAssignment"/>
-    <suppress files="JasperReportLoadHelper.java" checks="IllegalCatch"/>
-    <suppress files="JasperReportLoadHelper.java" checks="SummaryJavadoc"/>
-    <suppress files="JasperReportLoadHelper.java" checks="CatchParameterName"/>
     <suppress files="DynamicReportGenerator.java" checks="MethodLength"/>
-    <suppress files="DynamicReportGenerator.java" checks="WhitespaceAfter"/>
-    <suppress files="DynamicReportGenerator.java" checks="FinalParameters"/>
-    <suppress files="DynamicReportGenerator.java" checks="ParameterNamePublic"/>
-    <suppress files="DynamicReportGenerator.java" checks="SummaryJavadoc"/>
-    <suppress files="DynamicReportGenerator.java" checks="LineLength"/>
     <suppress files="CustomerServiceTest.java" checks="MethodLength"/>
 </suppressions>

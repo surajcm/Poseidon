@@ -1,11 +1,7 @@
 package com.poseidon.reports.util;
 
-import net.sf.jasperreports.engine.JRDataSource;
-import net.sf.jasperreports.engine.JREmptyDataSource;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperCompileManager;
-import net.sf.jasperreports.engine.JasperFillManager;
-import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.JasperReport;
 import net.sf.jasperreports.engine.design.JRDesignBand;
 import net.sf.jasperreports.engine.design.JRDesignExpression;
@@ -25,7 +21,6 @@ import net.sf.jasperreports.engine.type.OrientationEnum;
 import net.sf.jasperreports.engine.type.TextAdjustEnum;
 
 import java.awt.Color;
-import java.util.Map;
 
 /**
  * Utility class to create JasperReports dynamically without using JRXML files.
@@ -208,7 +203,7 @@ public final class DynamicReportGenerator {
         addHorizontalLine(detailBand, 0, 36, 500, 1); // Bottom border
 
         // Add detail band to the report
-        ((JRDesignSection)jasperDesign.getDetailSection()).addBand(detailBand);
+        ((JRDesignSection) jasperDesign.getDetailSection()).addBand(detailBand);
 
         // Compile and return the report
         return JasperCompileManager.compileReport(jasperDesign);
@@ -217,7 +212,11 @@ public final class DynamicReportGenerator {
     /**
      * Helper method to add a horizontal line to a band.
      */
-    private static void addHorizontalLine(JRDesignBand band, int xX, int yY, int width, int height) {
+    private static void addHorizontalLine(final JRDesignBand band,
+                                          final int xX,
+                                          final int yY,
+                                          final int width,
+                                          final int height) {
         JRDesignLine line = new JRDesignLine();
         line.setX(xX);
         line.setY(yY);
@@ -229,9 +228,13 @@ public final class DynamicReportGenerator {
     }
 
     /**
-     * Helper method to add a vertical line to a band
+     * Helper method to add a vertical line to a band.
      */
-    private static void addVerticalLine(JRDesignBand band, int xX, int yY, int width, int height) {
+    private static void addVerticalLine(final JRDesignBand band,
+                                        final int xX,
+                                        final int yY,
+                                        final int width,
+                                        final int height) {
         JRDesignLine line = new JRDesignLine();
         line.setX(xX);
         line.setY(yY);
@@ -240,20 +243,6 @@ public final class DynamicReportGenerator {
         // Use compatible API instead of setLineStyle
         line.getLinePen().setLineStyle(LineStyleEnum.SOLID);
         band.addElement(line);
-    }
-
-    /**
-     * Creates and fills a JasperPrint with the given data source.
-     *
-     * @param dataSource the data source for the report
-     * @param parameters report parameters
-     * @return the filled JasperPrint ready for export
-     * @throws JRException if there is an error filling the report
-     */
-    public static JasperPrint fillMakeDetailsReport(JRDataSource dataSource, Map<String, Object> parameters)
-            throws JRException {
-        JasperReport report = createMakeDetailsReport();
-        return JasperFillManager.fillReport(report, parameters, dataSource);
     }
 
     /**
@@ -423,24 +412,10 @@ public final class DynamicReportGenerator {
         addHorizontalLine(detailBand, 0, 35, 498, 1); // Bottom border
 
         // Add detail band to the report
-        ((JRDesignSection)jasperDesign.getDetailSection()).addBand(detailBand);
+        ((JRDesignSection) jasperDesign.getDetailSection()).addBand(detailBand);
 
         // Compile and return the report
         return JasperCompileManager.compileReport(jasperDesign);
-    }
-
-    /**
-     * Creates and fills a Model Details JasperPrint with the given data source.
-     *
-     * @param dataSource the data source for the report
-     * @param parameters report parameters
-     * @return the filled JasperPrint ready for export
-     * @throws JRException if there is an error filling the report
-     */
-    public static JasperPrint fillModelDetailsReport(JRDataSource dataSource, Map<String, Object> parameters)
-            throws JRException {
-        JasperReport report = createModelDetailsReport();
-        return JasperFillManager.fillReport(report, parameters, dataSource);
     }
 
     /**
@@ -494,7 +469,7 @@ public final class DynamicReportGenerator {
 
         // Create detail band
         JRDesignBand detailBand = createCallReportDetailBand();
-        ((JRDesignSection)jasperDesign.getDetailSection()).addBand(detailBand);
+        ((JRDesignSection) jasperDesign.getDetailSection()).addBand(detailBand);
 
         // Create summary band with terms and conditions
         JRDesignBand summaryBand = createCallReportSummaryBand();
@@ -505,9 +480,9 @@ public final class DynamicReportGenerator {
     }
 
     /**
-     * Adds all required fields to the Call Report design
+     * Adds all required fields to the Call Report design.
      */
-    private static void addCallReportFields(JasperDesign jasperDesign) throws JRException {
+    private static void addCallReportFields(final JasperDesign jasperDesign) throws JRException {
         // ID field
         JRDesignField idField = new JRDesignField();
         idField.setName("id");
@@ -617,7 +592,7 @@ public final class DynamicReportGenerator {
     }
 
     /**
-     * Creates the title band for the Call Report
+     * Creates the title band for the Call Report.
      */
     private static JRDesignBand createCallReportTitleBand() {
         JRDesignBand titleBand = new JRDesignBand();
@@ -696,7 +671,7 @@ public final class DynamicReportGenerator {
     }
 
     /**
-     * Creates the page header band for the Call Report
+     * Creates the page header band for the Call Report.
      */
     private static JRDesignBand createCallReportPageHeaderBand() {
         JRDesignBand pageHeaderBand = new JRDesignBand();
@@ -769,7 +744,7 @@ public final class DynamicReportGenerator {
     }
 
     /**
-     * Creates the detail band for the Call Report
+     * Creates the detail band for the Call Report.
      */
     private static JRDesignBand createCallReportDetailBand() {
         JRDesignBand detailBand = new JRDesignBand();
@@ -1026,7 +1001,7 @@ public final class DynamicReportGenerator {
     }
 
     /**
-     * Creates the summary band for the Call Report with terms and conditions
+     * Creates the summary band for the Call Report with terms and conditions.
      */
     private static JRDesignBand createCallReportSummaryBand() {
         JRDesignBand summaryBand = new JRDesignBand();
@@ -1056,20 +1031,6 @@ public final class DynamicReportGenerator {
         summaryBand.addElement(termsField);
 
         return summaryBand;
-    }
-
-    /**
-     * Creates and fills a Call Report JasperPrint with the given data source.
-     *
-     * @param dataSource the data source for the report
-     * @param parameters report parameters
-     * @return the filled JasperPrint ready for export
-     * @throws JRException if there is an error filling the report
-     */
-    public static JasperPrint fillCallReport(JRDataSource dataSource, Map<String, Object> parameters)
-            throws JRException {
-        JasperReport report = createCallReport();
-        return JasperFillManager.fillReport(report, parameters, dataSource);
     }
 
     /**
@@ -1139,26 +1100,12 @@ public final class DynamicReportGenerator {
         group2.setExpression(groupExpr);
 
         // Set the header and footer bands using the correct section approach
-        ((JRDesignSection)group2.getGroupHeaderSection()).addBand(groupHeaderBand);
-        ((JRDesignSection)group2.getGroupFooterSection()).addBand(new JRDesignBand());
+        ((JRDesignSection) group2.getGroupHeaderSection()).addBand(groupHeaderBand);
+        ((JRDesignSection) group2.getGroupFooterSection()).addBand(new JRDesignBand());
         jasperDesign.addGroup(group2);
 
         // Compile and return the report
         return JasperCompileManager.compileReport(jasperDesign);
-    }
-
-    /**
-     * Creates and fills an Error Report with the given data source.
-     *
-     * @param parameters report parameters
-     * @return the filled JasperPrint ready for export
-     * @throws JRException if there is an error filling the report
-     */
-    public static JasperPrint fillErrorReport(Map<String, Object> parameters)
-            throws JRException {
-        JasperReport report = createErrorReport();
-        // Use an empty datasource since the error report doesn't use any data
-        return JasperFillManager.fillReport(report, parameters, new JREmptyDataSource());
     }
 
     /**
@@ -1197,16 +1144,16 @@ public final class DynamicReportGenerator {
 
         // Create detail band
         JRDesignBand detailBand = createServiceBillDetailBand();
-        ((JRDesignSection)jasperDesign.getDetailSection()).addBand(detailBand);
+        ((JRDesignSection) jasperDesign.getDetailSection()).addBand(detailBand);
 
         // Compile and return the report
         return JasperCompileManager.compileReport(jasperDesign);
     }
 
     /**
-     * Adds all required fields to the Service Bill Report design
+     * Adds all required fields to the Service Bill Report design.
      */
-    private static void addServiceBillReportFields(JasperDesign jasperDesign) throws JRException {
+    private static void addServiceBillReportFields(final JasperDesign jasperDesign) throws JRException {
         // Invoice ID field
         JRDesignField invoiceIdField = new JRDesignField();
         invoiceIdField.setName("invoiceId");
@@ -1299,7 +1246,7 @@ public final class DynamicReportGenerator {
     }
 
     /**
-     * Creates the title band for the Service Bill Report
+     * Creates the title band for the Service Bill Report.
      */
     private static JRDesignBand createServiceBillTitleBand() {
         JRDesignBand titleBand = new JRDesignBand();
@@ -1529,7 +1476,7 @@ public final class DynamicReportGenerator {
     }
 
     /**
-     * Creates the page header band for the Service Bill Report
+     * Creates the page header band for the Service Bill Report.
      */
     private static JRDesignBand createServiceBillPageHeaderBand() {
         JRDesignBand pageHeaderBand = new JRDesignBand();
@@ -1602,7 +1549,7 @@ public final class DynamicReportGenerator {
     }
 
     /**
-     * Creates the column header band for the Service Bill Report
+     * Creates the column header band for the Service Bill Report.
      */
     private static JRDesignBand createServiceBillColumnHeaderBand() {
         JRDesignBand columnHeaderBand = new JRDesignBand();
@@ -1724,7 +1671,7 @@ public final class DynamicReportGenerator {
     }
 
     /**
-     * Creates the detail band for the Service Bill Report
+     * Creates the detail band for the Service Bill Report.
      */
     private static JRDesignBand createServiceBillDetailBand() {
         JRDesignBand detailBand = new JRDesignBand();
@@ -1931,20 +1878,6 @@ public final class DynamicReportGenerator {
     }
 
     /**
-     * Creates and fills a Service Bill Report with the given data source.
-     *
-     * @param dataSource the data source for the report
-     * @param parameters report parameters
-     * @return the filled JasperPrint ready for export
-     * @throws JRException if there is an error filling the report
-     */
-    public static JasperPrint fillServiceBillReport(JRDataSource dataSource, Map<String, Object> parameters)
-            throws JRException {
-        JasperReport report = createServiceBillReport();
-        return JasperFillManager.fillReport(report, parameters, dataSource);
-    }
-
-    /**
      * Creates a dynamic "Transactions List Report" with the same structure as transactionsListReport.jrxml.
      *
      * @return The compiled JasperReport
@@ -1976,16 +1909,16 @@ public final class DynamicReportGenerator {
 
         // Create detail band
         JRDesignBand detailBand = createTransactionsListDetailBand();
-        ((JRDesignSection)jasperDesign.getDetailSection()).addBand(detailBand);
+        ((JRDesignSection) jasperDesign.getDetailSection()).addBand(detailBand);
 
         // Compile and return the report
         return JasperCompileManager.compileReport(jasperDesign);
     }
 
     /**
-     * Adds all required fields to the Transactions List Report design
+     * Adds all required fields to the Transactions List Report design.
      */
-    private static void addTransactionsListReportFields(JasperDesign jasperDesign) throws JRException {
+    private static void addTransactionsListReportFields(final JasperDesign jasperDesign) throws JRException {
         // Tag Number field
         JRDesignField tagNoField = new JRDesignField();
         tagNoField.setName("tagNo");
@@ -2030,7 +1963,7 @@ public final class DynamicReportGenerator {
     }
 
     /**
-     * Creates the title band for the Transactions List Report
+     * Creates the title band for the Transactions List Report.
      */
     private static JRDesignBand createTransactionsListTitleBand() {
         JRDesignBand titleBand = new JRDesignBand();
@@ -2090,7 +2023,7 @@ public final class DynamicReportGenerator {
     }
 
     /**
-     * Creates the column header band for the Transactions List Report
+     * Creates the column header band for the Transactions List Report.
      */
     private static JRDesignBand createTransactionsListColumnHeaderBand() {
         JRDesignBand columnHeaderBand = new JRDesignBand();
@@ -2262,7 +2195,7 @@ public final class DynamicReportGenerator {
     }
 
     /**
-     * Creates the detail band for the Transactions List Report
+     * Creates the detail band for the Transactions List Report.
      */
     private static JRDesignBand createTransactionsListDetailBand() {
         JRDesignBand detailBand = new JRDesignBand();
@@ -2440,17 +2373,4 @@ public final class DynamicReportGenerator {
         return detailBand;
     }
 
-    /**
-     * Creates and fills a Transactions List Report with the given data source.
-     *
-     * @param dataSource the data source for the report
-     * @param parameters report parameters
-     * @return the filled JasperPrint ready for export
-     * @throws JRException if there is an error filling the report
-     */
-    public static JasperPrint fillTransactionsListReport(JRDataSource dataSource, Map<String, Object> parameters)
-            throws JRException {
-        JasperReport report = createTransactionsListReport();
-        return JasperFillManager.fillReport(report, parameters, dataSource);
-    }
 }
