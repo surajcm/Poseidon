@@ -38,9 +38,7 @@ import java.util.List;
 public class ReportsController {
     private static final Logger LOG = LoggerFactory.getLogger(ReportsController.class);
     private static final String FORM_DETAILS = " form details are {}";
-    private static final String REPORTS = "/reports";
     private static final String COMPILE_REPORT = "Going to compile report";
-    private static final String JRXML = ".jrxml";
 
     private final ReportsService reportsService;
     private final MakeService makeService;

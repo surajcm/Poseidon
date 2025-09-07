@@ -50,13 +50,13 @@ public class MakeDetailsReportBuilder extends ReportBuilder {
         titleRect.setX(0);
         titleRect.setY(1);
         titleRect.setWidth(500);
-        titleRect.setHeight(35);
+        titleRect.setHeight(36);
         titleRect.setBackcolor(LIGHT_GRAY);
         titleBand.addElement(titleRect);
 
         JRDesignRectangle headerRect = new JRDesignRectangle();
         headerRect.setX(1);
-        headerRect.setY(36);
+        headerRect.setY(37);
         headerRect.setWidth(499);
         headerRect.setHeight(36);
         headerRect.setForecolor(Color.WHITE);
@@ -70,7 +70,6 @@ public class MakeDetailsReportBuilder extends ReportBuilder {
         titleText.setWidth(463);
         titleText.setHeight(30);
         titleText.setHorizontalTextAlign(HorizontalTextAlignEnum.CENTER);
-        // Fixed: don't use boldStyle variable directly as it's not in scope
         titleText.setBold(true);
         titleText.setText("Make Details Report");
         titleText.setFontSize(24f);
@@ -152,10 +151,10 @@ public class MakeDetailsReportBuilder extends ReportBuilder {
         detailBand.addElement(descriptionField);
 
         // Add borders for detail band
-        addVerticalLine(detailBand, 0, 0, 1, 36);
-        addVerticalLine(detailBand, 250, 0, 1, 36);
-        addVerticalLine(detailBand, 500, 0, 1, 37);
-        addHorizontalLine(detailBand, 0, 36, 500, 1);
+        addVerticalLine(detailBand, 0, 0, 1, 39);
+        addVerticalLine(detailBand, 250, 0, 1, 39);
+        addVerticalLine(detailBand, 500, 0, 1, 39);
+        addHorizontalLine(detailBand, 0, 39, 500, 1);
 
         return detailBand;
     }

@@ -52,7 +52,7 @@ public class ModelDetailsReportBuilder extends ReportBuilder {
         JRDesignRectangle titleRect = new JRDesignRectangle();
         titleRect.setX(1);
         titleRect.setY(1);
-        titleRect.setWidth(497);
+        titleRect.setWidth(498);
         titleRect.setHeight(32);
         titleRect.setBackcolor(LIGHT_GRAY);
         titleBand.addElement(titleRect);
@@ -60,7 +60,7 @@ public class ModelDetailsReportBuilder extends ReportBuilder {
         JRDesignRectangle headerRect = new JRDesignRectangle();
         headerRect.setX(1);
         headerRect.setY(36);
-        headerRect.setWidth(480);
+        headerRect.setWidth(498);
         headerRect.setHeight(36);
         headerRect.setForecolor(Color.WHITE);
         headerRect.setBackcolor(LIGHT_GRAY);
@@ -70,7 +70,7 @@ public class ModelDetailsReportBuilder extends ReportBuilder {
         JRDesignStaticText titleText = new JRDesignStaticText();
         titleText.setX(1);
         titleText.setY(1);
-        titleText.setWidth(480);
+        titleText.setWidth(498);
         titleText.setHeight(32);
         titleText.setHorizontalTextAlign(HorizontalTextAlignEnum.CENTER);
         titleText.setBold(true);
@@ -80,9 +80,9 @@ public class ModelDetailsReportBuilder extends ReportBuilder {
 
         // Add column headers
         JRDesignStaticText makeNameHeader = new JRDesignStaticText();
-        makeNameHeader.setX(2);
+        makeNameHeader.setX(1);
         makeNameHeader.setY(38);
-        makeNameHeader.setWidth(244);
+        makeNameHeader.setWidth(249);
         makeNameHeader.setHeight(32);
         makeNameHeader.setHorizontalTextAlign(HorizontalTextAlignEnum.CENTER);
         makeNameHeader.setBold(true);
@@ -91,9 +91,9 @@ public class ModelDetailsReportBuilder extends ReportBuilder {
         titleBand.addElement(makeNameHeader);
 
         JRDesignStaticText modelNameHeader = new JRDesignStaticText();
-        modelNameHeader.setX(254);
+        modelNameHeader.setX(250);
         modelNameHeader.setY(41);
-        modelNameHeader.setWidth(244);
+        modelNameHeader.setWidth(249);
         modelNameHeader.setHeight(32);
         modelNameHeader.setHorizontalTextAlign(HorizontalTextAlignEnum.CENTER);
         modelNameHeader.setBold(true);
@@ -111,7 +111,7 @@ public class ModelDetailsReportBuilder extends ReportBuilder {
         // Horizontal lines
         addHorizontalLine(titleBand, 0, 0, 498, 1);
         addHorizontalLine(titleBand, 0, 34, 498, 1);
-        addHorizontalLine(titleBand, 1, 73, 497, 1);
+        addHorizontalLine(titleBand, 1, 73, 498, 1);
 
         // Vertical lines
         addVerticalLine(titleBand, 0, 1, 1, 33);

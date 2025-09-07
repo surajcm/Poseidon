@@ -15,7 +15,7 @@ import net.sf.jasperreports.engine.type.LineStyleEnum;
 import net.sf.jasperreports.engine.type.TextAdjustEnum;
 import net.sf.jasperreports.engine.type.VerticalTextAlignEnum;
 
-import java.awt.*;
+import java.awt.Color;
 
 /**
  * Builder for Call Report.

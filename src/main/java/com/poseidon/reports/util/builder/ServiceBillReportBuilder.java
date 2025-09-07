@@ -351,7 +351,7 @@ public class ServiceBillReportBuilder extends ReportBuilder {
 
     private JRDesignBand createServiceBillDetailBand() {
         JRDesignBand detailBand = new JRDesignBand();
-        detailBand.setHeight(344);
+        detailBand.setHeight(340);
 
         // Item details fields
         JRDesignTextField slNoField = new JRDesignTextField();
@@ -440,23 +440,21 @@ public class ServiceBillReportBuilder extends ReportBuilder {
         // Total amount at the bottom
         JRDesignStaticText totalLabel = new JRDesignStaticText();
         totalLabel.setX(445);
-        totalLabel.setY(300);
-        totalLabel.setWidth(66);
+        totalLabel.setY(80);
+        totalLabel.setWidth(80);
         totalLabel.setHeight(20);
         totalLabel.setFontName("Arial");
         totalLabel.setFontSize(12f);
-        totalLabel.setBold(true);
-        totalLabel.setText("Total:");
+        totalLabel.setText("Grand Total:");
         detailBand.addElement(totalLabel);
 
         JRDesignTextField totalAmountField = new JRDesignTextField();
         totalAmountField.setX(539);
-        totalAmountField.setY(300);
-        totalAmountField.setWidth(100);
+        totalAmountField.setY(80);
+        totalAmountField.setWidth(50);
         totalAmountField.setHeight(20);
         totalAmountField.setFontName("Arial");
         totalAmountField.setFontSize(12f);
-        totalAmountField.setBold(true);
         JRDesignExpression totalExpr = new JRDesignExpression();
         totalExpr.setText("$F{totalAmount}");
         totalAmountField.setExpression(totalExpr);
@@ -469,19 +467,99 @@ public class ServiceBillReportBuilder extends ReportBuilder {
         // Right vertical line
         addVerticalLine(detailBand, 680, 0, 1, 340);
         // Vertical divider lines for the item row
-        addVerticalLine(detailBand, 50, 0, 1, 68);
+        addVerticalLine(detailBand, 50, 0, 1, 100);
         addVerticalLine(detailBand, 365, 0, 1, 68);
         addVerticalLine(detailBand, 439, 0, 1, 68);
-        addVerticalLine(detailBand, 526, 0, 1, 68);
+        addVerticalLine(detailBand, 526, 0, 1, 100);
+
+        JRDesignStaticText chargeable = new JRDesignStaticText();
+        chargeable.setX(15);
+        chargeable.setY(105);
+        chargeable.setWidth(210);
+        chargeable.setHeight(20);
+        chargeable.setFontName("Arial");
+        chargeable.setFontSize(12f);
+        chargeable.setText("Amount Chargeable (in words) :");
+        detailBand.addElement(chargeable);
+
+        JRDesignStaticText vat = new JRDesignStaticText();
+        vat.setX(15);
+        vat.setY(190);
+        vat.setWidth(210);
+        vat.setHeight(20);
+        vat.setFontName("Arial");
+        vat.setFontSize(12f);
+        vat.setText("Company's VAT TIN");
+        detailBand.addElement(vat);
+
+        JRDesignTextField vatValue = new JRDesignTextField();
+        vatValue.setX(150);
+        vatValue.setY(190);
+        vatValue.setWidth(259);
+        vatValue.setHeight(20);
+        vatValue.setFontName("Arial");
+        vatValue.setFontSize(11f);
+        JRDesignExpression vatValueExpr = new JRDesignExpression();
+        vatValueExpr.setText("$F{companyVatTin}");
+        vatValue.setExpression(vatValueExpr);
+        detailBand.addElement(vatValue);
+
+
+        JRDesignStaticText cst = new JRDesignStaticText();
+        cst.setX(15);
+        cst.setY(230);
+        cst.setWidth(230);
+        cst.setHeight(20);
+        cst.setFontName("Arial");
+        cst.setFontSize(12f);
+        cst.setText("Company's CST");
+        detailBand.addElement(cst);
+
+        JRDesignTextField cstValue = new JRDesignTextField();
+        cstValue.setX(150);
+        cstValue.setY(230);
+        cstValue.setWidth(259);
+        cstValue.setHeight(20);
+        cstValue.setFontName("Arial");
+        cstValue.setFontSize(11f);
+        JRDesignExpression cstValueExpr = new JRDesignExpression();
+        cstValueExpr.setText("$F{companyCstTin}");
+        cstValue.setExpression(cstValueExpr);
+        detailBand.addElement(cstValue);
+
+
+        JRDesignStaticText solutions = new JRDesignStaticText();
+        solutions.setX(370);
+        solutions.setY(230);
+        solutions.setWidth(200);
+        solutions.setHeight(20);
+        solutions.setFontName("Arial");
+        solutions.setFontSize(12f);
+        solutions.setText("For Poseidon Solutions");
+        detailBand.addElement(solutions);
+
+
+        JRDesignStaticText authorized = new JRDesignStaticText();
+        authorized.setX(540);
+        authorized.setY(300);
+        authorized.setWidth(100);
+        authorized.setHeight(20);
+        authorized.setFontName("Arial");
+        authorized.setFontSize(12f);
+        authorized.setText("Authorized");
+        detailBand.addElement(authorized);
+
 
         // Bottom line for the item row
         addHorizontalLine(detailBand, 1, 68, 679, 1);
         // Total section top line
-        addHorizontalLine(detailBand, 439, 290, 241, 1);
-        // Total section bottom line
-        addHorizontalLine(detailBand, 439, 330, 241, 1);
+        addHorizontalLine(detailBand, 1, 100, 678, 1);
+        // Signature top line
+        addHorizontalLine(detailBand, 365, 200, 313, 1);
+        // Signature vertical line
+        addVerticalLine(detailBand, 365, 200, 1, 140);
         // Divider between Total label and amount
-        addHorizontalLine(detailBand, 526, 290, 1, 40);
+        addHorizontalLine(detailBand, 1, 339, 678, 1);
         return detailBand;
     }
 

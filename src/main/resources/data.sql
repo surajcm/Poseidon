@@ -14,8 +14,8 @@ insert into companyterms (id, name, code, address, phone, email, website,
      '2012-06-02 00:00:00','2012-06-02 00:00:00','admin','admin');
 
 
-insert into member (id, name, email, password, enabled, createdOn, modifiedOn, createdBy, modifiedBy) values
-(1, 'admin', 'admin@admin.com', '$2a$10$swK6dfjfSwe9Ql0twZnvCecSYCu2v4Sp659pVg2DdIoWtoDcr/xMq', true,
+insert into member (id, name, email, password, companyCode, enabled, createdOn, modifiedOn, createdBy, modifiedBy) values
+(1, 'admin', 'admin@admin.com', '$2a$10$swK6dfjfSwe9Ql0twZnvCecSYCu2v4Sp659pVg2DdIoWtoDcr/xMq', 'QC01', true,
 '2012-06-02 00:00:00','2012-06-02 00:00:00','admin','admin');
 
 insert into member (id, name, email, password, companyCode, enabled, createdOn, modifiedOn, createdBy, modifiedBy) values
