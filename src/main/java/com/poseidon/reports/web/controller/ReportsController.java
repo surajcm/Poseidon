@@ -8,16 +8,15 @@ import com.poseidon.reports.domain.ExportList;
 import com.poseidon.reports.domain.InvoiceStatus;
 import com.poseidon.reports.domain.ReportsVO;
 import com.poseidon.reports.service.ReportsService;
+import com.poseidon.reports.util.DynamicReportGenerator;
 import com.poseidon.reports.util.ReportsUtil;
 import com.poseidon.reports.web.form.ReportsForm;
 import com.poseidon.transaction.domain.TransactionVO;
 import com.poseidon.user.service.UserService;
 import net.sf.jasperreports.engine.JRException;
-import net.sf.jasperreports.engine.JasperCompileManager;
 import net.sf.jasperreports.engine.JasperReport;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.core.io.ClassPathResource;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -25,7 +24,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import java.io.IOException;
 import java.time.LocalDate;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -40,9 +38,7 @@ import java.util.List;
 public class ReportsController {
     private static final Logger LOG = LoggerFactory.getLogger(ReportsController.class);
     private static final String FORM_DETAILS = " form details are {}";
-    private static final String REPORTS = "/reports";
     private static final String COMPILE_REPORT = "Going to compile report";
-    private static final String JRXML = ".jrxml";
 
     private final ReportsService reportsService;
     private final MakeService makeService;
@@ -150,6 +146,7 @@ public class ReportsController {
                 reportsUtil.generateJasperReport(httpServletResponse, jasperPrint, reportFileName, reportType);
             }
         } catch (Exception ex) {
+            LOG.error(ex.getMessage(), ex);
             LOG.error(ex.getLocalizedMessage());
         }
     }
@@ -339,14 +336,33 @@ public class ReportsController {
     }
 
     private JasperReport createJasperReport(final String reportFileName) throws JRException {
-        String filePath = "";
-        try {
-            var file = new ClassPathResource(REPORTS + '/' + reportFileName + JRXML).getFile();
-            filePath = file.getAbsolutePath();
-        } catch (IOException ex) {
-            LOG.error(ex.getLocalizedMessage());
-        }
         LOG.info(COMPILE_REPORT);
-        return JasperCompileManager.compileReport(filePath);
+        return switch (reportFileName) {
+            case "makeListReport" -> {
+                LOG.info("Using dynamic report generation for makeListReport");
+                yield DynamicReportGenerator.createMakeDetailsReport();
+            }
+            case "modelListReport" -> {
+                LOG.info("Using dynamic report generation for modelListReport");
+                yield DynamicReportGenerator.createModelDetailsReport();
+            }
+            case "callReport" -> {
+                LOG.info("Using dynamic report generation for callReport");
+                yield DynamicReportGenerator.createCallReport();
+            }
+            case "errorReport" -> {
+                LOG.info("Using dynamic report generation for errorReport");
+                yield DynamicReportGenerator.createErrorReport();
+            }
+            case "serviceBillReport" -> {
+                LOG.info("Using dynamic report generation for serviceBillReport");
+                yield DynamicReportGenerator.createServiceBillReport();
+            }
+            case "transactionsListReport" -> {
+                LOG.info("Using dynamic report generation for transactionsListReport");
+                yield DynamicReportGenerator.createTransactionsListReport();
+            }
+            default -> throw new IllegalStateException("Unexpected value: " + reportFileName);
+        };
     }
 }

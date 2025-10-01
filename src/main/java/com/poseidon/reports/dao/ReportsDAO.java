@@ -22,7 +22,6 @@ import java.util.Map;
  */
 @Repository
 public class ReportsDAO {
-
     /**
      * generate daily report.
      *

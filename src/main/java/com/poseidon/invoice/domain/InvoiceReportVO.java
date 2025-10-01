@@ -1,5 +1,7 @@
 package com.poseidon.invoice.domain;
 
+import java.util.StringJoiner;
+
 public class InvoiceReportVO {
     private Long invoiceId;
     private String tagNo;
@@ -171,5 +173,20 @@ public class InvoiceReportVO {
 
     public void setCompanyCstTin(final String companyCstTin) {
         this.companyCstTin = companyCstTin;
+    }
+
+    @Override
+    public String toString() {
+        return new StringJoiner(", ", InvoiceReportVO.class.getSimpleName() + "[", "]")
+                .add("invoiceId=" + invoiceId).add("tagNo='" + tagNo + "'")
+                .add("customerId=" + customerId).add("customerName='" + customerName + "'")
+                .add("customerAddress='" + customerAddress + "'").add("description='" + description + "'")
+                .add("serialNo='" + serialNo + "'").add("quantity=" + quantity)
+                .add("rate=" + rate).add("amount=" + amount).add("totalAmount=" + totalAmount)
+                .add("companyName='" + companyName + "'").add("companyAddress='" + companyAddress + "'")
+                .add("companyPhoneNumber='" + companyPhoneNumber + "'").add("companyWebsite='" + companyWebsite + "'")
+                .add("companyEmail='" + companyEmail + "'").add("termsAndConditions='" + termsAndConditions + "'")
+                .add("companyVatTin='" + companyVatTin + "'").add("companyCstTin='" + companyCstTin + "'")
+                .toString();
     }
 }

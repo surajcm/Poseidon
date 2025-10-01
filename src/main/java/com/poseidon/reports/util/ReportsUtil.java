@@ -6,9 +6,9 @@ import com.poseidon.transaction.domain.TransactionVO;
 import net.sf.jasperreports.engine.JRException;
 import net.sf.jasperreports.engine.JasperPrint;
 import net.sf.jasperreports.engine.export.HtmlExporter;
-import net.sf.jasperreports.engine.export.JRPdfExporter;
-import net.sf.jasperreports.engine.export.JRXlsExporter;
 import net.sf.jasperreports.engine.export.ooxml.JRDocxExporter;
+import net.sf.jasperreports.engine.export.ooxml.JRXlsxExporter;
+import net.sf.jasperreports.pdf.JRPdfExporter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Component;
@@ -26,6 +26,10 @@ public class ReportsUtil {
     private static final String TEXT_HTML = "text/html";
     private static final String CONTENT_DISPOSITION = "Content-disposition";
     private static final String CONTENT_DISPOSITION1 = "Content-Disposition";
+    private static final String EXCEL_CONTENT_TYPE =
+            "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet";
+    private static final String WORD_CONTENT_TYPE =
+            "application/vnd.openxmlformats-officedocument.wordprocessingml.document";
 
     public TransactionVO getSearchTransaction() {
         var searchVO = new TransactionVO();
@@ -59,21 +63,19 @@ public class ReportsUtil {
             LOG.info("ReportFileName : {} , ReportType {} ", reportFileName, reportType);
             switch (reportType) {
                 case EXCEL -> {
-                    httpServletResponse.setContentType("application/vnd.ms-excel");
-                    httpServletResponse.setHeader(CONTENT_DISPOSITION1, FILENAME + reportFileName + ".xls;");
+                    httpServletResponse.setContentType(EXCEL_CONTENT_TYPE);
+                    httpServletResponse.setHeader(CONTENT_DISPOSITION1, FILENAME + reportFileName + ".xlsx;");
                     generateExcelReport(httpServletResponse, jasperPrint);
                 }
                 case PDF -> {
                     var mimetype = httpServletResponse.getContentType();
                     httpServletResponse.setContentType((mimetype != null) ? mimetype : "application/pdf");
-                    httpServletResponse.setHeader(CONTENT_DISPOSITION1,
-                            FILENAME + reportFileName + ";");
+                    httpServletResponse.setHeader(CONTENT_DISPOSITION1, FILENAME + reportFileName + ".pdf;");
                     generatePDFReport(httpServletResponse, jasperPrint);
                 }
                 case WORD -> {
-                    httpServletResponse.addHeader(CONTENT_DISPOSITION,
-                            FILENAME + reportFileName + ".docx;");
-                    httpServletResponse.setContentType("application/vnd.ms-word");
+                    httpServletResponse.addHeader(CONTENT_DISPOSITION, FILENAME + reportFileName + ".docx;");
+                    httpServletResponse.setContentType(WORD_CONTENT_TYPE);
                     generateWordReport(httpServletResponse, jasperPrint);
                 }
                 default -> {
@@ -110,7 +112,6 @@ public class ReportsUtil {
 
     private void generatePDFReport(final HttpServletResponse httpServletResponse,
                                    final JasperPrint jasperPrint) throws JRException, IOException {
-
         var pdfExporter = new JRPdfExporter();
         pdfExporter.setExporterInput(ReportingConfigurations.exporter(jasperPrint));
         pdfExporter.setConfiguration(ReportingConfigurations.pdfReportConfiguration());
@@ -122,7 +123,7 @@ public class ReportsUtil {
 
     private void generateExcelReport(final HttpServletResponse httpServletResponse,
                                      final JasperPrint jasperPrint) throws JRException, IOException {
-        var xlsExporter = new JRXlsExporter();
+        var xlsExporter = new JRXlsxExporter();
         xlsExporter.setExporterInput(ReportingConfigurations.exporter(jasperPrint));
         xlsExporter.setConfiguration(ReportingConfigurations.configurationReportXlsx());
         var outputStream = new ByteArrayOutputStream();

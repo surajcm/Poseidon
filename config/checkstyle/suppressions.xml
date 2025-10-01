@@ -51,5 +51,12 @@ WHAT AND WHY CHECKS SUPPRESSED
     <suppress files="UserDAO.java" checks="IllegalCatch"/>
     <suppress files="WebSecurityConfig.java" checks="MethodLength"/>
     <suppress files="WebSecurityConfig.java" checks="IllegalCatch"/>
+    <suppress files="DynamicReportGenerator.java" checks="MethodLength"/>
+    <suppress files="TransactionsListReportBuilder.java" checks="MethodLength"/>
+    <suppress files="ErrorReportBuilder.java" checks="MethodLength"/>
+    <suppress files="ServiceBillReportBuilder.java" checks="MethodLength"/>
+    <suppress files="MakeDetailsReportBuilder.java" checks="MethodLength"/>
+    <suppress files="ModelDetailsReportBuilder.java" checks="MethodLength"/>
+    <suppress files="CallReportBuilder.java" checks="MethodLength"/>
     <suppress files="CustomerServiceTest.java" checks="MethodLength"/>
 </suppressions>
