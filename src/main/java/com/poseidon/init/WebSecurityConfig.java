@@ -10,7 +10,6 @@ import org.springframework.security.config.annotation.web.configurers.HeadersCon
 import org.springframework.security.config.annotation.web.configurers.LogoutConfigurer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
-import org.springframework.security.web.servlet.util.matcher.MvcRequestMatcher;
 import org.springframework.web.servlet.handler.HandlerMappingIntrospector;
 
 @Configuration
@@ -27,10 +26,9 @@ public class WebSecurityConfig {
     public SecurityFilterChain filterChain(final HttpSecurity http,
                                            final HandlerMappingIntrospector introspect) throws Exception {
         http.csrf(AbstractHttpConfigurer::disable);
-        var mvcMatcherBuilder = new MvcRequestMatcher.Builder(introspect);
         for (var paths: matchingPaths()) {
             http.authorizeHttpRequests(auth -> auth
-                    .requestMatchers(mvcMatcherBuilder.pattern(paths)).permitAll()
+                    .requestMatchers(paths).permitAll()
             );
         }
         http.authorizeHttpRequests(auth -> auth.anyRequest().authenticated());
@@ -47,8 +45,8 @@ public class WebSecurityConfig {
         http.headers((headers) ->
                 headers.frameOptions(HeadersConfigurer.FrameOptionsConfig::sameOrigin));
         http.logout(LogoutConfigurer::permitAll);
-        http.requiresChannel(c -> c.requestMatchers(r ->
-                r.getHeader("X-Forwarded-Proto") != null).requiresSecure());
+        /*http.requiresChannel(c -> c.requestMatchers(r ->
+                r.getHeader("X-Forwarded-Proto") != null).requiresSecure());*/
         return http.build();
     }
 
