@@ -10,10 +10,10 @@ jobs:
         with:
           java-version: '24'
           distribution: 'temurin'
-      - name: Validate Gradle wrapper
-        uses: gradle/wrapper-validation-action@v3
+
       - name: Test with Gradle
         run: ./gradlew test
+
       - name: Generate reports
         run: ./gradlew build jacocoTestReport
       #- name: Analyze on SonarCloud
