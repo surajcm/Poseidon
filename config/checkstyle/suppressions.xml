@@ -59,4 +59,5 @@ WHAT AND WHY CHECKS SUPPRESSED
     <suppress files="ModelDetailsReportBuilder.java" checks="MethodLength"/>
     <suppress files="CallReportBuilder.java" checks="MethodLength"/>
     <suppress files="CustomerServiceTest.java" checks="MethodLength"/>
+    <suppress files="CustomerControllerTest.java" checks="MethodLength"/>
 </suppressions>

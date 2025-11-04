@@ -2,6 +2,7 @@ package com.poseidon.customer.web.controller;
 
 import com.poseidon.customer.CustomerConfigurations;
 import com.poseidon.customer.dao.entities.Customer;
+import com.poseidon.customer.domain.CustomerVO;
 import com.poseidon.customer.service.CustomerService;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -17,6 +18,7 @@ import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.util.List;
 
+import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
@@ -57,4 +59,25 @@ class CustomerControllerTest {
     private Page<Customer> mockCustomers() {
         return new PageImpl<>(List.of(new Customer(), new Customer()));
     }
+
+    @Test
+    void saveCustomer2() throws Exception {
+        Customer savedCustomer = new Customer();
+        savedCustomer.setName("Test Customer");
+
+        when(customerService.saveCustomer(any(CustomerVO.class), any(Customer.class)))
+                .thenReturn(savedCustomer);
+
+        mvc.perform(post("/customer/saveCustomer2")
+                        .param("modalCustomerName", "Test Customer")
+                        .param("modalAddress", "Test Address")
+                        .param("modalPhone", "1234567890")
+                        .param("modalMobile", "9876543210")
+                        .param("modalEmail", "test@test.com")
+                        .param("modalContact", "Contact Person")
+                        .param("modalContactMobile", "1231231234")
+                        .param("modalNotes", "Test Notes"))
+                .andExpect(status().isOk());
+    }
+
 }
