@@ -16,4 +16,6 @@
 
 ## Running Tests
 - Use `./gradlew test` to run all tests
+## To check the code coverage
+- Use `./gradlew jacocoTestReport` and view the report in `build/reports/jacoco/test/html/index.html`
 

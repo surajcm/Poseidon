@@ -17,11 +17,12 @@ import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
 import java.util.List;
-
+import java.util.Optional;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.put;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
 @ExtendWith(SpringExtension.class)
@@ -77,6 +78,28 @@ class CustomerControllerTest {
                         .param("modalContact", "Contact Person")
                         .param("modalContactMobile", "1231231234")
                         .param("modalNotes", "Test Notes"))
+                .andExpect(status().isOk());
+    }
+
+    @Test
+    void updateCustomer() throws Exception {
+        CustomerVO existingCustomer = new CustomerVO();
+        existingCustomer.setCustomerId(1L);
+        existingCustomer.setCustomerName("Old Name");
+
+        when(customerService.getCustomerFromId(1L)).thenReturn(Optional.of(existingCustomer));
+        when(customerService.listAllCustomerDetails()).thenReturn(List.of(new Customer()));
+
+        mvc.perform(put("/customer/updateCustomer")
+                        .param("id", "1")
+                        .param("modalCustomerName", "Updated Customer")
+                        .param("modalAddress", "Updated Address")
+                        .param("modalPhone", "1234567890")
+                        .param("modalMobile", "9876543210")
+                        .param("modalEmail", "updated@test.com")
+                        .param("modalContact", "Updated Contact")
+                        .param("modalContactMobile", "1231231234")
+                        .param("modalNotes", "Updated Notes"))
                 .andExpect(status().isOk());
     }
 
