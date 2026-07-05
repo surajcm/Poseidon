@@ -11,6 +11,8 @@ import com.poseidon.transaction.domain.TransactionVO;
 import org.hibernate.Session;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Repository;
 import org.springframework.util.StringUtils;
 
@@ -24,6 +26,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static com.poseidon.init.Constants.PAGE_SIZE;
 import static com.rainerhahnekamp.sneakythrow.Sneaky.sneak;
 import static com.rainerhahnekamp.sneakythrow.Sneaky.sneaked;
 
@@ -364,5 +367,10 @@ public class TransactionDAO {
         txn.setRepairAction(currentTransaction.getRepairAction());
         txn.setNote(currentTransaction.getNotes());
         txn.setStatus(currentTransaction.getStatus());
+    }
+
+    public Page<TransactionVO> listAll(final int pageNumber) {
+        var pageable = PageRequest.of(pageNumber - 1, PAGE_SIZE);
+        return transactionRepository.findAll(pageable).map(this::convertToVO);
     }
 }

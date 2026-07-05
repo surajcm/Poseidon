@@ -314,6 +314,27 @@ serialNumber, accessories, complaintReported, complaintDiagnosed, engineerRemark
  'Broken screen', 'Purchase screen', 'INVOICED',
  'admin', CURRENT_DATE, 'admin', CURRENT_DATE);
 
+insert into transaction (id, tagNo, dateReported, customerId, productCategory, makeId, modelId,
+serialNumber, accessories, complaintReported, complaintDiagnosed, engineerRemarks, repairAction, note, status,
+ createdBy, createdOn, modifiedBy, modifiedOn) values (6, 'WON2N6', CURRENT_DATE, 6 , 'PHONE', 1, 2,
+ 'III67678', 'Travel Bag', 'Not switching ON', 'Battery issue', 'Replace battery',
+ 'Battery issue', 'Purchase battery', 'INVOICED',
+ 'admin', CURRENT_DATE, 'admin', CURRENT_DATE);
+
+insert into transaction (id, tagNo, dateReported, customerId, productCategory, makeId, modelId,
+serialNumber, accessories, complaintReported, complaintDiagnosed, engineerRemarks, repairAction, note, status,
+ createdBy, createdOn, modifiedBy, modifiedOn) values (7, 'WON2N7', CURRENT_DATE, 7 , 'PHONE', 1, 2,
+ 'III67679', 'Charger Cable', 'Water Damage', 'Battery issue', 'Replace battery',
+ 'Battery issue', 'Purchase battery', 'INVOICED',
+ 'admin', CURRENT_DATE, 'admin', CURRENT_DATE);
+
+insert into transaction (id, tagNo, dateReported, customerId, productCategory, makeId, modelId,
+serialNumber, accessories, complaintReported, complaintDiagnosed, engineerRemarks, repairAction, note, status,
+ createdBy, createdOn, modifiedBy, modifiedOn) values (8, 'WON2N8', CURRENT_DATE, 8 , 'DESKTOP', 3, 5,
+ 'III67680', 'CPU', 'Not switching ON', 'CPU issue', 'Replace CPU',
+'CPU issue', 'Purchase Power supply', 'INVOICED',
+ 'admin', CURRENT_DATE, 'admin', CURRENT_DATE);
+
 insert into invoice (id, transactionId, description, serialNumber ,amount ,quantity , rate ,
  customerId, customerName, tagNumber ,  createdBy, createdOn, modifiedBy, modifiedOn) values
   (1, 4, 'SERVICE CHARGES FOR Apple MacBook Pro', 'III67676', 1000, 2, 500,
@@ -323,3 +344,23 @@ insert into invoice (id, transactionId, description, serialNumber ,amount ,quant
  customerId, customerName, tagNumber ,  createdBy, createdOn, modifiedBy, modifiedOn) values
   (2, 5, 'SERVICE CHARGES FOR Apple MacBook Air', 'III67677', 1200, 20, 60,
  5, 'Vision', 'WON2N5', 'admin', CURRENT_DATE, 'admin', CURRENT_DATE);
+
+insert into invoice (id, transactionId, description, serialNumber ,amount ,quantity , rate ,
+ customerId, customerName, tagNumber ,  createdBy, createdOn, modifiedBy, modifiedOn) values
+  (3, 6, 'SERVICE CHARGES FOR Apple MacBook Air', 'III67678', 1200, 20, 60,
+ 7, 'Lois Lane', 'WON2N6', 'admin', CURRENT_DATE, 'admin', CURRENT_DATE);
+
+insert into invoice (id, transactionId, description, serialNumber ,amount ,quantity , rate ,
+ customerId, customerName, tagNumber ,  createdBy, createdOn, modifiedBy, modifiedOn) values
+  (4, 7, 'SERVICE CHARGES FOR Phone', 'III67679', 1200, 10, 40,
+ 8, 'Steve Trevor', 'WON2N7', 'admin', CURRENT_DATE, 'admin', CURRENT_DATE);
+
+insert into invoice (id, transactionId, description, serialNumber ,amount ,quantity , rate ,
+ customerId, customerName, tagNumber ,  createdBy, createdOn, modifiedBy, modifiedOn) values
+  (5, 8, 'SERVICE CHARGES FOR Phone', 'III67680', 1200, 10, 40,
+ 9, 'Barry Allen', 'WON2N8', 'admin', CURRENT_DATE, 'admin', CURRENT_DATE);
+
+insert into invoice (id, transactionId, description, serialNumber ,amount ,quantity , rate ,
+ customerId, customerName, tagNumber ,  createdBy, createdOn, modifiedBy, modifiedOn) values
+  (6, 3, 'SERVICE CHARGES FOR Phone', 'III67681', 1200, 10, 40,
+ 11, 'Arthur Curry', 'WON2N3', 'admin', CURRENT_DATE, 'admin', CURRENT_DATE);

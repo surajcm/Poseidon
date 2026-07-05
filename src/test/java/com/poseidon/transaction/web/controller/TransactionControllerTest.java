@@ -11,6 +11,7 @@ import org.springframework.test.context.junit.jupiter.SpringExtension;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
@@ -60,5 +61,15 @@ class TransactionControllerTest {
     @Test
     void deleteTxn() throws Exception {
         mvc.perform(post("/txs/deleteTxn")).andExpect(status().isOk());
+    }
+
+    @Test
+    void transactionListByPage() throws Exception {
+        mvc.perform(get("/txs/page/1")).andExpect(status().isOk());
+    }
+
+    @Test
+    void transactionListByPageSecondPage() throws Exception {
+        mvc.perform(get("/txs/page/2")).andExpect(status().isOk());
     }
 }

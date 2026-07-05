@@ -306,15 +306,15 @@ public class CustomerController {
                                         final String name,
                                         final String mobile) {
         var search = new CustomerVO();
-        if (!StringUtils.isEmpty(id)) {
+        if (StringUtils.hasLength(id)) {
             search.setCustomerId(Long.valueOf(id));
         }
-        if (!StringUtils.isEmpty(name)) {
+        if (StringUtils.hasLength(name)) {
             search.setCustomerName(name);
         } else {
             search.setCustomerName("");
         }
-        if (!StringUtils.isEmpty(mobile)) {
+        if (StringUtils.hasLength(mobile)) {
             search.setMobile(mobile);
         } else {
             search.setMobile("");

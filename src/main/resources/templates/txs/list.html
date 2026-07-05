@@ -168,6 +168,35 @@ xmlns:sec="http://www.thymeleaf.org/extras/spring-security/" lang="en">
                         </tr>
                     </tbody>
                 </table>
+                <div class="text-center m-1" th:if="${totalItems != null}">
+                    <span th:if="${totalItems > 0}">
+                        Showing transactions #[[${startCount}]] to [[${endCount}]] of [[${totalItems}]]
+                    </span>
+                    <span th:unless="${totalItems > 0}">
+                        No transactions found
+                    </span>
+                </div>
+                <div th:if="${totalPages != null && totalPages > 0}">
+                    <nav>
+                        <ul class="pagination justify-content-center">
+                            <li th:class="${currentPage > 1 ? 'page-item' : 'page-item disabled'} " >
+                                <a class="page-link" th:href="@{/txs/page/1}">First</a>
+                            </li>
+                            <li th:class="${currentPage > 1 ? 'page-item' : 'page-item disabled'} " >
+                                <a class="page-link" th:href="@{'/txs/page/' + ${currentPage - 1 }}">Previous</a>
+                            </li>
+                            <li th:class="${currentPage != i ? 'page-item' : 'page-item active'} " th:each="i : ${#numbers.sequence(1, totalPages)}">
+                                <a class="page-link" th:href="@{'/txs/page/' + ${i}}">[[${i}]]</a>
+                            </li>
+                            <li th:class="${currentPage < totalPages ? 'page-item' : 'page-item disabled'}" >
+                                <a class="page-link" th:href="@{'/txs/page/' + ${currentPage + 1 }}">Next</a>
+                            </li>
+                            <li th:class="${currentPage < totalPages ? 'page-item' : 'page-item disabled'}">
+                                <a class="page-link" th:href="@{'/txs/page/' + ${totalPages}}">Last</a>
+                            </li>
+                        </ul>
+                    </nav>
+                </div>
                 <div class="row g-3">
                     <div class="col-md-3">
                         <button type="button" class="btn btn-primary" onclick="addNew()">Add New Transaction</button>

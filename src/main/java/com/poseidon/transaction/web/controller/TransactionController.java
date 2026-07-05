@@ -15,7 +15,9 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -27,6 +29,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 
+import static com.poseidon.init.Constants.PAGE_SIZE;
 import static com.poseidon.transaction.web.controller.TransactionStatus.populateStatus;
 
 /**
@@ -80,6 +83,32 @@ public class TransactionController {
         transactionForm.setSearchTransaction(new TransactionVO());
         transactionForm.setLoggedInRole(transactionForm.getLoggedInRole());
         transactionForm.setLoggedInUser(transactionForm.getLoggedInUser());
+        transactionForm.setStatusList(populateStatus());
+        model.addAttribute(TRANSACTION_FORM, transactionForm);
+        return TRANSACTION_LIST;
+    }
+
+    @GetMapping("/txs/page/{pageNumber}")
+    public String transactionListByPage(final @PathVariable(name = "pageNumber") int pageNumber,
+                                         final Model model) {
+        LOG.info("transactionListByPage with page {} of TransactionController ", pageNumber);
+        var page = transactionService.listAll(pageNumber);
+
+        var startCount = (pageNumber - 1) * PAGE_SIZE + 1;
+        long endCount = (long) startCount + PAGE_SIZE - 1;
+        if (endCount > page.getTotalElements()) {
+            endCount = page.getTotalElements();
+        }
+        model.addAttribute("currentPage", pageNumber);
+        model.addAttribute("totalPages", page.getTotalPages());
+        model.addAttribute("startCount", startCount);
+        model.addAttribute("endCount", endCount);
+        model.addAttribute("totalItems", page.getTotalElements());
+
+        var transactionForm = new TransactionForm();
+        transactionForm.setTransactionsList(page.getContent());
+        transactionForm.setMakeVOs(getMakeVOS());
+        transactionForm.setSearchTransaction(new TransactionVO());
         transactionForm.setStatusList(populateStatus());
         model.addAttribute(TRANSACTION_FORM, transactionForm);
         return TRANSACTION_LIST;

@@ -13,6 +13,9 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.Mockito;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
 
 import java.time.LocalDateTime;
@@ -121,6 +124,18 @@ class TransactionDAOTest {
         when(modelRepository.findById(anyLong())).thenReturn(mockModel());
         when(transactionRepository.findAll()).thenReturn(mockListOfTransactions());
         Assertions.assertNotNull(transactionDAO.listAllTransactions(), "All transactions should not be empty");
+    }
+
+    @Test
+    void listAllWithPaginationSuccess() {
+        when(customerRepository.findById(anyLong())).thenReturn(Optional.of(mockCustomer()));
+        when(makeRepository.findById(anyLong())).thenReturn(mockMake());
+        when(modelRepository.findById(anyLong())).thenReturn(mockModel());
+        Page<Transaction> mockPage = new PageImpl<>(mockListOfTransactions());
+        when(transactionRepository.findAll(any(Pageable.class))).thenReturn(mockPage);
+        Page<TransactionVO> result = transactionDAO.listAll(1);
+        Assertions.assertNotNull(result, "Paginated transactions should not be null");
+        Assertions.assertEquals(1, result.getTotalElements(), "Should have 1 element");
     }
 
     private List<Transaction> mockListOfTransactions() {

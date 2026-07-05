@@ -6,10 +6,14 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mockito;
 
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+
 import java.util.ArrayList;
 import java.util.List;
 
 import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.anyLong;
 import static org.mockito.ArgumentMatchers.anyString;
 import static org.mockito.Mockito.when;
@@ -76,6 +80,15 @@ class TransactionServiceTest {
     void allTagNumbers() {
         when(transactionService.allTagNumbers()).thenReturn(List.of("ABC", "DEF"));
         Assertions.assertTrue(transactionService.allTagNumbers().contains("ABC"), "ABC should be in the list");
+    }
+
+    @Test
+    void listAllWithPaginationSuccess() {
+        Page<TransactionVO> mockPage = new PageImpl<>(List.of(new TransactionVO()));
+        when(transactionDAO.listAll(anyInt())).thenReturn(mockPage);
+        Page<TransactionVO> result = transactionService.listAll(1);
+        Assertions.assertNotNull(result, "Paginated transactions should not be null");
+        Assertions.assertEquals(1, result.getTotalElements(), "Should have 1 element");
     }
 
 }

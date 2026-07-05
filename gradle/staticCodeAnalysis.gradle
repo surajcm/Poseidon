@@ -39,7 +39,7 @@ tasks.withType(Checkstyle).configureEach {
     reports {
         xml.required = false
         html.required = true
-        html.stylesheet resources.text.fromFile('config/checkstyle/xsl/checkstyle-simple.xsl')
+        html.stylesheet = resources.text.fromFile('config/checkstyle/xsl/checkstyle-simple.xsl')
     }
 }
 
