@@ -22,8 +22,8 @@ dependencies {
     implementation("org.apache.tomcat.embed:tomcat-embed-jasper")
     implementation('com.rainerhahnekamp:sneakythrow:1.2.0')
 
-    implementation("org.apache.poi:poi:5.5.0")
-    implementation("org.apache.poi:poi-ooxml:5.5.0")
+    implementation("org.apache.poi:poi:5.5.1")
+    implementation("org.apache.poi:poi-ooxml:5.5.1")
 
     implementation("net.sf.jasperreports:jasperreports:7.0.3")
     implementation("net.sf.jasperreports:jasperreports-pdf:7.0.3")
